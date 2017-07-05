@@ -23,7 +23,7 @@
     <div class="content-wrapper">
         <!-- 添加流程导航 -->
     <div step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"添加三证","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"添加营业执照","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
         <form class="form-horizontal"
@@ -43,14 +43,7 @@
                 <div class="flex-item-6">
                     <span class="flex-item-12">
               单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
-              采购员：<span>
-                        <select class="select pr-select ipt-new-s" data-placeholder=" "
-                        chosen
-                        default-empty=""
-                        ng-model="formData.buyerId"
-                        select-source="rest/authen/user/queryForSelectOption">
-                        </select>
-                    </span>
+
                     </span>
                 </div>
                 <div class="flex-item-6 text-right">
@@ -61,19 +54,18 @@
             <!-- 基本信息 -->
             <div class="panel pr-panel pr-panel-height mgb" >
                 <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-                <div class="bb-dashed-line mgb" >
-                    <div class="flex-column mgb">
-                        <label class="radio-inline radio radio-new">
-                  <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type" required><i style="top:12px;"></i>
-                  <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
-                </label>
-                        <label class="radio-inline radio radio-new">
-                  <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type" required> <i style="top:12px;"></i>
-                    <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
-                </label>
+                <div class="bb-dashed-line flex-column mgb" >
+                    <div class="flex-item-3 mgb text-right">
+                    <label class="radio-inline radio radio-new">
+                      <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type" required><i style="top:12px;"></i>
+                      <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
+                    </label>
+                    <label class="radio-inline radio radio-new">
+                      <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type" required> <i style="top:12px;"></i>
+                      <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
+                    </label>
                         <span ng-if="!formData.type" class="color-red" style="margin-top: 8px; margin-left: 20px;">*必选</span>
                     </div>
-
                 </div>
                 <div class=" pd-v-m" style="min-height:200px;">
                     <div class="flex-column mgt">
@@ -83,9 +75,9 @@
                                  class="ipt ipt-new"
                                  name="enterpriseName"
                                  ng-model="formData.name"
-                                 required
+
                             >
-                              <span ng-if="!formData.name" class="color-red">（必填）</span>
+                              <!-- <span ng-if="!formData.name" class="color-red">（必填）</span> -->
                         </div>
                     </div>
                     <div class="flex-column mgt">
@@ -109,6 +101,17 @@
                     </div>
                 </div>
               <div class=" pd-v-m bt-dashed-line">
+                  <div class="flex-column mgt">
+                      <label class="flex-item-2 text-right control-label">采购员：</label>
+                      <div class="flex-item-10 text-left">
+                          <select class="select pr-select ipt-new-s" data-placeholder=" "
+                          chosen
+                          default-empty=""
+                          ng-model="formData.buyerId"
+                          select-source="rest/authen/user/queryForSelectOption">
+                          </select>
+                      </div>
+                  </div>
                   <div class="flex-column mgt">
                       <label class="flex-item-2 text-right control-label">质量部联系人：</label>
                       <div class="flex-item-10 text-left">

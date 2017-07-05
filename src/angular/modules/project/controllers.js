@@ -3481,8 +3481,39 @@ define('project/controllers', ['project/init'], function() {
                attachments[0].isAdmin=true;
            }
          }
+        //  默认选择生产企业
+          $scope.formData.type='生产企业';
        });
 
+      //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
+       $scope.canSubmitMedical=function(type){
+         if(type){
+
+           if (type=='生产企业') {
+             $scope.formData.businessLicense.businessWay='生产';
+           }else if (type=='经营企业') {
+             $scope.formData.businessLicense.businessWay='批发';
+           }
+         }
+       }
+
+      // 改变默认设置的生产企业和经营方式的对应关系给提示，并且阻止提交，只有和系统对应的匹配一样才允许提交。
+       $scope.changeType=function(type,businessWay){
+         if (type=='生产企业'&businessWay=='生产') {
+           $scope.showProductionFlag=false;
+            $scope.canSubmit=false;
+         }else if (type=='经营企业'&businessWay=='批发') {
+           $scope.showManageFlag=false;
+           $scope.canSubmit=false;
+         }else {
+           $scope.canSubmit=true;
+           if (type=='生产企业') {
+             $scope.showProductionFlag=true;
+           }else {
+             $scope.showManageFlag=true;
+           }
+         }
+       }
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
          if ($scope.submitForm_type == 'submit-enterprise') {

@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
+     callback="initFlag=true;watchFormChange('formData');canSubmitMedical(formData.type);"
      alert-error>
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
@@ -25,7 +25,7 @@
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
-    {"arrowText":"添加三证","className":"active"},
+    {"arrowText":"添加营业执照","className":"active"},
     {"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
@@ -46,14 +46,14 @@
           <div class="flex-item-6">
             <span class="flex-item-12">
               单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
-              采购员：<span>
+              <!-- 采购员：<span>
                         <select class="select pr-select ipt-new-s" data-placeholder=" "
                         chosen
                         default-empty=""
                         ng-model="formData.buyerId"
                         select-source="rest/authen/user/queryForSelectOption">
                         </select>
-                    </span>
+                    </span> -->
             </span>
           </div>
           <div class="flex-item-6 text-right">
@@ -64,7 +64,7 @@
         <!-- 基本信息 -->
 
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="mgb-m color-black text-bold text-n">三证</h1>
+          <h1 class="mgb-m color-black text-bold text-n">营业执照</h1>
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">营业执照</h3>
           <div class="flex-column">
             <div class="flex-item-6 br-dashed-line">
@@ -150,37 +150,47 @@
                 <label class="flex-item-4 text-right">经营方式：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay" ><i style="top:10px;"></i>
+                    <input type="radio"
+                    class="default-radio"
+                    name="businessWay"
+                    value="批发"
+                    ng-model="formData.businessLicense.businessWay"
+                    ng-change="changeType(formData.type,formData.businessLicense.businessWay);"><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">批发</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay" ><i style="top:10px;"></i>
+                    <input type="radio"
+                    class="default-radio"
+                    name="businessWay"
+                    value="生产"
+                    ng-model="formData.businessLicense.businessWay"
+                    ng-change="changeType(formData.type,formData.businessLicense.businessWay);"><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">生产</em>
                   </label>
+                  <em class="color-red" ng-if="showProductionFlag">您选择的是生产企业申请表！</em>
+                  <em class="color-red" ng-if="showManageFlag">您选择的是经营企业申请表！</em>
                 </div>
               </div>
               <div class="mgt flex-item-12">
                 <label class="flex-item-4 text-right">是否年检：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection" ><i style="top:10px;"></i>
+                   <input type="radio"
+                          class="default-radio"
+                          name="isAnnualInspection"
+                          value="是"
+                          ng-model="formData.businessLicense.isAnnualInspection"
+                          >
+                    <i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection" ><i style="top:10px;"></i>
-                    <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
-                  </label>
-                </div>
-              </div>
-              <div class="mgt flex-item-12 mgb">
-                <label class="flex-item-4 text-right">三证合一：</label>
-                <div class="flex-item-6 text-left">
-                  <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
-                    <em class="inline-block color-black" style="top:-20px">是</em>
-                  </label>
-                  <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
+                     <input type="radio"
+                            class="default-radio"
+                            name="isAnnualInspection" value="否"
+                            ng-model="formData.businessLicense.isAnnualInspection"
+                           >
+                            <i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
@@ -201,8 +211,8 @@
               </div>
             </div>
           </div>
-          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
-          <div class="flex-column" >
+          <!-- <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3> -->
+          <!-- <div class="flex-column" >
             <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
               <div class="mgt-m flex-item-12">
                 <label class="flex-item-4 text-right control-label">证书编号：</label>
@@ -256,10 +266,10 @@
                 ng-model="formData.organizationCodeCertificate.attachment">
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">税务登记证</h3>
-          <div class="flex-column">
+          <!-- <h3 class="crumbs-circle color-black pr-indent-10 pd-v">税务登记证</h3> -->
+          <!-- <div class="flex-column">
             <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
               <div class="mgt-m flex-item-12">
                 <label class="flex-item-4 text-right control-label">证书编号：</label>
@@ -313,7 +323,7 @@
                 ng-model="formData.taxRegistrationCertificate.attachment">
               </div>
             </div>
-          </div>
+          </div> -->
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
           <div class="flex-column pd-c-v-l">
             <div class="flex-item-12 pd-c-xxxxxxl">
@@ -369,7 +379,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                   ng-disabled="!firstEnterpriseEditForm.$valid"
+                   ng-disabled="!firstEnterpriseEditForm.$valid || canSubmit"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
 

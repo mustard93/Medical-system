@@ -3,6 +3,7 @@
                             crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"调拨单","link":"","style":"color-custom-orange"}]'
                             component-title="调拨单"
                             is-show-create-btn="新建调拨单"
+                            create-btn-author="调拨单新增"
                             create-new-url="#/allocateOrder/edit.html"
                             get-status-num-url="rest/authen/allocateOrder/countByOrderStatus.json"
                             status-group-data='[["未提交-true","待审核-true","调拨中-true","已完成-true"], ["未通过-true"], ["已作废-true"]]'
@@ -31,6 +32,34 @@
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
                 <div class="flex-column">
+
+                  <span ng-if="$root.hasAuthor('调拨单修改')">
+
+                    <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                      class="btn-link pd-m rect-s "
+                      title="编辑"
+                      ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
+                      <span class="edit-link-icon">&nbsp;</span>
+                      </a>
+                    </span>
+
+                    <span ng-if="$root.hasAuthor('调拨单删除')">
+                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                            href="javascript:;"
+                            class="mr--4 btn-link pd-m rect-s "
+                            title="删除"
+                            handle-this-click
+                            dialog-title="确认删除?"
+                            dialog-content="删除后将无法恢复,确认删除?"
+                            dialog-template="pr-dialog-submit.html"
+                            callback="$root.goTo('#/purchaseReturn/query.html')"
+                            params='{"id":tr.id}'
+                            request-url="rest/authen/purchaseReturn/delete">
+                            <span class="delete-link-icon">&nbsp;</span>
+                          </a>
+                    </span>
+
+
                   <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m">
                     <em>
                         {{tr.orderStatus}}
