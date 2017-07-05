@@ -12,26 +12,26 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
         <tbody>
             <tr class="firstRow">
                 <td style="text-align:left;">
-                  订单号：{{showData.orderCode}}
+                  订单号：
 
                 </td>
                 <td style="text-align:right;">
                   到货单号：
                 </td>
                 <td style="text-align:right;">
-                  入库日期：  {{showData.expectDate &nbsp;| date:&quot;yyyy-MM-dd&quot;}}
+                  入库日期：  {{showData.createAt | date : 'yyyy-MM-dd' }}
 
                 </td>
                 <td style="text-align:right;">
-                    入库单号：{{showData.invoicesOrderNo}}
+                    入库单号：
                 </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:left;">
-                    仓库：
+                    仓库：{{showData.warehouseName}}
                 </td>
                 <td  style="text-align:right;">
-                    部门：
+                    部门：{{showData.departmentName}}
                 </td>
                 <td  style="text-align:right;">
                     业务员：{{showData.saleUser.n}}
@@ -39,10 +39,10 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
             </tr>
             <tr>
                 <td colspan="2" style="text-align:left;">
-                    供货单位：
+                    供货单位：{{showData.supplier.name}}
                 </td>
                 <td colspan="2" style="text-algin:right;">
-                    备注：
+                    备注：{{showData.note}}
                 </td>
             </tr>
         </tbody>
@@ -99,9 +99,9 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.unit}}
                 </td>
-                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
-                    {{tr.quantity}}
-                </td>
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;" ng-if="showData.type!='采购入库单_红字'">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;" ng-if="showData.type=='采购入库单_红字' && tr.warehouseType != '待处理库'" style="color:red;">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;" ng-if="showData.type=='采购入库单_红字' && tr.warehouseType == '待处理库'" style="color:red;">{{tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
                 <td style="text-align:right;max-width:2%;word-wrap:break-word;">
                     {{tr.strike_price}}
                 </td>
