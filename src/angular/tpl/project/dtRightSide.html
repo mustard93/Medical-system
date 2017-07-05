@@ -1,0 +1,25 @@
+<div class="dt-right-side">
+    <div class="dt-right-side-nav">
+        <!---->
+        <a ng-repeat="tab in tabDatas track by $index" ng-click="show(tab.tplUrl,$index);"
+           ng-class="{'current':currentTab==$index}"
+        >
+            <i class="{{tab.icon}}"></i>
+            <span>{{tab.title}}</span>
+            <div class="note-num">{{tab.num}}</div>
+            <div class="dt-right-side-line"></div>
+        </a>
+    </div>
+
+    <div class="dt-right-side-content">
+        <div ng-click="close()" class="dt-right-side-close" title="关闭">&times;</div>
+
+        <div ng-if="tplUrl"><ng-include src="tplUrl"></ng-include></div>
+
+        <div ng-if="!tplUrl" style="padding-top: 50px;">
+            <p class="empty-data text-center" style="margin-top: 0;"><span class="empty-data-icon"></span></p>
+            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+        </div>
+
+    </div>
+</div>
