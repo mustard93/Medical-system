@@ -2,6 +2,9 @@
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
+                              is-show-select-item='[{"name":"首营品种申请","link":"#/firstMedicalApplication/query.html"},{"name":"首营企业申请","link":"#/firstEnterpriseApplication/query.html"}]'
+                              is-show-create-btn="新建首营品种申请"
+                              create-new-url="#/firstMedicalApplication/edit1.html"
                               get-status-num-url="rest/authen/firstMedicalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
@@ -10,21 +13,6 @@
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
   <!-- 主内容区域 -->
-
-  <div class="mgl-xl status-num-list-new"
-        style="top:-56px;">
-    <span status-style-toggle-new
-    class="rect-status mgl-s rect-status-active-new">首营品种申请
-    </span>
-    <span status-style-toggle-new class="rect-status" ng-click="$root.goTo('#/firstEnterpriseApplication/query.html')" >首营企业申请
-    </span>
-    <!--  -->
-  </div>
-
-    <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
-      <a href="#/firstMedicalApplication/edit1.html"  title="新建首营品种申请"><i style="top:3px;"></i><span class="text-s">新建首营品种申请</span></a>
-    </div>
-
   <table-list list-data="rest/authen/firstMedicalApplication/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"

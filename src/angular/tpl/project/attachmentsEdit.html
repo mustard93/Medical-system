@@ -16,11 +16,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController">
-          <td class="w-80 mycheck mgcheck-mg">
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" >
+          <td  class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag"/>
             <label for="{{$index + 1}}"></label>
-          </td><!-- 选择checkbox  -->
+          </td>
+          <!-- 选择checkbox  -->
           <td>{{$index+1}}</td><!-- 序号  -->
           <td>{{item.name}}</td><!-- 资料名称  -->
           <td ng-if="item.isAdmin!=false">
@@ -79,8 +80,10 @@
           <td>
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag" ng-model="item.note"></textarea>
           </td><!-- 备注  -->
+
         </tr>
       </tbody>
+
       <!-- 添加资料 -->
       <tfoot ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
         <tr>
@@ -118,5 +121,11 @@
         </tr>
       </tfoot>
     </table>
+
+    <div class="mgt" style="border-top:2px solid #e2e2e2;margin-bottom:130px;">
+      <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
+        <a class="relative" ng-click="addFlag=true;addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={};" href="javascript:;"><i></i><span class="text-s">增加资质文件</span></a>
+      </div>
+    </div>
   </div>
 </div>
