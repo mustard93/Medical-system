@@ -47,18 +47,13 @@
                         {{tr.orderStatus}}
                       </em>
                     </span>
-                    <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
+                    <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
 
-                        <span ng-if="$root.hasAuthor('首营申请修改')">
-
-                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           class="btn-link pd-m rect-s "
-                           title="编辑"
-                           ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                            <span class="edit-link-icon">&nbsp;</span>
-                           </a>
-                        </span>
-
+                      <a
+                         ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
+                         ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                       <span class="edit-link-icon">&nbsp;</span>
+                     </a>
                       <span ng-if="$root.hasAuthor('首营申请删除')">
                         <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                            href="javascript:;"
@@ -74,11 +69,7 @@
                            <span class="delete-link-icon">&nbsp;</span>
                          </a>
                     </span>
-                        <a
-                           ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id==tr.proposerId"
-                           ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                         <span class="edit-link-icon">&nbsp;</span>
-                       </a>
+
                         <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                            ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                            <span class="watch-detail-icon">&nbsp;</span>
@@ -135,24 +126,6 @@
                             <strong class="color-black text-normal">{{tr.storageCondition}}</strong>
                         </span>
                       </div>
-                      <!-- <div class="flex-column qurey text-s color-9 mgb bt-line">
-                        <p
-                           title="{{tr.applyReason}}"
-                           class="text-ellips-s">
-                          <span >备注：</span><span class="color-6">{{tr.applyReason}}</span>
-                        </p>
-                        <p ng-if="tr.orderStatus=='已作废'"
-                           ng-controller="QualificationApplyCtrl"
-                           ng-init="initFlag=true;"
-                           title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
-                           class="text-ellips-s color-red">
-                          <span>原因：</span>
-                          <span class="color-red">
-                            <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
-                            <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
-                          </span>
-                        </p>
-                      </div> -->
                   </div>
                 </div>
               </div>
