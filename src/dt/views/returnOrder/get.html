@@ -1,0 +1,152 @@
+<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
+      ng-controller="collarApplicationOrderController"
+      ajax-url="rest/authen/collarReturnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
+      scope-data="scopeData"
+      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      alert-error>
+  <!-- 头部信息 -->
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"领退申请单","link":"","style":"color-custom-orange"},{"name":"领退申请单详情","link":"","style":""}]'
+                              component-title="领退申请单详情">
+  </page-main-header-component>
+  <!-- 药械列表 -->
+  <div ng-if="scopeData.operationFlowSet.key||scopeData.operationFlowSet.message"
+  ng-class="{'pr-bg-pink1':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}"
+  class="pr-panel pr-panel-height mgb pr-bg-pass color-pass"
+  style="margin-left:30px;margin-right:30px;">
+    <em ng-class="{'color-red':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}">原因:</em>
+    <p class="inline-block " ng-class="{'color-red':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}">
+      <em >{{scopeData.operationFlowSet.key}}</em>
+      <em >{{scopeData.operationFlowSet.message}}</em>
+    </p>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+      <!-- 单据信息 -->
+      <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+        <div class="flex-item-6">
+          <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderCode ||  '暂无'}}</em></span>
+          <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
+          <span class="mgr relative">制单人：
+            <span class="purchaseorder-buyer-info-outside">
+              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+              style="position:relative;height:25px;">{{scopeData.inputUser.n}}</strong>
+              <span class="purchaseorder-buyer-info" style="right:-73px">
+                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{scopeData.inputUser.p}}</em></i>
+                <i class="block pdb-s text-normal">
+                  <em class="fa fa-comment-o mgl"></em>
+                  <em class="inline-block pdl pdr pdt">
+                    <a href="javascript:;"
+                       modal-center="340"
+                       modal-data='{"toUser":{"n":"{{scopeData.inputUser.n}}"},"userIds":["{{scopeData.inputUser.id}}}"]}'
+                       modal-url="views/notice/sendToUser.html">发送消息
+                    </a>
+                  </em>
+                </i>
+              </span>
+            </span>
+          </span>
+          <!--<span class="mgr">审核日期：<em class="color-3">{{scopeData.approver.approverDate|| '暂无' | date:'yyyy-MM-dd'}}</em></span>-->
+        </div>
+
+        <div class="flex-item-6 text-right">
+              <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
+        </div>
+      </div>
+
+      <!-- 类别选择 -->
+      <div class="pd-c-l pdt-m pdb-m color-9">
+
+        <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+
+        <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
+
+        <span class="mgr-l">退货库房：<em class="color-3">{{scopeData.storeRoomName || '暂无'}}</em></span>
+
+        <span class="mgr-l">申请时间：<em class="color-3">{{scopeData.applicationDate | date:'yyyy-MM-dd'}}</em></span>
+
+
+      </div>
+
+      <!-- 商品列表 -->
+      <div class="">
+          <table class="table pr-table pr-new-table mgb-n">
+            <thead>
+            <tr>
+              <th class="text-center">序号</th>
+              <th class="text-center">领用单编号</th>
+              <th class="text-center">商品编码</th>
+              <th class="text-left">商品名称</th>
+              <th ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">可退数量</th>
+              <th ng-if="scopeData.orderStatus=='退货中' || scopeData.orderStatus=='已完成'" class="text-center">实际退货数量</th>
+              <th class="text-center">申请退货数量</th>
+
+
+              <th class="text-center">生产批号</th>
+              <th class="text-center">商品规格</th>
+              <th class="text-center">基本单位</th>
+           </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="tr in scopeData.orderMedicalNos">
+                <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td><!-- 领用单编号 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                <td class="text-left" style="line-height:2.4">
+                  <div class="autocut" title="{{tr.name}}">
+                     {{tr.name}}
+                  </div>
+                </td><!-- 商品全名 -->
+
+                <td ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">{{tr.returnTotal}}</td><!-- 可退数量 -->
+                <td ng-if="scopeData.orderStatus=='退货中' || scopeData.orderStatus=='已完成'" class="text-center">{{tr.actualReturnCount}}</td><!-- 实际退货数量 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 申请退货数量 -->
+
+                <td class="text-center" >{{tr.productionBatch}}</td>  <!--生产批号-->
+
+                <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
+
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="relative">
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <h1 class="text-bold color-3 mgb">备注</h1>
+        <p>{{scopeData.note}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- 流程图 -->
+  <!-- <business-flow-show business-key="{{scopeData.id}}" business-type="领退申请单"></business-flow-show> -->
+  <!-- 功能按钮 -->
+  <div class="handle-btn-area">
+    <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+      <a ng-if="changeFlag" href="javascript:;" class="mgr"
+         handle-this-click
+         dialog-title="确认返回?"
+         dialog-content="该领退申请单存在未保存数据，是否保存?"
+         dialog-template="pr-dialog-return.html"
+         nosave-callback="goTo('#/collarReturnOrder/query.html')"
+         save-callback="submitForm('editForm','exit')">返回领退申请单列表
+      </a>
+
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/collarReturnOrder/query.html?id={{scopeData.relId}}" >返回领退申请单列表</a>
+
+      <span ng-if="scopeData.didateFilter.buttons.length>0"
+            custom-menu-list
+            custom-menu-arr="{{scopeData.didateFilter.buttons}}">
+      </span>
+    </div>
+  </div>
+</div>

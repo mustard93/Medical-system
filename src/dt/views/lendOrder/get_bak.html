@@ -1,0 +1,111 @@
+<div class="content-wrapper"
+     ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
+     scope-data="scopeData"
+     callback="showData=scopeData.confirmOrder"
+     alert-error>
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-l mgb-xl">
+    <h1 class="pr-title-color pr-font-20">销售单</h1>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main" >
+    <!-- 订单信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <div class="flex-item-10 color-9">
+        <span class="mgr-xl">销售单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr-xl">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+        <span class="mgr-xl">对应购需单：<em class="color-custom-orange">
+          <a href="#/salesOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a>
+         </em></span>
+      </div>
+      <div class="flex-item-2 text-right color-9">
+
+        <a
+        modal-center="1000px"
+        modal-data='{"businessKey":"{{showData.id}}"}'
+        modal-scope="this"
+        modal-url="views/workflowTask/getOfDialog.html"
+        >
+
+          <span ng-if="showData.orderStatus!='已作废'">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+            <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+
+              </a>
+      </div>
+    </div>
+
+    <!-- 作废原因： -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+              <span class="mgr-xl color-9" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:#ff4040">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+        </div>
+
+
+
+
+    <!-- 用户信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <div class="flex-column mgb">
+        <div class="flex-item-6">
+          <span class="color-9">客户名：<em class="color-6 font-normal">{{showData.customerName}}</em></span>
+        </div>
+        <div class="flex-item-6 text-right">
+          <span class="color-9 mgr-xl">销售人员：<em class="color-6 font-normal">{{showData.saleUser.n}}</em></span>
+          <span class="color-9">期望到货时间：<em class="color-6 font-normal">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
+        </div>
+      </div>
+      <div class="">
+        <span class="color-9">收货人信息：<em class="color-6">{{showData.address.name}}&nbsp;&nbsp;&nbsp;
+          {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}}&nbsp;&nbsp;&nbsp;{{showData.address.tel}}</em></span>
+      </div>
+    </div>
+
+    <!-- 订单清单 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-n"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <!-- <h1 class="text-m text-bold">药械清单</h1> -->
+      <div class="confirm-order">
+        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+
+
+    <!-- 商品列表 -->
+    <div>
+      <!-- 可发货 -->
+      <!--
+      <div class="confirm-order bb-line pdb-l">
+        <h1 class="pdt-l color-6 text-m pr-fw-500">药械详细</h1>
+        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+      </div>
+      -->
+      <p class="pd-v color-9">客服备注：<span class="color-6">{{showData.note}}</span></p>
+    </div>
+
+    <!-- 暂不可转入订单部分 -->
+    <div  ng-if="scopeData.salesOrder&&showData.confirmOrder.orderStatus=='已作废'" class="panel pr-panel pr-bg-grey">
+      <h1 class="text-l">暂不可转入销售单部分</h1>
+      <div ng-if="scopeData.salesOrder" class="confirm-order">
+        <div order-medicals  ng-model="scopeData.salesOrder.orderMedicalNos"></div>
+
+      </div>
+      <div class="text-right pdb-xxl pdt-xxl">
+        <span class="color-custom-orange">请等待库存补足后，即可另外生成销售单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 总价 -->
+<div class="text-right pdt-l pdb color-9">
+  <span class="text-l text-right pr-font-24">合计：<span class="color-6">￥{{showData.totalPrice | number:2}}</span></span>
+</div>
+
+<!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
+<div class="text-right mgb-l">
+  <a href="javascript:;" class="mgr" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单列表</a>
+
+
+  <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
+
+</div>
