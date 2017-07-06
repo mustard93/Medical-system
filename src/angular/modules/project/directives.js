@@ -3535,16 +3535,16 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
         // 计算当前页面宽度
-        var _pageWidth = null;
-        if (window.innerWidth) {
-          _pageWidth = window.innerWidth - 180;
-        } else if ((document.body) && (document.body.clientWidth)) {
-          _pageWidth = document.body.clientWidth - 180;
-        }
+        // var _pageWidth = null;
+        // if (window.innerWidth) {
+        //   _pageWidth = window.innerWidth - 180;
+        // } else if ((document.body) && (document.body.clientWidth)) {
+        //   _pageWidth = document.body.clientWidth - 180;
+        // }
 
         // var _pageWidth = $("#main_body").width() - 23;
 
-        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
+        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':140+'rem'}).show();
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
