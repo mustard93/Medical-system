@@ -16,14 +16,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" >
-          <td  class="w-80 mycheck mgcheck-mg">
+        <tr ng-repeat="item in ngModel.attachments" ng-controller="deleteUploaderController" >
+          <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag"/>
             <label for="{{$index + 1}}"></label>
           </td>
+
+          <td ng-if="item.handleCreate">
+            <span class="delete-attachement-item cur-pot" ng-click="ngModel.attachments.splice($index,1);"></span>
+          </td>
           <!-- 选择checkbox  -->
           <td>{{$index+1}}</td><!-- 序号  -->
-          <td>{{item.name}}</td><!-- 资料名称  -->
+          <td ng-if="!item.handleCreate">{{item.name}}</td><!-- 资料名称  -->
+          <td ng-if="item.handleCreate">
+            <input type="text"
+                   class="ipt pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-model="item.name"
+                   placeholder="">
+          </td><!-- 资料名称  -->
           <td ng-if="item.isAdmin!=false">
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
@@ -33,14 +43,14 @@
                    data-content="该字段保存后将不能修改"
                    invalid-popover="{{!EditForm.certificateNumber.$valid}}"
                    popover-options='{"content":"该字段保存后将不能修改", "placement":"bottom", "trigger":"manual"}'
-                   ng-disabled="!item.showFlag">
+                   ng-disabled="!item.showFlag&&!item.handleCreate">
           </td>
           <td ng-if="item.isAdmin==false">
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
                    ng-model="item.certificateNumber"
                    placeholder=""
-                   ng-disabled="!item.isAdmin">
+                   ng-disabled="!item.isAdmin&&!item.handleCreate">
           </td>
           <!-- 证书编号  -->
           <td>
@@ -51,7 +61,7 @@
                      ng-readonly="true"
                      placeholder=" 有效日期至"
                      ng-model="item.guaranteePeriod"
-                     ng-disabled="!item.showFlag"
+                     ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
                      >
                     <span class="date-icon"></span>
@@ -70,15 +80,15 @@
           </td><!-- 有效日期  -->
           <td>{{item.uploadUserName || '—'}}</td><!-- 上传人  -->
           <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td><!-- 上传日期  -->
-          <td ng-if="item.showFlag">
+          <td ng-if="item.handleCreate">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
           <!-- 附件  -->
-          <td ng-if="!item.showFlag">
+          <td ng-if="!item.showFlag&&!item.handleCreate">
             <div style="width:90px;height:90px;">上传附件</div>
           </td><!-- 附件  -->
           <td>
-            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag" ng-model="item.note"></textarea>
+            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag&&!item.handleCreate" ng-model="item.note"></textarea>
           </td><!-- 备注  -->
 
         </tr>
@@ -115,7 +125,7 @@
           </td>
           <td>
             <div class="order-create-btn pos-l" style="margin-top: 120px;margin-left: 20px;">
-              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
+              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.attachments.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
             </div>
           </td>
         </tr>
@@ -124,7 +134,13 @@
 
     <div class="mgt" style="border-top:2px solid #e2e2e2;margin-bottom:130px;">
       <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
-        <a class="relative" ng-click="addFlag=true;addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={};" href="javascript:;"><i></i><span class="text-s">增加资质文件</span></a>
+        <a class="relative"
+        ng-click="addFlag=true;
+        addAttachment.canDeleteFlag=true;
+        addAttachment.handleCreate=true;
+        ngModel.attachments.push(addAttachment);
+        addAttachment={};"
+         href="javascript:;"><i></i><span class="text-s">增加资质文件</span></a>
       </div>
     </div>
   </div>

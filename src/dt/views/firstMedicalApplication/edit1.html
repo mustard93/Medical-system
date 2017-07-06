@@ -5,7 +5,7 @@
      callback="initFlag=true;watchFormChange('formData');"
      alert-error>
   <div class="header-info relative mgb-l">
-    <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
       <a href="#/firstMedicalApplication/query.html">
          <em class="color-custom-orange">首营管理</em>
       </a>
@@ -123,7 +123,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.specification" />
+                         ng-model="formData.medical.specificationAndModelType" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -481,11 +481,19 @@
                     <select class="select pr-select"
                             data-placeholder=" "
                             chosen
-                            width="120px"
+                            width="150px"
                             default-empty=""
                             ng-model="formData.buyerId"
                             select-source="rest/authen/user/queryForSelectOption">
                     </select>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label pdr-s">效期预警天数：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="number"
+                         class="ipt-new ipt-new-s text-right"
+                         ng-model="formData.medical.minPurchasePrice"/>
                 </div>
               </div>
             </div>

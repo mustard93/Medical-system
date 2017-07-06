@@ -170,9 +170,12 @@
                             <td class="text-right">
                             {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
                             </td>
-                            <td class="text-right">
+                            <td class="text-right" ng-if="tr.inoutType=='出库' && tr.warehouseType != '待处理库'">{{tr.outgoingQuantity}}</td><!-- 出库数量 -->
+                            <td class="text-right" ng-if="tr.inoutType=='出库' && tr.warehouseType == '待处理库'">{{tr.otherQuantity}}</td><!-- 出库数量 -->
+                              <td class="text-right" ng-if="tr.inoutType=='入库'">—</td><!-- 实收数量 -->
+                            <!-- <td class="text-right">
                             {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
-                            </td>
+                            </td> -->
                             <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
                             <!-- <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td> -->
                             <td>{{tr.productionBatch}}</td>

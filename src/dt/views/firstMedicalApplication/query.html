@@ -1,7 +1,10 @@
 <div class="first-medical-application">
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
-                              crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
+                              crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
+                              is-show-create-btn="新建首营品种申请"
+                              create-btn-author="首营品种管理新增"
+                              create-new-url="#/firstMedicalApplication/edit1.html"
                               get-status-num-url="rest/authen/firstMedicalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
@@ -11,19 +14,6 @@
   </page-main-header-component>
   <!-- 主内容区域 -->
 
-  <div class="mgl-xl status-num-list-new"
-        style="top:-56px;">
-    <span status-style-toggle-new
-    class="rect-status mgl-s rect-status-active-new">首营品种申请
-    </span>
-    <span status-style-toggle-new class="rect-status" ng-click="$root.goTo('#/firstEnterpriseApplication/query.html')" >首营企业申请
-    </span>
-    <!--  -->
-  </div>
-
-    <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
-      <a href="#/firstMedicalApplication/edit1.html"  title="新建首营品种申请" create-btn-author="新建首营品种申请"><i style="top:3px;"></i><span class="text-s">新建首营品种申请</span></a>
-    </div>
 
   <table-list list-data="rest/authen/firstMedicalApplication/query.json"
               list-params="listParams"
@@ -48,13 +38,14 @@
                       </em>
                     </span>
                     <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
-
+                      <span ng-if="$root.hasAuthor('首营品种管理修改')">
                       <a
                          ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
                          ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                        <span class="edit-link-icon">&nbsp;</span>
                      </a>
-                      <span ng-if="$root.hasAuthor('首营申请删除')">
+                     </span>
+                      <span ng-if="$root.hasAuthor('首营品种管理删除')">
                         <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                            href="javascript:;"
                            class="mr--4 btn-link pd-m rect-s "
