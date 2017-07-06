@@ -3388,167 +3388,291 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
       }
     }
+
     //AngularJS动态显示不同的html内容。
     function ngCompile2($compile) {
-          // directive factory creates a link function
-          return function($scope, $element, attrs) {
-            $scope.$watch(
-              function($scope) {
-                 // watch the 'compile' expression for changes
-                return $scope.$eval(attrs.ngCompile2);
-                //
-                // if(tmp){
-                //   console.log(tmp);
-                // }
-                //  return tmp;
-              },
-              function(value) {
-                // when the 'compile' expression changes
-                // assign it into the current DOM
-                // if(value){
-                //   console.log(value);
-                // }
-                $element.html(value);
-                // compile the new DOM and link it to the current
-                // scope.
-                // NOTE: we only compile .childNodes so that
-                // we don't get into infinite loop compiling ourselves
+      // directive factory creates a link function
+      return function($scope, $element, attrs) {
+        $scope.$watch(
+          function($scope) {
+             // watch the 'compile' expression for changes
+            return $scope.$eval(attrs.ngCompile2);
+            //
+            // if(tmp){
+            //   console.log(tmp);
+            // }
+            //  return tmp;
+          },
+          function(value) {
+            // when the 'compile' expression changes
+            // assign it into the current DOM
+            // if(value){
+            //   console.log(value);
+            // }
+            $element.html(value);
+            // compile the new DOM and link it to the current
+            // scope.
+            // NOTE: we only compile .childNodes so that
+            // we don't get into infinite loop compiling ourselves
 
-                $compile($element.contents())($scope );
-              }
-            );
-          };
-        }
-
-
-
-        /**
-            树形
-        */
-        function zTree(requestData, alertOk, alertError, proLoading,utils) {
-
-          function zTree_init($element,zNodes,$scope){
-            var setting = {
-                data: {
-              		simpleData: {
-              			enable: true,
-              			idKey: $scope.idKey||"id",
-              			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: 0,
-              		}
-              	},
-                callback: {
-                  onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
-                      $scope.ngModel=treeNode.id;
-                        $scope.$apply();
-                  }
-                }
-              };
-              require(['ztree'], function(store) {
-
-                  $.fn.zTree.init($element, setting, zNodes);
-
-              });//require
+            $compile($element.contents())($scope );
           }
-          return {
-            restrict: 'EA',
-            scope: {
-              "ngModel":"=?",
-              "idKey":"@?",
-              "pIdKey":"@?"
-            },
-            link: function ($scope, $element, $attrs) {
-              var urlKey="zTree";
-              var _params = {};
-              if ($attrs.params) {
-                  if ($attrs.params.indexOf("{") === 0) {
-                      //监听具体值
-                      $attrs.$observe("params", function(value) {
-                          _params = $scope.$eval(value);
-                          getData(_params);
-                      });
-                  } else {
-                      //监听对象
-                      $scope.$watch($attrs.params, function(value) {
-                          _params = value;
-                          getData(_params);
-                      }, true);
-                  }
-              } else {
-                  $attrs.$observe(urlKey, function(value) {
-                      getData({});
-                  });
+        );
+      };
+    }
+
+    /**
+        树形
+    */
+    function zTree(requestData, alertOk, alertError, proLoading,utils) {
+
+      function zTree_init($element,zNodes,$scope){
+        var setting = {
+            data: {
+          		simpleData: {
+          			enable: true,
+          			idKey: $scope.idKey||"id",
+          			pIdKey: $scope.pIdKey||"pId",
+          			rootPId: 0,
+          		}
+          	},
+            callback: {
+              onClick: function(event, treeId, treeNode) {
+                  console.log(treeNode);
+                  $scope.ngModel=treeNode.id;
+                  $scope.$apply();
               }
-
-              function getData(params) {
-                 //满足条件才异步请求
-                 if (angular.isDefined($attrs.ajaxIf)) {
-                   if (!$attrs.ajaxIf) return;
-                 }
-                 if (angular.isDefined($attrs.ajaxIfEval)) {
-                     var tmp=$scope.$eval($attrs.ajaxIfEval);
-                   if (!tmp) return;
-                 }
-                 $scope.isLoading = true;
-                 var maskObj=null;
-                 if (!$attrs.noshowLoading) {
-                   maskObj=proLoading($element);
-                   //  if(maskObj)maskObj.hide();
-                 }
-                if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
-                 requestData($attrs[urlKey], params)
-                   .then(function(results) {
-                         if(maskObj)maskObj.hide();
-                       var data = results[0];
-                       zTree_init($element,data,$scope);
-
-                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-
-                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
-                       //回调父级的处理事件;
-                       if ($scope.listCallback) {
-                         $scope.listCallback(results[1]);
-                       }
-
-                       // $scope.$apply();
-                       if ($attrs.callback) {
-                           $scope.$eval($attrs.callback);
-                       }
-
-                       $scope.isLoading = false;
-                   })
-                   .catch(function(msg) {
-                         if(maskObj)maskObj.hide();
-
-                         if ($attrs.errorCallback) {
-                             $scope.$eval($attrs.errorCallback);
-                         }
-
-                      if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                      if (angular.isDefined($attrs.alertError)) alertError(msg);
-                      $('.pr-full-loading').remove();
-                   });
-
-              }
-
-              $scope.$on("ajaxUrlReload", function() {
-                 //  getData(_detailsParams);
-                 getData({});
-
-              });
-
-            }//end link
+            }
           };
-        }
+          require(['ztree'], function(store) {
+
+              $.fn.zTree.init($element, setting, zNodes);
+
+          });//require
+      }
+      return {
+        restrict: 'EA',
+        scope: {
+          "ngModel":"=?",
+          "idKey":"@?",
+          "pIdKey":"@?"
+        },
+        link: function ($scope, $element, $attrs) {
+          var urlKey="zTree";
+          var _params = {};
+          if ($attrs.params) {
+              if ($attrs.params.indexOf("{") === 0) {
+                  //监听具体值
+                  $attrs.$observe("params", function(value) {
+                      _params = $scope.$eval(value);
+                      getData(_params);
+                  });
+              } else {
+                  //监听对象
+                  $scope.$watch($attrs.params, function(value) {
+                      _params = value;
+                      getData(_params);
+                  }, true);
+              }
+          } else {
+              $attrs.$observe(urlKey, function(value) {
+                  getData({});
+              });
+          }
+
+          function getData(params) {
+             //满足条件才异步请求
+             if (angular.isDefined($attrs.ajaxIf)) {
+               if (!$attrs.ajaxIf) return;
+             }
+             if (angular.isDefined($attrs.ajaxIfEval)) {
+                 var tmp=$scope.$eval($attrs.ajaxIfEval);
+               if (!tmp) return;
+             }
+             $scope.isLoading = true;
+             var maskObj=null;
+             if (!$attrs.noshowLoading) {
+               maskObj=proLoading($element);
+               //  if(maskObj)maskObj.hide();
+             }
+            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+             requestData($attrs[urlKey], params)
+               .then(function(results) {
+                     if(maskObj)maskObj.hide();
+                   var data = results[0];
+                   zTree_init($element,data,$scope);
+
+                   if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+
+                   if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+                   //回调父级的处理事件;
+                   if ($scope.listCallback) {
+                     $scope.listCallback(results[1]);
+                   }
+
+                   // $scope.$apply();
+                   if ($attrs.callback) {
+                       $scope.$eval($attrs.callback);
+                   }
+
+                   $scope.isLoading = false;
+               })
+               .catch(function(msg) {
+                     if(maskObj)maskObj.hide();
+
+                     if ($attrs.errorCallback) {
+                         $scope.$eval($attrs.errorCallback);
+                     }
+
+                  if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                  if (angular.isDefined($attrs.alertError)) alertError(msg);
+                  $('.pr-full-loading').remove();
+               });
+
+          }
+
+          $scope.$on("ajaxUrlReload", function() {
+             //  getData(_detailsParams);
+             getData({});
+
+          });
+
+        }//end link
+      };
+    }
 
 
-        /**
-            树形
-        */
-        function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
+    /**
+        树形
+    */
+    function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
+      'use strict';
+      return {
+        restrict: 'EA',
+        scope: {
+          "ngModel": "=",
+          "idKey": "@?",
+          "pIdKey": "@?",
+          "handleClickEvent": "&"
+        },
+        link: function ($scope, $element, $attrs) {
 
+          var urlKey="zTreeSelect";
+          //插下tree div
+          var zTreeSelectDivId="zTreeSelectDiv";
+
+          if (angular.isDefined($attrs.zTreeType) && $attrs.zTreeType === 'static') {     // 如果树形zTreeType定义且值为static，则为静态显示树形列表
+            // 定义模板
+            var tmp_template='<ul id="'+zTreeSelectDivId+'" class="ztree"></ul>';
+            // 插入父容器
+            $element.append(tmp_template);
+            // 初始化树形数据
+            var data = JSON.parse($attrs.zTreeSelect);
+            zTree_init_static($("#"+zTreeSelectDivId), data, $scope);
+          } else {                                                                        // 否则则为事件触发显示树形列表
+            var tmp_template='<div id="menuContent" class="menuContent" style="display:none;position:absolute;z-index:11;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+            $element.append(tmp_template);
+
+            $($element).on("click", function() {
+              showZTreeSelect($element);
+            });
+
+            var _params = {};
+
+            if ($attrs.params) {
+              if ($attrs.params.indexOf("{") === 0) {
+                  //监听具体值
+                  $attrs.$observe("params", function(value) {
+                      _params = $scope.$eval(value);
+                      getData(_params);
+                  });
+              } else {
+                  //监听对象
+                  $scope.$watch($attrs.params, function(value) {
+                      _params = value;
+                      getData(_params);
+                  }, true);
+              }
+            } else {
+              $attrs.$observe(urlKey, function(value) {
+                  getData({});
+              });
+            }
+          }
+
+          //组件的显示，隐藏，及触发事件
+          function showZTreeSelect($element){
+            //  隐藏才会进行数据加载
+             var display = $("#menuContent").css('display');
+             if(display != 'none'){
+               return;
+             }
+             //加载数据
+             getData();
+             var cityObj = $element;
+             var cityOffset = $element.offset();
+             //显示div
+             $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+             $("body").bind("mousedown", onBodyDown);
+             $('.z-tree-div').addClass('z-tree-div-active');
+          }
+
+          // 获取数据
+          function getData(params) {
+             //满足条件才异步请求
+             if (angular.isDefined($attrs.ajaxIf)) {
+               if (!$attrs.ajaxIf) return;
+             }
+             if (angular.isDefined($attrs.ajaxIfEval)) {
+                 var tmp=$scope.$eval($attrs.ajaxIfEval);
+               if (!tmp) return;
+             }
+             $scope.isLoading = true;
+             var maskObj=null;
+             if (!$attrs.noshowLoading) {
+               maskObj=proLoading($element);
+               //  if(maskObj)maskObj.hide();
+             }
+            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+             requestData($attrs[urlKey], params)
+               .then(function(results) {
+                     if(maskObj)maskObj.hide();
+                   var data = results[0];
+                   console.log(results[0]);
+                   zTree_init($("#"+zTreeSelectDivId),data,$scope);
+
+                   if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+
+                   if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+                   //回调父级的处理事件;
+                   if ($scope.listCallback) {
+                     $scope.listCallback(results[1]);
+                   }
+
+                   // $scope.$apply();
+                   if ($attrs.callback) {
+                       $scope.$eval($attrs.callback);
+                   }
+
+                   $scope.isLoading = false;
+               })
+               .catch(function(msg) {
+                     if(maskObj)maskObj.hide();
+
+                     if ($attrs.errorCallback) {
+                         $scope.$eval($attrs.errorCallback);
+                     }
+
+                  if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                  if (angular.isDefined($attrs.alertError)) alertError(msg);
+                  $('.pr-full-loading').remove();
+               });
+
+          }
+
+          // 初始化数据
           function zTree_init($element,zNodes,$scope){
 
             var setting = {
@@ -3568,7 +3692,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       console.log(treeNode);
                       hideMenu();
                       $scope.ngModel=treeNode;
-                          $scope.$apply();
+                      $scope.$apply();
                   }
               	}
               };
@@ -3578,140 +3702,126 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               });//require
           }
 
-          function hideMenu() {
-                $("#menuContent").fadeOut("fast");
-                $("body").unbind("mousedown", onBodyDown);
-                $('.z-tree-div').removeClass('z-tree-div-active');
-              }
+          // 静态显示初始化数据
+          function zTree_init_static($element, zNodes, $scope){
 
+            var setting = {
+                data: {
+                  async:{
+                      enable:false
+                  },
+              		simpleData: {
+              			enable: true,
+              			idKey: $scope.idKey||"id",
+              			pIdKey: $scope.pIdKey||"pId",
+              			rootPId: null,
+              		}
+              	},
+                view: {
+                  showLine: false,
+                  showIcon: false,
+          				selectedMulti: false,
+          				dblClickExpand: false,
+                  addDiyDom: addDiyDom
+                },
+                callback: {
+              		onClick: function(event, treeId, treeNode) {
+                    // console.log($scope);
+                    $scope.$parent.handleClickEvent(treeNode);    // 点击执行父作用域中的重置表单方法
+                  }
+              	}
+              };
+              require(['ztree'], function(store) {
+                  $.fn.zTree.init($element, setting, zNodes);
+
+              });//require
+          }
+
+          function addDiyDom(treeId, treeNode) {
+      			var spaceWidth = 5;
+      			var switchObj = $("#" + treeNode.tId + "_switch"),
+      			icoObj = $("#" + treeNode.tId + "_ico");
+      			switchObj.remove();
+      			icoObj.before(switchObj);
+
+      			if (treeNode.level > 1) {
+      				var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+      				switchObj.before(spaceStr);
+      			}
+      		}
+
+          // 隐藏树形结构
+          function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+            $('.z-tree-div').removeClass('z-tree-div-active');
+          }
+
+          // 点击空白处隐藏树形菜单
           function onBodyDown(event) {
             if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
               hideMenu();
             }
           }
 
-          return {
-            restrict: 'EA',
-            scope: {
-              "ngModel":"=",
-              "idKey":"@?",
-              "pIdKey":"@?"
-            },
-            link: function ($scope, $element, $attrs) {
-                var urlKey="zTreeSelect";
-                //插下tree div
-              var zTreeSelectDivId="zTreeSelectDiv";
-              var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+          $scope.$on("ajaxUrlReload", function() {
+             //  getData(_detailsParams);
+             getData({});
 
-             $element.append(tmp_template);
-             //组件的显示，隐藏，及触发事件
-             function showZTreeSelect($element){
+          });
 
-              //  隐藏才会进行数据加载
-               var display = $("#menuContent").css('display');
-               if(display != 'none'){
-                 return;
-               }
-               //加载数据
-               getData();
-               var cityObj = $element;
-               var cityOffset = $element.offset();
-               //显示div
-               $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-               $("body").bind("mousedown", onBodyDown);
-               $('.z-tree-div').addClass('z-tree-div-active');
-             }
+        }//end link
+      };
+    }//zTreeSelect
 
-              $($element)
-                  .on("click", function() {
-                        showZTreeSelect($element);
-                  });
+    /**
+     * [zTreeStatic 依赖zTree插件的静态展示树形列表]
+     * @method zTreeStatic
+     * @param  {[type]}    requestData [description]
+     * @param  {[type]}    alertOk     [description]
+     * @param  {[type]}    alertError  [description]
+     * @param  {[type]}    proLoading  [description]
+     * @param  {[type]}    utils       [description]
+     * @return {[type]}                [description]
+     */
+    function zTreeStatic(requestData, alertOk, alertError, proLoading, utils) {
+      'use strict';
+      return {
+        restrict: 'EA',
+        scope: {
 
-              var _params = {};
-              if ($attrs.params) {
-                  if ($attrs.params.indexOf("{") === 0) {
-                      //监听具体值
-                      $attrs.$observe("params", function(value) {
-                          _params = $scope.$eval(value);
-                          getData(_params);
-                      });
-                  } else {
-                      //监听对象
-                      $scope.$watch($attrs.params, function(value) {
-                          _params = value;
-                          getData(_params);
-                      }, true);
+        },
+        link: function ($scope, $element, $attrs) {
+          // 初始化
+          function zTreeInit ($element, zNodes, $scope) {
+            var setting = {
+                data: {
+                  async:{
+                      enable:false
+                  },
+              		simpleData: {
+              			enable: true,
+              			idKey: $scope.idKey||"id",
+              			pIdKey: $scope.pIdKey||"pId",
+              			rootPId: null,
+              		}
+              	},
+                callback: {
+              		onClick: function(event, treeId, treeNode) {
+                      hideMenu();
+                      $scope.ngModel=treeNode;
+                      $scope.$apply();
                   }
-              } else {
-                  $attrs.$observe(urlKey, function(value) {
-                      getData({});
-                  });
-              }
+              	}
+              };
+              require(['ztree'], function(store) {
+                  $.fn.zTree.init($element, setting, zNodes);
 
-              function getData(params) {
-                 //满足条件才异步请求
-                 if (angular.isDefined($attrs.ajaxIf)) {
-                   if (!$attrs.ajaxIf) return;
-                 }
-                 if (angular.isDefined($attrs.ajaxIfEval)) {
-                     var tmp=$scope.$eval($attrs.ajaxIfEval);
-                   if (!tmp) return;
-                 }
-                 $scope.isLoading = true;
-                 var maskObj=null;
-                 if (!$attrs.noshowLoading) {
-                   maskObj=proLoading($element);
-                   //  if(maskObj)maskObj.hide();
-                 }
-                if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
-                 requestData($attrs[urlKey], params)
-                   .then(function(results) {
-                         if(maskObj)maskObj.hide();
-                       var data = results[0];
-                       zTree_init($("#"+zTreeSelectDivId),data,$scope);
-
-                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-
-                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
-                       //回调父级的处理事件;
-                       if ($scope.listCallback) {
-                         $scope.listCallback(results[1]);
-                       }
-
-                       // $scope.$apply();
-                       if ($attrs.callback) {
-                           $scope.$eval($attrs.callback);
-                       }
-
-                       $scope.isLoading = false;
-                   })
-                   .catch(function(msg) {
-                         if(maskObj)maskObj.hide();
-
-                         if ($attrs.errorCallback) {
-                             $scope.$eval($attrs.errorCallback);
-                         }
-
-                      if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                      if (angular.isDefined($attrs.alertError)) alertError(msg);
-                      $('.pr-full-loading').remove();
-                   });
-
-              }
-
-              $scope.$on("ajaxUrlReload", function() {
-                 //  getData(_detailsParams);
-                 getData({});
-
-              });
-
-
-
-
-            }//end link
-          };
-        }//zTreeSelect
+              });//require
+          }
+        }
+      };
+    }
 
     /**
      *  全局弹出层显示信息组件
@@ -3762,7 +3872,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      * 加入项目
      */
     angular.module('manageApp.main')
-      .directive("zTreeSelect", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTreeSelect])
+      .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
+      .directive("zTreeStatic", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeStatic])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
       .directive("textInterception", textInterception)
       .directive("ngCompile2", ["$compile",ngCompile2])
