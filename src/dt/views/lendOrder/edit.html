@@ -1,5 +1,5 @@
 <div class="salesOrder-edit confirm-edit"
-     ng-controller="confirmOrderEditCtrl"
+     ng-controller="lendOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getSaleUserId(mainStatus.pageParams.saleUserId);"
@@ -20,13 +20,13 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
-        <a href="#/confirmOrder/query.html"><em class="color-custom-orange">销售单</em></a>
-        <em> > 新建销售单</em>
+        <a href="#/lendOrder/query.html"><em class="color-custom-orange">借出单</em></a>
+        <em> > 新建借出单</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgb">
-          <h1 class="pr-font-20 color-black">新建销售单</h1>
+          <h1 class="pr-font-20 color-black">新建借出单</h1>
         </div>
       </div>
     </div>
@@ -674,20 +674,20 @@
       </div>
     </div>
     <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+    <business-flow-show business-key="{{formData.id}}" business-type="借出单"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-content="该借出单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/confirmOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回销售单
+           nosave-callback="goTo('#/lendOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回借出单
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{formData.relId}}" >返回销售单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/lendOrder/query.html?id={{formData.relId}}" >返回借出单</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -697,7 +697,7 @@
            dialog-content="您确认删除这条购需单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
-           callback="$root.goTo('#/confirmOrder/query.html')">删除
+           callback="$root.goTo('#/lendOrder/query.html')">删除
         </a>
 
 

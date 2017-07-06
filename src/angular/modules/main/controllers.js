@@ -191,9 +191,20 @@ define('main/controllers', ['main/init'], function () {
           }
         };
 
+
+        //计算某个列表中对象的某属性的和
+        $scope.countAttrVal=function (list,attr) {
+            var sum=0;
+            angular.forEach(list,function (item,index) {
+                sum+= (1*item[attr]);
+            });
+            return sum;
+        };
+
         $rootScope.hasAuthor = $scope.hasAuthor;
         $rootScope.hasAuthorOr = $scope.hasAuthorOr;
         $rootScope.hasAuthorAnd = $scope.hasAuthorAnd;
+        $rootScope.countAttrVal = $scope.countAttrVal;
 
 
 
