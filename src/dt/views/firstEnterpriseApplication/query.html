@@ -7,6 +7,7 @@
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
                               is-show-create-btn="新建首营企业申请"
+                              create-btn-author="首营企业管理新增"
                               create-new-url="#/firstEnterpriseApplication/edit1.html"
                               get-status-num-url="rest/authen/firstEnterpriseApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
@@ -37,7 +38,7 @@
                   </span>
 
                   <span class="flex-item-6 text-right">
-                    <span ng-if="$root.hasAuthor('首营申请修改')">
+                    <span ng-if="$root.hasAuthor('首营企业管理修改')">
                     <a
                        ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
@@ -54,7 +55,7 @@
                        <span class="examine-approve">&nbsp;</span>
                      </a>
 
-                     <span ng-if="$root.hasAuthor('首营申请删除')">
+                     <span ng-if="$root.hasAuthor('首营企业管理删除')">
                      <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                         href="javascript:;"
                         class="btn-link pd-m rect-s "
