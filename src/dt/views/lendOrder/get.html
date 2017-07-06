@@ -84,35 +84,31 @@
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+
           <div class="flex-item-6">
             <span class="mgr ">
               <em class="fl-l">单据编号：</em>
               <em title="{{scopeData.orderCode}}" class="color-3  autocut inline-block fl-l" style="width:100px;">{{scopeData.orderCode || '暂无'}}</em>
             </span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n||'暂无'}}</em></span>
+            <span class="mgr">单据日期：<em class="color-3">{{scopeData.createAt  || '暂无' | date:'yyyy-MM-dd'}}</em></span>
           </div>
+
           <div class="flex-item-6 text-right">
-            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
-            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-            <a ng-if="initFlag"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{scopeData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">
-               <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
-            </a>
+            <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus || '暂无'}}</em></span>
+            <!--<a-->
+               <!--modal-center="1000px"-->
+               <!--modal-data='{"businessKey":"{{scopeData.id}}"}'-->
+               <!--modal-scope="this"-->
+               <!--modal-url="views/workflowTask/getOfDialog.html">-->
+               <!--<span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>-->
+            <!--</a>-->
           </div>
         </div>
 
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr-l">销售部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">借出部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
-          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr}}</em></span>
-          <span class="mgr-l">销售类型：<em class="color-3">{{scopeData.salesType}}</em></span>
-          <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
-          <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
-          <span class="mgr-l">汇率：<em class="color-3">1.00</em></span>
           <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
 
@@ -122,29 +118,22 @@
             <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
+                  <th class="text-left">序号</th>
                   <th class="text-center">商品编号</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-left">商品通用名</th>
+                  <th class="text-center">剂型／分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">订购数量</th>
-                  <th class="text-center">实发数量</th>
-                  <th class="text-center">差异数量</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
-                  <th class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运销售'">仓库</th>
-                  <th class="text-center">报价</th>
-                  <th class="text-center">税率</th>
-                  <th class="text-center">折扣额</th>
-                  <th class="text-center">折扣率</th>
-                  <th class="text-center">含税单价</th>
-                  <th class="text-center">无税单价</th>
-                  <th class="text-center">无税金额</th>
-                  <th class="text-center">税额</th>
-                  <th class="text-center">价税合计</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center">批号</th>
+                  <th class="text-center">失效日期</th>
+                  <th class="text-center">仓库</th>
+                  <!--<th>注册证号/批准文号/备案凭证号</th>-->
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
+                  <td>{{$index+1}}</td>
                   <td class="text-center">{{item.code}}
                     <div class="table-item-multiple-btn">
                       <div class="inline-block btn-receiveItem pr-bg-edit color-white"
@@ -156,31 +145,23 @@
                     </div>
                   </td><!-- 商品编号 -->
                   <td>{{item.name}}</td><!-- 商品全名 -->
+                  <td>{{item.name}}</td><!-- 剂型／分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
-                  <td class="text-center">{{item.outgoingQuantity}}</td><!-- 实发数量 -->
-                  <td class="text-center">{{item.differenceQuantity}}</td><!-- 差异数量 -->
-                  <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运销售'">{{item.warehouseName}}</td><!-- 仓库 -->
-                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
-                  <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
-                  <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
-                  <td class="text-right">{{item.discountRate | number:2}}%</td><!-- 折扣率 -->
-                  <td class="text-right">￥{{item.duty_price | number:2}}</td><!-- 含税单价 -->
-                  <td class="text-right">￥{{item.duty_free_price | number:2}}</td><!-- 无税单价 -->
-                  <td class="text-right">￥{{item.total_duty_free_price | number:2}}</td><!-- 无税金额 -->
-                  <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td><!-- 税额 -->
-                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 数量 -->
+                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 失效日期 -->
+                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 仓库 -->
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- 单据信息 -->
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+
+        <!-- 制单人信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+          <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
             <span class="mgr">制单部门：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
             <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
@@ -218,8 +199,6 @@
             </p>
           </div>
         </div>
-
-
 
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
@@ -307,20 +286,18 @@
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
 
 
-            <!-- <span  bottom-button-list="bottomButtonList">  </span> -->
+        <!-- <span  bottom-button-list="bottomButtonList">  </span> -->
 
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
            dialog-content="该销售单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/confirmOrder/query.html')"
+           nosave-callback="goTo('#/lendOrder/query.html')"
            save-callback="submitForm('editForm','exit')">返回销售单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{scopeData.relId}}" >返回销售单列表</a>
-
-
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -330,7 +307,7 @@
            dialog-content="您确认删除这条销售单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/salesOrder/query.html')">删除
+           call-back="$root.goTo('#/lendOrder/query.html')">删除
         </a>
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
