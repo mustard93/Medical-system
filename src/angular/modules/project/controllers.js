@@ -3515,7 +3515,29 @@ define('project/controllers', ['project/init'], function() {
              $scope.showManageFlag=true;
            }
          }
-       }
+       };
+
+       $scope.changeStorageCondition=function(storageCondition){
+         if (storageCondition=='冷冻') {
+           $scope.formData.medical.topTemperature=-25;
+           $scope.formData.medical.lowTemperature=-10;
+           $scope.formData.medical.topHumidity=75;
+           $scope.formData.medical.lowHumidity=45;
+         }else if (storageCondition=='冷藏') {
+           $scope.formData.medical.topTemperature=10;
+           $scope.formData.medical.lowTemperature=2;
+           $scope.formData.medical.topHumidity=75;
+           $scope.formData.medical.lowHumidity=45;
+         }else {
+           $scope.formData.medical.topTemperature=null;
+           $scope.formData.medical.lowTemperature=null;
+           $scope.formData.medical.topHumidity=null;
+           $scope.formData.medical.lowHumidity=null;
+         }
+       };
+
+
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
          if ($scope.submitForm_type == 'submit-enterprise') {
