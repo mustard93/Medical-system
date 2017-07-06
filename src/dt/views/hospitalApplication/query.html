@@ -77,6 +77,7 @@
                            <span class="delete-link-icon">&nbsp;</span>
                          </a>
                       </span>
+
                           <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                              <span class="watch-detail-icon">&nbsp;</span>
@@ -85,7 +86,11 @@
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                              <span class="examine-approve">&nbsp;</span>
                            </a>
+
                            <!-- <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
+
+                           <span ng-if="$root.hasAuthor('资格申请删除')">
+                           <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                               href="javascript:;"
                               class="btn-link pd-m rect-s "
                               handle-this-click
@@ -97,7 +102,11 @@
                               title="删除"
                               request-url="rest/authen/hospitalApplication/delete">
                             <span class="delete-link-icon">&nbsp;</span>
+
                             </a> -->
+
+                            </a>
+                           </span>
                         </span>
                     </div>
                   <div class="card-new">
