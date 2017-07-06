@@ -11,7 +11,7 @@ define('project/controllers', ['project/init'], function() {
    */
   function imTaobaoCtr ($scope,requestData,alertError,$rootScope) {
     //弹出与某人聊天.toUserId 聊天 人的userid
-    $scope.openIm=function(toUserId,toUserName){
+    $scope.openIm = function (toUserId, toUserName) {
       var imTaobaoUserInfo=  $rootScope.MyImTaobaoUserInfo;
       if(!imTaobaoUserInfo){//没有帐号就获取帐号
         imTaobaoUserInfo_getMy(function(){$scope.openIm(toUserId)});
@@ -1793,10 +1793,7 @@ define('project/controllers', ['project/init'], function() {
    *站内消息
    */
   function noticeCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,$rootScope,$interval) {
-    /**
-    *保存
-    type:save-草稿,submit-提交订单。
-    */
+
     $scope.noticeClick = function(notice) {
 
         requestRead(notice.id,notice);
@@ -1844,6 +1841,20 @@ define('project/controllers', ['project/init'], function() {
 
          });
      };//end $scope.requestRead
+
+    // 标记所有信息为已读
+    $scope.flagAllInfoReaded = function (event) {
+      event.stopPropagation();
+
+      var _url = 'rest/authen/notice/readAll';
+      requestData(_url, {}, 'POST')
+      .then(function (results) {
+        if (results[1].code === 200) { alertOk('操作成功'); }
+      })
+      .catch(function (error) {
+        if (error) { throw new Error(error); }
+      });
+    }
 
    }//noticeCtrl
 
@@ -6579,6 +6590,123 @@ define('project/controllers', ['project/init'], function() {
        };
    }
 
+  /**
+    * [orderCodeStrategyController 单据编号策略模块控制器]
+    * @method orderCodeStrategyController
+    * @param  {[type]}                    $scope      [description]
+    * @param  {[type]}                    alertOk     [description]
+    * @param  {[type]}                    alertError  [description]
+    * @param  {[type]}                    requestData [description]
+    * @return {[type]}                                [description]
+    * @author liuzhen
+    * @date 2047/07/03
+    */
+  function orderCodeStrategyController ($scope, alertOk, alertError, requestData) {
+
+    // 编码样例
+    $scope.codeSample = null;
+
+    // 定义单据编号前缀数据模型
+    var codePrefix = [
+      {"text": "静态文本", "value": "静态文本"},
+      {"text": "单据日期", "value": "单据日期"}
+    ];
+
+    // 初始化单据编号前缀模型
+    $scope.prefix1_list = angular.copy(codePrefix);
+    $scope.prefix2_list = angular.copy(codePrefix);
+
+    // 初始化日期类型前缀模型
+    $scope.dateTypeList = [
+      {"text":"年", "value":"年"},
+      {"text":"年月", "value":"年月"},
+      {"text":"年月日", "value":"年月日"}
+    ];
+
+    // 前缀过滤类型
+    $scope.filterPrefixType = function (type, text) {
+
+      text === 'prefix1' ? cleanChoisedItem($scope.prefix2_list, type) : cleanChoisedItem($scope.prefix1_list, type);
+
+      function cleanChoisedItem (obj, type) {
+        angular.forEach(obj, function (data, index) {
+          if (data['text'] === type) {
+            obj.splice(index, 1);
+          }
+        });
+      }
+    };
+
+    // 年月日生成前缀2
+    $scope.createPrefixForDate = function (type) {
+      var _text = null, _t = new Date();
+
+      // 为月和日期加上前缀0
+      function addPrefix0 (data) {
+        if (data < 10) { return '0' + data; }
+      }
+
+      switch (type) {
+        case '年': _text = '' + _t.getFullYear(); break;
+        case '年月': _text = '' + _t.getFullYear() + addPrefix0((_t.getMonth() + 1)); ; break;
+        case '年月日': _text = '' + _t.getFullYear() + addPrefix0((_t.getMonth() + 1)) + addPrefix0(_t.getDay()); break;
+      }
+      return _text;
+    };
+
+    // 计算编码字符长度
+    $scope.getCodeLength = function (formData) {
+      if (formData.prefix1 && formData.prefix2) {
+        $scope.codeLength = Number(formData.prefix1.length) + Number(formData.prefix2.length) + Number(formData.serialNumberLength);
+      }
+    }
+
+    // 创建编码样例
+    $scope.createCodeSample = function (formData) {
+      var _tmp = formData.serialNumberLength - 1;
+      var _serialNumber = 1;
+      for (var i = 0; i < _tmp; i ++) {
+        _serialNumber += '0';
+      }
+
+      if (formData.prefix1 && formData.prefix2) {
+        $scope.codeSample = formData.prefix1 + formData.prefix2 + _serialNumber;
+      }
+    }
+
+    // 点击左侧树形菜单加载不通模块的编码策略
+    $scope.handleClickEvent = function (nodes) {
+      if (nodes && nodes['pId']) {    // 不是主节点
+        var _nodeName = 'DT_' + nodes['name'];
+        var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
+        requestData(_reqUrl)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+
+            // 如果类型类空，则初始化为1（系统自动生成）
+            if (!$scope.formData.type) { $scope.formData.type = 1; }
+
+            // 如果类型为空，则赋值为当前类型
+            if (!$scope.formData.moduleType) { $scope.formData.moduleType = _nodeName; }
+
+            // 初始化样例
+            $scope.codeSample = null;
+
+            // 初始化获取编码长度和样例
+            $scope.getCodeLength($scope.formData);
+            $scope.createCodeSample($scope.formData);
+
+
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        })
+      }
+    }
+  }
+
 
     /**
      * 借出单编辑Ctrl
@@ -7130,5 +7258,6 @@ define('project/controllers', ['project/init'], function() {
   .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
-      .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
+  .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
+  .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
 });

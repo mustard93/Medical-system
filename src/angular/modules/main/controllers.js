@@ -502,7 +502,6 @@ define('main/controllers', ['main/init'], function () {
           });
         };
 
-
         $scope.getCodeShowMode('rest/authen/systemSetting/getByParameter?parameter=订单号生成策略');
     }
 

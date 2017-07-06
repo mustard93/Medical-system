@@ -3,12 +3,13 @@
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
                               is-show-create-btn="新建首营品种申请"
-                              create-btn-author="首营品种管理新增"
                               create-new-url="#/firstMedicalApplication/edit1.html"
                               get-status-num-url="rest/authen/firstMedicalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
                               is-show-key-filter=true
+                              is-show-storage-condition-filter=true
+                              get-storage-condition-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus"
                               search-placeholder-info="品种名/通用名 / 单据编号 / 采购员"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
@@ -38,14 +39,14 @@
                       </em>
                     </span>
                     <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
-                      <span ng-if="$root.hasAuthor('首营品种管理修改')">
+
                       <a
                          ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
                          ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                        <span class="edit-link-icon">&nbsp;</span>
                      </a>
-                     </span>
-                      <span ng-if="$root.hasAuthor('首营品种管理删除')">
+
+                      <span ng-if="$root.hasAuthor('首营申请删除')">
                         <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                            href="javascript:;"
                            class="mr--4 btn-link pd-m rect-s "
@@ -54,9 +55,9 @@
                            dialog-title="确认删除?"
                            dialog-content="删除后将无法恢复,确认删除?"
                            dialog-template="pr-dialog-submit.html"
-                           callback="$root.goTo('#/purchaseReturn/query.html')"
+                           callback="$root.goTo('#/firstMedicalApplication/query.html')"
                            params='{"id":tr.id}'
-                           request-url="rest/authen/purchaseReturn/delete">
+                           request-url="rest/authen/firstMedicalApplication/delete">
                            <span class="delete-link-icon">&nbsp;</span>
                          </a>
                     </span>
@@ -114,7 +115,7 @@
                       <div class="flex-column qurey text-s color-9 bt-dashed-line">
                         <span class="flex-item-6 text-left">储存条件</span>
                         <span class="flex-item-6 text-right">
-                            <strong class="color-black text-normal">{{tr.storageCondition}}</strong>
+                            <strong class="color-black text-normal">{{tr.medical.storageCondition}}</strong>
                         </span>
                       </div>
                   </div>

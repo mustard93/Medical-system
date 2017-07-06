@@ -2,7 +2,7 @@
      ng-controller="orderCodeStrategyController"
      ajax-url="rest/authen/orderCodeStrategy/get?moduleType=DT_购需单"
      scope-data="formData"
-     callback="formData.type=1;"
+     callback="formData.moduleType='DT_购需单';getCodeLength(formData);createCodeSample(formData)"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -36,19 +36,19 @@
                            {"id":3,"pId":0,"name":"库存管理","open":true},
                            {"id":4,"pId":1,"name":"购需单"},
                            {"id":5,"pId":1,"name":"销售单"},
-                           {"id":6,"pId":1,"name":"发货通知单"},
-                           {"id":7,"pId":1,"name":"销售退货单"},
+                           {"id":6,"pId":1,"name":"发货单"},
+                           {"id":7,"pId":1,"name":"销退单"},
                            {"id":8,"pId":2,"name":"请购单"},
                            {"id":9,"pId":2,"name":"采购单"},
                            {"id":10,"pId":2,"name":"来货通知单"},
-                           {"id":11,"pId":2,"name":"采购退货单"},
-                           {"id":12,"pId":3,"name":"销售出库单"},
-                           {"id":13,"pId":3,"name":"采购入库单"},
+                           {"id":11,"pId":2,"name":"采退单"},
+                           {"id":12,"pId":3,"name":"出库单"},
+                           {"id":13,"pId":3,"name":"仓库入库单"},
                            {"id":14,"pId":3,"name":"调拨单"},
-                           {"id":15,"pId":3,"name":"报损单"},
-                           {"id":16,"pId":3,"name":"报溢单"},
-                           {"id":17,"pId":3,"name":"其他入库单"},
-                           {"id":18,"pId":3,"name":"其他出库单"}]'
+                           {"id":15,"pId":3,"name":"报损报溢单"},
+                           {"id":16,"pId":3,"name":"报损报溢单"},
+                           {"id":17,"pId":3,"name":"仓库入库单"},
+                           {"id":18,"pId":3,"name":"仓库出库单"}]'
            z-tree-type="static">
       </div>
       <div class="order-code-strategy-form flex-item-10">
@@ -57,7 +57,7 @@
           <div class="">
             <h1>
               <span class="radio mgr-l">
-                <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="1" ng-model="formData.type" ng-checked="true"><em>系统自动生成且不允许改动</em></label>
+                <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="1" ng-model="formData.type"><em>系统自动生成且不允许改动</em></label>
               </span>
               <span class="radio">
                 <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="2" ng-model="formData.type"><em>完全手工编号</em></label>
@@ -84,12 +84,20 @@
                     </select>
                   </td>
                   <td>
-                    <input ng-if="formData.prefix1_type=='静态文本'" type="text" class="ipt pr-short-ipt" name="" value="" ng-model="formData.prefix1" ng-disabled="formData.type==2">
+                    <input ng-if="formData.prefix1_type=='静态文本'"
+                           type="text"
+                           class="ipt pr-short-ipt"
+                           name="" value=""
+                           style="position:relative;top:-2px;"
+                           ng-model="formData.prefix1"
+                           ng-disabled="formData.type==2 || !formData.prefix1_type"
+                           ng-change="getCodeLength(formData);createCodeSample(formData)">
                     <select ng-if="formData.prefix1_type!='静态文本'"
                             class="ipt pr-short-ipt"
-                            ng-model="formData.prefix1"
-                            ng-disabled="formData.type==2"
-                            ng-options="item.value as item.text for item in dateTypeList">
+                            ng-model="formData.choiseData1"
+                            ng-disabled="formData.type==2 || !formData.prefix1_type"
+                            ng-options="item.value as item.text for item in dateTypeList"
+                            ng-change="formData.prefix1=createPrefixForDate(formData.choiseData1);getCodeLength(formData);createCodeSample(formData)">
                     </select>
                   </td>
                   <td>
@@ -107,17 +115,24 @@
                     </select>
                   </td>
                   <td>
-                    <input ng-if="formData.prefix2_type==1" type="text" class="ipt pr-short-ipt" name="" value="" ng-model="formData.prefix2" ng-disabled="formData.type==2">
-                    <select ng-if="formData.prefix2_type!=1"
+                    <input ng-if="formData.prefix2_type=='静态文本'"
+                           type="text"
+                           class="ipt pr-short-ipt"
+                           name="" value=""
+                           style="position:relative;top:-2px;"
+                           ng-model="formData.prefix2"
+                           ng-disabled="formData.type==2 || !formData.prefix2_type"
+                           ng-change="getCodeLength(formData);createCodeSample(formData)">
+                    <select ng-if="formData.prefix2_type!='静态文本'"
                             class="ipt pr-short-ipt"
-                            ng-model="formData.prefix2"
+                            ng-model="formData.choiseData2"
                             ng-options="item.value as item.text for item in dateTypeList"
-                            ng-disabled="formData.type==2"
-                            ng-change="createPrefixForDate()">
+                            ng-disabled="formData.type==2 || !formData.prefix2_type"
+                            ng-change="formData.prefix2=createPrefixForDate(formData.choiseData2);getCodeLength(formData);createCodeSample(formData)">
                     </select>
                   </td>
                   <td>
-                    <input type="text" class="ipt pr-short-ipt" name="" value="" ng-disabled="true">
+                    <input type="text" class="ipt pr-short-ipt" name="" ng-value="formData.prefix2.length" ng-disabled="true">
                   </td>
                 </tr>
                 <tr>
@@ -128,7 +143,7 @@
                     <input type="text" class="ipt pr-short-ipt" value="1" ng-disabled="true" style="width:100px;">
                   </td>
                   <td>
-                    <input type="text" class="ipt pr-short-ipt" name="" value="" ng-disabled="formData.type==2">
+                    <input type="text" class="ipt pr-short-ipt" ng-model="formData.serialNumberLength" ng-change="getCodeLength(formData);createCodeSample(formData)" ng-disabled="formData.type==2">
                   </td>
                 </tr>
                 <tr>
@@ -136,7 +151,7 @@
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
                   <td>
-                    <input type="text" class="ipt pr-short-ipt" name="" value="" ng-disabled="true">
+                    <input type="text" class="ipt pr-short-ipt" ng-value="codeLength" ng-disabled="true">
                   </td>
                 </tr>
               </tbody>
@@ -150,7 +165,7 @@
                                        <input type="text" class="ipt pr-short-ipt" ng-disabled="true" ng-model="formData.prefix2_type"> +
                                        <input type="text" class="ipt pr-short-ipt" ng-disabled="true" value="流水号">
             </p>
-            <p>编号效果： <input type="text" class="ipt pr-short-ipt" ng-disabled="true"></p>
+            <p>编号效果： <input type="text" class="ipt pr-short-ipt" ng-disabled="true" ng-value="codeSample"></p>
           </div>
         </fieldset>
       </div>

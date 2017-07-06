@@ -11,6 +11,7 @@
 
             <span ng-click="obj.type=item.type;obj.tabThis=$index;">{{item.type}}(<i class="color-custom-orange">{{item.count || 0 }}</i>)</span>
             <div class="vertical-line"></div>
+            <div class="Level-line"></div>
         </div>
     </div>
 
@@ -35,8 +36,8 @@
                     <a ng-if="tr.source=='医院'" ng-href="{{ $root.hasAuthor('医院信息管理修改') ? '#/hospitalManagement/edit.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('医院信息管理修改')}">
                         <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
                         <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
-                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> {{item.attachmentName}}</span>
-                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> {{item.attachmentName}}</span>
+                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
                         </p>
                     </a>
 

@@ -3319,6 +3319,7 @@ function pageMainHeaderComponent () {
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
+      getStorageConditionUrl: '@',
       getDepartmentListUrl: '@',
       getUserListUrl: '@',
       getApplyUserListUrl: '@',
@@ -3387,6 +3388,8 @@ function pageMainHeaderComponent () {
       scope.isShowSourceOrderTypeFilter = angular.isDefined(attrs.isShowSourceOrderTypeFilter) ? attrs.isShowSourceOrderTypeFilter : false;
       //是否显示仓库过滤
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
+      //是否储存条件
+      scope.isShowStorageConditionFilter = angular.isDefined(attrs.isShowStorageConditionFilter) ? attrs.isShowStorageConditionFilter : false;
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
       //是否显示盘点方式过滤
@@ -3590,9 +3593,9 @@ function changeImg () {
 //     }
 //   };
 // }
-    
-    
-    
+
+
+
 function  dtRightSide(utils) {
     'use strict';
     return {
@@ -3643,9 +3646,9 @@ function  dtRightSide(utils) {
 
       }
     };
-    
-}    
-    
+
+}
+
 
 
 
