@@ -619,6 +619,7 @@ define('project/services', ['project/init'], function() {
 
 
                 bottomButton = {
+                    "authority":"购需单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
@@ -640,7 +641,8 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {                    
+                bottomButton = {         
+                    "authority":"购需单删除",           
                     "ngShow": "tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
