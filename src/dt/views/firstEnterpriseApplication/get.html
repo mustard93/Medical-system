@@ -84,7 +84,13 @@
 <div class="panel pr-panel pr-panel-height mgb">
     <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
     <div class="">
-        <div class="bb-dashed-line flex-column ">
+        <div class="flex-column mgt pdb-l bb-dashed-line">
+          <label class="flex-item-2   text-right control-label">分类：</label>
+          <div class="flex-item-10 color-3 text-left ">
+            {{showData.medical.medicalType}}
+        </div>
+        </div>
+        <!-- <div class="bb-dashed-line flex-column ">
             <div class="flex-item-4  text-center mgb ">
                 <label class="radio-inline radio radio-new">
                     <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="showData.type" ng-disabled="showData.type"><i style="top:5px;"></i>
@@ -95,10 +101,14 @@
                       <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
                 </label>
             </div>
-        </div>
+        </div> -->
         <div class="bb-dashed-line pd-v-m">
             <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">企业名称：</span>
+                <span class="flex-item-10 text-left">{{showData.name}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">企业编码：</span>
                 <span class="flex-item-10 text-left">{{showData.name}}</span>
             </div>
             <div class="flex-column mgt">
@@ -173,6 +183,32 @@
                     {{showData.financePerson.telephone}}
                 </span>
             </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 text-left">
+                {{showData.qualityPerson.telephone}}
+                </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">业务对接人：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.name}}
+                  </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.tel}}
+                </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.telephone}}
+                </span>
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -211,24 +247,8 @@
                 <span class="flex-item-4 text-right">质量负责人：</span>
                 <span class="flex-item-8 text-left">{{showData.businessLicense.qualityHead}}</span>
             </div>
-            <div class="mgt flex-item-12">
-                <span class="flex-item-4 text-right">经营方式：</span>
-                <div class="flex-item-6 text-left">
-                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="showData.businessLicense.businessWay"
-                          ng-disabled="showData.businessLicense.businessWay"
-                        ><i style="top:5px;"></i>
-                        <em class="inline-block color-black text-right">批发</em>
-                      </label>
-                    <label class="radio-inline radio radio-new" style="top:-5px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="showData.businessLicense.businessWay"
-                          ng-disabled="showData.businessLicense.businessWay"
-                        ><i style="top:5px;"></i>
-                        <em class="inline-block color-black text-right">生产</em>
-                      </label>
-                </div>
-            </div>
-            <div class="mgt flex-item-12">
+
+            <div class="mgt flex-column">
                 <span class="flex-item-4 text-right">是否年检：</span>
                 <div class="flex-item-6 text-left">
                     <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
@@ -247,6 +267,23 @@
                       </label>
                 </div>
             </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">开户银行：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.registeredCapital}}&nbsp;&nbsp;万元</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">开户账号：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.legalRepresentative}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">开户名称：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.head}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">付款方式：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.qualityHead}}</span>
+            </div>
+
         </div>
         <div class="flex-item-6" style="padding:20px 50px;">
           <div ng-if="showData.businessLicense.attachment.uploadUserName">
