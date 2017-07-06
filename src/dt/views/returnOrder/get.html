@@ -1,13 +1,14 @@
+<!--ng-controller="collarApplicationOrderController"-->
 <div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
-      ng-controller="collarApplicationOrderController"
+
       ajax-url="rest/authen/collarReturnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
       scope-data="scopeData"
       callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
       alert-error>
   <!-- 头部信息 -->
   <page-main-header-component list-params="listParams"
-                              crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"领退申请单","link":"","style":"color-custom-orange"},{"name":"领退申请单详情","link":"","style":""}]'
-                              component-title="领退申请单详情">
+                              crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"归还单详情","link":"","style":""}]'
+                              component-title="归还单详情">
   </page-main-header-component>
   <!-- 药械列表 -->
   <div ng-if="scopeData.operationFlowSet.key||scopeData.operationFlowSet.message"
@@ -59,15 +60,12 @@
       <!-- 类别选择 -->
       <div class="pd-c-l pdt-m pdb-m color-9">
 
-        <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+        <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
 
         <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
 
-        <span class="mgr-l">退货库房：<em class="color-3">{{scopeData.storeRoomName || '暂无'}}</em></span>
-
-        <span class="mgr-l">申请时间：<em class="color-3">{{scopeData.applicationDate | date:'yyyy-MM-dd'}}</em></span>
-
-
+        <span class="mgr-l">计划到货日期：<em class="color-3">{{scopeData.applicationDate | date:'yyyy-MM-dd'}}</em></span>
+        
       </div>
 
       <!-- 商品列表 -->
@@ -128,20 +126,20 @@
     </div>
   </div>
   <!-- 流程图 -->
-  <!-- <business-flow-show business-key="{{scopeData.id}}" business-type="领退申请单"></business-flow-show> -->
+  <!-- <business-flow-show business-key="{{scopeData.id}}" business-type="归还单"></business-flow-show> -->
   <!-- 功能按钮 -->
   <div class="handle-btn-area">
     <div class="btn-area" style="background:rgba(54,48,44,0.30);">
       <a ng-if="changeFlag" href="javascript:;" class="mgr"
          handle-this-click
          dialog-title="确认返回?"
-         dialog-content="该领退申请单存在未保存数据，是否保存?"
+         dialog-content="该归还单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
          nosave-callback="goTo('#/collarReturnOrder/query.html')"
-         save-callback="submitForm('editForm','exit')">返回领退申请单列表
+         save-callback="submitForm('editForm','exit')">返回归还单列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/collarReturnOrder/query.html?id={{scopeData.relId}}" >返回领退申请单列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/collarReturnOrder/query.html?id={{scopeData.relId}}" >返回归还单列表</a>
 
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list
