@@ -26,7 +26,7 @@
   </div>
 
   <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
-    <a href="#/firstEnterpriseApplication/edit1.html"  title="新建首营企业申请"><i style="top:3px;"></i><span class="text-s">新建首营企业申请</span></a>
+    <a href="#/firstEnterpriseApplication/edit1.html"  title="新建首营企业申请" create-btn-author="新建首营品种申请"><i style="top:3px;"></i><span class="text-s">新建首营企业申请</span></a>
   </div>
 
   <!-- 主内容区域 -->
@@ -55,6 +55,7 @@
                        ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                      <span class="edit-link-icon">&nbsp;</span>
+                     
                    </a>
 
                     <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
@@ -65,6 +66,17 @@
                        ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                        <span class="examine-approve">&nbsp;</span>
                      </a>
+                     <span ng-if="$root.hasAuthor('首营申请修改')">
+
+                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                           class="btn-link pd-m rect-s "
+                           title="编辑"
+                           ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
+                            <span class="edit-link-icon">&nbsp;</span>
+                           </a>
+                        </span>
+                        
+                     <span ng-if="$root.hasAuthor('首营申请删除')">
                      <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                         href="javascript:;"
                         class="btn-link pd-m rect-s "
@@ -78,7 +90,7 @@
                         request-url="rest/authen/firstEnterpriseApplication/delete">
                       <span class="delete-link-icon">&nbsp;</span>
                       </a>
-
+                      </span>
                   </span>
 
                 </div>
