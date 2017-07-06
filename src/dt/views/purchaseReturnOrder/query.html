@@ -34,45 +34,22 @@
                   <span class="flex-item-5 title-states text-bold color-3 pd-m" ng-class="{'color-red':(tr.orderStatus=='未通过')}">{{tr.orderStatus}}</span>
                   <span class="flex-item-7 text-right">
 
-                      <span ng-if="$root.hasAuthor('采购退货单修改')">
-
-                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           class="btn-link pd-m rect-s "
-                           title="编辑"
-                           ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                            <span class="edit-link-icon">&nbsp;</span>
-                           </a>
-                      </span>
-
-                      <span ng-if="$root.hasAuthor('采购退货单删除')">
-                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           href="javascript:;"
-                           class="mr--4 btn-link pd-m rect-s "
-                           title="删除"
-                           handle-this-click
-                           dialog-title="确认删除?"
-                           dialog-content="删除后将无法恢复,确认删除?"
-                           dialog-template="pr-dialog-submit.html"
-                           callback="$root.goTo('#/purchaseReturn/query.html')"
-                           params='{"id":tr.id}'
-                           request-url="rest/authen/purchaseReturn/delete">
-                           <span class="delete-link-icon">&nbsp;</span>
-                         </a>
-                    </span>
-
-
+                 
+                    <span ng-if="$root.hasAuthor('采购退货单修改')">
                       <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                          class="btn-link pd-m rect-s "
                          title="编辑"
                          ng-href="#/purchaseReturnOrder/edit.html?id={{tr.id}}" >
                          <span class="edit-link-icon">&nbsp;</span>
                      </a>
+                    </span>
                       <a ng-if="tr.orderStatus=='处理中'||tr.orderStatus=='已处理'||tr.orderStatus=='已作废'"
                          title="查看详情"
                          class="btn-link pd-m rect-s "
                          ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}" >
                         <span class="watch-detail-icon">&nbsp;</span>
                       </a>
+                      <span ng-if="$root.hasAuthor('采购退货单删除')">
                       <a ng-if="tr.orderStatus=='未提交'"
                          href="javascript:;"
                          class="mr--4 btn-link pd-m rect-s "
@@ -86,6 +63,7 @@
                          request-url="rest/authen/purchaseReturnOrder/delete">
                          <span class="delete-link-icon">&nbsp;</span>
                        </a>
+                       </span>
                        <a ng-if="tr.orderStatus=='待审核' "
                           ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}"
                           title="立即审核"
