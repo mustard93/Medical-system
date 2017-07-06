@@ -18,12 +18,11 @@
 
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 > <em class="color-custom-orange">销售单</em></p>
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 > <em class="color-custom-orange">借出单</em></p>
       <!-- 标题 -->
       <div class="pd-c-xxl">
         <div class="pos-rel-tl inline-block fl-l">
-          <h1 class="pr-font-20 color-black">销售单</h1>
-
+          <h1 class="pr-font-20 color-black">借出单</h1>
         </div>
       </div>
     </div>
@@ -118,17 +117,19 @@
             <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
-                  <th class="text-left">序号</th>
+                  <th class="text-center">序号</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品通用名</th>
                   <th class="text-center">剂型／分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
+                  <th class="text-center">计划数量</th>
+                  <th class="text-center">实际数量</th>
+                  <th class="text-center">已归还数量</th>
                   <th class="text-center">批号</th>
                   <th class="text-center">失效日期</th>
                   <th class="text-center">仓库</th>
-                  <!--<th>注册证号/批准文号/备案凭证号</th>-->
+                  <th class="text-center">注册证号/批准文号/备案凭证号</th>
                 </tr>
               </thead>
               <tbody>
@@ -144,14 +145,30 @@
                       </div>
                     </div>
                   </td><!-- 商品编号 -->
-                  <td>{{item.name}}</td><!-- 商品全名 -->
+                  <td>
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{item.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{item}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
                   <td>{{item.name}}</td><!-- 剂型／分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 数量 -->
+                  <td class="text-center">{{item.quantity}}</td> <!--计划数量-->
+                  <td class="text-center">{{item.quantity}}</td> <!--计划数量-->
+                  <td class="text-center">{{item.quantity}}</td> <!--计划数量-->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 失效日期 -->
-                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 仓库 -->
+                  <td class="text-left">{{item.totalPrice}}</td><!-- 仓库 -->
                 </tr>
               </tbody>
             </table>
@@ -280,7 +297,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
+    <business-flow-show business-key="{{scopeData.id}}" business-type="借出单"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -291,26 +308,31 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-content="该借出单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo('#/lendOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回销售单列表
+           save-callback="submitForm('editForm','exit')">返回借出单列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{scopeData.relId}}" >返回销售单列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{scopeData.relId}}" >返回借出单列表</a>
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条销售单吗?"
+           dialog-content="您确认删除这条借出单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
            call-back="$root.goTo('#/lendOrder/query.html')">删除
         </a>
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+
+
+
+        <button ng-if="scopeData.orderStatus=='已完成'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">生成归还单</button>
+
         <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
