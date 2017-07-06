@@ -5,7 +5,10 @@
               search-param="q">
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
-                              crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
+                              crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
+                              is-show-create-btn="新建首营企业申请"
+                              create-btn-author="首营企业管理新增"
+                              create-new-url="#/firstEnterpriseApplication/edit1.html"
                               get-status-num-url="rest/authen/firstEnterpriseApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
@@ -13,22 +16,6 @@
                               search-placeholder-info="企业名 / 单据编号 / 采购员"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
-
-
-  <div class="mgl-xl status-num-list-new"
-        style="top:-56px;">
-    <span status-style-toggle-new
-    class="rect-status" ng-click="$root.goTo('#/firstMedicalApplication/query.html')" >首营品种申请
-    </span>
-    <span status-style-toggle-new class="rect-status mgl-s rect-status-active-new">首营企业申请
-    </span>
-    <!--  -->
-  </div>
-
-  <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
-    <a href="#/firstEnterpriseApplication/edit1.html"  title="新建首营企业申请"><i style="top:3px;"></i><span class="text-s">新建首营企业申请</span></a>
-  </div>
-
   <!-- 主内容区域 -->
   <div class="content-wrapper ">
     <div class="content-wrapper-main">
@@ -51,12 +38,14 @@
                   </span>
 
                   <span class="flex-item-6 text-right">
+                    <span ng-if="$root.hasAuthor('首营企业管理修改')">
                     <a
                        ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                      <span class="edit-link-icon">&nbsp;</span>
-                   </a>
 
+                   </a>
+                   </span>
                     <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                        ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                        <span class="watch-detail-icon">&nbsp;</span>
@@ -65,6 +54,8 @@
                        ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                        <span class="examine-approve">&nbsp;</span>
                      </a>
+
+                     <span ng-if="$root.hasAuthor('首营企业管理删除')">
                      <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                         href="javascript:;"
                         class="btn-link pd-m rect-s "
@@ -78,7 +69,7 @@
                         request-url="rest/authen/firstEnterpriseApplication/delete">
                       <span class="delete-link-icon">&nbsp;</span>
                       </a>
-
+                      </span>
                   </span>
 
                 </div>
