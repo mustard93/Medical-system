@@ -23,7 +23,7 @@
     <div class="content-wrapper">
         <!-- 添加流程导航 -->
     <div step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"添加营业执照","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
         <form class="form-horizontal"
@@ -70,6 +70,7 @@
                     p-id-key="parentId"
                     >选择</button>
                     <!-- ng-click="addBorder=true;" -->
+                    <!-- <em class="color-red">(必填)</em> -->
                   </div>
                 </div>
                 <!-- <div class="bb-dashed-line flex-column mgb" >
@@ -93,9 +94,9 @@
                                  class="ipt ipt-new"
                                  name="enterpriseName"
                                  ng-model="formData.name"
-
+                                 required
                             >
-                              <!-- <span ng-if="!formData.name" class="color-red">（必填）</span> -->
+                              <span ng-if="!formData.name" class="color-red">（必填）</span>
                         </div>
                     </div>
                     <div class="flex-column mgt">
@@ -137,6 +138,48 @@
                     </div>
                 </div>
               <div class=" pd-v-m bt-dashed-line">
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户银行：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountBank" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户账号：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountNumber" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户名称：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountName" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">付款方式：</label>
+                  <div class="flex-item-10 text-left">
+                    <select class="select pr-select ipt-new-s" data-placeholder=" "
+                    chosen
+                    style="width:334px;"
+                    default-empty=""
+                    ng-model="formData.PayType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CashType">
+                    </select>
+                  </div>
+                </div>
                   <div class="flex-column mgt">
                       <label class="flex-item-2 text-right control-label">采购员：</label>
                       <div class="flex-item-10 text-left">
