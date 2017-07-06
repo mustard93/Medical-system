@@ -41,30 +41,9 @@
             <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
                 <div class="flex-item-6">
                     <span class="flex-item-3">
-            单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
-          </span>
-                    <span class="flex-item-9">
-            <span class="flex-item-1 text-right">
-              采购员：
-            </span>
-                    <span class="flex-item-2 purchaseorder-buyer-info-outside">
-              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
-              style="position:relative;height:25px;">{{showData.buyer.n}}</strong>
-              <span class="purchaseorder-buyer-info" style="top: 34px;right: 1420px;">
-                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
-                <i class="block pdb-s text-normal">
-                  <em class="fa fa-comment-o mgl"></em>
-                  <em class="inline-block pdl pdr pdt">
-                    <a href="javascript:;"
-                       modal-center="490"
-                       modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
-                       modal-url="views/notice/sendToUser.html">发送消息
-                    </a>
-                  </em>
-                </i>
-              </span>
+                      单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
                     </span>
-                    </span>
+
                 </div>
                 <div class="flex-item-6 text-right">
                     录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em> 状态：
@@ -105,16 +84,16 @@
 <div class="panel pr-panel pr-panel-height mgb">
     <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
     <div class="">
-        <div class="bb-dashed-line">
-            <div class="flex-column mgb">
+        <div class="bb-dashed-line flex-column ">
+            <div class="flex-item-4  text-center mgb ">
                 <label class="radio-inline radio radio-new">
                     <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="showData.type" ng-disabled="showData.type"><i style="top:5px;"></i>
                     <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
-                  </label>
-                <label class="radio-inline radio radio-new" style="top:10px;">
+                </label>
+                <label class="radio-inline radio radio-new" style="top:5px;">
                     <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="showData.type" ng-disabled="showData.type"> <i style="top:5px;"></i>
                       <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
-                  </label>
+                </label>
             </div>
         </div>
         <div class="bb-dashed-line pd-v-m">
@@ -135,12 +114,35 @@
 
         </div>
         <div class=" pd-v-m">
+          <div class="flex-column mgt">
+              <span class="flex-item-2 text-right">采购员：</span>
+              <span class="flex-item-10">
+                <span class="flex-item-2 purchaseorder-buyer-info-outside">
+                  <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                  style="position:relative;height:25px;">{{showData.buyer.n}}</strong>
+                      <span class="purchaseorder-buyer-info" style="top: 34px;right: 1420px;">
+                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
+                        <i class="block pdb-s text-normal">
+                          <em class="fa fa-comment-o mgl"></em>
+                          <em class="inline-block pdl pdr pdt">
+                            <a href="javascript:;"
+                               modal-center="490"
+                               modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
+                               modal-url="views/notice/sendToUser.html">发送消息
+                            </a>
+                          </em>
+                        </i>
+                      </span>
+                    </span>
+              </span>
+          </div>
             <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">质量部联系人：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.qualityPerson.name}}
                   </span>
             </div>
+
             <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10 text-left">
@@ -177,7 +179,7 @@
 </div>
 <!-- 申请原因 -->
 <div class="panel pr-panel pr-panel-height">
-    <h1 class="mgb-m color-black text-bold text-n">三证</h1>
+    <h1 class="mgb-m color-black text-bold text-n">营业执照</h1>
     <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">营业执照</h3>
     <div class="flex-column">
         <div class="flex-item-6 br-dashed-line">
@@ -245,25 +247,6 @@
                       </label>
                 </div>
             </div>
-            <div class="mgt flex-item-12 mgb">
-                <span class="flex-item-4 text-right">三证合一：</span>
-                <div class="flex-item-6 text-left">
-                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="isThreecertificate" value="是"
-                         ng-model="showData.businessLicense.isThreecertificate"
-                         ng-disabled="showData.businessLicense.isThreecertificate"
-                         ><i style="top:5px;"></i>
-                        <em class="inline-block color-black">是</em>
-                      </label>
-                    <label class="radio-inline radio radio-new" style="top:-5px;left:10px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="isThreecertificate" value="否"
-                        ng-model="showData.businessLicense.isThreecertificate"
-                        ng-disabled="showData.businessLicense.isThreecertificate"
-                        ><i style="top:5px;"></i>
-                        <em class="inline-block color-black text-right">否</em>
-                      </label>
-                </div>
-            </div>
         </div>
         <div class="flex-item-6" style="padding:20px 50px;">
           <div ng-if="showData.businessLicense.attachment.uploadUserName">
@@ -287,84 +270,7 @@
           </div>
         </div>
     </div>
-    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">机构代码证</h3>
-    <div class="flex-column ">
-        <div class="flex-item-6 br-dashed-line " style="min-height:250px;">
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">证书编号：</span>
-                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.certificateNumber}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">年检日期：</span>
-                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.annualInspection  | date : 'yyyy-MM-dd' }}</span>
-            </div>
-            <div class="flex-column mgt" style="margin-bottom:100px;">
-                <span class="flex-item-4 text-right">有效期至：</span>
-                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.guaranteePeriod | date : 'yyyy-MM-dd' }}</span>
-            </div>
-        </div>
-        <div class="flex-item-6" style="padding:20px 50px;">
-          <div ng-if="showData.organizationCodeCertificate.attachment.uploadUserName">
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传人：</span>
-                <span class="flex-item-10 text-left">{{showData.organizationCodeCertificate.attachment.uploadUserName}}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传日期：</span>
-                <span class="flex-item-10 text-left">{{showData.organizationCodeCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">附件：</span>
-                <div class="flex-item-10 text-left">
-                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.organizationCodeCertificate.attachment"></div>
-                </div>
-            </div>
-          </div>
 
-            <div ng-if="!showData.organizationCodeCertificate.attachment.uploadUserName">
-              暂无文件
-            </div>
-        </div>
-    </div>
-    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">税务登记证</h3>
-    <div class="flex-column ">
-        <div class="flex-item-6 br-dashed-line " style="min-height:250px;">
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">证书编号：</span>
-                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.certificateNumber}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">发证日期：</span>
-                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.certificateDate | date : 'yyyy-MM-dd' }}</span>
-            </div>
-            <div class="flex-column mgt" style="margin-bottom:100px;">
-                <span class="flex-item-4 text-right">有效期至：</span>
-                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.guaranteePeriod | date : 'yyyy-MM-dd'}}</span>
-            </div>
-        </div>
-        <div class="flex-item-6" style="padding:20px 50px;">
-          <div ng-if="showData.taxRegistrationCertificate.attachment.uploadUserName">
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传人：</span>
-                <span class="flex-item-10 text-left">{{showData.taxRegistrationCertificate.attachment.uploadUserName}}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传日期：</span>
-                <span class="flex-item-10 text-left">{{showData.taxRegistrationCertificate.attachment.uploadTime | date : 'yyyy-MM-dd ' }}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">附件：</span>
-                <div class="flex-item-10 text-left">
-                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.taxRegistrationCertificate.attachment"></div>
-                </div>
-            </div>
-          </div>
-
-            <div ng-if="!showData.taxRegistrationCertificate.attachment.uploadUserName">
-              暂无文件
-            </div>
-        </div>
-    </div>
     <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
     <div class="flex-column pd-c-v-l">
         <div class="flex-item-12 pd-c-xxxxxxl">

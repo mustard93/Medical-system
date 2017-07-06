@@ -1,0 +1,29 @@
+<div class="">
+    <table-list list-data="rest/authen/requestPurchaseOrder/query.json?pageSize=20&type={{type}}" list-params="listParams" search-mode="noCaseSensitive" search-param="q"
+                callback="tabThis=0; tabs=[{'name':'客户','num':'10','type':'客户'},{'name':'商品','num':'11','type':'商品'},{'name':'供应商','num':'0','type':'供应商'}];"
+    >
+
+
+    <div class="dt-right-side-content-tab-title"  >
+        <div ng-repeat="item in tabs track by $index" ng-click="tabThis=$index;type=item.type;" ng-class="{'on':tabThis==$index}"> <span>{{item.name}}(<i class="color-custom-orange">{{item.num}}</i>)</span></div>
+    </div>
+
+    <div ng-if="tbodyList.length==0">
+        <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+        <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+    </div>
+
+    <div  class="dt-right-side-content-tab-content">
+        <ul  ng-if="tbodyList.length">
+            <li  ng-repeat="tr in tbodyList"><a href=""><span class="color-custom-orange">[即将过期] (2017-6-27)</span>《营业许可证》大风医药经销代理有限公司</a></li>
+        </ul>
+    </div>
+
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+    </table-list>
+</div>

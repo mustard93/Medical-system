@@ -11,6 +11,7 @@
                               crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"资格申请","link":"","style":"color-custom-orange"}]'
                               is-show-select-item='[{"name":"医院资格申请","link":"#/hospitalApplication/query.html"},{"name":"批发/零售商资格申请","link":"#/otherCustomerApplication/query.html"}]'
                               is-show-create-btn="新建医院资格申请"
+                              create-btn-author="资格申请新增"
                               create-new-url="#/hospitalApplication/edit1.html"
                               get-status-num-url="rest/authen/hospitalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
@@ -41,11 +42,14 @@
                       </span>
 
                       <span class="flex-item-6 text-right">
+                      
+                        <span ng-if="$root.hasAuthor('资格申请修改')">
                           <a
                              ng-if="tr.orderStatus=='未提交'"
                              ng-href="#/hospitalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                            <span class="edit-link-icon">&nbsp;</span>
                          </a>
+                         </span>
                           <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                              <span class="watch-detail-icon">&nbsp;</span>
@@ -54,6 +58,7 @@
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                              <span class="examine-approve">&nbsp;</span>
                            </a>
+                           <span ng-if="$root.hasAuthor('资格申请删除')">
                            <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                               href="javascript:;"
                               class="btn-link pd-m rect-s "
@@ -67,6 +72,7 @@
                               request-url="rest/authen/hospitalApplication/delete">
                             <span class="delete-link-icon">&nbsp;</span>
                             </a>
+                           </span>
                         </span>
                     </div>
                   <div class="card-new">

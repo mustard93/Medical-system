@@ -1,0 +1,88 @@
+<div class="pd-c-xxxl"
+  ng-init="listParams.type=mainStatus.pageParams.type||'经销商';listParams.organizationId=mainStatus.pageParams.organizationId;listParams.q=mainStatus.pageParams.q"><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>WMS任务发送</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">WMS任务发送</li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/manageSendTask/query.json" list-params="listParams"  ajax-if-eval="listParams.organizationId">
+ <div class="wrapper"  ng-controller="pageCtrl">
+    <div class="mg-m col-lg-12 col-sm-12">
+
+      <div class="form-group col-lg-2">
+        <label class="col-lg-2 col-sm-2 control-label">机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="ipt pr-short-ipt"
+                  data-placeholder="选择机构"
+                  chosen
+                  chosen-ajax
+                  ng-model="listParams.organizationId"
+                  select-source="rest/authen/organization/queryForSelectOption?type={{listParams.type}}">
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-lg-2">
+        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+      </div>
+    </div>
+
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading">
+            <div class="empty-wrap" ng-if="tbodyList.length==0">
+                <span>
+                    <i class="fa fa-inbox">
+                        <em>什么也没有</em>
+                    </i>
+                </span>
+            </div>
+            <div ng-if="tbodyList.length">
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>状态</th>
+                            <th>来源单据</th>
+                            <th style="width:150px">出入库类型</th>
+                            <th>发送状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in tbodyList">
+                            <td>{{tr.taskStatus}}</td>
+                            <td>{{tr.name}}</td>
+                            <td>{{tr.taskType}}</td>
+                            <td>{{tr.sendStatus}}</td>
+                            <td>
+                            <button ng-disabled="tr.taskStatus=='正常'" type="button" class="btn btn-primary" ng-click="sendData(tr.id,listParams.organizationId,listParams.q);">
+                                <i class="fa fa-edit"></i>
+                                发送数据</button>
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="fr">
+                        <pagination status="status"></pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div><!-- pageCtrl-->

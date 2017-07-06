@@ -22,7 +22,7 @@
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <div step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"添加三证","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"添加营业执照","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
@@ -42,14 +42,6 @@
               <div class="flex-item-6">
                 <span class="flex-item-12">
                   单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
-                  采购员：<span>
-                            <select class="select pr-select ipt-new-s" data-placeholder=" "
-                            chosen
-                            default-empty=""
-                            ng-model="formData.buyerId"
-                            select-source="rest/authen/user/queryForSelectOption">
-                            </select>
-                        </span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
@@ -60,16 +52,16 @@
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="bb-dashed-line mgb">
-                <div class="flex-column mgb">
+            <div class="flex-column  bb-dashed-line mgb">
+                <div class="flex-item-3 text-right mgb">
                     <label class="radio-inline radio radio-new">
-              <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type"><i style="top:12px;"></i>
-              <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
-            </label>
+                    <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type"><i style="top:12px;"></i>
+                    <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
+                  </label>
                     <label class="radio-inline radio radio-new">
-              <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type"> <i style="top:12px;"></i>
-                <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
-            </label>
+                    <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type"> <i style="top:12px;"></i>
+                      <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
+                  </label>
                 </div>
             </div>
             <div class=" pd-v-m">
@@ -80,9 +72,9 @@
                              class="ipt ipt-new"
                              name="enterpriseName"
                              ng-model="formData.name"
-                             required
+
                              >
-                      <span ng-if="!formData.name" class="color-red">（必填）</span>
+                      <!-- <span ng-if="!formData.name" class="color-red">（必填）</span> -->
                     </div>
                 </div>
                 <div class="flex-column mgt">
@@ -107,6 +99,17 @@
                 </div>
             </div>
             <div class=" pd-v-m bt-dashed-line">
+              <div class="flex-column mgt">
+                  <label class="flex-item-2 text-right control-label">采购员：</label>
+                  <div class="flex-item-10 text-left">
+                      <select class="select pr-select ipt-new-s" data-placeholder=" "
+                      chosen
+                      default-empty=""
+                      ng-model="formData.buyerId"
+                      select-source="rest/authen/user/queryForSelectOption">
+                      </select>
+                  </div>
+              </div>
                 <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label">质量部联系人：</label>
                     <div class="flex-item-10 text-left">
@@ -186,7 +189,7 @@
         </div>
 
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="mgb-m color-black text-bold text-n">三证</h1>
+          <h1 class="mgb-m color-black text-bold text-n">营业执照</h1>
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">营业执照</h3>
           <div class="flex-column">
             <div class="flex-item-6 br-dashed-line">
@@ -294,19 +297,6 @@
                   </label>
                 </div>
               </div>
-              <div class="mgt flex-item-12 mgb">
-                <label class="flex-item-4 text-right">三证合一：</label>
-                <div class="flex-item-6 text-left">
-                  <label class="radio-inline radio radio-new" style="top:-5px;font-weight:100">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
-                    <em class="inline-block color-black" style="top:-20px">是</em>
-                  </label>
-                  <label class="radio-inline radio radio-new" style="top:-5px;left:12px;font-weight:100">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
-                    <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
-                  </label>
-                </div>
-              </div>
             </div>
             <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.businessLicense.attachment.uploadUserName" class="pd-c-v-s">
@@ -320,119 +310,6 @@
                 ng-class="{'fl-l mgt-m':(formData.businessLicense.attachment.uploadTime)}"
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"
                 ng-model="formData.businessLicense.attachment">
-              </div>
-            </div>
-          </div>
-          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
-          <div class="flex-column" >
-            <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
-              <div class="mgt-m flex-item-12">
-                <label class="flex-item-4 text-right control-label">证书编号：</label>
-                <div class="flex-item-8 text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="genericName"
-                         ng-model="formData.organizationCodeCertificate.certificateNumber" />
-                </div>
-              </div>
-              <div class="mgt flex-item-12">
-                <label class="flex-item-4 text-right control-label">年检日期：</label>
-                <div class="flex-item-8 text-left">
-                  <div class="date-icon-outside">
-                    <input type="text"
-                           datepicker
-                           class="ipt-date pr-short-ipt ipt-new-s color-6"
-                           ng-readonly="true"
-                           placeholder=""
-                           ng-model="formData.organizationCodeCertificate.annualInspection">
-                          <span class="date-icon"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="mgt flex-item-12 mgb-xxxl">
-                <label class="flex-item-4 text-right control-label">有效期至：</label>
-                <div class="flex-item-8 text-left">
-                  <div class="date-icon-outside">
-                    <input type="text"
-                           datepicker
-                           class="ipt-date pr-short-ipt ipt-new-s color-6"
-                           ng-readonly="true"
-                           placeholder=""
-                           ng-model="formData.organizationCodeCertificate.guaranteePeriod">
-                          <span class="date-icon"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-item-6" style="padding:25px 50px;">
-              <div ng-if="formData.organizationCodeCertificate.attachment.uploadUserName" class="pd-c-v-s">
-                <em>上传人：</em>{{formData.organizationCodeCertificate.attachment.uploadUserName}}
-              </div>
-              <div ng-if="formData.organizationCodeCertificate.attachment.uploadTime" class="pd-c-v-s">
-                <em>上传时间：</em>{{formData.organizationCodeCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
-              </div>
-              <div ng-if="formData.organizationCodeCertificate.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
-              <div ng-init='attachmentsItemExtend={"edit":true}'
-                ng-class="{'fl-l mgt-m':(formData.organizationCodeCertificate.attachment.uploadTime)}"
-                attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="formData.organizationCodeCertificate.attachment">
-              </div>
-            </div>
-          </div>
-
-          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">税务登记证</h3>
-          <div class="flex-column">
-            <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
-              <div class="mgt-m flex-item-12">
-                <label class="flex-item-4 text-right control-label">证书编号：</label>
-                <div class="flex-item-8 text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="genericName"
-                         ng-model="formData.taxRegistrationCertificate.certificateNumber" />
-                </div>
-              </div>
-              <div class="mgt flex-item-12">
-                <label class="flex-item-4 text-right control-label">发证日期：</label>
-                <div class="flex-item-8 text-left">
-                  <div class="date-icon-outside">
-                    <input type="text"
-                           datepicker
-                           class="ipt-date pr-short-ipt ipt-new-s color-6"
-                           ng-readonly="true"
-                           placeholder=""
-                           ng-model="formData.taxRegistrationCertificate.certificateDate">
-                          <span class="date-icon"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="mgt flex-item-12 mgb-xxxl">
-                <label class="flex-item-4 text-right control-label">有效期至：</label>
-                <div class="flex-item-8 text-left">
-                  <div class="date-icon-outside">
-                    <input type="text"
-                           datepicker
-                           class="ipt-date pr-short-ipt ipt-new-s color-6"
-                           ng-readonly="true"
-                           placeholder=""
-                           ng-model="formData.taxRegistrationCertificate.guaranteePeriod">
-                          <span class="date-icon"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-item-6" style="padding:25px 50px;">
-              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadUserName" class="pd-c-v-s">
-                <em>上传人：</em>{{formData.taxRegistrationCertificate.attachment.uploadUserName}}
-              </div>
-              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadTime" class="pd-c-v-s">
-                <em>上传时间：</em>{{formData.taxRegistrationCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
-              </div>
-              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
-              <div ng-init='attachmentsItemExtend={"edit":true}'
-                ng-class="{'fl-l mgt-m':(formData.taxRegistrationCertificate.attachment.uploadTime)}"
-                attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="formData.taxRegistrationCertificate.attachment">
               </div>
             </div>
           </div>

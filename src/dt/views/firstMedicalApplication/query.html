@@ -2,9 +2,6 @@
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"首营管理","link":"","style":"color-custom-orange"}]'
-                              is-show-select-item='[{"name":"首营品种申请","link":"#/firstMedicalApplication/query.html"},{"name":"首营企业申请","link":"#/firstEnterpriseApplication/query.html"}]'
-                              is-show-create-btn="新建首营品种申请"
-                              create-new-url="#/firstMedicalApplication/edit1.html"
                               get-status-num-url="rest/authen/firstMedicalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
@@ -13,6 +10,21 @@
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
   <!-- 主内容区域 -->
+
+  <div class="mgl-xl status-num-list-new"
+        style="top:-56px;">
+    <span status-style-toggle-new
+    class="rect-status mgl-s rect-status-active-new">首营品种申请
+    </span>
+    <span status-style-toggle-new class="rect-status" ng-click="$root.goTo('#/firstEnterpriseApplication/query.html')" >首营企业申请
+    </span>
+    <!--  -->
+  </div>
+
+    <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
+      <a href="#/firstMedicalApplication/edit1.html"  title="新建首营品种申请" create-btn-author="新建首营品种申请"><i style="top:3px;"></i><span class="text-s">新建首营品种申请</span></a>
+    </div>
+
   <table-list list-data="rest/authen/firstMedicalApplication/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
@@ -35,12 +47,29 @@
                         {{tr.orderStatus}}
                       </em>
                     </span>
-                    <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
-                        <a
-                           ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id==tr.proposerId"
-                           ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                         <span class="edit-link-icon">&nbsp;</span>
-                       </a>
+                    <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
+
+                      <a
+                         ng-if="$root.hasAuthor('首营申请修改')&&tr.orderStatus=='未提交'"
+                         ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                       <span class="edit-link-icon">&nbsp;</span>
+                     </a>
+                      <span ng-if="$root.hasAuthor('首营申请删除')">
+                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                           href="javascript:;"
+                           class="mr--4 btn-link pd-m rect-s "
+                           title="删除"
+                           handle-this-click
+                           dialog-title="确认删除?"
+                           dialog-content="删除后将无法恢复,确认删除?"
+                           dialog-template="pr-dialog-submit.html"
+                           callback="$root.goTo('#/purchaseReturn/query.html')"
+                           params='{"id":tr.id}'
+                           request-url="rest/authen/purchaseReturn/delete">
+                           <span class="delete-link-icon">&nbsp;</span>
+                         </a>
+                    </span>
+
                         <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                            ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                            <span class="watch-detail-icon">&nbsp;</span>
@@ -49,19 +78,6 @@
                            ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                            <span class="examine-approve">&nbsp;</span>
                          </a>
-                         <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
-                            href="javascript:;"
-                            class="btn-link pd-m rect-s "
-                            handle-this-click
-                            dialog-title="确认删除?"
-                            dialog-content="删除后将无法恢复,确认删除?"
-                            dialog-template="pr-dialog-submit.html"
-                            callback="$root.goTo('#/firstMedicalApplication/query.html')"
-                            params='{"id":tr.id}'
-                            title="删除"
-                            request-url="rest/authen/firstMedicalApplication/delete">
-                          <span class="delete-link-icon">&nbsp;</span>
-                          </a>
                       </span>
                   </div>
                   <div class="card-new">
@@ -104,24 +120,12 @@
                           </span>
                         </span>
                       </div>
-                      <!-- <div class="flex-column qurey text-s color-9 mgb bt-line">
-                        <p
-                           title="{{tr.applyReason}}"
-                           class="text-ellips-s">
-                          <span >备注：</span><span class="color-6">{{tr.applyReason}}</span>
-                        </p> -->
-                        <!-- <p ng-if="tr.orderStatus=='已作废'"
-                           ng-controller="QualificationApplyCtrl"
-                           ng-init="initFlag=true;"
-                           title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
-                           class="text-ellips-s color-red">
-                          <span>原因：</span>
-                          <span class="color-red">
-                            <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
-                            <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
-                          </span>
-                        </p> -->
-                      <!-- </div> -->
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 text-left">储存条件</span>
+                        <span class="flex-item-6 text-right">
+                            <strong class="color-black text-normal">{{tr.storageCondition}}</strong>
+                        </span>
+                      </div>
                   </div>
                 </div>
               </div>

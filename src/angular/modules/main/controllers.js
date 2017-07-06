@@ -402,6 +402,25 @@ define('main/controllers', ['main/init'], function () {
           size: 125
         };
 
+        // wms发送数据操作
+        $scope.sendData = function(_id,organizationId,q){
+          console.log(organizationId);
+          if (!q) {
+            q='';
+          }
+          var _url = 'rest/authen/manageSendTask/resend?id=' + _id,
+          _data = {};
+            requestData(_url, _data, 'get')
+            .then(function (results) {
+              alertOk("操作成功！");
+              $scope.listParams.organizationId=organizationId;
+              $scope.listParams.q=q;
+              utils.goTo('#/manageSendTask/query.html?organizationId='+organizationId+"&q="+q);
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+        };
 
         // 每个药品单选操作
         $scope.handleItemClickEvent = function (item) {
@@ -471,6 +490,7 @@ define('main/controllers', ['main/init'], function () {
             if (error) { throw new Error(error || '出错'); }
           });
         };
+
 
         $scope.getCodeShowMode('rest/authen/systemSetting/getByParameter?parameter=订单号生成策略');
     }

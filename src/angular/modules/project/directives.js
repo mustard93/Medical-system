@@ -3590,6 +3590,64 @@ function changeImg () {
 //     }
 //   };
 // }
+    
+    
+    
+function  dtRightSide(utils) {
+    'use strict';
+    return {
+      restrict: 'EA',
+      scope:{
+        sideWidth:'@',
+        tabData:'@',
+      },
+      templateUrl:Config.tplPath +'tpl/project/dtRightSide.html',
+
+      link: function ($scope, element, $attrs) {
+        $scope.currentTab=-1;
+        $scope.tplUrl=null;
+        $scope.tabDatas= angular.fromJson($scope.tabData);
+
+        //显示
+        $scope.show=function (tplUrl,index) {
+            // $scope.tplUrl=tplUrl+'?t='+new Date().getTime();
+            $scope.tplUrl=tplUrl;
+            $scope.currentTab=index;
+            element.find('.dt-right-side').animate({
+                'right':0+'px'
+            },300)
+        };
+
+        //关闭
+        $scope.close=function () {
+           var _width=element.find('.dt-right-side').width();
+           var _navWidth=element.find('.dt-right-side').find('.dt-right-side-nav').width();
+           element.find('.dt-right-side').animate({
+                   'right':-1*(_width-_navWidth)+'px'
+           },300)
+        };
+
+        if($scope.sideWidth){
+            element.find('.dt-right-side').css('width',$scope.sideWidth);
+        }
+
+        if($attrs.autoOpen){
+            $scope.show($scope.tabDatas[0].tplUrl,0);
+        }else{
+            var _width=element.find('.dt-right-side').width();
+            var _navWidth=element.find('.dt-right-side').find('.dt-right-side-nav').width();
+            element.find('.dt-right-side').css({
+                'right':-1*(_width-_navWidth)+'px'
+            })
+        }
+
+      }
+    };
+    
+}    
+    
+
+
 
 angular.module('manageApp.project')
 
@@ -3658,5 +3716,6 @@ angular.module('manageApp.project')
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
-  .directive("limitWordShow",["utils",limitWordShow]);//弹出框显示限制剩余字数
+  .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
+  .directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
 });

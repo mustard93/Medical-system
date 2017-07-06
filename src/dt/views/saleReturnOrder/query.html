@@ -4,6 +4,7 @@
                               crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"销售退货单","link":"","style":"color-custom-orange"}]'
                               component-title="销售退货单"
                               is-show-create-btn="新建销售退货单"
+                              create-btn-author="销售退货单新增"
                               create-new-url="#/saleReturnOrder/edit.html"
                               get-status-num-url="rest/authen/saleReturnOrder/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","处理中-true","已处理-true"], ["未通过-true"], ["已作废-true"]]'
@@ -33,6 +34,9 @@
                 <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold color-3 pd-m" ng-class="{'color-red':(tr.orderStatus=='未通过')}">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
+
+                    
+                    
                     <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                        workflow-button-query-card
                        custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">

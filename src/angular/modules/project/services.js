@@ -619,6 +619,7 @@ define('project/services', ['project/init'], function() {
 
 
                 bottomButton = {
+                    "authority":"购需单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
@@ -640,7 +641,8 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {
+                bottomButton = {         
+                    "authority":"购需单删除",           
                     "ngShow": "tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
@@ -667,6 +669,7 @@ define('project/services', ['project/init'], function() {
                 var _jumpUrlForEdit = showData.relId ? "#/confirmOrder/edit-from-salesOrder.html?id=" + showData.id : "#/confirmOrder/edit.html?id=" + showData.id;
 
                 var bottomButton = {
+                    "authority":"销售单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
@@ -701,6 +704,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
+                    "authority":"销售单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
@@ -722,6 +726,7 @@ define('project/services', ['project/init'], function() {
             getQuery_invoicesOrder: function(showData) {
                 var arr = [];
                 var bottomButton = {
+                    "authority":"发货单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'",
@@ -744,6 +749,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
+                    "authority":"发货单删除",
                     "ngShow": "tr.orderStatus=='未提交'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
@@ -779,6 +785,7 @@ define('project/services', ['project/init'], function() {
                 // if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                 var bottomButton = {
+                    "authority":"销售退货单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
@@ -811,6 +818,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
+                    "authority":"销售退货单删除",
                     "ngShow": "tr.orderStatus=='未提交'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
