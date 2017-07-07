@@ -55,7 +55,7 @@
         <div class="panel pr-panel pr-panel-height mgb">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <div class="">
-              <!-- <div class="flex-column mgb">
+              <div class="flex-column mgb">
                 <label class="radio-inline radio radio-new">
                   <input type="radio" class="default-radio" name="type" value="批发商" ng-model="formData.customer.type"> <i style="top:12px;"></i>
                   <em class="inline-block" style="margin-left:-5px; color:#666;">批发商</em>
@@ -67,10 +67,10 @@
                 <p ng-if="!formData.customer.type" class="inline-block color-red mgl-s" style="padding-top:7px;">
                   *必选
                 </p>
-              </div> -->
+              </div>
 
             <div class="bt-dashed-line pd-v-m">
-              <div class="flex-column mgt pdb-l bb-dashed-line">
+              <div class="flex-column mgt pdb-l ">
                 <label class="flex-item-2   text-right control-label">分类：</label>
                 <div class="flex-item-10 color-3 text-left ">
                   <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">
@@ -88,7 +88,7 @@
                   <!-- ng-click="addBorder=true;" -->
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-column ">
                 <label class="flex-item-2   text-right control-label">客户全称：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text" class="ipt-new"
@@ -108,7 +108,7 @@
                            name="code"
 
                            ng-model="formData.customer.attributeCode"/>
-                           
+
                            <span class="border-2"></span>
                     <input type="text"
                            class="ipt-new"
@@ -351,7 +351,7 @@
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
-                      ng-disabled="otherCustomerEditForm.$invalid "
+                      ng-disabled="otherCustomerEditForm.$invalid || !formData.customer.type"
                       ng-click="submitForm('otherCustomer-editForm','submit')">下一步
               </button>
             </span>

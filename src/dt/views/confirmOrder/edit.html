@@ -45,7 +45,24 @@
       </div>
       <div class="">
         <div class="inline-block mgr-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+          <div class="inline-block">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:89px;">
+               <div class="inline-block logistics-center"></div>
+               <div class="inline-block">
+                 <p class="mgb-s">业务类型</p>
+                 <p class="text-m color-3">
+                     <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                             data-placeholder=" "
+                             chosen
+                             ng-model="formData.orderBusinessType"
+                             select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                             ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                     </select>
+                 </p>
+               </div>
+             </div>
+          </div>
+          <div class="inline-block panel pr-panel pr-fuzzy-boundary pr-panel-height mgl-l" style="padding:15px;min-height:88px;min-width:412px;">
             <div class="inline-block customer-name "></div>
             <div class="inline-block">
               <p class="mgb-s">客户名</p>
@@ -71,16 +88,6 @@
                   </em>
                 </div>
               </div>
-              <!-- <p class="text-m color-3">
-                <select ng-if="initFlag"
-                        class="ipt pr-long-ipt color-6"
-                        data-placeholder=" "
-                        chosen
-                        chosen-ajax
-                        ng-model="formData.customerId"
-                        select-source="rest/authen/customerAddress/queryForSelectOption.json">
-                </select>
-              </p> -->
             </div>
           </div>
         </div>
@@ -156,7 +163,17 @@
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
                 </span>
                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n }}</em></span>
+                <span class="inline-block relative">
+                  <span>单据日期：</span>
+                  <input ng-if="initFlag" type="text"
+                         datepicker
+                         class="ipt color-3"
+                         style="width:120px;"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.orderDate" />
+                        <span class="date-icon"></span>
+                </span>
                 <span class="mgr">审核人：<em class="color-3">暂无</em></span>
               </div>
               <div class="flex-item-6 text-right">
@@ -184,22 +201,13 @@
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                 </select>
               </span>
-              <span class="mgr">业务类型：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.orderBusinessType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-                        ng-change="chgOrderBusinessType(formData.orderBusinessType)">
-                </select>
-              </span>
               <span class="mgr">销售类型：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.salesType"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
-                </select>
+                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                          data-placeholder=" "
+                          chosen
+                          ng-model="formData.salesType"
+                          select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
+                  </select>
               </span>
               <span class="mgr">付款条件：
                 <select class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -229,33 +237,27 @@
                        ng-model="formData.expectDate" />
               </span>
             </div>
-            <div class="outside-table-d">
-              <table class="table pr-table pr-new-table mgb-n table-s-wid">
+            <div >
+              <table class="table pr-table pr-new-table mgb-n ">
                 <thead>
                   <tr>
                     <!-- <th>
                       <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                     </th> -->
                     <th class="text-center">商品编号</th>
-                    <th class="text-left">商品全名</th>
+                    <th class="text-left">商品通用名</th>
+                    <th class="text-center">剂型/分类</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center">订购数量</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/数量</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">灭菌批号</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">仓库</th>
-                    <th class="text-center">报价</th>
-                    <th class="text-center">税率</th>
-                    <th class="text-center">折扣额</th>
-                    <th class="text-center">折扣率</th>
+                    <th class="text-center">计划数量</th>
+                    <th class="text-center w-160">生产批号/数量</th>
+                    <th class="text-center w-106">灭菌批号</th>
                     <th class="text-center">含税单价</th>
-                    <th class="text-center">无税单价</th>
-                    <th class="text-center">无税金额</th>
-                    <th class="text-center">税额</th>
                     <th class="text-center">价税合计</th>
+                    <th class="text-center">失效日期</th>
                   </tr>
                 </thead>
-                <tbody ng-if="formData.orderBusinessType=='普通销售'">
+                <tbody >
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
                       ng-init="item.handleFlag=true"
@@ -271,7 +273,21 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
+                    <td class="text-left" >
+                      <span
+                           class="color-orange cur-pot lend-order-goods-info"
+                           ng-init="showInfoArea=false"
+                           ng-mouseenter="showInfoArea=true"
+                           ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                        <show-info-modal ng-show="showInfoArea"
+                                         get-data-type="local"
+                                         template-url="tpl/showInfoModalLendOrder"
+                                         info-object="{{item}}"
+                                         info-title="商品信息">
+                        </show-info-modal>
+                      </span>
+                    </td><!-- 商品全名 -->
+                    <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td class="text-center" style="white-space: nowrap;">
@@ -336,12 +352,6 @@
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td>
-                    <td class="text-center pd-n" style="display:none;">
-                      <div ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
-                    </td><!-- 灭菌批号 -->
-                    <td class="text-center pd-n">
-                      <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
-                    </td><!-- 仓库 -->
                     <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
@@ -362,153 +372,10 @@
                               </a>
                             </p>
                     </td><!-- 报价 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <select pg-select
-                              class="ipt pr-short-ipt"
-                              style="width:60px;"
-                              data-placeholder=" "
-                              ng-model="item.tax"
-                              select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
-                      </select> %
-                    </td><!-- 税率 -->
-                    <td class="text-center" style="white-space: nowrap;">￥
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountPrice{{$index}}"
-                             ng-model="item.discountPrice"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0)|(0.0)|(0.00))$/"
-                             ng-disabled="!item.strike_price||item.strike_price==0"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountPrice'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"必须为大于等于0的数字", "placement":"left", "trigger":"manual"}'/>
-                    </td><!-- 折扣额 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountRate{{$index}}"
-                             ng-model="item.discountRate"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-                             ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
-                             ng-disabled="!item.strike_price||item.strike_price==0"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountRate'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="item.discountPrice= (item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
-                    </td><!-- 折扣率 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item.strike_price,item.discountRate) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.strike_price,item.discountRate,item.tax) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item.strike_price,item.discountRate,item.tax,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item.strike_price,item.discountRate,item.tax,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 税额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.strike_price,item.discountRate,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 价税合计 -->
-                  </tr>
-                </tbody>
-                <tbody ng-if="formData.orderBusinessType=='直运销售'">
-                  <tr ng-repeat="item in formData.orderMedicalNos"
-                      ng-controller="ConfirmOrderMedicalController"
-                      table-item-handlebtn-component>
-                    <td class="text-center">{{item.code}}
-                      <div  class="table-item-handle-btn">
-                        <div class="table-item-confirm-del-area bg-white">
-                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                          <p class="pdt-s">
-                            <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
-                          </p>
-                        </div>
-                      </div>
-                    </td><!-- 商品编号 -->
-                    <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
-                    <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                    <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
-                        <span class="inline-block">
-                          <input type="number"
-                                 name="quantity{{$index}}"
-                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
-                                 style="width:60px;"
-                                 ng-model="item.quantity"
-                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
-                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                        </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
-                      </div>
-                    </td><!-- 订购数量 -->
-                    <td class="text-center" style="white-space: nowrap;">￥
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="strike_price{{$index}}"
-                             ng-model="item.strike_price"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-                             required
-                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                             invalid-popover
-                             valid-value="{{!editForm['strike_price'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                            <p class="color-orange pr-indent-35">
-                              <a modal-right="577"
-                                 modal-scope="this"
-                                 modal-data='{"medicalName":"{{item.name}}","id":"{{item.relId}}","type":"销售","customerId":"{{formData.customerId}}"}'
-                                 modal-url="views/versionFlow/history-price.html">参考价格
-                              </a>
-                            </p>
-                    </td><!-- 报价 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <select pg-select
-                              class="ipt pr-short-ipt"
-                              style="width:60px;"
-                              data-placeholder=" "
-                              ng-model="item.tax"
-                              select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
-                      </select> %
-                    </td><!-- 税率 -->
-                    <td class="text-center" style="white-space: nowrap;">￥
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountPrice{{$index}}"
-                             ng-model="item.discountPrice"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
-                             ng-disabled="!item.strike_price||item.strike_price==0"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountPrice'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"必须为数字", "placement":"left", "trigger":"manual"}'/>
-                    </td><!-- 折扣额 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountRate{{$index}}"
-                             ng-model="item.discountRate"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
-                             ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
-                             ng-disabled="!item.strike_price||item.strike_price==0"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountRate'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="item.discountPrice=(item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
-                    </td><!-- 折扣率 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item.strike_price,item.discountRate) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.strike_price,item.discountRate,item.tax) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item.strike_price,item.discountRate,item.tax,item.quantity) | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item.strike_price,item.discountRate,item.tax,item.quantity) | number:2}}</td><!-- 税额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.strike_price,item.discountRate,item.quantity) | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{item.totalPrice||item.strike_price*item.quantity | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center pd-n" >
+                      <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -521,7 +388,18 @@
               </div>
             </div>
           </div>
+          <div class="bt-line flex-column">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：{{showData.departmentName || '暂无'}}</span>
+
+              <span class="mgr mgl">制单人：{{showData.inputUserName || '暂无'}}</span>
+
+              <span class="mgr mgl">制单时间：{{showData.inputOrder || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+            </p>
+          </div>
+
         </div>
+
       <!-- 其他信息 -->
       <div class="relative">
         <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height mgb">

@@ -34,24 +34,6 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <!-- <div class="pr-panel pr-panel-height mgb pd-n">
-        <div class="inline-block br-line customer-name relative">
-          <p class="mgb-s">客户名</p>
-          <p class="text-n color-6">{{formData.customerName}}</p>
-        </div>
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p>
-            <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
-                    data-placeholder=" "
-                    chosen
-                    ng-model="formData.logisticsCenterId"
-                    is-disabled-this="{{formData.customerId}}"
-                    select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-            </select>
-          </p>
-        </div>
-      </div> -->
       <div class="">
         <div class="inline-block mgr-l">
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
@@ -444,6 +426,15 @@
                 </tr>
               </tbody>
             </table>
+            <div class="bt-line flex-column">
+              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                <span class="mgr mgl">制单部门：{{showData.departmentName || '暂无'}}</span>
+
+                <span class="mgr mgl">制单人：{{showData.inputUserName || '暂无'}}</span>
+
+                <span class="mgr mgl">制单时间：{{showData.inputOrder || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+              </p>
+            </div>
         </div>
         <!-- 提示信息 -->
         <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
