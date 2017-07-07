@@ -622,7 +622,7 @@ define('project/services', ['project/init'], function() {
                     "authority":"购需单修改",
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
-                    "ngShow": "tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
+                    "ngShow": "tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单修改')",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/edit2.html?id=" + showData.id
                 };
@@ -633,7 +633,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='待确认' || tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')",
+                    "ngShow": "tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/get.html?id=" + showData.id
                 };
@@ -641,8 +641,8 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {         
-                    "authority":"购需单删除",           
+                bottomButton = {
+                    "authority":"购需单删除",
                     "ngShow": "tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
