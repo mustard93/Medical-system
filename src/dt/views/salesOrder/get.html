@@ -57,29 +57,26 @@
           <span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
 
              <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-
-          <!-- <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-          <span class="mgr-xl color-9">状态：
-            <a ng-if="initFlag"
-               href="javascript:;"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{showData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
-          </span> -->
         </div>
       </div>
 
       <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
-        <div class="flex-item-2">
+        <div class="flex-item-1">
           <span class="mgr-m color-9">单据来源：<span class="color-6">{{showData.orderSource}}</span></span>
         </div>
-        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-2">
+        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-1">
         <span class="mgr-m color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
       </div>
+
         <!--<div class="flex-item-2">-->
           <!--<span class="mgr-m color-9">来源部门：<span class="color-6">采购部 {{showData.orderNo}}</span></span>-->
         <!--</div>-->
+        <div class="flex-item-1">
+          <span class="mgr-m color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName}}</span></span>
+        </div>
+        <div class="flex-item-1">
+          <span class="mgr-m color-9">业务人员：<span class="color-6">{{showData.saleUser.n}}</span></span>
+        </div>
         <div class="flex-item-2">
           <span class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
         </div>
@@ -128,7 +125,20 @@
           <tbody ng-if="showData.orderMedicalNos.length>0">
             <tr ng-repeat="item in showData.orderMedicalNos">
               <td class="text-center">{{item.code}}</td>
-              <td>{{item.approvedName}}</td>
+              <td>
+                <span
+                     class="color-orange cur-pot lend-order-goods-info"
+                     ng-init="showInfoArea=false"
+                     ng-mouseenter="showInfoArea=true"
+                     ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                  <show-info-modal ng-show="showInfoArea"
+                                   get-data-type="local"
+                                   template-url="tpl/showInfoModalLendOrder"
+                                   info-object="{{item}}"
+                                   info-title="商品信息">
+                  </show-info-modal>
+                </span>
+              </td>
               <td class="text-left">{{item.dosageForms}}</td>
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
@@ -193,6 +203,16 @@
         </div>
       </div>
     </div>
+    <div class="bt-line flex-column pr-bg-white">
+      <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+        <span class="mgr mgl">制单部门：{{showData.departmentName}}</span>
+
+        <span class="mgr mgl">制单人：{{showData.inputUserName}}</span>
+
+        <span class="mgr mgl">制单时间：{{showData.inputOrder | date: 'yyyy-MM-dd HH:mm'}}
+      </p>
+    </div>
+
 
     <!-- 收货方信息 -->
     <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">

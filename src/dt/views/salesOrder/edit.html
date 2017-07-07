@@ -309,6 +309,42 @@
       </div>
       <p class="mgt-m mgb-l text-right"><a href="javascript:;">导入购需清单</a><i class="import-icon mgl-s"></i></p>
     </div>
+    <div class="bt-line flex-column pr-bg-white">
+      <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+        <span class="mgr mgl">制单部门：
+          <select ng-if="initFlag"
+                  class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=" "
+                  chosen
+                  ng-model="formData.departmentId"
+                  select-source="rest/authen/department/queryForSelectOption">
+          </select>
+        </span>
+
+        <span class="mgr mgl">制单人：
+          <select ng-if="initFlag"
+                  class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=" "
+                  chosen
+                  ng-model="formData.inputUserId"
+                  select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+          </select>
+        </span>
+
+        <span class="mgr mgl">制单时间：
+          <span class="inline-block relative">
+                   <input ng-if="initFlag"
+                          type="text"
+                          datepicker
+                          time-picker
+                          class="ipt color-3"
+                          style="width:150px;"
+                          ng-readonly="true"
+                          ng-model="formData.inputOrder">
+                  <span class="date-icon"></span>
+         </span>
+      </p>
+    </div>
     <!-- 备注 -->
     <div class="pd-c-m pdb">
       <h1 class="mgt-m">备注</h1>
