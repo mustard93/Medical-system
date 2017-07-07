@@ -1,67 +1,64 @@
-<div class="order-code-strategy"
-     ng-controller="archiveCodeStrategyController"
-     ajax-url="rest/authen/archiveCodeStrategy/query"
-     scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
-     alert-error>{{formData}}
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/orderCodeStrategy/save.json"
-        alert-error
-        alert-ok
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
-        novalidate="true">
-    <!-- 头部信息 -->
-    <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
-        <a href="#/confirmOrder/query.html"><em class="color-custom-orange">档案编号设置</em></a>
-      </p>
-      <div class="pd-c-xxl pdt-l pdb-l">
-        <!-- 标题 -->
-        <div class="mgb">
-          <h1 class="pr-font-20 color-black">档案编号设置</h1>
+<div class="medical-stock supplier-management child-project-management">
+  <table-list list-data="rest/authen/archiveCodeStrategy/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+    <div class="medical-stock child-project-management receive-item" ng-controller="archiveCodeStrategyController">
+    <!-- 主内容头部 -->
+    <page-main-header-component list-params="listParams"
+                                style="min-height:130px;"
+                                crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"档案编号设置","link":"","style":"color-custom-orange"}]'
+                                component-title="档案编号设置">
+    </page-main-header-component>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper" style="margin:0px 45px;">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class=" pr-bg-white pr-fuzzy-boundary">
+          <table class="table pr-table pr-new-table pr-table-content">
+            <thead class="pr-bg-side">
+              <tr>
+                <th>项目</th>
+                <th>最大级数</th>
+                <th>最大长度</th>
+                <th>第1级</th>
+                <th>第2级</th>
+                <th>第3级</th>
+                <th>第4级</th>
+                <th>第5级</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="tbodyList.length"
+                  ng-repeat="tr in tbodyList track by $index"
+                  class="relative"
+                  table-item-multiple-btn>
+                <td>{{tr.archiveName}}</td>
+                <td>{{tr.maxLevel}}</td>
+                <td>{{tr.maxLength}}</td>
+                <td>{{tr.levelMap.level1}}</td>
+                <td>{{tr.levelMap.level2}}</td>
+                <td>{{tr.levelMap.level3}}</td>
+                <td>{{tr.levelMap.level4}}</td>
+                <td>{{tr.levelMap.level5}}</td>
+                <td><a href="javascript:;"
+                       modal-right="543"
+                       modal-scope="this"
+                       modal-data='{"data":{{tr}}}'
+                       modal-url="views/archiveCodeStrategy/edit-of-aside.html">修改</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pr-bg-white" ng-if="!tbodyList.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- 主内容区域 -->
-    <div class="content-wrapper flex-column">
-      <table class="table table-striped table-bordered table-hover table-condensed">
-        <thead>
-          <tr>
-            <th>项目</th>
-            <th>最大级数</th>
-            <th>最大长度</th>
-            <th>第1级</th>
-            <th>第2级</th>
-            <th>第3级</th>
-            <th>第4级</th>
-            <th>第5级</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="item in formData track by $index">
-            <td>{{item.name}}</td>
-            <td>{{item.maxLevel}}</td>
-            <td>{{item.maxLength}}</td>
-            <td><input type="text" class="ipt pr-short-ipt" ng-model="item.level1"></td>
-            <td><input type="text" class="ipt pr-short-ipt" ng-model="item.level2"></td>
-            <td><input type="text" class="ipt pr-short-ipt" ng-model="item.level3"></td>
-            <td><input type="text" class="ipt pr-short-ipt" ng-model="item.level4"></td>
-            <td><input type="text" class="ipt pr-short-ipt" ng-model="item.level5"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- 功能按钮 -->
-    <div class="handle-btn-area">
-      <div class="btn-area" style="line-height:4.9;">
-        <button type="submit" class="pr-btn-save-glodbg mgr">保存</button>
-      </div>
-    </div>
-  </form>
+  </div>
+  </table-list>
 </div>
