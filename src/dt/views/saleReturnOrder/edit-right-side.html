@@ -34,15 +34,21 @@
         </div>
         <div class="pr-bg-black4"  ng-if="addDataObj.orderMedicalNos.length">
           <div class="pr-panel pr-panel-height pd-n pr-bg-white-black">
-            <div class="inline-block br-line customer-name relative" style="width:500px;">
+            <div class="inline-block logistics-center relative br-line">
+              <p class="mgb-s mgl-xl">业务类型</p>
+              <p class="text-n color-black mgl-xl autocut-default" title="{{addDataObj.orderBusinessType}}" style="padding-right:182px; width:100px;">
+                {{addDataObj.orderBusinessType || '暂无'}}
+              </p>
+            </div>
+            <div class="inline-block br-line customer-name relative" style="width:200px;">
               <p class="mgb-s mgl-xl">客户名</p>
-              <p class="text-n color-black mgl-xl autocut-default" title="{{addDataObj.customerName}}" style="width:300px;">
+              <p class="text-n color-black mgl-xl autocut-default" title="{{addDataObj.customerName}}" style="width:100px;">
                 {{addDataObj.customerName}}
               </p>
             </div>
             <div class="inline-block logistics-center relative">
               <p class="mgb-s mgl-xl">物流中心</p>
-              <p class="text-n color-black mgl-xl autocut-default" title="{{addDataObj.logisticsCenterName}}" style="padding-right:182px; width:300px;">
+              <p class="text-n color-black mgl-xl autocut-default" title="{{addDataObj.logisticsCenterName}}" style="padding-right:182px; width:100px;">
                 {{addDataObj.logisticsCenterName || '暂无'}}
               </p>
             </div>
@@ -63,7 +69,7 @@
             <span class="flex-item-12">
               部门：<em class="color-white">{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl">业务人员：</em><em class="color-orange">{{addDataObj.saleUser.n|| '暂无'}}</em>
-              <em  class="mgl">业务类型：</em><em class="color-white">{{addDataObj.orderBusinessType || '暂无'}}</em>
+              <!-- <em  class="mgl">业务类型：</em><em class="color-white">{{addDataObj.orderBusinessType || '暂无'}}</em> -->
               <em  class="mgl">销售类型：</em><em class="color-white">{{addDataObj.salesType || '暂无'}}</em>
               <em  class="mgl">预发货日期：</em><em class="color-white">{{addDataObj.expectDate || '暂无'  | date : 'yyyy-MM-dd'}}</em>
             </span>
@@ -83,30 +89,25 @@
                            ng-disabled="!hasReturnList">
                         <label for="1"></label>
                   </th>
-                  <th class="text-center">商品编号</th>
-                  <th class="text-left">商品通用名</th>
-                  <th class="text-center">剂型/分类</th>
-                  <th class="text-center">规格/型号</th>
-                  <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
-                  <th class="text-center">仓库</th>
-                  <th class="text-center">含税单价</th>
-                  <th class="text-center">价税合计</th>
-                  <th class="text-center">报价</th>
-                  <th class="text-center">产地</th>
-                  <th class="text-center">有效期至</th>
-                  <th class="text-center">退补标志</th>
-                  <th class="text-center">保存温度</th>
-                  <th class="text-center">品牌</th>
-                  <th class="text-center">产地注册证号</th>
-                  <th class="text-center">注册证有效期</th>
-                  <th class="text-center">医保编码</th>
-                  <th class="text-center">院内编码</th>
+                    <th class="text-center">商品编号</th>
+                    <th>商品通用名</th>
+                    <th class="text-center">剂型/分类</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                    <th class="text-center">计划数量</th>
+                    <th class="text-center">实发数量</th>
+                    <!-- <th class="text-center">差异数量</th> -->
+                    <!-- <th class="text-center w-110">批号要求</th> -->
+                    <th class="text-center">生产批号</th>
+                    <th class="text-center">灭菌批号</th>
+                    <th class="text-center">仓库</th>
+                    <th class="text-center">含税单价</th>
+                    <th class="text-center">价税合计</th>
+                    <th class="text-center">失效日期</th>
+                  </tr>
                 </tr>
               </thead>
-              <tbody class="bg-white">
+              <tbody >
                 <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'">
                   <td class="select-td mycheck">
                     <input type="checkbox"
@@ -118,31 +119,33 @@
                    <label for="{{$index + 2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
-                  <td class="tetx-left">{{item.name}}</td>
+                  <td>
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td>
+                    <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.outgoingQuantity}}</td>
+                  <!-- <td class="text-center">{{item.differenceQuantity}}</td> -->
+                  <!-- 批号要求 -->
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
-                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td>
-                  <td class="text-right">{{item.tax}}%</td>
-                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                  <td class="text-right">{{item.discountRate}}%</td>
-                  <td class="text-right">￥{{item.duty_free_price | number:2}}</td><!-- 无税单价 -->
-                  <td class="text-right">￥{{item.total_duty_free_price | number:2}}</td><!-- 无税金额 -->
-                  <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td><!-- 税额 -->
-                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 价税合计 -->
                   <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                  <td class="text-center">{{item.productionPlace}}</td>
+                  <td class="text-right">￥{{item.totalPrice || item.strike_price*item.quantity | number:2}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
-                  <td class="text-center">{{item.withdrawalSign}}</td>
-                  <td class="text-center">{{item.storedTemperature}}</td>
-                  <td class="text-center">{{item.brand}}</td>
-                  <td class="text-center">{{item.drugAdministrationCode}}</td>
-                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
-                  <td class="text-center">{{item.medicalInsuranceCode}}</td>
-                  <td class="text-center">{{item.hospitalCode}}</td>
                 </tr>
               </tbody>
             </table>
