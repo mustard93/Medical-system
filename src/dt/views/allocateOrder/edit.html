@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('调拨单')"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -119,8 +119,13 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
-                  <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-                  <span class="color-red">(必填)</span>
+                  <!-- <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span class="color-red">(必填)</span> -->
+                  <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                    <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                    <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
+                  </span>
+                  <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
                   <span class="mg-l">审核人：<em class="color-3">暂无</em></span>
                 </span>
               </div>

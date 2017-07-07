@@ -2,7 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.type="报溢"'
+     callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报损报溢单")'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
   <form id="editForm"
@@ -56,7 +56,12 @@
         <div>
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
             <div class="flex-item-6">
-              <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span> -->
+              <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderNo" />
+                <em class="color-red" ng-if="!formData.orderNo">（必填）</em>
+              </span>
+              <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
               <span >部门</span>
               <select class="ipt pr-short-ipt color-3" style="width:100px;"
                       data-placeholder=" "

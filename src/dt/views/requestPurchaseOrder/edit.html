@@ -2,7 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单')"
      alert-error>
   <form id="purchaseForm"
         name="purchaseForm"
@@ -34,7 +34,12 @@
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
-               <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+               <!-- <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span> -->
+               <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                 <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderNo" />
+                 <em class="color-red" ng-if="!formData.orderNo">（必填）</em>
+               </span>
+               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
                <span class="mgr">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
              </div>
              <div class="flex-item-6 text-right">
