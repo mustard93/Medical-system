@@ -103,34 +103,7 @@
            </div>
         </div>
       </div>
-      <!-- <div class="pr-panel pr-panel-height mgb pd-n">
-        <div class="inline-block customer-name relative">
-          <p class="mgb-s">客户名</p>
-          <p>
-            <select ng-if="initFlag"
-                    class="ipt pr-long-ipt color-6"
-                    data-placeholder=" "
-                    chosen
-                    chosen-ajax
-                    ng-model="formData.customerId"
-                    select-source="rest/authen/customerAddress/queryForSelectOption.json">
-            </select>
-          </p>
-        </div>
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p>
-            <select ng-if="initFlag"
-                    class="ipt pr-long-ipt color-6"
-                    data-placeholder=" "
-                    chosen
-                    ng-model="formData.logisticsCenterId"
-                    is-disabled-this="{{formData.customerId}}"
-                    select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-            </select>
-          </p>
-        </div>
-      </div> -->
+
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
           <!-- 信息 -->
@@ -151,18 +124,27 @@
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
                 </span>
-                <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n }}</em></span>
-                <span class="mgr">审核人：<em class="color-3">暂无</em></span>
+                <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：{{formData.orderCode}}
+                </span>
+
+                <span class="mgr">单据日期：
+                  <input type="text"
+                    datepicker
+                    class="ipt pr-short-ipt color-3"
+                    style="width:90px;"
+                    placeholder=""
+                    ng-readonly="true"
+                    ng-model="formData.expectDate" />
+                </span>
+
               </div>
               <div class="flex-item-6 text-right">
-                <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
             </div>
+
             <div class="pd-c-l pdt-m pdb-m color-9">
-              <span class="mgr">销售部门：
+              <span class="mgr">借出部门：
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                         data-placeholder=" "
                         chosen
@@ -171,6 +153,7 @@
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
               </span>
+
               <span class="mgr">业务人员：
                 <select ng-if="initFlag"
                         class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -180,41 +163,7 @@
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                 </select>
               </span>
-              <span class="mgr">业务类型：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.orderBusinessType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-                        ng-change="chgOrderBusinessType(formData.orderBusinessType)">
-                </select>
-              </span>
-              <span class="mgr">销售类型：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.salesType"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
-                </select>
-              </span>
-              <span class="mgr">付款条件：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.paymentType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
-                </select>
-              </span>
-              <span class="mgr">币种：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.currencyType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
-                </select>
-              </span>
-              <span class="mgr">汇率：<em class="color-6">1.00</em>
-              </span>
+
               <span class="mgr">预发货日期：
                 <input type="text"
                        datepicker
@@ -517,7 +466,33 @@
               </div>
             </div>
           </div>
+
+        <!-- 制单人信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+          <div class="flex-item-6 text-right"></div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">制单部门：
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                        data-placeholder=" "
+                        chosen
+                        width="150px"
+                        ng-model="formData.salesDepartmentId"
+                        select-source="rest/authen/department/queryForSelectOption">
+                </select>
+            <span class="mgr" style="margin: 0 15px;">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
+            <span class="mgr">录单日期：
+              <input type="text"
+                     datepicker
+                     class="ipt pr-short-ipt color-3"
+                     style="width:90px;"
+                     placeholder=""
+                     ng-readonly="true"
+                     ng-model="formData.expectDate" />
+            </span>
+          </div>
         </div>
+
+      </div>
       <!-- 其他信息 -->
       <div class="relative">
         <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height mgb">
@@ -731,7 +706,7 @@
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+        <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||

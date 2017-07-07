@@ -19,7 +19,7 @@
         <tr ng-repeat="item in ngModel.attachments" ng-controller="deleteUploaderController" >
           <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag"/>
-            <label for="{{$index + 1}}"></label>
+            <label for="{{$index + 1}}" ng-class="{'pr-bg-grey-white':(item.isMust)}"></label>
           </td>
 
           <td ng-if="item.handleCreate">
@@ -80,7 +80,7 @@
           </td><!-- 有效日期  -->
           <td>{{item.uploadUserName || '—'}}</td><!-- 上传人  -->
           <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td><!-- 上传日期  -->
-          <td ng-if="item.handleCreate">
+          <td ng-if="item.showFlag||item.handleCreate">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
           <!-- 附件  -->

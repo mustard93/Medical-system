@@ -93,13 +93,14 @@
                            style="width:60px;"
                            name="code"
                            ng-disabled="true"
-                           ng-model="formData.medical.attributeCode"/>
+                           ng-model="formData.hospital.attributeCode"/>
                            <span class="border-2"></span>
                     <input type="text"
                            class="ipt-new"
                            name="code"
                            style="width:250px;"
-                           ng-model="formData.medical.serialCode"/>
+                           ng-model="formData.hospital.serialCode"/>
+                           <span ng-if="!formData.hospital.serialCode" class="color-red">（必填）</span>
                            <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
                  </div>
               </div>
@@ -229,6 +230,38 @@
               </div> -->
             </div>
             <div class="pd-v-m bt-dashed-line">
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">开户银行：</label>
+                  <div class="flex-item-10  text-left">
+                    <input type="text" class="ipt-new" ng-model="formData.hospital.accountBank">
+                  </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">开户账号：</label>
+                <div class="flex-item-10">
+                  <input type="text" class="ipt-new" ng-model="formData.hospital.accountNumber">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">开户名称：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.hospital.accountName">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2   text-right control-label">付款方式：</label>
+                <div class="flex-item-10  text-left">
+                  <select ng-if="initFlag"
+                          class="select select-w ipt-new"
+                          data-placeholder="选择一个..."
+                          chosen
+                          ng-model="formData.hospital.payType"
+                          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="pd-v-m bt-dashed-line">
               <!-- <h3 class="color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息：</h3> -->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label">采购员/身份证号：</label>
@@ -312,13 +345,13 @@
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                    ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
+                    ng-disabled="hospitalEditForm.$invalid "
                     ng-click="submitForm('hospital-editForm','save')">保存
             </button>
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                    ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
+                    ng-disabled="hospitalEditForm.$invalid "
                     ng-click="submitForm('hospital-editForm','submit')">下一步
             </button>
           </span>

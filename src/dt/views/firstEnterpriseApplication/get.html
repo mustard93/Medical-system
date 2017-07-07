@@ -109,7 +109,7 @@
             </div>
             <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">企业编码：</span>
-                <span class="flex-item-10 text-left">{{showData.name}}</span>
+                <span class="flex-item-10 text-left">{{showData.attributeCode}}-{{showData.serialCode}}</span>
             </div>
             <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">详细地址：</span>
@@ -124,6 +124,30 @@
 
         </div>
         <div class=" pd-v-m">
+          <div class="flex-column mgt">
+              <span class="flex-item-2 text-right">开户银行：</span>
+              <span class="flex-item-10 text-left">
+                  {{showData.accountBank}}
+                </span>
+          </div>
+          <div class="flex-column mgt">
+              <span class="flex-item-2 text-right">开户账号：</span>
+              <span class="flex-item-10 text-left">
+                  {{showData.accountNumber}}
+                </span>
+          </div>
+          <div class="flex-column mgt">
+              <span class="flex-item-2 text-right">开户名称：</span>
+              <span class="flex-item-10 text-left">
+                  {{showData.accountName}}
+                </span>
+          </div>
+          <div class="flex-column mgt">
+              <span class="flex-item-2 text-right">付款方式：</span>
+              <span class="flex-item-10 text-left">
+                  {{showData.payType}}
+                </span>
+          </div>
           <div class="flex-column mgt">
               <span class="flex-item-2 text-right">采购员：</span>
               <span class="flex-item-10">
@@ -214,106 +238,9 @@
 </div>
 </div>
 <!-- 申请原因 -->
-<div class="panel pr-panel pr-panel-height">
-    <h1 class="mgb-m color-black text-bold text-n">营业执照</h1>
-    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">营业执照</h3>
-    <div class="flex-column">
-        <div class="flex-item-6 br-dashed-line">
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">注册号：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.registrationNumber}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">发证日期：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.dateOfIssue | date : 'yyyy-MM-dd' }}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">有效期至：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.guaranteePeriod | date : 'yyyy-MM-dd' }}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">注册资金：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.registeredCapital}}&nbsp;&nbsp;万元</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">企业法人：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.legalRepresentative}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">负责人：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.head}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">质量负责人：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.qualityHead}}</span>
-            </div>
-
-            <div class="mgt flex-column">
-                <span class="flex-item-4 text-right">是否年检：</span>
-                <div class="flex-item-6 text-left">
-                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="isAnnualInspection" value="是"
-                        ng-model="showData.businessLicense.isAnnualInspection"
-                        ng-disabled="showData.businessLicense.isAnnualInspection"
-                        ><i style="top:5px;"></i>
-                        <em class="inline-block color-black">是</em>
-                      </label>
-                    <label class="radio-inline radio radio-new" style="top:-5px;left:10px;font-weight:100;">
-                        <input type="radio" class="default-radio"  name="isAnnualInspection" value="否"
-                        ng-model="showData.businessLicense.isAnnualInspection"
-                        ng-disabled="showData.businessLicense.isAnnualInspection"
-                        ><i style="top:5px;"></i>
-                        <em class="inline-block color-black text-right">否</em>
-                      </label>
-                </div>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">开户银行：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.registeredCapital}}&nbsp;&nbsp;万元</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">开户账号：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.legalRepresentative}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">开户名称：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.head}}</span>
-            </div>
-            <div class="flex-column mgt">
-                <span class="flex-item-4 text-right">付款方式：</span>
-                <span class="flex-item-8 text-left">{{showData.businessLicense.qualityHead}}</span>
-            </div>
-
-        </div>
-        <div class="flex-item-6" style="padding:20px 50px;">
-          <div ng-if="showData.businessLicense.attachment.uploadUserName">
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传人：</span>
-                <span class="flex-item-10 text-left">{{showData.businessLicense.attachment.uploadUserName}}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">上传日期：</span>
-                <span class="flex-item-10 text-left">{{showData.businessLicense.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}</span>
-            </div>
-            <div class="flex-column pd-c-v-s">
-                <span class="flex-item-2 text-right">附件：</span>
-                <div class="flex-item-10 text-left">
-                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.businessLicense.attachment"></div>
-                </div>
-            </div>
-          </div>
-          <div ng-if="!showData.businessLicense.attachment.uploadUserName">
-            暂无文件
-          </div>
-        </div>
-    </div>
-
-    <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
-    <div class="flex-column pd-c-v-l">
-        <div class="flex-item-12 pd-c-xxxxxxl">
-            <span>{{showData.note}}</span>
-        </div>
-    </div>
+<div class="panel pr-panel pr-panel-height mgb">
+  <h1 class="pr-font-18 mgb">新品引进原因</h1>
+  <span>{{showData.applyReason}}</span>
 </div>
 <!-- 审核资料 -->
 <div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">

@@ -108,7 +108,7 @@
                          name="code"
                          style="width:80px;"
                          ng-model="formData.medical.serialCode"/>
-                         <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
+                         <span ng-if="!formData.medical.serialCode" class="color-red">（必填）</span>
                  <label class="mgl-s control-label pdr-s">原商品编码：</label>
                  <input type="text"
                         class="ipt-new "
@@ -123,7 +123,9 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.specificationAndModelType" />
+                         ng-model="formData.medical.specificationAndModelType"
+                         required />
+                  <span ng-if="!formData.medical.specificationAndModelType" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -152,7 +154,9 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="unit"
-                         ng-model="formData.medical.unit" />
+                         ng-model="formData.medical.unit"
+                         required />
+                  <span ng-if="!formData.medical.unit" class="color-red">（必填）</span>
                 </div>
               </div>
               <!-- <div class="flex-column mgt">
@@ -193,7 +197,7 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">有效期：</label>
                 <div class="flex-item-10 text-left">
-                  <input type="text"
+                  <input type="number"
                          class="ipt-new-s ipt-new"
                          name="unit"
                          style="width:60px"
@@ -221,48 +225,50 @@
                   </select>
                 </div>
               </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">温度上限：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="number"
-                         class="ipt-new-s ipt-new"
-                         name="topTemperature"
-                         style="width:50px;"
-                         required
-                         ng-model="formData.medical.topTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.topTemperature" class="color-red mgl-s">(必填)</em>
+              <div class="" ng-if="formData.medical.storageCondition=='冷藏'||formData.medical.storageCondition=='冷冻'">
+                <div class="flex-column mgt">
+                  <label class="flex-item-2 text-right control-label pdr-s">温度上限：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="number"
+                           class="ipt-new-s ipt-new"
+                           name="topTemperature"
+                           style="width:50px;"
+                           required
+                           ng-model="formData.medical.topTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.topTemperature" class="color-red mgl-s">(必填)</em>
+                  </div>
                 </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">温度下限：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="number"
-                         class="ipt-new-s ipt-new"
-                         name="lowTemperature"
-                         style="width:50px;"
-                         required
-                         ng-model="formData.medical.lowTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.lowTemperature" class="color-red mgl-s">(必填)</em>
+                <div class="flex-column mgt">
+                  <label class="flex-item-2 text-right control-label pdr-s">温度下限：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="number"
+                           class="ipt-new-s ipt-new"
+                           name="lowTemperature"
+                           style="width:50px;"
+                           required
+                           ng-model="formData.medical.lowTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.lowTemperature" class="color-red mgl-s">(必填)</em>
+                  </div>
                 </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">湿度上限：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="number"
-                         class="ipt-new-s ipt-new"
-                         name="topHumidity"
-                         style="width:50px;"
-                         required
-                         ng-model="formData.medical.topHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.topHumidity" class="color-red mgl-s">(必填)</em>
+                <div class="flex-column mgt">
+                  <label class="flex-item-2 text-right control-label pdr-s">湿度上限：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="number"
+                           class="ipt-new-s ipt-new"
+                           name="topHumidity"
+                           style="width:50px;"
+                           required
+                           ng-model="formData.medical.topHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.topHumidity" class="color-red mgl-s">(必填)</em>
+                  </div>
                 </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">湿度下限：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="number"
-                         class="ipt-new-s ipt-new"
-                         name="lowHumidity"
-                         style="width:50px;"
-                         required
-                         ng-model="formData.medical.lowHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.lowHumidity" class="color-red mgl-s">(必填)</em>
+                <div class="flex-column mgt">
+                  <label class="flex-item-2 text-right control-label pdr-s">湿度下限：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="number"
+                           class="ipt-new-s ipt-new"
+                           name="lowHumidity"
+                           style="width:50px;"
+                           required
+                           ng-model="formData.medical.lowHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.lowHumidity" class="color-red mgl-s">(必填)</em>
+                  </div>
                 </div>
               </div>
             </div>
@@ -493,7 +499,7 @@
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new ipt-new-s text-right"
-                         ng-model="formData.medical.minPurchasePrice"/>
+                         ng-model="formData.medical.guaranteePeriodAlarmDay"/>
                 </div>
               </div>
             </div>

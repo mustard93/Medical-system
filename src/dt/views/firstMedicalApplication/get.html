@@ -105,8 +105,8 @@
                 <span class="flex-item-2 text-right">商品编码：</span>
                 <span class="flex-item-1 text-left">{{showData.medical.attributeCode}}—{{showData.medical.serialCode}}</span>
 
-                <span class="flex-item-1 text-left">原商品编码：</span>
-                <span class="flex-item-8 text-left">{{showData.medical.code}}</span>
+                <span class="flex-item-9 text-left">原商品编码：{{showData.medical.originalCode}}</span>
+
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">规格型号：</span>
@@ -125,10 +125,6 @@
                 <span class="flex-item-10 text-left">{{showData.medical.unit}}</span>
               </div>
               <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">包装情况：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.packingCondition}}</span>
-              </div>
-              <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">有效期：</span>
                 <span class="flex-item-10 text-left">{{showData.medical.guaranteePeriod}}{{showData.medical.guaranteePeriodUnit}}</span>
               </div>
@@ -136,22 +132,25 @@
                 <span class="flex-item-2 text-right">储存条件：</span>
                 <span class="flex-item-10 text-left">{{showData.medical.storageCondition}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">温度上限：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.topTemperature}}</span>
+              <div class="" ng-if="showData.medical.storageCondition=='冷藏'||showData.medical.storageCondition=='冷冻'">
+                <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">温度上限：</span>
+                  <span class="flex-item-10 text-left">{{showData.medical.topTemperature}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">温度下限：</span>
+                  <span class="flex-item-10 text-left">{{showData.medical.lowTemperature}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">湿度上限：</span>
+                  <span class="flex-item-10 text-left">{{showData.medical.topHumidity}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">湿度下限：</span>
+                  <span class="flex-item-10 text-left">{{showData.medical.lowHumidity}}</span>
+                </div>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">温度下限：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.lowTemperature}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">湿度上限：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.topHumidity}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">湿度下限：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.lowHumidity}}</span>
-              </div>
+
             </div>
             <div class="bb-dashed-line pd-v-m">
               <div class="flex-column mgt">
@@ -184,13 +183,9 @@
                 <span class="flex-item-2 text-right">质量标准：</span>
                 <span class="flex-item-10 text-left">{{showData.medical.quality}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2 text-right">GMP/GSP证书编号：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.gmpGspCertificateNo}}</span>
-              </div>
             </div>
 
-            <div class="flex-column pd-v-m">
+            <div class="flex-column mgt">
               <span class="flex-item-2 text-right">是否基药：</span>
               <span class="flex-item-10 text-left">{{showData.medical.isBasicMedicine}}</span>
             </div>
@@ -261,7 +256,7 @@
 
             <div class="flex-column mgt">
               <span class="flex-item-2 text-right">效期预警天数：</span>
-              <span class="flex-item-10 text-left">{{showData.medical.minPurchasePrice}}</span>
+              <span class="flex-item-10 text-left">{{showData.medical.guaranteePeriodAlarmDay}}</span>
             </div>
 
         </div>
