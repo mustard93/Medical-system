@@ -118,6 +118,7 @@
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">计划数量</th>
+                  <th ng-if="scopeData.orderStatus!='待审核'" class="text-center">已发货数量</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">含税单价</th>
@@ -155,6 +156,7 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
+                  <td ng-if="scopeData.orderStatus!='待审核'" class="text-center">{{item.outgoingQuantity}}</td><!-- 订购数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
@@ -167,9 +169,9 @@
               <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
                 <span class="mgr mgl">制单部门：{{scopeData.departmentName || '暂无'}}</span>
 
-                <span class="mgr mgl">制单人：{{scopeData.inputUserName || '暂无'}}</span>
+                <span class="mgr mgl">制单人：{{scopeData.inputUser.n || '暂无'}}</span>
 
-                <span class="mgr mgl">制单时间：{{scopeData.inputOrder || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+                <span class="mgr mgl">制单时间：{{scopeData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
               </p>
             </div>
           </div>
@@ -364,7 +366,7 @@
             </div>
           </li>
           <!-- 添加按钮 -->
-          <!-- <li class="add-btn express-list" ng-class="{'express-info-empty':(!scopeData.kuaidiSet.length), 'add-btn':scopeData.kuaidiSet.length}">
+          <!-- <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
             <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
           </li> -->
         </ul>

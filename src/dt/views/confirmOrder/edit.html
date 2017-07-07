@@ -250,11 +250,11 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">计划数量</th>
-                    <th class="text-center w-160">生产批号/数量</th>
-                    <th class="text-center w-106">灭菌批号</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/数量</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">灭菌批号</th>
                     <th class="text-center">含税单价</th>
                     <th class="text-center">价税合计</th>
-                    <th class="text-center">失效日期</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">失效日期</th>
                   </tr>
                 </thead>
                 <tbody >
@@ -311,7 +311,7 @@
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
                     </td><!-- 订购数量 -->
-                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
+                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
@@ -349,7 +349,7 @@
                       <!-- 待选择数 -->
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
                     </td><!-- 生产批号/数量 -->
-                    <td class="text-center pd-n">
+                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td>
                     <td class="text-center" style="white-space: nowrap;">￥
@@ -373,7 +373,7 @@
                             </p>
                     </td><!-- 报价 -->
                     <td class="text-center">￥{{item.totalPrice||item.strike_price*item.quantity | number:2}}</td><!-- 价税合计 -->
-                    <td class="text-center pd-n" >
+                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n" >
                       <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
                   </tr>
@@ -390,11 +390,11 @@
           </div>
           <div class="bt-line flex-column">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
-              <span class="mgr mgl">制单部门：{{showData.departmentName || '暂无'}}</span>
+              <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
 
-              <span class="mgr mgl">制单人：{{showData.inputUserName || '暂无'}}</span>
+              <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
 
-              <span class="mgr mgl">制单时间：{{showData.inputOrder || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+              <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
             </p>
           </div>
 
