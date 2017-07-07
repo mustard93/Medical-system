@@ -9,6 +9,7 @@
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"资格申请","link":"","style":"color-custom-orange"}]'
+                              create-btn-author="医院信息管理新增"
                               get-status-num-url="rest/authen/hospitalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-key-filter=true
@@ -52,7 +53,7 @@
 
                       <span class="flex-item-6 text-right">
 
-                        <span ng-if="$root.hasAuthor('首营客户管理修改')">
+                        <span ng-if="$root.hasAuthor('医院信息管理修改')">
 
                           <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                            class="btn-link pd-m rect-s "
@@ -62,7 +63,7 @@
                            </a>
                         </span>
 
-                        <span ng-if="$root.hasAuthor('首营客户管理删除')">
+                        <span ng-if="$root.hasAuthor('医院信息管理删除')">
                         <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
                            href="javascript:;"
                            class="mr--4 btn-link pd-m rect-s "
