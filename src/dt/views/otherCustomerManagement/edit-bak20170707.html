@@ -51,124 +51,119 @@
         <div class="panel pr-panel pr-panel-height mgb">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <div class="">
+              <div class="flex-column mgb disabled">
+                <label class="radio-inline radio radio-new">
+                  <input type="radio" class="default-radio" name="type" value="批发商" ng-model="formData.type"  ng-disabled="true"> <i style="top:12px;"></i>
+                  <em class="inline-block" style="margin-left:-5px; color:#666;">批发商</em>
+                </label>
+                <label class="radio-inline  radio radio-new">
+                  <input type="radio" class="default-radio" name="type" value="零售商" ng-model="formData.type"  ng-disabled="true"> <i style="top:12px;"></i>
+                   <em class="inline-block" style="margin-left:-5px; color:#666;">零售商</em>
+                </label>
+              </div>
             <div class="bt-dashed-line pd-v-m">
-              <div class="flex-column mgt pdb-l bb-dashed-line">
-                <label class="flex-item-2   text-right control-label">分类：</label>
-                <div class="flex-item-10 color-3 text-left ">
-                  <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">
-                  </div>
-                  <button
-                  type="button"
-                  z-tree-select="rest/authen/medicalAttribute/query.json"
-                  class="btn-select fl-l"
-                  ng-model="formData.medicalAttribute"
-                  id-key="id"
-                  p-id-key="parentId"
-                  >选择</button>
-                  <!-- ng-click="addBorder=true;" -->
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">客户全称：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text" class="ipt-new"  ng-disabled="true" ng-model="formData.name">
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">客户全称：</label>
+                <label class="flex-item-2  text-right control-label">企业地址：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new"
-                  name="fullName"
-                  ng-model="formData.customer.fullName"
-                  required
-                  >
-                    <span ng-if="!formData.customer.fullName" class="color-red">（必填）</span>
+                    <input type="text" class="ipt-new" ng-model="formData.object.address">
                 </div>
               </div>
               <div class="flex-column mgt">
-                  <label class="flex-item-2 text-right control-label pdr-s">企业编码：</label>
-                  <div class="flex-item-10 text-left">
-                    <input type="text"
-                           class="ipt-new "
-                           style="width:60px;"
-                           name="code"
-                           ng-disabled="true"
-                           ng-model="formData.customer.attributeCode"/>
-                           <span class="border-2"></span>
-                    <input type="text"
-                           class="ipt-new"
-                           name="code"
-                           style="width:250px;"
-                           ng-model="formData.customer.serialCode"/>
-                           <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
-                 </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">企业地址：</label>
+                <label class="flex-item-2  text-right control-label">企业简称：</label>
                 <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.address">
+                    <input type="text" class="ipt-new" ng-model="formData.object.shortName" required>
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">企业简称：</label>
+                <label class="flex-item-2  text-right control-label">法人代表/身份证号：</label>
                 <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.shortName">
-                </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">法人代表/身份证号：</label>
-                <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.legalRepresentative">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.object.legalRepresentative">
                   <input type="text"
                          class="ipt flex-item-2 mgl-s"
                          name="legalRepresentativeIdentityNo"
                          style="width:212px;"
-                         ng-model="formData.customer.legalRepresentativeIdentityNo"
+                         ng-model="formData.object.legalRepresentativeIdentityNo"
                          ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                         invalid-popover
-                         popover-show="!EditForm.legalRepresentativeIdentityNo.$valid"
-                         popover-options='{"content":"身份证号码格式错误!", "placement":"right", "trigger":"manual"}'>
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!EditForm.legalRepresentativeIdentityNo.$valid}}">
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">注册资金：</label>
+                <label class="flex-item-2  text-right control-label">GMP/GSP证书号：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="number" class="ipt-new" ng-model="formData.customer.registeredCapital">
+                  <input type="text" class="ipt-new" ng-disabled="true" ng-model="formData.object.gspCertificateNo" >
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">社会信用代码：</label>
+                <label class="flex-item-2  text-right control-label">经营许可证号：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.socialCreditCode">
-                  <em ng-if="!formData.customer.socialCreditCode" class="color-red">(必填)</em>
+                    <input type="text" class="ipt-new" ng-disabled="true" ng-model="formData.object.productionLicenseNo">
                 </div>
               </div>
-
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">注册资金：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="number" class="ipt-new" ng-model="formData.object.registeredCapital">万元
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">税号：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text" class="ipt-new" ng-disabled="true" ng-model="formData.object.taxNo">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">营业执照号：</label>
+                <div class="flex-item-10  text-left">
+                <input type="text" class="ipt-new" ng-disabled="true" ng-model="formData.object.businessLicenseNo">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">营业期限：</label>
+                <div class="date-icon-outside">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt ipt-new-s color-6"
+                         ng-readonly="true"
+                         placeholder=" "
+                         ng-model="formData.object.busnissAllotedTime">
+                        <span class="date-icon"></span>
+                </div>
+              </div>
             </div>
-
-            </div>
-
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label">开户银行：</label>
+                <label class="flex-item-2  text-right control-label">开户银行：</label>
                   <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.accountBank">
+                    <input type="text" class="ipt-new" ng-model="formData.object.accountBank">
                   </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label">开户账号：</label>
+                <label class="flex-item-2  text-right control-label">开户账号：</label>
                 <div class="flex-item-10">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.accountNumber">
+                  <input type="text" class="ipt-new" ng-model="formData.object.accountNumber">
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2  text-right control-label">开户名称：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.accountName">
+                  <input type="text" class="ipt-new" ng-model="formData.object.accountName">
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">付款方式：</label>
+                <label class="flex-item-2  text-right control-label">付款方式：</label>
                 <div class="flex-item-10  text-left">
                   <select ng-if="initFlag"
                           class="select select-w ipt-new"
                           data-placeholder="选择一个..."
                           chosen
-                          ng-model="formData.customer.payType"
+                          ng-model="formData.object.payType"
                           select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
                   </select>
                 </div>
@@ -176,30 +171,35 @@
             </div>
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">收货员/身份证号：</label>
+                <label class="flex-item-2  text-right control-label">收货员/身份证号：</label>
                 <div class="flex-item-10">
-                <input type="text" class="ipt flex-item-1" ng-model="formData.customer.consignee">
+                <input type="text" class="ipt flex-item-1" ng-model="formData.object.consignee">
                 <input type="text"
                        name="consigneeIdentityNo"
                        class="ipt flex-item-2 mgl-s"
                        style="width:212px;"
-                       ng-model="formData.customer.consigneeIdentityNo"
+                       ng-model="formData.object.consigneeIdentityNo"
                        ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
                        data-content="身份证号码格式有误!"
                        invalid-popover="{{!EditForm.consigneeIdentityNo.$valid}}" />
                 </div>
               </div>
+              <!-- <div class="flex-column mgt">
+                <label class="flex-item-2  text-right control-label">联系电话：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.object.consigneePhone">
+                </div>
+              </div> -->
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">座机：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text"
                          class="ipt-new"
                          name="consigneeTel"
-                         ng-model="formData.customer.consigneeTel"
+                         ng-model="formData.object.consigneeTel"
                          ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
-                         invalid-popover
-                         popover-show="!EditForm.consigneeTel.$valid"
-                         popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                         data-content="座机号格式有误!"
+                         invalid-popover="{{!EditForm.consigneeTel.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -208,20 +208,19 @@
                   <input type="text"
                          class="ipt-new"
                          name="consigneePhone"
-                         ng-model="formData.customer.consigneePhone"
+                         ng-model="formData.object.consigneePhone"
                          ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
-                         invalid-popover
-                         popover-show="!EditForm.consigneePhone.$valid"
-                         popover-options='{"content":"手机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                         data-content="手机号格式有误!"
+                         invalid-popover="{{!EditForm.consigneePhone.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">E-mail：</label>
+                <label class="flex-item-2  text-right control-label">E-mail：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text"
                          class="ipt-new"
                          name="consigneeEmail"
-                         ng-model="formData.customer.consigneeEmail"
+                         ng-model="formData.object.consigneeEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
                          data-content="Email格式有误!"
                          invalid-popover="{{!EditForm.consigneeEmail.$valid}}" />
@@ -230,17 +229,17 @@
             </div>
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">采购员/身份证号：</label>
+                <label class="flex-item-2  text-right control-label">采购员/身份证号：</label>
                 <div class="flex-item-10">
-                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.purchaser">
-                  <input type="text"
-                         name="purchaserIdentityNo"
-                         class="ipt flex-item-2 mgl-s"
-                         style="width:212px;"
-                         ng-model="formData.customer.purchaserIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                         data-content="身份证号码格式有误!"
-                         invalid-popover="{{!EditForm.purchaserIdentityNo.$valid}}" />
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.object.purchaser">
+                <input type="text"
+                       name="purchaserIdentityNo"
+                       class="ipt flex-item-2 mgl-s"
+                       style="width:212px;"
+                       ng-model="formData.object.purchaserIdentityNo"
+                       ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                       data-content="身份证号码格式有误!"
+                       invalid-popover="{{!EditForm.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -249,11 +248,10 @@
                 <input type="text"
                        class="ipt-new"
                        name="purchaserTel"
-                       ng-model="formData.customer.purchaserTel"
+                       ng-model="formData.object.purchaserTel"
                        ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
-                       invalid-popover
-                       popover-show="!EditForm.purchaserTel.$valid"
-                       popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                       data-content="座机号格式有误!"
+                       invalid-popover="{{!EditForm.purchaserTel.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -262,36 +260,37 @@
                 <input type="text"
                        class="ipt-new"
                        name="purchaserPhone"
-                       ng-model="formData.customer.purchaserPhone"
+                       ng-model="formData.object.purchaserPhone"
                        ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
-                       invalid-popover
-                       popover-show="!EditForm.purchaserPhone.$valid"
-                       popover-options='{"content":"手机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                       data-content="手机号格式有误!"
+                       invalid-popover="{{!EditForm.purchaserPhone.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">E-mail：</label>
+                <label class="flex-item-2  text-right control-label">E-mail：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text"
                          class="ipt-new"
                          name="purchaserEmail"
-                         ng-model="formData.customer.purchaserEmail"
+                         ng-model="formData.object.purchaserEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
                          data-content="Email格式有误!"
                          invalid-popover="{{!EditForm.purchaserEmail.$valid}}" />
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">申请原因</h1>
-        <div class="">
-          <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+        <!-- 申请原因-->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <div class="">
+            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+          </div>
         </div>
-      </div>
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"批发或零售商","addFlag":false}'
-       attachments-edit ng-model="formData" attachments-extend="attachmentsExtend" ></div>
+        <!-- 审核资料 -->
+        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"批发或零售商","addFlag":false,"showcertificate":true}'
+         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
@@ -307,11 +306,28 @@
               <a ng-if="!changeFlag" href="#/otherCustomerManagement/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
+            <!-- <span class="mgl">
+              <a ng-if="formData.id"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/otherCustomerManagement/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/customerAddress/delete">删除</a>
+            </span> -->
+            <!-- <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!changeFlag || EditForm.$invalid"
+                      ng-click="submitForm('editForm','save')">保存
+              </button>
+            </span> -->
             <span class="mgl" >
               <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
-                ng-disabled="EditForm.$invalid"
                 modal-center="350"
                 modal-scope="this"
                 modal-data='{"title":"确认提示",
@@ -326,12 +342,44 @@
                  >保存</button>
 
               <button ng-if="!changeFlag" href="javascript:;"
-              ng-disabled="EditForm.$invalid"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
                 ng-click="submitForm('editForm','save')"
                  >保存</button>
           </span>
+          <!-- <span class="mgl">
+            <button ng-if="!changeFlag"
+                    class="pr-btn-save-glodbg-l mgt"
+                    ng-disabled="EditForm.$invalid">
+                    <a href="javascript:;"
+                    class="color-white"
+                    ng-click="submitForm('editForm','submit-otherCustomer')">
+                      保存并结束编辑
+                    </a>
+            </button>
+
+            <button ng-if="changeFlag"
+                    class="pr-btn-save-glodbg-l mgt"
+                    ng-disabled="EditForm.$invalid">
+                    <a href="javascript:;"
+                    class="color-white"
+                    modal-center="350"
+                    modal-scope="this"
+                    modal-data='{"title":"确认提示",
+                                 "content1":"请输入修改内容",
+                                 "content2":"请输入修改原因",
+                                 "btnConfirm":"确定",
+                                 "btnCancel":"取消",
+                                 "canHref":"submit-otherCustomer",
+                                 "url":"rest/authen/customerAddress/save"
+                                }'
+                    tpl-url="tpl/pr-dialog-content-reason-href.html"
+                    >
+                      保存并结束编辑
+                    </a>
+            </button> -->
+
+
           </span>
 
           </div>

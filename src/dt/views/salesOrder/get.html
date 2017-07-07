@@ -51,6 +51,7 @@
       <div class="flex-column pd-c-m pdt-m pdb-m">
         <div class="flex-item-4">
           <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
+          <span class="mgr-m color-9">单据日期：<span class="color-6">{{showData.orderDate}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
           <span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
@@ -104,7 +105,8 @@
           <thead>
             <tr>
               <th class="text-center">商品编号</th>
-              <th>商品全名</th>
+              <th>商品通用名</th>
+              <th class="text-center">剂型/分类</th>
               <th class="text-center">规格/型号</th>
               <th class="text-center">单位</th>
               <th class="text-center">数量</th>
@@ -126,7 +128,8 @@
           <tbody ng-if="showData.orderMedicalNos.length>0">
             <tr ng-repeat="item in showData.orderMedicalNos">
               <td class="text-center">{{item.code}}</td>
-              <td>{{item.name}}</td>
+              <td>{{item.approvedName}}</td>
+              <td class="text-left">{{item.dosageForms}}</td>
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
