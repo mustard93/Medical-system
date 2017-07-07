@@ -7002,6 +7002,7 @@ define('project/controllers', ['project/init'], function() {
            if (!$scope.formData.orderMedicalNos) {
                $scope.formData.orderMedicalNos = [];
            }
+
            // 如果已添加
            if ($scope.formData.orderMedicalNos.length !== 0) {
                var _len = $scope.formData.orderMedicalNos.length;
@@ -7015,38 +7016,17 @@ define('project/controllers', ['project/init'], function() {
            }
            addDataItem.stockBatchs=[];
 
-
-           // 添加药品后请求当前药品的最新价格
-           if (addDataItem) {
-               var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&customerId=' + $scope.formData.customerId + '&type=销售';
-
-               if ($scope.initFlag) {
-                   requestData(_url)
-                       .then(function (results) {
-                           var _resObj = results[1].data;
-                           for (var item in _resObj) {
-                               if (item === addDataItem.relId && _resObj[item]) {
-                                   addDataItem.strike_price = _resObj[item].value;
-                               } else {
-                                   addDataItem.strike_price = '';
-                               }
-                           }
-                       })
-                       .catch(function (error) {
-                           if (error) { console.log(error || '出错!'); }
-                       });
-               }
-           }
-
            addDataItem.handleFlag = true;
 
            //添加到列表
            $scope.formData.orderMedicalNos.push(addDataItem);
 
-           console.log(addDataItem);
+           console.log("addDataItem",addDataItem);
+
 
            //计算价格
            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+
            return true;
        };
 
