@@ -1,0 +1,65 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-init="formData=dialogData.data">
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/archiveCodeStrategy/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('formData',this);"
+        novalidate="true">
+
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.archiveName}}</h1>
+    </div>
+    <div class="">
+        <div class="">
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">最大级数：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.maxLevel}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">最大长度：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.maxLength}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">第1级：</div>
+            <div class="inline-block flex-item-9 text-left color-white">
+              <input type="text" class="ipt pr-short-ipt" ng-model="formData.levelMap.level1" style="position:relative;top:-5px;">
+            </div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">第2级：</div>
+            <div class="inline-block flex-item-9 text-left color-white">
+              <input type="text" class="ipt pr-short-ipt" ng-model="formData.levelMap.level2" style="position:relative;top:-5px;">
+            </div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">第3级：</div>
+            <div class="inline-block flex-item-9 text-left color-white">
+              <input type="text" class="ipt pr-short-ipt" ng-model="formData.levelMap.level3" style="position:relative;top:-5px;">
+            </div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">第4级：</div>
+            <div class="inline-block flex-item-9 text-left color-white">
+              <input type="text" class="ipt pr-short-ipt" ng-model="formData.levelMap.level4" style="position:relative;top:-5px;">
+            </div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right">第5级：</div>
+            <div class="inline-block flex-item-9 text-left color-white">
+              <input type="text" class="ipt pr-short-ipt" ng-model="formData.levelMap.level5" style="position:relative;top:-5px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">提交</button>
+    </div>
+  </form>
+</div>
