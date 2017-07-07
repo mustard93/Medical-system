@@ -1,9 +1,9 @@
 <div class="order-code-strategy"
      ng-controller="archiveCodeStrategyController"
-     ajax-url="rest/authen/orderCodeStrategy/get?moduleType=DT_购需单"
+     ajax-url="rest/authen/archiveCodeStrategy/query"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.moduleType='DT_购需单';getCodeLength(formData);createCodeSample(formData)"
-     alert-error>
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>{{formData}}
   <form id="editForm"
         name="editForm"
         form-validator
@@ -44,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="item in archiveData track by $index">
+          <tr ng-repeat="item in formData track by $index">
             <td>{{item.name}}</td>
             <td>{{item.maxLevel}}</td>
             <td>{{item.maxLength}}</td>

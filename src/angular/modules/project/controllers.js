@@ -6722,12 +6722,7 @@ define('project/controllers', ['project/init'], function() {
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
 
-    // 定义数据model
-    $scope.archiveData = [
-      {"name": "客户档案", "maxLevel": 5, "maxLength": 14, "level1": "", "level2": "", "level3": "", "level4": "", "level5": ""},
-      {"name": "供应商档案", "maxLevel": 5, "maxLength": 14, "level1": "", "level2": "", "level3": "", "level4": "", "level5": ""},
-      {"name": "商品档案", "maxLevel": 5, "maxLength": 14, "level1": "", "level2": "", "level3": "", "level4": "", "level5": ""}
-    ];
+    
 
   }
 
