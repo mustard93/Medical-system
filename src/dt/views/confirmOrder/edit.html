@@ -2,9 +2,13 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getSaleUserId(mainStatus.pageParams.saleUserId);"
-     alert-error
-     >
+     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
+               initFlag=true;
+               $root.watchFormChange('formData',this);
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getSaleUserId(mainStatus.pageParams.saleUserId);
+               getCodeGenerationStrategy('销售单')"
+     alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
@@ -162,7 +166,7 @@
               </div>
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9">
-              <span class="mgr">销售部门：
+              <span class="mgr">业务部门：
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                         data-placeholder=" "
                         chosen

@@ -2,7 +2,7 @@
      ng-controller="returnOrderEditCtrl"
      ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");quantityError=false;'
+     callback='initFlag=true;watchFormChange("formData");quantityError=false;getCodeGenerationStrategy("销退单")'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -109,7 +109,12 @@
 
           <div class="flex-column pdt-m pdb-m pd-c-l color-9 bb-dashed-line">
             <div class="flex-item-6">
-              <span class="mgr-l">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <!-- <span class="mgr-l">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span> -->
+              <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderNo" />
+                <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
+              </span>
+              <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
               <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
               <span class="mgr-l">审核人：<em class="color-3">{{formData.approverUser.n || '暂无'}}</em></span>
             </div>

@@ -6623,20 +6623,6 @@ define('project/controllers', ['project/init'], function() {
       {"text":"年月日", "value":"年月日"}
     ];
 
-    // 前缀过滤类型
-    $scope.filterPrefixType = function (type, text) {
-
-      text === 'prefix1' ? cleanChoisedItem($scope.prefix2_list, type) : cleanChoisedItem($scope.prefix1_list, type);
-
-      function cleanChoisedItem (obj, type) {
-        angular.forEach(obj, function (data, index) {
-          if (data['text'] === type) {
-            obj.splice(index, 1);
-          }
-        });
-      }
-    };
-
     // 年月日生成前缀2
     $scope.createPrefixForDate = function (type) {
       var _text = null, _t = new Date();
@@ -6651,13 +6637,25 @@ define('project/controllers', ['project/init'], function() {
         case '年月': _text = '' + _t.getFullYear() + addPrefix0((_t.getMonth() + 1)); ; break;
         case '年月日': _text = '' + _t.getFullYear() + addPrefix0((_t.getMonth() + 1)) + addPrefix0(_t.getDay()); break;
       }
-      return _text;
+
+      $scope.fixDateString = _text;
     };
 
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
-      if (formData.prefix1 && formData.prefix2) {
-        $scope.codeLength = Number(formData.prefix1.length) + Number(formData.prefix2.length) + Number(formData.serialNumberLength);
+
+      if (formData.prefix1_type === '单据日期') {
+        $scope.createPrefixForDate(formData.prefix1);
+      } else {
+        $scope.createPrefixForDate(formData.prefix2);
+      }
+
+      if (formData.prefix1_type === '静态文本' && formData.prefix2) {
+        $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      }
+
+      if (formData.prefix2_type === '静态文本' && formData.prefix1) {
+        $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
       }
     }
 
@@ -6669,8 +6667,16 @@ define('project/controllers', ['project/init'], function() {
         _serialNumber += '0';
       }
 
-      if (formData.prefix1 && formData.prefix2) {
-        $scope.codeSample = formData.prefix1 + formData.prefix2 + _serialNumber;
+      if (formData.prefix1_type === '单据日期') {
+        $scope.createPrefixForDate(formData.prefix1);
+      } else {
+        $scope.createPrefixForDate(formData.prefix2);
+      }
+
+      if (formData.prefix1_type === '静态文本' && formData.prefix2) {
+        $scope.codeSample = formData.prefix1 + $scope.fixDateString + _serialNumber;
+      } else {
+        $scope.codeSample = $scope.fixDateString + formData.prefix2 + _serialNumber;
       }
     }
 
@@ -6696,8 +6702,6 @@ define('project/controllers', ['project/init'], function() {
             // 初始化获取编码长度和样例
             $scope.getCodeLength($scope.formData);
             $scope.createCodeSample($scope.formData);
-
-
           }
         })
         .catch(function (error) {
@@ -6707,19 +6711,33 @@ define('project/controllers', ['project/init'], function() {
     }
   }
 
+  /**
+   * [archiveCodeStrategyController 档案编号策略模块控制器]
+   * @method archiveCodeStrategyController
+   * @param  {[type]}                      $scope      [description]
+   * @param  {[type]}                      alertOk     [description]
+   * @param  {[type]}                      alertError  [description]
+   * @param  {[type]}                      requestData [description]
+   * @return {[type]}                                  [description]
+   */
+  function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
 
-    /**
-     * 借出单编辑Ctrl
-     * @param $scope
-     * @param modal
-     * @param alertWarn
-     * @param requestData
-     * @param alertOk
-     * @param alertError
-     * @param utils
-     * @param dialogConfirm
-     */
-   function  lendOrderEditCtrl($scope,modal,alertWarn,requestData,alertOk,alertError,utils,dialogConfirm) {
+    
+
+  }
+
+  /**
+   * 借出单编辑Ctrl
+   * @param $scope
+   * @param modal
+   * @param alertWarn
+   * @param requestData
+   * @param alertOk
+   * @param alertError
+   * @param utils
+   * @param dialogConfirm
+   */
+  function  lendOrderEditCtrl($scope,modal,alertWarn,requestData,alertOk,alertError,utils,dialogConfirm) {
 
        $scope.logistics=true;
        $scope.isShowConfirmInfo = false;
@@ -7238,5 +7256,6 @@ define('project/controllers', ['project/init'], function() {
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
+  .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
 });

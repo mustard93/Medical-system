@@ -1,0 +1,349 @@
+<div class="first-medical-application"
+     ng-controller="customerAddressCtrl"
+     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
+     alert-error>
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">客户中心 >
+         <a href="#/hospitalManagement/query.html">
+            <em class="color-custom-orange">医院信息管理</em>
+         </a>
+        <em>>医院信息管理编辑</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">医院信息管理-编辑</h1>
+         </div>
+       </div>
+     </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper ">
+    <div class="content-wrapper-main mgt">
+      <form class="form-horizontal"
+            id="editForm"
+            name="EditForm"
+            form-validator
+            parameter-body
+            action="rest/authen/customerAddress/save"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter('#/hospitalManagement/query.html');
+            watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';">
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <div class="flex-item-6">
+            <span class="flex-item-2">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <!-- <span class="flex-item-10">
+              <span class="flex-item-2 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder=" "
+                chosen
+                default-empty="无"
+                ng-model="formData.firstMedical.buyerName"
+                select-source="rest/authen/user/queryForSelectOption">
+                </select>
+              </span>
+            </span> -->
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
+          </div>
+        </div>
+        <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+            <div class="bt-dashed-line pd-v-m">
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">医院名称：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt ipt-new"
+                         name="hospitalName"
+                         ng-model="formData.name"
+                         ng-disabled="true"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!EditForm.hospitalName.$valid}}">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">客户编码：</label>
+                <div class="flex-item-10 text-left">
+                    <input type="text" class="ipt ipt-new" ng-model="formData.code">
+                </div>
+              </div>
+
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">医院系统编号：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt ipt-new"
+                         name="systemNumber"
+                         ng-model="formData.object.systemNumber"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!EditForm.systemNumber.$valid}}">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">经营性质：</label>
+                <div class="flex-item-10 text-left">
+                  <select class="ipt-new" name="" ng-model="formData.object.managementType"
+                  chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalManagementType">
+
+                  </select>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">法人代表：</label>
+                <div class="flex-item-10 text-left">
+                    <input type="text" class="ipt ipt-new" ng-model="formData.object.legalRepresentative">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">地址：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.object.address">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">级别：</label>
+                <div class="flex-item-10 text-left">
+                  <select ng-if="initFlag" class="ipt-new"
+                          ng-model="formData.object.level"
+                          name="level"
+                          chosen
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel"
+                          relative-select relative-initload relative-to="#hospitalGrade">
+                  </select>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">等级：</label>
+                <div class="flex-item-10 text-left">
+                  <select ng-if="initFlag" id="hospitalGrade"
+                          class="ipt-new"
+                          name="grade"
+                          ng-model="formData.object.grade"
+                          relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption" select-first>
+                  </select>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">座机：</label>
+                <div class="flex-item-10 text-left">
+                <input type="text" class="ipt-new"
+                ng-model="formData.object.hospitalTel"
+                name="hospitalTel"
+                ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                data-content="座机号格式有误!"
+                invalid-popover="{{!EditForm.hospitalTel.$valid}}"
+                >
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">邮编：</label>
+                <div class="flex-item-10 text-left">
+                <input type="text" class="ipt-new"
+                ng-model="formData.object.zipCode"
+                name="zipCode"
+                ng-pattern="/^[1-9][0-9]{5}$/"
+                data-content="邮编格式有误!"
+                invalid-popover="{{!EditForm.zipCode.$valid}}"
+                >
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">执业许可证号：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.object.practiceLicenseNo">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">有效期至：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6 pr-indent-10"
+                           ng-readonly="true"
+                           placeholder=" 有效日期至"
+                           ng-model="formData.object.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pd-v-m bt-dashed-line">
+              <!-- <h3 class="color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息：</h3> -->
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">采购员/身份证号：</label>
+                <div class="flex-item-10">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.object.purchaserName" />
+                  <input type="text"
+                         name="purchaserIdentityNo"
+                         class="ipt flex-item-2 mgl-s"
+                         style="width:212px;"
+                         ng-model="formData.object.purchaserIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!EditForm.purchaserIdentityNo.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">座机：</label>
+                <div class="flex-item-10 text-left">
+                <input type="text" class="ipt-new"
+                ng-model="formData.object.purchaserTel"
+                name="purchaserTel"
+                ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                data-content="座机号格式有误!"
+                invalid-popover="{{!EditForm.purchaserTel.$valid}}"
+                >
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">E-mail：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="hospitalEmail"
+                         ng-model="formData.object.email"
+                         ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
+                         data-content="Email格式有误!"
+                         invalid-popover="{{!EditForm.hospitalEmail.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">手机：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="purchaserPhone"
+                         ng-model="formData.object.purchaserPhone"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         data-content="手机号码格式有误!"
+                         invalid-popover="{{!EditForm.purchaserPhone.$valid}}" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- 申请原因-->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <div class="">
+            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+          </div>
+        </div>
+        <!-- 审核资料 -->
+    <div ng-init='attachmentsExtend={"title":"资质文件","usege":"医院资格申请","addFlag":false,"showcertificate":true}'
+     attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+
+        <!-- 功能按钮 -->
+        <div class="handle-btn-area relative">
+          <div class="mgb text-right btn-area">
+            <span class="mgl">
+              <a ng-if="changeFlag"  href="javascript:;"
+                 handle-this-click
+                 dialog-title="确认返回?"
+                 dialog-content="该申请单存在未保存数据，是否保存?"
+                 dialog-template="pr-dialog-return.html"
+                 nosave-callback="goTo('#/hospitalManagement/query.html')"
+                 save-callback="submitForm('editForm','exit');
+                 $root.goTo('#/hospitalManagement/query.html')">返回申请单列表</a>
+              <a ng-if="!changeFlag" href="#/hospitalManagement/query.html">返回申请单列表</a>
+            </span>
+            <span bottom-button-list="bottomButtonList">  </span>
+            <span class="mgl">
+              <a ng-if="formData.id"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/hospitalManagement/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/customerAddress/delete">删除</a>
+            </span>
+            <!-- <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!changeFlag || EditForm.$invalid"
+                      ng-click="submitForm('editForm','save')">保存
+              </button>
+            </span> -->
+            <span class="mgl" >
+              <button ng-if="changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/customerAddress/save",
+                             "goUrl":""
+                            }'
+                tpl-url="tpl/pr-dialog-content-reason.html"
+                 >保存</button>
+
+              <button ng-if="!changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-click="submitForm('editForm','save')"
+                 >保存</button>
+          </span>
+            <!-- <span class="mgl">
+              <button ng-if="!changeFlag"
+                      class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="EditForm.$invalid">
+                      <a href="javascript:;"
+                      class="color-white"
+                      ng-click="submitForm('editForm','submit-hospital')">
+                        保存并结束编辑
+                      </a>
+              </button>
+
+              <button ng-if="changeFlag"
+                      class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="EditForm.$invalid">
+                      <a href="javascript:;"
+                      class="color-white"
+                      modal-center="350"
+                      modal-scope="this"
+                      modal-data='{"title":"确认提示",
+                                   "content1":"请输入修改内容",
+                                   "content2":"请输入修改原因",
+                                   "btnConfirm":"确定",
+                                   "btnCancel":"取消",
+                                   "canHref":"submit-hospital",
+                                   "url":"rest/authen/customerAddress/save"
+                                  }'
+                      tpl-url="tpl/pr-dialog-content-reason-href.html"
+                      >
+                        保存并结束编辑
+                      </a>
+              </button>
+
+
+            </span>
+ -->
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

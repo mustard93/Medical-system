@@ -9,6 +9,7 @@
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"资格申请","link":"","style":"color-custom-orange"}]'
+                                create-btn-author="批发零售商新增"
                                 get-status-num-url="rest/authen/otherCustomerApplication/countByOrderStatus.json"
                                 status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                                 is-show-key-filter=true
@@ -54,7 +55,7 @@
 
                     <span class="flex-item-6 text-right">
                         <a
-                           ng-if="tr.orderStatus=='未提交'"
+                           ng-if="tr.orderStatus=='未提交'&&$root.hasAuthor('批发零售商修改')"
                            ng-href="#/otherCustomerApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                          <span class="edit-link-icon">&nbsp;</span>
                        </a>
@@ -66,7 +67,7 @@
                            ng-href="#/otherCustomerApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                            <span class="examine-approve">&nbsp;</span>
                          </a>
-                         <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
+                         <a  ng-if="(tr.orderStatus=='未提交')&&$root.hasAuthor('批发零售商删除')"
                             href="javascript:;"
                             class="btn-link pd-m rect-s "
                             handle-this-click
