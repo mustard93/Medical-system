@@ -6821,8 +6821,7 @@ define('project/controllers', ['project/init'], function() {
            }else if($scope.submitForm_type == 'exit-allocate'){
                $scope.goTo('#/allocateOrder/query.html');
                return;
-           }
-           else   if ($scope.submitForm_type == 'print') {
+           }else   if ($scope.submitForm_type == 'print') {
                var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
                win1=window.open(url);
 
@@ -6864,6 +6863,10 @@ define('project/controllers', ['project/init'], function() {
                    });
            }
 
+           //生成归还单后跳转到归还单编辑界面
+           if($scope.submitForm_type == 'cereatReturnOrder'){
+               $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+           }
        };
 
        // 保存type:save-草稿,submit-提交订单。
@@ -6878,6 +6881,11 @@ define('project/controllers', ['project/init'], function() {
 
            if ($scope.submitForm_type == 'submit') {
                $scope.formData.validFlag = true;
+           }
+
+           //生成归还单
+           if($scope.submitForm_type == 'cereatReturnOrder'){
+
            }
 
            $('#' + fromId).trigger('submit');
@@ -6953,6 +6961,7 @@ define('project/controllers', ['project/init'], function() {
            }
        };
 
+       //添加商品到列表
        $scope.flashAddDataCallbackFn = function(flashAddData) {
 
            if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
@@ -7146,36 +7155,6 @@ define('project/controllers', ['project/init'], function() {
                });
            }
        });
-
-       // 检测调拨数量是否大于可调拨数量
-       // @param orderMedicalNos  当前药品列表数组
-       // @return undefined
-       // $scope.chkAllocateNumOverload = function (formData) {
-       //   if (formData && angular.isObject(formData)) {
-       //     // 获取当前单据的药品列表数组
-       //     var _orderMedicalNos = formData.orderMedicalNos;
-       //     // 获取当前仓库id
-       //     var _warehouseId = formData.sourceId;
-       //     // 数量溢出标识符
-       //     $scope.quantityOverloadFlag = [];
-       //     // 循环检查当前药品列表中是否有填写的调拨数量大于可调拨数量
-       //     angular.forEach(_orderMedicalNos, function (item, index) {
-       //       // 获取实时可调拨数量
-       //       var _url = 'rest/authen/medicalStock/getStockModelByWarehouseId?id='+item.relId+'&warehouseId='+_warehouseId;
-       //       requestData(_url)
-       //       .then(function (results) {
-       //         var _salesQuantity = results[1].data.salesQuantity;
-       //         if (item.quantity > _salesQuantity) {
-       //           $scope.quantityOverloadFlag.push('true');
-       //         } else {
-       //           $scope.quantityOverloadFlag.push('false');
-       //         }
-       //       });
-       //     });
-       //
-       //   }
-       // };
-       //
 
        $scope.checkQuantity = function (quantity,batches){
            var totalQuantity=0;

@@ -1,5 +1,5 @@
 <div class="confirm-order-edit child-project-management"
-     ng-controller="confirmOrderEditCtrl2"
+     ng-controller="lendOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
      callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
@@ -327,11 +327,9 @@
            call-back="$root.goTo('#/lendOrder/query.html')">删除
         </a>
 
-        <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <!--<button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>-->
 
-
-
-        <button ng-if="scopeData.orderStatus=='已完成'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">生成归还单</button>
+        <button ng-if="scopeData.orderStatus=='已完成'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','cereatReturnOrder')">生成归还单</button>
 
         <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
@@ -341,9 +339,11 @@
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
       </div>
-      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+
+      <div class="price-area relative fl-r mgr-l" style="display: none;  height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
       </div>
+
     </div>
   </form>
 </div>
