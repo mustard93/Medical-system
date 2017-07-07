@@ -115,9 +115,20 @@
 
                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                 <td class="text-left" style="line-height:2.4">
-                  <div class="autocut" title="{{tr.name}}">
-                     {{tr.name}}
-                  </div>
+                     <span
+                             class="autocut color-orange cur-pot lend-order-goods-info"
+                             ng-init="showInfoArea=false"
+                             ng-mouseenter="showInfoArea=true"
+                             ng-mouseleave="showInfoArea=false"
+                             title="{{tr.name}}"
+                     > {{tr.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
                 </td><!-- 商品全名 -->
 
                 <td ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">{{tr.returnTotal}}</td><!-- 可退数量 -->
