@@ -71,7 +71,24 @@
         </div>
       </div> -->
       <div ng-if="formData.orderMedicalNos.length"  class="">
-        <div class="inline-block mgr-l">
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block">
+               <p class="mgb-s">业务类型</p>
+               <p class="text-m color-3">
+                   <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                           data-placeholder=" "
+                           chosen
+                           ng-model="formData.orderBusinessType"
+                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                           ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                   </select>
+               </p>
+             </div>
+           </div>
+        </div>
+        <div class="inline-block mgr-l mgl-l">
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
             <div class="inline-block customer-name"></div>
             <div class="inline-block">
@@ -115,7 +132,17 @@
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+              <span class="inline-block relative">
+                <span>单据日期：</span>
+                <input ng-if="initFlag" type="text"
+                       datepicker
+                       class="ipt color-3"
+                       style="width:120px;"
+                       ng-readonly="true"
+                       placeholder=""
+                       ng-model="formData.orderDate" />
+                      <span class="date-icon"></span>
+              </span>
               <span class="mgr-l">审核人：<em class="color-3">{{formData.approverUser.n || '暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
@@ -125,18 +152,19 @@
           </div>
 
           <div class="flex-column color-9 pdt-m pdb-m pd-c-l">
-            <span class="mgr-l">销售部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.saleUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
             <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType || '暂无'}}</em></span>
           </div>
       </div>
-        <div class="outside-table-d">
-          <table class="table pr-table pr-new-table table-wid" >
+        <div class="">
+          <table class="table pr-table pr-new-table" >
             <thead>
               <tr>
                 <th class="text-center">商品编号</th>
-                <th class="text-left">商品全名</th>
+                <th class="text-left">商品通用名</th>
+                <th class="text-center">剂型/分类</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">可退数量</th>
@@ -145,20 +173,8 @@
                 <th class="text-center ">生产批号</th>
                 <th class="text-center ">灭菌批号</th>
                 <th class="text-center">含税单价</th>
-                <th class="text-center">税率</th>
-                <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th>
-                <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th>
-                <th class="text-center">税额</th>
                 <th class="text-center">价税合计</th>
-                <th class="text-center">报价</th>
-                <th class="text-center">产地</th>
-                <th class="text-center">有效期至</th>
-                <th class="text-center">保存温度</th>
-                <th class="text-center">产地品牌</th>
-                <th class="text-center">产地注册证号</th>
-                <th class="text-center">注册证有效期</th>
+                <th class="text-center">失效日期</th>
               </tr>
             </thead>
             <tbody class="bg-white">
@@ -177,7 +193,21 @@
                     </div>
                   </div>
                 </td><!-- 商品编号 -->
-                <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
+                <td class="text-left" >
+                  <span
+                       class="color-orange cur-pot lend-order-goods-info"
+                       ng-init="showInfoArea=false"
+                       ng-mouseenter="showInfoArea=true"
+                       ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                    <show-info-modal ng-show="showInfoArea"
+                                     get-data-type="local"
+                                     template-url="tpl/showInfoModalLendOrder"
+                                     info-object="{{item}}"
+                                     info-title="商品信息">
+                    </show-info-modal>
+                  </span>
+                </td><!-- 商品全名 -->
+                <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                 <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                 <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
@@ -224,25 +254,9 @@
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-right">{{item.duty_price | currency:'￥'}}</td><!-- price 含税单价 -->
-                <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
-                <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
-                <td class="text-right">{{item.discountRate}}%</td><!-- 折扣率 -->
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.duty_price,item.discountRate, item.tax) | number:2}}</td><!--     price, rate, tax 无税单价 -->
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td><!-- 无税金额 -->
-                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td><!--   price, rate, tax, quantity  税额 -->
-                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.duty_price, item.discountRate,item.quantity) | number:2}}</td><!--   price, rate, quantity 价税合计 -->
                 <td class="text-right">￥{{item.strike_price}}</td><!-- 报价 -->
-                <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
-                <!-- <td class="text-center"
-                    ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}&warehouseId={{item.warehouseId}}"
-                    scope-data="validTilldata">{{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                </td> -->
+                <td class="text-right">￥{{item.totalPrice ||item.strike_price*item.quantity}}</td><!-- 报价 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
-                <td class="text-center">{{item.storedTemperature}}</td><!-- 保存温度 -->
-                <td class="text-center">{{item.brand}}</td><!-- 产地品牌 -->
-                <td class="text-center">{{item.drugAdministrationCode}}</td><!-- 产地注册证号 -->
-                <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td><!-- 注册证有效期 -->
               </tr>
             </tbody>
           </table>
@@ -251,6 +265,15 @@
           <div>&nbsp;</div>
           <div>&nbsp;</div>
           <div>&nbsp;</div>
+        </div>
+        <div class="bt-line flex-column">
+          <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+            <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
+
+            <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
+
+            <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+          </p>
         </div>
       </div>
       <!-- 其他信息 -->

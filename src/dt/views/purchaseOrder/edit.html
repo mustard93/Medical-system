@@ -40,49 +40,27 @@
              <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
            </p>
          </div>
-       <!-- 供应商选择及物流中心选择 -->
-       <!-- <div class="pr-panel pr-panel-height mgb pd-n">
-         <div class="inline-block supplier-name relative">
-           <p class="mgb-s">供应商</p>
-           <div class="inline-block"
-                ajax-if-eval="formData.supplier.id"
-                ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
-                scope-data="supplier"
-                callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
-                alert-error>
-             <div>
-               <span ng-if="initFlag"
-                     angucomplete-supplier
-                     placeholder="供应商"
-                     title-field="name"
-                     search-fields="{{formData.supplier.name}}"
-                     url="rest/authen/supplier/query.json"
-                     ng-model="tmp_supplier"
-                     ng-model-id="formData.supplier.id"
-                     class="inline-block mgr-s" style="width:280px;height:28px;">
-               </span>
-               <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
-                 {{formData.supplier.businessApplication.businessStatus}}
-               </em>
-             </div>
-           </div>
-         </div>
-         <div class="inline-block logistics-center relative">
-           <p class="mgb-s">物流中心</p>
-           <p>
-             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
-                     data-placeholder=" "
-                     chosen
-                     ng-model="formData.logisticsCenterId"
-                     is-disabled-this="{{formData.customerId}}"
-                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-             </select>
-           </p>
-         </div>
-       </div> -->
        <div class="">
          <div class="inline-block mgr-l">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+           <div class="inline-block">
+              <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:89px;">
+                <div class="inline-block logistics-center"></div>
+                <div class="inline-block">
+                  <p class="mgb-s">业务类型</p>
+                  <p class="text-m color-3">
+                    <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                            data-placeholder=" "
+                            chosen
+                            ng-model="formData.orderBusinessType"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PurchaseOrderBusinessType"
+                            ng-disabled="true"
+                            ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                    </select>
+                  </p>
+                </div>
+              </div>
+           </div>
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height inline-block mgl-l" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block  supplier-name "></div>
              <div class="inline-block">
                <p class="mgb-s">供应商</p>
@@ -111,7 +89,16 @@
              </div>
            </div>
          </div>
-         <div class="inline-block">
+         <div ng-if="formData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block customer-name"></div>
+             <div class="inline-block">
+               <p class="mgb-s">客户名</p>
+               <p class="text-m color-3 autocut-default" title="{{formData.customerName}}" style="width:300px;">{{formData.customerName || '暂无'}}</p>
+             </div>
+           </div>
+         </div>
+         <div ng-if="formData.orderBusinessType!='直发采购'" class="inline-block">
             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
               <div class="inline-block logistics-center"></div>
               <div class="inline-block">
@@ -152,17 +139,28 @@
                    <em ng-if="!formData.orderCode" class="color-red">(必填)</em>
                  </span>
                  <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                 <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+                 <span class="inline-block relative">
+                   <span>单据日期：</span>
+                   <input ng-if="initFlag" type="text"
+                          datepicker
+                          class="ipt color-3"
+                          style="width:120px;"
+                          ng-readonly="true"
+                          placeholder=""
+                          ng-model="formData.orderDate" />
+                         <span class="date-icon"></span>
+                 </span>
+                 <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
                </div>
                <div class="flex-item-6 text-right">
-                 <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-                 <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+                 <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                 <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span> -->
                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
                </div>
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
-               <span class="mgr">部门：
+               <span class="mgr">业务部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
                          data-placeholder=" "
                          chosen
@@ -176,17 +174,6 @@
                          chosen
                          ng-model="formData.saleUserId"
                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
-                 </select>
-               </span>
-
-               <span class="mgr">业务类型：
-                 <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                         data-placeholder=" "
-                         chosen
-                         ng-model="formData.orderBusinessType"
-                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PurchaseOrderBusinessType"
-                         ng-disabled="true"
-                         ng-change="chgOrderBusinessType(formData.orderBusinessType)">
                  </select>
                </span>
                <span class="mgr">采购类型：
@@ -222,29 +209,21 @@
                       >
                </span>
              </div>
-             <div class="outside-table-d">
-               <table class="table pr-table pr-new-table table-ss-wid" >
+             <div class="">
+               <table class="table pr-table pr-new-table " >
                  <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
-                    <th class="w-160 text-left">商品全名</th>
+                    <th class="w-160 text-left">商品通用名名</th>
+                    <th class="text-center">剂型/分类</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center" ng-if="formData.relId">请购数量</th>
-                    <th class="text-center w-106" ng-if="!formData.relId">数量</th>
-                    <th class="text-center" ng-if="formData.relId">实际采购数量</th>
-                    <th class="text-center w-130">批号要求</th>
+                    <!-- <th class="text-center" ng-if="formData.relId">请购数量</th> -->
+                    <th class="text-center w-106" ng-if="!formData.relId">计划数量</th>
+                    <!-- <th class="text-center" ng-if="formData.relId">实际采购数量</th> -->
                     <th class="text-center w-130" ng-if="formData.orderBusinessType!='直进采购'">预入仓库</th>
-                    <th class="text-center">原币含税单价</th>
-                    <th class="text-center">原币单价</th>
-                    <th class="text-center">原币金额</th>
-                    <th class="text-center">原币税额</th>
-                    <th class="text-center">原币价税合计</th>
-                    <th class="text-center">税率</th>
-                    <th class="text-center">保存温度</th>
-                    <th class="text-center">产地品牌</th>
-                    <th class="text-center">产品注册证号</th>
-                    <th class="text-center">产品注册证有效期</th>
+                    <th class="text-center">含税单价</th>
+                    <th class="text-center">价税合计</th>
                  </tr>
                  </thead>
                  <tbody class="bg-white">
@@ -263,13 +242,25 @@
                          </div>
                        </div>
                      </td><!-- 商品编号 -->
-                     <td class="text-left" style="line-height:2.4">
-                        <div class="autocut" title="{{tr.name}}">
-                           {{tr.name}}
-                         </div></td><!-- 商品全名 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
-                     <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
+                     <td class="text-left" >
+                       <span
+                            class="color-orange cur-pot lend-order-goods-info"
+                            ng-init="showInfoArea=false"
+                            ng-mouseenter="showInfoArea=true"
+                            ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                         <show-info-modal ng-show="showInfoArea"
+                                          get-data-type="local"
+                                          template-url="tpl/showInfoModalLendOrder"
+                                          info-object="{{tr}}"
+                                          info-title="商品信息">
+                         </show-info-modal>
+                       </span>
+                     </td><!-- 商品全名 -->
+                     <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
+                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                     <!-- <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td> -->
+                     <!-- 请购数量 -->
                      <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
@@ -319,14 +310,6 @@
                          待采购数量：{{tr.planQuantity-tr.quantity}}
                        </p>
                      </td><!-- 数量 -->
-                     <td class="text-center">
-                       <select class="select pr-select pr-select-sm text-left" style="width:100px;"  ng-model="tr.batchRequirement">
-                         <option value="无" ng-selected="tr.batchRequirement=='无'">无</option>
-                         <option value="单一批号" ng-selected="tr.batchRequirement=='单一批号'">单一批号</option>
-                         <option value="单一新批号" ng-selected="tr.batchRequirement=='单一新批号'">单一新批号</option>
-                         <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
-                       </select>
-                     </td><!-- 批号要求 -->
                      <td class="text-center" ng-if="formData.orderBusinessType!='直进采购'">
                        <select class="pr-select pd-s"
                                style="width:115px;"
@@ -355,21 +338,8 @@
                             modal-url="views/versionFlow/history-price.html">参考价格
                          </a>
                        </p>
-                     </td><!-- 原币含税单价 -->
-                     <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
-                     <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
-                     <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getSuiE(tr) || '0' | number:2}}</td>
-                     <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">
-                       <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
-                         <option value="17" ng-selected="tr.tax==17">17</option>
-                         <option value="3" ng-selected="tr.tax==3">3</option>
-                       </select>%
-                     </td><!-- 税率 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.storedTemperature}}</td>
-                     <td class="text-center" style="line-height:2.4">{{tr.brand}}</td><!-- 保存温度 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.drugAdministrationCode}}</td><!-- 产地品牌 -->
-                     <td class="text-center relative" style="line-height:2.4">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证号 -->
+                     </td>
+                    <td class="text-center">￥{{tr.totalPrice||tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
@@ -383,6 +353,15 @@
                  <div>&nbsp;</div>
                  <div>&nbsp;</div>
                </div>
+             </div>
+             <div class="bt-line flex-column">
+               <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                 <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
+
+                 <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
+
+                 <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+               </p>
              </div>
            </div>
          </div>
