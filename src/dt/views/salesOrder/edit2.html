@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单')"
      alert-error>
 
   <form id="editForm"
@@ -81,9 +81,14 @@
           <!-- 列表 -->
           <div class="bt-dashed-line">
             <p class="flex-column pdb-m pdt-m pd-c-l ">
-              <span class="flex-item-6 color-9">单据编号：
+              <!-- <span class="flex-item-6 color-9">单据编号：
                 <em class="color-3">{{formData.orderNo || '暂无'}}</em>
+              </span> -->
+              <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderNo" />
+                <em class="color-red" ng-if="!formData.orderNo">（必填）</em>
               </span>
+              <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
               <span class="flex-item-6 text-right color-9">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </p>
             <div>

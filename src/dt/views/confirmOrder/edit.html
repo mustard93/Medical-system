@@ -2,9 +2,13 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getSaleUserId(mainStatus.pageParams.saleUserId);"
-     alert-error
-     >
+     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
+               initFlag=true;
+               $root.watchFormChange('formData',this);
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getSaleUserId(mainStatus.pageParams.saleUserId);
+               getCodeGenerationStrategy('销售单')"
+     alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
