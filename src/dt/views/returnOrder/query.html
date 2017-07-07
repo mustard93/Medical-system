@@ -1,36 +1,40 @@
-<!--新建借出申请单-->
+<!--
+    is-show-department-filter=true
+    get-department-list-url="rest/authen/department/queryForSelectOption"
+    is-show-apply-user-filter=true
+    get-apply-user-list-url="rest/authen/organizationAndUser/queryForSelectOption"
+
+    is-show-business-btn-group=true
+    get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+
+-->
 
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"领退申请单","link":"","style":"color-custom-orange"}]'
-                            component-title="领退申请单"
-                            get-status-num-url="rest/authen/collarReturnOrder/countByOrderStatus"
-                            is-show-create-btn="新建领用退货申请"
-                            create-btn-author="领用退货新增"
-                            create-new-url="#/collarReturnOrder/edit.html"
-                            status-group-data='[["未提交","待审核","退货中","已完成"],["未通过","已作废"]]'
+                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"}]'
+                            component-title="归还单"
+                            get-status-num-url="rest/authen/returnOrder/countByOrderStatus"
+                            is-show-create-btn="新建归还单"
+                            create-btn-author=""
+                            create-new-url="#/returnOrder/edit.html"
+                            status-group-data='[["未提交","待审核","入库中","已完成"],["未通过","已作废"]]'
                             is-show-key-filter=true
                             is-show-date-filter=true
                             search-placeholder-info="单据编号"
-                            is-show-business-btn-group=true
-                            is-show-department-filter=true
-                            get-department-list-url="rest/authen/department/queryForSelectOption"
-                            is-show-apply-user-filter=true
-                            get-apply-user-list-url="rest/authen/organizationAndUser/queryForSelectOption"
-                            get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+>
 
-        <span class="color-9">归还状态：</span>
-        <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                data-placeholder=""
-                default-empty="全部"
-                chosen
-                ng-model="listParams.departmentId"
-                select-source="">
-        </select>
+        <!--<span class="color-9">归还状态：</span>-->
+        <!--<select class="ipt pr-short-ipt color-3" style="width:90px;"-->
+                <!--data-placeholder=""-->
+                <!--default-empty="全部"-->
+                <!--chosen-->
+                <!--ng-model="listParams.departmentId"-->
+                <!--select-source="">-->
+        <!--</select>-->
 
 </page-main-header-component>
 
 <div class="content-wrapper order-center">
-  <table-list list-data="rest/authen/collarReturnOrder/query"
+  <table-list list-data="rest/authen/returnOrder/query"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -61,7 +65,7 @@
 
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-                          <a ng-if="$root.hasAuthor('领用退货修改')" href="#/collarReturnOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <a ng-if="$root.hasAuthor('领用退货修改')" href="#/returnOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
                           <span  ng-if="$root.hasAuthor('领用退货删除')"  >
@@ -73,7 +77,7 @@
                                  dialog-title="确认删除 ?"
                                  dialog-content="您确认删除这条领用申请单吗?"
                                  dialog-template="pr-dialog-confirm.html"
-                                 request-url="rest/authen/collarReturnOrder/delete?id={{tr.id}}"
+                                 request-url="rest/authen/returnOrder/delete?id={{tr.id}}"
                                  emitted="reloadList">
                                     <span class="delete-link-icon">&nbsp;</span>
                               </a>
@@ -82,7 +86,7 @@
 
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
 
-                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/collarReturnOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/returnOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                          <span class="watch-detail-icon">&nbsp;</span>
                       </a>
 
@@ -96,7 +100,7 @@
                          <!--dialog-title="确认领取 ?"-->
                          <!--dialog-content="您确认领取这条领用申请单吗?"-->
                          <!--dialog-template="pr-dialog-confirm.html"-->
-                         <!--request-url="rest/authen/collarReturnOrder/updateStatus?id={{tr.id}}&&orderStatus=已完成"-->
+                         <!--request-url="rest/authen/returnOrder/updateStatus?id={{tr.id}}&&orderStatus=已完成"-->
                          <!--emitted="reloadList">-->
                       <!--<span class="outStork-icon">&nbsp;</span>-->
                       <!--</a>-->
@@ -111,7 +115,7 @@
 
 
                       <a ng-if="tr.orderStatus=='待审核'"
-                         ng-href="#/collarReturnOrder/get.html?id={{tr.id}}"
+                         ng-href="#/returnOrder/get.html?id={{tr.id}}"
                          title="立即审核"
                          class="btn-link pd-m rect-s "
                          >
