@@ -49,6 +49,17 @@
       </div> -->
       <div class="">
         <div class="inline-block mgr-l">
+          <div class="inline-block">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+               <div class="inline-block logistics-center "></div>
+               <div class="inline-block">
+                 <p class="mgb-s">业务类型</p>
+                 <p class="text-m color-3 autocut-default" title="{{scopeData.orderBusinessType}}" >{{scopeData.orderBusinessType || '暂无'}}</p>
+               </div>
+             </div>
+          </div>
+        </div>
+        <div class="inline-block mgr-l">
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
             <div class="inline-block customer-name"></div>
             <div class="inline-block">
@@ -71,10 +82,10 @@
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderCode}}</em></span>
+            <span class="mgr">单据日期：<em class="color-3">{{scopeData.orderDate}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
             <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
             <a ng-if="initFlag"
             modal-center="1000px"
@@ -88,9 +99,8 @@
         </div>
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr-l">销售部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
-          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr}}</em></span>
           <span class="mgr-l">销售类型：<em class="color-3">{{scopeData.salesType}}</em></span>
           <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
           <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
@@ -99,77 +109,71 @@
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="outside-table-d">
-            <table class="table table-wid-l pr-table pr-new-table mgb-n">
+          <div>
+            <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
                   <th class="text-center">商品编号</th>
-                  <th>商品全名</th>
+                  <th>商品通用名</th>
+                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
+                  <th class="text-center">计划数量</th>
                   <th class="text-center">实发数量</th>
-                  <th class="text-center">差异数量</th>
+                  <!-- <th class="text-center">差异数量</th> -->
                   <!-- <th class="text-center w-110">批号要求</th> -->
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">仓库</th>
                   <th class="text-center">含税单价</th>
-                  <th class="text-center">税率</th>
-                  <th class="text-center">折扣额</th>
-                  <th class="text-center">折扣率</th>
-                  <th class="text-center">无税单价</th>
-                  <th class="text-center">无税金额</th>
-                  <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
-                  <th class="text-center">报价</th>
-                  <th class="text-center">产地</th>
-                  <th class="text-center">有效期至</th>
-                  <th class="text-center">退补标志</th>
-                  <th class="text-center">保存温度</th>
-                  <th class="text-center">品牌</th>
-                  <th class="text-center">产地注册证号</th>
-                  <th class="text-center">注册证有效期</th>
-                  <th class="text-center">医保编码</th>
-                  <th class="text-center">院内编码</th>
+                  <th class="text-center">失效日期</th>
+
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td>
-                  <td>{{item.name}}</td>
+                  <td>
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td>
+                    <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.outgoingQuantity}}</td>
-                  <td class="text-center">{{item.differenceQuantity}}</td><!-- 差异数量 -->
-                  <!--<td class="text-center">{{item.batchRequirement}}</td>-->
+                  <!-- <td class="text-center">{{item.differenceQuantity}}</td> -->
+                  <!-- 批号要求 -->
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
-                  <td class="text-center">{{item.duty_price | currency:'￥'}}</td>
-                  <td class="text-center">{{item.tax}}%</td>
-                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
-                  <td class="text-center">{{item.discountRate}}%</td>
-                  <td class="text-right">￥{{item.duty_free_price | number:2}}</td><!-- 无税单价 -->
-                  <td class="text-right">￥{{item.total_duty_free_price | number:2}}</td><!-- 无税金额 -->
-                  <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td><!-- 税额 -->
-                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 价税合计 -->
                   <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                  <td class="text-center">{{item.productionPlace}}</td>
+                  <td class="text-right">￥{{item.totalPrice || item.strike_price*item.quantity | number:2}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
-                  <td class="text-center">{{item.withdrawalSign}}</td>
-                  <td class="text-center">{{item.storedTemperature}}</td>
-                  <td class="text-center">{{item.brand}}</td>
-                  <td class="text-center">{{item.drugAdministrationCode}}</td>
-                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
-                  <td class="text-center">{{item.medicalInsuranceCode}}</td>
-                  <td class="text-center">{{item.hospitalCode}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="bt-line flex-column">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：{{showData.departmentName || '暂无'}}</span>
 
+              <span class="mgr mgl">制单人：{{showData.inputUserName || '暂无'}}</span>
+
+              <span class="mgr mgl">制单时间：{{showData.inputDate || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+            </p>
+          </div>
         </div>
       </div>
       <!-- 其他信息 -->
