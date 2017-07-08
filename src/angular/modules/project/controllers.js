@@ -7782,13 +7782,9 @@ define('project/controllers', ['project/init'], function() {
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
   .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
-<<<<<<< HEAD
   .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'requestData', 'utils', medicalAttributeController])
-  .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
-=======
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl]);
->>>>>>> e1933e7e8e398461f97a8ff44d5698a7a397792f
 });
