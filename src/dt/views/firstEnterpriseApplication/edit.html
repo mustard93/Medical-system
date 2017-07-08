@@ -75,11 +75,12 @@
                   <button
                   type="button"
                   z-tree-select="rest/authen/supplierAttribute/query.json"
-                  class="btn-select fl-l"
+                  class="btn-select btn-enter-price-select fl-l"
                   ng-model="formData.supplierAttribute"
                   id-key="id"
                   p-id-key="parentId"
                   >选择</button>
+                  <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
                 </div>
             </div>
             <div class="" style="min-height:200px;">
@@ -349,7 +350,7 @@
             <span class="mgl" ng-if="formData.orderStatus=='未提交'">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="!firstEnterpriseEditForm.$valid"
+                      ng-disabled="!firstEnterpriseEditForm.$valid ||!formData.supplierAttribute.name"
                       ng-click="submitForm('editForm','submit-enterprise')">提交
               </button>
             </span>

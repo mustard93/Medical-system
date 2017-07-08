@@ -72,11 +72,12 @@
                 <button
                 type="button"
                 z-tree-select="rest/authen/supplierAttribute/query.json"
-                class="btn-select fl-l"
+                class="btn-select btn-enter-price-select fl-l"
                 ng-model="formData.supplierAttribute"
                 id-key="id"
                 p-id-key="parentId"
                 >选择</button>
+                  <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
               </div>
             </div>
             <div class=" pd-v-m" style="min-height:200px;">
@@ -297,7 +298,7 @@
                   </div>
               </div>
             </div>
-            <div class="panel pr-panel pr-panel-height mgb">
+            <div class="panel pr-panel pr-panel-height  bt-dashed-line mgb">
                 <h1 class="mgb-m color-black text-bold text-n">发货人信息</h1>
                 <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label">发货人：</label>
@@ -421,10 +422,7 @@
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
             <span class="mgl" >
-
               <a href="#/views/supplier/edit.html?id={{formData.id}}"></a>
-
-
               <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
@@ -449,8 +447,6 @@
                 ng-click="submitForm('editForm','save')"
                  >保存</button>
           </span>
-
-          <span class="mgl">
 <!--             <button ng-if="!changeFlag"
                     class="pr-btn-save-glodbg-l mgt"
                     ng-disabled="EditForm.$invalid">
@@ -481,9 +477,6 @@
                       保存并结束编辑
                     </a>
             </button> -->
-
-
-          </span>
 
           </div>
         </div>
