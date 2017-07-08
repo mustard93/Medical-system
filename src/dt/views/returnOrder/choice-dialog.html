@@ -470,11 +470,9 @@
          callback="isChoiseAll=false; selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId');">
         <!-- 过滤条件 -->
         <div class="pdt-s pdb-s pd-c-xl">
-            <div class="" style="margin: 20px 0">
-                <!--<span class="color-12">选择商品关联的借出单</span>-->
-            </div>
+            <div class="" style="margin: 20px 0"></div>
 
-            <!-- 关键字过滤 -->
+            <!--  -->
             <div class="inline-block" style="margin-left: -10px;">
                 <span angucomplete placeholder="借出单编号"
                       style="width: 390px"
@@ -494,7 +492,7 @@
             </div>
             <br/>
 
-
+            selectedBatchs2:{{selectedBatchs2}}
             <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
@@ -567,11 +565,11 @@
                                 <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
 
                                 <input type="checkbox"
-                                       ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
-                                       ng-disabled="tr.disabled"
+                                       ng-init="item.disabled=(itemInArray(item.onlyId,formData.orderMedicalNos,'onlyId') || item.returnTotal<1)"
+                                       ng-disabled="item.disabled"
                                        class="selectOne cur-pot" id='{{$index+2}}'
                                        ng-model="tr.handleFlag"
-                                       ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">
+                                       ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'onlyId');">
                                 <label for="{{$index+2}}"></label>
 
                             </td>
@@ -582,7 +580,7 @@
                             <td>{{item.name}}</td><!-- 剂型／分类 -->
                             <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                            <td class="text-center">{{item.planCount }}</td><!-- 计划数量 -->
+                            <td class="text-center">{{item.planQuantity }}</td><!-- 计划数量 -->
                             <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
                             <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
                             <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->

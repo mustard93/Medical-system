@@ -155,6 +155,9 @@
              </div>
 
            </div>
+
+           ::formData.medicalNos{{formData.medicalNos}}
+
            <div class="outside-table-d">
              <table class="table pr-table pr-new-table" >
                <thead>
@@ -210,14 +213,14 @@
                     </span>
 
                    </td><!-- 商品全名 -->
-                   <td class="text-center">{{tr.returnTotal}}剂型／分类</td> <!--剂型／分类 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td> <!--剂型／分类 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 基本单位 -->
 
-                   <td class="text-center">{{tr.lendCount}}</td><!-- 借出数量 -->
-                   <td class="text-center">{{tr.stayCount}}</td><!-- 待还数量 -->
+                   <td class="text-center">{{tr.planQuantity}}</td><!-- 借出数量 -->
+                   <td class="text-center">{{tr.planQuantity - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
 
-                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount : tr.stayCount">
+                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount :(tr.planQuantity - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)-1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
