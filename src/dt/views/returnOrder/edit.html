@@ -191,10 +191,8 @@
                        </div>
                      </div>
                    </td><!-- 序号 -->
-
-                   <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td>  <!-- 领用单编号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td>  <!-- 借出单编号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-
                    <td class="text-left" style="line-height:2.4">
                      <span
                              class="autocut color-orange cur-pot lend-order-goods-info"
@@ -212,27 +210,22 @@
                     </span>
 
                    </td><!-- 商品全名 -->
-
                    <td class="text-center">{{tr.returnTotal}}剂型／分类</td> <!--剂型／分类 -->
-                   <td class="text-center" style="white-space: nowrap;">{{tr.returnTotal}}</td><!-- 可退数量 -->
-
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 基本单位 -->
 
-                   <td class="text-center">{{tr.packingAttribute.name}}</td><!-- 借出数量 -->
-                   <td class="text-center">{{tr.packingAttribute.name}}</td><!-- 待还数量 -->
-                   <td class="text-center">{{tr.packingAttribute.name}}</td><!-- 计划归还数量 -->
+                   <td class="text-center">{{tr.lendCount}}</td><!-- 借出数量 -->
+                   <td class="text-center">{{tr.stayCount}}</td><!-- 待还数量 -->
 
-
-                   <td class="text-center" style="white-space: nowrap;">
+                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount : tr.stayCount">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)-1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
-                                 ng-model="item.quantity"
+                                 ng-model="tr.planReturnCount"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
@@ -242,7 +235,7 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  ng-change="confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">
                         </span>
-                       <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">+</button>
+                       <button type="button" class="inline-block right" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)+1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 

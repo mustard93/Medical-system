@@ -884,6 +884,65 @@ define('project/services', ['project/init'], function() {
                 }
 
                 return arr;
+            },
+
+            // 获取借出单列表页菜单定义
+            getQuery_hospitalLendContents: function(showData) {
+
+                var arr = [];
+
+                var bottomButton = {
+                    "authority":"借出单修改",
+                    "iconClass": "edit-link-icon",
+                    "showName": "编辑",
+                    "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
+                    "aclass": "btn-link pd-m rect-s",
+                    "ahref": "#/lendOrder/edit.html?id=" + showData.id
+                };
+
+                if (tmpUtils.canShowButton(bottomButton)) {
+                    arr.push(bottomButton);
+                }
+
+                bottomButton = {
+                    "iconClass": "examine-approve",
+                    "showName": "立即审核",
+                    "ngShow": "tr.orderStatus=='待审核'",
+                    "aclass": "btn-link pd-m rect-s",
+                    "ahref": "#/lendOrder/get.html?id=" + showData.id
+                };
+                if (tmpUtils.canShowButton(bottomButton)) {
+                    arr.push(bottomButton);
+                }
+
+                bottomButton = {
+                    "iconClass": "watch-detail-icon",
+                    "showName": "查看详情",
+                    "ngShow": "tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
+                    "aclass": "btn-link pd-m rect-s",
+                    "ahref": "#/lendOrder/get.html?id=" + showData.id
+                };
+                if (tmpUtils.canShowButton(bottomButton)) {
+                    arr.push(bottomButton);
+                }
+
+                bottomButton = {
+                    "authority":"销售单删除",
+                    "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
+                    "showName": "删除",
+                    "iconClass": "delete-link-icon",
+                    "type": "handleThisClick",
+                    "alertTemplate": "pr-dialog-submit.html",
+                    "requestUrl": "rest/authen/lendOrder/delete?id=" + showData.id,
+                    "aclass": "btn-link pd-m rect-s mr--4",
+                    "alertTitle": "确认删除?",
+                    "alertMsg": "删除后将无法恢复,确认删除?",
+                    "ngClick": "$root.goTo('#/lendOrder/query.html')"
+                };
+                if (tmpUtils.canShowButton(bottomButton)) {
+                    arr.push(bottomButton);
+                }
+                return arr;
             }
         };
 
