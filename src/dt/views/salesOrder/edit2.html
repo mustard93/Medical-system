@@ -392,9 +392,11 @@
             <span class="flex-item-11">
               <div class=" color-9 text-s">
                 <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
-                <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+                <span class="mgr-l">单据日期：<em class="color-6">{{showData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+
+                <!-- <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span> -->
                 <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
-                <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                <!-- <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
               </div>
             </span>
             <span class="tools pull-right flex-item-1 ">
@@ -410,44 +412,56 @@
               <thead>
                 <tr>
                   <th class="text-center">商品编号</th>
-                  <th>商品全名</th>
+                  <th class="text-left">商品通用名</th>
+                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center w-110">批号要求</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">含税单价</th>
-                  <th class="text-center">税率</th>
-                  <th class="text-center">折扣额</th>
-                  <th class="text-center">折扣率</th>
-                  <th class="text-center">无税单价</th>
-                  <th class="text-center">无税金额</th>
-                  <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
+                  <th class="text-center">失效日期</th>
                 </tr>
               </thead>
               <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
                 <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
-                  <td>{{tr.name}}</td>
-                  <td class="text-center">{{tr.specificationAndModelType}}</td>
-                  <td class="text-center">{{tr.unit}}</td>
-                  <td class="text-center">{{tr.quantity}}</td>
-                  <td class="text-center">{{tr.batchRequirement}}</td>
-                  <td class="text-center">{{tr.productionBatch}}</td>
-                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
-                  <td class="text-center">{{tr.duty_price | currency:'￥'}}</td>
-                  <td class="text-center">{{tr.tax}}%</td>
-                  <td class="text-center">￥{{tr.discountPrice | number:2}}</td>
-                  <td class="text-center">{{tr.discountRate}}%</td>
-                  <td class="text-center">￥{{tr.duty_free_price | number:2}}</td>
-                  <td class="text-center">￥{{tr.total_duty_free_price | number:2}}</td>
-                  <td class="text-center">￥{{tr.totalTaxPrice | number:2}}</td>
-                  <td class="text-center">￥{{tr.totalPrice | number:2}}</td>
+                  <td>
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
+                  <td class="text-left">{{tr.dosageForms}}</td>
+                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{tr.quantity}}</td><!-- 订购数量 -->
+                  <td class="text-center">{{tr.productionBatch}}</td><!-- 生产批号 -->
+                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-right">{{tr.strike_price | currency:'￥'}}</td><!-- 报价 -->
+                  <td class="text-right">￥{{tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right">{{tr.validTill | date: 'yyyy-MM-dd'}}</td><!-- 价税合计 -->
                 </tr>
               </tbody>
             </table>
+            <div class="bt-line flex-column pr-bg-white">
+              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
+
+                <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
+
+                <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+              </p>
+            </div>
           </div>
         </div>
       </table-list>
