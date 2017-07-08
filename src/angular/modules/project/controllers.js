@@ -7326,7 +7326,7 @@ define('project/controllers', ['project/init'], function() {
 
    }
 
-  //领退模块
+  //归还单 Ctrl
   function  returnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       $scope.watchFormChange = function(watchName){
@@ -7372,12 +7372,12 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if ($scope.submitForm_type == 'submit') {
-              var _url='rest/authen/collarReturnOrder/startProcessInstance';
+              var _url='rest/authen/lendOrder/startProcessInstance';
               var data= {businessKey:$scope.formData.id};
               requestData(_url,data, 'POST')
                   .then(function (results) {
                       var _data = results[1];
-                      $scope.goTo('#/collarReturnOrder/get.html?id='+$scope.formData.id);
+                      $scope.goTo('#/lendOrder/get.html?id='+$scope.formData.id);
                   })
                   .catch(function (error) {
                       alertError(error || '出错');
@@ -7406,7 +7406,7 @@ define('project/controllers', ['project/init'], function() {
 
   }
 
-  //领退模块选择退货商品弹窗
+  //归还单择归还商品弹窗 Ctrl
   function  returnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //显示批次界面
@@ -7720,17 +7720,14 @@ define('project/controllers', ['project/init'], function() {
       }
   }
 
-  //领退模块选择退货商品
+  //还单择归还商品弹窗 Sub Ctrl
   function  returnOrderChoiceDialogSubCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-
       //选择当前订单-商品
       $scope.choiceThis=function (item,index,flag){
           if(!flag){
               $scope.$emit('selected',item);
           }
       };
-
-
   }
 
 

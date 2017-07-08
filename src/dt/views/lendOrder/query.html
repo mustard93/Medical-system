@@ -48,7 +48,7 @@ is-show-type-filter=false
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                 ng-init="bottomButtonList= $root.queryItemCardButtonList.getQuery_confirmOrder(tr); " ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+                 ng-init="bottomButtonList= $root.queryItemCardButtonList.getQuery_hospitalLendContents(tr); " ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative">
                 <div class="flex-column">
@@ -57,35 +57,34 @@ is-show-type-filter=false
                   <span class="flex-item-6 text-right">
 
                     <span>
-                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                             class="btn-link pd-m rect-s "
-                             title="编辑"
-                             ng-href="#/lendOrder/edit.html?id={{tr.id}}" >
-                            <span class="edit-link-icon">&nbsp;</span>
-                           </a>
-                      </span>
-
-                      <span>
-                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           href="javascript:;"
-                           class="mr--4 btn-link pd-m rect-s "
-                           title="删除"
-                           handle-this-click
-                           dialog-title="确认删除?"
-                           dialog-content="删除后将无法恢复,确认删除?"
-                           dialog-template="pr-dialog-submit.html"
-                           callback="$root.goTo('#/lendOrder/query.html')"
-                           params='{"id":tr.id}'
-                           request-url="rest/authen/lendOrder/delete">
-                           <span class="delete-link-icon">&nbsp;</span>
-                         </a>
+                      <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                         class="btn-link pd-m rect-s "
+                         title="编辑"
+                         ng-href="#/lendOrder/edit.html?id={{tr.id}}" >
+                        <span class="edit-link-icon">&nbsp;</span>
+                       </a>
                     </span>
+                  <span>
+                    <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                       href="javascript:;"
+                       class="mr--4 btn-link pd-m rect-s "
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo('#/lendOrder/query.html')"
+                       params='{"id":tr.id}'
+                       request-url="rest/authen/lendOrder/delete">
+                       <span class="delete-link-icon">&nbsp;</span>
+                     </a>
+                </span>
 
-                    <!--<span query-item-card-button-list="bottomButtonList"></span>-->
-                    <!--<a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"-->
-                       <!--workflow-button-query-card-->
-                       <!--custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">-->
-                    <!--</a>-->
+                    <span query-item-card-button-list="bottomButtonList"></span>
+                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
+                       workflow-button-query-card
+                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
+                    </a>
                   </span>
                 </div>
 
