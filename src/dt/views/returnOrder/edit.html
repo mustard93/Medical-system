@@ -34,25 +34,29 @@
 
        <!--预入物流中心-->
        <div class="">
-         <div class="inline-block mgr-l">
+         <div class="inline-block">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
-             <div class="inline-block customer-name "></div>
+             <div class="inline-block logistics-center"></div>
              <div class="inline-block">
-               <p class="mgb-s" style="margin-left: 70px;">预入物流中心</p>
-               <p class="mgb-s" style="margin-left: 70px;font-size: 14px;color: #333333;">
-                 <select class="ipt pr-short-ipt color-3" style="width:270px;"
-                         ng-disabled="formData.id"
+               <p class="mgb-s">预入物流中心</p>
+               <p class="text-m color-3">
+
+                 <!--<select ng-if="!formData.customerId"-->
+                         <!--class="ipt-new-select"-->
+                         <!--ng-disabled="true">-->
+                 <!--</select>-->
+
+                 <select class="ipt pr-long-ipt color-6"
                          data-placeholder=" "
-                         no-first-select-source="true"
                          chosen
-                         ng-model="formData.storeRoomId"
-                         select-source="rest/authen/storeRoom/queryForSelectOption">
+                         ng-model="formData.logisticsCenterId"
+                         is-disabled-this="{{formData.customerId}}"
+                         select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
                  </select>
                </p>
              </div>
            </div>
          </div>
-
        </div>
 
        <!--   自动打开右侧弹窗 -->
@@ -126,7 +130,7 @@
                      no-first-select-source="true"
                      chosen
                      ng-model="formData.storeRoomId"
-                     select-source="rest/authen/storeRoom/queryForSelectOption">
+                     select-source="rest/authen/department/queryForSelectOption">
              </select>
 
              <span class="mgr" style="margin-left: 20px;">业务人员:</span>
@@ -136,7 +140,7 @@
                      no-first-select-source="true"
                      chosen
                      ng-model="formData.storeRoomId"
-                     select-source="rest/authen/storeRoom/queryForSelectOption">
+                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
              </select>
 
              <span class="mgr">计划到货日期:</span>
@@ -261,8 +265,8 @@
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
                <span class="mgr">制单部门：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
-               <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd hh:mm'}}</em></span>
+               <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd hh:mm'}}</em></span>
              </div>
            </div>
          </div>

@@ -178,9 +178,9 @@
     </div>
 
 
-    <div ng-if="type=='按商品查找'" ng-init=" listParams.departmentId=formData.departmentId;">
-        <div ng-show="!showBatchs">
+    <div ng-if="type=='按商品查找'">
 
+        <div ng-show="showLendOrder==false;">
             <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
                 <!--<div class="inline-block">-->
                     <!--<span class="color-12">选择需要退货的商品</span>-->
@@ -377,16 +377,24 @@
                 </table-list>
             </div>
 
+
+
             <div class="footer-button-area" style="position:fixed;bottom:0px; z-index: 1000;">
-                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="showLendOrder=true;   isChoiseAll2=false;" ng-disabled="!angucomplete_data.data.id">下一步</button>
+
+                <!--ng-disabled="!angucomplete_data.data.id"  isChoiseAll2=false;-->
+
+                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="showLendOrder=true;">{{showLendOrder}}下一步</button>
             </div>
 
         </div>
+
+
     </div>
 
 
+    showLendOrder : {{showLendOrder}}
+    <div ng-if="showLendOrder==true" class="">
 
-    <div ng-if="showLendOrder" class="">
         <!--ng-if="scopeData"-->
         <div class="empty-table clearfix">
             <div>&nbsp;</div>
@@ -400,26 +408,7 @@
                 <div class="flex-item-6">
                     <span class="mgr">借出单编号：<em class="color-3">{{scopeData.orderCode ||  '暂无'}}</em></span>
                     <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
-                    <span class="mgr relative">制单人：{{scopeData.inputUser.n}}
-                        <!--<span class="purchaseorder-buyer-info-outside">-->
-                        <!--<strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"-->
-                        <!--style="position:relative;height:25px;">{{scopeData.inputUser.n}}</strong>-->
-                        <!--<span class="purchaseorder-buyer-info" style="right:-73px">-->
-                        <!--<i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{scopeData.inputUser.p}}</em></i>-->
-                        <!--<i class="block pdb-s text-normal">-->
-                        <!--<em class="fa fa-comment-o mgl"></em>-->
-                        <!--<em class="inline-block pdl pdr pdt">-->
-                        <!--<a href="javascript:;"-->
-                        <!--modal-center="340"-->
-                        <!--modal-data='{"toUser":{"n":"{{scopeData.inputUser.n}}"},"userIds":["{{scopeData.inputUser.id}}}"]}'-->
-                        <!--modal-url="views/notice/sendToUser.html">发送消息-->
-                        <!--</a>-->
-                        <!--</em>-->
-                        <!--</i>-->
-                        <!--</span>-->
-                        <!--</span>-->
-                    </span>
-
+                    <span class="mgr relative">制单人：{{scopeData.inputUser.n}}</span>
                 </div>
                 <div class="flex-item-6 text-right">
                     <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
@@ -427,7 +416,7 @@
                 </div>
             </div>
             <!-- 类别选择  ng-if="scopeData" -->
-            <div  ng-if="scopeData"  class="pd-c-l pdt-m pdb-m color-9" style="padding: 0;">
+            <div  class="pd-c-l pdt-m pdb-m color-9" style="padding: 0;">
                 <div class="pd-c-l pdt-m pdb-m color-9">
                     <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
                     <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
@@ -436,67 +425,6 @@
             </div>
             <!-- 商品列表 -->
             <div class="outside-table-d">
-                <!--<table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">-->
-                <!--<thead>-->
-                <!--<tr>-->
-
-                <!--&lt;!&ndash;ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" &ndash;&gt;-->
-
-                <!--<th class="w-60 text-center mycheck">-->
-                <!--<input type="checkbox" class="selectAll cur-pot" id='1'-->
-                <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"-->
-                <!--ng-model="isChoiseAll2"-->
-                <!--ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"-->
-
-                <!--&gt;-->
-                <!--<label for="1" style="top: 10px;"></label>-->
-
-                <!--</th>-->
-                <!--<th class="text-center">序号</th>-->
-                <!--<th class="text-center">商品编码</th>-->
-                <!--<th class="text-left">商品名称</th>-->
-                <!--<th class="text-center">申请数量</th>-->
-                <!--<th class="text-center">领用数量</th>-->
-                <!--<th class="text-center">可退数量</th>-->
-                <!--<th class="text-center">商品规格</th>-->
-                <!--<th class="text-center">基本单位</th>-->
-                <!--<th class="text-center">产地</th>-->
-                <!--<th class="text-center">生产厂商</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--&lt;!&ndash; ngRepeat: tr in scopeData.orderMedicalNos &ndash;&gt;-->
-                <!--<tr   ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">-->
-                <!--<td class="select-td text-center mycheck">-->
-
-                <!--&lt;!&ndash;ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"&ndash;&gt;-->
-
-                <!--<input type="checkbox"-->
-                <!--ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"-->
-                <!--ng-disabled="tr.disabled"-->
-                <!--class="selectOne cur-pot" id='{{$index+2}}'-->
-                <!--ng-model="tr.handleFlag"-->
-                <!--ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">-->
-                <!--<label for="{{$index+2}}"></label>-->
-                <!--</td>-->
-                <!--<td class="text-center" style="line-height:2.4">{{$index+1}}</td>&lt;!&ndash; 序号 &ndash;&gt;-->
-                <!--<td class="text-center" style="line-height:2.4">{{tr.code}}</td>&lt;!&ndash; 商品编码 &ndash;&gt;-->
-                <!--<td class="text-left" style="line-height:2.4">-->
-                <!--<div class="autocut" title="{{tr.name}}">-->
-                <!--{{tr.name}}-->
-                <!--</div>-->
-                <!--</td>&lt;!&ndash; 商品全名 &ndash;&gt;-->
-                <!--<td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td>&lt;!&ndash; 申请数量 &ndash;&gt;-->
-                <!--<td class="text-right" style="line-height:2.4">{{tr.availableCount}}</td>&lt;!&ndash; 领用数量 &ndash;&gt;-->
-                <!--<td class="text-right">{{tr.returnTotal}}</td>&lt;!&ndash; 可退数量 &ndash;&gt;-->
-                <!--<td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td>&lt;!&ndash; 商品规格 &ndash;&gt;-->
-                <!--<td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td>&lt;!&ndash; 商品单位 &ndash;&gt;-->
-                <!--<td class="text-center" >{{tr.productionPlace}}</td>-->
-                <!--<td class="text-center" >{{tr.manufacturer}}</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-                <!--</table>-->
-
                 <table class="table pr-table pr-new-table mgb-n　">
                     <thead>
                     <tr>
@@ -583,8 +511,6 @@
                     </tr>
                     </tbody>
                 </table>
-
-
             </div>
 
             <div ng-if="!scopeData" class="empty-table clearfix">
@@ -598,5 +524,6 @@
             <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
         </div>
     </div>
+
 
 </div>
