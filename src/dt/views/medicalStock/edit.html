@@ -77,8 +77,8 @@
                          class="ipt-new"
                          name="genericName"
                          required
-                         ng-model="formData.medical.approvedName" />
-                         <span ng-if="!formData.medical.approvedName" class="color-red">（必填）</span>
+                         ng-model="formData.approvedName" />
+                         <span ng-if="!formData.approvedName" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -88,8 +88,8 @@
                          class="ipt-new"
                          name="name"
                          required
-                         ng-model="formData.medical.name" />
-                         <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
+                         ng-model="formData.name" />
+                         <span ng-if="!formData.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -100,20 +100,20 @@
                          style="width:60px;"
                          name="code"
                          ng-disabled="true"
-                         ng-model="formData.medical.attributeCode"/>
+                         ng-model="formData.attributeCode"/>
                          <span class="border-2"></span>
                   <input type="text"
                          class="ipt-new"
                          name="code"
                          style="width:80px;"
-                         ng-model="formData.medical.serialCode"/>
-                         <span ng-if="!formData.medical.serialCode" class="color-red">（必填）</span>
+                         ng-model="formData.serialCode"/>
+                         <span ng-if="!formData.serialCode" class="color-red">（必填）</span>
                  <label class="mgl-s control-label pdr-s">原商品编码：</label>
                  <input type="text"
                         class="ipt-new "
                         style="width:80px;"
                         name="code"
-                        ng-model="formData.medical.originalCode"/>
+                        ng-model="formData.originalCode"/>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -122,9 +122,9 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.specificationAndModelType"
+                         ng-model="formData.specificationAndModelType"
                          required />
-                  <span ng-if="!formData.medical.specificationAndModelType" class="color-red">（必填）</span>
+                  <span ng-if="!formData.specificationAndModelType" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -133,7 +133,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.packingSpecification" />
+                         ng-model="formData.packingSpecification" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -142,7 +142,7 @@
                   <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                   chosen
                   default-empty="无"
-                  ng-model="formData.medical.dosageForms"
+                  ng-model="formData.dosageForms"
                   select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                   </select>
                 </div>
@@ -153,9 +153,9 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="unit"
-                         ng-model="formData.medical.unit"
+                         ng-model="formData.unit"
                          required />
-                  <span ng-if="!formData.medical.unit" class="color-red">（必填）</span>
+                  <span ng-if="!formData.unit" class="color-red">（必填）</span>
                 </div>
               </div>
               <!-- <div class="flex-column mgt">
@@ -164,7 +164,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="packingCondition"
-                         ng-model="formData.medical.packingCondition" />
+                         ng-model="formData.packingCondition" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -173,7 +173,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="numberOfPackages"
-                         ng-model="formData.medical.numberOfPackages"
+                         ng-model="formData.numberOfPackages"
                          ng-pattern="/^\d+$/"
                          invalid-popover
                          popover-show="!EditForm.numberOfPackages.$valid"
@@ -186,7 +186,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="pieceLoading"
-                         ng-model="formData.medical.pieceLoading"
+                         ng-model="formData.pieceLoading"
                          ng-pattern="/^\d+$/"
                          invalid-popover
                          popover-show="!EditForm.pieceLoading.$valid"
@@ -200,11 +200,11 @@
                          class="ipt-new-s ipt-new"
                          name="unit"
                          style="width:60px"
-                         ng-model="formData.medical.guaranteePeriod" />
+                         ng-model="formData.guaranteePeriod" />
                    <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
                      <div ng-repeat="date in DateUnit" class="inline-block " style="position:relative;top:-5px;">
                          <label class="radio-inline radio radio-new mgl-s">
-                           <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.medical.guaranteePeriodUnit" ><i style="top:12px;"></i>
+                           <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
                            <em class="inline-block" style=" color:#666;margin-left:-10px;">{{date.text}}</em>
                          </label>
                      </div>
@@ -218,13 +218,13 @@
                           data-placeholder=" "
                           chosen
                           style="width:150px;"
-                          ng-model="formData.medical.storageCondition"
-                          ng-change="changeStorageCondition(formData.medical.storageCondition);"
+                          ng-model="formData.storageCondition"
+                          ng-change="changeStorageCondition(formData.storageCondition);"
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
                   </select>
                 </div>
               </div>
-              <div class="" ng-if="formData.medical.storageCondition=='冷藏'||formData.medical.storageCondition=='冷冻'">
+              <div class="" ng-if="formData.storageCondition=='冷藏'||formData.storageCondition=='冷冻'">
                 <div class="flex-column mgt">
                   <label class="flex-item-2 text-right control-label pdr-s">温度上限：</label>
                   <div class="flex-item-10 text-left">
@@ -233,7 +233,7 @@
                            name="topTemperature"
                            style="width:50px;"
                            required
-                           ng-model="formData.medical.topTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.topTemperature" class="color-red mgl-s">(必填)</em>
+                           ng-model="formData.topTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.topTemperature" class="color-red mgl-s">(必填)</em>
                   </div>
                 </div>
                 <div class="flex-column mgt">
@@ -244,7 +244,7 @@
                            name="lowTemperature"
                            style="width:50px;"
                            required
-                           ng-model="formData.medical.lowTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.medical.lowTemperature" class="color-red mgl-s">(必填)</em>
+                           ng-model="formData.lowTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.lowTemperature" class="color-red mgl-s">(必填)</em>
                   </div>
                 </div>
                 <div class="flex-column mgt">
@@ -255,7 +255,7 @@
                            name="topHumidity"
                            style="width:50px;"
                            required
-                           ng-model="formData.medical.topHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.topHumidity" class="color-red mgl-s">(必填)</em>
+                           ng-model="formData.topHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.topHumidity" class="color-red mgl-s">(必填)</em>
                   </div>
                 </div>
                 <div class="flex-column mgt">
@@ -266,7 +266,7 @@
                            name="lowHumidity"
                            style="width:50px;"
                            required
-                           ng-model="formData.medical.lowHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.medical.lowHumidity" class="color-red mgl-s">(必填)</em>
+                           ng-model="formData.lowHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.lowHumidity" class="color-red mgl-s">(必填)</em>
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="produceEnterprise"
-                         ng-model="formData.medical.manufacturer" />
+                         ng-model="formData.manufacturer" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -287,7 +287,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.factoryAddress" />
+                         ng-model="formData.factoryAddress" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -296,14 +296,14 @@
                   <input type="text"
                          class="ipt-new"
                          name="factoryAddress"
-                         ng-model="formData.medical.productionPlace" />
+                         ng-model="formData.productionPlace" />
                 </div>
               </div>
               <!-- <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">供应单位：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select-new"
-                          ng-model="formData.medical.supplierId"
+                          ng-model="formData.supplierId"
                           chosen
                           select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
@@ -317,7 +317,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="trademark"
-                         ng-model="formData.medical.trademark" />
+                         ng-model="formData.trademark" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -326,7 +326,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="medicalUniformCode"
-                         ng-model="formData.medical.medicalUniformCode" />
+                         ng-model="formData.medicalUniformCode" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -335,7 +335,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.quality" />
+                         ng-model="formData.quality" />
                 </div>
               </div>
             </div>
@@ -343,9 +343,9 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
                 <div class="flex-item-10 text-left">
-                  <select class="select pr-select ipt-new-s pr-short-ipt" style="height:32px;" ng-model="formData.medical.isBasicMedicine">
-                    <option value="是" ng-selected="formData.medical.isBasicMedicine=='是'">是</option>
-                    <option value="否" ng-selected="formData.medical.isBasicMedicine=='否'">否</option>
+                  <select class="select pr-select ipt-new-s pr-short-ipt" style="height:32px;" ng-model="formData.isBasicMedicine">
+                    <option value="是" ng-selected="formData.isBasicMedicine=='是'">是</option>
+                    <option value="否" ng-selected="formData.isBasicMedicine=='否'">否</option>
                   </select>
                 </div>
               </div>
@@ -355,8 +355,8 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.quoteprice"
-                         ng-disabled="formData.medical.isBasicMedicine=='否'"
+                         ng-model="formData.quoteprice"
+                         ng-disabled="formData.isBasicMedicine=='否'"
                          ng-keyup="chkQuoteAndRetail()"
                          name="quoteprice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -371,7 +371,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.retailPrice"
+                         ng-model="formData.retailPrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="retailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -386,7 +386,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.tradePrice"
+                         ng-model="formData.tradePrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="tradePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -401,7 +401,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.maxRetailPrice"
+                         ng-model="formData.maxRetailPrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="maxRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -416,7 +416,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.minRetailPrice"
+                         ng-model="formData.minRetailPrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="minRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -431,7 +431,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.purchasePrice"
+                         ng-model="formData.purchasePrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="purchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -446,7 +446,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.maxPurchasePrice"
+                         ng-model="formData.maxPurchasePrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="maxPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -461,7 +461,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
                          placeholder="0.00"
-                         ng-model="formData.medical.minPurchasePrice"
+                         ng-model="formData.minPurchasePrice"
                          ng-keyup="chkQuoteAndRetail()"
                          name="minPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -475,7 +475,7 @@
                 <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
-                          ng-model="formData.medical.tax"
+                          ng-model="formData.tax"
                           ng-options="tax for tax in [3,17]">
                   </select>%
                 </div>
@@ -498,7 +498,7 @@
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new ipt-new-s text-right"
-                         ng-model="formData.medical.guaranteePeriodAlarmDay"/>
+                         ng-model="formData.guaranteePeriodAlarmDay"/>
                 </div>
               </div>
             </div>
