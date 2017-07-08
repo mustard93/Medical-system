@@ -7284,7 +7284,7 @@ define('project/controllers', ['project/init'], function() {
                    .then(function (results) {
                        var _data = results[1];
                        //  alertOk(_data.message || '操作成功');
-                       $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
+                       $scope.goTo('#/lendOrder/get.html?id='+$scope.formData.id);
 
                    })
                    .catch(function (error) {
@@ -7679,12 +7679,12 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if ($scope.submitForm_type == 'submit') {
-              var _url='rest/authen/lendOrder/startProcessInstance';
+              var _url='rest/authen/returnOrder/startProcessInstance';
               var data= {businessKey:$scope.formData.id};
               requestData(_url,data, 'POST')
                   .then(function (results) {
                       var _data = results[1];
-                      $scope.goTo('#/lendOrder/get.html?id='+$scope.formData.id);
+                      $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
                   })
                   .catch(function (error) {
                       alertError(error || '出错');
