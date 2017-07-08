@@ -6847,7 +6847,7 @@ define('project/controllers', ['project/init'], function() {
            var _url = null, data = null;
 
            if ($scope.submitForm_type == 'submit') {
-               _url='rest/authen/confirmOrder/startProcessInstance';
+               _url='rest/authen/lendOrder/startProcessInstance';
                data= {businessKey:$scope.formData.id};
                requestData(_url, data, 'POST')
                    .then(function (results) {
