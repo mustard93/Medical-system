@@ -7723,7 +7723,7 @@ define('project/controllers', ['project/init'], function() {
       };
 
       /**
-       * 根据单号查询领用单
+       * 根据单号查询借出单
        * @param orderCode
        */
       $scope.getByOrderCode=function(orderCode){
@@ -7740,6 +7740,7 @@ define('project/controllers', ['project/init'], function() {
                   alertError(error || '出错');
               });
       };
+
 
       $scope.flashAddDataCallbackFn=function (data1) {
 
