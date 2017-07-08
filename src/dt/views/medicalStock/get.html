@@ -55,169 +55,181 @@
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="">
+            <div>
               <div class="bb-dashed-line">
-                <div class="flex-column mgb">
-                  <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio"  name="type" value="药械" ng-model="showData.medicalType" ng-disabled="showData.medicalType"><i style="top:5px;"></i>
-                    <em class="inline-block" style="margin-left:-5px; color:#666;">药械</em>
-                  </label>
-                  <label class="radio-inline radio radio-new" style="top:10px;">
-                    <input type="radio" class="default-radio" name="type" value="中药及饮片" ng-model="showData.medicalType" ng-disabled="showData.medicalType"> <i style="top:5px;"></i>
-                      <em class="inline-block" style="margin-left:-5px; color:#666;">中药及饮片</em>
-                  </label>
-                  <label class="radio-inline radio radio-new" style="top:10px;">
-                    <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="showData.medicalType" ng-disabled="showData.medicalType"> <i style="top:5px;"></i>
-                      <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
-                  </label>
+                <div class="flex-column mgt pdb-l bb-dashed-line">
+                  <label class="flex-item-2   text-right control-label">分类：</label>
+                  <div class="flex-item-10 color-3 text-left ">
+                    {{showData.medicalType}}
                 </div>
               </div>
               <div class="bb-dashed-line pd-v-m">
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">通用名称：</span>
-                  <span class="flex-item-10    text-left">{{showData.approvedName}}</span>
+                  <span class="flex-item-2 text-right">通用名称：</span>
+                  <span class="flex-item-10 text-left">{{showData.approvedName}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">品种名：</span>
-                  <span class="flex-item-10    text-left">{{showData.name}}</span>
+                  <span class="flex-item-2 text-right">商品名称：</span>
+                  <span class="flex-item-10 text-left">{{showData.name}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">品种编码：</span>
-                  <span class="flex-item-10    text-left">{{showData.code}}</span>
+                  <span class="flex-item-2 text-right">商品编码：</span>
+                  <span class="flex-item-1 text-left">{{showData.attributeCode}}—{{showData.serialCode}}</span>
+
+                  <span class="flex-item-9 text-left">原商品编码：{{showData.originalCode}}</span>
+
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">规格：</span>
-                  <span class="flex-item-10    text-left">{{showData.specification}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">型号：</span>
-                  <span class="flex-item-10    text-left">{{showData.modelType}}</span>
+                  <span class="flex-item-2 text-right">规格型号：</span>
+                  <span class="flex-item-10 text-left">{{showData.specificationAndModelType}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">装箱规格：</span>
                   <span class="flex-item-10 text-left">{{showData.packingSpecification}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">剂型：</span>
-                  <span class="flex-item-10    text-left">{{showData.dosageForms}}</span>
+                  <span class="flex-item-2 text-right">剂型/管理类别：</span>
+                  <span class="flex-item-10 text-left">{{showData.dosageForms}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">计量单位：</span>
-                  <span class="flex-item-10    text-left">{{showData.unit}}</span>
+                  <span class="flex-item-2 text-right">基本单位：</span>
+                  <span class="flex-item-10 text-left">{{showData.unit}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">包装情况：</span>
-                  <span class="flex-item-10    text-left">{{showData.packingCondition}}</span>
+                  <span class="flex-item-2 text-right">有效期：</span>
+                  <span class="flex-item-10 text-left">{{showData.guaranteePeriod}}{{showData.guaranteePeriodUnit}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">中包装数量：</span>
-                  <span class="flex-item-10    text-left">{{showData.numberOfPackages}}</span>
+                  <span class="flex-item-2 text-right">储存条件：</span>
+                  <span class="flex-item-10 text-left">{{showData.storageCondition}}</span>
                 </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">件装量：</span>
-                  <span class="flex-item-10    text-left">{{showData.pieceLoading}}</span>
+                <div class="" ng-if="showData.storageCondition=='冷藏'||showData.storageCondition=='冷冻'">
+                  <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">温度上限：</span>
+                    <span class="flex-item-10 text-left">{{showData.topTemperature}}</span>
+                  </div>
+                  <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">温度下限：</span>
+                    <span class="flex-item-10 text-left">{{showData.lowTemperature}}</span>
+                  </div>
+                  <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">湿度上限：</span>
+                    <span class="flex-item-10 text-left">{{showData.topHumidity}}</span>
+                  </div>
+                  <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">湿度下限：</span>
+                    <span class="flex-item-10 text-left">{{showData.lowHumidity}}</span>
+                  </div>
                 </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">有效期：</span>
-                  <span class="flex-item-10    text-left">{{showData.guaranteePeriod | date : 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">存储条件：</span>
-                  <span class="flex-item-10    text-left">{{showData.storageCondition}}</span>
-                </div>
+
               </div>
               <div class="bb-dashed-line pd-v-m">
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">生产企业：</span>
-                  <span class="flex-item-10    text-left">{{showData.manufacturer}}</span>
+                  <span class="flex-item-2 text-right">生产企业：</span>
+                  <span class="flex-item-10 text-left">{{showData.manufacturer}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">厂址：</span>
-                  <span class="flex-item-10    text-left">{{showData.factoryAddress}}</span>
+                  <span class="flex-item-2 text-right">厂址：</span>
+                  <span class="flex-item-10 text-left">{{showData.factoryAddress}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">产地：</span>
-                  <span class="flex-item-10    text-left">{{showData.productionPlace}}</span>
+                  <span class="flex-item-2 text-right">产地：</span>
+                  <span class="flex-item-10 text-left">{{showData.productionPlace}}</span>
                 </div>
                 <!-- <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">供应单位：</span>
-                  <span class="flex-item-10    text-left">{{showData.supplierName}}</span>
+                  <span class="flex-item-2 text-right">供应单位：</span>
+                  <span class="flex-item-10 text-left">{{showData.supplierName}}</span>
                 </div> -->
               </div>
               <div class="bb-dashed-line pd-v-m">
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">注册商标：</span>
-                  <span class="flex-item-10    text-left">{{showData.trademark}}</span>
+                  <span class="flex-item-2 text-right">注册商标：</span>
+                  <span class="flex-item-10 text-left">{{showData.trademark}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">国药统一编码：</span>
-                  <span class="flex-item-10    text-left">{{showData.medicalUniformCode}}</span>
+                  <span class="flex-item-2 text-right">国药统一编码：</span>
+                  <span class="flex-item-10 text-left">{{showData.medicalUniformCode}}</span>
                 </div>
                 <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">备案凭证编号：</span>
-                  <span class="flex-item-10    text-left">{{showData.filingDocumentNo}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">药品批准文号：</span>
-                  <span class="flex-item-10    text-left">{{showData.licenseNumber}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">质量标准：</span>
-                  <span class="flex-item-10    text-left">{{showData.quality}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">GMP/GSP证书编号：</span>
-                  <span class="flex-item-10    text-left">{{showData.gmpGspCertificateNo}}</span>
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-2    text-right">器械注册证号：</span>
-                  <span class="flex-item-10    text-left">{{showData.drugAdministrationCode}}</span>
+                  <span class="flex-item-2 text-right">质量标准：</span>
+                  <span class="flex-item-10 text-left">{{showData.quality}}</span>
                 </div>
               </div>
 
-              <div class="flex-column pd-v-m">
-                <span class="flex-item-2    text-right">是否基药：</span>
-                <span class="flex-item-10    text-left">{{showData.isBasicMedicine}}</span>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">是否基药：</span>
+                <span class="flex-item-10 text-left">{{showData.isBasicMedicine}}</span>
               </div>
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">牌价：</span>
-                <span class="flex-item-10    text-left">{{showData.quoteprice}}</span>
+                <span class="flex-item-2 text-right">批发价：</span>
+                <span class="flex-item-10 text-left">{{showData.tradePrice}}</span>
               </div>
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">批发价：</span>
-                <span class="flex-item-10    text-left">{{showData.tradePrice}}</span>
+                <span class="flex-item-2 text-right">牌价：</span>
+                <span class="flex-item-10 text-left">{{showData.quoteprice}}</span>
               </div>
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">零售价：</span>
-                <span class="flex-item-10    text-left">{{showData.retailPrice}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">最高售价：</span>
-                <span class="flex-item-10    text-left">{{showData.maxRetailPrice}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">最低售价：</span>
-                <span class="flex-item-10    text-left">{{showData.minRetailPrice}}</span>
+                <span class="flex-item-2 text-right">零售价：</span>
+                <span class="flex-item-10 text-left">{{showData.retailPrice}}</span>
               </div>
 
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">采购价：</span>
-                <span class="flex-item-10    text-left">{{showData.purchasePrice}}</span>
+                <span class="flex-item-2 text-right">最高售价：</span>
+                <span class="flex-item-10 text-left">{{showData.maxRetailPrice}}</span>
               </div>
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">最高采购价：</span>
-                <span class="flex-item-10    text-left">{{showData.maxPurchasePrice}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">最低采购价：</span>
-                <span class="flex-item-10    text-left">{{showData.minPurchasePrice}}</span>
+                <span class="flex-item-2 text-right">最低售价：</span>
+                <span class="flex-item-10 text-left">{{showData.minRetailPrice}}</span>
               </div>
 
-
               <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">税率：</span>
-                <span class="flex-item-10    text-left">{{showData.tax}}%</span>
+                <span class="flex-item-2 text-right">采购价：</span>
+                <span class="flex-item-10 text-left">{{showData.purchasePrice}}</span>
               </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">最高采购价：</span>
+                <span class="flex-item-10 text-left">{{showData.maxPurchasePrice}}</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">最低采购价：</span>
+                <span class="flex-item-10 text-left">{{showData.minPurchasePrice}}</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">税率：</span>
+                <span class="flex-item-10 text-left">{{showData.tax}}%</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">采购员：</span>
+                <span class="flex-item-10 text-left">
+                  <div class="inline-block relative">
+                    <span class=" purchaseorder-buyer-info-outside">
+                      <strong run-popovers
+                              class="color-custom-orange cur-pot text-normal pr-color"
+                              style="height:25px;">{{showData.buyer.n}}
+                      </strong>
+                      <span class="purchaseorder-buyer-info" style="top:22px;right:-70px;">
+                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
+                        <i class="block pdb-s text-normal">
+                          <em class="fa fa-comment-o mgl"></em>
+                          <em class="inline-block pdl pdr pdt">
+                            <a href="javascript:;"
+                               modal-center="490"
+                               modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
+                               modal-url="views/notice/sendToUser.html">发送消息
+                            </a>
+                          </em>
+                        </i>
+                      </span>
+                    </span>
+                  </div>
+                </span>
+              </div>
+            </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">效期预警天数：</span>
+                <span class="flex-item-10 text-left">{{showData.guaranteePeriodAlarmDay}}</span>
+              </div>
+
           </div>
         </div>
         <div class="panel pr-panel pr-panel-height mgb">
@@ -225,8 +237,6 @@
           <span>{{showData.applyReason}}</span>
         </div>
         <!-- 审核资料 -->
-        <div ng-if="showData.attachments.length" ng-init='attachmentsExtend={"title":"资质文件"}'
-        attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
         <div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">
             资质文件
@@ -235,7 +245,9 @@
             暂无文件
           </p>
         </div>
-  </div>
+        <div ng-if="showData.attachments.length" ng-init='attachmentsExtend={"title":"资质文件"}'
+        attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
+
   <div class="handle-btn-area">
     <div class="btn-area" >
       <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block">

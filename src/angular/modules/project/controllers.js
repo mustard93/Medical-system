@@ -6734,7 +6734,131 @@ define('project/controllers', ['project/init'], function() {
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
 
+  }
 
+  /**
+   * [medicalAttributeController 商品分类管理模块控制器]
+   * @method medicalAttributeController
+   * @param  {[type]}                   $scope      [description]
+   * @param  {[type]}                   alertOk     [description]
+   * @param  {[type]}                   alertError  [description]
+   * @param  {[type]}                   requestData [description]
+   * @return {[type]}                               [description]
+   */
+  function medicalAttributeController ($scope, alertOk, alertError, requestData, utils) {
+
+    // 定义是否显示右侧编辑界面
+    $scope.showEditArea = false;
+
+    // 定义保存节点信息类型，默认为修改节点信息
+    $scope.modifyNodeInfo = true;
+
+    // 定义保存url
+    var _saveUrl = 'rest/authen/medicalAttribute/save.json';
+
+    // 转换返回的JSON对象为JSON字符串
+    $scope.filterJSONDate = function (data) {
+      return JSON.stringify(data);
+    }
+
+    // 关闭新增主分类区域
+    $scope.cancelAddClass = function () {
+      if ($scope.showAddClass) {
+        $scope.showAddClass = false;
+      }
+    }
+
+    // 添加主分类
+    $scope.addMainClass = function (addMainClassObj) {
+      if (addMainClassObj) {
+        // 发送请求保存数据
+        requestData(_saveUrl, addMainClassObj, 'POST')
+        .then(function (resutls) {
+          if (resutls[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 修改节点信息和保存子节点信息操作
+    $scope.saveNodeInfo = function (medicalAttribute) {
+      if ($scope.modifyNodeInfo) {     // 修改节点信息
+        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        })
+      } else {      // 新增子节点
+        medicalAttribute['id'] = null;
+        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 删除类别
+    $scope.deleteThisClass = function () {
+
+      if ($scope.nodeObject.id) {
+        // 定义删除请求地址
+        var _delUrl = 'rest/authen/medicalAttribute/delete?id=' + $scope.nodeObject.id;
+        requestData(_delUrl, {}, 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 重新请求数据
+    $scope._reloadData = function (url, bindObjName) {
+      if (url && bindObjName) {
+        requestData(url)
+        .then(function (resutls) {
+          if (resutls[1].code === 200) {
+            $scope[bindObjName] = $scope.filterJSONDate(resutls[1].data);
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 新增子类节点
+    $scope.addNewChildNode = function () {
+      // 设置标识符
+      $scope.modifyNodeInfo = false;
+
+      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.levelCode);
+      $scope.formData.medicalAttribute.levelCode = null;
+      $scope.formData.medicalAttribute.showName = null;
+
+      // 清空节点code和name的数据
+
+    }
 
   }
 
@@ -6847,7 +6971,7 @@ define('project/controllers', ['project/init'], function() {
            var _url = null, data = null;
 
            if ($scope.submitForm_type == 'submit') {
-               _url='rest/authen/confirmOrder/startProcessInstance';
+               _url='rest/authen/lendOrder/startProcessInstance';
                data= {businessKey:$scope.formData.id};
                requestData(_url, data, 'POST')
                    .then(function (results) {
@@ -7212,38 +7336,6 @@ define('project/controllers', ['project/init'], function() {
         };
 
 
-
-
-        //设置或重置申请部门
-        $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
-
-
-            if($scope.formData.orderMedicalNos == undefined){
-                return;
-            }
-
-            if($scope.formData.orderMedicalNos.length<1){
-                $scope.formData.departmentId='';
-
-                $scope.formData.departmentName='';
-            }
-        },true);
-
-        //检测商品的选择批次时候存在
-        $scope.checkCanSubmit=function () {
-            var flag=true;
-            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-
-                if(item.stockBatchs.length<1){
-                    flag=false;
-                    return;
-                }
-            });
-            return flag;
-        };
-
-
-
         //校验批次输入数量
         $scope.changeQuantity=function(nowVal,oldVal){
 
@@ -7331,7 +7423,7 @@ define('project/controllers', ['project/init'], function() {
             var _data={
                 orderCode:orderCode
             };
-            requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
+            requestData("rest/authen/lendOrder/getByOrderCode", _data, 'GET')
                 .then(function (results) {
                     // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
                     $scope.scopeData=results[1].data || {};
@@ -7340,14 +7432,13 @@ define('project/controllers', ['project/init'], function() {
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
-
         };
 
         $scope.flashAddDataCallbackFn=function (data1) {
 
             $scope.angucomplete_data=data1;
 
-            if($scope.angucomplete_data.data == undefined){
+            if(!$scope.angucomplete_data.data){
                 return;
             }
             $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
@@ -7372,7 +7463,7 @@ define('project/controllers', ['project/init'], function() {
         //获取商品列表
         $scope.handleSearchFilter=function(listParams,relMedicalStockId){
 
-            if(relMedicalStockId == undefined || relMedicalStockId==null || relMedicalStockId==''){
+            if(!relMedicalStockId){
                 return;
             }
 
@@ -7384,7 +7475,7 @@ define('project/controllers', ['project/init'], function() {
 
             console.log("_data",_data);
 
-            requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
+            requestData("rest/authen/lendOrder/queryByMedical", _data, 'GET')
                 .then(function (results) {
                     // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
 
@@ -7392,59 +7483,6 @@ define('project/controllers', ['project/init'], function() {
 
                     $scope.tbodyList=results[1].data || [];
 
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-
-        };
-
-
-        /**
-         * 获取商品的批号列表
-         * 1.判断是否选择商品
-         * 2.判断部门存在
-         * 3.判断当前选择商品是否存在已选商品列表
-         * 4.跳转到批次选择界面-请求批次列表信息
-         */
-        $scope.getGoodsBatchs=function(){
-
-            //1.判断是否选择商品
-            if($scope.curOrder== null){
-                alertWarn("请选择！");
-                return;
-            }
-
-            //2.判断部门存在
-            if($scope.formData.departmentId){
-                if($scope.curOrder.departmentId != $scope.formData.departmentId){
-                    alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
-                    return;
-                }
-            }
-
-            // 3.判断当前选择商品是否存在已选商品列表
-            var flag=false;
-            for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
-                if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
-                    flag=true;
-                    break;
-                }
-            }
-            if(flag){
-                alertWarn("該商品已存在,请重新选择");
-                return;
-            }
-
-            // 4.跳转到批次选择界面-请求批次列表信息
-            $scope.changeShowBatchsFlag(true);
-            var _data={
-                id:$scope.curOrder.relId,//单据主键ID
-                relMedicalStockId:$scope.curOrder.relMedicalStockId
-            };
-            requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
-                .then(function (results) {
-                    $scope.stockBatchList=results[1].data || [];
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
@@ -7569,7 +7607,7 @@ define('project/controllers', ['project/init'], function() {
             obj.stockBatchs=$scope.selectedBatchs2;
 
             // console.log("obj",obj);
-            $scope.formData.orderMedicalNos.push(obj);
+            $scope.formData.medicalNos.push(obj);
 
             $scope.formData.relIds.push(obj.relId);
 
@@ -7583,44 +7621,39 @@ define('project/controllers', ['project/init'], function() {
 
         };
 
+
+
+
+
         //添加领用单中的商品到列表
         $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
-            //step0 判断部门
-            if(!$scope.formData.departmentId){
-                //设置部门ID 和 name
-                $scope.formData.departmentId=departmentId ;
-                $scope.formData.departmentName= departmentName;
-
-            }else{
-
-                if($scope.formData.departmentId != departmentId){
-                    alertWarn("退货列表已有"+departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
-                    return;
-                }
-            }
-
-
             //添加商品
-            var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+            var hasOrderMedicalNos = $scope.formData.medicalNos;
 
 
-            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'onlyId','onlyId');
+            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
+
+
+            console.log("resultArr",angular.toJson(resultArr,true));
 
             //
-            angular.forEach(resultArr,function (item,index) {
-                item.relCollarApplicationId=relCollarApplicationId;
-            });
+            // angular.forEach(resultArr,function (item,index) {
+            //     item.relCollarApplicationId=relCollarApplicationId;
+            // });
 
 
 
-            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
+            $scope.formData.medicalNos = hasOrderMedicalNos.concat(resultArr);
 
-            for(var i=0; i<resultArr.length; i++){
-                var goods= resultArr[i];
-                $scope.formData.relIds.push(goods.relId);
-            }
+            // for(var i=0; i<resultArr.length; i++){
+            //     var goods= resultArr[i];
+            //     $scope.formData.relIds.push(goods.relId);
+            // }
         };
+
+
+
 
         //选择批次
         $scope.choiceBaths=function(index){
@@ -7749,8 +7782,13 @@ define('project/controllers', ['project/init'], function() {
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
   .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
+<<<<<<< HEAD
+  .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'requestData', 'utils', medicalAttributeController])
+  .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
+=======
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl]);
+>>>>>>> e1933e7e8e398461f97a8ff44d5698a7a397792f
 });

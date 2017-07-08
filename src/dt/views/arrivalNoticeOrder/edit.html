@@ -61,7 +61,7 @@
                </div>
              </div>
            </div>
-           <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
+           <div ng-if="scopeData.orderBusinessType=='直进采购'" class="inline-block mgr-l">
              <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
                <div class="inline-block customer-name"></div>
                <div class="inline-block">
@@ -70,7 +70,7 @@
                </div>
              </div>
            </div>
-           <div class="inline-block" ng-if="scopeData.orderBusinessType!='直发采购'">
+           <div class="inline-block" ng-if="scopeData.orderBusinessType!='直进采购'">
               <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
                 <div class="inline-block logistics-center "></div>
                 <div class="inline-block">
@@ -147,6 +147,7 @@
                         ng-readonly="true"
                         ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
                </span>
+              <span class="mgr-l">目标客户：<em class="color-3">{{formData.intentionalCustomer || '暂无'}}</em></span>
              </div>
              <div class="">
                <table class="table pr-table pr-new-table " >
@@ -158,9 +159,9 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center w-106">到货数量</th>
-                    <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">批号</th>
-                    <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">生产日期</th>
-                    <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">失效日期</th>
+                    <th class="text-center" ng-if="formData.orderBusinessType=='直进采购'">批号</th>
+                    <th class="text-center" ng-if="formData.orderBusinessType=='直进采购'">生产日期</th>
+                    <th class="text-center" ng-if="formData.orderBusinessType=='直进采购'">失效日期</th>
                     <th class="text-center w-130" >预入仓库</th>
                     <th class="text-center">含税单价</th>
                     <th class="text-center">价税合计</th>
@@ -244,20 +245,20 @@
                          <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
                      </td><!-- 数量 -->
-                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
+                     <td class="text-center" ng-if="formData.orderBusinessType=='直进采购'">
                        <input type="text"
                             class="inline ipt pr-ipt-60 text-center"
                             style="width:100px;"
                             ng-model="tr.productionBatch"
                             >
                      </td><!-- 批号 -->
-                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
+                     <td class="text-center" ng-if="formData.orderBusinessType=='直进采购'">
                        <div class="inline-block relative">
                          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期"  ng-model="tr.productionDate">
                          <span class="date-icon"></span>
                        </div>
                      </td><!-- 生产日期 -->
-                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
+                     <td class="text-center" ng-if="formData.orderBusinessType=='直进采购'">
                        <div class="inline-block relative">
                          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="有效期至"  ng-model="tr.validTill">
                          <span class="date-icon"></span>
@@ -393,12 +394,12 @@
         <span class="mgr mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
-                  ng-click="submitForm('arrivalNoticeOrderForm','save')"
-                  ng-disabled="!changeFlag">保存
+                  ng-click="submitForm('arrivalNoticeOrderForm','save')">保存
           </button>
         </span>
         <span>
-          <button class="pr-btn-create-glodbg mgt"
+          <button
+                  class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认生成?"

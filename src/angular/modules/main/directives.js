@@ -3553,8 +3553,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         scope: {
           "ngModel": "=",
           "idKey": "@?",
-          "pIdKey": "@?",
-          "handleClickEvent": "&"
+          "pIdKey": "@?"
         },
         link: function ($scope, $element, $attrs) {
 
@@ -3567,8 +3566,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             var tmp_template='<ul id="'+zTreeSelectDivId+'" class="ztree"></ul>';
             // 插入父容器
             $element.append(tmp_template);
-            // 初始化树形数据
-            var data = JSON.parse($attrs.zTreeSelect);
+            // 初始化树形数据，如果定义的数据是JSON字符串，则进行转换，否则直接赋值
+            var data = typeof($attrs.zTreeSelect) === 'string' ? JSON.parse($attrs.zTreeSelect) : $attrs.zTreeSelect;
+
             zTree_init_static($("#"+zTreeSelectDivId), data, $scope);
           } else {                                                                        // 否则则为事件触发显示树形列表
             var tmp_template='<div id="menuContent" class="menuContent" style="display:none;position:absolute;z-index:11;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
@@ -3689,7 +3689,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               	},
                 callback: {
               		onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
                       hideMenu();
                       $scope.ngModel=treeNode;
                       $scope.$apply();
@@ -3706,36 +3705,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           function zTree_init_static($element, zNodes, $scope){
 
             var setting = {
-                data: {
-                  async:{
-                      enable:false
-                  },
-              		simpleData: {
-              			enable: true,
-              			idKey: $scope.idKey||"id",
-              			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: null,
-              		}
-              	},
-                view: {
-                  showLine: false,
-                  showIcon: false,
-          				selectedMulti: false,
-          				dblClickExpand: false,
-                  addDiyDom: addDiyDom
+              data: {
+                async:{
+                    enable:false
                 },
-                callback: {
-              		onClick: function(event, treeId, treeNode) {
-                    // console.log($scope);
-                    $scope.$parent.handleClickEvent(treeNode);    // 点击执行父作用域中的重置表单方法
-                  }
-              	}
-              };
-              require(['ztree'], function(store) {
-                  $.fn.zTree.init($element, setting, zNodes);
+            		simpleData: {
+            			enable: true,
+            			idKey: $scope.idKey||"id",
+            			pIdKey: $scope.pIdKey||"pId",
+            			rootPId: null,
+            		}
+            	},
+              view: {
+                showLine: true,
+                showIcon: false,
+        				selectedMulti: false,
+        				dblClickExpand: false
+              },
+              callback: {
+            		onClick: function(event, treeId, treeNode) {
+                  $scope.ngModel = treeNode;
+                  $scope.$apply();
+                  // console.log($scope);
+                  // $scope.handleClickEvent(treeNode);
+                  // $scope.$parent.handleClickEvent(treeNode);    // 点击执行父作用域中的重置表单方法
+                }
+            	}
+            };
 
-              });//require
+            require(['ztree'], function(store) {
+                $.fn.zTree.init($element, setting, zNodes);
+            });
           }
+
 
           function addDiyDom(treeId, treeNode) {
       			var spaceWidth = 5;
@@ -3773,55 +3775,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }//end link
       };
     }//zTreeSelect
-
-    /**
-     * [zTreeStatic 依赖zTree插件的静态展示树形列表]
-     * @method zTreeStatic
-     * @param  {[type]}    requestData [description]
-     * @param  {[type]}    alertOk     [description]
-     * @param  {[type]}    alertError  [description]
-     * @param  {[type]}    proLoading  [description]
-     * @param  {[type]}    utils       [description]
-     * @return {[type]}                [description]
-     */
-    function zTreeStatic(requestData, alertOk, alertError, proLoading, utils) {
-      'use strict';
-      return {
-        restrict: 'EA',
-        scope: {
-
-        },
-        link: function ($scope, $element, $attrs) {
-          // 初始化
-          function zTreeInit ($element, zNodes, $scope) {
-            var setting = {
-                data: {
-                  async:{
-                      enable:false
-                  },
-              		simpleData: {
-              			enable: true,
-              			idKey: $scope.idKey||"id",
-              			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: null,
-              		}
-              	},
-                callback: {
-              		onClick: function(event, treeId, treeNode) {
-                      hideMenu();
-                      $scope.ngModel=treeNode;
-                      $scope.$apply();
-                  }
-              	}
-              };
-              require(['ztree'], function(store) {
-                  $.fn.zTree.init($element, setting, zNodes);
-
-              });//require
-          }
-        }
-      };
-    }
 
     /**
      *  全局弹出层显示信息组件
@@ -3873,7 +3826,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      */
     angular.module('manageApp.main')
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
-      .directive("zTreeStatic", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeStatic])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
       .directive("textInterception", textInterception)
       .directive("ngCompile2", ["$compile",ngCompile2])
