@@ -6783,7 +6783,7 @@ define('project/controllers', ['project/init'], function() {
         // 保存路径
         var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
         // 发送请求保存数据
-        requestData(_saveUrl, addMainClassObj, 'POST')
+        requestData(_saveUrl, addMainClassObj, 'POST', 'parameterBody')
         .then(function (resutls) {
           if (resutls[1].code === 200) {
             alertOk('操作成功');
