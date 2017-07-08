@@ -1,15 +1,15 @@
-<!--ng-controller="collarReturnOrderCtrl"-->
+<!--      alert-error   -->
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
-
-     ajax-url="rest/authen/collarReturnOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ng-controller="returnOrderCtrl"
+     ajax-url="rest/authen/returnOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
-     alert-error>
+   >
   <form id="editForm"
          name="editForm"
          form-validator
          parameter-body
-         action="rest/authen/collarReturnOrder/save"
+         action="rest/authen/returnOrder/save"
          alert-error
          alert-ok
          scope-error-msg="errorMsg"
@@ -18,7 +18,7 @@
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建领退申请单","link":"","style":""}]'
+                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
                                  component-title="归还单-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
@@ -31,20 +31,49 @@
          </p>
        </div>
 
+
+       <!--预入物流中心-->
+       <div class="">
+         <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block">
+               <p class="mgb-s">预入物流中心</p>
+               <p class="text-m color-3">
+
+                 <!--<select ng-if="!formData.customerId"-->
+                         <!--class="ipt-new-select"-->
+                         <!--ng-disabled="true">-->
+                 <!--</select>-->
+
+                 <select class="ipt pr-long-ipt color-6"
+                         data-placeholder=" "
+                         chosen
+                         ng-model="formData.logisticsCenterId"
+                         is-disabled-this="{{formData.customerId}}"
+                         select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                 </select>
+               </p>
+             </div>
+           </div>
+         </div>
+       </div>
+
        <!--   自动打开右侧弹窗 -->
        <div class="pos-rel-tl order-create-btn mgb-m">
-         <a ng-if="initFlag"
-            modal-right="1000"
-            modal-open-auto="{{!formData.orderMedicalNos.length}}"
-            modal-scope="this"
-            modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
-            modal-url="views/collarReturnOrder/choice-dialog.html">
+         <a
+                 modal-right="1000"
+                 modal-open-auto="{{!formData.orderMedicalNos.length}}"
+                 modal-scope="this"
+                 modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+                 modal-url="views/returnOrder/choice-dialog.html">
            <i></i>
            <span>增加归还条目</span>
            <!--<span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>-->
            <!--<span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>-->
          </a>
        </div>
+
 
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
 
@@ -77,7 +106,7 @@
                         class="ipt-date ipt color-3"
                         ng-readonly="true"
                         placeholder=""
-                        ng-model="formData.applicationDate">
+                        ng-model="formData.orderDate">
                  <span class="date-icon"></span>
                </div>
 
@@ -96,22 +125,21 @@
 
              <span class="mgr">业务部门:</span>
              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                     ng-disabled="formData.id"
+
                      data-placeholder=" "
                      no-first-select-source="true"
                      chosen
-                     ng-model="formData.storeRoomId"
-                     select-source="rest/authen/storeRoom/queryForSelectOption">
+                     ng-model="formData.businessDepartmentId"
+                     select-source="rest/authen/department/queryForSelectOption">
              </select>
 
-             <span class="mgr">业务人员:</span>
-             <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                     ng-disabled="formData.id"
+             <span class="mgr" style="margin-left: 20px;">业务人员:</span>
+             <select class="ipt pr-short-ipt color-3" style="width:100px; margin-right: 20px;"
                      data-placeholder=" "
                      no-first-select-source="true"
                      chosen
-                     ng-model="formData.storeRoomId"
-                     select-source="rest/authen/storeRoom/queryForSelectOption">
+                     ng-model="formData.saleUser.id"
+                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.businessDepartmentId}}">
              </select>
 
              <span class="mgr">计划到货日期:</span>
@@ -122,7 +150,7 @@
                       class="ipt-date ipt color-3"
                       ng-readonly="true"
                       placeholder=""
-                      ng-model="formData.applicationDate">
+                      ng-model="formData.expectDate">
                <span class="date-icon"></span>
              </div>
 
@@ -148,7 +176,7 @@
                </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in formData.orderMedicalNos"
+                 <tr ng-repeat="tr in formData.medicalNos"
                      table-item-handlebtn-component
                      class="relative">
 
@@ -158,7 +186,7 @@
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                          <p class="pdt">
                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);formData.relIds.splice($index,1);">确认</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.medicalNos.splice($index,1);formData.relIds.splice($index,1);">确认</a>
                          </p>
                        </div>
                      </div>
@@ -168,12 +196,24 @@
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
 
                    <td class="text-left" style="line-height:2.4">
-                     <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                      </div>
+                     <span
+                             class="autocut color-orange cur-pot lend-order-goods-info"
+                             ng-init="showInfoArea=false"
+                             ng-mouseenter="showInfoArea=true"
+                             ng-mouseleave="showInfoArea=false"
+                             title="{{tr.name}}"
+                     > {{tr.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+
                    </td><!-- 商品全名 -->
 
-                   <td class="text-center">剂型／分类</td> <!--剂型／分类 -->
+                   <td class="text-center">{{tr.returnTotal}}剂型／分类</td> <!--剂型／分类 -->
                    <td class="text-center" style="white-space: nowrap;">{{tr.returnTotal}}</td><!-- 可退数量 -->
 
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
@@ -186,7 +226,7 @@
 
                    <td class="text-center" style="white-space: nowrap;">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -200,9 +240,9 @@
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                                 ng-change="confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">
                         </span>
-                       <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
+                       <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 
@@ -212,7 +252,7 @@
                </tbody>
              </table>
            </div>
-           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+           <div class="pr-bg-white" ng-if="!formData.medicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
@@ -223,9 +263,9 @@
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">制单部门：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
-               <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+               <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+               <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd hh:mm'}}</em></span>
              </div>
            </div>
          </div>
@@ -234,25 +274,25 @@
        <!-- 运输／仓储 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
          <h1 class="text-bold color-3 inline-block" style="border-right: 1px solid rgba(0,0,0,0.15); padding-right: 20px; margin-right: 20px;">运输／仓储</h1>
-
+         <!--ng-disabled="formData.id"-->
          <span class="mgr">运输方式：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                 ng-disabled="formData.id"
+
                  data-placeholder=" "
                  no-first-select-source="true"
                  chosen
-                 ng-model="formData.storeRoomId"
-                 select-source="rest/authen/storeRoom/queryForSelectOption">
+                 ng-model="formData.payAndDelivery.transportType"
+                 select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType">
          </select>
-
+         <!--ng-disabled="formData.id"-->
          <span class="mgr" style="margin-left: 30px;">承运公司：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                 ng-disabled="formData.id"
+
                  data-placeholder=" "
                  no-first-select-source="true"
                  chosen
-                 ng-model="formData.storeRoomId"
-                 select-source="rest/authen/storeRoom/queryForSelectOption">
+                 ng-model="formData.payAndDelivery.kuaidiType"
+                 select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType">
          </select>
 
        </div>
@@ -293,8 +333,6 @@
      </div>
      <!-- 流程图 -->
 
-
-
      <!-- <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show> -->
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -306,11 +344,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/collarReturnOrder/query.html')"
-             save-callback="submitForm('editForm','exit')">返回领退申请单列表
+             nosave-callback="goTo('#/returnOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回归还单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/collarReturnOrder/query.html" >返回领退申请单列表</a>
+          <a ng-if="!changeFlag" href="#/returnOrder/query.html" >返回归还单列表</a>
         </span>
         <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -320,8 +358,8 @@
              dialog-title="确认删除 ?"
              dialog-content="您确认删除这条采购单吗?"
              dialog-template="dialog-confirm.html"
-             request-url="rest/authen/collarReturnOrder/delete?id={{formData.id}}"
-             callback="goTo('#/collarReturnOrder/query.html')">删除
+             request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
+             callback="goTo('#/returnOrder/query.html')">删除
           </a>
         </span>
         <!---->
@@ -336,7 +374,7 @@
         <span>
 
 
-          <!--ng-disabled="quantityError ||  ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length "-->
+          <!--ng-disabled="quantityError ||  ||!formData.orderCode ||!formData.storeRoomId ||!formData.medicalNos.length "-->
 
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
@@ -345,7 +383,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.medicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

@@ -31,21 +31,19 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <!-- <div class="pr-panel pr-panel-height mgb pd-n">
-        <div class="inline-block br-line supplier-name relative">
-          <p class="mgb-s">供应商</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            {{scopeData.supplier.name || '暂无'}}
-          </p>
-        </div>
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p class="text-n color-black autocut-default" title="{{scopeData.logisticsCenterName}}" style="padding-right:182px;width:1200px;">
-            {{scopeData.logisticsCenterName ||'暂无'}}
-          </p>
-        </div>
-      </div> -->
+
       <div class="">
+        <div class="inline-block mgr-l">
+          <div class="inline-block">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+               <div class="inline-block logistics-center "></div>
+               <div class="inline-block">
+                 <p class="mgb-s">业务类型</p>
+                 <p class="text-m color-3 autocut-default" title="{{scopeData.orderBusinessType}}" >{{scopeData.orderBusinessType || '暂无'}}</p>
+               </div>
+             </div>
+          </div>
+        </div>
         <div class="inline-block mgr-l">
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
             <div class="inline-block supplier-name"></div>
@@ -55,7 +53,16 @@
             </div>
           </div>
         </div>
-        <div class="inline-block">
+        <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block customer-name"></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名</p>
+              <p class="text-m color-3 autocut-default" title="{{scopeData.customerName}}" style="width:300px;">{{scopeData.customerName || '暂无'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="inline-block" ng-if="scopeData.orderBusinessType!='直发采购'">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block">
@@ -70,11 +77,13 @@
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderCode}}</em></span>
+            <span class="mgr ">单据日期：<em class="color-3">{{scopeData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em>
+            </span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n ||'暂无'}}</em></span>
-            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <!-- <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n ||'暂无'}}</em></span> -->
+            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
             <a ng-if="initFlag"
                modal-center="1000px"
                modal-data='{"businessKey":"{{scopeData.relId}}"}'
@@ -86,40 +95,32 @@
         </div>
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr-l">部门：<em class="color-3">{{scopeData.salesDepartmentName ||'暂无'}}</em></span>
-          <span class="mgr-l">业务人员：<em class="color-orange">{{scopeData.saleUser.n ||'暂无'}}</em></span>
+          <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.salesDepartmentName ||'暂无'}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n ||'暂无'}}</em></span>
           <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr ||'暂无'}}</em></span>
           <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType ||'暂无'}}</em></span>
           <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd' ||'暂无'}}</em></span>
+          <span class="mgr-l">目标客户：<em class="color-3">{{scopeData.intentionalCustomer || '暂无'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="outside-table-d">
-            <table class="table pr-table pr-new-table mgb-n table-s-wid">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
               <thead>
               <tr>
-               <th class="text-center">状态</th>
-               <th class="text-center">商品编号</th>
-               <th class="text-left">商品全名</th>
-               <th class="text-center">规格/型号</th>
-               <th class="text-center">单位</th>
-               <th class="text-center">计划数量／入库总数／拒收数量</th>
-               <th class="text-center">仓库</th>
-               <th class="text-center">数量</th>
-               <!-- <th class="text-center">计划数量</th>
-               <th class="text-center">正常数量</th>
-               <th class="text-center">其他数量</th>
-               <th class="text-center">拒收数量</th> -->
-               <th class="text-center">原币含税单价</th>
-               <th class="text-center">原币单价</th>
-               <th class="text-center">原币金额</th>
-               <th class="text-center">原币税额</th>
-               <th class="text-center">原币价税合计</th>
-               <th class="text-center">税率</th>
-               <!-- <th class="text-center">产品执行标准</th> -->
-               <th class="text-center">产地品牌</th>
-               <th class="text-center">产品注册证号</th>
-               <th class="text-center">产品注册证有效期</th>
+                <th class="text-center">状态</th>
+                <th class="text-center">商品编号</th>
+                <th class="w-160 text-left">商品通用名</th>
+                <th class="text-center">剂型/分类</th>
+                <th class="text-center">规格/型号</th>
+                <th class="text-center">单位</th>
+                <th class="text-center w-106">到货数量</th>
+                <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">批号</th>
+                <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">生产日期</th>
+                <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">失效日期</th>
+                <th class="text-center w-130" >预入仓库</th>
+                <th class="text-center">含税单价</th>
+                <th class="text-center">价税合计</th>
              </tr>
               </thead>
               <tbody>
@@ -139,80 +140,63 @@
                         </i>
                       </span>
                     </span>
-                    <!-- <div class="color-3">
-                      <div class="progress pr-progress"
-                           data-toggle="tooltip"
-                           data-placement="top"
-                           >
-                        <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                             aria-valuemax="100"
-                             ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
-                             >
-                             <span class="purchaseorder-buyer-info">
-                               <i class="block text-normal pd-c-s">
-                                 <em class="inline-block pd-v-s">
-                                   {{tr.progress}}%
-                                </em>
-                              </i>
-                            </span>
-                        </div>
-                        <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                              ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
-                             aria-valuemax="100" >
-                             <span class="purchaseorder-buyer-info"
-                             ng-style='{"right":78-tr.progress+"%"}'
-                             >
-                               <i class="block text-normal pd-c-s">
-                                 <em class="inline-block pd-v-s">
-                                   {{tr.progress}}%
-                                </em>
-                              </i>
-                            </span>
-                        </div>
-                      </div>
-                    </div> -->
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
-                  <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-left" >
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
+                  <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td class="text-right">
-                    {{tr.quantity || '0'}}&nbsp;/&nbsp;{{tr.storageQuantity + tr.otherQuantity || '0'}}&nbsp;/&nbsp;{{tr.refuseQuantity || '0'}}
+                    {{tr.quantity || '0'}}
+                  </td>
+                  <td class="text-right" ng-if="formData.orderBusinessType=='直发采购'">
+                    {{tr.productionBatch }}
+                  </td>
+                  <td class="text-right" ng-if="formData.orderBusinessType=='直发采购'">
+                    {{tr.productionDate | date: 'yyyy-MM-dd'}}
+                  </td>
+                  <td class="text-right" ng-if="formData.orderBusinessType=='直发采购'">
+                    {{tr.validTill | date: 'yyyy-MM-dd'}}
                   </td>
                   <td class="text-center" style="padding:0px;">
                     <div class="full-width hei-50" style="line-height:50px;">
                       {{tr.warehouseName}}
                     </div>
-                    <div ng-if="tr.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;">
-                      待处理库
-                    </div>
                   </td>
-                  <td class="text-right" style="padding:0px;">
-                    <div class="full-width hei-50" style="line-height:50px;padding-right:10px;">
-                        {{tr.storageQuantity}}
-                    </div>
-                  <div  ng-if="tr.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;padding-right:10px;">
-                        {{tr.otherQuantity}}
-                  </div>
+                  <td class="text-right">
+                    ￥{{tr.strike_price | number:2}}
                   </td>
-                  <td class="text-right">￥{{tr.duty_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
-                  <td class="text-right">￥{{tr.duty_free_price || '0' | number:2 }}</td><!-- 原币单价 -->
-                  <td class="text-right">￥{{tr.total_duty_free_price || '0' | number:2}}</td><!-- 原币金额 -->
-                  <td class="text-right">￥{{tr.totalTaxPrice || '0' | number:2}}</td><!-- 原币税额 -->
-                  <td class="text-right">￥{{tr.totalPrice || '0' | number:2}}</td><!-- 原币价税合计 -->
-                  <td class="text-center">{{tr.tax?tr.tax+'%':''}}</td><!-- 税率 -->
-                  <!-- <td class="text-center">{{tr.productStandard}}</td> -->
-                  <!-- 产品执行标准 -->
-                  <td class="text-center">{{tr.brand}}</td><!-- 产地品牌 -->
-                  <td class="text-center">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
-                  <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证有效期 -->
+                  <td class="text-right">
+                    ￥{{tr.totalPrice | number:2}}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="bt-line flex-column">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：
+                <em class="color-3">{{scopeData.departmentName || '暂无'}}</em>
+              </span>
 
+              <span class="mgr mgl">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
+
+              <span class="mgr mgl">制单时间：<em class="color-3">{{scopeData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+            </p>
+          </div>
         </div>
       </div>
 

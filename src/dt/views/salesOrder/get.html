@@ -57,29 +57,26 @@
           <span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
 
              <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-
-          <!-- <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-          <span class="mgr-xl color-9">状态：
-            <a ng-if="initFlag"
-               href="javascript:;"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{showData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
-          </span> -->
         </div>
       </div>
 
       <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
-        <div class="flex-item-2">
+        <div class="flex-item-1">
           <span class="mgr-m color-9">单据来源：<span class="color-6">{{showData.orderSource}}</span></span>
         </div>
-        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-2">
+        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-1">
         <span class="mgr-m color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
       </div>
+
         <!--<div class="flex-item-2">-->
           <!--<span class="mgr-m color-9">来源部门：<span class="color-6">采购部 {{showData.orderNo}}</span></span>-->
         <!--</div>-->
+        <div class="flex-item-1">
+          <span class="mgr-m color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName}}</span></span>
+        </div>
+        <div class="flex-item-1">
+          <span class="mgr-m color-9">业务人员：<span class="color-6">{{showData.saleUser.n}}</span></span>
+        </div>
         <div class="flex-item-2">
           <span class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
         </div>
@@ -110,53 +107,37 @@
               <th class="text-center">规格/型号</th>
               <th class="text-center">单位</th>
               <th class="text-center">数量</th>
-
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center w-110">批号要求</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">生产批号</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">灭菌批号</th>-->
-              <th  ng-if="showData.orderSource=='线上订单'" class="text-center">报价</th>
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">税率</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">折扣额</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">折扣率</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">含税单价</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">无税单价</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">无税金额</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">税额</th>-->
-              <!--<th  ng-if="showData.orderSource=='线上订单'" class="text-center">价税合计</th>-->
+              <th class="text-center">含税单价</th>
+              <th class="text-center">价税合计</th>
             </tr>
           </thead>
           <tbody ng-if="showData.orderMedicalNos.length>0">
             <tr ng-repeat="item in showData.orderMedicalNos">
               <td class="text-center">{{item.code}}</td>
-              <td>{{item.approvedName}}</td>
+              <td>
+                <span
+                     class="color-orange cur-pot lend-order-goods-info"
+                     ng-init="showInfoArea=false"
+                     ng-mouseenter="showInfoArea=true"
+                     ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                  <show-info-modal ng-show="showInfoArea"
+                                   get-data-type="local"
+                                   template-url="tpl/showInfoModalLendOrder"
+                                   info-object="{{item}}"
+                                   info-title="商品信息">
+                  </show-info-modal>
+                </span>
+              </td>
               <td class="text-left">{{item.dosageForms}}</td>
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
-
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">{{item.batchRequirement}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">{{item.productionBatch}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">{{item.sterilizationBatchNumber}}</td>-->
-
-              <td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{item.price | number:2}}</td>
-
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">{{item.taxRate}}%</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{item.discountPrice | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">{{item.discountRate}}%</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>-->
-
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>-->
-              <!--<td  ng-if="showData.orderSource=='线上订单'" class="text-center">￥{{item.price*item.quantity | number:2}}</td>-->
+              <td class="text-right">￥{{item.price | number:2}}</td>
+              <td class="text-right">￥{{item.totalPrice | number:2}}</td>
             </tr>
           </tbody>
         </table>
-        <table ng-if="showData.orderSource=='线上订单'" class="table pr-table pr-new-table">
+        <!-- <table ng-if="showData.orderSource=='线上订单'" class="table pr-table pr-new-table">
           <thead>
             <tr>
               <th class="text-center">序号</th>
@@ -166,7 +147,6 @@
               <th class="text-center">基本单位</th>
               <th class="text-center">计划采购数量</th>
               <th class="text-center">采购单价</th>
-              <!--<th class="text-center">计划采购金额</th>-->
               <th class="text-center">生产厂商</th>
               <th class="text-center">产地</th>
             </tr>
@@ -180,12 +160,11 @@
               <td class="text-center">{{item.unit}}</td>
               <td class="text-center">{{item.quantity}}</td>
               <td class="text-center">{{item.strike_price | currency:'￥'}}</td>
-              <!--<td class="text-center">{{item.totalPrice | currency:'￥'}}</td>-->
               <td class="text-center">{{item.manufacturer}}</td>
               <td class="text-center">{{item.productionPlace}}</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <div class="empty-table clearfix" ng-if="!showData.orderMedicalNos.length">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
@@ -193,6 +172,16 @@
         </div>
       </div>
     </div>
+    <div class="bt-line flex-column pr-bg-white">
+      <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+        <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName}}</em></span>
+
+        <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n}}</em></span>
+
+        <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+      </p>
+    </div>
+
 
     <!-- 收货方信息 -->
     <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">

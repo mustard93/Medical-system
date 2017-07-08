@@ -1,12 +1,10 @@
 
 
-
-
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
-     ng-controller="collarReturnOrderChoiceDialogCtrl"
+     ng-controller="returnOrderChoiceDialogCtrl"
      ajax-url=""
      scope-data="stockBatchList"
-     ng-init="showBatchs=false; listParams={};angucomplete_data={};curOrder=null;"
+     ng-init="showLendOrder=false; listParams={};angucomplete_data={};curOrder=null;"
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
 >
@@ -84,28 +82,6 @@
             background: #ddd;
         }
 
-        /*.footer-btn-box {*/
-            /*height: 56px;*/
-            /*z-index: 1000;*/
-            /*position: absolute;*/
-            /*right: 0;*/
-            /*left: 0;*/
-            /*bottom: 0;*/
-            /*text-align: center;*/
-            /*background: rgba(54, 48, 44, 0.95);*/
-        /*}*/
-
-        /*.footer-btn {*/
-            /*border: 0;*/
-            /*height: 36px;*/
-            /*width: 160px;*/
-            /*background: #C7A77B;*/
-            /*border-radius: 100px;*/
-            /*font-size: 14px;*/
-            /*color: #FFFFFF;*/
-            /*line-height: 18px;*/
-            /*margin: 10px 30px;*/
-        /*}*/
 
         .choiced {
             width: 25px;
@@ -131,7 +107,6 @@
         .angucomplete-dropdown{
             width: 390px!important;
         }
-
         .angucomplete-holder .ipt{
             width: 100%;
         }
@@ -140,220 +115,25 @@
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-
-        <h1 ng-init="type='通过商品退货'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
-
-            <a ng-click="type='通过商品退货';" ng-class="{'cur':type=='通过商品退货'}">通过商品退货</a>
-
-            <a ng-click="type='通过领用单退货';" ng-class="{'cur':type=='通过领用单退货'}">通过领用单退货</a>
+        <h1 ng-init="type='按商品查找'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
+            <a ng-click="type='按商品查找'; showLendOrder=false;" ng-class="{'cur':type=='按商品查找'}">按商品查找</a>
+            <a ng-click="type='按借出单编号查找'; showLendOrder=true;" ng-class="{'cur':type=='按借出单编号查找'}">按借出单编号查找</a>
         </h1>
     </div>
 
-    <div ng-if="type=='通过领用单退货'"
-         ajax-url="rest/authen/collarApplicationOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
-         scope-data="scopeData"
-         callback="isChoiseAll=false; selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId');"
-    >
-
-        <!-- 过滤条件 -->
-        <div class="pdt-s pdb-s pd-c-xl">
-            <div class="" style="margin: 10px 0">
-                <span class="color-12">选择商品关联的领用单</span>
-            </div>
-
-            <!-- 关键字过滤 -->
-            <div class="inline-block">
-                <!--<div class="order-list-search text-left code pos-rel-tr inline-block fl-r">-->
-                    <!--<input type="text"-->
-                           <!--class="ipt pdr-xxl relative"-->
-                           <!--placeholder="领用单编号"-->
-                           <!--ng-model="orderCode"-->
-                           <!--ng-change="getByOrderCode(orderCode)">-->
-                    <!--<i class=""></i>-->
-
-                <!--</div>-->
-
-                <span angucomplete placeholder="领用单编号"
-                      style="width: 390px"
-                      title-field="orderCode"
-                      search-str-class="ipt"
-                      url="rest/authen/collarApplicationOrder/queryAutoComplete?tableName=SPD.Order.CollarApplicationOrder&property=orderCode"
-                      class="inline-block"
-                      ng-model="selectedData">
-                </span>
-
-            </div>
-        </div>
-        <div class="pdt-s pdb-s pd-c-xl">
-            <div class="inline-block" style="margin: 10px 0">
-                <span class="color-12">选择商品关联的领用单</span>
-            </div>
-        </div>
 
 
+    <div ng-if="type=='按商品查找'">
 
+        <div ng-show="!showLendOrder;">
 
+            <div class=" pdt-s pdb-s pd-c-xl">
 
-        <div class="">
-            <div ng-if="!scopeData" class="empty-table clearfix">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-            </div>
-            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
-
-
-
-                <!-- 单据信息 -->
-                <div   ng-if="scopeData"  class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
-                    <div class="flex-item-6">
-                        <span class="mgr">领用单编号：<em class="color-3">{{scopeData.orderCode ||  '暂无'}}</em></span>
-                        <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
-                        <span class="mgr relative">制单人：
-                            <span class="purchaseorder-buyer-info-outside">
-                              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
-                                      style="position:relative;height:25px;">{{scopeData.inputUser.n}}</strong>
-                              <span class="purchaseorder-buyer-info" style="right:-73px">
-                                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{scopeData.inputUser.p}}</em></i>
-                                <i class="block pdb-s text-normal">
-                                  <em class="fa fa-comment-o mgl"></em>
-                                  <em class="inline-block pdl pdr pdt">
-                                    <a href="javascript:;"
-                                       modal-center="340"
-                                       modal-data='{"toUser":{"n":"{{scopeData.inputUser.n}}"},"userIds":["{{scopeData.inputUser.id}}}"]}'
-                                       modal-url="views/notice/sendToUser.html">发送消息
-                                    </a>
-                                  </em>
-                                </i>
-                              </span>
-                            </span>
-                          </span>
-
-                    </div>
-                    <div class="flex-item-6 text-right">
-                        <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                        <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
-                    </div>
-                </div>
-                <!-- 类别选择 -->
-                <div   ng-if="scopeData"  class="pd-c-l pdt-m pdb-m color-9" style="padding: 0;">
-                    <div class="pd-c-l pdt-m pdb-m color-9">
-                        <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
-                        <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
-                        <span class="mgr-l">领用日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                        <span class="mgr-l">领用库房：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
-                    </div>
-                </div>
-                <!-- 商品列表 -->
-                <div class="outside-table-d">
-                    <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
-                        <thead>
-                        <tr>
-
-                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
-
-                            <th class="w-60 text-center mycheck">
-                                <input type="checkbox" class="selectAll cur-pot" id='1'
-                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
-                                       ng-model="isChoiseAll2"
-                                       ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
-
-                                >
-                                <label for="1" style="top: 10px;"></label>
-
-                            </th>
-                            <th class="text-center">序号</th>
-                            <th class="text-center">商品编码</th>
-                            <th class="text-left">商品名称</th>
-                            <th class="text-center">申请数量</th>
-                            <th class="text-center">领用数量</th>
-                            <th class="text-center">可退数量</th>
-                            <th class="text-center">商品规格</th>
-                            <th class="text-center">基本单位</th>
-                            <th class="text-center">产地</th>
-                            <th class="text-center">生产厂商</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
-                        <tr   ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
-                            <td class="select-td text-center mycheck">
-
-                                <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
-
-                                <input type="checkbox"
-                                       ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
-                                       ng-disabled="tr.disabled"
-                                       class="selectOne cur-pot" id='{{$index+2}}'
-                                       ng-model="tr.handleFlag"
-                                       ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">
-                                <label for="{{$index+2}}"></label>
-                            </td>
-                            <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
-                            <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                            <td class="text-left" style="line-height:2.4">
-                                <div class="autocut" title="{{tr.name}}">
-                                    {{tr.name}}
-                                </div>
-                            </td><!-- 商品全名 -->
-                            <td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
-                            <td class="text-right" style="line-height:2.4">{{tr.availableCount}}</td><!-- 领用数量 -->
-                            <td class="text-right">{{tr.returnTotal}}</td><!-- 可退数量 -->
-                            <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                            <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
-                            <td class="text-center" >{{tr.productionPlace}}</td>
-                            <td class="text-center" >{{tr.manufacturer}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div ng-if="!scopeData" class="empty-table clearfix">
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                </div>
-            </div>
-        </div>
-
-        <!--selectedBatchs.length:{{selectedBatchs2}}-->
-
-        <div class="footer-button-area" style="position:fixed;bottom:0px;">
-            <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
-        </div>
-
-    </div>
-
-    <div ng-if="type=='通过商品退货'" ng-init=" listParams.departmentId=formData.departmentId;">
-
-        <div ng-show="!showBatchs">
-
-            <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
-                <div class="inline-block">
-                    <span class="color-12">选择需要退货的商品</span>
-                </div>
 
                 <div class="pdt-s pdb-s pd-c-xl" style="margin-left: -40px;">
 
                     <div class="angucomplete-holder">
-                        <!-- 屏蔽失去焦点隐藏下拉框的ng-blur事件，为实现点击已冻结药品时下拉框不消失的功能 -->
-                        <!--<span angucomplete-medical placeholder="输入" title-field="商品名称"-->
-                              <!--url="rest/authen/medicalStock/query" class="inline-block"-->
-                              <!--ng-model="angucomplete_data"-->
-                              <!--add-data-callback-fn="flashAddDataCallbackFn(angucomplete_data);"-->
-                        <!--&gt;</span>-->
-                        <!-- ngIf: showDropdown -->
-
-                        <!--<span angucomplete-medical placeholder="商品名称"     title-field="name"-->
-                              <!--url="rest/authen/medicalStock/query" class="inline-block"-->
-                              <!--ng-model="angucomplete_data"-->
-                              <!--add-data-callback-fn="flashAddDataCallbackFn"-->
-                        <!--&gt;</span>-->
-
-
                         <div style="width: 300px;">
-
-
                             <div class="pd-c-l pdt-m"
                                  flash-add-medical
                                  ng-model="data1"
@@ -369,97 +149,37 @@
 
                     </div>
 
-                    <div class="goods-info">
-                        <span class="color-6">生产厂家：<i>{{angucomplete_data.data.data.manufacturer}}</i></span>
-                        <span class="color-6">商品编号：<i>{{angucomplete_data.data.data.code}}</i></span>
-                    </div>
-
-                    <div class="goods-info">
-                        <span class="color-6">商品规格：<i>{{angucomplete_data.data.data.specificationAndModelType}}</i></span>
-                        <span class="color-6">商品单位：<i>{{angucomplete_data.data.data.packingAttribute.name}}</i></span>
-                    </div>
-
                 </div>
             </div>
 
             <!-- 过滤条件 -->
-            <div  class="pdt-s pdb-s pd-c-xl">
+            <div  class="pdt-s pdb-s pd-c-xl bb-line-gold">
+
                 <div class="inline-block" style="margin: 10px 0">
-                    <span class="color-12">选择商品关联的领用单</span>
+                    <span class="color-12">选择需要归还的借出单</span>
                 </div>
-                <br/>
+
 
                 <div ng-if="angucomplete_data.data.id">
-
-                    <!-- 仓库过滤 -->
+                    <!-- 借出单编号 -->
                     <div  class="inline-block">
-                        <span class="color-9">领用部门：</span>
-                        <select
-                                class="ipt pr-short-ipt color-3"
-                                style="width:90px;"
-                                data-placeholder=""
-                                default-empty="全部"
-                                width="120px"
-                                chosen
-                                ng-model="listParams.departmentId"
-                                select-source="rest/authen/department/queryForSelectOption"
-                                ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
-                        </select>
+                        <span class="color-9">借出单编号：</span>
+                        <input ng-model="listParams.orderCode" type="text" class="inline ipt pr-ipt-60 text-center" style="width: 130px;"
+                               ng-change="handleSearchFilter(listParams,dialogData.id)"
+                        >
                     </div>
 
-                    <!-- 领用库房 -->
-                    <div class="inline-block" style="margin: 0 20px;">
-                        <span class="color-9">领用库房：</span>
-                        <select
-                                class="ipt pr-short-ipt color-3"
-                                style="width:90px;"
-                                data-placeholder=""
-                                default-empty="全部"
-                                width="120px"
-                                chosen
-                                ng-model="listParams.storeRoomId"
-                                select-source="rest/authen/storeRoom/queryForSelectOption"
-                                ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
-                        </select>
-                    </div>
-
-
-                    <!-- 关键字过滤 -->
-                    <div class="inline-block">
-                        <span class="color-9">领用单编号：</span>
-                        <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
-                            <input type="text"
-                                   class="ipt pdr-xxl relative"
-                                   placeholder="领用单编号"
-                                   ng-model="listParams.q"
-                                   style="background: #fff"
-                                   ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
-                            <i class="" style=""></i>
-                        </div>
-                    </div>
-
-                    <div class="line-dotted"></div>
-
-                    <!-- 仓库过滤 -->
-                    <div class="inline-block" style="margin-right: 8px;">
-                        <span class="color-9">申 请 人 ： </span>
-                        <!--?departmentId={{listParams.departmentId}}-->
-                        <select
-                                class="ipt pr-short-ipt color-3"
-                                style="width:90px;"
-                                data-placeholder=""
-                                default-empty="全部"
-                                width="120px"
-                                chosen
-                                ng-model="listParams.applicantId"
-                                select-source="rest/authen/organizationAndUser/queryForSelectOption"
-                                ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
-                        </select>
+                    <!--客户名-->
+                    <div  class="inline-block">
+                        <span class="color-9">客户名：</span>
+                        <input ng-model="listParams.customerName" type="text"  class="inline ipt pr-ipt-60 text-center" style="width: 130px;"
+                               ng-change="handleSearchFilter(listParams,dialogData.id)"
+                        >
                     </div>
 
                     <!-- 日期过滤 -->
                     <div class="inline-block relative">
-                        <span class="color-9 mgl-m">领用日期：</span>
+                        <span class="color-9 mgl-m">录单日期：</span>
                         <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
                             <input type="text"
                                    datepicker
@@ -467,7 +187,6 @@
                                    ng-readonly="true"
                                    ng-model="listParams.createAtBeg"
                                    placeholder=""
-
                                    ng-change="handleSearchFilter(listParams,dialogData.id)">
                             <span class="date-icon"></span>
                         </div>
@@ -481,185 +200,413 @@
                             <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
                         </div>
                         <span class="color-9">至</span>
-                        <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                        <div class="date-icon-outside">
                             <input type="text"
                                    datepicker
                                    class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                                    ng-readonly="true"
                                    ng-model="listParams.createAtEnd"
                                    placeholder=""
-
                                    ng-change="handleSearchFilter(listParams,dialogData.id)">
                             <span class="date-icon"></span>
                         </div>
-                        <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-                            <input type="text"
-                                   datepicker
-                                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                                   ng-readonly="true"
 
-                                   ng-model="listParams.createAtEnd"/>
-                            <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
-                        </div>
+
                     </div>
 
                 </div>
             </div>
 
-                <!-- 无领用单列表 -->
-                <div  ng-show="!showBatchs" class="color-red text-n pdl-l pdt-m text-center">
-                    <!--<sapn ng-if="!tbodyList.length">此商品暂无领用单信息...</sapn>-->
-
-                    <div ng-if="!tbodyList.length" class="empty-table clearfix" style="padding: 5px;">
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                    </div>
-
+            <!-- 无借出单列表 -->
+            <div  ng-show="!showBatchs" class="color-red text-n pdl-l pdt-m text-center">
+                <div ng-if="!tbodyList.length" class="empty-table clearfix" style="padding: 5px;">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
                 </div>
+            </div>
 
+            <div class="order-list">
+                <table-list ng-if="listParams.relMedicalStockId" list-data="rest/authen/lendOrder/queryByMedical"
+                            list-params="listParams"
+                            search-mode="noCaseSensitive"
+                            list-object="curOrder"
+                            search-param="q">
 
+                    <!--借出单列表-->
+                    <ul ng-if="tbodyList.length" class="li-min-h">
 
+                    <li class="pdr-m pdl-m relative confirm-order-list ng-scope"
+                        ng-controller="returnOrderChoiceDialogSubCtrl"
+                        ng-class="{'pr-bg-glay':tr.returnFlag}"
+                        ng-repeat="tr in tbodyList track by $index"
+                        ng-click="choiceThis(tr,$index,tr.returnFlag); "
+                    >
 
-                <div class="order-list">
-
-                    <table-list ng-if="listParams.relMedicalStockId" list-data="rest/authen/collarApplicationOrder/queryByMedical"
-
-                                list-params="listParams"
-                                search-mode="noCaseSensitive"
-                                list-object="curOrder"
-                                search-param="q">
-
-                        <!--领用单列表-->
-                        <ul ng-if="tbodyList.length" class="li-min-h">
-
-                        <li class="pdr-m pdl-m relative confirm-order-list ng-scope"
-                            ng-controller="collarReturnOrderChoiceDialogSubCtrl"
-                            ng-class="{'pr-bg-glay':tr.returnFlag}"
-                            ng-repeat="tr in tbodyList track by $index"
-                            ng-click="choiceThis(tr,$index,tr.returnFlag); "
+                        <div   ng-disabled="tr.returnFlag"
+                                class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
+                                ng-class="{'on': tr.relId == listObject.relId }"
                         >
 
-                            <div   ng-disabled="tr.returnFlag"
-                                    class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                                    ng-class="{'on': tr.relId == listObject.relId }"
-                            >
+                            <div class="card-new">
+                                <div class="bt-line">
+                                    <div ng-if="tr.relId == listObject.relId" class="choiced"><img src="../css/icon-checked.png" alt=""></div>
+                                    <h1 class="text-center text-m color-3 text-ellips-s ng-binding">{{tr.departmentName}}</h1>
+                                </div>
 
-                                <div class="card-new">
-                                    <div class="bt-line">
-                                        <div ng-if="tr.relId == listObject.relId" class="choiced"><img src="../css/icon-checked.png" alt=""></div>
-                                        <h1 class="text-center text-m color-3 text-ellips-s ng-binding">{{tr.departmentName}}</h1>
-                                    </div>
-
-                                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                                        <span class="flex-item-6">领用单号</span>
+                                <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                    <span class="flex-item-6">借出单编号</span>
                                         <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="{{tr.relOrderCode}}">
                                         <strong class="color-black text-normal ng-binding">{{tr.relOrderCode}}</strong>
                                   </span>
-                                    </div>
-                                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                                        <span class="flex-item-6">领用库房</span>
-                                        <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                                            <strong class="color-black text-normal ng-binding">{{tr.storeRoomName}}</strong>
-                                          </span>
-                                    </div>
-                                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                                        <span class="flex-item-6 text-left">领用日期</span>
-                                        <span class="flex-item-6 text-right">
-                                      <strong class="color-black text-normal ng-binding">{{tr.expectDate |date :'yyyy-MM-dd' }}</strong>
-                                  </span>
-                                    </div>
-                                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                                        <span class="flex-item-6 text-left">申请人</span>
-                                        <!-- <span class="flex-item-6 text-right"> -->
-                                        <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                                      <strong run-popovers=""
-                                              class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                              style="position:relative;height:25px;">{{tr.applicant.n}}</strong>
-                                    </span>
-                                        <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                                    </span> -->
-                                    </div>
-
                                 </div>
-                            </div>
-                        </li>
 
-                    </ul>
-
-
-                        <div style="clear: both;">
-                            <!-- 导航 -->
-                            <div class="clearfix"ng-if="tbodyList.length">
-                                <div class="fr">
-                                    <pagination status="status"></pagination>
+                                <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                    <span class="flex-item-6 text-left">录单日期</span>
+                                    <span class="flex-item-6 text-right">
+                                  <strong class="color-black text-normal ng-binding">{{tr.expectDate |date :'yyyy-MM-dd' }}</strong>
+                              </span>
                                 </div>
+
+                                <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                    <span class="flex-item-8 text-left">归还进度</span>
+                                    <div class="flex-item-4  color-3">
+                                        <div class="progress pr-progress"
+                                             data-toggle="tooltip"
+                                             data-placement="top">
+                                            <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
+                                                 aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'>
+                                                 <span class="purchaseorder-buyer-info">
+                                                   <i class="block text-normal pd-c-s">
+                                                     <em class="inline-block pd-v-s">
+                                                       {{tr.progress}}%
+                                                    </em>
+                                                  </i>
+                                                </span>
+                                            </div>
+                                            <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                                                 aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                                                 ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
+                                                 aria-valuemax="100" >
+                                                     <span class="purchaseorder-buyer-info"
+                                                           ng-style='{"right":78-tr.progress+"%"}'
+                                                     >
+                                                       <i class="block text-normal pd-c-s">
+                                                         <em class="inline-block pd-v-s">
+                                                           {{tr.progress}}%
+                                                        </em>
+                                                      </i>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <!-- <span class="pr-indent-15 flex-item-2 text-m color-6">{{tr.progress}}%</span> -->
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
+                    </li>
 
-                    </table-list>
-                </div>
+                </ul>
+
+
+                    <div style="clear: both;">
+                        <!-- 导航 -->
+                        <div class="clearfix"ng-if="tbodyList.length">
+                            <div class="fr">
+                                <pagination status="status"></pagination>
+                            </div>
+                        </div>
+                    </div>
+
+                </table-list>
+            </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px; z-index: 1000;">
-                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="getGoodsBatchs();isChoiseAll2=false;" ng-disabled="!angucomplete_data.data.id">下一步</button>
+
+                <!--ng-disabled="!angucomplete_data.data.id"  isChoiseAll2=false;-->
+
+                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="showLendOrder=true;">{{showLendOrder}}下一步</button>
             </div>
 
         </div>
 
-
-
-        <div ng-show="showBatchs">
-            <div class="bb-line-gold pr-bg-black2 min-h-l">
-                <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{curOrder.medicalNo.name}}</h1>
+        <div ng-if="showLendOrder" class="">
+            <div class="inline-block" style="margin: 15px 20px">
+                <span class="color-12">在借出单中选择需要归还的商品</span>
             </div>
+            <br/>
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+                <!-- 单据信息 -->
+                <div  class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line" style="background: #787470;color: #a1a09e;">
+                    <div class="flex-item-6">
+                        <span class="mgr">借出单编号：<em class="color-3" style="color: #FAFAFA">{{scopeData.orderCode ||  '暂无'}}</em></span>
+                        <span class="mgr">审核人：<em class="color-3" style="color: #FAFAFA">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
+                        <span class="mgr relative">制单人：{{scopeData.inputUser.n}}</span>
+                    </div>
+                    <div class="flex-item-6 text-right">
+                        <span class="mgr">录单日期：<em class="color-3" style="color: #FAFAFA">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                        <span class="mgr">状态：<em class="color-3" style="color: #FAFAFA">{{scopeData.orderStatus}}</em></span>
+                    </div>
+                </div>
+                <!-- 类别选择  ng-if="scopeData" -->
+                <div  class="pd-c-l pdt-m pdb-m color-9" style="background: #787470;padding: 0;">
+                    <div class="pd-c-l pdt-m pdb-m color-9" style="color: #a1a09e;">
+                        <span class="mgr-l">申请人：<em class="color-3" style="color: #FAFAFA">{{scopeData.applicant.n || '暂无'}}</em></span>
+                        <span class="mgr-l">申请部门：<em class="color-3" style="color: #FAFAFA">{{scopeData.departmentName || '暂无'}}</em></span>
+                        <span class="mgr-l">借出日期：<em class="color-3" style="color: #FAFAFA">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                    </div>
+                </div>
+                <!-- 商品列表 -->
+                <div class="outside-table-d">
+                    <table class="table pr-table pr-new-table mgb-n　">
+                        <thead>
+                        <tr>
+                        <tr>
 
-            <div class="bb-line-gold pr-bg-black2 min-h-l">
-                <h1 class="pr-indent-20 pdb-m text-n" style="font-size: 14px;color: #999999;line-height:50px;max-height:35px;">领用单编号：<span  style="color: white">{{curOrder.relOrderCode}}</span></h1>
-            </div>
+                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
 
-            <!-- 批次信息 -->
-            <div style="margin: 10px;">
-                <table class="full-width another-table">
-                    <thead>
-                    <tr class="bb-line-gold">
-                        <th class="w-60 text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll2" ng-click="handleChoiseAllEvent(isChoiseAll2,stockBatchList);">
-                            <label for="1" style="top: 10px;"></label>
-                        </th>
-                        <th>生产批号</th>
-                        <th>有效期至</th>
-                        <th>可退量</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!--ng-class="{ 'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!==-1 }"-->
+                            <th class="w-60 text-center mycheck">
+                                <input type="checkbox" class="selectAll cur-pot" id='1'
+                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+                                       ng-model="isChoiseAll2"
+                                       ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
 
-                    <tr ng-repeat="item in stockBatchList" class="trHover-bg">
+                                >
+                                <label for="1" style="top: 10px;"></label>
 
-                        <td ng-init="item.quantity=item.maxQuantity; item.handleFlag= item.handleFlag ?  true : false; item.disabled = (item.maxQuantity<1) " class="select-td text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" ng-disabled="item.disabled" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,stockBatchList,'stockBatchId');">
-                            <label for="{{$index+2}}"></label>
-                        </td>
+                            </th>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">商品编号</th>
+                            <th class="text-left">商品通用名</th>
+                            <th class="text-center">剂型／分类</th>
+                            <th class="text-center">规格/型号</th>
+                            <th class="text-center">单位</th>
+                            <th class="text-center">计划数量</th>
+                            <th class="text-center">实际数量</th>
+                            <th class="text-center">已归还数量</th>
+                            <th class="text-center">批号</th>
+                            <th class="text-center">失效日期</th>
+                            <th class="text-center">仓库</th>
+                            <!--<th class="text-center">注册证号/批准文号/备案凭证号</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
+                            <td class="select-td text-center mycheck">
 
-                        <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-                        <td class="" style="height:50px;text-indent: 10px; ">{{item.validTill || '暂无' | date:'yyyy-MM-dd' }}</td><!--有效期至-->
-                        <td class="text-left" style="height:50px;text-indent: 10px; ">{{item.maxQuantity}}</td><!-- pickNo 可退量-->
-                    </tr>
-                    </tbody>
-                </table>
+                            <td class="select-td text-center mycheck">
 
-                <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                    <button type="submit" style="margin-left:400px;" class="pr-btn-create-glodbg new-left-side-button"  ng-click="changeShowBatchsFlag(false);isChoiseAll2=false;">上一步</button>
+                                <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
 
-                    <button type="submit" style="margin:0 20px;" class="pr-btn-create-glodbg new-left-side-button"  ng-disabled="selectedBatchs2.length<1" ng-click="addToList();changeShowBatchsFlag(false);isChoiseAll=false;">确定并继续</button>
+                                <input type="checkbox"
+                                       ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
+                                       ng-disabled="tr.disabled"
+                                       class="selectOne cur-pot" id='{{$index+2}}'
+                                       ng-model="tr.handleFlag"
+                                       ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">
+                                <label for="{{$index+2}}"></label>
+                            </td>
 
-                    <button type="submit" style="margin:0;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs2.length<1" ng-click="addToList();modal.close();">确定</button>
+                            <td>{{$index+1}}</td>
+                            <td class="text-center">{{item.code}}
+                                <div class="table-item-multiple-btn">
+                                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                                         modal-right="650"
+                                         modal-scope="this"
+                                         modal-data='{"id":"{{item.id}}"}'
+                                         modal-url="views/versionFlow/gs1-barcode-print-dialog.html">打印GS1条码
+                                    </div>
+                                </div>
+                            </td><!-- 商品编号 -->
+                            <td>
+                    <span
+                            class="color-orange cur-pot lend-order-goods-info"
+                            ng-init="showInfoArea=false"
+                            ng-mouseenter="showInfoArea=true"
+                            ng-mouseleave="showInfoArea=false">{{item.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{item}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                            </td><!-- 商品全名 -->
+                            <td>{{item.name}}</td><!-- 剂型／分类 -->
+                            <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                            <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                            <td class="text-center">{{item.planCount }}</td><!-- 计划数量 -->
+                            <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
+                            <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
+                            <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                            <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 失效日期 -->
+                            <td class="text-left">{{item.totalPrice}}</td><!-- 仓库 -->
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
+                <div ng-if="!scopeData" class="empty-table clearfix">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
+            </div>
+
+            <div class="footer-button-area" style="position:fixed;bottom:0px;">
+                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-if="type=='按借出单编号查找'"
+         ajax-url="rest/authen/lendOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
+         scope-data="scopeData"
+         callback="isChoiseAll=false; selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId');">
+        <!-- 过滤条件 -->
+        <div class="pdt-s pdb-s pd-c-xl">
+            <div class="" style="margin: 20px 0">
+                <!--<span class="color-12">选择商品关联的借出单</span>-->
+            </div>
+
+            <!-- 关键字过滤 -->
+            <div class="inline-block" style="margin-left: -10px;">
+                <span angucomplete placeholder="借出单编号"
+                      style="width: 390px"
+                      title-field="orderCode"
+                      search-str-class="ipt"
+                      url="rest/authen/lendOrder/queryAutoComplete?tableName=Order.LendOrder&property=orderCode"
+                      class="inline-block"
+                      ng-model="selectedData">
+                </span>
+
+            </div>
+        </div>
+
+        <div ng-if="showLendOrder" class="">
+            <div class="inline-block" style="margin: 15px">
+                <span class="color-12">在借出单中选择需要归还的商品</span>
+            </div>
+            <br/>
+
+
+            <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+
+
+                <div  ng-show="scopeData">
+                    <!-- 单据信息 -->
+                    <div  class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line" style="background: #787470;color: #a1a09e;">
+                        <div class="flex-item-6">
+                            <span class="mgr">借出单编号：<em class="color-3" style="color: #FAFAFA">{{scopeData.orderCode ||  '暂无'}}</em></span>
+                            <span class="mgr">审核人：<em class="color-3" style="color: #FAFAFA">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
+                            <span class="mgr relative">制单人：{{scopeData.inputUser.n}}</span>
+                        </div>
+                        <div class="flex-item-6 text-right">
+                            <span class="mgr">录单日期：<em class="color-3" style="color: #FAFAFA">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                            <span class="mgr">状态：<em class="color-3" style="color: #FAFAFA">{{scopeData.orderStatus}}</em></span>
+                        </div>
+                    </div>
+                    <!-- 类别选择  ng-if="scopeData" -->
+                    <div  class="pd-c-l pdt-m pdb-m color-9" style="background: #787470;padding: 0;">
+                        <div class="pd-c-l pdt-m pdb-m color-9" style="color: #a1a09e;">
+                            <span class="mgr-l">申请人：<em class="color-3" style="color: #FAFAFA">{{scopeData.applicant.n || '暂无'}}</em></span>
+                            <span class="mgr-l">申请部门：<em class="color-3" style="color: #FAFAFA">{{scopeData.departmentName || '暂无'}}</em></span>
+                            <span class="mgr-l">借出日期：<em class="color-3" style="color: #FAFAFA">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="outside-table-d">
+                    <table class="table pr-table pr-new-table mgb-n　">
+                        <thead>
+                        <tr>
+                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
+
+                            <th class="w-60 text-center mycheck">
+                                <input type="checkbox" class="selectAll cur-pot" id='1'
+                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+                                       ng-model="isChoiseAll2"
+                                       ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
+
+                                >
+                                <label for="1" style="top: 10px;"></label>
+
+                            </th>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">商品编号</th>
+                            <th class="text-left">商品通用名</th>
+                            <th class="text-center">剂型／分类</th>
+                            <th class="text-center">规格/型号</th>
+                            <th class="text-center">单位</th>
+                            <th class="text-center">计划数量</th>
+                            <th class="text-center">实际数量</th>
+                            <th class="text-center">已归还数量</th>
+                            <th class="text-center">批号</th>
+                            <th class="text-center">失效日期</th>
+                            <th class="text-center">仓库</th>
+                            <!--<th class="text-center">注册证号/批准文号/备案凭证号</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
+
+                            <td class="select-td text-center mycheck">
+
+                                <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
+
+                                <input type="checkbox"
+                                       ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
+                                       ng-disabled="tr.disabled"
+                                       class="selectOne cur-pot" id='{{$index+2}}'
+                                       ng-model="tr.handleFlag"
+                                       ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">
+                                <label for="{{$index+2}}"></label>
+
+                            </td>
+
+                            <td>{{$index+1}}</td>
+                            <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
+                            <td>{{item.name}}</td><!-- 商品全名 -->
+                            <td>{{item.name}}</td><!-- 剂型／分类 -->
+                            <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                            <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                            <td class="text-center">{{item.planCount }}</td><!-- 计划数量 -->
+                            <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
+                            <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
+                            <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                            <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 失效日期 -->
+                            <td class="text-left">{{item.warehouseName}}</td><!-- 仓库 -->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
 
             </div>
 
+            <div class="footer-button-area" style="position:fixed;bottom:0px;">
+                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
+            </div>
         </div>
 
     </div>
+
+
 </div>
