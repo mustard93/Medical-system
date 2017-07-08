@@ -89,7 +89,7 @@
              </div>
            </div>
          </div>
-         <!-- <div ng-if="formData.orderBusinessType=='直运采购'" class="inline-block mgr-l">
+         <!-- <div ng-if="formData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block customer-name"></div>
              <div class="inline-block">
@@ -120,7 +120,7 @@
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
-           <div ng-if="formData.orderBusinessType!='直运采购'"
+           <div ng-if="formData.orderBusinessType!='直发采购'"
                 flash-add-medical
                 ng-model="data1"
                 class="pd-c-l pdt-m"
@@ -310,7 +310,7 @@
                          待采购数量：{{tr.planQuantity-tr.quantity}}
                        </p>
                      </td><!-- 数量 -->
-                     <td class="text-center" ng-if="formData.orderBusinessType!='直运采购'">
+                     <td class="text-center" ng-if="formData.orderBusinessType!='直发采购'">
                        <select class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
@@ -319,7 +319,7 @@
                          <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                        </select>
                      </td>
-                     <td class="text-center" ng-if="formData.orderBusinessType=='直运采购'">
+                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
                        <select class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
@@ -446,9 +446,22 @@
            </p>
          </div>
        </div>
+       <div ng-if="formData.orderBusinessType=='直发采购'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+         <header class="text-n color-3 text-bold">收货方信息
+           <span class="tools pull-right">
+             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+           </span>
+         </header>
+         <div class="panel-body" style="display:none;padding:15px 0;">
+           <p class="">
+           {{formData.customerContact.name}}&nbsp;&nbsp;{{formData.customerContact.tel}}&nbsp;&nbsp;{{formData.customerContact.prov}}&nbsp;&nbsp;{{formData.customerContact.city}}&nbsp;&nbsp;{{formData.customerContact.area}}&nbsp;&nbsp;{{formData.customerContact.address}}
+           </p>
+         </div>
+       </div>
 
         <!-- 收货方信息 -->
         <address-manage-component compnent-title="收货方信息"
+                                  ng-if="formData.orderBusinessType!='直发采购'"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="customer"
                                   form-data="formData"
