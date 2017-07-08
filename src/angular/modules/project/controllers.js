@@ -3510,6 +3510,16 @@ define('project/controllers', ['project/init'], function() {
         // }
        });
 
+       $scope.$watch('formData.medicalAttribute.code',function(newVal){
+         $scope.formData.medical.attributeCode=$scope.formData.medicalAttribute.code;
+       });
+       $scope.$watch('formData.supplierAttribute.code',function(newVal){
+         $scope.formData.medical.attributeCode=$scope.formData.supplierAttribute.code;
+       });
+       $scope.$watch('formData.customerAttribute.code',function(newVal){
+         $scope.formData.hospital.attributeCode=$scope.formData.customerAttribute.code;
+       });
+
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
        $scope.canSubmitMedical=function(type){
          if(type){
@@ -4446,6 +4456,14 @@ define('project/controllers', ['project/init'], function() {
               }
             }
           }
+      });
+
+      $scope.$watch('formData.supplierAttribute.code',function(newVal){
+        $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+      });
+
+      $scope.$watch('formData.customerAttribute.code',function(newVal){
+        $scope.formData.hospital.attributeCode=$scope.formData.customerAttribute.code;
       });
 
       $scope.watchFormChange = function(watchName){
