@@ -7727,10 +7727,13 @@ define('project/controllers', ['project/init'], function() {
        * @param orderCode
        */
       $scope.getByOrderCode=function(orderCode){
-          var _data={
-              orderCode:orderCode
-          };
-          requestData("rest/authen/lendOrder/getByOrderCode", _data, 'GET')
+
+
+
+          console.log("orderCode",orderCode,$scope.curOrder.orderCode);
+
+
+          requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
               .then(function (results) {
                   // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
                   $scope.scopeData=results[1].data || {};
