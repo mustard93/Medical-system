@@ -1,4 +1,4 @@
-<div class="first-medical-application"
+<div class="hospital-application first-medical-application"
      ng-controller="customerAddressCtrl"
      ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -66,15 +66,15 @@
             <div class="flex-column mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">分类：</label>
               <div class="flex-item-10 color-3 text-left ">
-                <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">
-                <!-- {{formData.medicalAttribute.name}} -->
+                <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">
+                {{formData.customerAttribute.name}}
                    <!-- ng-class="{'z-tree-div-active':(addBorder)}" -->
                 </div>
                 <button
                 type="button"
                 z-tree-select="rest/authen/customerAttribute/query.json"
                 class="btn-select fl-l"
-                ng-model="formData.medicalAttribute"
+                ng-model="formData.customerAttribute"
                 id-key="id"
                 p-id-key="parentId"
                 >选择</button>
@@ -82,6 +82,7 @@
               </div>
             </div>
             <div class="bt-dashed-line pd-v-m">
+
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">医院名称：</label>
                 <div class="flex-item-10   text-left">

@@ -145,7 +145,7 @@
                         style="width:90px;"
                         placeholder=""
                         ng-readonly="true"
-                        ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
+                        ng-model="formData.expectDate" /><span ng-if="!formData.expectDate" class="color-red">(必填)</span>
                </span>
               <span class="mgr-l">目标客户：<em class="color-3">{{formData.intentionalCustomer || '暂无'}}</em></span>
              </div>
@@ -360,7 +360,7 @@
        </div>
      </div>
      <!-- 流程图 -->
-     <business-flow-show business-key="{{formData.id}}" business-type="来货通知单"></business-flow-show>
+     <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">

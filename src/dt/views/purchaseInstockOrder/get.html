@@ -40,27 +40,26 @@
     scope-data="returnData"
     alertError -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">系统编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            <a ng-if="initFlag"
+            modal-center="1000px"
+            modal-data='{"businessKey":"{{scopeData.relId}}"}'
+            modal-scope="this"
+            modal-url="views/workflowTask/getOfDialog.html"
+            >
+          <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            </a>
           </div>
         </div>
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-          <div class="flex-item-12">
-            <span class="mgr">采购部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
-            <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
-            <span class="mgr">出库类型：
-              <em ng-if="showData.type!='销售出库单_红字'" class="color-black">{{showData.type|| '暂无'}}</em>
-              <em ng-if="showData.type=='销售出库单_红字'" class="color-black">销售出库单<em class="color-red">(红字)</em></em>
-            </span>
-            <!-- <span class="mgr">业务人员：<em class="color-3">{{showData.saleUser.n|| '暂无'}}</em></span>
-            <span class="mgr">业务类型：<em class="color-3">{{showData.orderBusinessType|| '暂无'}}</em></span>
-            <span class="mgr">采购类型：<em class="color-black">{{showData.purchaseType || '暂无'}}</em></span> -->
-          </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">业务部门：<em class="color-3">{{showData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-3">{{showData.saleUser.n}}</em></span>
         </div>
 
           <!-- 主内容头部 -->
@@ -120,6 +119,15 @@
                       </tr>
                     </tbody>
                 </table>
+              </div>
+              <div class="bt-line flex-column">
+                <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                  <span class="mgr mgl">制单部门：{{showData.departmentName || '暂无'}}</span>
+
+                  <span class="mgr mgl">制单人：{{showData.inputUser.n || '暂无'}}</span>
+
+                  <span class="mgr mgl">制单时间：{{showData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+                </p>
               </div>
             </div>
 

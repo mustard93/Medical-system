@@ -68,22 +68,21 @@
                     </div>
                 </div>
                 <div class="flex-column mgt">
-                  <label class="flex-item-2   text-right control-label">分类：</label>
+                  <label class="flex-item-2 text-right control-label">分类：</label>
                   <div class="flex-item-10 color-3 text-left ">
-                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">
-                    <!-- {{formData.medicalAttribute.name}} -->
+                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.supplierAttribute.name}}">
+                    {{formData.supplierAttribute.name}}
                        <!-- ng-class="{'z-tree-div-active':(addBorder)}" -->
                     </div>
                     <button
                     type="button"
                     z-tree-select="rest/authen/supplierAttribute/query.json"
-                    class="btn-select fl-l"
-                    ng-model="formData.medicalAttribute"
+                    class="btn-select btn-enter-price-select fl-l"
+                    ng-model="formData.supplierAttribute"
                     id-key="id"
                     p-id-key="parentId"
                     >选择</button>
-                    <!-- ng-click="addBorder=true;" -->
-                    <!-- <em class="color-red">(必填)</em> -->
+                    <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
                   </div>
                 </div>
 
@@ -107,10 +106,10 @@
                                  class="ipt-new "
                                  style="width:60px;"
                                  name="code"
-
+                                 ng-disabled="true" 
                                  ng-model="formData.attributeCode"/>
                                  <span class="border-2"></span>
-                                  <!-- ng-disabled="true" -->
+                                  <!-- -->
                           <input type="text"
                                  class="ipt-new"
                                  name="code"
@@ -350,7 +349,7 @@
                     </span>
                     <span class="mgl">
                       <button class="pr-btn-save-glodbg mgt"
-                              ng-disabled="firstEnterpriseEditForm.$invalid"
+                              ng-disabled="firstEnterpriseEditForm.$invalid || !formData.supplierAttribute.name"
                               ng-click="submitForm('first-enterprise-editForm','submit')">下一步
                       </button>
                     </span>
