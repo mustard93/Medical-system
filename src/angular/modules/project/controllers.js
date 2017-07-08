@@ -6753,8 +6753,17 @@ define('project/controllers', ['project/init'], function() {
     // 定义保存节点信息类型，默认为修改节点信息
     $scope.modifyNodeInfo = true;
 
-    // 定义保存url
-    var _saveUrl = 'rest/authen/medicalAttribute/save.json';
+    // 获取模块名，（商品分类模块、供应商分类模块、客户分类模块）
+    // $scope.$watch('moduleName', function (newVal, oldVal) {
+    //   if (newVal && newVal !== oldVal) {
+    //     // 定义保存url
+    //     var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+    //     // 定义删除请求地址
+    //     var _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=';
+    //   }
+    // });
+
+    // console.log(_saveUrl + '==>' +_delUrl);
 
     // 转换返回的JSON对象为JSON字符串
     $scope.filterJSONDate = function (data) {
@@ -6771,6 +6780,8 @@ define('project/controllers', ['project/init'], function() {
     // 添加主分类
     $scope.addMainClass = function (addMainClassObj) {
       if (addMainClassObj) {
+        // 保存路径
+        var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
         // 发送请求保存数据
         requestData(_saveUrl, addMainClassObj, 'POST')
         .then(function (resutls) {
@@ -6787,6 +6798,9 @@ define('project/controllers', ['project/init'], function() {
 
     // 修改节点信息和保存子节点信息操作
     $scope.saveNodeInfo = function (medicalAttribute) {
+      // 保存路径
+      var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+
       if ($scope.modifyNodeInfo) {     // 修改节点信息
         requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
         .then(function (results) {
@@ -6799,7 +6813,9 @@ define('project/controllers', ['project/init'], function() {
           if (error) { throw new Error(error); }
         })
       } else {      // 新增子节点
+        medicalAttribute['parentId'] = angular.copy(medicalAttribute['id']);
         medicalAttribute['id'] = null;
+
         requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
@@ -6815,30 +6831,14 @@ define('project/controllers', ['project/init'], function() {
 
     // 删除类别
     $scope.deleteThisClass = function () {
-
-      if ($scope.nodeObject.id) {
-        // 定义删除请求地址
-        var _delUrl = 'rest/authen/medicalAttribute/delete?id=' + $scope.nodeObject.id;
+      if ($scope.formData.medicalAttribute.id) {
+        // 删除路径
+        _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.medicalAttribute.id
         requestData(_delUrl, {}, 'POST')
         .then(function (results) {
           if (results[1].code === 200) {
             // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
             utils.refreshHref();
-          }
-        })
-        .catch(function (error) {
-          if (error) { throw new Error(error); }
-        });
-      }
-    }
-
-    // 重新请求数据
-    $scope._reloadData = function (url, bindObjName) {
-      if (url && bindObjName) {
-        requestData(url)
-        .then(function (resutls) {
-          if (resutls[1].code === 200) {
-            $scope[bindObjName] = $scope.filterJSONDate(resutls[1].data);
           }
         })
         .catch(function (error) {
