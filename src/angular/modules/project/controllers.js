@@ -2140,7 +2140,7 @@ define('project/controllers', ['project/init'], function() {
         }
          if ($scope.submitForm_type == 'submit') {
            var url='rest/authen/arrivalNoticeOrder/updateStatus';
-           var data= {id:$scope.formData.id,status:'待审核'};
+           var data= {id:$scope.formData.id,status:'入库中'};
            requestData(url,data, 'POST')
              .then(function (results) {
                var _data = results[1];
@@ -2236,6 +2236,18 @@ define('project/controllers', ['project/init'], function() {
           }
         };
 
+        // 总价金额计算方法
+        $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {
+          var _total = 0;
+
+          if (orderMedicalList) {
+            angular.forEach(orderMedicalList, function (data, index) {
+              _total += data.quantity * data.strike_price;
+            });
+          }
+
+          return _total.toFixed(2);
+        };
    }//end salesOrderEditCtrl
 
   /**
@@ -6722,7 +6734,7 @@ define('project/controllers', ['project/init'], function() {
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
 
-    
+
 
   }
 

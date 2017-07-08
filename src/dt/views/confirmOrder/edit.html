@@ -390,11 +390,11 @@
           </div>
           <div class="bt-line flex-column">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
-              <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
+              <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
 
-              <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
+              <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
 
-              <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+              <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
             </p>
           </div>
 
@@ -613,7 +613,7 @@
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+        <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
