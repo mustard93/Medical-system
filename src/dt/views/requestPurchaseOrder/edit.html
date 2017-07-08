@@ -40,22 +40,33 @@
                  <em class="color-red" ng-if="!formData.orderNo">（必填）</em>
                </span>
                <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+               <span class="inline-block relative">
+                 <span>单据日期：</span>
+                 <input ng-if="initFlag" type="text"
+                        datepicker
+                        class="ipt color-3"
+                        style="width:120px;"
+                        ng-readonly="true"
+                        placeholder=""
+                        ng-model="formData.orderDate" />
+                       <span class="date-icon"></span>
+               </span>
                <span class="mgr">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+
              </div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">制单人：<em class="color-custom-orange">{{formData.inputUser.n || '暂无'}}</em></span>
-               <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+               <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span> -->
              <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
              </div>
            </div>
            <div class="pd-c-l pdt-m pdb-m color-9">
-             <span class="mgr-l">来源：<em class="color-3">{{formData.salesDepartmentName}}</em></span>
-             <span class="mgr-l">业务人员：<em class="color-custom-orange">{{formData.saleUser.n}}</em></span>
+             <span class="mgr-l">业务部门：<em class="color-3">{{formData.salesDepartmentName}}</em></span>
+             <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n}}</em></span>
              <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType}}</em></span>
              <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType}}</em></span>
            </div>
-           <div class="outside-table-d">
-             <table class="table pr-table pr-new-table table-ss-wid" >
+           <div class="">
+             <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
                   <th  class="w-60 text-center mycheck">
@@ -63,14 +74,11 @@
                     <label for="1"></label>
                   </th>
                  <th class="text-center">商品编号</th>
-                 <th class="text-left">商品全名</th>
+                 <th class="text-left">商品通用名</th>
+                 <th class="text-center">剂型/分类</th>
                  <th class="text-center">规格/型号</th>
                  <th class="text-center">单位</th>
                  <th class="text-center">数量</th>
-                 <th class="text-center w-110">批号要求</th>
-                 <th class="text-center">产地品牌</th>
-                 <th class="text-center">产品注册证号</th>
-                 <th class="text-center">产品注册证有效期</th>
                 </tr>
                </thead>
                <tbody class="bg-white">
@@ -94,21 +102,33 @@
                     <label for="{{$index + 2}}"></label>
                    </td><!-- 选择checkbox -->
                    <td class="text-center" style="line-height:2.4;">{{tr.code}}</td><!-- 商品编号 -->
-                   <td class="text-left" style="line-height:2.4;"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
-                   <td class="text-center" style="line-height:2.4;">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                   <td class="text-center" style="line-height:2.4;">{{tr.unit}}</td><!-- 单位 -->
+                    <td class="text-left" >
+                             <span
+                                  class="color-orange cur-pot lend-order-goods-info"
+                                  ng-init="showInfoArea=false"
+                                  ng-mouseenter="showInfoArea=true"
+                                  ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                               <show-info-modal ng-show="showInfoArea"
+                                                get-data-type="local"
+                                                template-url="tpl/showInfoModalLendOrder"
+                                                info-object="{{tr}}"
+                                                info-title="商品信息">
+                               </show-info-modal>
+                             </span>
+                           </td><!-- 商品全名 -->
+                           <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
+                           <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                           <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                    <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td><!-- 数量 -->
-                   <td>
+                   <!-- <td>
                      <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">
                        <option value="无" >无</option>
                        <option value="单一批号" >单一批号</option>
                        <option value="单一新批号">单一新批号</option>
                        <option value="新批号">新批号</option>
                      </select>
-                   </td><!-- 批号要求 -->
-                   <td class="text-center" style="line-height:2.4;">{{tr.brand}}</td><!-- 产地品牌 -->
-                   <td class="text-center" style="line-height:2.4;">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
-                   <td class="text-center relative" style="line-height:2.4;">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证有效期 -->
+                   </td> -->
+                   <!-- 批号要求 -->
                  </tr>
                </tbody>
              </table>
@@ -118,6 +138,15 @@
            <div>&nbsp;</div>
            <div>&nbsp;</div>
            <div>&nbsp;</div>
+         </div>
+         <div class="bt-line flex-column pr-bg-white">
+           <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+             <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
+
+             <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
+
+             <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+           </p>
          </div>
        </div>
        <!-- 备注 -->
@@ -132,8 +161,7 @@
              <header class="text-n color-3 flex-column">
                <span class="flex-item-11">
                  <div class=" color-9 text-s">
-                   <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
-                   <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+                   <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderCode}}</em></span>
                    <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
                    <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
                  </div>
