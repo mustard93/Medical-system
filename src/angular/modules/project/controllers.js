@@ -6722,7 +6722,131 @@ define('project/controllers', ['project/init'], function() {
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
 
-    
+  }
+
+  /**
+   * [medicalAttributeController 商品分类管理模块控制器]
+   * @method medicalAttributeController
+   * @param  {[type]}                   $scope      [description]
+   * @param  {[type]}                   alertOk     [description]
+   * @param  {[type]}                   alertError  [description]
+   * @param  {[type]}                   requestData [description]
+   * @return {[type]}                               [description]
+   */
+  function medicalAttributeController ($scope, alertOk, alertError, requestData, utils) {
+
+    // 定义是否显示右侧编辑界面
+    $scope.showEditArea = false;
+
+    // 定义保存节点信息类型，默认为修改节点信息
+    $scope.modifyNodeInfo = true;
+
+    // 定义保存url
+    var _saveUrl = 'rest/authen/medicalAttribute/save.json';
+
+    // 转换返回的JSON对象为JSON字符串
+    $scope.filterJSONDate = function (data) {
+      return JSON.stringify(data);
+    }
+
+    // 关闭新增主分类区域
+    $scope.cancelAddClass = function () {
+      if ($scope.showAddClass) {
+        $scope.showAddClass = false;
+      }
+    }
+
+    // 添加主分类
+    $scope.addMainClass = function (addMainClassObj) {
+      if (addMainClassObj) {
+        // 发送请求保存数据
+        requestData(_saveUrl, addMainClassObj, 'POST')
+        .then(function (resutls) {
+          if (resutls[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 修改节点信息和保存子节点信息操作
+    $scope.saveNodeInfo = function (medicalAttribute) {
+      if ($scope.modifyNodeInfo) {     // 修改节点信息
+        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        })
+      } else {      // 新增子节点
+        medicalAttribute['id'] = null;
+        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 删除类别
+    $scope.deleteThisClass = function () {
+
+      if ($scope.nodeObject.id) {
+        // 定义删除请求地址
+        var _delUrl = 'rest/authen/medicalAttribute/delete?id=' + $scope.nodeObject.id;
+        requestData(_delUrl, {}, 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+            utils.refreshHref();
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 重新请求数据
+    $scope._reloadData = function (url, bindObjName) {
+      if (url && bindObjName) {
+        requestData(url)
+        .then(function (resutls) {
+          if (resutls[1].code === 200) {
+            $scope[bindObjName] = $scope.filterJSONDate(resutls[1].data);
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error); }
+        });
+      }
+    }
+
+    // 新增子类节点
+    $scope.addNewChildNode = function () {
+      // 设置标识符
+      $scope.modifyNodeInfo = false;
+
+      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.levelCode);
+      $scope.formData.medicalAttribute.levelCode = null;
+      $scope.formData.medicalAttribute.showName = null;
+
+      // 清空节点code和name的数据
+
+    }
 
   }
 
@@ -7257,5 +7381,6 @@ define('project/controllers', ['project/init'], function() {
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
   .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
+  .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'requestData', 'utils', medicalAttributeController])
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl]);
 });
