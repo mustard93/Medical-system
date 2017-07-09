@@ -131,19 +131,21 @@
                 </span>
                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：{{formData.orderCode || "暂无" }}</span>
 
-                <span class="mgr">单据日期：
-                  <input type="text"
-                    datepicker
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    placeholder=""
-                    ng-readonly="true"
-                    ng-model="formData.orderDate" />
+
+
+
+                <span class="inline-block relative">
+                  <span>单据日期：</span>
+                  <!-- ngIf: initFlag --><input ng-if="initFlag" type="text" datepicker
+                                                class="ipt color-3"
+                                                style="width:120px;" ng-readonly="true" placeholder=""
+                                                ng-model="formData.orderDate" readonly="readonly">
+                        <span class="date-icon"></span>
                 </span>
 
               </div>
               <div class="flex-item-6 text-right">
-                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus || "暂无"}}</em></span>
               </div>
             </div>
 
@@ -168,16 +170,18 @@
                 </select>
               </span>
 
-              <span class="mgr">预发货日期：
-                <input type="text"
-                       datepicker
-                       class="ipt pr-short-ipt color-3"
-                       style="width:90px;"
-                       placeholder=""
-                       ng-readonly="true"
-                       ng-model="formData.expectDate" />
-              </span>
+
+              <span class="inline-block relative">
+                  <span>预发货日期：</span>
+                  <input ng-if="initFlag" type="text" datepicker
+                                              class="ipt color-3"
+                                              style="width:120px;" ng-readonly="true" placeholder=""
+                                              ng-model="formData.expectDate" readonly="readonly">
+                        <span class="date-icon"></span>
+                </span>
+
             </div>
+
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table mgb-n">
                 <thead>
@@ -262,7 +266,8 @@
                     </td><!-- 订购数量 -->
 
 
-                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px; " ng-init="item.otherQuantity=0">
+                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
+
                       <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
@@ -282,8 +287,12 @@
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </div>
-                      <!-- 批号选择      ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" -->
-                      <div class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
+
+
+                      <!-- 批号选择 -->
+                      <div
+                              ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity"
+                              class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
                         <i class="addImg"
                            modal-right="50%"
                            modal-scope="this"
@@ -491,6 +500,8 @@
                 </tbody>
               </table>
             </div>
+
+
             <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
               <div class="empty-table clearfix">
                 <div>&nbsp;</div>
@@ -692,7 +703,7 @@
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条购需单吗?"
+           dialog-content="您确认删除这条借出单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/lendOrder/delete?id={{formData.id}}"
            callback="$root.goTo('#/lendOrder/query.html')">删除
@@ -710,15 +721,14 @@
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('editForm','print')">打印预览
-        </button>
+        <!--<button  type="button"-->
+                <!--class="pr-btn-save-glodbg mgr"-->
+                <!--ng-click="submitForm('editForm','print')">打印预览-->
+        <!--</button>-->
 
-        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
+        <!--
+
+         ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              !editForm.$valid ||
                              !formData.customerId ||
@@ -726,43 +736,56 @@
                              formData.contactsNull ||
                              !formData.orderCode ||
                              formData.totalPrice>100000"
-                ng-click="submitForm('editForm','submit')">提交
-        </button>
+        -->
+
+        <!--<button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"-->
+                <!--type="button"-->
+                <!--class="pr-btn-save-glodbg mgr"-->
+                <!--ng-disabled="-->
+                             <!--!editForm.$valid ||-->
+                             <!--!formData.customerId ||-->
+                             <!--!formData.orderMedicalNos.length ||-->
+                             <!--!formData.orderCode"-->
+                <!--ng-click="submitForm('editForm','submit')">提交-->
+        <!--</button>-->
 
         <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
+                ng-disabled="
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000"
+                             checkBatchsList()"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>
 
-      <div ng-if="formData.orderBusinessType=='普通销售'"
-           class="price-area relative fl-r mgr-l"
-           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
+      <!---->
+      <!--<div ng-if="formData.orderBusinessType=='普通销售'"-->
+           <!--class="price-area relative fl-r mgr-l"-->
+           <!--style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：-->
+        <!--<em class="color-white"-->
+            <!--invalid-popover-->
+            <!--popover-show="formData.totalPrice>100000"-->
+            <!--popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}-->
+        <!--</em>-->
 
-      </div>
+      <!--</div>-->
 
-      <div ng-if="formData.orderBusinessType=='直运销售'"
-           class="price-area relative fl-r mgr-l"
-           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
-      </div>
+      <!--<div ng-if="formData.orderBusinessType=='直运销售'"-->
+           <!--class="price-area relative fl-r mgr-l"-->
+           <!--style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：-->
+        <!--<em class="color-white"-->
+            <!--invalid-popover-->
+            <!--popover-show="formData.totalPrice>100000"-->
+            <!--popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}-->
+        <!--</em>-->
+      <!--</div>-->
+      <!---->
+
     </div>
   </form>
 </div>

@@ -1676,7 +1676,6 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach(batchsList, function (item, index) {
           _total += parseInt(item.quantity, 10);
         });
-
         return _total;
       } else {
         return 0;
@@ -7631,6 +7630,35 @@ define('project/controllers', ['project/init'], function() {
 
        }
 
+
+       // 获取所有批次药品数量的合计
+       $scope.getAllBatchTotal = function (batchsList) {
+
+          if (batchsList && angular.isArray(batchsList)) {
+              var _total = 0;
+              angular.forEach(batchsList, function (item, index) {
+                  _total += parseInt(item.quantity, 10);
+              });
+              return _total;
+          } else {
+              return 0;
+          }
+      };
+       
+       $scope.checkBatchsList=function () {
+           var flag=false;
+
+           angular.forEach($scope.formData.orderMedicalNos,function (goods,index) {
+
+               if(goods.stockBatchs.length<1){
+                   flag=true;
+               }
+
+           });
+
+           return flag;
+
+       }
    }
 
   //归还单 Ctrl
