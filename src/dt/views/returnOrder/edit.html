@@ -49,6 +49,7 @@
                  <select class="ipt pr-long-ipt color-6"
                          data-placeholder=" "
                          chosen
+                         ng-disabled="formData.id"
                          ng-model="formData.logisticsCenterId"
                          is-disabled-this="{{formData.customerId}}"
                          select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
@@ -59,31 +60,25 @@
          </div>
        </div>
 
-       <!--   自动打开右侧弹窗 -->
+       <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.medicalNos.length}}" -->
        <div class="pos-rel-tl order-create-btn mgb-m">
          <a
                  modal-right="1000"
-                 modal-open-auto="{{!formData.orderMedicalNos.length}}"
                  modal-scope="this"
                  modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
                  modal-url="views/returnOrder/choice-dialog.html">
            <i></i>
            <span>增加归还条目</span>
-           <!--<span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>-->
-           <!--<span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>-->
          </a>
        </div>
 
 
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
 
-
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
-               <!--"formData.relIds":{{formData.relIds}}-->
-
                <!--自动获取单号-->
                <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
@@ -92,13 +87,9 @@
                         ng-model="formData.orderCode" />
                   <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
                </span>
+               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
 
-               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-
-
-               <!---->
-
-               <span class="mgr">单据日期:</span>
+               <span class="mgr" style="margin-left: 10px;">单据日期:</span>
                <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                  <input type="text"
                         style="top:0px;"
@@ -134,7 +125,7 @@
              </select>
 
              <span class="mgr" style="margin-left: 20px;">业务人员:</span>
-             <select class="ipt pr-short-ipt color-3" style="width:100px; margin-right: 20px;"
+             <select class="ipt pr-short-ipt color-3" style="width:125px; margin-right: 20px;"
                      data-placeholder=" "
                      no-first-select-source="true"
                      chosen
@@ -142,7 +133,7 @@
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.businessDepartmentId}}">
              </select>
 
-             <span class="mgr">计划到货日期:</span>
+             <span class="mgr" style="margin-left: 10px;">计划到货日期:</span>
              <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                <input type="text"
                       style="top:0px;"
@@ -156,7 +147,7 @@
 
            </div>
 
-           <div class="outside-table-d">
+           <div class=""><!-- class="outside-table-d" -->
              <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
@@ -196,7 +187,7 @@
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <span
-                             class="autocut color-orange cur-pot lend-order-goods-info"
+                             class="color-orange cur-pot lend-order-goods-info"
                              ng-init="showInfoArea=false"
                              ng-mouseenter="showInfoArea=true"
                              ng-mouseleave="showInfoArea=false"
@@ -220,7 +211,7 @@
 
                    <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount :(tr.planQuantity - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)-1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)-1;" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -231,12 +222,12 @@
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
                                  valid-value="{{!editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
+                                 popover-show="checkQuantity(tr)"
+                                 popover-options='{"content":"计划归还数量不能大于待还数量或小于1", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">
+                                 >
                         </span>
-                       <button type="button" class="inline-block right" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)+1;confirmOrderCalculaTotal(formData.medicalNos, formData.orderBusinessType)">+</button>
+                       <button type="button" class="inline-block right" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)+1;">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 
@@ -254,7 +245,7 @@
              </div>
            </div>
            <!-- 制单人信息 -->
-           <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+           <div class="flex-column color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
                <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
@@ -271,7 +262,6 @@
          <!--ng-disabled="formData.id"-->
          <span class="mgr">运输方式：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
-
                  data-placeholder=" "
                  no-first-select-source="true"
                  chosen
@@ -365,14 +355,8 @@
               >保存
           </button>
         </span>
+
         <span>
-
-
-          <!--
-
-           ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.medicalNos.length || !checkCanSubmit()"
-          -->
-
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
@@ -380,7 +364,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-
+                  ng-disabled="!formData.orderCode || !formData.medicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

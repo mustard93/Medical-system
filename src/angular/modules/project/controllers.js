@@ -7666,25 +7666,17 @@ define('project/controllers', ['project/init'], function() {
   function  returnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       $scope.watchFormChange = function(watchName){
-
           watchFormChange(watchName,$scope);
-
       };
 
 
-      //校验批次输入数量
-      $scope.changeQuantity=function(nowVal,oldVal){
-
-          // console.log("nowVal,oldVal",nowVal,oldVal);
-
-          if(nowVal>oldVal){
-              return true;
+      //校验计划归还输入数量
+      $scope.checkQuantity=function(tr){
+          var flag=false;
+          if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
+              flag=true;
           }
-
-          if(nowVal<=0){
-              return true;
-          }
-          return false;
+          return flag;
       };
 
       $scope.getGoodsBatchsCount=function (stockBatchs) {
@@ -7695,6 +7687,19 @@ define('project/controllers', ['project/init'], function() {
               });
           }
           return count;
+      };
+
+      // 检查归还数量是否合法
+      $scope.checkCanSubmit=function () {
+          var flag=true;
+
+          angular.forEach($scope.formData.medicalNos,function (tr,index) {
+              //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
+              if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
+                  flag=false;
+              }
+          });
+          return flag;
       };
 
 
@@ -7720,7 +7725,6 @@ define('project/controllers', ['project/init'], function() {
                   });
           }
 
-
       };
 
       // 保存type:save-草稿,submit-提交订单。
@@ -7740,6 +7744,9 @@ define('project/controllers', ['project/init'], function() {
           $('#' + fromId).trigger('submit');
       };
 
+
+
+
   }
 
   //归还单择归还商品弹窗 Ctrl
@@ -7756,17 +7763,10 @@ define('project/controllers', ['project/init'], function() {
        * @param orderCode
        */
       $scope.getByOrderCode=function(orderCode){
-
-
-
-          console.log("orderCode",orderCode,$scope.curOrder.orderCode);
-
-
+          //console.log("orderCode",orderCode,$scope.curOrder.orderCode);
           requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
               .then(function (results) {
-                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
                   $scope.scopeData=results[1].data || {};
-
               })
               .catch(function (error) {
                   alertError(error || '出错');
@@ -7795,11 +7795,11 @@ define('project/controllers', ['project/init'], function() {
       },true);
 
 
-
       //监听筛选条件并获取商品列表
       $scope.$watch('listParams',function (newValue,oldValue) {
           $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
       },true);
+
       //获取商品列表
       $scope.handleSearchFilter=function(listParams,relMedicalStockId){
 
@@ -7924,47 +7924,6 @@ define('project/controllers', ['project/init'], function() {
       };
 
 
-      //添加到商品数据列表
-      $scope.addToList=function(){
-
-          var obj = $scope.curOrder.medicalNo;
-
-          //領用單編號
-          obj.relOrderCode=$scope.curOrder.relOrderCode;
-
-          //可退數量
-          obj.returnTotal=$scope.curOrder.returnTotal || 0;
-
-          //药品ID
-          obj.relMedicalStockId=obj.id;
-
-          //领用单ID
-          obj.relCollarApplicationId=$scope.curOrder.relId;
-          obj.relId=$scope.curOrder.relId;
-
-
-          //批次信息
-          obj.stockBatchs=$scope.selectedBatchs2;
-
-          // console.log("obj",obj);
-          $scope.formData.medicalNos.push(obj);
-
-          $scope.formData.relIds.push(obj.relId);
-
-
-          //设置部门ID 和 name
-          $scope.formData.departmentId=$scope.curOrder.departmentId ;
-          $scope.formData.departmentName=  $scope.curOrder.departmentName;
-
-          //清空选择的批次
-          $scope.selectedBatchs2=[];
-
-      };
-
-
-
-
-
       //添加领用单中的商品到列表
       $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
@@ -7990,22 +7949,6 @@ define('project/controllers', ['project/init'], function() {
           //     var goods= resultArr[i];
           //     $scope.formData.relIds.push(goods.relId);
           // }
-      };
-
-
-
-
-      //选择批次
-      $scope.choiceBaths=function(index){
-
-          var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
-
-          var list = $scope._compareArray(hasStockBatchs,$scope.selectedBatchs2,'stockBatchId','stockBatchId')
-
-          $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat(list);
-
-
-          $scope.selectedBatchs2=[];
       };
 
 
