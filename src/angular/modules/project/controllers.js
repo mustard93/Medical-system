@@ -7644,7 +7644,8 @@ define('project/controllers', ['project/init'], function() {
               return 0;
           }
       };
-       
+
+       //检测药械批次信息，如果不存在返回 true ;  否者  false;
        $scope.checkBatchsList=function () {
            var flag=false;
 
