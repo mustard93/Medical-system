@@ -682,7 +682,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
-                    
+                    "authority":"销售单审批",
                     "iconClass": "examine-approve",
                     "showName": "立即审核",
                     "ngShow": "tr.orderStatus=='待审核'",
