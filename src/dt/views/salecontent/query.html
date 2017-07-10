@@ -29,16 +29,7 @@
                 <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold color-3 pd-m" ng-class="{'color-green':tr.orderStatus=='已全匹配'}">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
-
-                    <span ng-if="$root.hasAuthor('销售目录修改')">
-
-                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           class="btn-link pd-m rect-s "
-                           title="编辑"
-                           ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                            <span class="edit-link-icon">&nbsp;</span>
-                           </a>
-                      </span>
+                      
                     <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                        workflow-button-query-card
                        custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
@@ -49,10 +40,12 @@
                          title="查看详情"
                          href="#/salecontent/get.html?id={{tr.id}}&customerAddressId={{tr.customerAddressId}}"><span class="watch-detail-icon">&nbsp;</span>
                       </a>
+                      <span ng-if="$root.hasAuthor('销售目录修改')">
                       <a class="btn-link pd-m rect-s"
                          title="编辑"
                          href="#/salecontent/edit.html?id={{tr.id}}&customerAddressId={{tr.customerAddressId}}"><span class="edit-link-icon">&nbsp;</span>
                       </a>
+                      </span>
                     </span>
                   </span>
                 </div>
