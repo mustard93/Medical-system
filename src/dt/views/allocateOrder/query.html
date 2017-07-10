@@ -66,10 +66,11 @@
                       </a>
                     </span>
                     </span>
+                    <span ng-if="$root.hasAuthor('调拨单审批')">
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
                       <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" href="#/allocateOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
-                      </a>
+                      </a>                      
                       <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                          ng-href="#/allocateOrder/get.html?id={{tr.id}}"
                          title="立即审核"
@@ -77,7 +78,7 @@
                          >
                         <span class="examine-approve">&nbsp;</span>
                        </a>
-
+                       </span>
                       <!--工作流控制菜单 -->
                         <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                         workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
