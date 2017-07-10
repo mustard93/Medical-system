@@ -155,7 +155,10 @@
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
                       <span class="flex-item-6 text-left">参考借出单</span>
                       <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal"><a href="#/lendOrder/get.html?id={{tr.relId}}" class="color-orange">{{tr.relOrderCode || '暂无'}}</a></strong>
+                          <strong class="color-black text-normal">
+                              <a ng-if="tr.relOrderCode" href="#/lendOrder/get.html?id={{tr.relId}}" class="color-orange" target="_blank">{{tr.relOrderCode}}</a>
+                              <span ng-if="!tr.relOrderCode">暂无</span>
+                          </strong>
                       </span>
                     </div>
 
