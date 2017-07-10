@@ -7971,9 +7971,7 @@ define('project/controllers', ['project/init'], function() {
               }
           }
 
-
           $scope.selectedBatchs=choicedList;
-
           return choicedList;
       };
 
@@ -7981,7 +7979,7 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
 
-          //  TODO 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
           if(returnOderRelId){
                 if(returnOderRelId != choiceReturnOderRelId){
                     alertWarn("只能选择同一借出单药械");
