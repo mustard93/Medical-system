@@ -2444,6 +2444,7 @@ define('project/controllers', ['project/init'], function() {
          addDataItem.taxRate='17';
          addDataItem.batchRequirement='无';
          addDataItem.relId=medical.id;
+         addDataItem.warehouseId=$scope.formData.warehouseId;
 
          addDataItem.strike_price=addDataItem.price;
          addDataItem.id=null;
@@ -2729,6 +2730,14 @@ define('project/controllers', ['project/init'], function() {
 
       return _total.toFixed(2);
     };
+
+    $scope.changeWarehouse = function (warehouseId,orderMedicalNos){
+      if (orderMedicalNos) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          data.warehouseId=warehouseId;
+        });
+      }
+    }
 
    }//end salesOrderEditCtrl
 

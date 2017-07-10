@@ -236,13 +236,16 @@
                       ng-model="formData.contractNo"
                       >
                </span>
-               <!-- <span class="mgr">目标客户：
-                 <input type="text"
-                      class="inline ipt pr-ipt-60 text-center"
-                      style="width:100px;"
-                      ng-model="formData.intentionalCustomer"
-                      >
-               </span> -->
+               <span class="mgr">预入仓库：
+                 <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                         data-placeholder=" "
+                         default-empty="无"
+                         chosen
+                         ng-model="formData.warehouseId"
+                         ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
+                         select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库">
+                 </select>
+               </span>
              </div>
              <div class="">
                <table class="table pr-table pr-new-table " >
