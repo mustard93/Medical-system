@@ -52,26 +52,28 @@
                             <th>角色名</th>
                             <th>类型</th>
                             <th>权限集</th>
+                            <th style="width:100px;">部门权限集</th>
                             <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                        <tr ng-repeat="tr in tbodyList track by $index" ng-click="selectThis()">
                             <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                             <td>{{$index + 1}}</td>
                             <td>{{tr.name}}</td>
                             <td>{{tr.type}}</td>
 
-                            <td>{{tr.authoritys}}<hr>{{tr.departmentAuthoritys}}</td>
+                            <td>{{tr.authoritys}}</td>
+                            <td style="display: inline-block;width: 500px;word-wrap: break-word;">{{tr.departmentAuthoritys}}</td>
                             <td>
-                                
+
                                     <button ng-if="$root.hasAuthor('角色管理修改')" type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html?id={{tr.id}}">
                                         <i class="fa fa-edit"></i>
                                         编辑
                                     </button>
-                            
+
                                 <span ng-if="$root.hasAuthor('角色管理删除')">
-                                    <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/role/delete', tr.id)">                                    
+                                    <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/role/delete', tr.id)">
                                         <i class="fa fa-trash-o"></i>
                                         删除</button>
                                 </span>
