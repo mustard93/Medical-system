@@ -4421,7 +4421,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
     //品种管理模块
-    function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertOk, alertError, alertWarn) {
 
       $scope.$watch('initFlag', function (newVal) {
         var operationFlowSetMessage=[];
@@ -4479,10 +4479,11 @@ define('project/controllers', ['project/init'], function() {
            requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
+               alertOk('操作成功');
              }
            })
            .catch(function (error) {
-
+             if (error) { alertWarn(error); }
            });
           $scope.formData.validFlag = false;
           $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
@@ -7970,9 +7971,7 @@ define('project/controllers', ['project/init'], function() {
               }
           }
 
-
           $scope.selectedBatchs=choicedList;
-
           return choicedList;
       };
 
@@ -7980,8 +7979,8 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
 
-          //  TODO 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
-          if(!returnOderRelId){
+          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+          if(returnOderRelId){
                 if(returnOderRelId != choiceReturnOderRelId){
                     alertWarn("只能选择同一借出单药械");
                 }
@@ -8106,7 +8105,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('otherCustomerApplicationCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', otherCustomerApplicationCtrl])
   .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
   .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', '$timeout', hospitalPurchaseContentsCtrl])
-  .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+  .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils', 'alertOk','alertError','alertWarn', medicalStockCtrl])
   .controller('deliveryItemcontroller', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', deliveryItemcontroller])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])

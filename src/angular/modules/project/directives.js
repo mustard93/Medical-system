@@ -3631,6 +3631,8 @@ function  dtRightSide(utils) {
            element.find('.dt-right-side').animate({
                    'right':-1*(_width-_navWidth)+'px'
            },300)
+           // 重置选中状态
+           $scope.currentTab=-1;
         };
 
         if($scope.sideWidth){
