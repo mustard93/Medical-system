@@ -368,17 +368,16 @@
                 </div>
                 <!-- 商品列表 -->
                 <div class="outside-table-d">
-                    <table class="table pr-table pr-new-table mgb-n　">
+                    <table class="table pr-table pr-new-table mgb-n">
                         <thead>
                         <tr>
                             <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
-
+                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"-->
                             <th class="w-60 text-center mycheck">
                                 <input type="checkbox" class="selectAll cur-pot" id='1'
-                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+
                                        ng-model="isChoiseAll2"
                                        ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
-
                                 >
                                 <label for="1" style="top: 10px;"></label>
 
@@ -389,13 +388,8 @@
                             <th class="text-center">剂型／分类</th>
                             <th class="text-center">规格/型号</th>
                             <th class="text-center">单位</th>
-                            <th class="text-center">计划数量</th>
-                            <th class="text-center">实际数量</th>
-                            <th class="text-center">已归还数量</th>
-                            <th class="text-center">批号</th>
-                            <th class="text-center">失效日期</th>
-                            <th class="text-center">仓库</th>
-                            <!--<th class="text-center">注册证号/批准文号/备案凭证号</th>-->
+                            <th class="text-center">借出数量</th>
+                            <th class="text-center">待还数量</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -406,27 +400,25 @@
                                 <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
 
                                 <input type="checkbox"
-                                       ng-init="item.disabled=(itemInArray(item.onlyId,formData.orderMedicalNos,'onlyId') || item.returnTotal<1)"
-                                       ng-disabled="item.disabled"
+                                       ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.id) && itemInArray(item.id,formData.medicalNos,'id');
+                                       item.disabled=  (itemInArray(item.id,formData.medicalNos,'id')   || (item.planQuantity - item.cumulativeReturnCount)<1);"
+                                       ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"
                                        class="selectOne cur-pot" id='{{$index+2}}'
-                                       ng-model="tr.handleFlag"
-                                       ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'onlyId');">
+                                       ng-model="item.handleFlag"
+                                       ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'id');">
                                 <label for="{{$index+2}}"></label>
+
 
                             </td>
 
-                            <td>{{$index+1}}</td>
+                            <td class="text-center">{{$index+1}}</td>
                             <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                            <td>{{item.name}}</td><!-- 商品全名 -->
-                            <td>{{item.dosageForms}}</td><!-- 剂型／分类 -->
+                            <td class="text-left"><div class="autocut"> {{item.name}}</div></td><!-- 商品全名 -->
+                            <td class="text-center">{{item.dosageForms}}</td><!-- 剂型／分类 -->
                             <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                            <td class="text-center">{{item.planQuantity }}</td><!-- 计划数量 -->
-                            <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
-                            <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
-                            <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                            <td class="text-center">{{item.vli}}</td><!-- 失效日期 -->
-                            <td class="text-left">{{item.warehouseName}}</td><!-- 仓库 -->
+                            <td class="text-center">{{item.planQuantity }}</td><!-- 借出数量 -->
+                            <td class="text-center">{{item.planQuantity - item.cumulativeReturnCount}}</td> <!--待还数量-->
                         </tr>
                         </tbody>
                     </table>
@@ -440,7 +432,12 @@
             </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
+
+                <button type="submit" style="margin-left:500px;"
+                        class="pr-btn-create-glodbg new-left-side-button"
+                        ng-click="prev()">上一步</button>
+
+                <button type="submit" style="margin-left:15px;" ng-disabled="selectedBatchs2.length<1"
                         class="pr-btn-create-glodbg new-left-side-button"
                         ng-click="addOrderDataToList(dialogData.relId,scopeData.id,scopeData.orderNo,scopeData.orderCode);modal.close()">确定</button>
             </div>
@@ -510,17 +507,16 @@
 
                 <!-- 商品列表 -->
                 <div class="outside-table-d">
-                    <table class="table pr-table pr-new-table mgb-n　">
+                    <table class="table pr-table pr-new-table mgb-n">
                         <thead>
                         <tr>
                             <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
-
+                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"-->
                             <th class="w-60 text-center mycheck">
                                 <input type="checkbox" class="selectAll cur-pot" id='1'
-                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+
                                        ng-model="isChoiseAll2"
                                        ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
-
                                 >
                                 <label for="1" style="top: 10px;"></label>
 
@@ -531,13 +527,8 @@
                             <th class="text-center">剂型／分类</th>
                             <th class="text-center">规格/型号</th>
                             <th class="text-center">单位</th>
-                            <th class="text-center">计划数量</th>
-                            <th class="text-center">实际数量</th>
-                            <th class="text-center">已归还数量</th>
-                            <th class="text-center">批号</th>
-                            <th class="text-center">失效日期</th>
-                            <th class="text-center">仓库</th>
-                            <!--<th class="text-center">注册证号/批准文号/备案凭证号</th>-->
+                            <th class="text-center">借出数量</th>
+                            <th class="text-center">待还数量</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -548,27 +539,25 @@
                                 <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
 
                                 <input type="checkbox"
-                                       ng-init="item.disabled=(itemInArray(item.onlyId,formData.orderMedicalNos,'onlyId') || item.returnTotal<1)"
-                                       ng-disabled="item.disabled"
+                                       ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.id) && itemInArray(item.id,formData.medicalNos,'id');
+                                       item.disabled=  (itemInArray(item.id,formData.medicalNos,'id')   || (item.planQuantity - item.cumulativeReturnCount)<1);"
+                                       ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"
                                        class="selectOne cur-pot" id='{{$index+2}}'
-                                       ng-model="tr.handleFlag"
-                                       ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'onlyId');">
+                                       ng-model="item.handleFlag"
+                                       ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'id');">
                                 <label for="{{$index+2}}"></label>
+
 
                             </td>
 
-                            <td>{{$index+1}}</td>
+                            <td class="text-center">{{$index+1}}</td>
                             <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                            <td>{{item.name}}</td><!-- 商品全名 -->
-                            <td>{{item.dosageForms}}</td><!-- 剂型／分类 -->
+                            <td class="text-left"><div class="autocut"> {{item.name}}</div></td><!-- 商品全名 -->
+                            <td class="text-center">{{item.dosageForms}}</td><!-- 剂型／分类 -->
                             <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                            <td class="text-center">{{item.planQuantity }}</td><!-- 计划数量 -->
-                            <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
-                            <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
-                            <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                            <td class="text-center">{{item.vli}}</td><!-- 失效日期 -->
-                            <td class="text-left">{{item.warehouseName}}</td><!-- 仓库 -->
+                            <td class="text-center">{{item.planQuantity }}</td><!-- 借出数量 -->
+                            <td class="text-center">{{item.planQuantity - item.cumulativeReturnCount}}</td> <!--待还数量-->
                         </tr>
                         </tbody>
                     </table>
