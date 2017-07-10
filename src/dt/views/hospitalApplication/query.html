@@ -26,8 +26,8 @@
       </span>
       <!--  -->
     </div>
-    <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;">
-      <a href="#/hospitalApplication/edit1.html"  title="新建医院资格申请" create-btn-author="首营客户管理新增"><i style="top:3px;"></i><span class="text-s">新建医院资格申请</span></a>
+    <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;" ng-if="$root.hasAuthor('资格申请新增')">
+      <a href="#/hospitalApplication/edit1.html"  title="新建医院资格申请"><i style="top:3px;"></i><span class="text-s">新建医院资格申请</span></a>
     </div>
 
       <!-- 主内容区域 -->
@@ -52,43 +52,19 @@
                       </span>
 
                       <span class="flex-item-6 text-right">
-
-                        <span ng-if="$root.hasAuthor('医院信息管理修改')">
-
-                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           class="btn-link pd-m rect-s "
-                           title="编辑"
-                           ng-href="#/hospitalApplication/edit.html?id={{tr.id}}" >
-                            <span class="edit-link-icon">&nbsp;</span>
-                           </a>
-                        </span>
-
-                        <span ng-if="$root.hasAuthor('医院信息管理删除')">
-                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                           href="javascript:;"
-                           class="mr--4 btn-link pd-m rect-s "
-                           title="删除"
-                           handle-this-click
-                           dialog-title="确认删除?"
-                           dialog-content="删除后将无法恢复,确认删除?"
-                           dialog-template="pr-dialog-submit.html"
-                           callback="$root.goTo('#/hospitalApplication/query.html')"
-                           params='{"id":tr.id}'
-                           request-url="rest/authen/hospitalApplication/delete">
-                           <span class="delete-link-icon">&nbsp;</span>
-                         </a>
-                      </span>
-
                           <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                              <span class="watch-detail-icon">&nbsp;</span>
                            </a>
+                        
+                      <span ng-if="$root.hasAuthor('资格申请审批')">
                           <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                              <span class="examine-approve">&nbsp;</span>
                            </a>
+                      </span>
 
-                           <!-- <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
+                            <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
 
                            <span ng-if="$root.hasAuthor('资格申请删除')">
                            <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
@@ -104,7 +80,7 @@
                               request-url="rest/authen/hospitalApplication/delete">
                             <span class="delete-link-icon">&nbsp;</span>
 
-                            </a> -->
+                            </a> 
 
                             </a>
                            </span>
