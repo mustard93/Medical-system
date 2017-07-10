@@ -1,7 +1,7 @@
 <!--      alert-error   -->
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
      ng-controller="returnOrderCtrl"
-     ajax-url="rest/authen/returnOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ajax-url="rest/authen/returnOrder/getOfEdit?lendOrderId={{mainStatus.pageParams.lendOrderId}}&id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
    >
@@ -65,7 +65,7 @@
          <a
                  modal-right="1000"
                  modal-scope="this"
-                 modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+                 modal-data='{"relId":"{{formData.relId}}"}'
                  modal-url="views/returnOrder/choice-dialog.html">
            <i></i>
            <span>增加归还条目</span>
@@ -101,14 +101,19 @@
                  <span class="date-icon"></span>
                </div>
 
+               <br>
+               关联原订单ID:{{formData.relId}}<br>
+               关联原订单号:{{formData.relOrderNo}}<br>
+               关联原订编号:{{formData.relOrderCode}}<br>
+
+
+
 
 
              </div>
              <div class="flex-item-6 text-right">
                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus || "暂无" }}</em></span>
              </div>
-
-
            </div>
 
 
@@ -120,7 +125,7 @@
                      data-placeholder=" "
                      no-first-select-source="true"
                      chosen
-                     ng-model="formData.businessDepartmentId"
+                     ng-model="formData.salesDepartmentId"
                      select-source="rest/authen/department/queryForSelectOption">
              </select>
 
@@ -204,7 +209,7 @@
                    </td><!-- 商品全名 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td> <!--剂型／分类 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 基本单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
                    <td class="text-center">{{tr.planQuantity}}</td><!-- 借出数量 -->
                    <td class="text-center">{{tr.planQuantity - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
