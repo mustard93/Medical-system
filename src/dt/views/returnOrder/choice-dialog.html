@@ -1,5 +1,4 @@
 
-
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="returnOrderChoiceDialogCtrl"
      ajax-url=""
@@ -8,8 +7,6 @@
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
 >
-
-    <!--dialogData:{{dialogData}}-->
 
     <style>
 
@@ -443,19 +440,19 @@
             </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
+                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
+                        class="pr-btn-create-glodbg new-left-side-button"
+                        ng-click="addOrderDataToList(dialogData.relId,scopeData.id,scopeData.orderNo,scopeData.orderCode);modal.close()">确定</button>
             </div>
+
         </div>
     </div>
-
-
-
 
 
     <div ng-if="type=='按借出单编号查找'"
          ajax-url="rest/authen/lendOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
          scope-data="scopeData"
-         callback="isChoiseAll=false; selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId');">
+         callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id); selectedBatchs= initChoisedMedicalList(formData.medicalNos, scopeData.orderMedicalNos,'id');">
         <!-- 过滤条件 -->
         <div class="pdt-s pdb-s pd-c-xl">
             <div class="" style="margin: 20px 0"></div>
@@ -563,7 +560,7 @@
                             <td>{{$index+1}}</td>
                             <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
                             <td>{{item.name}}</td><!-- 商品全名 -->
-                            <td>{{item.name}}</td><!-- 剂型／分类 -->
+                            <td>{{item.dosageForms}}</td><!-- 剂型／分类 -->
                             <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                             <td class="text-center">{{item.planQuantity }}</td><!-- 计划数量 -->
@@ -586,11 +583,12 @@
             </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName,scopeData.id);modal.close()">确定</button>
+                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
+                        class="pr-btn-create-glodbg new-left-side-button"
+                        ng-click="addOrderDataToList(dialogData.relId,scopeData.id,scopeData.orderNo,scopeData.orderCode);modal.close()">确定</button>
             </div>
         </div>
 
     </div>
-
 
 </div>

@@ -7305,10 +7305,6 @@ define('project/controllers', ['project/init'], function() {
                    });
            }
 
-           //生成归还单后跳转到归还单编辑界面
-           if($scope.submitForm_type == 'cereatReturnOrder'){
-               $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
-           }
        };
 
        // 保存type:save-草稿,submit-提交订单。
@@ -7331,6 +7327,12 @@ define('project/controllers', ['project/init'], function() {
            }
 
            $('#' + fromId).trigger('submit');
+       };
+
+
+       //生成归还单
+       $scope.cereatReturnOrder=function (id) {
+           $scope.goTo('#/returnOrder/edit.html?lendOrderId='+id);
        };
 
        // 全选与全不选
@@ -7767,6 +7769,9 @@ define('project/controllers', ['project/init'], function() {
           requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
               .then(function (results) {
                   $scope.scopeData=results[1].data || {};
+
+                  $scope.checkRelId($scope.formData.relId,$scope.scopeData.id);
+
               })
               .catch(function (error) {
                   alertError(error || '出错');
@@ -7924,31 +7929,43 @@ define('project/controllers', ['project/init'], function() {
       };
 
 
-      //添加领用单中的商品到列表
-      $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
+
+      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
+
+          //  TODO 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+          if(!returnOderRelId){
+                if(returnOderRelId != choiceReturnOderRelId){
+                    alertWarn("只能选择同一借出单药械");
+                }
+          }
+      };
+
+
+
+
+      //添加商品到列表
+      $scope.addOrderDataToList=function (returnOderRelId,id,orderNo,orderCode) {
+
+          //如果存在就判断是否相等  不相等就返回
+          if(returnOderRelId){
+
+              if(returnOderRelId != id){
+                  alertWarn("只能选择同一借出单药械");
+                  return;
+              }
+
+          }else{
+              //如果不存在就设置
+              $scope.formData.relId=id;
+              $scope.formData.relOrderNo= orderNo;
+              $scope.formData.relOrderCode=orderCode;
+          }
 
           //添加商品
           var hasOrderMedicalNos = $scope.formData.medicalNos;
-
-
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
-
-
-          console.log("resultArr",angular.toJson(resultArr,true));
-
-          //
-          // angular.forEach(resultArr,function (item,index) {
-          //     item.relCollarApplicationId=relCollarApplicationId;
-          // });
-
-
-
           $scope.formData.medicalNos = hasOrderMedicalNos.concat(resultArr);
 
-          // for(var i=0; i<resultArr.length; i++){
-          //     var goods= resultArr[i];
-          //     $scope.formData.relIds.push(goods.relId);
-          // }
       };
 
 
@@ -8001,6 +8018,7 @@ define('project/controllers', ['project/init'], function() {
 
           return arrB;
       }
+
   }
 
   //还单择归还商品弹窗 Sub Ctrl
