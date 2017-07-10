@@ -50,8 +50,21 @@
           </span>
         </div>
         <!-- 基本信息 -->
-
-        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"批发或零售商","addFlag":false}' attachments-edit ng-model="formData" attachments-extend="attachmentsExtend" ></div>
+        <button type="button"class="pr-btn-save-glodbg mgr mgt mgb-l">
+          <a
+             href="javascript:;"
+             class="color-white"
+             title="还原"
+             handle-this-click
+             dialog-title="确认还原 ?"
+             dialog-content="还原后，将会清空所填信息。您确认还原附件吗?"
+             dialog-template="pr-dialog-confirm.html"
+             callback="refreshAttachements('otherCustomerApplication');"
+             emitted="reloadList">
+             还原
+           </a>
+        </button>
+        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"批发或零售商","addFlag":false}' attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <!-- 功能按钮 -->
           <div class="handle-btn-area">
             <div class="btn-area" style="background:rgba(54,48,44,0.30);">
