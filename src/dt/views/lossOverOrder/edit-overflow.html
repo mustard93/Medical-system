@@ -171,17 +171,17 @@
                   </td><!-- 商品通用名 -->
                   <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td class="text-center" style="white-space: nowrap;">
                     <div class="order-goods-num">
-                      <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                      <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
                                name="quantity{{$index}}"
-                               class="inline ipt pr-ipt-60 text-center item-planQuantity"
+                               class="inline ipt pr-ipt-60 text-center tr-planQuantity"
                                style="width:60px;"
-                               ng-model="item.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                               ng-model="tr.quantity"
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                invalid-popover
                                valid-value="{{!editForm['quantity'+$index].$valid}}"
@@ -190,12 +190,12 @@
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                       </span>
-                      <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
+                      <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                     </div>
                   </td><!-- 数量 -->
                   <td class="text-center relative">
                     <!-- 已选批号列表 -->
-                    <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
+                    <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                          ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
                          class="ipt-div relative"
                          style="width:180px;margin-top:10px;margin-left:10px;"
@@ -211,31 +211,31 @@
                              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                       <input type="hidden" ng-model="batch.id">
-                      <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                      <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
                     <!-- 批号选择 -->
-                    <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
+                    <div ng-if="getAllBatchTotal(tr.stockBatchs)<tr.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
                       <i class="addImg"
                          modal-right="50%"
                          modal-scope="this"
                          modal-data='{
-                                      "medicalName":"{{item.name}}",
-                                      "id":"{{item.relId}}",
+                                      "medicalName":"{{tr.name}}",
+                                      "id":"{{tr.relId}}",
                                       "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                      "quantity":{{item.quantity}},
-                                      "choisedBatchList":{{item.stockBatchs}}
+                                      "quantity":{{tr.quantity}},
+                                      "choisedBatchList":{{tr.stockBatchs}}
                                     }'
                          modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                       </i>
                     </div>
                     <!-- 待选择数 -->
-                    <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                    <p ng-if="getAllBatchTotal(tr.stockBatchs)<tr.quantity" class="text-right color-red pdr relative">待选择：{{tr.quantity-getAllBatchTotal(tr.stockBatchs)}}</p>
                   </td><!-- 批号 -->
                   <td class="text-center pd-n">
-                    <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
+                    <div ng-repeat="ster in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{tr.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
                   <td class="text-center pd-n" >
-                    <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
+                    <div  ng-repeat="vill in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{tr.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>
                 </tr>
               </tbody>

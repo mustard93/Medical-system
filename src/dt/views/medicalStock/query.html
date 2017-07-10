@@ -78,33 +78,7 @@
               </div>
             </div>
             <div class="flex-item-6 text-right">
-
-              <span ng-if="$root.hasAuthor('品种管理修改')">
-
-                <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                  class="btn-link pd-m rect-s "
-                  title="编辑"
-                  ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                  <span class="edit-link-icon">&nbsp;</span>
-                  </a>
-                </span>
-
-                <span ng-if="$root.hasAuthor('品种管理删除')">
-                    <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                        href="javascript:;"
-                        class="mr--4 btn-link pd-m rect-s "
-                        title="删除"
-                        handle-this-click
-                        dialog-title="确认删除?"
-                        dialog-content="删除后将无法恢复,确认删除?"
-                        dialog-template="pr-dialog-submit.html"
-                        callback="$root.goTo('#/purchaseReturn/query.html')"
-                        params='{"id":tr.id}'
-                        request-url="rest/authen/purchaseReturn/delete">
-                        <span class="delete-link-icon">&nbsp;</span>
-                      </a>
-                </span>
-                
+              
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                   <input type="text" class="ipt pdr-xxl" placeholder="通用名称/生产企业" ng-model="listParams.q">
                   <i class=""></i>
@@ -155,20 +129,26 @@
                     </span>
                     <div class="table-item-multiple-btn">
                       <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;">
-                        <div class="del-confirm-area text-center">
-                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
-                          <p class="pd-v-s">
-                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
-                            <a href="javascript:;"
-                               class="pr-btn-best-small pr-btn-bg-gold"
-                               ng-click="handleDelDetails(tr.id, 'rest/authen/medicalStock/delete', '#/medicalStock/query.html')">确认
-                            </a>
-                          </p>
-                        </div>
+                        <span ng-if="$root.hasAuthor('品种管理删除')">
+                          <div class="del-confirm-area text-center">
+                            <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                            <p class="pd-v-s">
+                              <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                              <a href="javascript:;"
+                                class="pr-btn-best-small pr-btn-bg-gold"
+                                ng-click="handleDelDetails(tr.id, 'rest/authen/medicalStock/delete', '#/medicalStock/query.html')">确认
+                              </a>
+                            </p>
+                          </div>
+                        </span>
                       </div>
-                      <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
+                      <span ng-if="$root.hasAuthor('品种管理修改')">
+                        <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
+                      </span>
                       <div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
+
+                          <span ng-if="$root.hasAuthor('品种管理冻结')">
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
                              href="javascript:;"
                              modal-center="350"
@@ -184,6 +164,8 @@
                                          }'
                              tpl-url="tpl/pr-dialog-submit-message.html">冻结
                           </a>
+                          </span>
+                          <span ng-if="$root.hasAuthor('品种管理解冻')">
                           <a ng-if="tr.businessApplication.businessStatus=='已冻结'"
                              href="javascript:;"
                              modal-center="350"
@@ -199,6 +181,8 @@
                                          }'
                              tpl-url="tpl/pr-dialog-submit-message.html">解冻
                           </a>
+                          </span>
+                          <span ng-if="$root.hasAuthor('品种管理终止')">
                           <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认终止?"
@@ -209,6 +193,8 @@
                              alert-error
                              callback="$root.utils.refreshHref()">终止
                           </a>
+                          </span>
+
                           <a href="javascript:;"
                              modal-right="800"
                              modal-scope="this"

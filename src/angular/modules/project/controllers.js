@@ -1848,7 +1848,7 @@ define('project/controllers', ['project/init'], function() {
       var _url = 'rest/authen/notice/readAll';
       requestData(_url, {}, 'POST')
       .then(function (results) {
-        if (results[1].code === 200) { alertOk('操作成功'); }
+        if (results[1].code === 200) { alertOk('操作成功'); $scope.scopeResponse.data=[];}
       })
       .catch(function (error) {
         if (error) { throw new Error(error); }
