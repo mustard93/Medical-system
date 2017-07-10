@@ -4421,7 +4421,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
     //品种管理模块
-    function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertOk, alertError, alertWarn) {
 
       $scope.$watch('initFlag', function (newVal) {
         var operationFlowSetMessage=[];
@@ -4479,10 +4479,11 @@ define('project/controllers', ['project/init'], function() {
            requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
+               alertOk('操作成功');
              }
            })
            .catch(function (error) {
-
+             if (error) { alertWarn(error); }
            });
           $scope.formData.validFlag = false;
           $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
@@ -8104,7 +8105,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('otherCustomerApplicationCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', otherCustomerApplicationCtrl])
   .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
   .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', '$timeout', hospitalPurchaseContentsCtrl])
-  .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+  .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils', 'alertOk','alertError','alertWarn', medicalStockCtrl])
   .controller('deliveryItemcontroller', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', deliveryItemcontroller])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])

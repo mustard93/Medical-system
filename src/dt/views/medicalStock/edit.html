@@ -33,9 +33,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstMedicalApplication/query.html');
-            watchFormChange('formData');
-            bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);">
+            callback="submitFormAfter('#/firstMedicalApplication/query.html');watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
@@ -529,31 +527,33 @@
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
 
-              <span class="mgl" >
-                <button ng-if="changeFlag&&formData.id" href="javascript:;"
-                  class="pr-btn-save-glodbg mgt"
-                  type="button"
-                  ng-disabled="EditForm.$invalid "
-                  modal-center="350"
-                  modal-scope="this"
-                  modal-data='{"title":"确认提示",
-                               "content1":"请输入修改内容",
-                               "content2":"请输入修改原因",
-                               "btnConfirm":"确定",
-                               "btnCancel":"取消",
-                               "url":"rest/authen/medicalStock/save",
-                               "goUrl":""
-                              }'
-                  tpl-url="tpl/pr-dialog-content-reason.html"
-                   >保存</button>
+            <span class="mgl" >
+              <button ng-if="changeFlag&&formData.id"
+                      href="javascript:;"
+                      class="pr-btn-save-glodbg mgt"
+                      type="button"
+                      ng-disabled="EditForm.$invalid "
+                      modal-center="350"
+                      modal-scope="this"
+                      modal-data='{"title":"确认提示",
+                                   "content1":"请输入修改内容",
+                                   "content2":"请输入修改原因",
+                                   "btnConfirm":"确定",
+                                   "btnCancel":"取消",
+                                   "url":"rest/authen/medicalStock/save",
+                                   "goUrl":""
+                                  }'
+                      tpl-url="tpl/pr-dialog-content-reason.html">保存
+              </button>
 
-                <button ng-if="!changeFlag" href="javascript:;"
-                  class="pr-btn-save-glodbg mgt"
-                  type="button"
-                  ng-disabled="EditForm.$invalid "
-                  ng-click="submitForm('editForm','save')"
-                   >保存</button>
-            </span>
+              <button ng-if="!changeFlag"
+                      href="javascript:;"
+                      class="pr-btn-save-glodbg mgt"
+                      type="button"
+                      ng-disabled="EditForm.$invalid "
+                      ng-click="submitForm('editForm','save')">保存
+              </button>
+          </span>
       </form>
     </div>
 
