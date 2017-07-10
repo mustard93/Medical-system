@@ -7194,10 +7194,12 @@ define('project/controllers', ['project/init'], function() {
           if (results[1].code === 200) {
             // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
             utils.refreshHref();
+          } else {
+            alertWarn(results[1].msg);
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error); }
         });
       }
     }
