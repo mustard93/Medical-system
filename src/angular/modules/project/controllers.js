@@ -7797,8 +7797,14 @@ define('project/controllers', ['project/init'], function() {
       };
 
 
+     $scope.resetLendOrderInfo=function () {
 
-
+         if($scope.formData.medicalNos.length<1){
+             $scope.formData.relId="";//关联原订单ID
+             $scope.formData.relOrderNo="";//关联原订单号
+             $scope.formData.relOrderCode="";//关联原订编号
+         }
+     }
   }
 
   //归还单择归还商品弹窗 Ctrl
@@ -7976,21 +7982,6 @@ define('project/controllers', ['project/init'], function() {
           return choicedList;
       };
 
-
-
-      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
-
-          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
-          if(returnOderRelId){
-                if(returnOderRelId != choiceReturnOderRelId){
-                    alertWarn("只能选择同一借出单药械");
-                }
-          }
-      };
-
-
-
-
       //添加商品到列表
       $scope.addOrderDataToList=function (returnOderRelId,id,orderNo,orderCode) {
 
@@ -8038,6 +8029,34 @@ define('project/controllers', ['project/init'], function() {
       $scope.$on('selected',function (e, data) {
           $scope.curOrder= data;
       });
+
+
+      //比对借出单ID 与已选择借出单ID  不相同返回false;
+      $scope.compareOrderId=function(choicedLendOrderId,nowLendOrderId){
+
+          var flag=true;
+
+          if(choicedLendOrderId){
+              if(choicedLendOrderId!=nowLendOrderId){
+                  flag=false;
+              }
+          }
+          return flag;
+      };
+
+      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
+          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+          if(!$scope.compareOrderId(returnOderRelId,choiceReturnOderRelId)) {
+              alertWarn("只能选择同一借出单药械");
+          }
+      };
+
+      //上一步 - bug
+      $scope.prev=function(){
+          $scope.showLendOrder=false;
+          $scope.selectedBatchs2.length=1;
+          $scope.isChoiseAll2=false;
+      };
 
       //去重 返回 arrB 与 arrA 中 arrB不重复部分
       $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){

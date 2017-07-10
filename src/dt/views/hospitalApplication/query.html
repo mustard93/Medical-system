@@ -56,7 +56,7 @@
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                              <span class="watch-detail-icon">&nbsp;</span>
                            </a>
-                        
+
                       <span ng-if="$root.hasAuthor('资格申请审批')">
                           <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                              ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
@@ -65,7 +65,11 @@
                       </span>
 
                             <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
-
+                            <a
+                               ng-if="$root.hasAuthor('资格申请修改')&&tr.orderStatus=='未提交'"
+                               ng-href="#/hospitalApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                             <span class="edit-link-icon">&nbsp;</span>
+                           </a>
                            <span ng-if="$root.hasAuthor('资格申请删除')">
                            <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                               href="javascript:;"
@@ -79,9 +83,7 @@
                               title="删除"
                               request-url="rest/authen/hospitalApplication/delete">
                             <span class="delete-link-icon">&nbsp;</span>
-
-                            </a> 
-
+                            </a>
                             </a>
                            </span>
                         </span>
