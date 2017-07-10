@@ -81,8 +81,6 @@
               <span class="mgr">审核人：<em class="color-3">暂无</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-              <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </div>
           </div>
@@ -141,21 +139,19 @@
                      ng-model="formData.expectDate" />
             </span>
           </div>
-          <div >
+          <div>
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
                   <th class="text-center ">商品编号</th>
-                  <th class="text-left  w-100">商品通用名</th>
+                  <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">剂型/分类</th>
-                  <th class="text-center">规格\型号</th>
+                  <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center">批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">失效日期</th>
-                  <th class="text-center">产品注册证号\备案凭证编号\批准文号</th>
-                  <th class="text-center">生产企业</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
@@ -180,7 +176,7 @@
                     </span>
                   </td><!-- 商品通用名 -->
                   <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
-                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格\型号 -->
+                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center" style="white-space: nowrap;">
                     <div class="order-goods-num">
@@ -247,8 +243,6 @@
                   <td class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>
-                  <td class="text-center pd-n">{{tr.drugAdministrationCode}}<em ng-if="tr.drugAdministrationCode">/</em>{{tr.filingDocumentNo}}<em ng-if="tr.drugAdministrationCode">/</em>{{tr.approvalNo}}</td>
-                  <td class="text-center pd-n">{{tr.produceEnterprise}}</td>
                 </tr>
               </tbody>
             </table>
