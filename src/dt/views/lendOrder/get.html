@@ -106,9 +106,9 @@
 
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr-l">借出部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">借出部门：<em class="color-3">{{scopeData.businessDepartmentName}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
-          <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+          <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate || "暂无" | date:'yyyy-MM-dd'}}</em></span>
         </div>
 
         <!-- 商品列表 -->
@@ -133,16 +133,16 @@
               </thead>
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
-                  <td>{{$index+1}}</td>
+                  <td class="text-center">{{$index+1}}</td>
                   <td class="text-center">{{item.code}}
-                    <div class="table-item-multiple-btn">
-                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                           modal-right="650"
-                           modal-scope="this"
-                           modal-data='{"id":"{{item.id}}"}'
-                           modal-url="views/versionFlow/gs1-barcode-print-dialog.html">打印GS1条码
-                      </div>
-                    </div>
+                    <!--<div class="table-item-multiple-btn">-->
+                      <!--<div class="inline-block btn-receiveItem pr-bg-edit color-white"-->
+                           <!--modal-right="650"-->
+                           <!--modal-scope="this"-->
+                           <!--modal-data='{"id":"{{item.id}}"}'-->
+                           <!--modal-url="views/versionFlow/gs1-barcode-print-dialog.html">打印GS1条码-->
+                      <!--</div>-->
+                    <!--</div>-->
                   </td><!-- 商品编号 -->
                   <td>
                     <span
@@ -158,15 +158,15 @@
                       </show-info-modal>
                     </span>
                   </td><!-- 商品全名 -->
-                  <td>{{item.name}}</td><!-- 剂型／分类 -->
+                  <td class="text-center">{{item.dosageForms}}</td><!-- 剂型／分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.planCount }}</td><!-- 计划数量 -->
+                  <td class="text-center">{{item.planQuantity }}</td><!-- 计划数量 -->
                   <td class="text-center">{{item.actualCount}}</td> <!--实际数量-->
                   <td class="text-center">{{item.cumulativeReturnCount}}</td> <!--已归还数量-->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 失效日期 -->
-                  <td class="text-left">{{item.totalPrice}}</td><!-- 仓库 -->
+                  <td class="text-center">{{item.validTill | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
+                  <td class="text-left">{{item.warehouseName}}</td><!-- 仓库 -->
                 </tr>
               </tbody>
             </table>
@@ -178,9 +178,9 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
           <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单部门：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
-            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
-            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">制单部门：{{scopeData.departmentName ||  "暂无" }}</span>
+            <span class="mgr" style="margin: 0 15px;">制单人：{{scopeData.inputUser.n || "暂无"}}</span>
+            <span class="mgr">录单日期：{{ scopeData.createAt || "暂无" | date : "yyyy-MM-dd"}}</span>
           </div>
         </div>
 
@@ -332,9 +332,12 @@
 
         <button ng-if="scopeData.orderStatus=='已完成'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','cereatReturnOrder')">生成归还单</button>
 
-        <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
+
+        <button style="display: none" type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
+
+
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">

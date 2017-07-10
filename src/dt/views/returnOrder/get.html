@@ -26,13 +26,13 @@
   </div>
 
   <div class="content-wrapper">
-    <div class="">
+    <div class="" ng-if="initFlag">
       <div class="inline-block mgr-l">
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
           <div class="inline-block customer-name "></div>
           <div class="inline-block">
             <p class="mgb-s" style="margin-left: 70px;">预入物流中心</p>
-            <p class="mgb-s" style="margin-left: 70px;font-size: 14px;color: #333333;">归还单详情</p>
+            <p class="mgb-s" style="margin-left: 70px;font-size: 14px;color: #333333;">{{scopeData.logisticsCenterName || "暂无"}}</p>
           </div>
         </div>
       </div>
@@ -75,14 +75,14 @@
         </div>
       </div>
 
-      <!-- 类别选择 -->
+      <!-- 单据信息 -->
       <div class="pd-c-l pdt-m pdb-m color-9">
 
-        <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+        <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.businessDepartmentName || '暂无'}}</em></span>
 
-        <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
+        <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n || '暂无'}}</em></span>
 
-        <span class="mgr-l">计划到货日期：<em class="color-3">{{scopeData.applicationDate | date:'yyyy-MM-dd'}}</em></span>
+        <span class="mgr-l">计划到货日期：<em class="color-3">{{scopeData.expectDate || '暂无' | date:'yyyy-MM-dd'}}</em></span>
         
       </div>
 
@@ -103,77 +103,70 @@
               <th class="text-center">借出数量</th>
               <th class="text-center">待还数量</th>
               <th class="text-center">计划归还数量</th>
-              <th class="text-center">实际规划</th>
+              <th class="text-center">实际归还</th>
               <th class="text-center">预入库房</th>
            </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="tr in scopeData.orderMedicalNos">
+              <tr ng-repeat="tr in scopeData.medicalNos">
                 <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
 
-                <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td><!-- 领用单编号 -->
+                <td class="text-center" style="line-height:2.4">{{tr.orderCode}}</td><!-- 借出单编号 -->
 
                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                <td class="text-left" style="line-height:2.4">
-                     <span
-                             class="autocut color-orange cur-pot lend-order-goods-info"
-                             ng-init="showInfoArea=false"
-                             ng-mouseenter="showInfoArea=true"
-                             ng-mouseleave="showInfoArea=false"
-                             title="{{tr.name}}"
-                     > {{tr.name}}
-                      <show-info-modal ng-show="showInfoArea"
-                                       get-data-type="local"
-                                       template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{tr}}"
-                                       info-title="商品信息">
-                      </show-info-modal>
-                    </span>
+                <td class="text-left"   style="line-height:2.4">
+                  <span class="lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        style="position: relative"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">
+                    <div class=" color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>
+                    <!--<div class="autocut color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>-->
+                    <show-info-modal ng-show="showInfoArea"
+                       get-data-type="local"
+                       template-url="tpl/showInfoModalLendOrder"
+                       info-object="{{tr}}"
+                       info-title="商品信息">
+                    </show-info-modal>
+                  </span>
                 </td><!-- 商品全名 -->
 
-                <td ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">{{tr.returnTotal}}</td><!-- 可退数量 -->
-                <td ng-if="scopeData.orderStatus=='退货中' || scopeData.orderStatus=='已完成'" class="text-center">{{tr.actualReturnCount}}</td><!-- 实际退货数量 -->
-
-                <td class="text-center" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 申请退货数量 -->
-
-                <td class="text-center" >{{tr.productionBatch}}</td>  <!--生产批号-->
-
+                <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td><!-- 类型/分类 -->
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-
                 <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
 
+                <td class="text-center" style="line-height:2.4">{{tr.lendCount}}</td><!-- 借出数量 -->
+                <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 待还数量 -->
+                <td class="text-center" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 计划归还数量 -->
+                <td class="text-center" style="line-height:2.4">{{tr.actualReturnCount}}</td>  <!--实际归还-->
+
+                <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--预入库房-->
 
               </tr>
             </tbody>
           </table>
         </div>
+      <!-- 制单人信息 -->
+      <div class="flex-column color-9 pd-c-l pdt-m pdb-m"  style="border-top: 1px solid rgba(209,143,0,0.20);">
+        <div class="flex-item-6 text-right"></div>
+        <div class="flex-item-6 text-right">
+          <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+          <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
+          <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd hh:mm'}}</em></span>
+        </div>
+      </div>
     </div>
+
+
+
+
     <div class="relative">
 
       <!-- 运输／仓储 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
         <h1 class="text-bold color-3 inline-block" style="border-right: 1px solid rgba(0,0,0,0.15); padding-right: 20px; margin-right: 20px;">运输／仓储</h1>
-
-        <span class="mgr">运输方式：</span>
-        <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                ng-disabled="formData.id"
-                data-placeholder=" "
-                no-first-select-source="true"
-                chosen
-                ng-model="formData.storeRoomId"
-                select-source="rest/authen/storeRoom/queryForSelectOption">
-        </select>
-
-        <span class="mgr" style="margin-left: 30px;">承运公司：</span>
-        <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                ng-disabled="formData.id"
-                data-placeholder=" "
-                no-first-select-source="true"
-                chosen
-                ng-model="formData.storeRoomId"
-                select-source="rest/authen/storeRoom/queryForSelectOption">
-        </select>
-
+        <span class="mgr">运输方式：{{scopeData.payAndDelivery.transportType || "暂无"}}</span>
+        <span class="mgr" style="margin-left: 30px;">承运公司：{{scopeData.payAndDelivery.kuaidiType || "暂无"}}</span>
       </div>
 
       <!-- 收货方信息 -->
@@ -213,6 +206,7 @@
   </div>
   <!-- 流程图 -->
   <!-- <business-flow-show business-key="{{scopeData.id}}" business-type="归还单"></business-flow-show> -->
+
   <!-- 功能按钮 -->
   <div class="handle-btn-area">
     <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -221,16 +215,17 @@
          dialog-title="确认返回?"
          dialog-content="该归还单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/collarReturnOrder/query.html')"
+         nosave-callback="goTo('#/returnOrder/query.html')"
          save-callback="submitForm('editForm','exit')">返回归还单列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/collarReturnOrder/query.html?id={{scopeData.relId}}" >返回归还单列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/returnOrder/query.html?id={{scopeData.relId}}" >返回归还单列表</a>
 
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list
             custom-menu-arr="{{scopeData.didateFilter.buttons}}">
       </span>
+
     </div>
   </div>
 </div>

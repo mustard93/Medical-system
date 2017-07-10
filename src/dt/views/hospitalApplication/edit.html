@@ -69,6 +69,7 @@
                 id-key="id"
                 p-id-key="parentId"
                 >选择</button>
+                <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
               </div>
             </div>
             <div class="bt-dashed-line pd-v-m">
@@ -359,7 +360,7 @@
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                  ng-disabled="hospitalEditForm.$invalid "
+                  ng-disabled="hospitalEditForm.$invalid || !formData.customerAttribute.name"
                   type="button"
                   ng-click="submitForm('editForm','submit-hospital')">提交
             </button>

@@ -18,10 +18,11 @@
               description-field="customerName"
               search-fields=""
               search-str-class="ipt ipt-bg-black"
-              url="rest/authen/invoicesOrder/query?orderStatus=已发货&orderBusinessType=普通销售"
+              url="rest/authen/invoicesOrder/query?orderStatus=已发货"
               class="inline-block "
               ng-model="selectedData">
         </span>
+        <!-- &orderBusinessType=普通销售 -->
       </div>
     </div>
     <!-- 药械列表 -->
@@ -54,20 +55,19 @@
             </div>
           </div>
           <p class="flex-column color-9 pd mgt pr-bg-white-black bb-dashed-line-new">
-            <span class="flex-item-4 color-9">
-              系统编号:<em class="color-white">{{addDataObj.orderNo || '暂无'}}</em>
+            <span class="flex-item-2 color-9">
+              单据编号:<em class="color-white">{{addDataObj.orderCode || '暂无'}}</em>
             </span>
-            <span class="flex-item-7 text-right">
-            <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n || '暂无'}}</em>
-              录单日期：<em class="color-white">{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
+            <span class="flex-item-2 color-9">
+              单据日期:<em class="color-white">{{addDataObj.orderDate || '暂无' | date : 'yyyy-MM-dd'}}</em>
             </span>
-            <span class="flex-item-1 text-right">状态：
+            <span class="flex-item-8 text-right">状态：
               <em class="color-white" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
             </span>
           </p>
           <p class="flex-column color-9 pd pr-bg-white-black">
             <span class="flex-item-12">
-              部门：<em class="color-white">{{addDataObj.salesDepartmentName || '暂无'}}</em>
+              业务部门：<em class="color-white">{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl">业务人员：</em><em class="color-orange">{{addDataObj.saleUser.n|| '暂无'}}</em>
               <!-- <em  class="mgl">业务类型：</em><em class="color-white">{{addDataObj.orderBusinessType || '暂无'}}</em> -->
               <em  class="mgl">销售类型：</em><em class="color-white">{{addDataObj.salesType || '暂无'}}</em>
@@ -75,11 +75,11 @@
             </span>
           </p>
         </div>
-        <div class="outside-table-d" >
-          <table class="table pr-table pr-new-table table-wid" >
+        <div class="" >
+          <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="mycheck">
+                  <th class="mycheck" style="width:60px;">
                     <input type="checkbox"
                            id="1"
                            class="selectAll"
@@ -96,8 +96,6 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">计划数量</th>
                     <th class="text-center">实发数量</th>
-                    <!-- <th class="text-center">差异数量</th> -->
-                    <!-- <th class="text-center w-110">批号要求</th> -->
                     <th class="text-center">生产批号</th>
                     <th class="text-center">灭菌批号</th>
                     <th class="text-center">仓库</th>
@@ -124,11 +122,11 @@
                          class="color-orange cur-pot lend-order-goods-info"
                          ng-init="showInfoArea=false"
                          ng-mouseenter="showInfoArea=true"
-                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                         ng-mouseleave="showInfoArea=false">{{item.approvedName}}
                       <show-info-modal ng-show="showInfoArea"
                                        get-data-type="local"
                                        template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{tr}}"
+                                       info-object="{{item}}"
                                        info-title="商品信息">
                       </show-info-modal>
                     </span>
@@ -138,8 +136,6 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.outgoingQuantity}}</td>
-                  <!-- <td class="text-center">{{item.differenceQuantity}}</td> -->
-                  <!-- 批号要求 -->
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
@@ -154,6 +150,15 @@
               <div>&nbsp;</div>
               <div>&nbsp;</div>
               <div>&nbsp;</div>
+          </div>
+          <div class="bt-line flex-column pr-bg-white" ng-if="addDataObj.orderMedicalNos.length">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：<em class="color-3">{{addDataObj.departmentName || '暂无'}}</em></span>
+
+              <span class="mgr mgl">制单人：<em class="color-3">{{addDataObj.inputUser.n || '暂无'}}</em></span>
+
+              <span class="mgr mgl">制单时间：<em class="color-3">{{addDataObj.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+            </p>
           </div>
       </div>
     </div>
