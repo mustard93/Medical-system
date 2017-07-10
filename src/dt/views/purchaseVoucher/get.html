@@ -76,14 +76,14 @@
           <table class="table pr-table pr-new-table mgb-n">
               <thead>
               <tr>
-               <th  class="text-left w-110">商品全名</th>
-               <th  class="text-center w-110">生产厂家</th>
+               <th class="text-center">商品编号</th>
+               <th  class="text-left">商品通用名</th>
+               <th class="text-center">剂型/分类</th>
                <th class="text-center">规格/型号</th>
                <th class="text-center">单位</th>
                <th class="text-center">数量</th>
-               <th class="text-center">原币含税单价</th>
-               <th class="text-center w-110">原币价税合计</th>
-               <th class="text-center">注册证号</th>
+               <th class="text-center">含税单价</th>
+               <th class="text-center">价税合计</th>
              </tr>
               </thead>
               <tbody>
@@ -92,34 +92,34 @@
                 salesorder-edit-show-delbtn
                 ng-init="orderMedicalNoIds.push(tr.relId)"
                 ng-controller="purchaseOrderEditCtrl">
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    {{tr.manufacturer}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.specificationAndModelType}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.unit}}
-                  </td>
+                <td class="text-center">{{tr.code}}</td>
+                <td class="text-left" >
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                </td><!-- 商品全名 -->
+                <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td class="text-right">
                     {{tr.quantity}}
                   </td>
 
                   <td class="text-right">
-                    ￥{{tr.duty_price| number:2}}
+                    ￥{{tr.strike_price| number:2}}
                   </td>
 
                   <td class="text-right">
                     ￥{{tr.totalPrice || '0' | number:2}}
-                  </td>
-
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
                   </td>
                 </tr>
               </tbody>

@@ -2444,6 +2444,7 @@ define('project/controllers', ['project/init'], function() {
          addDataItem.taxRate='17';
          addDataItem.batchRequirement='无';
          addDataItem.relId=medical.id;
+         addDataItem.warehouseId=$scope.formData.warehouseId;
 
          addDataItem.strike_price=addDataItem.price;
          addDataItem.id=null;
@@ -2729,6 +2730,14 @@ define('project/controllers', ['project/init'], function() {
 
       return _total.toFixed(2);
     };
+
+    $scope.changeWarehouse = function (warehouseId,orderMedicalNos){
+      if (orderMedicalNos) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          data.warehouseId=warehouseId;
+        });
+      }
+    }
 
    }//end salesOrderEditCtrl
 
@@ -6962,18 +6971,18 @@ define('project/controllers', ['project/init'], function() {
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
 
-      if (formData.prefix1_type === '单据日期') {
-        $scope.createPrefixForDate(formData.prefix1);
-      } else {
-        $scope.createPrefixForDate(formData.prefix2);
-      }
-
       if (formData.prefix1_type === '静态文本' && formData.prefix2) {
-        $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+        $scope.createPrefixForDate(formData.prefix2);
+        if ($scope.fixDateString) {
+          $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+        }
       }
 
       if (formData.prefix2_type === '静态文本' && formData.prefix1) {
-        $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+        $scope.createPrefixForDate(formData.prefix1);
+        if ($scope.fixDateString) {
+          $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+        }
       }
     }
 
@@ -7027,6 +7036,37 @@ define('project/controllers', ['project/init'], function() {
         })
       }
     }
+
+    // ...
+    $scope.$watch('medicalAttribute', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        // 用户点击了树中不同节点，请求当前节点的信息
+        var _nodeName = 'DT_' + newVal['name'];
+        var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
+        requestData(_reqUrl)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+
+            // 如果类型类空，则初始化为1（系统自动生成）
+            if (!$scope.formData.type) { $scope.formData.type = 1; }
+
+            // 如果类型为空，则赋值为当前类型
+            if (!$scope.formData.moduleType) { $scope.formData.moduleType = _nodeName; }
+
+            // 初始化样例
+            $scope.codeSample = null;
+
+            // 初始化获取编码长度和样例
+            $scope.getCodeLength($scope.formData);
+            $scope.createCodeSample($scope.formData);
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        })
+      }
+    }, true);
   }
 
   /**
@@ -7051,7 +7091,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]}                   requestData [description]
    * @return {[type]}                               [description]
    */
-  function medicalAttributeController ($scope, alertOk, alertError, requestData, utils) {
+  function medicalAttributeController ($scope, alertOk, alertError, alertWarn, requestData, utils) {
 
     // 定义是否显示右侧编辑界面
     $scope.showEditArea = false;
@@ -7113,13 +7153,19 @@ define('project/controllers', ['project/init'], function() {
           if (results[1].code === 200) {
             alertOk('操作成功');
             utils.refreshHref();
+          } else {
+            alertWarn(results[1].msg);
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error); }
         })
       } else {      // 新增子节点
-        medicalAttribute['parentId'] = angular.copy(medicalAttribute['id']);
+        // 如果父节点id为空，则将当前节点id复制给父节点
+        if (!medicalAttribute['parentId']) {
+          medicalAttribute['parentId'] = angular.copy(medicalAttribute['id']);
+        }
+        // 将id置空，标识为新建节点
         medicalAttribute['id'] = null;
 
         requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
@@ -7127,10 +7173,12 @@ define('project/controllers', ['project/init'], function() {
           if (results[1].code === 200) {
             alertOk('操作成功');
             utils.refreshHref();
+          } else {
+            alertWarn(results[1].msg);
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error); }
         });
       }
     }
@@ -8081,7 +8129,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
   .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
-  .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'requestData', 'utils', medicalAttributeController])
+  .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', medicalAttributeController])
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
