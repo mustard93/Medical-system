@@ -33,11 +33,13 @@
 
 
        <!--预入物流中心-->
-       <div class="">
+       <div class="purchaseOrder-edit">
+
+
          <div class="inline-block">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center"></div>
-             <div class="inline-block">
+             <div class="inline-block" style="margin-left: 10px;">
                <p class="mgb-s">预入物流中心</p>
                <p class="text-m color-3">
 
@@ -60,7 +62,7 @@
          </div>
        </div>
 
-       <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.medicalNos.length}}" -->
+       <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.orderMedicalNos.length}}" -->
        <div class="pos-rel-tl order-create-btn mgb-m">
          <a
                  modal-right="1000"
@@ -101,14 +103,15 @@
                  <span class="date-icon"></span>
                </div>
 
-               <br>
-               关联原订单ID:{{formData.relId}}<br>
-               关联原订单号:{{formData.relOrderNo}}<br>
-               关联原订编号:{{formData.relOrderCode}}<br>
+               <span class="mgr">对应借出单编号:
+                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode}}</a>
+                 <span ng-if="!formData.relOrderNo">暂无</span>
+               </span>
 
-
-
-
+               <!--<br>-->
+               <!--关联原订单ID:{{formData.relId}}<br>-->
+               <!--关联原订单号:{{formData.relOrderNo}}<br>-->
+               <!--关联原订编号:{{formData.relOrderCode}}<br>-->
 
              </div>
              <div class="flex-item-6 text-right">
@@ -158,7 +161,6 @@
                 <tr>
 
                   <th class="text-center">序号</th>
-                  <th class="text-center">借出单编号</th>
                   <th class="text-center">商品编码</th>
                   <th class="text-left">商品名称</th>
                   <th class="text-center">剂型／分类</th>
@@ -173,7 +175,7 @@
                </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in formData.medicalNos"
+                 <tr ng-repeat="tr in formData.orderMedicalNos"
                      table-item-handlebtn-component
                      class="relative">
 
@@ -183,13 +185,12 @@
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                          <p class="pdt">
                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.medicalNos.splice($index,1);formData.relIds.splice($index,1);">确认</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.medicalNos.splice($index,1);resetLendOrderInfo();">确认</a>
                          </p>
                        </div>
                      </div>
                    </td><!-- 序号 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td>  <!-- 借出单编号 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.code}}-{{tr.onlyId}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <span
                              class="color-orange cur-pot lend-order-goods-info"
@@ -207,7 +208,7 @@
                     </span>
 
                    </td><!-- 商品全名 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td> <!--剂型／分类 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td> <!--剂型／分类 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
@@ -242,7 +243,7 @@
                </tbody>
              </table>
            </div>
-           <div class="pr-bg-white" ng-if="!formData.medicalNos.length">
+           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
@@ -369,7 +370,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.medicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

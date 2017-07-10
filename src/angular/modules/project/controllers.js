@@ -7208,10 +7208,12 @@ define('project/controllers', ['project/init'], function() {
           if (results[1].code === 200) {
             // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
             utils.refreshHref();
+          } else {
+            alertWarn(results[1].msg);
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error); }
         });
       }
     }
@@ -7221,7 +7223,8 @@ define('project/controllers', ['project/init'], function() {
       // 设置标识符
       $scope.modifyNodeInfo = false;
 
-      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.levelCode);
+      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
+      $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
       $scope.formData.medicalAttribute.levelCode = null;
       $scope.formData.medicalAttribute.showName = null;
 
@@ -7758,7 +7761,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.checkCanSubmit=function () {
           var flag=true;
 
-          angular.forEach($scope.formData.medicalNos,function (tr,index) {
+          angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
               //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
               if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
                   flag=false;
@@ -7810,14 +7813,21 @@ define('project/controllers', ['project/init'], function() {
       };
 
 
+     $scope.resetLendOrderInfo=function () {
 
-
+         if($scope.formData.orderMedicalNos.length<1){
+             $scope.formData.relId="";//关联原订单ID
+             $scope.formData.relOrderNo="";//关联原订单号
+             $scope.formData.relOrderCode="";//关联原订编号
+         }
+     }
   }
 
   //归还单择归还商品弹窗 Ctrl
   function  returnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //显示批次界面
+      $scope.showLendOrder=false;
       $scope.showBatchs=false;
       $scope.changeShowBatchsFlag=function (flag) {
           $scope.showBatchs =flag;
@@ -7831,6 +7841,9 @@ define('project/controllers', ['project/init'], function() {
           //console.log("orderCode",orderCode,$scope.curOrder.orderCode);
           requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
               .then(function (results) {
+                  // 显示借出单信息
+                  $scope.showLendOrder=true;
+
                   $scope.scopeData=results[1].data || {};
 
                   $scope.checkRelId($scope.formData.relId,$scope.scopeData.id);
@@ -7989,21 +8002,6 @@ define('project/controllers', ['project/init'], function() {
           return choicedList;
       };
 
-
-
-      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
-
-          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
-          if(returnOderRelId){
-                if(returnOderRelId != choiceReturnOderRelId){
-                    alertWarn("只能选择同一借出单药械");
-                }
-          }
-      };
-
-
-
-
       //添加商品到列表
       $scope.addOrderDataToList=function (returnOderRelId,id,orderNo,orderCode) {
 
@@ -8023,9 +8021,9 @@ define('project/controllers', ['project/init'], function() {
           }
 
           //添加商品
-          var hasOrderMedicalNos = $scope.formData.medicalNos;
+          var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
-          $scope.formData.medicalNos = hasOrderMedicalNos.concat(resultArr);
+          $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
       };
 
@@ -8051,6 +8049,34 @@ define('project/controllers', ['project/init'], function() {
       $scope.$on('selected',function (e, data) {
           $scope.curOrder= data;
       });
+
+
+      //比对借出单ID 与已选择借出单ID  不相同返回false;
+      $scope.compareOrderId=function(choicedLendOrderId,nowLendOrderId){
+
+          var flag=true;
+
+          if(choicedLendOrderId){
+              if(choicedLendOrderId!=nowLendOrderId){
+                  flag=false;
+              }
+          }
+          return flag;
+      };
+
+      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
+          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+          if(!$scope.compareOrderId(returnOderRelId,choiceReturnOderRelId)) {
+              alertWarn("只能选择同一借出单药械");
+          }
+      };
+
+      //上一步 - bug
+      $scope.prevStep=function(){
+          $scope.showLendOrder=false;
+          $scope.selectedBatchs2.length=0;
+          $scope.isChoiseAll2=false;
+      };
 
       //去重 返回 arrB 与 arrA 中 arrB不重复部分
       $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
