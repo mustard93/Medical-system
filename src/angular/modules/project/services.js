@@ -907,7 +907,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
-                    "authority":"借出单审批",
+                    // "authority":"借出单审批",
                     "iconClass": "examine-approve",
                     "showName": "立即审核",
                     "ngShow": "tr.orderStatus=='待审核'",
@@ -930,7 +930,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
-                    "authority":"销售单删除",
+                    "authority":"借出单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",

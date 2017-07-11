@@ -74,6 +74,7 @@
                     {{formData.supplierAttribute.name}}
                        <!-- ng-class="{'z-tree-div-active':(addBorder)}" -->
                     </div>
+                    <span style="display:none;">{{formData.attributeId}}</span>
                     <button
                     type="button"
                     z-tree-select="rest/authen/supplierAttribute/query.json"
@@ -306,8 +307,8 @@
                       </div>
                   </div>
                 </div>
-                <div class="panel pr-panel pr-panel-height  bt-dashed-line mgb">
-                    <h1 class="mgb-m color-black text-bold text-n">发货人信息</h1>
+                <div class=" bt-dashed-line mgb">
+                    <h1 class=" mgt mgb-m color-black text-bold text-n">发货人信息</h1>
                     <div class="flex-column mgt">
                         <label class="flex-item-2 text-right control-label">发货人：</label>
                         <div class="flex-item-10 text-left">
@@ -345,7 +346,13 @@
                     <div class="flex-column mgt">
                         <label class="flex-item-2 text-right control-label">邮编：</label>
                         <div class="flex-item-10 text-left">
-                            <input type="text"  class="ipt-new" placeholder="请填写邮编"  ng-model="formData.contact.zipCode"/>
+                          <input type="text"
+                                 class="ipt-new"
+                                 name="zipCode"
+                                 ng-model="formData.contact.zipCode"
+                                 ng-pattern="/^[1-9][0-9]{5}$/"
+                                 data-content="邮编编码格式错误"
+                                 invalid-popover="{{!firstEnterpriseEditForm.zipCode.$valid}}">
                         </div>
                     </div>
                     <div class="flex-column mgt">

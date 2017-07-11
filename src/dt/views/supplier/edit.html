@@ -69,6 +69,7 @@
                 {{formData.supplierAttribute.name}}
                    <!-- ng-class="{'z-tree-div-active':(addBorder)}" -->
                 </div>
+                <span style="display:none;">{{formData.attributeId}}</span>
                 <button
                 type="button"
                 z-tree-select="rest/authen/supplierAttribute/query.json"
@@ -337,7 +338,13 @@
                 <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label">邮编：</label>
                     <div class="flex-item-10 text-left">
-                        <input type="text"  class="ipt-new" placeholder="请填写邮编"  ng-model="formData.contact.zipCode"/>
+                      <input type="text"
+                             class="ipt-new"
+                             name="zipCode"
+                             ng-model="formData.contact.zipCode"
+                             ng-pattern="/^[1-9][0-9]{5}$/"
+                             data-content="邮编编码格式错误"
+                             invalid-popover="{{!EditForm.zipCode.$valid}}">
                     </div>
                 </div>
                 <div class="flex-column mgt">
@@ -441,7 +448,7 @@
                              "btnConfirm":"确定",
                              "btnCancel":"取消",
                              "url":"rest/authen/supplier/save",
-                             "goUrl":"#/supplier/get.html?id={{formData.id}}"
+                             "goUrl":""
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
                  >保存</button>
