@@ -3791,6 +3791,20 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+
+      $scope.refreshAttachements=function(type){
+        var url='rest/authen/'+type+'/getOfEdit';
+        var data= {};
+        requestData(url,data,'get')
+          .then(function (results) {
+            var _data = results[1];
+            $scope.formData.attachments=_data.data.attachments;
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      };
+
     }
 
     function otherCustomerApplicationCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -7751,7 +7765,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.checkCanSubmit=function () {
           var flag=true;
 
-          angular.forEach($scope.formData.medicalNos,function (tr,index) {
+          angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
               //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
               if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
                   flag=false;
@@ -7805,7 +7819,7 @@ define('project/controllers', ['project/init'], function() {
 
      $scope.resetLendOrderInfo=function () {
 
-         if($scope.formData.medicalNos.length<1){
+         if($scope.formData.orderMedicalNos.length<1){
              $scope.formData.relId="";//关联原订单ID
              $scope.formData.relOrderNo="";//关联原订单号
              $scope.formData.relOrderCode="";//关联原订编号
@@ -7817,6 +7831,7 @@ define('project/controllers', ['project/init'], function() {
   function  returnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //显示批次界面
+      $scope.showLendOrder=false;
       $scope.showBatchs=false;
       $scope.changeShowBatchsFlag=function (flag) {
           $scope.showBatchs =flag;
@@ -7830,6 +7845,9 @@ define('project/controllers', ['project/init'], function() {
           //console.log("orderCode",orderCode,$scope.curOrder.orderCode);
           requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
               .then(function (results) {
+                  // 显示借出单信息
+                  $scope.showLendOrder=true;
+
                   $scope.scopeData=results[1].data || {};
 
                   $scope.checkRelId($scope.formData.relId,$scope.scopeData.id);
@@ -8007,9 +8025,9 @@ define('project/controllers', ['project/init'], function() {
           }
 
           //添加商品
-          var hasOrderMedicalNos = $scope.formData.medicalNos;
+          var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
-          $scope.formData.medicalNos = hasOrderMedicalNos.concat(resultArr);
+          $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
       };
 
@@ -8058,9 +8076,9 @@ define('project/controllers', ['project/init'], function() {
       };
 
       //上一步 - bug
-      $scope.prev=function(){
+      $scope.prevStep=function(){
           $scope.showLendOrder=false;
-          $scope.selectedBatchs2.length=1;
+          $scope.selectedBatchs2.length=0;
           $scope.isChoiseAll2=false;
       };
 

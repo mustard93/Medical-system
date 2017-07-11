@@ -33,13 +33,13 @@
 
 
        <!--预入物流中心-->
-       <div class="">
+       <div class="purchaseOrder-edit">
 
 
          <div class="inline-block">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center"></div>
-             <div class="inline-block">
+             <div class="inline-block" style="margin-left: 10px;">
                <p class="mgb-s">预入物流中心</p>
                <p class="text-m color-3">
 
@@ -62,7 +62,7 @@
          </div>
        </div>
 
-       <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.medicalNos.length}}" -->
+       <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.orderMedicalNos.length}}" -->
        <div class="pos-rel-tl order-create-btn mgb-m">
          <a
                  modal-right="1000"
@@ -108,10 +108,10 @@
                  <span ng-if="!formData.relOrderNo">暂无</span>
                </span>
 
-               <br>
-               关联原订单ID:{{formData.relId}}<br>
-               关联原订单号:{{formData.relOrderNo}}<br>
-               关联原订编号:{{formData.relOrderCode}}<br>
+               <!--<br>-->
+               <!--关联原订单ID:{{formData.relId}}<br>-->
+               <!--关联原订单号:{{formData.relOrderNo}}<br>-->
+               <!--关联原订编号:{{formData.relOrderCode}}<br>-->
 
              </div>
              <div class="flex-item-6 text-right">
@@ -175,7 +175,7 @@
                </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in formData.medicalNos"
+                 <tr ng-repeat="tr in formData.orderMedicalNos"
                      table-item-handlebtn-component
                      class="relative">
 
@@ -243,7 +243,7 @@
                </tbody>
              </table>
            </div>
-           <div class="pr-bg-white" ng-if="!formData.medicalNos.length">
+           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
@@ -370,7 +370,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.medicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

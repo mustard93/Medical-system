@@ -88,7 +88,7 @@
             <span class="mgr">审核人：<em class="color-3">{{formData.approverUser.n||'暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+            <!--<span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>-->
             <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
             <a ng-if="initFlag"
                modal-center="1000px"
@@ -107,31 +107,39 @@
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="outside-table-d">
+          <div class="">
             <table class="table pr-table pr-new-table mgb-n table-s-wid">
               <thead>
                 <tr>
                   <th class="text-center">商品编号</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-center">商品通用名</th>
+                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">计划调拨数量</th>
                   <th class="text-center">实际调拨数量</th>
-                  <th class="text-center w-106">生产批号</th>
+                  <th class="text-center">批号</th>
                   <th class="text-center w-106">灭菌批号</th>
                   <!-- <th class="text-center w-106">仓库</th> -->
-                  <th class="text-center ">有效期至</th>
-                  <th class="text-center">产地执行标准</th>
-                  <th class="text-center">保存温度</th>
-                  <th class="text-center">产地品牌</th>
-                  <th class="text-center">产品注册证号</th>
-                  <th class="text-center">注册证号有效期</th>
+                  <th class="text-center ">失效日期</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="item in formData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                  <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-center">
+                    <span class="color-orange cur-pot lend-order-goods-info"
+                          ng-init="showInfoArea=false"
+                          ng-mouseenter="showInfoArea=true"
+                          ng-mouseleave="showInfoArea=false">{{item.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 计划调拨数量 -->
@@ -142,15 +150,21 @@
                   <!-- 仓库 -->
                   <td class="text-right">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 报价 -->
                   <td class="text-center">{{item.productStandard}}</td>
-                  <td class="text-center">{{item.storedTemperature}}</td>
+                  <!--<td class="text-center">{{item.storedTemperature}}</td>
                   <td class="text-center">{{item.brand}}</td>
                   <td class="text-center">{{item.drugAdministrationCode}}</td>
-                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>-->
                 </tr>
               </tbody>
             </table>
           </div>
-
+          <div class="bt-line flex-column">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
+              <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+            </p>
+          </div>
         </div>
       </div>
       <!-- 其他信息 -->
