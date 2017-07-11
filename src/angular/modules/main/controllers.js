@@ -531,6 +531,17 @@ define('main/controllers', ['main/init'], function () {
      */
     function editCtrl($scope, modal) {
         modal.closeAll();
+        $scope.submitAll = function (departments,departmentAuthoritys){
+          var departmentNameAuthoritys=[];
+        angular.forEach(departments,function (item,index) {
+          for (var i = 0; i < departmentAuthoritys.length; i++) {
+            if(departmentAuthoritys[i]==item.id){
+              departmentNameAuthoritys.push(item.name);
+            }
+          }
+        });
+        $scope.formData.departmentNameAuthoritys=departmentNameAuthoritys;
+        }
     }
 
     /**
