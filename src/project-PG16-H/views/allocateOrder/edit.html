@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);finalQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -230,9 +230,10 @@
                                  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                  ng-change="changeQuantity(item.salesQuantity,item.applicationCount);"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
-                                 invalid-popover="{{item.applicationCount>item.salesQuantity}}"
+                                 invalid-popover="{{quantityError}}"
                                  popover-show
                                  popover-options='{"content":"不能大于可调拨数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+                                 <!-- {{item.applicationCount>item.salesQuantity}} -->
 
                         </span>
                         <button type="button" class="inline-block right"
