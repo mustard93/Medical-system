@@ -18,7 +18,9 @@
         <div class="flex-item-6 br-dotted-line" style="overflow-y:auto;max-height:550px;">
           <!-- 新增商品主类别按钮 -->
           <div class="pos-rel-tl order-create-btn mgt-l mgb-xl">
-            <a href="javascript:;" ng-click="showAddClass=!showAddClass"><i></i><span class="">新增{{showModuleName}}主类别</span></a>
+            <span ng-if="$root.hasAuthor('商品类别管理新增')">
+              <a href="javascript:;" ng-click="showAddClass=!showAddClass"><i></i><span class="">新增{{showModuleName}}主类别</span></a>
+            </span>
           </div>
 
           <!-- 新增商品主类别 -->
@@ -40,16 +42,18 @@
         </div>
         <div ng-if="formData.medicalAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
           <div class="bb-dashed-line pdt-l pdb-l">
-            <button type="button"
-                    class="pr-btn-confirm-glodbg-small mgr-l bg-red"
-                    handle-this-click
-                    dialog-title="确认"
-                    dialog-content="删除后将无法回复，确认删除?"
-                    dialog-content-color="#FF3939"
-                    dialog-template="pr-dialog-confirm.html"
-                    callback="deleteThisClass()">
-              <span class="fa fa-trash-o mgr text-n"></span>删除类别
-            </button>
+            <span ng-if="$root.hasAuthor('商品类别管理删除')">
+              <button type="button"
+                      class="pr-btn-confirm-glodbg-small mgr-l bg-red"
+                      handle-this-click
+                      dialog-title="确认"
+                      dialog-content="删除后将无法回复，确认删除?"
+                      dialog-content-color="#FF3939"
+                      dialog-template="pr-dialog-confirm.html"
+                      callback="deleteThisClass()">
+                <span class="fa fa-trash-o mgr text-n"></span>删除类别
+              </button>
+            </span>
             <button type="button" class="pr-btn-confirm-glodbg-small mgr-l" ng-click="addNewChildNode()">
               <span class="fa fa-plus-circle mgr text-n"></span>新增子类别
             </button>
