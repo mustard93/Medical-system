@@ -243,7 +243,7 @@
                      <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
                      <select class="pr-select pd-s"
                              style="width:115px;"
-                             required
+
                              ng-model="tr.warehouseId"
                              ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
                              scope-data="warehouseList"
@@ -389,6 +389,7 @@
         </span>
 
         <span>
+          <!--ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"-->
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
@@ -396,7 +397,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+
                    >提交
           </button>
         </span>
