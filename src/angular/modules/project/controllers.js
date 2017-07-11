@@ -7820,13 +7820,20 @@ define('project/controllers', ['project/init'], function() {
           $('#' + fromId).trigger('submit');
       };
 
-
+     // 重置 借出单 信息
      $scope.resetLendOrderInfo=function () {
 
          if($scope.formData.orderMedicalNos.length<1){
              $scope.formData.relId="";//关联原订单ID
              $scope.formData.relOrderNo="";//关联原订单号
              $scope.formData.relOrderCode="";//关联原订编号
+
+
+             //发货方信息   收货方信息
+             $scope.formData.customerContacts=null;
+             $scope.formData.invoicesContacts=null;
+
+
          }
      }
   }
