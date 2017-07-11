@@ -3791,6 +3791,20 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+
+      $scope.refreshAttachements=function(type){
+        var url='rest/authen/'+type+'/getOfEdit';
+        var data= {};
+        requestData(url,data,'get')
+          .then(function (results) {
+            var _data = results[1];
+            $scope.formData.attachments=_data.data.attachments;
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      };
+
     }
 
     function otherCustomerApplicationCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -7208,6 +7222,10 @@ define('project/controllers', ['project/init'], function() {
     $scope.addNewChildNode = function () {
       // 设置标识符
       $scope.modifyNodeInfo = false;
+
+      if (!$scope.formData.medicalAttribute.parentCode) {
+        $scope.formData.medicalAttribute.parentCode = '';
+      }
 
       $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
       $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
