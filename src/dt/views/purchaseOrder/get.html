@@ -32,14 +32,13 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <div ng-if="scopeData.operationFlowSet.message||scopeData.operationFlowSet.key" class="pr-panel pr-panel-height mgb "
-           ng-class="{'pr-bg-pink':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}">
-        <em ng-class="{'color-red':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}">原因:</em>
-        <p class="inline-block"
-        ng-class="{'color-red':(scopeData.orderStatus=='已作废'||scopeData.orderStatus=='未通过')}">
-          <em >{{scopeData.operationFlowSet.key}}</em>
-          <em >{{scopeData.operationFlowSet.message}}</em>
-        </p>
+      <div  ng-if="scopeData.operationFlowSet.key||scopeData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pass"
+        ng-class="{'pr-bg-pink1':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'),'pr-bg-pass':(scopeData.orderStatus=='待采购')}">
+      <em ng-class="{'color-red':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'),'color-pass':(scopeData.orderStatus=='待采购')}">原因:</em>
+       <p class="inline-block " ng-class="{'color-red':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废')},'color-pass':(scopeData.orderStatus=='待采购')}">
+      <em class="color-pass">{{scopeData.operationFlowSet.key}}</em>
+       <em >{{scopeData.operationFlowSet.message}}</em>
+       </p>
       </div>
       <!-- <div class="pr-panel pr-panel-height mgb pd-n">
         <div class="inline-block br-line supplier-name relative">
