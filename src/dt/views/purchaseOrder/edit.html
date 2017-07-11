@@ -2,7 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单')"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');historyPrice(formData.supplier.id,formData.orderMedicalNos);"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -366,7 +366,11 @@
                        </select>
                      </td>
                      <!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4"
+                     ajax-if-eval="formData.supplier.id"
+                     ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{tr.id}}&type=采购&supplierId={{formData.supplier.id}}"
+                     scope-data="priceData"
+                     callback="tr.strike_price=priceData[0].value">￥
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
