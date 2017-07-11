@@ -577,7 +577,7 @@
           </button>
         </span>
         <span>
-          <button ng-if="!formData.relId" class="pr-btn-create-glodbg mgt"
+          <button ng-if="!formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
@@ -591,7 +591,22 @@
                                !formData.orderCode||
                                !supplier.contact">提交
           </button>
-          <button ng-if="formData.relId" class="pr-btn-create-glodbg mgt"
+
+          <button ng-if="!formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改。确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('purchaseForm','submit')"
+                  ng-disabled="purchaseForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               !formData.supplier.id ||
+                               !supplier.contact">提交
+          </button>
+
+          <button ng-if="formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
@@ -604,7 +619,21 @@
                                !formData.supplier.id ||
                                !formData.orderCode ||
                                !supplier.contact">提交
-          </button>{{formData.relId}}
+          </button>
+
+          <button ng-if="formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改。确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('purchaseForm','submit')"
+                  ng-disabled="purchaseForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               !formData.supplier.id ||
+                               !supplier.contact">提交
+          </button>
         </span>
       </div>
       <div class="total-div">
