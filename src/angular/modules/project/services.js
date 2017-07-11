@@ -930,7 +930,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
-                    "authority":"销售单删除",
+                    "authority":"借出单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
