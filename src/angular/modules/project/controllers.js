@@ -6954,6 +6954,9 @@ define('project/controllers', ['project/init'], function() {
     // 编码样例
     $scope.codeSample = null;
 
+    // 编码长度溢出标识符
+    $scope.codeLengthOverflow = false;
+
     // 定义单据编号前缀数据模型
     var codePrefix = [
       {"text": "静态文本", "value": "静态文本"},
