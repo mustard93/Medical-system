@@ -88,10 +88,11 @@
                   <i class="fa fa-refresh mgr-s color-light-brown"></i>
                   <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
                 </div>
+
             </div>
           </div>
           <div class="pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table pr-table-content">
+            <table class="table pr-table pr-new-table pr-table-content" >
               <thead class="pr-bg-side">
                 <tr>
                   <th class="w-80">状态</th>
@@ -119,11 +120,11 @@
                         </i>
                       </span>
                     </span>
-                    
-                    <div class="table-item-multiple-btn">                      
+
+                    <div class="table-item-multiple-btn">
                         <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;">
                           <span ng-if="$root.hasAuthor('医院信息管理删除')">
-                            <div class="del-confirm-area text-center">                          
+                            <div class="del-confirm-area text-center">
                               <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                               <p class="pd-v-s">
                                 <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
@@ -131,16 +132,16 @@
                                   class="pr-btn-best-small pr-btn-bg-gold"
                                   ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/hospitalManagement/query.html')">确认
                                 </a>
-                              </p>                         
+                              </p>
                             </div>
                           </span>
-                        </div>                      
+                        </div>
                       <span ng-if="$root.hasAuthor('医院信息管理修改')">
                         <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/hospitalManagement/edit.html?id='+tr.id)"></div>
                       </span>
                       <div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
-                          
+
                           <span ng-if="$root.hasAuthor('医院信息管理冻结')">
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
                              href="javascript:;"
@@ -156,7 +157,7 @@
                                           "status":"已冻结"
                                          }'
                              tpl-url="tpl/pr-dialog-submit-message.html">冻结
-                          </a>                          
+                          </a>
                           </span>
 
                           <span ng-if="$root.hasAuthor('医院信息管理解冻')">
@@ -206,15 +207,15 @@
                     </div>
                   </td>
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                  <td>{{tr.code}}</td>
+                  <td>{{tr.object.code}}</td>
                   <td class="text-left color-orange">
                     <div class="autocut autocut" title="{{tr.name}}">
                       <a href="#/hospitalManagement/get.html?id={{tr.id}}">
-                          {{tr.name}}
+                          {{tr.object.name}}
                       </a>
                     </div>
                   </td>
-                  <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
+                  <td>{{tr.object.createAt | date : 'yyyy-MM-dd'}}</td>
                   <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
