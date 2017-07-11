@@ -46,10 +46,9 @@
                      popover-options='{"content":"收货数量超过现有可收数量", "placement":"top", "trigger":"manual"}'
                      onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                      ng-model="formData.receiveQuantity"
-                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.receiveQuantity,formData.refuseQuantity)"/>
-
+                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.receiveQuantity,formData.refuseQuantity)"
+                     ng-disabled="formData.instockType=='调拨'"/>
             </td><!-- 本次收货数量 -->
-
             <td class="text-center color-red">
               <input type="text"
                      class="inline ipt pr-ipt-60 text-center select-right-side color-red"
@@ -59,10 +58,9 @@
                      popover-options='{"content":"拒收数量超过现有可拒收数量", "placement":"top", "trigger":"manual"}'
                      onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                      ng-model="formData.refuseQuantity"
-                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.receiveQuantity,formData.refuseQuantity)"/>
-                     
+                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.receiveQuantity,formData.refuseQuantity)"
+                     ng-disabled="formData.instockType=='调拨'"/>
             </td><!-- 本次拒收数量 -->
-
             <td class="text-center color-white">
               <select
                       pg-select
