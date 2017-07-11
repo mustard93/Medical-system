@@ -7156,7 +7156,7 @@ define('project/controllers', ['project/init'], function() {
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error) }
         });
       }
     }
@@ -7749,7 +7749,7 @@ define('project/controllers', ['project/init'], function() {
       //校验计划归还输入数量
       $scope.checkQuantity=function(tr){
           var flag=false;
-          if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
+          if((tr.actualCount - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
               flag=true;
           }
           return flag;

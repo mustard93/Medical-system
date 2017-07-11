@@ -185,12 +185,12 @@
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                          <p class="pdt">
                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.medicalNos.splice($index,1);resetLendOrderInfo();">确认</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);resetLendOrderInfo();">确认</a>
                          </p>
                        </div>
                      </div>
                    </td><!-- 序号 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.code}}-{{tr.onlyId}}</td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <span
                              class="color-orange cur-pot lend-order-goods-info"
@@ -212,10 +212,10 @@
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
-                   <td class="text-center">{{tr.planQuantity}}</td><!-- 借出数量 -->
-                   <td class="text-center">{{tr.planQuantity - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
+                   <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
+                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
 
-                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount :(tr.planQuantity - tr.cumulativeReturnCount)">
+                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.planReturnCount =tr.planReturnCount ? tr.planReturnCount :(tr.actualCount - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.planReturnCount=$root.utils.transformToNumber(tr.planReturnCount)-1;" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
@@ -237,7 +237,24 @@
                      </div>
                    </td><!-- 计划归还数量 -->
 
-                   <td class="text-center">{{tr.packingAttribute.name}}</td><!-- 预入仓库 -->
+                   <td class="text-center">
+
+                     <!--{{tr.packingAttribute.name}}-->
+                     <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
+                     <select class="pr-select pd-s"
+                             style="width:115px;"
+                             required
+                             ng-model="tr.warehouseId"
+                             ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}"
+                             scope-data="warehouseList"
+                             callback="tr.warehouseId = tr.warehouseId ? tr.warehouseId : warehouseList[0].value;"
+                     >
+                       <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                     </select>
+
+
+
+                   </td><!-- 预入仓库 -->
 
                  </tr>
                </tbody>
