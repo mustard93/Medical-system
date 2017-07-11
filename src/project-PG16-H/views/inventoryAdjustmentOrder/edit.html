@@ -39,15 +39,17 @@
           <p class="mgb-s">
             库房
           </p>
+          <!--default-empty="请选择库房"-->
           <select ng-if="initFlag"
                   class="pr-select pdt"
                   style="width:250px;"
                   chosen
                   required
-                  default-empty="无"
+
                   ng-model="formData.storeRoomId"
                   select-source="rest/authen/storeRoom/queryForSelectOption">
           </select>
+          <!--formData.storeRoomId:{{formData.storeRoomId}}-->
         </div>
       </div>
 
@@ -303,7 +305,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length ||quantityError"
+                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length ||checkQuantityError()"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 

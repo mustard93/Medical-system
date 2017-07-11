@@ -935,7 +935,7 @@ a.as-btn {
 }
 
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
-    z-index: 2;
+    z-index: 0;
     color: #FFF;
     cursor: default;
     background-color: #337AB7;
@@ -1498,6 +1498,9 @@ body.ngdialog-open {
 .pr-bg-black6{
 	background: #595450;
 	box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.10);
+}
+.pr-bg-yellow{
+	background-color: rgba(255,246,228,1);
 }
 .page-dialog-wrap {
   height: 100%;
@@ -5589,14 +5592,30 @@ background-color:rgba(54,48,44,0.9);
 }
 .child-project-management .table-item-multiple-btn div.handle-area {
 	position: absolute;
-	top: 40px;
-  left: -20px;
-  width: 75px;
+	/*top: 40px;*/
+    left: -20px;
+    width: 75px;
 	background-color: rgba(255,255,255,0.90);
 	box-shadow: 0px 0px 6px 0px rgba(199,167,123,0.55);
 	border-radius: 4px 0px 0px 0px 4px 4px 4px;
 	display: none;
+    z-index: 13;
 }
+.child-project-management .table-item-multiple-btn div.handle-area.handle-area-up{
+    bottom: 40px;
+    z-index: 20;
+}
+
+
+.child-project-management .table-item-multiple-btn div.handle-area.handle-area-down{
+    top: 40px;
+    z-index: 20;
+}
+
+
+
+
+
 .child-project-management .table-item-multiple-btn div.handle-area > a {
 	display: block;
 	width: 100%;
@@ -5606,20 +5625,43 @@ background-color:rgba(54,48,44,0.9);
 .child-project-management .table-item-multiple-btn div.handle-area > a:not(:last-child) {
 	border-bottom: 1px dashed #c7a77b;
 }
-.child-project-management .table-item-multiple-btn div.handle-area:before {
-	content: ' ';
-	position: absolute;
-	top: -5px;
-  left: 44%;
-  width: 8px;
-  height: 8px;
-	display: inline-block;
-	background-color: #fff;
-	transform: rotate(-45deg);
-	border-color: rgba(199,167,123,0.55);
-	border-top: 1px solid rgba(199,167,123,0.55);
-	border-right: 1px solid rgba(199,167,123,0.55);
+.child-project-management .table-item-multiple-btn div.handle-area-up:before {
+
+    content: ' ';
+    position: absolute;
+    bottom: -5px;
+    left: 44%;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    background-color: #fff;
+    transform: rotate(-45deg);
+    border-color: rgba(199,167,123,0.55);
+    border-bottom: 1px solid rgba(199,167,123,0.55);
+    border-left: 1px solid rgba(199,167,123,0.55);
 }
+
+.child-project-management .table-item-multiple-btn div.handle-area-down:after {
+    content: ' ';
+    position: absolute;
+    top: -5px;
+    left: 44%;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    background-color: #fff;
+    transform: rotate(-45deg);
+    border-color: rgba(199,167,123,0.55);
+    border-top: 1px solid rgba(199,167,123,0.55);
+    border-right: 1px solid rgba(199,167,123,0.55);
+}
+
+
+
+
+
+
+
 
 .btn-new-wid-hei{
 	width: 160px;

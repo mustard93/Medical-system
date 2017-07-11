@@ -307,6 +307,18 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+        <span class="alink-likeBtn">
+          <a href=""
+             ng-if="isShowCancelBtn"
+             class="btn mgr-s"
+             handle-this-click
+             dialog-title="确认?"
+             dialog-content="还有药械未处理,确认关闭?"
+             dialog-template="pr-dialog-confirm.html"
+             request-url="rest/authen/salesOrder/updateStatus?id={{formData.id}}"
+             callback="$root.goTo('#/salesOrder/get.html?id={{formData.id}}')">关闭
+          </a>
+        </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
                   ng-if="showData.orderStatus=='待确认'"

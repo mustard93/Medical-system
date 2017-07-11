@@ -127,21 +127,19 @@
 
       <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchasePlanOrder/query.html?id={{scopeData.relId}}" >返回采购计划列表</a>
 
-      <!-- <a class="mgr-l color-red"
-         ng-if="scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中'">关闭
-      </a> -->
-      <a ng-if="scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中'"
+      <a ng-if="$root.hasAuthor('采购计划关闭') && (scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中')"
          class="color-red mgr-l"
          modal-center="340"
          modal-scope="this"
          modal-data='{"title":"确认提示",
-                      "content":"关闭后，改采购计划将结束，确认关闭?",
+                      "content":"关闭后，该采购计划将结束，确认关闭?",
                       "btnConfirm":"确定",
                       "btnCancel":"取消",
                       "url":"rest/authen/purchasePlanOrder/close",
                       "goUrl":"",
                       "id":"{{scopeData.id}}",
-                      "status":"已关闭"
+                      "status":"已关闭",
+                      "requireInputMsg":true
                      }'
          tpl-url="tpl/pr-dialog-submit-cancel-message.html">关闭
       </a>
