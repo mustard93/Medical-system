@@ -349,10 +349,20 @@
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
+        <button ng-if="(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 ng-disabled="!formData.orderMedicalNos.length ||
                              !formData.orderCode ||
+                             formData.sourceId==formData.targetId ||
+                             !formData.sourceId || !formData.targetId ||
+                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+        </button>
+
+        <button ng-if="(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
+                type="button"
+                ng-disabled="!formData.orderMedicalNos.length ||
                              formData.sourceId==formData.targetId ||
                              !formData.sourceId || !formData.targetId ||
                              !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"

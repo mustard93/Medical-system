@@ -4497,7 +4497,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
         $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
       });
-      
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -7179,7 +7179,7 @@ define('project/controllers', ['project/init'], function() {
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error) }
         });
       }
     }
