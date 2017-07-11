@@ -7209,6 +7209,10 @@ define('project/controllers', ['project/init'], function() {
       // 设置标识符
       $scope.modifyNodeInfo = false;
 
+      if (!$scope.formData.medicalAttribute.parentCode) {
+        $scope.formData.medicalAttribute.parentCode = '';
+      }
+
       $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
       $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
       $scope.formData.medicalAttribute.levelCode = null;
