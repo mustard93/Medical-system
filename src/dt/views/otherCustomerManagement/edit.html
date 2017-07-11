@@ -54,14 +54,14 @@
               <div class="flex-column mgb">
                   <em style="margin-top:6px;">企业类型：</em>
                   <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="批发商" ng-model="formData.customer.type"> <i style="top:12px;"></i>
+                    <input type="radio" class="default-radio" name="type" value="批发商" ng-model="formData.object.type"> <i style="top:12px;"></i>
                     <em class="inline-block" style="margin-left:-5px; color:#666;">批发商</em>
                   </label>
                   <label class="radio-inline  radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="零售商" ng-model="formData.customer.type"> <i style="top:12px;"></i>
+                    <input type="radio" class="default-radio" name="type" value="零售商" ng-model="formData.object.type"> <i style="top:12px;"></i>
                      <em class="inline-block" style="margin-left:-5px; color:#666;">零售商</em>
                   </label>
-                  <p ng-if="!formData.customer.type" class="inline-block color-red mgl-s" style="padding-top:7px;">
+                  <p ng-if="!formData.object.type" class="inline-block color-red mgl-s" style="padding-top:7px;">
                     *必选
                   </p>
               </div>
@@ -69,19 +69,20 @@
               <div class="flex-column mgt pdb-l bb-dashed-line">
                 <label class="flex-item-2   text-right control-label">分类：</label>
                 <div class="flex-item-10 color-3 text-left ">
-                  <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">
-                  {{formData.customerAttribute.name}}
+                  <div class="autocut z-tree-div inline-block fl-l" title="{{formData.object.customerAttribute.name}}">
+                  {{formData.object.customerAttribute.name}}
                      <!-- ng-class="{'z-tree-div-active':(addBorder)}" -->
                   </div>
+                  <span style="display:none;">{{formData.attributeId}}</span>
                   <button
                   type="button"
                   z-tree-select="rest/authen/customerAttribute/query.json"
                   class="btn-select btn-other fl-l"
-                  ng-model="formData.customerAttribute"
+                  ng-model="formData.object.customerAttribute"
                   id-key="id"
                   p-id-key="parentId"
                   >选择</button>
-                  <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
+                  <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.object.customerAttribute.name">(必选)</em>
                   <!-- ng-click="addBorder=true;" -->
                 </div>
               </div>
@@ -90,10 +91,10 @@
                 <div class="flex-item-10  text-left">
                   <input type="text" class="ipt-new"
                   name="fullName"
-                  ng-model="formData.customer.fullName"
+                  ng-model="formData.object.fullName"
                   required
                   >
-                    <span ng-if="!formData.customer.fullName" class="color-red">（必填）</span>
+                    <span ng-if="!formData.object.fullName" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -104,37 +105,37 @@
                            style="width:60px;"
                            name="code"
                            ng-disabled="true"
-                           ng-model="formData.customer.attributeCode"/>
+                           ng-model="formData.object.attributeCode"/>
                            <span class="border-2"></span>
                     <input type="text"
                            class="ipt-new"
                            name="code"
                            style="width:250px;"
-                           ng-model="formData.customer.serialCode"/>
+                           ng-model="formData.object.serialCode"/>
                            <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
                  </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">企业地址：</label>
                 <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.address">
+                    <input type="text" class="ipt-new" ng-model="formData.object.address">
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">企业简称：</label>
                 <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.shortName">
+                    <input type="text" class="ipt-new" ng-model="formData.object.shortName">
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">法人代表/身份证号：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.legalRepresentative">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.object.legalRepresentative">
                   <input type="text"
                          class="ipt flex-item-2 mgl-s"
                          name="legalRepresentativeIdentityNo"
                          style="width:212px;"
-                         ng-model="formData.customer.legalRepresentativeIdentityNo"
+                         ng-model="formData.object.legalRepresentativeIdentityNo"
                          ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
                          invalid-popover
                          popover-show="!EditForm.legalRepresentativeIdentityNo.$valid"
@@ -144,14 +145,14 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">注册资金：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="number" class="ipt-new" ng-model="formData.customer.registeredCapital">
+                  <input type="number" class="ipt-new" ng-model="formData.object.registeredCapital">
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">社会信用代码：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.socialCreditCode">
-                  <em ng-if="!formData.customer.socialCreditCode" class="color-red">(必填)</em>
+                  <input type="text" class="ipt-new" ng-model="formData.object.socialCreditCode">
+                  <em ng-if="!formData.object.socialCreditCode" class="color-red">(必填)</em>
                 </div>
               </div>
 
@@ -163,19 +164,19 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label">开户银行：</label>
                   <div class="flex-item-10  text-left">
-                    <input type="text" class="ipt-new" ng-model="formData.customer.accountBank">
+                    <input type="text" class="ipt-new" ng-model="formData.object.accountBank">
                   </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label">开户账号：</label>
                 <div class="flex-item-10">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.accountNumber">
+                  <input type="text" class="ipt-new" ng-model="formData.object.accountNumber">
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2  text-right control-label">开户名称：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.accountName">
+                  <input type="text" class="ipt-new" ng-model="formData.object.accountName">
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -185,7 +186,7 @@
                           class="select select-w ipt-new"
                           data-placeholder="选择一个..."
                           chosen
-                          ng-model="formData.customer.payType"
+                          ng-model="formData.object.payType"
                           select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
                   </select>
                 </div>
@@ -195,12 +196,12 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">收货员/身份证号：</label>
                 <div class="flex-item-10">
-                <input type="text" class="ipt flex-item-1" ng-model="formData.customer.consignee">
+                <input type="text" class="ipt flex-item-1" ng-model="formData.object.consignee">
                 <input type="text"
                        name="consigneeIdentityNo"
                        class="ipt flex-item-2 mgl-s"
                        style="width:212px;"
-                       ng-model="formData.customer.consigneeIdentityNo"
+                       ng-model="formData.object.consigneeIdentityNo"
                        ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
                        data-content="身份证号码格式有误!"
                        invalid-popover="{{!EditForm.consigneeIdentityNo.$valid}}" />
@@ -212,7 +213,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="consigneeTel"
-                         ng-model="formData.customer.consigneeTel"
+                         ng-model="formData.object.consigneeTel"
                          ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
                          invalid-popover
                          popover-show="!EditForm.consigneeTel.$valid"
@@ -225,7 +226,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="consigneePhone"
-                         ng-model="formData.customer.consigneePhone"
+                         ng-model="formData.object.consigneePhone"
                          ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
                          invalid-popover
                          popover-show="!EditForm.consigneePhone.$valid"
@@ -238,7 +239,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="consigneeEmail"
-                         ng-model="formData.customer.consigneeEmail"
+                         ng-model="formData.object.consigneeEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
                          data-content="Email格式有误!"
                          invalid-popover="{{!EditForm.consigneeEmail.$valid}}" />
@@ -249,12 +250,12 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">采购员/身份证号：</label>
                 <div class="flex-item-10">
-                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.purchaser">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.object.purchaser">
                   <input type="text"
                          name="purchaserIdentityNo"
                          class="ipt flex-item-2 mgl-s"
                          style="width:212px;"
-                         ng-model="formData.customer.purchaserIdentityNo"
+                         ng-model="formData.object.purchaserIdentityNo"
                          ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
                          data-content="身份证号码格式有误!"
                          invalid-popover="{{!EditForm.purchaserIdentityNo.$valid}}" />
@@ -266,7 +267,7 @@
                 <input type="text"
                        class="ipt-new"
                        name="purchaserTel"
-                       ng-model="formData.customer.purchaserTel"
+                       ng-model="formData.object.purchaserTel"
                        ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
                        invalid-popover
                        popover-show="!EditForm.purchaserTel.$valid"
@@ -279,7 +280,7 @@
                 <input type="text"
                        class="ipt-new"
                        name="purchaserPhone"
-                       ng-model="formData.customer.purchaserPhone"
+                       ng-model="formData.object.purchaserPhone"
                        ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
                        invalid-popover
                        popover-show="!EditForm.purchaserPhone.$valid"
@@ -292,7 +293,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="purchaserEmail"
-                         ng-model="formData.customer.purchaserEmail"
+                         ng-model="formData.object.purchaserEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
                          data-content="Email格式有误!"
                          invalid-popover="{{!EditForm.purchaserEmail.$valid}}" />
@@ -328,7 +329,7 @@
               <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
-                ng-disabled="EditForm.$invalid || !formData.customer.type"
+                ng-disabled="EditForm.$invalid || !formData.object.type"
                 modal-center="350"
                 modal-scope="this"
                 modal-data='{"title":"确认提示",
@@ -343,7 +344,7 @@
                  >保存</button>
 
               <button ng-if="!changeFlag" href="javascript:;"
-              ng-disabled="EditForm.$invalid || !formData.customer.type"
+              ng-disabled="EditForm.$invalid || !formData.object.type"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
                 ng-click="submitForm('editForm','save')"

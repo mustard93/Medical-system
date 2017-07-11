@@ -3519,13 +3519,16 @@ define('project/controllers', ['project/init'], function() {
        });
 
        $scope.$watch('formData.medicalAttribute.code',function(newVal){
-         $scope.formData.medical.attributeCode=$scope.formData.medicalAttribute.code;
+         $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+         $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
        });
        $scope.$watch('formData.supplierAttribute.code',function(newVal){
          $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+         $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
        });
        $scope.$watch('formData.customerAttribute.code',function(newVal){
-         $scope.formData.hospital.attributeCode=$scope.formData.customerAttribute.code;
+         $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+         $scope.formData.attributeId=$scope.formData.customerAttribute.id;
        });
 
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
@@ -3560,20 +3563,20 @@ define('project/controllers', ['project/init'], function() {
 
        $scope.changeStorageCondition=function(storageCondition){
          if (storageCondition=='冷冻') {
-           $scope.formData.medical.topTemperature=-25;
-           $scope.formData.medical.lowTemperature=-10;
-           $scope.formData.medical.topHumidity=75;
-           $scope.formData.medical.lowHumidity=45;
+           $scope.formData.topTemperature=-25;
+           $scope.formData.lowTemperature=-10;
+           $scope.formData.topHumidity=75;
+           $scope.formData.lowHumidity=45;
          }else if (storageCondition=='冷藏') {
-           $scope.formData.medical.topTemperature=10;
-           $scope.formData.medical.lowTemperature=2;
-           $scope.formData.medical.topHumidity=75;
-           $scope.formData.medical.lowHumidity=45;
+           $scope.formData.topTemperature=10;
+           $scope.formData.lowTemperature=2;
+           $scope.formData.topHumidity=75;
+           $scope.formData.lowHumidity=45;
          }else {
-           $scope.formData.medical.topTemperature=null;
-           $scope.formData.medical.lowTemperature=null;
-           $scope.formData.medical.topHumidity=null;
-           $scope.formData.medical.lowHumidity=null;
+           $scope.formData.topTemperature=null;
+           $scope.formData.lowTemperature=null;
+           $scope.formData.topHumidity=null;
+           $scope.formData.lowHumidity=null;
          }
        };
 
@@ -3859,7 +3862,12 @@ define('project/controllers', ['project/init'], function() {
         // }
        });
        $scope.$watch('formData.customerAttribute.code',function(newVal){
-         $scope.formData.customer.attributeCode=$scope.formData.customerAttribute.code;
+         $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+            $scope.formData.attributeId=$scope.formData.customerAttribute.id;
+       });
+       $scope.$watch('formData.object.customerAttribute.code',function(newVal){
+         $scope.formData.object.attributeCode=$scope.formData.object.customerAttribute.code;
+          $scope.formData.attributeId=$scope.formData.customerAttribute.id;
        });
 
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
@@ -4485,6 +4493,11 @@ define('project/controllers', ['project/init'], function() {
         watchFormChange(watchName,$scope);
       };
 
+      $scope.$watch('formData.medicalAttribute.code',function(newVal){
+        $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+        $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
+      });
+      
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -4688,6 +4701,8 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.planQuantity;
         return true;
       };
+
+
     }
 
     function deliveryItemcontroller ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -4772,10 +4787,13 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.$watch('formData.supplierAttribute.code',function(newVal){
         $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+        $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
+
       });
 
-      $scope.$watch('formData.customerAttribute.code',function(newVal){
-        $scope.formData.hospital.attributeCode=$scope.formData.customerAttribute.code;
+      $scope.$watch('formData.object.customerAttribute.code',function(newVal){
+        $scope.formData.object.attributeCode=$scope.formData.object.customerAttribute.code;
+        $scope.formData.attributeId=$scope.formData.customerAttribute.id;
       });
 
       $scope.watchFormChange = function(watchName){
