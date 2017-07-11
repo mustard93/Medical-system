@@ -3520,12 +3520,15 @@ define('project/controllers', ['project/init'], function() {
 
        $scope.$watch('formData.medicalAttribute.code',function(newVal){
          $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+         $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
        });
        $scope.$watch('formData.supplierAttribute.code',function(newVal){
          $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+         $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
        });
        $scope.$watch('formData.customerAttribute.code',function(newVal){
          $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+         $scope.formData.attributeId=$scope.formData.customerAttribute.id;
        });
 
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
@@ -3860,9 +3863,11 @@ define('project/controllers', ['project/init'], function() {
        });
        $scope.$watch('formData.customerAttribute.code',function(newVal){
          $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+            $scope.formData.attributeId=$scope.formData.customerAttribute.id;
        });
        $scope.$watch('formData.object.customerAttribute.code',function(newVal){
          $scope.formData.object.attributeCode=$scope.formData.object.customerAttribute.code;
+          $scope.formData.attributeId=$scope.formData.customerAttribute.id;
        });
 
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
@@ -4488,6 +4493,11 @@ define('project/controllers', ['project/init'], function() {
         watchFormChange(watchName,$scope);
       };
 
+      $scope.$watch('formData.medicalAttribute.code',function(newVal){
+        $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+        $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
+      });
+      
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -4691,6 +4701,8 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.planQuantity;
         return true;
       };
+
+
     }
 
     function deliveryItemcontroller ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -4775,10 +4787,13 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.$watch('formData.supplierAttribute.code',function(newVal){
         $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+        $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
+
       });
 
       $scope.$watch('formData.object.customerAttribute.code',function(newVal){
         $scope.formData.object.attributeCode=$scope.formData.object.customerAttribute.code;
+        $scope.formData.attributeId=$scope.formData.customerAttribute.id;
       });
 
       $scope.watchFormChange = function(watchName){
