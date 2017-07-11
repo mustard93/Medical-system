@@ -7156,7 +7156,7 @@ define('project/controllers', ['project/init'], function() {
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error); }
+          if (error) { alertWarn(error) }
         });
       }
     }
