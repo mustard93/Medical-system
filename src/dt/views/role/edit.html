@@ -58,17 +58,15 @@
           <fieldset class="fieldset">
             <legend>
               {{item.name}}
-              <!--<label class="">-->
-              <!--<input type="checkbox" value="authorityItem_name{{item.id}}" onclick=" $('[name='+this.value+']').click();"/>-->
-              <!--反选</label>-->
             </legend>
 
              <label class=""  ng-repeat=" item in departments" title="{{item.name}}">
-                                <input type="checkbox" name="departments" value="{{item.id}}" class="click-reverse-selection2"
-                                       checkbox-group="formData.departmentAuthoritys" /> {{item.name}}</label>
-                        </fieldset>
+                    <input type="checkbox" name="departments" value="{{item.id}}" class="click-reverse-selection2"
+                    checkbox-group="formData.departmentAuthoritys" /> {{item.name}}
+            </label>
+          </fieldset>
             <div class="col-lg-10 col-sm-10">
-              <input type="submit" class="btn btn-success" value="提交">
+              <input type="submit" ng-click="submitAll(departments,formData.departmentAuthoritys);" class="btn btn-success" value="提交">
             </div>
         </div>
 
