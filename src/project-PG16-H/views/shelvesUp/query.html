@@ -1,5 +1,7 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.shelvesUpStatus=mainStatus.pageParams.shelvesUpStatus;">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.shelvesUpStatus=mainStatus.pageParams.shelvesUpStatus;"
+     ng-controller="shelvesUpController">
+     <!-- ng-controller="shelvesUpController" 放一层controller在外面，解决库房区域货位筛选清空全部的问题。 -->
      <table-list list-data="rest/authen/shelvesUp/query?shelvesUpStatus={{listParams.shelvesUpStatus}}"
                  list-params="listParams"
                  search-mode="noCaseSensitive"

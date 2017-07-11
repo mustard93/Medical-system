@@ -88,9 +88,11 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in addDataObj.orderMedicalNos" ng-init="item.goodsCount=item.quantity">
+                <!--<tr ng-repeat="item in addDataObj.orderMedicalNos" ng-init="item.goodsCount=item.quantity; item.returnQuantity= item.receiveQuantity;">-->
+
+                <tr ng-repeat="item in addDataObj.orderMedicalNos" ng-init="item.goodsCount=item.receiveQuantity; item.returnQuantity= item.receiveQuantity;">
                   <td class="select-td text-center mycheck">
-                    <input  type="checkbox" class="selectOne" id="{{$index+2}}" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
+                    <input ng-disabled="item.receiveQuantity<1"  type="checkbox" class="selectOne" id="{{$index+2}}" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
                     <label for="{{$index+2}}"></label>
                   </td>
                   <td class="text-center" style="line-height:2.4">{{item.code}}</td><!-- 商品编码 -->

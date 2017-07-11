@@ -5622,8 +5622,9 @@ define('project/controllers', ['project/init'], function() {
     // 对比是否之前已经选择过，如果选择过，就打上勾。
      $scope.alreadySelect=function(medicalList,choisedMedicalList){
       // 把侧边框中的商品对象和编辑页面中已添加的商品对象分别取出来放在medical和choisedMedical两个数组中。
+         medicalList= medicalList || [];
       var medical=eval(medicalList);
-
+          choisedMedicalList=choisedMedicalList || [];
       var choisedMedical=eval(choisedMedicalList);
 
       // 对比两个数组中的id,是否有相同的。
@@ -5646,6 +5647,11 @@ define('project/controllers', ['project/init'], function() {
     }
 
     $scope.addToList=function(choisedMedicalList,medicalList){
+
+        choisedMedicalList = choisedMedicalList || [];
+
+        medicalList=medicalList||[];
+
         var list = compareArray(medicalList,choisedMedicalList,'id','id');
         return medicalList.concat(list);
     };
@@ -7222,6 +7228,10 @@ define('project/controllers', ['project/init'], function() {
     $scope.addNewChildNode = function () {
       // 设置标识符
       $scope.modifyNodeInfo = false;
+
+      if (!$scope.formData.medicalAttribute.parentCode) {
+        $scope.formData.medicalAttribute.parentCode = '';
+      }
 
       $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
       $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;

@@ -185,7 +185,7 @@
            <a href="javascript();"
            modal-right="500"
            modal-scope="this"
-           modal-data='{"relId":"{{mainStatus.pageParams.id}}","storeRoomId":"{{orderData.storeRoomId}}"}'
+           modal-data='{"relId":"{{mainStatus.pageParams.id||mainStatus.pageParams.businessKey}}","storeRoomId":"{{orderData.storeRoomId}}"}'
            modal-url="views/inventoryOrder/add-medical.html"  title="添加商品">
              <i style="top:3px;"></i><span class="text-s">添加商品</span></a>
          </div>
@@ -239,7 +239,7 @@
                            <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                            <p class="pdt-s">
                              <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                             <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="deleteInventory(item.id);">确认</a>
+                             <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="tbodyList.splice($index,1);deleteInventory(item.id);">确认</a>
                            </p>
                          </div>
                        </div>
