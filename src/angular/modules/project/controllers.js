@@ -3968,37 +3968,14 @@ define('project/controllers', ['project/init'], function() {
            });
          }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
-           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
-               var url='rest/authen/otherCustomerApplication/startProcessInstance';
-               var data= {businessKey:results[1].data.id};
-               requestData(url,data, 'POST')
-                .then(function (results) {
-                  if (results[1].code === 200) {
-                  $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
-                }
-                })
-                .catch(function (error) {
-                  alertError(error || '出错');
-                });
+               console.log(results[1]);
+                $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
              }
            })
            .catch(function (error) {
-           });
-         }
-         if ($scope.submitForm_type == 'submit-firstMedical') {
-           $scope.formData.validFlag = true;
-           requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
-           .then(function (results) {
-             if (results[1].code === 200) {
-               $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+results[1].data.id);
-             } else {
-               alertError(results[1].msg);
-             }
-           })
-           .catch(function (error) {
-            //  if (error) {throw new Error(error || '错误');}
            });
          }
 
@@ -4497,7 +4474,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
         $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
       });
-      
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -4807,37 +4784,37 @@ define('project/controllers', ['project/init'], function() {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
+               $scope.formData.validFlag = true;
+               $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
              }
            })
            .catch(function (error) {
 
            });
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
          if ($scope.submitForm_type == 'submit-supplier') {
-           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/supplier/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
+               $scope.formData.validFlag = true;
+               $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
              }
            })
            .catch(function (error) {
 
            });
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
          }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
+               $scope.formData.validFlag = false;
+               $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
              }
            })
            .catch(function (error) {
 
            });
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };
