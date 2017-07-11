@@ -265,7 +265,7 @@
                     </div>
 
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
-                         ng-if="tr.receiveItemStatus=='待收货'"
+                         ng-if="tr.receiveItemStatus=='待收货'&&tr.instockType!='调拨'"
                          style="right:60px;top: -33px;"
                          handle-this-click
                          dialog-title="确认提示?"
@@ -280,7 +280,7 @@
                          ng-click="$root.goTo('#/purchasecontent/edit.html?id='+tr.purchaseContentId+'&supplierId='+tr.supplierId)">加入采购目录...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'" ng-click="onceMatch(tr)">立即匹配...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                         ng-if="tr.receiveItemStatus=='收货中'"
+                         ng-if="tr.receiveItemStatus=='收货中'&&tr.instockType!='调拨'"
                          style="right:190px;"
                          modal-right="50%"
                          modal-scope="this"
@@ -288,7 +288,7 @@
                          modal-url="views/receiveItem/edit.html">继续收货...
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
-                         ng-if="tr.receiveItemStatus=='收货中'"
+                         ng-if="tr.receiveItemStatus=='收货中'&&tr.instockType!='调拨'"
                          style="right:60px;  top: -33px;"
                          handle-this-click
                          dialog-title="确认提示?"

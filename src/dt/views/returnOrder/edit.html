@@ -243,9 +243,9 @@
                      <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
                      <select class="pr-select pd-s"
                              style="width:115px;"
-                             required
+
                              ng-model="tr.warehouseId"
-                             ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}"
+                             ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
                              scope-data="warehouseList"
                              callback="tr.warehouseId = tr.warehouseId ? tr.warehouseId : warehouseList[0].value;"
                      >
@@ -271,9 +271,9 @@
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
-               <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
+               <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
+               <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
              </div>
            </div>
          </div>
@@ -305,7 +305,14 @@
        </div>
 
        <!-- 收货方信息 -->
-       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb"
+
+            ajax-url="rest/authen/lendOrder/get?id={{formData.relId}}"
+            scope-data="customerContactsInfo"
+            callback="formData.customerContacts=customerContactsInfo.customerContacts;
+            formData.invoicesContacts=customerContactsInfo.invoicesContacts;"
+
+       >
          <header class="text-n color-3 text-bold">收货方信息
            <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
@@ -313,7 +320,7 @@
          </header>
          <div class="panel-body" style="display:none;padding:15px 0 0 0;">
            <p class="">
-             {{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}&nbsp;&nbsp;{{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}
+             {{formData.customerContacts.name}}&nbsp;&nbsp;{{formData.customerContacts.tel}}&nbsp;&nbsp;{{formData.customerContacts.prov}}&nbsp;&nbsp;{{formData.customerContacts.city}}&nbsp;&nbsp;{{formData.customerContacts.area}}&nbsp;&nbsp;{{formData.customerContacts.address}}
            </p>
          </div>
        </div>
@@ -324,10 +331,12 @@
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
          </header>
-         <div class="panel-body" style="display:none;padding:15px 0 0 0;">
+         <div class="panel-body" style="display:none;padding:15px 0 0 0;"
+
+         >
            <h1 class="mgb">
              <p class="">
-               {{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}&nbsp;&nbsp;{{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}
+               {{formData.invoicesContacts.name}}&nbsp;&nbsp;{{formData.invoicesContacts.tel}}&nbsp;&nbsp;{{formData.invoicesContacts.prov}}&nbsp;&nbsp;{{formData.invoicesContacts.city}}&nbsp;&nbsp;{{formData.invoicesContacts.area}}&nbsp;&nbsp;{{formData.invoicesContacts.address}}
              </p>
          </div>
        </div>
@@ -380,6 +389,7 @@
         </span>
 
         <span>
+          <!---->
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
