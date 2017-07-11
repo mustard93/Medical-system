@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);finalQuantity(formData.orderMedicalNos);"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -230,11 +230,10 @@
                                  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                  ng-change="changeQuantity(item.salesQuantity,item.applicationCount);"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
-                                 invalid-popover="{{quantityError}}"
+                                 invalid-popover="{{item.applicationCount>item.salesQuantity}}"
                                  popover-show
+                                 is-focus="true"
                                  popover-options='{"content":"不能大于可调拨数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
-                                 <!-- {{item.applicationCount>item.salesQuantity}} -->
-
                         </span>
                         <button type="button" class="inline-block right"
                         ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
@@ -301,7 +300,7 @@
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="!changeFlag "
+                ng-disabled="!changeFlag"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
