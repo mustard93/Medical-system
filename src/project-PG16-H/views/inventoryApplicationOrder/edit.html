@@ -253,7 +253,7 @@
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="!changeFlag "
+                ng-disabled="!changeFlag ||formData.planDateEnd<formData.planDateBeg"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
@@ -265,7 +265,7 @@
                 dialog-title="确认提交?"
                 dialog-content="提交后，将无法修改。确认提交?"
                 dialog-template="pr-dialog-submit.html"
-                ng-disabled="!formData.orderCode||!formData.name||!formData.planDateBeg ||!formData.planDateEnd"
+                ng-disabled="!formData.orderCode||!formData.name||!formData.planDateBeg ||!formData.planDateEnd||formData.planDateEnd<formData.planDateBeg"
                 callback="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
       </div>
