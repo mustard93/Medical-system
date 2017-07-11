@@ -5597,7 +5597,10 @@ define('project/controllers', ['project/init'], function() {
       }
 
       if (item.itemSelected) {
+
         $scope.choisedMedicalList.push(item);
+
+
         if ($scope.choisedMedicalList.length === _dataSource.length) {
           $scope.isChoiseAll = true;
         }
