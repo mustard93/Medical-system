@@ -7771,7 +7771,7 @@ define('project/controllers', ['project/init'], function() {
 
           angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
               //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
-              if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
+              if((tr.actualCount - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
                   flag=false;
               }
           });
