@@ -2352,17 +2352,6 @@ define('project/controllers', ['project/init'], function() {
        return false;
      };
 
-    //  $scope.historyPrice=function(supplierId,orderMedicalNos){
-    //    if (supplierId) {
-     //
-    //    }else {
-    //      angular.forEach(orderMedicalNos, function (data, index) {
-    //        data.strike_price=0;
-    //        console.log(data);
-    //      });
-    //    }
-    //  }
-
     $scope.chkChoiseMedicals = function (item,medicalsObj) {
        if (item.handleFlag) {
 
