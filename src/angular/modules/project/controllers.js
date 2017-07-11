@@ -7098,7 +7098,16 @@ define('project/controllers', ['project/init'], function() {
    * @return {[type]}                                  [description]
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
-
+    // 当用户修改后，如果级别值为空，则从对象中删除
+    $scope.chkLevelChange = function (levelMap) {
+      if (levelMap) {
+        for (var level in levelMap) {
+          if (levelMap.hasOwnProperty(level)) {
+            if (!levelMap[level]) { delete levelMap[level]; }
+          }
+        }
+      }
+    }
   }
 
   /**
