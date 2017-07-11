@@ -20,47 +20,55 @@
      </div>
      <!-- 主内容区域 -->
     <div class="content-wrapper">
-      <div class=" color-9 pr-bg-white">
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
-          <div class="flex-item-6">
-            <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
-            <span class="inline-block relative">单据日期：{{showData.orderDate | date: 'yyyy-MM-dd'}}</span>
-            <span class="mgr">审核人：<em class="color-3">暂无</em></span>
-          </div>
-          <div class="flex-item-6 text-right">
-            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-          </div>
-        </div>
-        <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr">业务部门：<em class="color-6">{{showData.departmentName}}</em></span>
-          <span class="mgr">业务人员：<em class="color-6">{{showData.saleUser.n}}</em></span>
-          <span class="mgr">销售类型：<em class="color-6">{{showData.salesType}}</em></span>
-          <span class="mgr">付款条件：<em class="color-6">{{showData.paymentType}}</em></span>
-          <span class="mgr">币种：<em class="color-6">{{showData.currencyType}}</em></span>
-          <span class="mgr">汇率：<em class="color-6">1.00</em></span>
-          <span class="mgr">预发货日期：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
-        </div>
+      <p class="mgb-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
 
+         <!-- 单据信息 -->
+         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+           <div class="flex-item-6">
+             <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode}}</em></span>
+             <span class="mgr">单据日期：<em class="color-3">{{showData.orderDate || '暂无' | date : 'yyyy-MM-dd'}}</em></span>
+           </div>
+           <div class="flex-item-6 text-right">
+             <a ng-if="initFlag"
+             modal-center="1000px"
+             modal-data='{"businessKey":"{{scopeData.relId}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html"
+             >
+           <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+             </a>
+           </div>
+         </div>
+         <div class="pd-c-l pdt-m pdb-m color-9">
+           <span class="mgr-l">业务部门：<em class="color-3">{{showData.salesDepartmentName}}</em></span>
+           <span class="mgr-l">业务人员：<em class="color-3">{{showData.saleUser.n}}</em></span>
+         </div>
         <!-- 主内容区域 -->
         <div class="content-wrapper-main ">
           <div>
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="text-center ">商品编号</th>
-                  <th class="text-left w-160">商品通用名</th>
-                  <th class="text-center">剂型/分类</th>
-                  <th class="text-center">规格/型号</th>
-                  <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
-                  <th class="text-center">批号</th>
-                  <th class="text-center">灭菌批号</th>
-                  <th class="text-center">失效日期</th>
+                  <th class="text-center">商品编号</th>
+                    <th class="text-left">商品通用名</th>
+                    <th class="text-center">剂型/分类</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                    <th class="text-center">计划数量</th>
+                    <th class="text-center">已出库数量</th>
+                    <th class="text-center">未完成数量</th>
+                    <th class="text-center">含税单价</th>
+                    <th class="text-center">价税合计</th>
+                    <th class="text-center">批号</th>
+                    <th class="text-center">灭菌批号</th>
+                    <th class="text-center">仓库</th>
+                    <th class="text-center">失效日期</th>
                 </tr>
               </thead>
               <tbody class="pr-bg-white">
-                <tr ng-if="showData.orderMedicalNos.length"
-                    ng-repeat="tr in showData.orderMedicalNos">
+                <tr ng-if="showData.inoutstockDetails.length"
+                    ng-repeat="tr in showData.inoutstockDetails">
                   <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
                   <td class="text-left">
                     <span class="color-orange cur-pot lend-order-goods-info"
@@ -75,13 +83,23 @@
                       </show-info-modal>
                     </span>
                   </td><!-- 商品通用名 -->
-                  <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
-                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
-                  <td class="text-center">{{tr.productionBatch}}</td><!-- 批号 -->
-                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
+                   <td class="text-left">{{tr.dosageForms}}</td>
+                    <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                    <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                    <td class="text-right">{{tr.quantity}}</td>
+                    <td class="text-right" >{{tr.actualStockQuantity || '0'}}</td>
+                    <td class="text-right" >{{tr.differenceQuantity || '0'}}</td>
+                    <td class="text-right">
+                      ￥{{tr.strike_price}}
+                    </td>
+                    <td class="text-right" >
+                      <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+                      ￥{{tr.totalPrice}}
+                    </td>
+                    <td class="text-center">{{tr.productionBatch}}</td>
+                    <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
+                    <td class="text-center">{{tr.warehouseName}}</td>
+                    <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
             </table>
