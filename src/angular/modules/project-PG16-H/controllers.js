@@ -3107,7 +3107,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.comfirmQuantity = function (obj) {
             // 错误状态标识
             $scope.quantityError = false;
-
             if (obj && angular.isArray(obj)) {
                 angular.forEach(obj, function (data, index) {
 
