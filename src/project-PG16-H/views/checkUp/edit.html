@@ -48,10 +48,21 @@
                      onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                      ng-model="formData.qualifiedQuantity"
                      ng-change="formData.unQualifiedQuantity=dialogData.receiveQuantity-formData.qualifiedQuantity" />
-
             </td><!--合格数量-->
             <td class="text-center color-red" style="position:relative;top:5px;">{{formData.unQualifiedQuantity}}</td><!--不合格数量-->
-            <td class="text-center color-white pdt">
+
+            <td class="text-center color-white pdt"
+                ng-if="initFlag"
+                ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HandlingStrategyEnum"
+                scope-data="basicDataTypeList">
+                <select class="inline ipt pr-short-ipt pr-select" style="width:100px;" ng-model="formData.handlingStrategy" ng-disabled="formData.unQualifiedQuantity<=0">
+                  <option ng-repeat="list in basicDataTypeList track by $index"
+                          ng-value="list.value"
+                          ng-disabled="list.value=='拒收'&&formData.instockType=='调拨'">{{list.text}}</option>
+                </select>
+            </td>
+
+            <!-- <td class="text-center color-white pdt">
               <select ng-if="formData.unQualifiedQuantity>0"
                       class="inline ipt-new-s"
                       chosen
@@ -71,7 +82,7 @@
                       select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HandlingStrategyEnum">
                 <option value=""></option>
               </select>
-            </td><!--不合格处理策略-->
+            </td> -->
           </tr>
         </tbody>
       </table>

@@ -3146,22 +3146,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
         };
 
-        $scope.finalQuantity= function(orderMedicalNos){
-          var orderMedicalNoArr=[];
-          if (orderMedicalNos && angular.isArray(orderMedicalNos)) {
-            angular.forEach(orderMedicalNos, function (data, index) {
-              orderMedicalNoArr.push(data);
-            });
-
-            if (orderMedicalNoArr.some(function(item){ return item.applicationCount > item.salesQuantity;}))
-            {
-                return $scope.quantityError = true;
-            }else{
-              return $scope.quantityError = false;
-            }
-          }
-
-        }
     }
 
     function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {

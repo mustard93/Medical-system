@@ -7098,7 +7098,16 @@ define('project/controllers', ['project/init'], function() {
    * @return {[type]}                                  [description]
    */
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
-
+    // 当用户修改后，如果级别值为空，则从对象中删除
+    $scope.chkLevelChange = function (levelMap) {
+      if (levelMap) {
+        for (var level in levelMap) {
+          if (levelMap.hasOwnProperty(level)) {
+            if (!levelMap[level]) { delete levelMap[level]; }
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -7771,7 +7780,7 @@ define('project/controllers', ['project/init'], function() {
 
           angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
               //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
-              if((tr.planQuantity - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
+              if((tr.actualCount - tr.cumulativeReturnCount) < tr.planReturnCount  || tr.planReturnCount <1){
                   flag=false;
               }
           });
@@ -7820,13 +7829,20 @@ define('project/controllers', ['project/init'], function() {
           $('#' + fromId).trigger('submit');
       };
 
-
+     // 重置 借出单 信息
      $scope.resetLendOrderInfo=function () {
 
          if($scope.formData.orderMedicalNos.length<1){
              $scope.formData.relId="";//关联原订单ID
              $scope.formData.relOrderNo="";//关联原订单号
              $scope.formData.relOrderCode="";//关联原订编号
+
+
+             //发货方信息   收货方信息
+             $scope.formData.customerContacts=null;
+             $scope.formData.invoicesContacts=null;
+
+
          }
      }
   }
