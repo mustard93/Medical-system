@@ -299,8 +299,8 @@
                   </div>
               </div>
             </div>
-            <div class="panel pr-panel pr-panel-height  bt-dashed-line mgb">
-                <h1 class="mgb-m color-black text-bold text-n">发货人信息</h1>
+            <div class="bt-dashed-line mgb">
+                <h1 class="mgb-m color-black text-bold text-n mgt">发货人信息</h1>
                 <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label">发货人：</label>
                     <div class="flex-item-10 text-left">
@@ -343,8 +343,9 @@
                              name="zipCode"
                              ng-model="formData.contact.zipCode"
                              ng-pattern="/^[1-9][0-9]{5}$/"
-                             data-content="邮编编码格式错误"
-                             invalid-popover="{{!EditForm.zipCode.$valid}}">
+                             invalid-popover
+                             popover-show="!EditForm.zipCode.$valid"
+                             popover-options='{"content":"邮编编码格式错误", "placement":"right", "trigger":"manual"}'>
                     </div>
                 </div>
                 <div class="flex-column mgt">
@@ -376,52 +377,6 @@
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
-            <span class="mgl" >
-              <a ng-if="changeFlag"  href="javascript:;"
-                 handle-this-click
-                 dialog-title="确认返回?"
-                 dialog-content="该申请单存在未保存数据，是否保存?"
-                 dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
-                 save-callback="submitForm('first-enterprise-editForm','save');
-                 $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
-              <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
-            </span>
-
-              </span>
-              <span class="mgl">
-                  <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-                     href="javascript:;"
-                     class="color-red mgt"
-                     handle-this-click
-                     dialog-title="确认删除?"
-                     dialog-content="删除后将无法恢复,确认删除?"
-                     dialog-template="pr-dialog-submit.html"
-                     callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
-                     params='{"id":formData.id}'
-                     request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
-                </span>
-
-
-            <span class="mgl">
-              <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag "
-                      ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
-            </span>
-            <span class="mgl" ng-if="formData.orderStatus=='未提交'">
-              <button class="pr-btn-save-glodbg mgt"
-                      type="button"
-                      ng-disabled="!EditForm.$valid"
-                      ng-click="submitForm('editForm','submit-enterprise')">提交
-              </button>
-            </span>
-          </div>
-        </div>
-      </form>
-    </div>
-        <!-- 功能按钮 -->
-        <div class="handle-btn-area relative">
-          <div class="mgb text-right btn-area">
             <span class="mgl">
               <a ng-if="changeFlag"  href="javascript:;"
                  handle-this-click
@@ -448,7 +403,8 @@
                              "btnConfirm":"确定",
                              "btnCancel":"取消",
                              "url":"rest/authen/supplier/save",
-                             "goUrl":""
+                             "goUrl":"",
+                             "urlType":"submit-supplier"
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
                  >保存</button>
@@ -460,39 +416,9 @@
                 ng-click="submitForm('editForm','save')"
                  >保存</button>
           </span>
-<!--             <button ng-if="!changeFlag"
-                    class="pr-btn-save-glodbg-l mgt"
-                    ng-disabled="EditForm.$invalid">
-                    <a href="javascript:;"
-                    class="color-white"
-                    ng-click="submitForm('editForm','submit-supplier')">
-                      保存并结束编辑
-                    </a>
-            </button> -->
-
-            <!-- <button ng-if="changeFlag"
-                    class="pr-btn-save-glodbg-l mgt"
-                    ng-disabled="EditForm.$invalid">
-                    <a href="javascript:;"
-                    class="color-white"
-                    modal-center="350"
-                    modal-scope="this"
-                    modal-data='{"title":"确认提示",
-                                 "content1":"请输入修改内容",
-                                 "content2":"请输入修改原因",
-                                 "btnConfirm":"确定",
-                                 "btnCancel":"取消",
-                                 "canHref":"submit-supplier",
-                                 "url":"rest/authen/supplier/save"
-                                }'
-                    tpl-url="tpl/pr-dialog-content-reason-href.html"
-                    >
-                      保存并结束编辑
-                    </a>
-            </button> -->
-
           </div>
         </div>
       </form>
     </div>
+  </div>
 </div>
