@@ -153,8 +153,8 @@
              </header>
 
               <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
-                 <div class=" outside-table-d">
-                 <table class="table pr-table pr-new-table table-ss-wid">
+                 <div class="">
+                 <table class="table pr-table pr-new-table">
                    <thead>
                      <tr>
                        <th class="text-center">商品编号</th>
@@ -173,25 +173,29 @@
                    <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
                      <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                        <td class="text-center">{{tr.code}}</td>
-                       <td class="text-center">
-                         <div class="autocut" title="{{tr.name}}">
-                             {{tr.name}}
-                         </div>
-                       </td>
-                       <td class="text-center">{{tr.specificationAndModelType}}</td>
-                       <td class="text-center">{{tr.unit}}</td>
-                       <td class="text-center">{{tr.quantity}}</td>
-                       <td class="text-center">{{tr.batchRequirement}}</td>
-                       <td class="text-center">{{tr.strike_price | currency:'￥'}}</td>
-                       <td class="text-right">￥{{tr.duty_free_price | number:2}}</td><!-- 无税单价 -->
-                       <td class="text-right">￥{{tr.total_duty_free_price | number:2}}</td><!-- 无税金额 -->
-                       <td class="text-right">￥{{tr.totalPrice | number:2}}</td><!-- 价税合计 -->
-                       <td class="text-center">{{tr.tax}}%</td>
-                       <td class="text-center">{{tr.storedTemperature}}</td>
-                       <td class="text-center">{{tr.brand}}</td>
-                       <td class="text-center">{{tr.drugAdministrationCode}}</td>
-                       <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
-                       <td></td>
+                       <td class="text-left" >
+                         <span
+                              class="color-orange cur-pot lend-order-goods-info"
+                              ng-init="showInfoArea=false"
+                              ng-mouseenter="showInfoArea=true"
+                              ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                           <show-info-modal ng-show="showInfoArea"
+                                            get-data-type="local"
+                                            template-url="tpl/showInfoModalLendOrder"
+                                            info-object="{{tr}}"
+                                            info-title="商品信息">
+                           </show-info-modal>
+                         </span>
+                       </td><!-- 商品全名 -->
+                       <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
+                       <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                       <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                       <td class="text-right">{{tr.quantity || '0'}}</td><!-- 计划数量 -->
+                       <td class="text-right">{{tr.finishedQuantity || '0'}}</td><!-- 已完成数量 -->
+                       <td class="text-right">{{tr.unfinishedQuantity || '0'}}</td><!-- 未完成数量 -->
+                       <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
+                       <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 含税单价 -->
+                       <td class="text-right">￥{{tr.totalPrice || '0' | number:2 }}</td><!-- 价税合计 -->
                      </tr>
                    </tbody>
                  </table>
