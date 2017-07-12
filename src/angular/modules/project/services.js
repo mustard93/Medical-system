@@ -800,7 +800,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='处理中' || tr.orderStatus=='待审核' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
+                    "ngShow": "tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
                 };
