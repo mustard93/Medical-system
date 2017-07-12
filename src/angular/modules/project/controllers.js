@@ -7187,9 +7187,14 @@ define('project/controllers', ['project/init'], function() {
 
     // 关闭新增主分类区域
     $scope.cancelAddClass = function () {
-      if ($scope.showAddClass) {
-        $scope.showAddClass = false;
-      }
+
+      $scope.showAddClass = $scope.showAddClass ? false :true;
+
+      // if ($scope.showAddClass) {
+      //   $scope.showAddClass = false;
+      // } else {
+      //   $scope.showAddClass = false;
+      // }
     }
 
     // 添加主分类
