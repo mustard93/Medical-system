@@ -1634,6 +1634,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     }
                 }
             }
+
         };
 
         // 全选全不选
@@ -1656,32 +1657,37 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          * @param  {[type]} ids        [需要删除的项目id列表]
          * @param  {[type]} requestUrl [删除请求的API]
          * @param  {[type]} returnUrl  [删除成功后需要跳转的地址]
+         * @param  dataType  以何种数据格式进行发送，有数组和对象两种 (array, object)
          * @return {[type]}            [description]
          */
-        $scope.handleDelEvent = function (ids, requestUrl, returnUrl) {
+        $scope.handleDelEvent = function (ids, requestUrl, returnUrl, dataType) {
 
-            var _data = null;
+          var _data = null;
 
-            if (ids) {      // 如果传入了id列表
-                _data = angular.isArray(ids) ? {ids:ids} : {ids: [ids]};
-            } else {        // 如果没有传入id列表
-                if ($scope.choisedList && $scope.choisedList.length) {
-                    _data = { ids:$scope.choisedList };
-                }
+          // 获取发送的数据类型，如果没有设置则默认为object
+          var _dataType = dataType || 'object';
+
+          if (ids) {      // 如果传入了id列表
+            _data = angular.isArray(ids) ? {ids:ids} : {ids: [ids]};
+          } else {        // 如果没有传入id列表
+            if ($scope.choisedList && $scope.choisedList.length) {
+              _data = (_dataType === 'object') ? {ids : $scope.choisedList} : $scope.choisedList;
             }
+          }
 
-            requestData(requestUrl, _data, 'POST')
-                .then(function (results) {
-                    if (results[1].code === 200) {
-                        _reloadListData(returnUrl);
-                        $scope.isChoiseAll = false;
-                        $scope.choisedList=[];
-                    }
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
+          console.log(_data);
 
+          requestData(requestUrl, _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                _reloadListData(returnUrl);
+                $scope.isChoiseAll = false;
+                $scope.choisedList=[];
+              }
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
         };
 
         // 重新请求数据
