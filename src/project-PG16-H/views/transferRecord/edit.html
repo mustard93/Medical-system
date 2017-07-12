@@ -160,7 +160,12 @@
             </div>
             <div class="flex-item-4 full-height">
               <div style="padding:110px 105px;" ng-init="showQuantity=false;">
-                <p style="margin-bottom: 10px;">可移动数量：<span    ng-if="!formData.id">{{ ::scopeData[0].quantity }}{{::scopeData[0].name}}</span></p>
+                <p style="margin-bottom: 10px;"
+                    ajax-url="rest/authen/medicalStock/getPackingAttributeById?id={{formData.relMedicalStockId}}"
+                    scope-data="packingAttribute"
+
+                >可移动数量：<span
+                        ng-if="!formData.id">{{formData.tipsQuantity}}{{packingAttribute[0].text}}</span></p>
                 <p>数量</p>
                   <div class="inline-block mgr-s">
 

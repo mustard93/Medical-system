@@ -3233,6 +3233,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.formData.sourceGoodsLocationId=goodsLocationId;
               $scope.formData.localQuantity=salesQuantity;
               $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
+
+              //扩展提示最大数量和单位
+              $scope.formData.tipsQuantity=salesQuantity;
+
           }
           modal.closeAll();
       };
@@ -3252,6 +3256,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.formData.transferQuantity='';
               $scope.formData.storeRoomName='';
               $scope.formData.transferReason='';
+
+              //清空提示数量和单位
+              $scope.formData.tipsQuantity="";
           }
       });
 
