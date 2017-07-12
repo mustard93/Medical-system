@@ -244,12 +244,18 @@
                          popover-options='{"content":"数量不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'/> -->
                 </td><!-- 实退数量 -->
                 <td class="text-center">
-                  <select class="pr-select pd-s"
+                  <select ng-if="formData.orderBusinessType!='直发销售'" class="pr-select pd-s"
                           style="width:115px;"
                           ng-model="item.warehouseId"
                           ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
                           scope-data="scopeData">
                     <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>
+                  </select>
+                  <select ng-if="formData.orderBusinessType=='直发销售'" class="ipt pr-short-ipt color-3" style="width:90px;"
+                          data-placeholder=" "
+                          chosen
+                          ng-model="item.warehouseId"
+                          select-source="rest/authen/warehouse/queryForSelectOption?type=虚拟库">
                   </select>
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
