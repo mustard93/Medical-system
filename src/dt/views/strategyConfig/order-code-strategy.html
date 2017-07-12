@@ -1,9 +1,6 @@
 <div class="order-code-strategy"
      ng-controller="orderCodeStrategyController"
-     ajax-url="rest/authen/orderCodeStrategy/get?moduleType=DT_购需单"
-     scope-data="formData"
-     callback="initFlag=true;formData.moduleType='DT_购需单';getCodeLength(formData);createCodeSample(formData)"
-     alert-error>
+     ng-init="formData={}">
   <form id="editForm"
         name="editForm"
         form-validator
@@ -13,8 +10,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        callback=""
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
@@ -49,7 +45,7 @@
                            {"id":16,"pId":3,"name":"仓库入库单"},
                            {"id":17,"pId":3,"name":"仓库出库单"}]'
            z-tree-type="static"
-           ng-model="medicalAttribute"
+           ng-model="formData.medicalAttribute"
            id-key="id"
            p-id-key="pId">
       </div>
@@ -80,9 +76,9 @@
                   <td>
                     <select class="ipt pr-short-ipt"
                             ng-model="formData.prefix1_type"
-                            ng-options="item.value as item.text for item in prefix1_list"
                             ng-disabled="formData.type==2"
                             ng-change="formData.prefix1=''">
+                      <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
                     </select>
                     <p ng-if="formData.prefix1_type&&formData.prefix2_type&&formData.prefix1_type==formData.prefix2_type" class="color-red">前缀1与前缀2的类型不能重复!</p>
                   </td>
@@ -95,8 +91,8 @@
                            ng-model="formData.prefix1"
                            ng-disabled="formData.type==2 || !formData.prefix1_type"
                            ng-change="getCodeLength(formData);createCodeSample(formData)">
-                    <select ng-if="initFlag&&formData.prefix1_type!='静态文本'"
-                            ng-init="createPrefixForDate(formData.prefix1);formData.prefix1='年'"
+                    <select ng-if="formData.prefix1_type!='静态文本'"
+                            ng-init="createPrefixForDate(formData.prefix1);formData.prefix1=''"
                             class="ipt pr-short-ipt"
                             ng-model="formData.prefix1"
                             ng-disabled="formData.type==2 || !formData.prefix1_type"
@@ -128,8 +124,8 @@
                            ng-model="formData.prefix2"
                            ng-disabled="formData.type==2 || !formData.prefix2_type"
                            ng-change="getCodeLength(formData);createCodeSample(formData)">
-                    <select ng-if="initFlag&&formData.prefix2_type!='静态文本'"
-                            ng-init="createPrefixForDate(formData.prefix2);formData.prefix2='年'"
+                    <select ng-if="formData.prefix2_type!='静态文本'"
+                            ng-init="createPrefixForDate(formData.prefix2);formData.prefix2=''"
                             class="ipt pr-short-ipt"
                             ng-model="formData.prefix2"
                             ng-options="item.value as item.text for item in dateTypeList"

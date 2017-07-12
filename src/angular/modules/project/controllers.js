@@ -6053,7 +6053,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} utils  [注入项]
    * @return {[type]}        [description]
    */
-  function editStockbatchNumberCtrl ($scope, utils, requestData) {
+  function editStockbatchNumberCtrl ($scope,modal, utils, requestData) {
 
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
@@ -6084,14 +6084,21 @@ define('project/controllers', ['project/init'], function() {
 
     // 获取用户已选择的药品批次，并将批次id存入数组
     $scope.getChoisedBatchsId = function (choisedBatchList) {
-      if (choisedBatchList) {
-        $scope.choisedBatchsIdList = [];
-        angular.forEach(choisedBatchList, function (data, index) {
-          if (data.stockBatchId) {
-            $scope.choisedBatchsIdList.push(data.stockBatchId);
-          }
-        });
-      }
+
+        var list=[];
+
+        if (choisedBatchList) {
+            $scope.choisedBatchsIdList = [];
+            angular.forEach(choisedBatchList, function (data, index) {
+              if (data.stockBatchId) {
+                $scope.choisedBatchsIdList.push(data.stockBatchId);
+              }
+            });
+            list = $scope.choisedBatchsIdList
+
+        }
+
+      return list;
     };
 
     // 用户选择生产批号
@@ -6155,7 +6162,31 @@ define('project/controllers', ['project/init'], function() {
 
 
     };
+
+    $scope.$on('chosedBatch',function (e,data) {
+        $scope.choseBatch(data.obj,data.choisedList,data.id);
+        modal.close();
+    });
+
+
   }
+
+
+  function choseBatchCtrl($scope,modal, watchFormChange, requestData, utils,alertError,alertWarn) {
+
+      //选择当前订单-商品
+      $scope.choiceThis=function (obj,choisedList,id){
+          var obj ={
+              'obj':obj,
+              'choisedList':choisedList,
+              'id':id
+          };
+          $scope.$emit('chosedBatch',obj);
+      };
+  }
+
+
+
   /**
    * [inoutstockDetailQueryCtr 库存报表 > 出入库明细 控制器]
    * @param  {[type]} $scope [description]
@@ -6956,14 +6987,15 @@ define('project/controllers', ['project/init'], function() {
     $scope.codeLengthOverflow = false;
 
     // 定义单据编号前缀数据模型
-    var codePrefix = [
+    $scope.codePrefixList = [
+      {"text": "无", "value": ""},
       {"text": "静态文本", "value": "静态文本"},
       {"text": "单据日期", "value": "单据日期"}
     ];
 
     // 初始化单据编号前缀模型
-    $scope.prefix1_list = angular.copy(codePrefix);
-    $scope.prefix2_list = angular.copy(codePrefix);
+    $scope.prefix1_list = angular.copy($scope.codePrefixList);
+    $scope.prefix2_list = angular.copy($scope.codePrefixList);
 
     // 初始化日期类型前缀模型
     $scope.dateTypeList = [
@@ -7010,60 +7042,66 @@ define('project/controllers', ['project/init'], function() {
 
     // 创建编码样例
     $scope.createCodeSample = function (formData) {
-      var _tmp = formData.serialNumberLength - 1;
-      var _serialNumber = 1;
-      for (var i = 0; i < _tmp; i ++) {
-        _serialNumber += '0';
-      }
 
-      if (formData.prefix1_type === '单据日期') {
-        $scope.createPrefixForDate(formData.prefix1);
-      } else {
-        $scope.createPrefixForDate(formData.prefix2);
-      }
+      if (formData.type === 1) {
+        var _tmp = formData.serialNumberLength - 1;
+        var _serialNumber = 1;
+        for (var i = 0; i < _tmp; i ++) {
+          _serialNumber += '0';
+        }
 
-      if (formData.prefix1_type === '静态文本' && formData.prefix2) {
         $scope.codeSample = formData.prefix1 + $scope.fixDateString + _serialNumber;
-      } else {
-        $scope.codeSample = $scope.fixDateString + formData.prefix2 + _serialNumber;
       }
+
+      // if (formData.prefix1_type === '单据日期') {
+      //   $scope.createPrefixForDate(formData.prefix1);
+      // } else {
+      //   $scope.createPrefixForDate(formData.prefix2);
+      // }
+      //
+      // if (formData.prefix1_type === '静态文本' && formData.prefix2) {
+      //   $scope.codeSample = formData.prefix1 + $scope.fixDateString + _serialNumber;
+      // } else {
+      //   $scope.codeSample = $scope.fixDateString + formData.prefix2 + _serialNumber;
+      // }
     }
 
     // 点击左侧树形菜单加载不通模块的编码策略
-    $scope.handleClickEvent = function (nodes) {
-      if (nodes && nodes['pId']) {    // 不是主节点
-        var _nodeName = 'DT_' + nodes['name'];
-        var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
-        requestData(_reqUrl)
-        .then(function (results) {
-          if (results[1].code === 200) {
-            $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
-
-            // 如果类型类空，则初始化为1（系统自动生成）
-            if (!$scope.formData.type) { $scope.formData.type = 1; }
-
-            // 如果类型为空，则赋值为当前类型
-            if (!$scope.formData.moduleType) { $scope.formData.moduleType = _nodeName; }
-
-            // 初始化样例
-            $scope.codeSample = null;
-
-            // 初始化获取编码长度和样例
-            $scope.getCodeLength($scope.formData);
-            $scope.createCodeSample($scope.formData);
-          }
-        })
-        .catch(function (error) {
-          if (error) { throw new Error(error || '出错'); }
-        })
-      }
-    }
+    // $scope.handleClickEvent = function (nodes) {
+    //   if (nodes && nodes['pId']) {    // 不是主节点
+    //     var _nodeName = 'DT_' + nodes['name'];
+    //     var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
+    //     requestData(_reqUrl)
+    //     .then(function (results) {
+    //       if (results[1].code === 200) {
+    //         $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+    //
+    //         // 如果类型类空，则初始化为1（系统自动生成）
+    //         if (!$scope.formData.type) { $scope.formData.type = 1; }
+    //
+    //         // 如果类型为空，则赋值为当前类型
+    //         if (!$scope.formData.moduleType) { $scope.formData.moduleType = _nodeName; }
+    //
+    //         // 初始化样例
+    //         $scope.codeSample = null;
+    //
+    //         // 初始化获取编码长度和样例
+    //         $scope.getCodeLength($scope.formData);
+    //         $scope.createCodeSample($scope.formData);
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       if (error) { throw new Error(error || '出错'); }
+    //     })
+    //   }
+    // }
 
     // ...
-    $scope.$watch('medicalAttribute', function (newVal, oldVal) {
+    $scope.$watchCollection('formData.medicalAttribute', function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
         // 用户点击了树中不同节点，请求当前节点的信息
         var _nodeName = 'DT_' + newVal['name'];
+
         var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
         requestData(_reqUrl)
         .then(function (results) {
@@ -7088,7 +7126,7 @@ define('project/controllers', ['project/init'], function() {
           if (error) { throw new Error(error || '出错'); }
         })
       }
-    }, true);
+    });
   }
 
   /**
@@ -7149,9 +7187,14 @@ define('project/controllers', ['project/init'], function() {
 
     // 关闭新增主分类区域
     $scope.cancelAddClass = function () {
-      if ($scope.showAddClass) {
-        $scope.showAddClass = false;
-      }
+
+      $scope.showAddClass = $scope.showAddClass ? false :true;
+
+      // if ($scope.showAddClass) {
+      //   $scope.showAddClass = false;
+      // } else {
+      //   $scope.showAddClass = false;
+      // }
     }
 
     // 添加主分类
@@ -8153,7 +8196,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
-  .controller('editStockbatchNumberCtrl', ['$scope', 'utils', 'requestData', editStockbatchNumberCtrl])
+  .controller('editStockbatchNumberCtrl', ['$scope','modal', 'utils', 'requestData', editStockbatchNumberCtrl])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])
@@ -8199,5 +8242,8 @@ define('project/controllers', ['project/init'], function() {
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
-  .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl]);
+  .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
+  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
+
+
 });

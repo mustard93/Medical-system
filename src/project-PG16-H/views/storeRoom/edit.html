@@ -1,8 +1,8 @@
 <div class="hospital-application first-medical-application"
-     ng-controller="QualificationApplyCtrl"
+     ng-controller="storeRoomController"
      ajax-url="rest/authen/storeRoom/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_storeRoom(formData);"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
 
   <page-main-header-component list-params="listParams"
@@ -91,7 +91,23 @@
               </a>
               <a ng-if="!changeFlag" href="#/storeRoom/query-storeRoom.html">返回库房列表</a>
             </span>
-            <span bottom-button-list="bottomButtonList">  </span>
+            <span class="mgl">
+
+              <a
+              class="color-orange add-return-order mgl-s"
+              modal-right="800"
+              modal-scope="this"
+              modal-data='{"type":"modalRight",
+                           "modalWidth":"800",
+                           "aclass":"color-orange add-return-order mgl-s",
+                           "requestUrl":"rest/authen/versionFlow/query?businessKey={{formData.id}}",
+                           "httpMethod":"GET",
+                           "ahref":"views/versionFlow/get-right-side.html?businessKey={{formData.id}}",
+                           "showName":"查看操作记录"}'
+              modal-url="views/versionFlow/get-right-side.html?businessKey={{formData.id}}">
+              查看操作记录
+            </a>
+            </span>
             <span class="mgl">
               <a
                  href="javascript:;"
@@ -120,15 +136,16 @@
                              "content2":"请输入修改原因",
                              "btnConfirm":"确定",
                              "btnCancel":"取消",
-                             "url":"rest/authen/medicalStock/save",
-                             "goUrl":""
+                             "url":"rest/authen/storeRoom/save",
+                             "goUrl":"",
+                             "urlType":"submit-storeRoom"
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
                 ng-disabled="!formData.code ||!formData.name ||!formData.type"
                  >保存</button>
 
               <button
-              ng-if="!changeFlag ||!formData.id"
+              ng-if="!changeFlag || !formData.id"
               href="javascript:;"
               class="pr-btn-save-glodbg mgt"
               type="button"
