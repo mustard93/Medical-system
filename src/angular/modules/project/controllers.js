@@ -6053,7 +6053,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} utils  [注入项]
    * @return {[type]}        [description]
    */
-  function editStockbatchNumberCtrl ($scope, utils, requestData) {
+  function editStockbatchNumberCtrl ($scope,modal, utils, requestData) {
 
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
@@ -6084,14 +6084,21 @@ define('project/controllers', ['project/init'], function() {
 
     // 获取用户已选择的药品批次，并将批次id存入数组
     $scope.getChoisedBatchsId = function (choisedBatchList) {
-      if (choisedBatchList) {
-        $scope.choisedBatchsIdList = [];
-        angular.forEach(choisedBatchList, function (data, index) {
-          if (data.stockBatchId) {
-            $scope.choisedBatchsIdList.push(data.stockBatchId);
-          }
-        });
-      }
+
+        var list=[];
+
+        if (choisedBatchList) {
+            $scope.choisedBatchsIdList = [];
+            angular.forEach(choisedBatchList, function (data, index) {
+              if (data.stockBatchId) {
+                $scope.choisedBatchsIdList.push(data.stockBatchId);
+              }
+            });
+            list = $scope.choisedBatchsIdList
+
+        }
+
+      return list;
     };
 
     // 用户选择生产批号
@@ -6155,7 +6162,31 @@ define('project/controllers', ['project/init'], function() {
 
 
     };
+
+    $scope.$on('chosedBatch',function (e,data) {
+        $scope.choseBatch(data.obj,data.choisedList,data.id);
+        modal.close();
+    });
+
+
   }
+
+
+  function choseBatchCtrl($scope,modal, watchFormChange, requestData, utils,alertError,alertWarn) {
+
+      //选择当前订单-商品
+      $scope.choiceThis=function (obj,choisedList,id){
+          var obj ={
+              'obj':obj,
+              'choisedList':choisedList,
+              'id':id
+          };
+          $scope.$emit('chosedBatch',obj);
+      };
+  }
+
+
+
   /**
    * [inoutstockDetailQueryCtr 库存报表 > 出入库明细 控制器]
    * @param  {[type]} $scope [description]
@@ -8153,7 +8184,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
-  .controller('editStockbatchNumberCtrl', ['$scope', 'utils', 'requestData', editStockbatchNumberCtrl])
+  .controller('editStockbatchNumberCtrl', ['$scope','modal', 'utils', 'requestData', editStockbatchNumberCtrl])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])
@@ -8199,5 +8230,8 @@ define('project/controllers', ['project/init'], function() {
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
-  .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl]);
+  .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
+  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
+
+
 });
