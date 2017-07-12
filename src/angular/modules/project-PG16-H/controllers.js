@@ -1597,9 +1597,46 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     }
 
     // 库房管理模块控制器
-    function storeRoomController ($scope, requestData, alertError, alertOk) {
+    function storeRoomController ($scope,watchFormChange, requestData, alertError, alertOk) {
+
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
         // 定义存放用户选择的列表
         $scope.choisedList = [];
+
+
+              $scope.submitForm = function(fromId, type) {
+                 $scope.submitForm_type = type;
+                 if ($scope.submitForm_type == 'submit-storeRoom') {
+                   requestData('rest/authen/storeRoom/save', $scope.formData, 'POST', 'parameterBody')
+                   .then(function (results) {
+                     if (results[1].code === 200) {
+                       var _data = results[1];
+                       _data.data=$scope.formData;
+                     }
+                   })
+                   .catch(function (error) {
+                   });
+                 }
+
+                //  var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
+                //  var data= {businessKey:$scope.formData.id};
+                //  requestData(url,data, 'POST')
+                //   .then(function (results) {
+                //     var _data = results[1];
+                //     $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                //   })
+                //   .catch(function (error) {
+                //     alertError(error || '出错');
+                //   });
+
+                 if ($scope.submitForm_type == 'submit') {
+                   $scope.formData.validFlag = true;
+                 }
+                $('#' + fromId).trigger('submit');
+              };
 
         // 请求列表数据
         $scope.queryStoreRoomAndOthersList = function (type,requestUrl) {
@@ -1634,6 +1671,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     }
                 }
             }
+
         };
 
         // 全选全不选
@@ -1656,32 +1694,37 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          * @param  {[type]} ids        [需要删除的项目id列表]
          * @param  {[type]} requestUrl [删除请求的API]
          * @param  {[type]} returnUrl  [删除成功后需要跳转的地址]
+         * @param  dataType  以何种数据格式进行发送，有数组和对象两种 (array, object)
          * @return {[type]}            [description]
          */
-        $scope.handleDelEvent = function (ids, requestUrl, returnUrl) {
+        $scope.handleDelEvent = function (ids, requestUrl, returnUrl, dataType) {
 
-            var _data = null;
+          var _data = null;
 
-            if (ids) {      // 如果传入了id列表
-                _data = angular.isArray(ids) ? {ids:ids} : {ids: [ids]};
-            } else {        // 如果没有传入id列表
-                if ($scope.choisedList && $scope.choisedList.length) {
-                    _data = { ids:$scope.choisedList };
-                }
+          // 获取发送的数据类型，如果没有设置则默认为object
+          var _dataType = dataType || 'object';
+
+          if (ids) {      // 如果传入了id列表
+            _data = angular.isArray(ids) ? {ids:ids} : {ids: [ids]};
+          } else {        // 如果没有传入id列表
+            if ($scope.choisedList && $scope.choisedList.length) {
+              _data = (_dataType === 'object') ? {ids : $scope.choisedList} : $scope.choisedList;
             }
+          }
 
-            requestData(requestUrl, _data, 'POST')
-                .then(function (results) {
-                    if (results[1].code === 200) {
-                        _reloadListData(returnUrl);
-                        $scope.isChoiseAll = false;
-                        $scope.choisedList=[];
-                    }
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
+          console.log(_data);
 
+          requestData(requestUrl, _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                _reloadListData(returnUrl);
+                $scope.isChoiseAll = false;
+                $scope.choisedList=[];
+              }
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
         };
 
         // 重新请求数据
@@ -4509,7 +4552,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .controller('collarApplicationOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', collarApplicationOrderController])
         .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])
         .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', 'utils', createCorrespondController])
-        .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
+        .controller('storeRoomController', ['$scope','watchFormChange', 'requestData', 'alertError', 'alertOk', storeRoomController])
         .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
         .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', checkUpController])
         .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
