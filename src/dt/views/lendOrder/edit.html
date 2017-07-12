@@ -29,7 +29,7 @@
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgb">
-          <h1 class="pr-font-20 color-black">{{formData.id ? "新建" : "编辑"}}借出单</h1>
+          <h1 class="pr-font-20 color-black">{{!formData.id ? "新建" : "编辑"}}借出单</h1>
         </div>
       </div>
     </div>
@@ -182,21 +182,21 @@
 
             </div>
 
-            <div class="outside-table-d">
+            <div class="">
               <table class="table pr-table pr-new-table mgb-n">
                 <thead>
                   <tr>
                     <!-- <th>
                       <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                     </th> -->
-                    <th class="text-center w-120">商品编号</th>
-                    <th class="text-left w-160">商品通用名</th>
+                    <th class="text-center">商品编号</th>
+                    <th class="text-left">商品通用名</th>
                     <th class="text-center w-80 ">规格/型号</th>
                     <th class="text-center w-80">单位</th>
-                    <th class="text-center w-160">计划数量</th>
+                    <th class="text-center">计划数量</th>
                     <th class="text-center" style="width:200px;">生产批号/数量</th>
                     <!--<th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">灭菌批号</th>-->
-                    <th class="text-center w-106">失效日期</th>
+                    <th class="text-center">失效日期</th>
                     <th class="text-center w-106">仓库</th>
                     <!--<th class="text-center">报价</th>-->
                     <!--<th class="text-center">税率</th>-->
@@ -224,14 +224,12 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-left">
-                        <span
-                                class="autocut color-orange cur-pot lend-order-goods-info"
-                                ng-init="showInfoArea=false"
-                                ng-mouseenter="showInfoArea=true"
-                                ng-mouseleave="showInfoArea=false"
-                                title="{{item.approvedName}}"
-                        > {{item.approvedName}}
+                    <td>
+                      <span
+                           class="color-orange cur-pot lend-order-goods-info"
+                           ng-init="showInfoArea=false"
+                           ng-mouseenter="showInfoArea=true"
+                           ng-mouseleave="showInfoArea=false">{{item.approvedName}}
                         <show-info-modal ng-show="showInfoArea"
                                          get-data-type="local"
                                          template-url="tpl/showInfoModalLendOrder"
@@ -239,6 +237,7 @@
                                          info-title="商品信息">
                         </show-info-modal>
                       </span>
+
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
