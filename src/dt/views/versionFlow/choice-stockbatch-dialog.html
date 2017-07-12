@@ -5,113 +5,197 @@
      callback="getChoisedBatchsId(dialogData.choisedBatchList)"
      alert-error>
 
-  <!-- 标题 -->
-  <div class="bb-line-gold pr-bg-black2 min-h-l">
-    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
-  </div>
-  <!-- 过滤条件 -->
-  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
-    <!-- 仓库过滤 -->
-    <div class="inline-block">
-      <span class="color-9">仓库：</span>
-      <select class="ipt pr-short-ipt color-3" style="width:90px;"
-              data-placeholder=""
-              default-empty="全部"
-              width="120px"
-              chosen
-              ng-disabled="dialogData.sourceLogisticsCenterId"
-              ng-model="listParams.warehouseId"
-              select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&type=正常库">
-      </select>
+    <!-- 标题 -->
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 -
+            {{dialogData.medicalName}}</h1>
     </div>
-    <!-- 日期过滤 -->
-    <div class="inline-block" style="margin-top:-3px;">
-      <span class="color-9 mgl-m">有效期：</span>
-      <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
-        <input  type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtBeg"
-               placeholder=""
-               ng-change="handleSearchFilter(listParams,dialogData.id)">
-        <span class="date-icon"></span>
-      </div>
-      <div class="date-icon-outside" ng-if="listParams.createAtBeg">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+    <!-- 过滤条件 -->
+    <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+        <!-- 仓库过滤 -->
+        <div class="inline-block">
+            <span class="color-9">仓库：</span>
+            <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                    data-placeholder=""
+                    default-empty="全部"
+                    width="120px"
+                    chosen
+                    ng-disabled="dialogData.sourceLogisticsCenterId"
+                    ng-model="listParams.warehouseId"
+                    select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&type=正常库">
+            </select>
+        </div>
+        <!-- 日期过滤 -->
+        <div class="inline-block" style="margin-top:-3px;">
+            <span class="color-9 mgl-m">有效期：</span>
+            <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.createAtBeg"
+                       placeholder=""
+                       ng-change="handleSearchFilter(listParams,dialogData.id)">
+                <span class="date-icon"></span>
+            </div>
+            <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
 
-                 ng-model="listParams.createAtBeg">
-          <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
-      </div>
-      <span class="color-9">至</span>
-      <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
-        <input  type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtEnd"
-               placeholder=""
-               ng-change="handleSearchFilter(listParams,dialogData.id)">
-        <span class="date-icon"></span>
-      </div>
-      <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+                       ng-model="listParams.createAtBeg">
+                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+            </div>
+            <span class="color-9">至</span>
+            <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.createAtEnd"
+                       placeholder=""
+                       ng-change="handleSearchFilter(listParams,dialogData.id)">
+                <span class="date-icon"></span>
+            </div>
+            <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
 
-                 ng-model="listParams.createAtEnd"/>
-          <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
-      </div>
+                       ng-model="listParams.createAtEnd"/>
+                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+            </div>
+        </div>
+        <!-- 关键字过滤 -->
+        <div class="inline-block">
+            <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+                <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q">
+                <i class="" style="top:10px;"></i>
+            </div>
+        </div>
     </div>
-    <!-- 关键字过滤 -->
-    <div class="inline-block">
-      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q">
-        <i class="" style="top:10px;"></i>
-      </div>
+
+    <!-- 无数据 -->
+    <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">暂无满足此筛选条件的结果。</div>
+    <!-- 数据遍历 -->
+    <!--<table-list ng-if="listParams.relMedicalStockId" list-data="rest/authen/collarApplicationOrder/queryByMedical"-->
+
+                <!--list-params="listParams"-->
+                <!--search-mode="noCaseSensitive"-->
+                <!--list-object="curOrder"-->
+                <!--search-param="q">-->
+
+        <!--&lt;!&ndash;领用单列表&ndash;&gt;-->
+        <!--<ul ng-if="tbodyList.length" class="li-min-h">-->
+
+            <!--<li class="pdr-m pdl-m relative confirm-order-list ng-scope"-->
+                <!--ng-controller="collarReturnOrderChoiceDialogSubCtrl"-->
+                <!--ng-class="{'pr-bg-glay':tr.returnFlag}"-->
+                <!--ng-repeat="tr in tbodyList track by $index"-->
+                <!--ng-click="choiceThis(tr,$index,tr.returnFlag); "-->
+            <!--&gt;-->
+
+                <!--<div   ng-disabled="tr.returnFlag"-->
+                       <!--class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"-->
+                       <!--ng-class="{'on': tr.relId == listObject.relId }"-->
+                <!--&gt;-->
+
+                    <!--<div class="card-new">-->
+                        <!--<div class="bt-line">-->
+                            <!--<div ng-if="tr.relId == listObject.relId" class="choiced"><img src="../css/icon-checked.png" alt=""></div>-->
+                            <!--<h1 class="text-center text-m color-3 text-ellips-s ng-binding">{{tr.applicationDepartmentName || '暂无'}}</h1>-->
+                        <!--</div>-->
+
+                        <!--<div class="flex-column qurey text-s color-9 bt-dashed-line">-->
+                            <!--<span class="flex-item-6">领用单号</span>-->
+                            <!--<span class="flex-item-6 text-right pr-indent-10 autocut-default" title="{{tr.relOrderCode}}">-->
+                                        <!--<strong class="color-black text-normal ng-binding">{{tr.relOrderCode}}</strong>-->
+                                  <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="flex-column qurey text-s color-9 bt-dashed-line">-->
+                            <!--<span class="flex-item-6">领用库房</span>-->
+                            <!--<span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">-->
+                                            <!--<strong class="color-black text-normal ng-binding">{{tr.storeRoomName}}</strong>-->
+                                          <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="flex-column qurey text-s color-9 bt-dashed-line">-->
+                            <!--<span class="flex-item-6 text-left">领用日期</span>-->
+                            <!--<span class="flex-item-6 text-right">-->
+                                      <!--<strong class="color-black text-normal ng-binding">{{tr.expectDate |date :'yyyy-MM-dd' }}</strong>-->
+                                  <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="flex-column qurey text-s color-9 bt-dashed-line">-->
+                            <!--<span class="flex-item-6 text-left">申请人</span>-->
+                            <!--&lt;!&ndash; <span class="flex-item-6 text-right"> &ndash;&gt;-->
+                            <!--<span class="flex-item-6 text-right purchaseorder-buyer-info-outside">-->
+                                      <!--<strong run-popovers=""-->
+                                              <!--class="color-custom-orange cur-pot text-normal pr-color ng-binding"-->
+                                              <!--style="position:relative;height:25px;">{{tr.applicant.n}}</strong>-->
+                                    <!--</span>-->
+                            <!--&lt;!&ndash; <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>-->
+                        <!--</span> &ndash;&gt;-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+
+        <!--</ul>-->
+
+
+        <!--<div style="clear: both;">-->
+            <!--&lt;!&ndash; 导航 &ndash;&gt;-->
+            <!--<div class="clearfix"ng-if="tbodyList.length">-->
+                <!--<div class="fr">-->
+                    <!--<pagination status="status"></pagination>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</table-list>-->
+    <!--  -->
+    <div ng-if="stockBatchList.length" style="height: 85%; overflow-y: scroll;">
+        <table class="full-width another-table">
+            <thead>
+            <tr class="bb-line-gold">
+                <th></th>
+                <th>生产批号</th>
+                <th>灭菌批号</th>
+                <th>有效期至</th>
+                <th>仓库</th>
+                <th>可用量</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white">
+            <tr ng-repeat="item1 in stockBatchList" class="pr-bg-black3 trHover-bg"
+                ng-class="{'pr-bg-grey3':choisedBatchsIdList.indexOf(item1.id)!=-1}">
+                <td class="text-center">
+                    <label class="radio radio-new">
+                        <input type="radio"
+                               name="medicals"
+                               class="default-radio"
+                               ng-click="choseBatch(item1,dialogData.choisedBatchList,dialogData.id);modal.closeAll()"
+                               ng-disabled="choisedBatchsIdList.indexOf(item1.id)!=-1"><i></i>
+                    </label>
+                </td>
+                <td class="text-left color-white" style="height:50px;"> {{item1.productionBatch}}</td>
+                <td class="text-left color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
+                <td class="color-white" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
+                <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
+                <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
+            </tr>
+
+            </tbody>
+
+        </table>
     </div>
-  </div>
+</div>
 
-  <!-- 无数据 -->
-  <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">暂无满足此筛选条件的结果。</div>
-  <!-- 数据遍历 -->
-
-  <!--  -->
-  <div ng-if="stockBatchList.length" style="height: 85%; overflow-y: scroll;">
-    <table class="full-width another-table" >
-      <thead>
-        <tr class="bb-line-gold">
-          <th></th>
-          <th>生产批号</th>
-          <th>灭菌批号</th>
-          <th>有效期至</th>
-          <th>仓库</th>
-          <th>可用量</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white">
-        <tr ng-repeat="item1 in stockBatchList" class="pr-bg-black3 trHover-bg" ng-class="{'pr-bg-grey3':choisedBatchsIdList.indexOf(item1.id)!=-1}" >
-          <td class="text-center">
-            <label class="radio radio-new">
-              <input type="radio"
-                     name="medicals"
-                     class="default-radio"
-                     ng-click="choseBatch(item1,dialogData.choisedBatchList,dialogData.id);modal.closeAll()"
-                     ng-disabled="choisedBatchsIdList.indexOf(item1.id)!=-1"><i></i>
-            </label>
-          </td>
-          <td class="text-left color-white" style="height:50px;"> {{item1.productionBatch}}</td>
-          <td class="text-left color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
-          <td class="color-white" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+<!-- 导航 -->
+<div class="clearfix" ng-if="tbodyList.length">
+    <div class="fr">
+        <pagination status="status"></pagination>
+    </div>
 </div>
