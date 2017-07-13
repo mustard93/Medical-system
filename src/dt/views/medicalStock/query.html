@@ -1,10 +1,10 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="medicalStockCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
      <table-list list-data="rest/authen/medicalStock/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
+                 <!-- ng-controller="medicalStockCtrl" -->
 
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
@@ -90,8 +90,11 @@
             </div>
           </div>
           <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table pr-table-content table-ss-wid">
-              <thead class="pr-bg-side">
+            <table class="table pr-table pr-new-table pr-table-content table-ss-wid" >
+              <thead class="pr-bg-side"
+              table-toggle-sort
+              t-body-list='[{"sortName":"name","isSort":"true","sortCriteria":"desc"},{"sortName":"approvedName","isSort":"true","sortCriteria":"desc"}]'
+              sort-request-url="rest/authen/medicalStock/query.json">
                 <tr>
                   <th class="w-80">状态</th>
                   <th>序号</th>

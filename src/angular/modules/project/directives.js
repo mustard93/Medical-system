@@ -1554,6 +1554,35 @@ function canvasWorkflow (modal,utils) {
 }//canvasWorkflow
 
 
+// 表格排序，根据点击不同的标题，对相应列进行按该字段排序。
+/**
+   *
+  	* @Description: 点击发起请求,进行排序
+  	* @author 宋娟
+  	* @date 2017年07月13日 上午11:04:59
+   */
+
+   	   //  关键步骤：
+
+function tableToggleSort (modal,utils) {
+  'use strict';
+  return {
+      restrict: 'AE',
+    link: function ($scope, element, $attrs) {
+      // 表格数据传入Jason格式
+      var tbodyList=$scope.$eval($attrs.tBodyList);
+      // 请求重新排序接口
+      var sortRequestUrl=$attrs.sortRequestUrl;
+      console.log(tbodyList);
+
+      var tTheadList=element.children('th');
+      console.log(tTheadList);
+      console.log(sortRequestUrl);
+
+    }//end link
+  };
+}//canvasWorkflow
+
 
 
 /**
@@ -1591,7 +1620,7 @@ function businessFlowShow() {
           //  console.log(data);
            var curRelId=$attrs.curRelId;//当前页面业务单id
           //  console.log(data);
-
+          console.log(data);
            require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 
              //点击回调方法
@@ -3686,7 +3715,7 @@ angular.module('manageApp.project')
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
   .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面卡片式菜单
-    .directive("queryItemTableButtonList", [queryItemTableButtonList])//查询页面table菜单
+  .directive("queryItemTableButtonList", [queryItemTableButtonList])//查询页面table菜单
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
@@ -3705,6 +3734,7 @@ angular.module('manageApp.project')
   .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
   .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
+  .directive("tableToggleSort", ["modal","utils",tableToggleSort])//表格点击排序
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
