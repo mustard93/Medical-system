@@ -332,6 +332,21 @@ define('main/controllers', ['main/init'], function () {
               }
             return tmp;
         }
+
+
+        // 获取当前登录人id及其所在部门id，并赋值给参数对象
+        // @param: formData 当前的表单对象
+        // @param: uId 当前的用户id
+        // @param: dId 当前用户所在部门id
+        $scope.setCurrentMakeOrderUserInfo = function (formData, uId, dId) {
+          if ($scope.mainStatus) {
+            formData[uId] = $scope.mainStatus.id;
+            formData[dId] = $scope.mainStatus.additional.DepartmentId;
+          }
+
+        }
+
+
     }//end mainCtrl
 
     /**
