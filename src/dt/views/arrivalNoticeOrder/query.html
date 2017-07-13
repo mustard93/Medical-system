@@ -3,7 +3,7 @@
                             crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"来货通知单","link":"","style":"color-custom-orange"}]'
                             component-title="来货通知单"
                             get-status-num-url="rest/authen/arrivalNoticeOrder/countByOrderStatus.json"
-                            status-group-data='[["入库中-true","已完成-true"]]'
+                            status-group-data='[["未提交-true","入库中-true","已完成-true"]]'
                             is-show-type-filter=true
                             is-show-date-filter=true
                             is-show-key-filter=true
@@ -35,13 +35,34 @@
                     </em>
                   </span>
                   <span class="flex-item-6 text-right">
-                    <span class=" text-right">
+                    <span class=" text-right"  ng-if="tr.orderStatus!='未提交'" >
                       <a
                       class="btn-link pd-m rect-s"
                       title="查看详情"
                       href="#/arrivalNoticeOrder/get.html?id={{tr.id}}" class="mgl">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
+                  </span>
+                  <span ng-if="tr.orderStatus=='未提交'" >
+                    <span>
+                    <a href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                    <span class="edit-link-icon">&nbsp;</span></a>
+                  </span>
+                  <span >
+                    <a ng-if="tr.orderStatus=='未提交'"
+                       href="javascript:;"
+                       class="btn-link pd-m rect-s"
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除 ?"
+                       dialog-content="您确认删除这条来货通知单吗?"
+                       dialog-template="pr-dialog-confirm.html"
+                       request-url="rest/authen/arrivalNoticeOrder/delete?id={{tr.id}}"
+                       callback="$root.utils.refreshHref()"
+                       emitted="reloadList">
+                    <span class="delete-link-icon">&nbsp;</span>
+                    </a>
+                  </span>
                   </span>
                 </div>
 
