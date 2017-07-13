@@ -124,10 +124,12 @@
                   </span>
                   <!--<span class="flex-item-3 color-9">预计到货日期：<em class="color-3"></em></span>-->
                   <span class="mgl">业务部门：
-                    <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                    <select ng-if="initFlag"
+                            class="ipt pr-short-ipt color-3"
                             data-placeholder=" "
                             chosen
                             width="150px"
+                            ng-init="formData.salesDepartmentId=mainStatus.additional.DepartmentId"
                             ng-model="formData.salesDepartmentId"
                             select-source="rest/authen/department/queryForSelectOption">
                     </select>
@@ -137,6 +139,7 @@
                             class="ipt pr-short-ipt color-3" style="width:90px;"
                             data-placeholder=" "
                             chosen
+                            ng-init="formData.saleUserId=mainStatus.id"
                             ng-model="formData.saleUserId"
                             select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                     </select>

@@ -332,8 +332,6 @@ define('main/controllers', ['main/init'], function () {
               }
             return tmp;
         }
-
-
     }//end mainCtrl
 
     /**
