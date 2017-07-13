@@ -77,7 +77,8 @@
                     <select class="ipt pr-short-ipt"
                             ng-model="formData.prefix1_type"
                             ng-disabled="formData.type==2"
-                            ng-change="formData.prefix1=''">
+                            ng-change="formData.prefix1='';createCodeSample(formData)">
+                      <option value="">无</option>
                       <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
                     </select>
                     <p ng-if="formData.prefix1_type&&formData.prefix2_type&&formData.prefix1_type==formData.prefix2_type" class="color-red">前缀1与前缀2的类型不能重复!</p>
@@ -110,9 +111,10 @@
                   <td>
                     <select class="ipt pr-short-ipt"
                             ng-model="formData.prefix2_type"
-                            ng-options="item.value as item.text for item in prefix2_list"
                             ng-disabled="formData.type==2"
-                            ng-change="formData.prefix2=''">
+                            ng-change="formData.prefix2='';createCodeSample(formData)">
+                      <option value="">无</option>
+                      <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
                     </select>
                   </td>
                   <td>

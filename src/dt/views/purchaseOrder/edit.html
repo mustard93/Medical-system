@@ -399,7 +399,7 @@
                      scope-data="priceData"
                      callback="tr.strike_price=priceData[0].value" -->
 
-                    <td class="text-center">￥{{tr.totalPrice||tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{tr.strike_price*tr.quantity || tr.totalPrice | number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
@@ -496,7 +496,7 @@
            </p>
          </div>
        </div>
-       <div ng-if="formData.orderBusinessType=='直发采购'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+       <!-- <div ng-if="formData.orderBusinessType=='直发采购'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
          <header class="text-n color-3 text-bold">收货方信息
            <span class="tools pull-right">
              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
@@ -507,7 +507,21 @@
            {{formData.customerContacts.name}}&nbsp;&nbsp;{{formData.customerContacts.tel}}&nbsp;&nbsp;{{formData.customerContacts.prov}}&nbsp;&nbsp;{{formData.customerContacts.city}}&nbsp;&nbsp;{{formData.customerContacts.area}}&nbsp;&nbsp;{{formData.customerContacts.address}}
            </p>
          </div>
-       </div>
+       </div> -->
+       <address-manage-component ng-if="formData.orderBusinessType=='直发采购'"
+                                 compnent-title="收货方信息"
+                                 request-url="rest/authen/customerAddress/get.json"
+                                 request-data-id="{{formData.customerId}}"
+                                 scope-data-prefix="customer"
+                                 form-data="formData"
+                                 modify-modal-url="views/customerAddress/contact/edit.html"
+                                 modify-modal-title="编辑收货方信息"
+                                 create-modal-url="views/customerAddress/contact/edit.html"
+                                 create-modal-title="添加收货方信息"
+                                 create-address-type="销售"
+                                 set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                 del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+       </address-manage-component>
 
         <!-- 收货方信息 -->
         <address-manage-component compnent-title="收货方信息"
@@ -602,6 +616,7 @@
                                !formData.expectDate ||
                                !formData.supplier.id ||
                                !formData.orderCode||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
 
@@ -616,6 +631,7 @@
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
 
@@ -631,6 +647,7 @@
                                !formData.expectDate ||
                                !formData.supplier.id ||
                                !formData.orderCode ||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
 
@@ -645,6 +662,7 @@
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
         </span>
