@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单')"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -124,7 +124,8 @@
                   </span>
                   <!--<span class="flex-item-3 color-9">预计到货日期：<em class="color-3"></em></span>-->
                   <span class="mgl">业务部门：
-                    <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                    <select ng-if="initFlag"
+                            class="ipt pr-short-ipt color-3"
                             data-placeholder=" "
                             chosen
                             width="150px"
