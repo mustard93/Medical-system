@@ -275,25 +275,25 @@
                      </td><!-- 失效日期 -->
                      <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                      <!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              name="strike_price{{$index}}"
-                              ng-model="tr.strike_price"
-                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                              invalid-popover
-                              valid-value="{{!arrivalNoticeOrderForm['strike_price'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                       <p class="color-orange pr-indent-35">
-                         <a modal-right="577"
-                            modal-scope="this"
-                            modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"采购","supplierId":"{{formData.supplier.id}}"}'
-                            modal-url="views/versionFlow/history-price.html">参考价格
-                         </a>
-                       </p>
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price | number:2}}
+                       <!--<input type="text"-->
+                              <!--class="ipt pr-ipt-60 text-right"-->
+                              <!--name="strike_price{{$index}}"-->
+                              <!--ng-model="tr.strike_price"-->
+                              <!--ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"-->
+                              <!--required-->
+                              <!--ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"-->
+                              <!--invalid-popover-->
+                              <!--valid-value="{{!arrivalNoticeOrderForm['strike_price'+$index].$valid}}"-->
+                              <!--popover-show-->
+                              <!--popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />-->
+                       <!--<p class="color-orange pr-indent-35">-->
+                         <!--<a modal-right="577"-->
+                            <!--modal-scope="this"-->
+                            <!--modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"采购","supplierId":"{{formData.supplier.id}}"}'-->
+                            <!--modal-url="views/versionFlow/history-price.html">参考价格-->
+                         <!--</a>-->
+                       <!--</p>-->
                      </td>
                     <td class="text-center">￥{{tr.totalPrice||tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
                    </tr>
