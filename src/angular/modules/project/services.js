@@ -693,6 +693,7 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
+
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
@@ -800,7 +801,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
+                    "ngShow": "tr.orderStatus=='待审核' || tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
                 };
@@ -808,7 +809,6 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
                 bottomButton = {
-                    "authority":"销售退货单审批",
                     "iconClass": "examine-approve",
                     "showName": "立即审核",
                     "ngShow": "tr.orderStatus=='待审核'",
@@ -907,7 +907,7 @@ define('project/services', ['project/init'], function() {
                 }
 
                 bottomButton = {
-                    // "authority":"借出单审批",
+                    "authority":"借出单审批",
                     "iconClass": "examine-approve",
                     "showName": "立即审核",
                     "ngShow": "tr.orderStatus=='待审核'",
@@ -921,7 +921,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus !='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
+                    "ngShow": "tr.orderStatus =='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/lendOrder/get.html?id=" + showData.id
                 };
