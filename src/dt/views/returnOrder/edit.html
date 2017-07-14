@@ -1,10 +1,16 @@
-<!--      alert-error   -->
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
      ng-controller="returnOrderCtrl"
      ajax-url="rest/authen/returnOrder/getOfEdit?lendOrderId={{mainStatus.pageParams.lendOrderId}}&id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId'"
-   >
+     callback="initFlag=true;
+               formData.relIds=formData.relIds?formData.relIds:[];
+               $root.watchFormChange('formData',this);
+               choisedMedicals=false;
+               calcTotalPrice(formData.orderMedicalNos);
+               quantityError=false;
+               canSubmit=false;
+               comfirmQuantity(formData.orderMedicalNos);
+               setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')">
   <form id="editForm"
          name="editForm"
          form-validator
@@ -15,7 +21,7 @@
          scope-error-msg="errorMsg"
          scope-data="formData"
          callback="submitFormAfter();watchFormChange('formData')"
-         novalidate="novalidate">
+         novalidate="true">
 
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
@@ -389,8 +395,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('editForm','save')"
-              >保存
+                  ng-click="submitForm('editForm','save')">保存
           </button>
         </span>
 

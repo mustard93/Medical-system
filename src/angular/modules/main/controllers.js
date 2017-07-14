@@ -338,10 +338,10 @@ define('main/controllers', ['main/init'], function () {
         // @param: formData 当前的表单对象
         // @param: uId 当前的用户id
         // @param: dId 当前用户所在部门id
-        $scope.setCurrentMakeOrderUserInfo = function (formData, uId, dId) {
+        $scope.setCurrentMakeOrderUserInfo = function (formData, dId, uId) {
           if ($scope.mainStatus && !formData['id']) {
-            formData[uId] = $scope.mainStatus.id;
             formData[dId] = $scope.mainStatus.additional.DepartmentId;
+            formData[uId] = $scope.mainStatus.id;
           }
         }
 
