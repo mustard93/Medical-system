@@ -287,6 +287,7 @@
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报损单列表</a>
+        <span ng-if="$root.hasAuthor('报损报溢删除')">
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -297,7 +298,7 @@
              request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
              callback="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
           </a>
-
+        </span>
           <button type="submit" class="pr-btn-save-glodbg"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
