@@ -7026,19 +7026,44 @@ define('project/controllers', ['project/init'], function() {
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
 
-      if (formData.prefix1_type === '静态文本' && formData.prefix2) {
-        $scope.createPrefixForDate(formData.prefix2);
-        if ($scope.fixDateString) {
-          $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      if (formData.type === 1) {
+        var _prefix1Length = 0, _prefix2Length = 0;
+
+        if (formData.prefix1) {
+          if (formData.prefix1 === '年' || formData.prefix1 === '年月' || formData.prefix1 === '年月日') {
+            _prefix1Length = $scope.createPrefixForDate($scope.formData.prefix1).length;
+          } else {
+            _prefix1Length = $scope.formData.prefix1.length;
+          }
         }
+
+        if (formData.prefix2) {
+          if (formData.prefix2 === '年' || formData.prefix2 === '年月' || formData.prefix2 === '年月日') {
+            _prefix2Length = $scope.createPrefixForDate($scope.formData.prefix2).length;
+          } else {
+            _prefix2Length = $scope.formData.prefix2.length;
+          }
+        }
+
+        $scope.codeLength = _prefix1Length + _prefix2Length + formData.serialNumberLength;
+
       }
 
-      if (formData.prefix2_type === '静态文本' && formData.prefix1) {
-        $scope.createPrefixForDate(formData.prefix1);
-        if ($scope.fixDateString) {
-          $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
-        }
-      }
+      // $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+
+      // if (formData.prefix1_type === '静态文本' && formData.prefix2) {
+      //   $scope.createPrefixForDate(formData.prefix2);
+      //   if ($scope.fixDateString) {
+      //     $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      //   }
+      // }
+      //
+      // if (formData.prefix2_type === '静态文本' && formData.prefix1) {
+      //   $scope.createPrefixForDate(formData.prefix1);
+      //   if ($scope.fixDateString) {
+      //     $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      //   }
+      // }
     }
 
     // 创建编码样例
