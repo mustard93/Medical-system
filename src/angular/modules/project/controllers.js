@@ -7883,7 +7883,7 @@ define('project/controllers', ['project/init'], function() {
    }
 
   //归还单 Ctrl
-  function  returnOrderCtrl($scope, modal, requestData, utils, alertError, alertWarn) {
+  function  returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
     $scope.changeFlag = false;
 
