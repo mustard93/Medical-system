@@ -1564,7 +1564,7 @@ function canvasWorkflow (modal,utils) {
 
    	   //  关键步骤：
 
-function tableToggleSort (modal,utils) {
+function tableToggleSort (modal,utils,requestData) {
   'use strict';
   return {
       restrict: 'AE',
@@ -1573,10 +1573,36 @@ function tableToggleSort (modal,utils) {
       var tbodyList=$scope.$eval($attrs.tBodyList);
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
-      console.log(tbodyList);
-      
-      console.log(sortRequestUrl);
 
+      // 每一个标题的集合，按照顺序
+      var thList=element.children('th');
+      // 可以进行排序的表头，增加鼠标移入样式。
+      thList.addClass('cur-pot');
+
+        // 当点击一个标题字段时，触发方法
+      thList.on('click',function(e){
+        // 阻止冒泡
+        e.stopPropagation();
+
+        // 获取当前点击的标题是数组中的第几个th,用于后续判断与之对应的后台字段是哪一个.
+        var ind = thList.index(this);
+        // 循环遍历传入的对象,找到与当前点击的标题索引对应的该字段.
+        for (var i = 0; i < tbodyList.length; i++) {
+          // 重新请求数据，然后刷新表格排序
+          if(ind==tbodyList[i].index){
+            var _url = sortRequestUrl+'?orderByName='+tbodyList[i].sortName+'&sortCriteria='+tbodyList[i].sortCriteria;
+            requestData(_url, {}, 'get')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                console.log('sucess');
+                // $scope.tbodyList=results[1].data;
+              }
+            })
+            .catch(function (error) {
+            });
+          }
+        }
+      });
     }//end link
   };
 }//canvasWorkflow
@@ -3732,7 +3758,7 @@ angular.module('manageApp.project')
   .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
   .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
-  .directive("tableToggleSort", ["modal","utils",tableToggleSort])//表格点击排序
+  .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//表格点击排序
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
