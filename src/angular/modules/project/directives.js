@@ -1574,9 +1574,7 @@ function tableToggleSort (modal,utils) {
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
       console.log(tbodyList);
-
-      var tTheadList=element.children('th');
-      console.log(tTheadList);
+      
       console.log(sortRequestUrl);
 
     }//end link
