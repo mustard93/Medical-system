@@ -76,10 +76,19 @@
                      style="position:relative;top:-5px;">
             </div>
           </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-2 text-right"></div>
+            <div class="inline-block flex-item-9 text-left color-red" ng-show="levelSetError">设置错误，空级别下的选项不能有值.</div>
+          </div>
         </div>
       </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">提交</button>
+      <button type="submit"
+              ng-disabled="quantityError || levelSetError"
+              style="margin-left:300px;"
+              class="pr-btn-create-glodbg new-left-side-button"
+              ng-click="modal.closeAll()">提交
+      </button>
     </div>
   </form>
 </div>
