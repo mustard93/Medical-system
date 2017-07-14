@@ -2,13 +2,13 @@
      ng-controller="lendOrderEditCtrl"
      ajax-url="rest/authen/lendOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
-              $root.watchFormChange('formData',this);
-              confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
-              getSaleUserId(mainStatus.pageParams.saleUserId);
-              setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')"
      alert-error
-     >
+     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
+               initFlag=true;
+               $root.watchFormChange('formData',this);
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getSaleUserId(mainStatus.pageParams.saleUserId);
+               setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')">
 
   <form id="editForm"
         name="editForm"
@@ -521,9 +521,9 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
           <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单部门：{{formData.departmentName ||  "暂无" }}</span>
-            <span class="mgr" style="margin: 0 15px;">制单人：{{formData.inputUser.n || "暂无"}}</span>
-            <span class="mgr">录单日期：{{ formData.createAt || "暂无" | date : "yyyy-MM-dd HH:mm"}}</span>
+            <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName ||  "暂无" }}</em></span>
+            <span class="mgr" style="margin: 0 15px;">制单人：<em class="color-3">{{formData.inputUser.n || "暂无"}}</em></span>
+            <span class="mgr">录单日期：<em class="color-3">{{ formData.createAt || "暂无" | date : "yyyy-MM-dd HH:mm"}}</em></span>
           </div>
         </div>
 
