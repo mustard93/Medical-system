@@ -76,7 +76,8 @@
                   <td>
                     <select class="ipt pr-short-ipt"
                             ng-model="formData.prefix1_type"
-                            ng-disabled="formData.type==2"
+
+                            ng-disabled="formData.type==2 || !$root.hasAuthor('单据编号设置修改')"
                             ng-change="formData.prefix1='';createCodeSample(formData)">
                       <option value="">无</option>
                       <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
@@ -111,7 +112,7 @@
                   <td>
                     <select class="ipt pr-short-ipt"
                             ng-model="formData.prefix2_type"
-                            ng-disabled="formData.type==2"
+                            ng-disabled="formData.type==2 || !$root.hasAuthor('单据编号设置修改')"
                             ng-change="formData.prefix2='';createCodeSample(formData);getCodeLength(formData)">
                       <option value="">无</option>
                       <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
@@ -179,8 +180,9 @@
     </div>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
+
       <div class="btn-area" style="line-height:4.9;">
-        <button type="submit" class="pr-btn-save-glodbg mgr"
+        <button type="submit" class="pr-btn-save-glodbg mgr" ng-if="$root.hasAuthor('单据编号设置修改')"
                 ng-disabled="formData.prefix1_type&&formData.prefix2_type&&formData.prefix1_type==formData.prefix2_type || codeLength>30">保存
         </button>
       </div>
