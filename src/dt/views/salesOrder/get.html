@@ -239,7 +239,7 @@
             <thead>
               <tr>
                 <th class="text-center">商品编号</th>
-                <th>商品全名</th>
+                <th>商品通用名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">数量</th>
@@ -260,7 +260,20 @@
             <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
               <tr ng-repeat="item in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                 <td class="text-center">{{item.code}}</td>
-                <td>{{item.name}}</td>
+                <td>
+                <span
+                        class="color-orange cur-pot lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                  <show-info-modal ng-show="showInfoArea"
+                                   get-data-type="local"
+                                   template-url="tpl/showInfoModalLendOrder"
+                                   info-object="{{item}}"
+                                   info-title="商品信息">
+                  </show-info-modal>
+                </span>
+                </td>
                 <td class="text-center">{{item.specificationAndModelType}}</td>
                 <td class="text-center">{{item.unit}}</td>
                 <td class="text-right">{{item.quantity}}</td>
