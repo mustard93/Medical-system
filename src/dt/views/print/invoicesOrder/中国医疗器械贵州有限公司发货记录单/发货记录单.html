@@ -12,21 +12,21 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
         <tbody>
             <tr class="firstRow">
                 <td style="text-align:left;">
-                    发货日期：  {{showData.expectDate &nbsp;| date:&quot;yyyy-MM-dd&quot;}}
+                    发货日期： &nbsp;{{showData.expectDate &nbsp;| date:&quot;yyyy-MM-dd&quot;}}
                 </td>
                 <td style="text-align:right;">
-                    订单号：{{showData.orderCode}}
+                    订单号：{{showData.relOrderNo}}
                 </td>
                 <td style="text-align:right;">
                     业务员：{{showData.saleUser.n}}
                 </td>
                 <td style="text-align:right;">
-                    发货单号：{{showData.invoicesOrderNo}}
+                    发货单号：{{showData.orderCode}}
                 </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:left;">
-                    客户简称：  {{showData.customerName}}
+                    客户简称： &nbsp;{{showData.customerName}}
                 </td>
                 <td colspan="2" style="text-align:right;">
                     物流信息：
@@ -92,7 +92,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
                     {{tr.code}}
                 </td>
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
-                    {{tr.name}}
+                    {{tr.approvedName}}
                 </td>
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.specificationAndModelType}}
@@ -118,10 +118,8 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.manufacturer}}
                 </td>
-                <td style="text-align:left;max-width:2%;word-wrap:break-word;"
-                ajax-url="rest/authen/firstMedicalApplication/get.json?id={{tr.id}}"
-                scope-data="scopeData">
-                    {{scopeData.attachments[4].certificateNumber}}
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.medicalRegistryCode}}
                 </td>
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.productionLicenseNo}}
@@ -185,7 +183,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
                 </td>
                 <td></td>
                 <td style="text-align:left;">
-                    审核人: {{showData.approverUser.n}}
+                    审核人: {{showData.inputUser.n}}
                 </td>
                 <td>
                     收货人:{{showData.customerContacts.name}}
