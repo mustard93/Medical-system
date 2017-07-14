@@ -7264,20 +7264,22 @@ define('project/controllers', ['project/init'], function() {
 
     // 新增子类节点
     $scope.addNewChildNode = function () {
-      // 设置标识符
-      $scope.modifyNodeInfo = false;
 
-      if (!$scope.formData.medicalAttribute.parentCode) {
-        $scope.formData.medicalAttribute.parentCode = '';
+      console.log($scope.formData.medicalAttribute.levelCode);
+
+      if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
+        // 设置标识符
+        $scope.modifyNodeInfo = false;
+
+        if (!$scope.formData.medicalAttribute.parentCode) {
+          $scope.formData.medicalAttribute.parentCode = '';
+        }
+
+        $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
+        $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
+        $scope.formData.medicalAttribute.levelCode = null;
+        $scope.formData.medicalAttribute.showName = null;
       }
-
-      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
-      $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
-      $scope.formData.medicalAttribute.levelCode = null;
-      $scope.formData.medicalAttribute.showName = null;
-
-      // 清空节点code和name的数据
-
     }
 
   }

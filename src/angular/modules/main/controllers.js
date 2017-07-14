@@ -343,7 +343,6 @@ define('main/controllers', ['main/init'], function () {
             formData[uId] = $scope.mainStatus.id;
             formData[dId] = $scope.mainStatus.additional.DepartmentId;
           }
-
         }
 
 
