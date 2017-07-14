@@ -62,11 +62,11 @@
                             <td>{{tr.parentId}}</td>
                             <td>{{tr.organizationId}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/warehouseGroup/edit.html?id={{tr.id}}">
+                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/warehouseGroup/edit.html?id={{tr.id}}" ng-if="$root.hasAuthor('仓库分组管理修改')">
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/warehouseGroup/delete', tr.id)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/warehouseGroup/delete', tr.id)" ng-if="$root.hasAuthor('仓库分组管理删除')">
                                     <i class="fa fa-trash-o"></i>
                                     删除</button>
                             </td>
