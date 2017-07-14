@@ -118,8 +118,10 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.manufacturer}}
                 </td>
-                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
-                    {{tr.drugAdministrationCode}}
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;"
+                ajax-url="rest/authen/firstMedicalApplication/get.json?id={{tr.id}}"
+                scope-data="scopeData">
+                    {{scopeData.attachments[4].certificateNumber}}
                 </td>
                 <td style="text-align:left;max-width:2%;word-wrap:break-word;">
                     {{tr.productionLicenseNo}}
