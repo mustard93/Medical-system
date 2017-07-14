@@ -1471,7 +1471,7 @@ define('project/controllers', ['project/init'], function() {
         console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
-      if (totalQuantity>quantity||quantity==0) {
+      if (totalQuantity>quantity||totalQuantity==0) {
         $scope.quantityError=true;
       }else {
         $scope.quantityError=false;

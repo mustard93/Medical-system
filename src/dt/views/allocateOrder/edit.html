@@ -257,10 +257,12 @@
                              style="width:118px;height:100%;"
                              ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                         </div>
+
                         <input type="number" class="in_ipt" name="batchNum{{$index}}"
                         required
                         ng-change="checkQuantity(item.quantity,item.stockBatchs);"
-                        ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        ng-model="batch.quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </div>
@@ -281,7 +283,7 @@
                         </i>
                       </div>
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
-                      <p ng-if="quantityError" class="text-right color-red pdr relative">批号总数不能大于计划调拨数量。</p>
+                      <p ng-if="quantityError" class="text-right color-red pdr relative">批号选择数量不正确或批号总数选择过大。</p>
                     </td><!-- 生产批号/数量 -->
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
