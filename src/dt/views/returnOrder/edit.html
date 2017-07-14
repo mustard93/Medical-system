@@ -37,23 +37,14 @@
          </p>
        </div>
 
-
        <!--预入物流中心-->
        <div class="purchaseOrder-edit">
-
-
          <div class="inline-block">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block" style="margin-left: 10px;">
                <p class="mgb-s">预入物流中心</p>
                <p class="text-m color-3">
-
-                 <!--<select ng-if="!formData.customerId"-->
-                         <!--class="ipt-new-select"-->
-                         <!--ng-disabled="true">-->
-                 <!--</select>-->
-
                  <select class="ipt pr-long-ipt color-6"
                          data-placeholder=" "
                          chosen
@@ -79,25 +70,22 @@
            <span>增加归还条目</span>
          </a>
        </div>
-
-
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
-
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <!--自动获取单号-->
-               <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+               <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
                         class="inline ipt pr-ipt-60 text-center"
                         style="width:100px;"
                         ng-model="formData.orderCode" />
-                  <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
+                  <em ng-if="initFlag&&!formData.orderCode" class="color-red">（必填）</em>
                </span>
-               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
+               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
 
-               <span class="mgr" style="margin-left: 10px;">单据日期:</span>
+               <span class="mgr" style="margin-left: 10px;">单据日期: </span>
                <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                  <input type="text"
                         style="top:0px;"

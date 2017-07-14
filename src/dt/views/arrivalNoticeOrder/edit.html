@@ -218,7 +218,7 @@
                          <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
                          ng-class="{'disabled':(tr.quantity<=1)}">-</button>
                          <span class="inline-block">
-                           <input type="text"
+                           <input type="number"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
                                   name="quantity{{$index}}"
@@ -226,8 +226,8 @@
                                   ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                   required
-                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                  invalid-popover="{{!arrivalNoticeOrderForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
+                                  ng-pattern="/^[0-9]{1}[0-9]{0,10}?$/"
+                                  invalid-popover="{{!arrivalNoticeOrderForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity || tr.quantity==0}}"
                                   popover-show
                                   is-focus="true"
                                   popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
@@ -412,7 +412,7 @@
 
           <a ng-if="!changeFlag" href="#/arrivalNoticeOrder/query.html" >返回来货通知单列表</a>
         </span>
-        <span class="mgl mgt">
+        <span class="mgl mgt" ng-if="$root.hasAuthor('来货通知单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
              href="javascript:;"
              handle-this-click
@@ -435,6 +435,7 @@
           <button
                   class="pr-btn-create-glodbg mgt"
                   type="button"
+                  ng-disabled="isDisabledNextStep"
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
