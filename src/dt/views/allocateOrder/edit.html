@@ -238,11 +238,16 @@
                                  ng-change="checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                 invalid-popover="{{!quantityError}}"
+                                 popover-show
+                                 is-focus="true"
+                                 popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'
                                  >
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);">+</button>
                       </div>
                       <p class="mgt-s color-red ng-binding ng-scope" ng-if="allocateNumOverloadFalg[$index] == 'true'">计划调拨总数不正确或数额过大</p>
+
                     </td><!-- 计划调拨数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
@@ -359,7 +364,7 @@
                              !formData.orderCode ||
                              formData.sourceId==formData.targetId ||
                              !formData.sourceId || !formData.targetId ||
-                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
+                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || !quantityError"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
@@ -369,7 +374,7 @@
                 ng-disabled="!formData.orderMedicalNos.length ||
                              formData.sourceId==formData.targetId ||
                              !formData.sourceId || !formData.targetId ||
-                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
+                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || !quantityError"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
