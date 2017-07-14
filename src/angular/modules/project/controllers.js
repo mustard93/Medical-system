@@ -1347,6 +1347,28 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
+    $scope.diffPurchaseNumber = function (orderMedicalList) {
+      if (orderMedicalList) {
+        // 用于放每一条判断数量后的结果
+        isDisabledNextStepList=[];
+        angular.forEach(orderMedicalList, function (data, index) {
+          // 选择的数量小于计划数量，显示提示信息
+          $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
+          // ..
+          $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
+          // 把每一条判断后的true或者是false放入数组中
+          isDisabledNextStepList.push($scope.isDisabledNextStep);
+        });
+        // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
+        if (isDisabledNextStepList.some(function(item){ return item == true;}))
+        {
+          return $scope.isDisabledNextStep=true;
+        }else{
+          return $scope.isDisabledNextStep=false;
+        }
+      }
+    };
+
     // 总价计算方法
     $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
       if (orderMedicalNos) {
@@ -1397,6 +1419,22 @@ define('project/controllers', ['project/init'], function() {
       }
     });
 
+    $scope.finishQuantity = function (medicalNos){
+
+      var medicalList=[];
+      for (var i = 0; i < medicalNos.length; i++) {
+        medicalList.push(medicalNos[i].quantity);
+      }
+      if (medicalList.some(function(item){ return item == 0;}))
+      {
+        return $scope.isDisabledNextStep=false;
+
+      }else{
+        return $scope.isDisabledNextStep=true;
+      }
+
+    }
+
     // 检测调拨数量是否大于可调拨数量
     // @param orderMedicalNos  当前药品列表数组
     // @return undefined
@@ -1433,7 +1471,7 @@ define('project/controllers', ['project/init'], function() {
         console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
-      if (totalQuantity>quantity) {
+      if (totalQuantity>quantity||totalQuantity==0) {
         $scope.quantityError=true;
       }else {
         $scope.quantityError=false;
@@ -2247,7 +2285,7 @@ define('project/controllers', ['project/init'], function() {
 
               $scope.isDisabledNextStep = (data.quantity== 0 || data.quantity > data.planQuantity ) ? true : false;
               // 把每一条判断后的true或者是false放入数组中
-              
+
               isDisabledNextStepList.push($scope.isDisabledNextStep);
             });
             // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
