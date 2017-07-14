@@ -90,13 +90,13 @@
                     <!---->
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                         <!---->
-                        <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/returnOrder/get.html?id={{tr.id}}"
+                        <a ng-if="tr.orderStatus =='待审核'&&tr.orderStatus!='未通过'" href="#/returnOrder/get.html?id={{tr.id}}"
                            class="btn-link pd-m rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
 
                         <!--ng-if="$root.hasAuthor('归还单审批')"-->
-                        <span >
+                        <span  ng-if="$root.hasAuthor('归还单审批')">
                           <a ng-if="tr.orderStatus=='待审核'"
                              ng-href="#/returnOrder/get.html?id={{tr.id}}"
                              title="立即审核"
