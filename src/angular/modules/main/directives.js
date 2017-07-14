@@ -2322,7 +2322,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   } else {
                     $attrs.$observe("selectSource", function(value) {
 
-                        //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                      console.log(value);
+
+                        // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
                         if (!$attrs.noFirstSelectSource) {
                           if (firstSelectSource == value) return;
                         }
