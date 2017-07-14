@@ -229,7 +229,7 @@
                                   <!--popover-show-->
                                   <!--popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'-->
 
-                          <input type="number"
+                          <input type="text"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -237,7 +237,8 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
                                  ng-change="checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                 >
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);">+</button>
                       </div>
