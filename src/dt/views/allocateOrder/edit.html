@@ -333,7 +333,7 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单</a>
-
+      <span ng-if="$root.hasAuthor('调拨单删除')">
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
@@ -344,6 +344,7 @@
            request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
            callback="$root.goTo('#/allocateOrder/query.html')">删除
         </a>
+        </span>
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
