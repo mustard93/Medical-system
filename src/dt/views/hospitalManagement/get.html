@@ -172,7 +172,7 @@
                     <a ng-if="!changeFlag" href="#/hospitalManagement/query.html">返回申请单列表</a>
                   </span>
                   <span bottom-button-list="bottomButtonList">  </span>
-                  <span class="mgl">
+                  <span class="mgl" ng-if="$root.hasAuthor('医院信息管理删除')">
                     <a ng-if="showData.id"
                        href="javascript:;"
                        class="color-red mgt"
@@ -188,6 +188,7 @@
                     <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
                       <button class="btn-freeze mgl-l pr-bg-orange"
                               type="button"
+                              ng-if="$root.hasAuthor('医院信息管理冻结')"
                               modal-center="340"
                               modal-scope="this"
                               modal-data='{"title":"确认",
@@ -205,6 +206,7 @@
                     <span ng-if="showData.businessApplication.businessStatus=='已冻结'">
                       <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
                               type="button"
+                              ng-if="$root.hasAuthor('医院信息管理解冻')"
                               modal-center="340"
                               modal-scope="this"
                               modal-data='{"title":"确认解冻?",
@@ -222,6 +224,7 @@
                     <span class="line-hei-36" ng-if="showData.businessApplication.businessStatus!='已终止'">
                       <button class="btn-reject mgl mgt color-white text-center"
                               type="button"
+                              ng-if="$root.hasAuthor('医院信息管理终止')"
                               handle-this-click
                               dialog-title="确认终止?"
                               dialog-content="终止后，该信息将被取消，确定终止?"
