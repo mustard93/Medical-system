@@ -633,7 +633,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
+                    "ngShow": "tr.orderStatus=='处理中' ||tr.orderStatus=='待处理' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/get.html?id=" + showData.id
                 };
