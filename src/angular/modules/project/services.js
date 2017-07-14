@@ -633,7 +633,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='处理中' ||tr.orderStatus=='待处理' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
+                    "ngShow": "tr.orderStatus=='处理中' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/get.html?id=" + showData.id
                 };
@@ -681,17 +681,17 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {
-                    "authority":"销售单审批",
-                    "iconClass": "examine-approve",
-                    "showName": "立即审核",
-                    "ngShow": "tr.orderStatus=='待审核'",
-                    "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/confirmOrder/get.html?id=" + showData.id
-                };
-                if (tmpUtils.canShowButton(bottomButton)) {
-                    arr.push(bottomButton);
-                }
+                // bottomButton = {
+                //     // "authority":"销售单审批",
+                //     "iconClass": "examine-approve",
+                //     "showName": "立即审核",
+                //     "ngShow": "tr.orderStatus=='待审核'",
+                //     "aclass": "btn-link pd-m rect-s",
+                //     "ahref": "#/confirmOrder/get.html?id=" + showData.id
+                // };
+                // if (tmpUtils.canShowButton(bottomButton)) {
+                //     arr.push(bottomButton);
+                // }
 
 
                 bottomButton = {
@@ -906,17 +906,17 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {
-                    "authority":"借出单审批",
-                    "iconClass": "examine-approve",
-                    "showName": "立即审核",
-                    "ngShow": "tr.orderStatus=='待审核'",
-                    "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/lendOrder/get.html?id=" + showData.id+'&businessKey='+ showData.id
-                };
-                if (tmpUtils.canShowButton(bottomButton)) {
-                    arr.push(bottomButton);
-                }
+                // bottomButton = {
+                //     // "authority":"借出单审批",
+                //     "iconClass": "examine-approve",
+                //     "showName": "立即审核",
+                //     "ngShow": "tr.orderStatus=='待审核'",
+                //     "aclass": "btn-link pd-m rect-s",
+                //     "ahref": "#/lendOrder/get.html?id=" + showData.id+'&businessKey='+ showData.id
+                // };
+                // if (tmpUtils.canShowButton(bottomButton)) {
+                //     arr.push(bottomButton);
+                // }
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
