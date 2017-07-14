@@ -697,7 +697,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus =='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
+                    "ngShow": "tr.orderStatus=='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/confirmOrder/get.html?id=" + showData.id
                 };
