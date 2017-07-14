@@ -1419,6 +1419,22 @@ define('project/controllers', ['project/init'], function() {
       }
     });
 
+    $scope.finishQuantity = function (medicalNos){
+
+      var medicalList=[];
+      for (var i = 0; i < medicalNos.length; i++) {
+        medicalList.push(medicalNos[i].quantity);
+      }
+      if (medicalList.some(function(item){ return item == 0;}))
+      {
+        return $scope.isDisabledNextStep=false;
+
+      }else{
+        return $scope.isDisabledNextStep=true;
+      }
+
+    }
+
     // 检测调拨数量是否大于可调拨数量
     // @param orderMedicalNos  当前药品列表数组
     // @return undefined
@@ -1455,7 +1471,7 @@ define('project/controllers', ['project/init'], function() {
         console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
-      if (totalQuantity>quantity||quantity!=0) {
+      if (totalQuantity>quantity||quantity==0) {
         $scope.quantityError=true;
       }else {
         $scope.quantityError=false;
