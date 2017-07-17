@@ -7202,6 +7202,13 @@ define('project/controllers', ['project/init'], function() {
         })
       }
     });
+
+    // ...
+    $scope.clearSetOptions = function () {
+      if ($scope.formData.type === 2) {
+        $scope.formData.prefix1 = $scope.formData.prefix2 = '';
+      }
+    }
   }
 
   /**
