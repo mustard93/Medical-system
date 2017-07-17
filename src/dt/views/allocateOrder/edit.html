@@ -198,27 +198,27 @@
                           </p>
                         </div>
                       </div>
-                    </td><!-- 商品编号 -->
+                    </td><!--商品编号-->
                     <td class="text-center">
-                    <span class="color-orange cur-pot lend-order-goods-info"
-                          ng-init="showInfoArea=false"
-                          ng-mouseenter="showInfoArea=true"
-                          ng-mouseleave="showInfoArea=false">{{item.approvedName}}
-                      <show-info-modal ng-show="showInfoArea"
-                                       get-data-type="local"
-                                       template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{item}}"
-                                       info-title="商品信息">
-                      </show-info-modal>
-                    </span>
-                  </td><!-- 商品全名 -->
-                  <td class="text-center">{{item.dosageForms}}</td>
+                      <span class="color-orange cur-pot lend-order-goods-info"
+                            ng-init="showInfoArea=false"
+                            ng-mouseenter="showInfoArea=true"
+                            ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                        <show-info-modal ng-show="showInfoArea"
+                                         get-data-type="local"
+                                         template-url="tpl/showInfoModalLendOrder"
+                                         info-object="{{item}}"
+                                         info-title="商品信息">
+                        </show-info-modal>
+                      </span>
+                    </td><!--商品通用名-->
+                    <td class="text-center">{{item.dosageForms}}</td><!--剂型/分类-->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td class="text-center"
                         ajax-url="rest/authen/medicalStock/getStockModelByWarehouseId?id={{item.relId}}&warehouseId={{formData.sourceId}}"
                         scope-data="scopeData">{{scopeData.salesQuantity}}
-                    </td><!--可调拨量-->
+                    </td><!--可调拨数量-->
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button"
@@ -245,8 +245,7 @@
                         finishQuantity(formData.orderMedicalNos)">+</button>
                       </div>
                       <p class="mgt-s color-red ng-binding ng-scope" ng-if="allocateNumOverloadFalg[$index] == 'true'">计划调拨总数不正确或数额过大</p>
-
-                    </td><!-- 计划调拨数量 -->
+                    </td><!-- 计划调拨总数 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber"
@@ -258,10 +257,13 @@
                              ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                         </div>
 
-                        <input type="number" class="in_ipt" name="batchNum{{$index}}"
-                        required
-                        ng-change="checkQuantity(item.quantity,item.stockBatchs);"
-                        ng-model="batch.quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                        <input type="number"
+                               class="in_ipt"
+                               name="batchNum{{$index}}"
+                               required
+                               ng-change="checkQuantity(item.quantity,item.stockBatchs);"
+                               ng-model="batch.quantity"
+                               onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
 
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
@@ -293,8 +295,7 @@
                     </td>
                     <td class="text-center pd-n">
                       <div ng-repeat="valid in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{valid.validTill | date : 'yyyy-MM-dd'}}</div>
-                    </td>
-                    <!-- 仓库 -->
+                    </td><!-- 仓库 -->
                   </tr>
                 </tbody>
               </table>
