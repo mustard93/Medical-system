@@ -1597,13 +1597,22 @@ function tableToggleSort (modal,utils,requestData) {
           $(this).children('span').removeClass('sort-asc');
           $(this).children('span').addClass('sort-desc');
         }
+
         // 获取当前点击的标题是数组中的第几个th,用于后续判断与之对应的后台字段是哪一个.
         var ind = thList.index(this);
         // 循环遍历传入的对象,找到与当前点击的标题索引对应的该字段.
+
         for (var i = 0; i < tbodyList.length; i++) {
-          // 重新请求数据，然后刷新表格排序
-          if(ind==tbodyList[i].index){
-            var _url = sortRequestUrl+'?orderByName='+tbodyList[i].sortName+'&sortCriteria='+tbodyList[i].sortCriteria;
+          // 判断切换排降序还是升序
+          if(ind==tbodyList[i].index || tbodyList[i].isCanSort){
+            
+            if (tbodyList[i].sortCriteria=='desc') {
+              tbodyList[i].sortCriteria='asc';
+            }else if (tbodyList[i].sortCriteria=='asc') {
+              tbodyList[i].sortCriteria='desc';
+            }
+            // 重新请求数据，然后刷新表格排序
+            var _url = sortRequestUrl+'?sortBy='+tbodyList[i].propertyName+'&sortWay='+tbodyList[i].sortCriteria;
             requestData(_url, {}, 'get')
             .then(function (results) {
               if (results[1].code === 200) {
