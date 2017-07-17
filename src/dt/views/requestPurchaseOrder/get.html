@@ -138,7 +138,7 @@
                  <div class=" color-9 text-s">
                    <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderCode}}</em></span>
                    <!-- <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span> -->
-                   <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
+                   <span class="mgr-l">审核人：<em class="color-6">{{showData.approver.approverUser.n || '暂无'}}</em></span>
                    <!-- <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
                    <span class="mgr-l">供应商：<em class="text-normal color-6">{{showData.supplier.name}}</em></span>
                  </div>
@@ -191,8 +191,8 @@
                        <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                        <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                        <td class="text-right">{{tr.quantity || '0'}}</td><!-- 计划数量 -->
-                       <td class="text-right">{{tr.finishedQuantity || '0'}}</td><!-- 已完成数量 -->
-                       <td class="text-right">{{tr.unfinishedQuantity || '0'}}</td><!-- 未完成数量 -->
+                       <td class="text-right">{{tr.hasPurchaseQuantity || '0'}}</td><!-- 已完成数量 -->
+                       <td class="text-right">{{tr.notPurchaseQuantity || '0'}}</td><!-- 未完成数量 -->
                        <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                        <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 含税单价 -->
                        <td class="text-right">￥{{tr.totalPrice || '0' | number:2 }}</td><!-- 价税合计 -->
@@ -219,9 +219,9 @@
           <a href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
       </div>
-      <div class="total-div">
+      <!-- <div class="total-div">
           <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
-      </div>
+      </div> -->
     </div>
 </form>
 </div>
