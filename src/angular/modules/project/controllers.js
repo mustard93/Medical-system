@@ -7091,7 +7091,7 @@ define('project/controllers', ['project/init'], function() {
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
 
-      if (formData.type === 1) {
+      if (Number(formData.type) === 1) {
         var _prefix1Length = 0, _prefix2Length = 0;
 
         if (formData.prefix1) {
@@ -7110,7 +7110,7 @@ define('project/controllers', ['project/init'], function() {
           }
         }
 
-        $scope.codeLength = _prefix1Length + _prefix2Length + formData.serialNumberLength;
+        $scope.codeLength = _prefix1Length + _prefix2Length + Number(formData.serialNumberLength);
 
       }
 
@@ -7134,7 +7134,7 @@ define('project/controllers', ['project/init'], function() {
     // 创建编码样例
     $scope.createCodeSample = function (formData) {
 
-      if (formData.type === 1) {
+      if (Number(formData.type) === 1) {
         // 构建字符串
         var _prefix1 = '', _prefix2 = '', _serialNumber;
 
@@ -7205,8 +7205,12 @@ define('project/controllers', ['project/init'], function() {
 
     // ...
     $scope.clearSetOptions = function () {
-      if ($scope.formData.type === 2) {
+      if (Number($scope.formData.type) === 2) {
+        $scope.formData.prefix1_type = $scope.formData.prefix2_type = '';
         $scope.formData.prefix1 = $scope.formData.prefix2 = '';
+        $scope.formData.serialNumberLength = null;
+        $scope.codeLength = null;
+        $scope.codeSample = null;
       }
     }
   }
