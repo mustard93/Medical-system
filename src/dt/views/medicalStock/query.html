@@ -1,17 +1,17 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="medicalStockCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
      <table-list list-data="rest/authen/medicalStock/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
+                 <!-- ng-controller="medicalStockCtrl" -->
 
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"品种管理","link":"","style":"color-custom-orange"}]'
                                 component-title="品种管理"
                                 is-show-create-btn="首营品种申请"
-                                create-btn-author="首营品种管理新增"
+                                create-btn-author="品种管理新增"
                                 create-new-url="#/firstMedicalApplication/edit1.html"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -90,9 +90,13 @@
             </div>
           </div>
           <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table pr-table-content table-ss-wid">
+            <table class="table pr-table pr-new-table pr-table-content table-ss-wid" >
               <thead class="pr-bg-side">
-                <tr>
+                <tr
+                table-toggle-sort
+                t-body-list='[{"sortName":"name","index":"3","sortCriteria":"desc"},{"sortName":"approvedName","index":"4","sortCriteria":"desc"},{"sortName":"purchasePrice","index":"10","sortCriteria":"desc"}]'
+                sort-request-url="rest/authen/medicalStock/query.json"
+                table-data='{{tbodyList}}'>
                   <th class="w-80">状态</th>
                   <th>序号</th>
                   <th>品种名</th>
@@ -105,7 +109,6 @@
                   <th>批发价</th>
                   <th>采购价</th>
                   <th>质量标准</th>
-                  <th>批准证号／批准文号／备案凭证号</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,7 +128,8 @@
                       </span>
                     </span>
                     <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-show="$root.hasAuthor('品种管理删除')">
+                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;">
+                        <span ng-if="$root.hasAuthor('品种管理删除')">
                           <div class="del-confirm-area text-center">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                             <p class="pd-v-s">
@@ -136,6 +140,7 @@
                               </a>
                             </p>
                           </div>
+                        </span>
                       </div>
 
                       <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
@@ -240,7 +245,6 @@
                   <td class="text-right">￥{{tr.tradePrice || '0'}}</td>
                   <td class="text-right">￥{{tr.purchasePrice || '0'}}</td>
                   <td class="text-center">{{tr.quality}}</td>
-                  <td class="text-center">{{tr.medicalRegistryCode}}</td>
                 </tr>
               </tbody>
             </table>
