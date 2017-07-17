@@ -55,7 +55,8 @@ var require_config={
         'morris': '../libs/morris-chart/morris.min',                         //日历插件
         'toastr': '../libs/toastr/toastr.min',   //提示窗口
         'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
-        'clndr': '../libs/calendar/clndr.min'                             //日历插件
+        'clndr': '../libs/calendar/clndr.min',                            //日历插件
+        'uiTabs':'../libs/ui-tabs.min'//tabs
       },
       shim: {
         'ueditor_config': {
@@ -89,8 +90,9 @@ var require_config={
           'ztree': {
               deps: ['jQuery','css!../libs/ztree/zTreeStyle_pg.css']
           },
-
-
+          'uiTabs':{
+              deps: ['angular']
+          },
           'underscore': {
               exports: '_'
           },

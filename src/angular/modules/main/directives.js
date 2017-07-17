@@ -3856,6 +3856,37 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       };
     }
 
+    function  tabHref($rootScope){
+        return {
+            scope:{
+                tab:"@",
+            },
+            restrict: 'A',
+            link: function ($scope, element, $attrs) {
+
+
+                console.log("typeof $scope.tab",typeof $scope.tab );
+
+                $scope.tab= angular.fromJson($scope.tab);
+
+                console.log("typeof $scope.tab",typeof $scope.tab );
+
+                console.log("$scope.tab",$scope.tab);
+
+                var tabObj=  {
+                    showName: $scope.tab.title,
+                    ahref: $scope.tab.href
+                };
+
+                console.log("tabObj",tabObj);
+
+                element.on('click',function(){
+                    $rootScope.addTab(tabObj)
+                });
+            }
+        };
+    }
+
 
     /**
      * 加入项目
@@ -3895,4 +3926,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
       .directive("customConfig", customConfig)
       .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
+      .directive("tabHref",['$rootScope',tabHref])
 });

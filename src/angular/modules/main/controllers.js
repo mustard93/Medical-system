@@ -6,9 +6,152 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
-      //  $http.defaults.withCredentials=true;
+
+        $rootScope.tabs = uiTabs.tabs;
+
+        $rootScope.$on('tabChangeStart', function (e, tab) {
+
+            console.log('打开tab 页面',tab,$scope.tabs);
+
+        });
+
+        $rootScope.$on('tabChangeSuccess', function (e, tab) {
+            console.log(tab);
+
+            $rootScope.currentTab = uiTabs.current;
+        });
+
+
+        $rootScope.addTab = function (item) {
+            var obj=$rootScope._findInArray($rootScope.tabs,item,'name','showName');
+            if(obj.flag){
+                obj.tab.templateUrl=item.ahref;
+                $rootScope.active(obj.tab);
+
+                return;
+            }
+
+            item.ahref = item.ahref.replace('#/','views/');
+
+            console.log("item.ahref:",item.ahref);
+
+            uiTabs.open({
+                name: item.showName,
+                templateUrl: item.ahref
+            });
+        };
+
+        $rootScope.closeTab = function (tab) {
+            uiTabs.close(tab);
+        };
+
+        $rootScope.active = function (tab) {
+            uiTabs.active(tab);
+        };
+
+        $rootScope.closeAll = function () {
+            uiTabs.closeAll();
+        };
+
+
+        $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {
+
+            var flag =false;
+            var tab =null;
+            angular.forEach(list,function (item2,index) {
+                if(item[itemAttr]==item2[listObjAttr]){
+                    flag=true;
+                    tab=item2;
+                    return;
+                }
+            });
+
+            return {
+                tab:tab,
+                flag:flag
+            };
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+       $scope.menuArr=[];
+       //
+       // $scope.clickThis=function (item,index) {
+       //
+       //     angular.forEach($scope.menuArr,function (menu,i) {
+       //         menu.showMe=false;
+       //         $scope.menuArr[i]=menu;
+       //     });
+       //
+       //     item.showMe=true;
+       //     $scope.menuArr[index]=item;
+       //
+       //
+       // };
+       //
+       //  $scope.findMenuByURL=function (url) {
+       //
+       //      console.log("URL---->",url);
+       //      //
+       //      // var moudel= url.split('#/');
+       //      //     moudel= moudel.split('/')[0];
+       //
+       //      // console.log("moudel",moudel);
+       //
+       //
+       //      var obj=null;
+       //
+       //      console.log("$root.menus",$rootScope.menus);
+       //
+       //      angular.forEach($rootScope.menus.items,function (menu,index) {
+       //
+       //          angular.forEach(menu.items,function (submenu,index2) {
+       //
+       //              var _moudel= submenu.ahref.split('#/');
+       //              _moudel= _moudel.split('/')[0];
+       //
+       //              if(_moudel == moudel){
+       //                  obj=submenu;
+       //                  return;
+       //              }
+       //          })
+       //      });
+       //      return obj;
+       //  };
+       //
+       //  $scope._itemInArray=function(list,item,compareAttr) {
+       //
+       //      var flag =false;
+       //      var _index=-1;
+       //      angular.forEach(list,function (menu,index) {
+       //          if(menu[compareAttr] == item[compareAttr]){
+       //              flag =true;
+       //              _index=index;
+       //              return;
+       //          }
+       //      });
+       //
+       //      return {
+       //          flag:flag,
+       //          _index:_index
+       //      };
+       //  };
+
+
+
+        //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -42,6 +185,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $scope.leftSideisShow = true;   //默认显示
+
         $scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
           // 当Url发生变化，则更新Url信息
           $scope.urlInfo = getUrlInfo();
@@ -52,6 +196,12 @@ define('main/controllers', ['main/init'], function () {
           } else {
             $scope.leftSideisShow = true;
           }
+
+
+
+            // $scope.findMenuByURL($scope.urlInfo.url);
+
+
 
           // 关闭所有已打开的modal窗体
           modal.closeAll();
@@ -570,7 +720,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
+    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])

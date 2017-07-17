@@ -421,7 +421,7 @@ function alertOk($rootScope, modal) {
       }
 
       //工具类
-      function utils ($timeout) {
+      function utils ($timeout,$rootScope) {
 
         // 递归获取：data.data.data 获取子属性值
         function getObjectValByKeyArr(obj,keyArr,index){
@@ -589,6 +589,18 @@ function alertOk($rootScope, modal) {
 
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           goTo : function (url,confirmMsg) {
+
+
+              $rootScope.addTab({
+                  showName: new Date().getTime(),
+                  ahref: url
+              });
+
+
+
+
+              return;
+
             url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
             if(confirmMsg){
               dialogConfirm(confirmMsg, function () {
@@ -1352,7 +1364,7 @@ e
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
       .factory('store', store)
-      .factory('utils', ["$timeout",utils])
+      .factory('utils', ["$timeout","$rootScope",utils])
       .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
       .factory('UICustomTable', ["$filter","utils",UICustomTable])
       .factory('proLoading', proLoading)

@@ -28,12 +28,20 @@ define('main/controllers', ['main/init'], function () {
         // 调整页面
         $scope.goTo = function (url,confirmMsg) {
 
+            console.log("menuArr",$scope.menuArr);
+
             if(confirmMsg){
               dialogConfirm(confirmMsg, function () {
                 window.location.assign(url);
               }, null);
             }else{
+
+
+
                 window.location.assign(url);
+
+
+
             }
         };
 

@@ -1170,15 +1170,23 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   <div left-navigation-menu="menu" no-author-filter="true"></div>
   edit：是否可编辑
 */
-function leftNavigationMenu() {
+function leftNavigationMenu(uiTabs,$rootScope) {
   return {
     restrict: 'EA',
     scope: {
         noAuthorFilter:"@?",//不验证权限，全部显示用于 预览菜单
-        leftNavigationMenu:"="
+        leftNavigationMenu:"=",
     },
     replace: true,
-    templateUrl:  Config.tplPath +'tpl/project/leftNavigationMenu.html'
+    templateUrl:  Config.tplPath +'tpl/project/leftNavigationMenu.html',
+    link:function($scope,elment,attrs) {
+
+        console.log("uiTabs",uiTabs);
+
+
+
+
+    }
   };
 }
 /**
@@ -3666,6 +3674,37 @@ function  dtRightSide(utils) {
 
 }
 
+// function  tabHref($rootScope){
+//     return {
+//       scope:{
+//         tab:"@",
+//       },
+//       restrict: 'A',
+//       link: function ($scope, element, $attrs) {
+//
+//
+//         console.log("typeof $scope.tab",typeof $scope.tab );
+//
+//         $scope.tab= angular.fromJson($scope.tab);
+//
+//         console.log("typeof $scope.tab",typeof $scope.tab );
+//
+//         console.log("$scope.tab",$scope.tab);
+//
+//         var tabObj=  {
+//               showName: $scope.tab.title,
+//               ahref: $scope.tab.href
+//           };
+//
+//           console.log("tabObj",tabObj);
+//
+//         element.on('click',function(){
+//             $rootScope.addTab(tabObj)
+//         });
+//       }
+//     };
+// }
+
 
 
 
@@ -3730,12 +3769,15 @@ angular.module('manageApp.project')
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
   .directive("leftMenuSecondToggle", ['$location',"$rootScope", leftMenuSecondToggle]) //左侧二级菜单切换效果
-  .directive("leftNavigationMenu", [ leftNavigationMenu]) //html-edit
+  .directive("leftNavigationMenu", ['uiTabs','$rootScope',leftNavigationMenu]) //html-edit
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
-  .directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
+  .directive("dtRightSide",["utils",dtRightSide])
+  // .directive("tabHref",['$rootScope',tabHref])
+
+;//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
 });

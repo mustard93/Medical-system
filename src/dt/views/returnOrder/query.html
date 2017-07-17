@@ -67,7 +67,16 @@
 
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
 
-                          <a ng-if="$root.hasAuthor('归还单修改')" href="#/returnOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <!--<a ng-if="$root.hasAuthor('归还单修改')" href="#/returnOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">-->
+                            <!--<span class="edit-link-icon">&nbsp;</span>-->
+                          <!--</a>-->
+
+                         <a ng-if="$root.hasAuthor('归还单修改')"
+                            tab-href
+                            tab='{"title":"归还单修改","href":"#/returnOrder/edit.html?id={{tr.id}}"}'
+                            class="btn-link pd-m rect-s "
+                            title="编辑">
+
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
 
@@ -90,20 +99,40 @@
                     <!---->
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                         <!---->
-                        <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/returnOrder/get.html?id={{tr.id}}"
-                           class="btn-link pd-m rect-s " title="查看详情">
+                        <!--<a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/returnOrder/get.html?id={{tr.id}}"-->
+                           <!--class="btn-link pd-m rect-s " title="查看详情">-->
+                          <!--<span class="watch-detail-icon">&nbsp;</span>-->
+                        <!--</a>-->
+
+                        <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'"
+                           tab-href
+                           tab='{"title":"归还单查看详情","href":"#/returnOrder/get.html?id={{tr.id}}"}'
+                                                   class="btn-link pd-m rect-s " title="查看详情"
+                        >
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
 
+
                         <!--ng-if="$root.hasAuthor('归还单审批')"-->
                         <span >
+
+                          <!--<a ng-if="tr.orderStatus=='待审核'"-->
+                             <!--ng-href="#/returnOrder/get.html?id={{tr.id}}"-->
+                             <!--title="立即审核"-->
+                             <!--class="btn-link pd-m rect-s "-->
+                             <!--&gt;-->
+
                           <a ng-if="tr.orderStatus=='待审核'"
-                             ng-href="#/returnOrder/get.html?id={{tr.id}}"
-                             title="立即审核"
-                             class="btn-link pd-m rect-s "
-                             >
+                             tab-href
+                             tab='{"title":"归还单查看详情","href":"#/returnOrder/get.html?id={{tr.id}}"}'
+                             class="btn-link pd-m rect-s " title="查看详情"
+                          >
+
+
                             <span class="examine-approve">&nbsp;</span>
                            </a>
+
+
                         </span>
                   </span>
 
