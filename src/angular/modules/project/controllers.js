@@ -1468,9 +1468,11 @@ define('project/controllers', ['project/init'], function() {
     $scope.checkQuantity = function (quantity,batches){
       var totalQuantity=0;
       for (var i = 0; i < batches.length; i++) {
-        console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
+
+      console.log(totalQuantity + '==>' +quantity);
+
       if (totalQuantity>quantity||totalQuantity==0) {
         $scope.quantityError=true;
       }else {
@@ -1719,14 +1721,6 @@ define('project/controllers', ['project/init'], function() {
         return 0;
       }
     };
-
-    // 监视当前药品中stockBatchs对象字段的变化（批次）
-    // 当用户添加其他批次时，计算当前批次数量的和是否大于可挑拨数量
-    $scope.$watchCollection('item.stockBatchs', function (newVal, oldVal) {
-      if (newVal && newVal !== oldVal) {
-        console.log(newVal);
-      }
-    });
 
   }
 
@@ -7809,7 +7803,7 @@ define('project/controllers', ['project/init'], function() {
        $scope.checkQuantity = function (quantity,batches){
            var totalQuantity=0;
            for (var i = 0; i < batches.length; i++) {
-               console.log(batches[i].quantity);
+              //  console.log(batches[i].quantity);
                totalQuantity+=batches[i].quantity;
            }
            if (totalQuantity>quantity) {
