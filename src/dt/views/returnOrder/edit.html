@@ -4,7 +4,7 @@
      scope-data="formData"
      callback="initFlag=true;
                formData.relIds=formData.relIds?formData.relIds:[];
-               watchFormChange('formData');
+               changeFlag=watchFormChange('formData');
                choisedMedicals=false;
                calcTotalPrice(formData.orderMedicalNos);
                quantityError=false;
@@ -213,7 +213,8 @@
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
                    <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
 
-                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
+                   <!--<td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">-->
+                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity : tr.cumulativeReturnCount ">
                      <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
