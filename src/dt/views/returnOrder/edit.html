@@ -211,11 +211,11 @@
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
-                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
+                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 = 借出数量-已还数量 -->
 
                    <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="item.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="tr.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -231,7 +231,7 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  >
                         </span>
-                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
+                       <button ng-disabled="tr.quantity==(tr.actualCount - tr.cumulativeReturnCount)" type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 
