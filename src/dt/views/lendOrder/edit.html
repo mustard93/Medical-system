@@ -128,7 +128,7 @@
           <!-- 列表 -->
           <div class="">
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
-              <div class="flex-item-6">
+              <div class="flex-item-6"  ng-init="numberingPolicy='auto'">
                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode"/>
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
@@ -765,6 +765,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
+                             !formData.salesDepartmentId ||
                              checkBatchsList()"
                 ng-click="submitForm('editForm','submit')">提交
         </button>

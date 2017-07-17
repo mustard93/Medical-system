@@ -6,7 +6,7 @@
 <div class="content-wrapper order-center medical-attribute"
      ng-controller="medicalAttributeController"
      ng-init="moduleName='regionManage';showModuleName='地址'"
-     ajax-url="rest/authen/regionManage/queryDetail"
+     ajax-url="rest/authen/regionManage/query"
      scope-data="scopeTreeData"
      callback="scopeTreeData2=filterJSONDate(scopeTreeData);initFlag=true;showAddClass=false;formData={}"
      alert-error>
@@ -22,8 +22,8 @@
             </div>
           </span>
                     <!-- 新增商品主类别 -->
-                    <div class="mgt-l mgb-l add-main-class relative" ng-init="addMainClassObj={};addMainClassObj.level=1;" ng-if="showAddClass">
-                        <input type="hidden" ng-model="addMainClassObj.level">
+                    <div class="mgt-l mgb-l add-main-class relative" ng-init="addMainClassObj={};addMainClassObj;" ng-if="showAddClass">
+                        <!--<input type="hidden" ng-model="addMainClassObj.level">-->
                         <!--<p class="mgb-l">分类编号：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.levelCode" /></p>-->
                         <p class="mgb-l">省：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.showName"  /></p>
                         <p><button type="button" class="pr-btn-confirm-glodbg-small" ng-click="addMainClass(addMainClassObj)">确认</button></p>
@@ -33,14 +33,15 @@
                     <div ng-if="initFlag" class="z-tree mgt"
                          z-tree-select={{scopeTreeData2}}
                          z-tree-type="static"
-                         ng-model="formData.queryDetail"
+                         ng-model="formData.medicalAttribute"
                          id-key="id"
                          p-id-key="parentId">
                     </div>
                 </div>
                 <div ng-if="formData.medicalAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
                     <div class="bb-dashed-line pdt-l pdb-l">
-            <span ng-if="$root.hasAuthor('供应商分类管理删除')">
+            <span>
+            <span>
               <button type="button"
                       class="pr-btn-confirm-glodbg-small mgr-l bg-red"
                       handle-this-click
@@ -49,29 +50,30 @@
                       dialog-content-color="#FF3939"
                       dialog-template="pr-dialog-confirm.html"
                       callback="deleteThisClass()">
-                <span class="fa fa-trash-o mgr text-n"></span>删除类别
+                <span class="fa fa-trash-o mgr text-n"></span>删除
               </button>
             </span>
-                        <span ng-if="$root.hasAuthor('供应商分类管理新增')">
+            <span>
               <button type="button" class="pr-btn-confirm-glodbg-small mgr-l" ng-click="addNewChildNode()">
-                <span class="fa fa-plus-circle mgr text-n"></span>新增子类别
+                <span class="fa fa-plus-circle mgr text-n"></span>新增
               </button>
+            </span>
             </span>
                     </div>
-                    <div ng-if="$root.hasAuthor('供应商分类管理修改')" class="">
-                        <p class="pdt-l pdb-l">
-                            <span>分类编号：</span>
-                            <!-- <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>
-                            <span ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +
-                              <input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">
-                            </span> -->
-                            <span>
-                <em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>
-                <input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode" ng-disabled="!formData.medicalAttribute.parentCode">
-              </span>
-                        </p>
+                    <div class="">
+                        <!--<p class="pdt-l pdb-l">-->
+                            <!--<span>分类编号：</span>-->
+                            <!--&lt;!&ndash; <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>-->
+                            <!--<span ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +-->
+                              <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">-->
+                            <!--</span> &ndash;&gt;-->
+                            <!--<span>-->
+                <!--<em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>-->
+                <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode" ng-disabled="!formData.medicalAttribute.parentCode">-->
+              <!--</span>-->
+                        <!--</p>-->
                         <p class="pdt-m pdb-m">
-                            <span>分类名称：</span>
+                            <span>名称：</span>
                             <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.medicalAttribute.showName"></span>
                         </p>
                         <!-- <p class="pdt-m pdb-m">
@@ -79,34 +81,34 @@
                           <span>编码规则提示</span>
                         </p> -->
                         <p class="pdt-m pdb-m">
-                            <button type="button" ng-if="$root.hasAuthor('供应商分类管理修改')" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.medicalAttribute)" ng-disabled="!formData.medicalAttribute">保存</button>
+                            <button type="button" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.medicalAttribute)" ng-disabled="!formData.medicalAttribute">保存</button>
                         </p>
                     </div>
 
-                    <div ng-if="!$root.hasAuthor('供应商分类管理修改')" class="">
-                        <p class="pdt-l pdb-l">
-                            <span>分类编号：</span>
-                            <!-- <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>
-                            <span ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +
-                              <input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">
-                            </span> -->
-                            <span>
-                <em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>
-                <span ng-disabled="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>
-              </span>
-                        </p>
-                        <p class="pdt-m pdb-m">
-                            <span>分类名称：</span>
-                            <span>{{formData.medicalAttribute.showName}}</span>
-                        </p>
-                        <!-- <p class="pdt-m pdb-m">
-                          <span>编码规则提示：</span>
-                          <span>编码规则提示</span>
-                        </p> -->
-                        <p class="pdt-m pdb-m">
-                            <button ng-if="$root.hasAuthor('供应商分类管理修改')" type="button" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.medicalAttribute)" ng-disabled="!formData.medicalAttribute">保存</button>
-                        </p>
-                    </div>
+                    <!--<div class="">-->
+                        <!--<p class="pdt-l pdb-l">-->
+                            <!--<span>分类编号：</span>-->
+                            <!--&lt;!&ndash; <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>-->
+                            <!--<span ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +-->
+                              <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">-->
+                            <!--</span> &ndash;&gt;-->
+                            <!--<span>-->
+                <!--<em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>-->
+                <!--<span ng-disabled="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>-->
+              <!--</span>-->
+                        <!--</p>-->
+                        <!--<p class="pdt-m pdb-m">-->
+                            <!--<span>分类名称：</span>-->
+                            <!--<span>{{formData.medicalAttribute.showName}}</span>-->
+                        <!--</p>-->
+                        <!--&lt;!&ndash; <p class="pdt-m pdb-m">-->
+                          <!--<span>编码规则提示：</span>-->
+                          <!--<span>编码规则提示</span>-->
+                        <!--</p> &ndash;&gt;-->
+                        <!--<p class="pdt-m pdb-m">-->
+                            <!--<button type="button" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.medicalAttribute)" ng-disabled="!formData.medicalAttribute">保存</button>-->
+                        <!--</p>-->
+                    <!--</div>-->
                 </div>
                 <div ng-if="!formData.medicalAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
                     <p class="text-center mgt-xxl" style="font-size:24px;">请选择{{showModuleName}}分类</p>
