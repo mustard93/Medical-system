@@ -1579,7 +1579,9 @@ function tableToggleSort (modal,utils,requestData) {
       var tableData=$scope.$eval($attrs.tableData);
       // 把需要排序的标题加上排序箭头
       thList.addClass('cur-pot');
+      console.log(tbodyList);
       for (var i = 0; i < tbodyList.length; i++) {
+              console.log(tbodyList[i]);
         // 根据传入的索引，选中对应的字段，然后加上相应的箭头样式。
         thList.eq(tbodyList[i].index).append('<span class="arrow-sort"></span>');
       }
@@ -1604,8 +1606,8 @@ function tableToggleSort (modal,utils,requestData) {
 
         for (var i = 0; i < tbodyList.length; i++) {
           // 判断切换排降序还是升序
-          if(ind==tbodyList[i].index || tbodyList[i].isCanSort){
-            
+          if(ind==tbodyList[i].index || tbodyList[i].canSort){
+
             if (tbodyList[i].sortCriteria=='desc') {
               tbodyList[i].sortCriteria='asc';
             }else if (tbodyList[i].sortCriteria=='asc') {
