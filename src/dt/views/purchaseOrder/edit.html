@@ -239,21 +239,37 @@
                       >
                </span>
                <span class="mgr">预入仓库：
-                 <select ng-if="formData.orderBusinessType!='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
+                 <!-- <select ng-if="formData.orderBusinessType!='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          default-empty="无"
                          chosen
                          ng-model="formData.warehouseId"
                          ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
                          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库">
+                 </select> -->
+                 <select class="pr-select pd-s" ng-if="formData.orderBusinessType!='直发采购'"
+                         style="width:115px;"
+                         ng-model="formData.warehouseId"
+                         ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
+                         ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
+                         scope-data="warehouseList">
+                   <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                  </select>
-                 <select ng-if="formData.orderBusinessType=='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
+                 <select class="pr-select pd-s" ng-if="formData.orderBusinessType=='直发采购'"
+                         style="width:115px;"
+                         ng-model="formData.warehouseId"
+                         ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
+                         ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
+                         scope-data="warehouseList">
+                   <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                 </select>
+                 <!-- <select ng-if="formData.orderBusinessType=='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
                          ng-model="formData.warehouseId"
                          ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
                          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库">
-                 </select>
+                 </select> -->
                </span>
              </div>
              <div class="">
@@ -358,7 +374,7 @@
                        </p>
                      </td><!-- 数量 -->
                      <td class="text-center" ng-if="formData.orderBusinessType!='直发采购'">
-                       <select class="pr-select pd-s"
+                       <select ng-if="initFlag" class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
                                ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
@@ -367,7 +383,7 @@
                        </select>
                      </td>
                      <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
-                       <select class="pr-select pd-s"
+                       <select ng-if="initFlag" class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
                                ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"

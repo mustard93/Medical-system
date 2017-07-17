@@ -1720,6 +1720,14 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
+    // 监视当前药品中stockBatchs对象字段的变化（批次）
+    // 当用户添加其他批次时，计算当前批次数量的和是否大于可挑拨数量
+    $scope.$watchCollection('item.stockBatchs', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        console.log(newVal);
+      }
+    });
+
   }
 
   /**

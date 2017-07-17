@@ -89,13 +89,13 @@
                            name="" value=""
                            style="position:relative;top:-2px;"
                            ng-model="formData.prefix1"
-                           ng-disabled="formData.type==2 || !formData.prefix1_type"
+                           ng-disabled="formData.type==2 || !formData.prefix1_type|| !$root.hasAuthor('单据编号设置修改')"
                            ng-change="getCodeLength(formData);createCodeSample(formData)">
                     <select ng-if="formData.prefix1_type!='静态文本'"
                             ng-init="createPrefixForDate(formData.prefix1);formData.prefix1=''"
                             class="ipt pr-short-ipt"
                             ng-model="formData.prefix1"
-                            ng-disabled="formData.type==2 || !formData.prefix1_type"
+                            ng-disabled="formData.type==2 || !formData.prefix1_type|| !$root.hasAuthor('单据编号设置修改')"
                             ng-options="item.value as item.text for item in dateTypeList"
                             ng-change="createPrefixForDate(formData.prefix1);getCodeLength(formData);createCodeSample(formData)">
                     </select>
@@ -123,14 +123,14 @@
                            name="" value=""
                            style="position:relative;top:-2px;"
                            ng-model="formData.prefix2"
-                           ng-disabled="formData.type==2 || !formData.prefix2_type"
+                           ng-disabled="formData.type==2 || !formData.prefix2_type|| !$root.hasAuthor('单据编号设置修改')"
                            ng-change="getCodeLength(formData);createCodeSample(formData)">
                     <select ng-if="formData.prefix2_type!='静态文本'"
                             ng-init="createPrefixForDate(formData.prefix2);formData.prefix2=''"
                             class="ipt pr-short-ipt"
                             ng-model="formData.prefix2"
                             ng-options="item.value as item.text for item in dateTypeList"
-                            ng-disabled="formData.type==2 || !formData.prefix2_type"
+                            ng-disabled="formData.type==2 || !formData.prefix2_type|| !$root.hasAuthor('单据编号设置修改')"
                             ng-change="createPrefixForDate(formData.prefix2);getCodeLength(formData);createCodeSample(formData)">
                     </select>
                   </td>
@@ -148,7 +148,7 @@
                     <input type="text" class="ipt pr-short-ipt" value="1" ng-disabled="true" style="width:100px;">
                   </td>
                   <td>
-                    <input type="text" class="ipt pr-short-ipt" ng-model="formData.serialNumberLength" ng-change="getCodeLength(formData);createCodeSample(formData)" ng-disabled="formData.type==2">
+                    <input type="text" class="ipt pr-short-ipt" ng-model="formData.serialNumberLength" ng-change="getCodeLength(formData);createCodeSample(formData)" ng-disabled="formData.type==2 || !$root.hasAuthor('单据编号设置修改')">
                   </td>
                 </tr>
                 <tr>
