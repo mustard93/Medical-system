@@ -1577,12 +1577,27 @@ function tableToggleSort (modal,utils,requestData) {
       // 每一个标题的集合，按照顺序
       var thList=element.children('th');
       // 可以进行排序的表头，增加鼠标移入样式。
-      thList.addClass('cur-pot');
 
+      // 把需要排序的标题加上排序箭头
+      thList.addClass('cur-pot');
+      for (var i = 0; i < tbodyList.length; i++) {
+        // 根据传入的索引，选中对应的字段，然后加上相应的箭头样式。
+        thList.eq(tbodyList[i].index).addClass('arrow-sort');
+      }
         // 当点击一个标题字段时，触发方法
       thList.on('click',function(e){
         // 阻止冒泡
         e.stopPropagation();
+        // 把当前样式进行改变.
+        if ($(this).hasClass('arrow-sort')||$(this).hasClass('sort-desc')) {
+          $(this).removeClass('arrow-sort');
+          $(this).removeClass('sort-desc');
+          $(this).addClass('sort-asc');
+        }else {
+          $(this).removeClass('arrow-sort');
+          $(this).removeClass('sort-asc');
+          $(this).addClass('sort-desc');
+        }
 
         // 获取当前点击的标题是数组中的第几个th,用于后续判断与之对应的后台字段是哪一个.
         var ind = thList.index(this);
