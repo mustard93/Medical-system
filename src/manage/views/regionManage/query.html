@@ -5,8 +5,8 @@
 
 <div class="content-wrapper order-center medical-attribute"
      ng-controller="medicalAttributeController"
-     ng-init="moduleName='regionAttribute';showModuleName='地区'"
-     ajax-url="rest/authen/regionManage/queryDetail"
+     ng-init="moduleName='regionManage';showModuleName='地区'"
+     ajax-url="rest/authen/regionManage/queryDetail.json"
      scope-data="scopeTreeData"
      callback="scopeTreeData2=filterJSONDate(scopeTreeData);initFlag=true;showAddClass=false;formData={}"
      alert-error>
@@ -18,24 +18,11 @@
                 <div class="flex-item-6 br-dotted-line" style="overflow-y:auto;max-height:550px;">
                     <!--&lt;!&ndash; 新增商品主类别按钮 &ndash;&gt;-->
                     <!--<span ng-if="$root.hasAuthor('客户分类管理新增')">-->
-            <div class="pos-rel-tl order-create-btn mgt-l mgb-xl">
-              <a href="javascript:;" ng-click="cancelAddClass()"><i></i><span class="">新增省级{{showModuleName}}</span></a>
-            </div>
-          <!--</span>-->
-
-                    <!-- 新增商品主类别 -->
-                    <div class="mgt-l mgb-l add-main-class relative" ng-init="addMainClassObj={};addMainClassObj.level=1;" ng-if="showAddClass">
-                        <input type="hidden" ng-model="addMainClassObj.level">
-                        <p class="mgb-l">分类编号：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.levelCode" /></p>
-                        <p class="mgb-l">分类名称：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.showName"  /></p>
-                        <p><button type="button" class="pr-btn-confirm-glodbg-small" ng-click="addMainClass(addMainClassObj)">确认</button></p>
-                        <span class="cancel-btn fa fa-times-circle" ng-click="cancelAddClass()"></span>
-                    </div>
 
                     <div ng-if="initFlag" class="z-tree mgt"
                          z-tree-select={{scopeTreeData2}}
                          z-tree-type="static"
-                         ng-model="formData.medicalAttribute"
+                         ng-model="formData.regionManage"
                          id-key="id"
                          p-id-key="parentId">
                     </div>
