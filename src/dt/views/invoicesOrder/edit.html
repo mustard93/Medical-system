@@ -42,6 +42,7 @@
                    <select class="ipt pr-short-ipt color-3" style="width:90px;"
                            data-placeholder=" "
                            chosen
+                           ng-disabled="scopeData.id"
                            ng-model="scopeData.orderBusinessType"
                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
                    </select>
@@ -79,15 +80,15 @@
                      datepicker
                      class="ipt color-3"
                      style="width:120px;"
-                     ng-readonly="true"
+                     ng-disabled="scopeData.id"
                      placeholder=""
                      ng-model="scopeData.orderDate" />
                     <span class="date-icon"></span>
             </span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n || "暂无"}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+             <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
             <a
             modal-center="1000px"
             modal-data='{"businessKey":"{{scopeData.id}}"}'
