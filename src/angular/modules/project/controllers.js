@@ -458,9 +458,9 @@ define('project/controllers', ['project/init'], function() {
 
           // 添加药品后请求当前药品的历史价格
           if (addDataItem) {
-            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            // var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售&customerId='+$scope.formData.customerId,
                 _data = {};
-
             requestData(_url, _data, 'GET')
             .then(function (results) {
               var _resObj = results[1].data;
