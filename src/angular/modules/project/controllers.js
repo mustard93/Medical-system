@@ -8183,9 +8183,15 @@ define('project/controllers', ['project/init'], function() {
 
           //添加商品
           var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+
+          //添加的商品设置的计划归还数量为null, 在页面进行计算；
+          angular.forEach($scope.selectedBatchs2,function (item,index) {
+              item.quantity = null;
+              $scope.selectedBatchs2[index]= item;
+          });
+
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
           $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
-
       };
 
 
