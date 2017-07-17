@@ -3061,7 +3061,7 @@ function addressManageComponent (requestData, utils) {
       scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
         if (newVal && newVal !== oldVal) {
           // console.log(newVal);
-          var _contacts = newVal['contacts'];
+          var _contacts = newVal['contacts'] || [];
 
           for (var i=0; i<_contacts.length; i++) {
             if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
