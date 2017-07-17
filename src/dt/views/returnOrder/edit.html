@@ -75,7 +75,7 @@
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
-             <div class="flex-item-6">
+             <div class="flex-item-6" ng-init="numberingPolicy='auto'">
                <!--自动获取单号-->
                <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
@@ -397,7 +397,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !formData.salesDepartmentId || !checkCanSubmit()"
                    >提交
           </button>
         </span>

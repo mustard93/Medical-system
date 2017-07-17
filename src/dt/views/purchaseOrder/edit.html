@@ -396,6 +396,7 @@
                      <!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                        <input type="text"
+                              ng-init=" formData.orderBusinessType=='直发采购' ?  tr.strike_price='' : tr.strike_price"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
                               ng-model="tr.strike_price"
@@ -683,6 +684,7 @@
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
+                               !formData.salesDepartmentId ||
                                isDisabledNextStep||
                                !supplier.contact">提交
           </button>
