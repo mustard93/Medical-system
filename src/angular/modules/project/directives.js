@@ -1578,6 +1578,8 @@ function tableToggleSort (modal,utils,requestData) {
       var thList=element.children('th');
       // 可以进行排序的表头，增加鼠标移入样式。
 
+      var tableData=$scope.$eval($attrs.tableData);
+
       // 把需要排序的标题加上排序箭头
       thList.addClass('cur-pot');
       for (var i = 0; i < tbodyList.length; i++) {
@@ -1610,7 +1612,13 @@ function tableToggleSort (modal,utils,requestData) {
             .then(function (results) {
               if (results[1].code === 200) {
                 console.log('sucess');
-                // $scope.tbodyList=results[1].data;
+                if (tableData) {
+                  tableData=results[1].data;
+                  console.log(tableData);
+                }else {
+                  $scope.tbodyList=results[1].data;
+                  console.log($scope.tbodyList);
+                }
               }
             })
             .catch(function (error) {
