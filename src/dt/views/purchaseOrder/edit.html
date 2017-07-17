@@ -2,8 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;
-     diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单')"
      alert-error>
   <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
 
@@ -638,7 +637,7 @@
                                !formData.expectDate ||
                                !formData.supplier.id ||
                                !formData.orderCode||
-                               !isDisabledNextStep||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
 
@@ -653,7 +652,7 @@
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
-                               !isDisabledNextStep||
+                               isDisabledNextStep||
                                !supplier.contact">提交
           </button>
 
