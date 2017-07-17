@@ -7901,9 +7901,16 @@ define('project/controllers', ['project/init'], function() {
     //校验计划归还输入数量
     $scope.checkQuantity=function(tr){
         var flag=false;
-        if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
+
+        // if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
+        //     flag=true;
+        // }
+
+        if( tr.cumulativeReturnCount < tr.quantity  || tr.quantity <1){
             flag=true;
         }
+
+
         return flag;
     };
 
