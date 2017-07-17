@@ -4,7 +4,7 @@
      scope-data="formData"
      callback="initFlag=true;
                formData.relIds=formData.relIds?formData.relIds:[];
-               watchFormChange('formData');
+               changeFlag=watchFormChange('formData');
                choisedMedicals=false;
                calcTotalPrice(formData.orderMedicalNos);
                quantityError=false;
@@ -75,7 +75,7 @@
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
-             <div class="flex-item-6">
+             <div class="flex-item-6" ng-init="numberingPolicy='auto'">
                <!--自动获取单号-->
                <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
@@ -84,7 +84,7 @@
                         ng-model="formData.orderCode" />
                   <em ng-if="initFlag&&!formData.orderCode" class="color-red">（必填）</em>
                </span>
-               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
+               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
 
                <span class="mgr" style="margin-left: 10px;">单据日期: </span>
                <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
@@ -99,7 +99,7 @@
                </div>
 
                <span class="mgr">对应借出单编号:
-                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode}}</a>
+                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
                  <span ng-if="!formData.relOrderNo">暂无</span>
                </span>
 
@@ -135,7 +135,7 @@
                      no-first-select-source="true"
                      chosen
                      no-first-select-source="true"
-                     ng-model="formData.saleUser.id"
+                     ng-model="formData.saleUserId"
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
              </select>
 
@@ -211,11 +211,11 @@
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
-                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
+                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 = 借出数量-已还数量 -->
 
                    <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="item.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="tr.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -231,7 +231,7 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  >
                         </span>
-                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
+                       <button ng-disabled="tr.quantity==(tr.actualCount - tr.cumulativeReturnCount)" type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 
@@ -397,7 +397,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

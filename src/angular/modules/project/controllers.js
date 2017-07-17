@@ -458,9 +458,9 @@ define('project/controllers', ['project/init'], function() {
 
           // 添加药品后请求当前药品的历史价格
           if (addDataItem) {
-            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            // var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售&customerId='+$scope.formData.customerId,
                 _data = {};
-
             requestData(_url, _data, 'GET')
             .then(function (results) {
               var _resObj = results[1].data;
@@ -1468,9 +1468,11 @@ define('project/controllers', ['project/init'], function() {
     $scope.checkQuantity = function (quantity,batches){
       var totalQuantity=0;
       for (var i = 0; i < batches.length; i++) {
-        console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
+
+      console.log(totalQuantity + '==>' +quantity);
+
       if (totalQuantity>quantity||totalQuantity==0) {
         $scope.quantityError=true;
       }else {
@@ -1719,14 +1721,6 @@ define('project/controllers', ['project/init'], function() {
         return 0;
       }
     };
-
-    // 监视当前药品中stockBatchs对象字段的变化（批次）
-    // 当用户添加其他批次时，计算当前批次数量的和是否大于可挑拨数量
-    $scope.$watchCollection('item.stockBatchs', function (newVal, oldVal) {
-      if (newVal && newVal !== oldVal) {
-        console.log(newVal);
-      }
-    });
 
   }
 
@@ -7097,7 +7091,7 @@ define('project/controllers', ['project/init'], function() {
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
 
-      if (formData.type === 1) {
+      if (Number(formData.type) === 1) {
         var _prefix1Length = 0, _prefix2Length = 0;
 
         if (formData.prefix1) {
@@ -7116,7 +7110,7 @@ define('project/controllers', ['project/init'], function() {
           }
         }
 
-        $scope.codeLength = _prefix1Length + _prefix2Length + formData.serialNumberLength;
+        $scope.codeLength = _prefix1Length + _prefix2Length + Number(formData.serialNumberLength);
 
       }
 
@@ -7140,7 +7134,7 @@ define('project/controllers', ['project/init'], function() {
     // 创建编码样例
     $scope.createCodeSample = function (formData) {
 
-      if (formData.type === 1) {
+      if (Number(formData.type) === 1) {
         // 构建字符串
         var _prefix1 = '', _prefix2 = '', _serialNumber;
 
@@ -7208,6 +7202,17 @@ define('project/controllers', ['project/init'], function() {
         })
       }
     });
+
+    // ...
+    $scope.clearSetOptions = function () {
+      if (Number($scope.formData.type) === 2) {
+        $scope.formData.prefix1_type = $scope.formData.prefix2_type = '';
+        $scope.formData.prefix1 = $scope.formData.prefix2 = '';
+        $scope.formData.serialNumberLength = null;
+        $scope.codeLength = null;
+        $scope.codeSample = null;
+      }
+    }
   }
 
   /**
@@ -7437,6 +7442,147 @@ define('project/controllers', ['project/init'], function() {
 
 
   }
+
+
+
+    function regionManageController ($scope, alertOk, alertError, alertWarn, requestData, utils) {
+
+        // 定义是否显示右侧编辑界面
+        $scope.showEditArea = false;
+
+        // 定义保存节点信息类型，默认为修改节点信息
+        $scope.modifyNodeInfo = true;
+
+        // 获取模块名，（商品分类模块、供应商分类模块、客户分类模块）
+        // $scope.$watch('moduleName', function (newVal, oldVal) {
+        //   if (newVal && newVal !== oldVal) {
+        //     // 定义保存url
+        //     var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+        //     // 定义删除请求地址
+        //     var _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=';
+        //   }
+        // });
+
+        // console.log(_saveUrl + '==>' +_delUrl);
+
+        // 转换返回的JSON对象为JSON字符串
+        $scope.filterJSONDate = function (data) {
+            return JSON.stringify(data);
+        }
+
+        // 关闭新增主分类区域
+        $scope.cancelAddClass = function () {
+
+            $scope.showAddClass = $scope.showAddClass ? false :true;
+
+            // if ($scope.showAddClass) {
+            //   $scope.showAddClass = false;
+            // } else {
+            //   $scope.showAddClass = false;
+            // }
+        }
+
+        // 添加主分类
+        $scope.addMainClass = function (addMainClassObj) {
+            if (addMainClassObj) {
+                // 保存路径
+                var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+                // 发送请求保存数据
+                requestData(_saveUrl, addMainClassObj, 'POST', 'parameterBody')
+                    .then(function (resutls) {
+                        if (resutls[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error) }
+                    });
+            }
+        }
+
+        // 修改节点信息和保存子节点信息操作
+        $scope.saveNodeInfo = function (regionManage) {
+            // 保存路径
+            var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+
+            if ($scope.modifyNodeInfo) {     // 修改节点信息
+                requestData(_saveUrl, regionManage, 'POST', 'parameterBody')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    })
+            } else {      // 新增子节点
+                // 如果父节点id为空，则将当前节点id复制给父节点
+                if (!regionManage['parentId']) {
+                    regionManage['parentId'] = angular.copy(regionManage['id']);
+                }
+                // 将id置空，标识为新建节点
+                regionManage['id'] = null;
+
+                requestData(_saveUrl, regionManage, 'POST', 'parameterBody')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    });
+            }
+        }
+
+        // 删除类别
+        $scope.deleteThisClass = function () {
+            if ($scope.formData.regionManage.id) {
+                // 删除路径
+                _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.regionManage.id
+                requestData(_delUrl, {}, 'POST')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    });
+            }
+        }
+
+        // 新增子类节点
+        $scope.addNewChildNode = function () {
+
+            console.log($scope.formData.regionManage.levelCode);
+
+            if ($scope.formData.regionManage.levelCode && $scope.formData.regionManage.showName) {
+                // 设置标识符
+                $scope.modifyNodeInfo = false;
+
+                if (!$scope.formData.regionManage.parentCode) {
+                    $scope.formData.regionManage.parentCode = '';
+                }
+
+                $scope.formData.regionManage.parentCode = angular.copy($scope.formData.regionManage.parentCode + $scope.formData.regionManage.levelCode);
+                $scope.formData.regionManage.parentId = $scope.formData.regionManage.id;
+                $scope.formData.regionManage.levelCode = null;
+                $scope.formData.regionManage.showName = null;
+            }
+        }
+
+    }
 
   /**
    * 借出单编辑Ctrl
@@ -7853,7 +7999,7 @@ define('project/controllers', ['project/init'], function() {
        $scope.checkQuantity = function (quantity,batches){
            var totalQuantity=0;
            for (var i = 0; i < batches.length; i++) {
-               console.log(batches[i].quantity);
+              //  console.log(batches[i].quantity);
                totalQuantity+=batches[i].quantity;
            }
            if (totalQuantity>quantity) {
@@ -7937,9 +8083,12 @@ define('project/controllers', ['project/init'], function() {
   //归还单 Ctrl
   function  returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-    $scope.changeFlag = false;
+      //表单数据监控
+      $scope.watchFormChange = function(watchName){
+          watchFormChange(watchName,$scope);
+      };
 
-    //校验计划归还输入数量
+    //校验计划归还输入数量   待还数量= 借出数量 - 已还数量
     $scope.checkQuantity=function(tr){
         var flag=false;
         if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
@@ -8230,9 +8379,15 @@ define('project/controllers', ['project/init'], function() {
 
           //添加商品
           var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+
+          //添加的商品设置的计划归还数量为null, 在页面进行计算；
+          angular.forEach($scope.selectedBatchs2,function (item,index) {
+              item.quantity = null;
+              $scope.selectedBatchs2[index]= item;
+          });
+
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
           $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
-
       };
 
 
@@ -8381,7 +8536,11 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
-  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
+  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl])
+    .controller('regionManageController', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', regionManageController]);
+
+
+
 
 
 });

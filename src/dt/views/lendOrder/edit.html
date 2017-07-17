@@ -128,7 +128,7 @@
           <!-- 列表 -->
           <div class="">
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
-              <div class="flex-item-6">
+              <div class="flex-item-6"  ng-init="numberingPolicy='auto'">
                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode"/>
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
@@ -172,7 +172,7 @@
                         class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
-                        ng-model="formData.saleUser.id"
+                        ng-model="formData.saleUserId"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                 </select>
               </span>
@@ -689,7 +689,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="借出单"></business-flow-show>
+    <!--<business-flow-show business-key="{{formData.id}}" business-type="借出单"></business-flow-show>-->
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -756,15 +756,13 @@
                 <!--ng-click="submitForm('editForm','submit')">提交-->
         <!--</button>-->
 
-        <button
-                type="button"
+        <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             !formData.orderCode ||
                              checkBatchsList()"
                 ng-click="submitForm('editForm','submit')">提交
         </button>

@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');formData.salesDepartmentId=mainStatus.additional.DepartmentId;formData.saleUserId=mainStatus.id;"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -131,7 +131,8 @@
                             no-first-select-source="true"
                             width="150px"
                             ng-model="formData.salesDepartmentId"
-                            select-source="rest/authen/department/queryForSelectOption">
+                            select-source="rest/authen/department/queryForSelectOption"
+                            >
                     </select>
                   </span>
                   <span class="mgr mgl">业务人员：

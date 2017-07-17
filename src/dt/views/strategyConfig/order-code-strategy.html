@@ -56,7 +56,7 @@
                 <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="1" ng-model="formData.type"><em>系统自动生成且不允许改动</em></label>
               </span>
               <span class="radio">
-                <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="2" ng-model="formData.type"><em>完全手工编号</em></label>
+                <label class="color-6"><input type="radio" class="mgr-s" name="optionsRadios" value="2" ng-model="formData.type" ng-click="clearSetOptions()"><em>完全手工编号</em></label>
               </span>
             </h1>
             <table class="table">
@@ -76,7 +76,7 @@
                             ng-model="formData.prefix1_type"
 
                             ng-disabled="formData.type==2 || !$root.hasAuthor('单据编号设置修改')"
-                            ng-change="formData.prefix1='';createCodeSample(formData)">
+                            ng-change="formData.prefix1='';createCodeSample(formData);getCodeLength(formData)">
                       <option value="">无</option>
                       <option ng-repeat="item in codePrefixList" ng-value="item.value">{{item.text}}</option>
                     </select>
