@@ -2,8 +2,8 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')"
-     alert-error>
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');formData.salesDepartmentId=mainStatus.additional.DepartmentId;formData.saleUserId=mainStatus.id;"
+     alert-error>{{mainStatus.additional.DepartmentId}}
 
   <!-- 关闭信息 -->
   <div ng-if="formData.onLineOrderStatus=='已关闭'" class="cancel-info-layer-style">采购计划已关闭，无法生成销售单</div>
@@ -131,6 +131,7 @@
                             no-first-select-source="true"
                             width="150px"
                             ng-model="formData.salesDepartmentId"
+                            ng-init="formData.salesDepartmentId=!formData.id?=mainStatus.additional.DepartmentId:null"
                             select-source="rest/authen/department/queryForSelectOption">
                     </select>
                   </span>
