@@ -22,10 +22,10 @@
             </div>
           </span>
                     <!-- 新增商品主类别 -->
-                    <div class="mgt-l mgb-l add-main-class relative" ng-init="addMainClassObj={};addMainClassObj.Name;" ng-if="showAddClass">
+                    <div class="mgt-l mgb-l add-main-class relative" ng-init="addMainClassObj={};addMainClassObj.name=''";" ng-if="showAddClass">
                         <!--<input type="hidden" ng-model="addMainClassObj.level">-->
                         <!--<p class="mgb-l">分类编号：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.levelCode" /></p>-->
-                        <p class="mgb-l">省：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.Name"  /></p>
+                        <p class="mgb-l">省：<input type="text" class="ipt pr-short-ipt" ng-model="addMainClassObj.name"  /></p>
                         <p><button type="button" class="pr-btn-confirm-glodbg-small" ng-click="addMainClass(addMainClassObj)">确认</button></p>
                         <span class="cancel-btn fa fa-times-circle" style="top:16px;" ng-click="cancelAddClass()"></span>
                     </div>
@@ -33,12 +33,12 @@
                     <div ng-if="initFlag" class="z-tree mgt"
                          z-tree-select={{scopeTreeData2}}
                          z-tree-type="static"
-                         ng-model="formData.regionManage"
+                         ng-model="formData.addressAttribute"
                          id-key="id"
                          p-id-key="parentId">
                     </div>
                 </div>
-                <div ng-if="formData.regionManage" class="flex-item-6 pdt-l pdl-xxl text-n">
+                <div ng-if="formData.addressAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
                     <div class="bb-dashed-line pdt-l pdb-l">
             <span>
             <span>
@@ -54,7 +54,7 @@
               </button>
             </span>
             <span>
-              <button type="button" class="pr-btn-confirm-glodbg-small mgr-l" ng-click="addNewChildNode()">
+              <button type="button" class="pr-btn-confirm-glodbg-small mgr-l" ng-click="addNewRegion()">
                 <span class="fa fa-plus-circle mgr text-n"></span>新增
               </button>
             </span>
@@ -68,20 +68,20 @@
                               <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">-->
                             <!--</span> &ndash;&gt;-->
                             <!--<span>-->
-                <!--<em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>-->
-                <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode" ng-disabled="!formData.medicalAttribute.parentCode">-->
+                <!--<em ng-if="formData.addressAttribute.code">{{formData.addressAttribute.code}} +</em>-->
+                <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.addressAttribute.name" ng-disabled="!formData.addressAttribute.code">-->
               <!--</span>-->
                         <!--</p>-->
                         <p class="pdt-m pdb-m">
                             <span>名称：</span>
-                            <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.medicalAttribute.Name"></span>
+                            <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.addressAttribute.name"></span>
                         </p>
                         <!-- <p class="pdt-m pdb-m">
                           <span>编码规则提示：</span>
                           <span>编码规则提示</span>
                         </p> -->
                         <p class="pdt-m pdb-m">
-                            <button type="button" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.regionManage)" ng-disabled="!formData.regionManage">保存</button>
+                            <button type="button" class="pr-btn-confirm-glodbg-small" ng-click="saveNodeInfo(formData.addressAttribute)" ng-disabled="!formData.addressAttribute">保存</button>
                         </p>
                     </div>
 
@@ -110,7 +110,7 @@
                         <!--</p>-->
                     <!--</div>-->
                 </div>
-                <div ng-if="!formData.regionManage" class="flex-item-6 pdt-l pdl-xxl text-n">
+                <div ng-if="!formData.addressAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
                     <p class="text-center mgt-xxl" style="font-size:24px;">请选择{{showModuleName}}分类</p>
                 </div>
             </div>

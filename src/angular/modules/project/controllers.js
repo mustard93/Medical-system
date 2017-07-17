@@ -7399,9 +7399,7 @@ define('project/controllers', ['project/init'], function() {
 
   }
 
-
-
-    function regionManageController ($scope, alertOk, alertError, alertWarn, requestData, utils) {
+  function regionManageController ($scope,alertOk,alertError,alertWarn,requestData,utils) {
 
         // 定义是否显示右侧编辑界面
         $scope.showEditArea = false;
@@ -7458,12 +7456,12 @@ define('project/controllers', ['project/init'], function() {
         }
 
         // 修改节点信息和保存子节点信息操作
-        $scope.saveNodeInfo = function (regionManage) {
+        $scope.saveNodeInfo = function (addressAttribute) {
             // 保存路径
             var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
 
             if ($scope.modifyNodeInfo) {     // 修改节点信息
-                requestData(_saveUrl, regionManage, 'POST', 'parameterBody')
+                requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
                     .then(function (results) {
                         if (results[1].code === 200) {
                             alertOk('操作成功');
@@ -7477,13 +7475,13 @@ define('project/controllers', ['project/init'], function() {
                     })
             } else {      // 新增子节点
                 // 如果父节点id为空，则将当前节点id复制给父节点
-                if (!regionManage['parentId']) {
-                    regionManage['parentId'] = angular.copy(regionManage['id']);
+                if (!addressAttribute['parentId']) {
+                    addressAttribute['parentId'] = angular.copy(addressAttribute['id']);
                 }
                 // 将id置空，标识为新建节点
-                regionManage['id'] = null;
+                addressAttribute['id'] = null;
 
-                requestData(_saveUrl, regionManage, 'POST', 'parameterBody')
+                requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
                     .then(function (results) {
                         if (results[1].code === 200) {
                             alertOk('操作成功');
@@ -7500,9 +7498,9 @@ define('project/controllers', ['project/init'], function() {
 
         // 删除类别
         $scope.deleteThisClass = function () {
-            if ($scope.formData.regionManage.id) {
+            if ($scope.formData.addressAttribute.id) {
                 // 删除路径
-                _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.regionManage.id
+                _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.addressAttribute.id
                 requestData(_delUrl, {}, 'POST')
                     .then(function (results) {
                         if (results[1].code === 200) {
@@ -7519,27 +7517,26 @@ define('project/controllers', ['project/init'], function() {
         }
 
         // 新增子类节点
-        $scope.addNewChildNode = function () {
+        $scope.addNewRegion = function () {
 
-            console.log($scope.formData.regionManage.levelCode);
+            console.log($scope.formData.addressAttribute.name);
 
-            if ($scope.formData.regionManage.levelCode && $scope.formData.regionManage.showName) {
+            if ($scope.formData.addressAttribute.name) {
                 // 设置标识符
                 $scope.modifyNodeInfo = false;
 
-                if (!$scope.formData.regionManage.parentCode) {
-                    $scope.formData.regionManage.parentCode = '';
+                if (!$scope.formData.addressAttribute.parentCode) {
+                    $scope.formData.addressAttribute.parentCode = '';
                 }
 
-                $scope.formData.regionManage.parentCode = angular.copy($scope.formData.regionManage.parentCode + $scope.formData.regionManage.levelCode);
-                $scope.formData.regionManage.parentId = $scope.formData.regionManage.id;
-                $scope.formData.regionManage.levelCode = null;
-                $scope.formData.regionManage.showName = null;
+                $scope.formData.addressAttribute.parentCode = angular.copy($scope.formData.addressAttribute.parentCode + $scope.formData.addressAttribute.levelCode);
+                $scope.formData.addressAttribute.parentId = $scope.formData.addressAttribute.id;
+                $scope.formData.addressAttribute.levelCode = null;
+                $scope.formData.addressAttribute.showName = null;
             }
         }
 
     }
-
   /**
    * 借出单编辑Ctrl
    * @param $scope
@@ -8492,8 +8489,9 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
-  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl])
-    .controller('regionManageController', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', regionManageController]);
+  .controller('regionManageController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', regionManageController])
+  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
+
 
 
 
