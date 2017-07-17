@@ -7893,7 +7893,10 @@ define('project/controllers', ['project/init'], function() {
   //归还单 Ctrl
   function  returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-    $scope.changeFlag = false;
+      //表单数据监控
+      $scope.watchFormChange = function(watchName){
+          watchFormChange(watchName,$scope);
+      };
 
     //校验计划归还输入数量
     $scope.checkQuantity=function(tr){
