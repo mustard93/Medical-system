@@ -2375,8 +2375,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           var data = results[0];
 
                           //如果已定义请求数据后的回调，执行回调
-                          if ($attrs.callBack) {
-                            $scope.$eval($attrs.callBack);
+                          if ($attrs.callback) {
+                            $scope.$eval($attrs.callback);
                           }
 
                           if (!data) data = [];
