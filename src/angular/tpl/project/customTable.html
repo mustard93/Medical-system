@@ -31,14 +31,14 @@
                 <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                 <label for="1"></label>
               </th>
-              <th class='{{item.thCss}}' style='{{item.thStyle}}' ng-repeat="item in uICustomTable.items">
-                  <div ng-if="item.thHtml" ng-compile2="item.thHtml"></div>
-                  <div ng-if="!item.thHtml">{{item.propertyName}} </div>
+              <th class='{{item.thCss}}' style='{{item.thStyle}}' ng-class="{'cur-pot':(item.canSort)}" ng-repeat="item in uICustomTable.items"
+              custom-table-toggle-sort
+              sort-item='{{item}}'
+              sort-request-url='{{_customTableUrl}}'>
+                  <span ng-if="item.thHtml" ng-compile2="item.thHtml"></span>
+                  <span ng-if="!item.thHtml">{{item.propertyName}}</span>
               </th>
-              <!-- table-toggle-sort
-              t-body-list='{{uICustomTable.items}}'
-              sort-request-url="rest/authen/medicalStock/query.json"
-              table-data='{{tbodyList}}' -->
+
             </tr>
         </thead>
         <tbody>
@@ -56,8 +56,8 @@
               <label for="{{$index+2}}"></label>
             </td>
             <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-repeat="item in uICustomTable.items">
-                <div ng-if="item.tdHtml" ng-compile2="item.tdHtml"></div>
-                <div ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</div>
+                <span ng-if="item.tdHtml" ng-compile2="item.tdHtml"></span>
+                <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
             </td>
           </tr>
         </tbody>
