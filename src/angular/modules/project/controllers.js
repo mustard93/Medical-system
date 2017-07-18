@@ -7464,11 +7464,12 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
                 var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
                 // 发送请求保存数据
                 requestData(_saveUrl, addMainClassObj, 'POST', 'parameterBody')
-                    .then(function (resutls) {
-                        if (resutls[1].code === 200) {
-                            alertOk('操作成功');
-                            utils.refreshHref();
-                        }
+                    .then(function (results) {
+                        alertOk('操作成功');
+                        console.log("addMainClass",results);
+                        $scope.$broadcast('zTreeUpdateNode',results[0]);
+                        $scope.showAddClass=false;
+                            // utils.refreshHref();
                     })
                     .catch(function (error) {
                         if (error) { alertWarn(error) }
@@ -7481,55 +7482,57 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
             // 保存路径
             var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
 
-            if ($scope.modifyNodeInfo) {     // 修改节点信息
                 requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
                     .then(function (results) {
-                        if (results[1].code === 200) {
-                            alertOk('操作成功');
-                            utils.refreshHref();
-                        } else {
-                            alertWarn(results[1].msg);
-                        }
+                        alertOk('操作成功');
+                        console.log("saveNodeInfo", results);
+                        $scope.$broadcast('zTreeUpdateNode', results[0]);
+                        // utils.refreshHref();
                     })
                     .catch(function (error) {
                         if (error) { alertWarn(error); }
                     })
-            } else {      // 新增子节点
-                // 如果父节点id为空，则将当前节点id复制给父节点
-                if (!addressAttribute['parentId']) {
-                    addressAttribute['parentId'] = angular.copy(addressAttribute['id']);
-                }
-                // 将id置空，标识为新建节点
-                addressAttribute['id'] = null;
-
-                requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
-                    .then(function (results) {
-                        if (results[1].code === 200) {
-                            alertOk('操作成功');
-                            utils.refreshHref();
-                        } else {
-                            alertWarn(results[1].msg);
-                        }
-                    })
-                    .catch(function (error) {
-                        if (error) { alertWarn(error); }
-                    });
             }
-        }
+
+        //     } else {      // 新增子节点
+        //         // 如果父节点id为空，则将当前节点id复制给父节点
+        //         if (!addressAttribute['parentId']) {
+        //             addressAttribute['parentId'] = angular.copy(addressAttribute['id']);
+        //         }
+        //         // 将id置空，标识为新建节点
+        //         addressAttribute['id'] = null;
+        //
+        //         requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
+        //             .then(function (results) {
+        //                 if (results[1].code === 200) {
+        //                     alertOk('操作成功');
+        //                     utils.refreshHref();
+        //                 } else {
+        //                     alertWarn(results[1].msg);
+        //                 }
+        //             })
+        //             .catch(function (error) {
+        //                 if (error) { alertWarn(error); }
+        //             });
+        //     }
+        // }
 
         // 删除类别
         $scope.deleteThisClass = function () {
-            if ($scope.formData.addressAttribute.id) {
+            var id=$scope.formData.addressAttribute.id;
+            if (id) {
                 // 删除路径
                 _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.addressAttribute.id
                 requestData(_delUrl, {}, 'POST')
                     .then(function (results) {
-                        if (results[1].code === 200) {
-                            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
-                            utils.refreshHref();
-                        } else {
-                            alertWarn(results[1].msg);
-                        }
+                        $scope.$broadcast('zTreeRemoveNode',id);
+                        $scope.formData.addressAttribute=null;
+                        // if (results[1].code === 200) {
+                        //     // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+                        //     utils.refreshHref();
+                        // } else {
+                        //     alertWarn(results[1].msg);
+                        // }
                     })
                     .catch(function (error) {
                         if (error) { alertWarn(error); }
