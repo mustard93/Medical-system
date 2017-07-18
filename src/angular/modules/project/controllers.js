@@ -8468,6 +8468,28 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
       };
   }
 
+  function uiCustomTableController ($scope, alertOk, alertError, requestData) {
+
+    // 树形菜单中选项被点击后，监控medicalAttribute对象变化，并获取响应数据重新渲染右侧表单内容
+    $scope.$watchCollection('formData.customTable', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+
+        var _reqUrl = 'rest/authen/uiCustomTable/getOfEdit.json?id=596d77bce4b06e338d596e6f';
+        requestData(_reqUrl)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+            
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        })
+      }
+    });
+
+  }
+
 
 
   angular.module('manageApp.project')
@@ -8516,6 +8538,7 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('orderCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', orderCodeStrategyController])
+  .controller('uiCustomTableController', ['$scope', 'alertOk', 'alertError', 'requestData', uiCustomTableController])
   .controller('archiveCodeStrategyController', ['$scope', 'alertOk', 'alertError', 'requestData', archiveCodeStrategyController])
   .controller('medicalAttributeController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', medicalAttributeController])
   .controller('lendOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError','utils',  'dialogConfirm',lendOrderEditCtrl])
