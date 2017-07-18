@@ -1881,14 +1881,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              }
 
 
-                //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
-                for(var i=0;i<data.length;i++){
-                  if(ngModel.$viewValue==data[i].value){
-                     return ngModel.$viewValue;
-                  }
-                }
-                //下拉无数据情况下，初始值为null。
-                ngModel.$setViewValue(null);
 
              if(angular.isDefined($attrs.multiple)){
                  if (angular.isDefined($attrs.defaultEmpty)) {
@@ -1897,6 +1889,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                  }
              } else {
+
+               //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
+               for(var i=0;i<data.length;i++){
+                 if(ngModel.$viewValue==data[i].value){
+                    return ngModel.$viewValue;
+                 }
+               }
+               //下拉无数据情况下，初始值为null。
+               ngModel.$setViewValue(null);
+
                 if (angular.isDefined($attrs.defaultEmpty)) {
                  _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                 } else {
@@ -2506,14 +2508,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    data0Val=null;
                  }
 
-                 //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
-                 for(var i=0;i<data.length;i++){
-                   if(ngModel.$viewValue==data[i].value){
-                      return ngModel.$viewValue;
-                   }
-                 }
-                 //下拉无数据情况下，初始值为null。
-                 ngModel.$setViewValue(null);
+
 
                  if(angular.isDefined($attrs.multiple)){
                      if (angular.isDefined($attrs.defaultEmpty)) {
@@ -2522,6 +2517,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                      }
                  } else {
+                   //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
+                   for(var i=0;i<data.length;i++){
+                     if(ngModel.$viewValue==data[i].value){
+                        return ngModel.$viewValue;
+                     }
+                   }
+                   //下拉无数据情况下，初始值为null。
+                   ngModel.$setViewValue(null);
+                   
                     if (angular.isDefined($attrs.defaultEmpty)) {
                      _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                     } else {
