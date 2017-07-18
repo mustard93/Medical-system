@@ -6,7 +6,7 @@
 <div class="content-wrapper order-center medical-attribute"
      ng-controller="regionManageController"
      ng-init="moduleName='regionManage';showModuleName='地址'"
-     ajax-url="rest/authen/regionManage/query"
+     ajax-url="rest/authen/regionManage/query.json?pageSize=9999"
      scope-data="scopeTreeData"
      callback="scopeTreeData2=filterJSONDate(scopeTreeData);initFlag=true;showAddClass=false;formData={}"
      alert-error>
@@ -61,17 +61,17 @@
             </span>
                     </div>
                     <div class="">
-                        <!--<p class="pdt-l pdb-l">-->
-                            <!--<span>分类编号：</span>-->
-                            <!--&lt;!&ndash; <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>-->
+                        <p class="pdt-l pdb-l">
+                            <span>分类编号：</span>
+                             <span ng-if="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>
                             <!--<span ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +-->
                               <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode">-->
                             <!--</span> &ndash;&gt;-->
                             <!--<span>-->
-                <!--<em ng-if="formData.addressAttribute.code">{{formData.addressAttribute.code}} +</em>-->
-                <!--<input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.addressAttribute.name" ng-disabled="!formData.addressAttribute.code">-->
-              <!--</span>-->
-                        <!--</p>-->
+                <em ng-if="formData.addressAttribute.code">{{formData.addressAttribute.code}} +</em>
+                <input type="text" class="ipt pr-short-ipt aling-center" style="width:80px;" ng-model="formData.addressAttribute.name" ng-disabled="!formData.addressAttribute.code">
+              </span>
+                        </p>
                         <p class="pdt-m pdb-m">
                             <span>名称：</span>
                             <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.addressAttribute.name"></span>
@@ -96,7 +96,7 @@
                 <!--<em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>-->
                 <!--<span ng-disabled="!formData.medicalAttribute.parentCode">{{formData.medicalAttribute.levelCode}}</span>-->
               <!--</span>-->
-                        <!--</p>-->
+                        <!--&lt;!&ndash;</p>&ndash;&gt;-->
                         <!--<p class="pdt-m pdb-m">-->
                             <!--<span>分类名称：</span>-->
                             <!--<span>{{formData.medicalAttribute.showName}}</span>-->
@@ -110,9 +110,9 @@
                         <!--</p>-->
                     <!--</div>-->
                 </div>
-                <div ng-if="!formData.addressAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
-                    <p class="text-center mgt-xxl" style="font-size:24px;">请选择{{showModuleName}}分类</p>
-                </div>
+                <!--<div ng-if="!formData.addressAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">-->
+                    <!--<p class="text-center mgt-xxl" style="font-size:24px;">请选择{{showModuleName}}分类</p>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
