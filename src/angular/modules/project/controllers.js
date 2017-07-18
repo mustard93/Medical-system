@@ -7404,7 +7404,7 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
   }
 
-<<<<<<< HEAD
+
 
 
 
@@ -7418,9 +7418,7 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
      * @return {[type]}                               [description]
      */
     function regionManageController ($scope,alertOk,alertError,alertWarn,requestData,utils) {
-=======
-  function regionManageController ($scope,alertOk,alertError,alertWarn,requestData,utils) {
->>>>>>> 20c39064689d699a75a89c77f740f6b7adf536e3
+
 
         // 定义是否显示右侧编辑界面
         $scope.showEditArea = false;
@@ -7445,11 +7443,8 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
             return JSON.stringify(data);
         }
 
-<<<<<<< HEAD
         // 关闭新增省级区域
-=======
-        // 关闭新增主分类区域
->>>>>>> 20c39064689d699a75a89c77f740f6b7adf536e3
+
         $scope.cancelAddClass = function () {
 
             $scope.showAddClass = $scope.showAddClass ? false :true;
@@ -7461,11 +7456,8 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
             // }
         }
 
-<<<<<<< HEAD
         // 添加省级
-=======
-        // 添加主分类
->>>>>>> 20c39064689d699a75a89c77f740f6b7adf536e3
+
         $scope.addMainClass = function (addMainClassObj) {
             if (addMainClassObj) {
                 // 保存路径
@@ -7546,30 +7538,40 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
         }
 
         // 新增子类节点
-        $scope.addNewRegion = function () {
+        $scope.addNewChildNode = function () {
 
-            console.log($scope.formData.addressAttribute.name);
-
-            if ($scope.formData.addressAttribute.name) {
-                // 设置标识符
-                $scope.modifyNodeInfo = false;
-
-                if (!$scope.formData.addressAttribute.name) {
-                    $scope.formData.addressAttribute.name = '';
-                }
-
-                // $scope.formData.addressAttribute.parentCode = angular.copy($scope.formData.addressAttribute.parentCode + $scope.formData.addressAttribute.levelCode);
-                // $scope.formData.addressAttribute.parentId = $scope.formData.addressAttribute.id;
-                // $scope.formData.addressAttribute.levelCode = null;
-                // $scope.formData.addressAttribute.showName = null;
+            //防止多次调用该方法，无线添加addressAttribute.parentCode
+            if(!$scope.formData.addressAttribute.name){
+                return;
             }
+            console.log($scope.formData.addressAttribute.name);
+            var addressAttribute={};
+            addressAttribute.parentId = $scope.formData.addressAttribute.name;
+            var parentCode=$scope.formData.addressAttribute.parentCode;
+            if(!parentCode)parentCode="";
+            addressAttribute.parentCode = angular.copy(parentCode + $scope.formData.addressAttribute.levelCode);
+            $scope.formData.addressAttribute=addressAttribute;
+
+            // if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
+            //
+            //   // 设置标识符
+            //   $scope.modifyNodeInfo = false;
+            //
+            //   if (!$scope.formData.medicalAttribute.parentCode) {
+            //     $scope.formData.medicalAttribute.parentCode = '';
+            //   }
+            //
+            //   $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
+            //   $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
+            //   $scope.formData.medicalAttribute.levelCode = null;
+            //   $scope.formData.medicalAttribute.showName = null;
+            // }
         }
 
-    }
-<<<<<<< HEAD
 
-=======
->>>>>>> 20c39064689d699a75a89c77f740f6b7adf536e3
+    }
+
+
   /**
    * 借出单编辑Ctrl
    * @param $scope
@@ -8521,18 +8523,8 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
-<<<<<<< HEAD
   .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl])
   .controller('regionManageController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', regionManageController]);
-
-
-
-
-=======
-  .controller('regionManageController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', regionManageController])
-  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
->>>>>>> 20c39064689d699a75a89c77f740f6b7adf536e3
-
 
 
 
