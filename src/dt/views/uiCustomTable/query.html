@@ -1,88 +1,105 @@
-<!-- page heading start-->
-<div class="page-heading">
-    <h3>用户自定义表头</h3>
-    <ul class="breadcrumb">
-        <li><a href="#">主面板</a></li>
-        <li class="active">用户自定义表头</li>
-    </ul>
-</div>
-<!-- page heading end-->
+<div class="order-code-strategy"
+     ng-init="formData={}">
 
-<!--body wrapper start-->
-<table-list list-data="rest/authen/uiCustomTable/query.json" list-params="listParams">
-    <div class="mg-m col-lg-12 col-sm-12">
-      <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" ng-click="$root.goTo('#/uiCustomTable/edit.html');" >
-            <i class="fa fa-plus"></i>新建
+          <!-- ng-controller="orderCodeStrategyController" -->
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/orderCodeStrategy/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback=""
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+        <a href="#/confirmOrder/query.html"><em class="color-custom-orange">自定义表格设置</em></a>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">自定义表格设置</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper flex-column">
+      <div class="custom-table-strategy-menu mgt "
+           z-tree-select='[{"id":1,"pId":0,"name":"销售管理","open":true},
+                           {"id":5,"pId":1,"name":"销售单"}]'
+           z-tree-type="static"
+           ng-model="formData.medicalAttribute"
+           id-key="id"
+           p-id-key="pId">
+      </div>
+      <div class="custom-table-strategy-form flex-item-10 text-right mgt">
+        <div class="custom-table-strategy-top flex-column-12 flex-column">
+          <div class="flex-item-12">
+            <p class="pd-c-v-l text-left bb-line">
+              <em class="text-bold text-m color-3 mgr">修改排序／显示隐藏</em><em class="text-m color-3">(仅作用于详情页面)</em>
+            </p>
+            <div class="flex-item-6 flex-column br-line">
+              <div class="flex-item-12 text-center bb-line">
+                <p class="text-bold text-m color-3 pd-c-v-l">显示列</p>
+                <div class="custom-table-show ">
+
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <div class="flex-item-12 text-center bb-line">
+                <p class="text-bold text-m color-3 pd-c-v-l">隐藏列</p>
+                <div class=" custom-table-hidden">
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="custom-table-strategy-bottom flex-column-12 mgt-l">
+          <p class="pd-c-v-l text-left bb-line">
+            <em class="text-bold text-m color-3 mgr">设置列属性</em><em class="text-m color-3">(作用于详情及编辑／新建页面)</em>
+          </p>
+          <div class="flex-item-6 flex-column">
+            <div class="flex-item-12 text-left pd-c-v-l" >
+              <p class="pd-c-v-s">
+                默认名称：
+                <em class="color-3">商品名称</em>
+              </p>
+              <p class="pd-c-v-s">
+                显示名称：
+                <input type="text" value="" style="">
+              </p>
+            </div>
+          </div>
+          <div class="flex-item-6 flex-column">
+            <div class="flex-item-12 text-left pd-c-v-l">
+              <p class="pd-c-v-s">
+                宽度：
+                <input type="text" value="" style="margin-left:27px;">
+              </p>
+              <p class="pd-c-v-s">
+                对齐方式：
+                <input type="text" value="" style="">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+
+      <div class="btn-area" style="line-height:4.9;">
+        <button type="submit" class="pr-btn-save-glodbg mgr "  style="background-color:#d9534f;">重置
+        </button>
+        <button type="submit" class="pr-btn-save-glodbg mgr" >保存
         </button>
       </div>
-      <div class="form-group col-lg-2">
-        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
-      </div>
     </div>
-
-    <div class="wrapper">
-        <div class="loader" ng-if="status.isLoading">
-            <div class="loader-inner pacman">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-        <div ng-if="!status.isLoading">
-            <div class="empty-wrap" ng-if="tbodyList.length==0">
-                <span>
-                    <i class="fa fa-inbox">
-                        <em>什么也没有</em>
-                    </i>
-                </span>
-            </div>
-            <div ng-if="tbodyList.length">
-
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" class="selectAll"></th>
-                            <th>序号</th>
-                            <th>表名</th>
-                            <th>描述</th>
-                            <th>样式名</th>
-                            <th>操作</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
-                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
-                            <td>{{$index + 1}}</td>
-                            <td>{{tr.name}}</td>
-                            <td>{{tr.desc}}</td>
-                            <td>{{tr.css}}</td>
-                            <td>
-
-                                <button type="button" class="btn btn-primary"ng-click="$root.goTo('#/uiCustomTable/edit.html?id='+tr.id);">
-                                    <i class="fa fa-edit"></i>
-                                    编辑
-                                </button>
-
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/uiCustomTable/delete', tr.id)">
-                                    <i class="fa fa-trash-o"></i>
-                                    删除
-                                </button>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="clearfix">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</table-list>
-<!--body wrapper end-->
+  </form>
+</div>
