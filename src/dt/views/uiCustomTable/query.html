@@ -1,12 +1,15 @@
-<div class="order-code-strategy"
-     ng-init="formData={}">
+<div  class="order-code-strategy"
+      ng-init="className_getOfEdit=false"
+      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
+      scope-data="formData"
+      callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
           <!-- ng-controller="orderCodeStrategyController" -->
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/orderCodeStrategy/save.json"
+        action="rest/authen/uiCustomTable/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -31,7 +34,7 @@
            z-tree-select='[{"id":1,"pId":0,"name":"销售管理","open":true},
                            {"id":5,"pId":1,"name":"销售单"}]'
            z-tree-type="static"
-           ng-model="formData.medicalAttribute"
+           ng-model="formData.customTable"
            id-key="id"
            p-id-key="pId">
       </div>
