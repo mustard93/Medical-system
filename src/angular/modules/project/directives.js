@@ -3206,19 +3206,19 @@ function addressManageComponent (requestData, utils) {
       });
 
       // 监视用户修改后的数据返回，若已修改，则将修改后的信息替换到发送数据体中。
-      scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
-        if (newVal && newVal !== oldVal) {
-          // console.log(newVal);
-          var _contacts = newVal['contacts'] || [];
-
-          for (var i=0; i<_contacts.length; i++) {
-            if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
-              scope.formData[scope.scopeDataContacts] = _contacts[i];
-            }
-          }
-
-        }
-      });
+      // scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     // console.log(newVal);
+      //     var _contacts = newVal['contacts'] || [];
+      //
+      //     for (var i=0; i<_contacts.length; i++) {
+      //       if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+      //         scope.formData[scope.scopeDataContacts] = _contacts[i];
+      //       }
+      //     }
+      //
+      //   }
+      // });
 
       // 重新加载数据
       var reLoadData = function (scope) {
@@ -3251,12 +3251,13 @@ function addressManageComponent (requestData, utils) {
       // 判断默认选中
       $scope.chkDefaultChoise = function (tr) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
-          // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
           if ($scope.returnAddressObj.defaultContactId === tr.id) { return true; }
         } else {        // 如果是编辑
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';
           if ($scope.formData[_moduleName]) {
-            if ($scope.formData[_moduleName].id === tr.id) { return true; }
+            if ($scope.formData[_moduleName]['id'] === tr.id) {
+              return true;
+            }
           } else {
             if ($scope.returnAddressObj.defaultContactId === tr.id) {     // 选中默认地址
               $scope.formData[$scope.scopeDataContacts] = tr;
@@ -3290,6 +3291,7 @@ function addressManageComponent (requestData, utils) {
         //   }
         // }
 
+        // 如果是新建单据
         if (!$scope.formData.id) {
           var _contacts = $scope.returnAddressObj.contacts;
 
@@ -3390,6 +3392,31 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
+
+      // 用户若修改信息后的回调，用于将新的信息更新到formData中，主要用于编辑时的更新
+      $scope.modifiedCallBack = function (id) {
+        // 当为编辑时
+        if ($scope.formData.id) {
+          var _moduleName = $scope.scopeDataPrefix + 'Contacts';    // 获取当前选中的地址信息
+
+          // 如果当前修改的地址条目是选中的地址
+          if ($scope.formData[_moduleName]['id'] === id) {    // 重新请求修改后的地址信息
+            var _requestDataId = $scope.requestDataId ? $scope.requestDataId : '';
+            var _reqUrl = $scope.requestUrl + '?id=' + _requestDataId + '&type=' + $scope.createAddressType + '&logisticsCenterId=' + $scope.logisticsCenterId;
+            requestData(_reqUrl)
+            .then(function (results) {
+              var _data = results[1].data.contacts;
+              angular.forEach(_data, function (item, index) {
+                if ($scope.formData[_moduleName]['id'] === item.id) {
+                  $scope.formData[_moduleName] = item;
+                  // console.log($scope.formData);
+                }
+              });
+            });
+            // console.log($scope.requestUrl+'?id='+$scope.requestDataId);
+          }
+        }
+      }
     }]
   };
 }

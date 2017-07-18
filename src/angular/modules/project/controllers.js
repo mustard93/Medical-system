@@ -266,9 +266,8 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
    */
   function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils) {
 
-
       modal.closeAll();
-      // $scope.formData={};
+
       $scope.addDataItem = {};
 
       // 是否显示关闭按钮
