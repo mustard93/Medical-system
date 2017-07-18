@@ -47,6 +47,7 @@
                <p class="mgb-s">预入物流中心</p>
                <p class="text-m color-3">
                  <select class="ipt pr-long-ipt color-6"
+                          ng-if="initFlag"
                          data-placeholder=" "
                          chosen
                          ng-disabled="formData.id"
@@ -120,21 +121,18 @@
 
              <span class="mgr">业务部门:</span>
              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-
+                    ng-if="initFlag"
                      data-placeholder=" "
-                     no-first-select-source="true"
                      chosen
-                     no-first-select-source="true"
                      ng-model="formData.salesDepartmentId"
                      select-source="rest/authen/department/queryForSelectOption">
              </select>
 
              <span class="mgr" style="margin-left: 20px;">业务人员:</span>
              <select class="ipt pr-short-ipt color-3" style="width:125px; margin-right: 20px;"
+                      ng-if="initFlag"
                      data-placeholder=" "
-                     no-first-select-source="true"
                      chosen
-                     no-first-select-source="true"
                      ng-model="formData.saleUserId"
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
              </select>
@@ -284,7 +282,7 @@
          <span class="mgr">运输方式：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
                  data-placeholder=" "
-                 no-first-select-source="true"
+                 ng-if="initFlag"
                  chosen
                  ng-model="formData.payAndDelivery.transportType"
                  select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType">
@@ -292,7 +290,7 @@
          <!--ng-disabled="formData.id"-->
          <span class="mgr" style="margin-left: 30px;">承运公司：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
-
+            ng-if="initFlag"
                  data-placeholder=" "
                  no-first-select-source="true"
                  chosen

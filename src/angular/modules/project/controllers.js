@@ -8122,7 +8122,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.submitFormAfter = function() {
 
         if($scope.submitForm_type == 'save'){
-            $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+            // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
             return;
         }
 
