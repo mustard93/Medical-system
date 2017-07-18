@@ -103,6 +103,8 @@
           </div>
           <div class="flex-item-6 text-right">
             <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+            <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
+
             <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
           </div>
         </div>
@@ -113,6 +115,7 @@
                     class="ipt pr-short-ipt color-3"
                     data-placeholder=" "
                     chosen
+                    no-first-select-source="true"
                     width="150px"
                     ng-model="formData.salesDepartmentId"
                     select-source="rest/authen/department/queryForSelectOption">
@@ -123,8 +126,9 @@
                     class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
                     chosen
+                    no-first-select-source="true"
                     ng-model="formData.saleUserId"
-                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
             </select>
           </span>
 
@@ -165,8 +169,8 @@
           </span>
         </div>
         <!-- 商品列表 -->
-        <div class="outside-table-d">
-          <table class="table pr-table pr-new-table mgb-n table-s-wid">
+        <div class="">
+          <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
                   <th class="text-center w-50 mycheck">
@@ -186,7 +190,7 @@
                   <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">失效日期</th>
                 </tr>
               </thead>
-              <tbody ng-if="formData.orderBusinessType=='普通销售'">
+              <tbody >
                 <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50 mycheck">
                     <input type="checkbox" ng-model="item.handleFlag" id="{{$index+2}}" ng-change="handleThischoise(item)">

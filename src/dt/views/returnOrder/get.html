@@ -1,7 +1,7 @@
 <!--ng-controller="collarApplicationOrderController"-->
 <div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
 
-      ajax-url="rest/authen/returnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
+      ajax-url="rest/authen/returnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
       callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
       alert-error>
@@ -75,6 +75,7 @@
 
         <div class="flex-item-6 text-right">
               <!--<span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>-->
+          <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
               <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
         </div>
       </div>
@@ -98,7 +99,7 @@
               <th class="text-center">序号</th>
               <!--<th class="text-center">借出单编号</th>-->
               <th class="text-center">商品编号</th>
-              <th class="text-left">商品名称</th>
+              <th class="text-left">商品通用名</th>
 
               <th class="text-center">类型/分类</th>
 
@@ -124,7 +125,7 @@
                         style="position: relative"
                         ng-mouseenter="showInfoArea=true"
                         ng-mouseleave="showInfoArea=false">
-                    <div class=" color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>
+                    <div class=" color-orange cur-pot " title="{{tr.approvedName}}"> {{tr.approvedName}}</div>
                     <!--<div class="autocut color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>-->
                     <show-info-modal ng-show="showInfoArea"
                        get-data-type="local"
@@ -156,7 +157,7 @@
         <div class="flex-item-6 text-right">
           <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
           <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
-          <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
+          <span class="mgr">制单时间：<em class="color-3">{{scopeData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
         </div>
       </div>
     </div>
@@ -230,7 +231,7 @@
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list
             custom-menu-arr="{{scopeData.didateFilter.buttons}}">
-      </span>
+        </span>
 
       <!--
          已完成 && 待归还 显示

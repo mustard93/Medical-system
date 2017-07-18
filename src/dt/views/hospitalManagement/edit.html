@@ -268,6 +268,7 @@
                           class="select select-w ipt-new"
                           data-placeholder="选择一个..."
                           chosen
+                          default-empty="无"
                           ng-model="formData.object.payType"
                           select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
                   </select>
@@ -354,18 +355,18 @@
               <a ng-if="!changeFlag" href="#/hospitalManagement/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
-            <span class="mgl">
-              <a ng-if="formData.id"
-                 href="javascript:;"
-                 class="color-red mgt"
-                 handle-this-click
-                 dialog-title="确认删除?"
-                 dialog-content="删除后将无法恢复,确认删除?"
-                 dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/hospitalManagement/query.html')"
-                 params='{"id":formData.id}'
-                 request-url="rest/authen/customerAddress/delete">删除</a>
-            </span>
+             <!--<span class="mgl" ng-if="$root.hasAuthor('医院信息管理删除')">-->
+              <!--<a ng-if="formData.id"-->
+                 <!--href="javascript:;"-->
+                 <!--class="color-red mgt"-->
+                 <!--handle-this-click-->
+                 <!--dialog-title="确认删除?"-->
+                 <!--dialog-content="删除后将无法恢复,确认删除?"-->
+                 <!--dialog-template="pr-dialog-submit.html"-->
+                 <!--callback="$root.goTo('#/hospitalManagement/query.html')"-->
+                 <!--params='{"id":formData.id}'-->
+                 <!--request-url="rest/authen/customerAddress/delete">删除</a>-->
+            <!--</span>-->
             <span class="mgl" >
               <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"

@@ -83,6 +83,7 @@
               <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                       data-placeholder=" "
                       chosen
+                      no-first-select-source="true"
                       width="150px"
                       ng-model="formData.salesDepartmentId"
                       select-source="rest/authen/department/queryForSelectOption">
@@ -93,8 +94,9 @@
                       class="ipt pr-short-ipt color-3" style="width:90px;"
                       data-placeholder=" "
                       chosen
+                      no-first-select-source="true"
                       ng-model="formData.saleUserId"
-                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
               </select>
             </span>
             <span class="mgr">销售类型：
@@ -282,7 +284,7 @@
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-overflow.html" >返回报溢单列表</a>
-
+        <span ng-if="$root.hasAuthor('报损报溢删除')">
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -293,6 +295,7 @@
              request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
              callback="$root.goTo('#/lossOverOrder/query-overflow.html')">删除
           </a>
+        </span>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存

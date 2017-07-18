@@ -55,7 +55,8 @@
         </div>
         <div class="flex-item-8 text-right">
           <!--<span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>-->
-             <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+          <span class=" mgr">系统编号：<em class="color-3">{{showData.orderNo || "暂无"}}</em></span>
+          </span><span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
         </div>
       </div>
 
@@ -228,6 +229,7 @@
           </span>
           <span class="tools pull-right flex-item-1">
             <div class=" color-9 text-s mgt-s inline-block">
+
               <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
               <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
             </div>
@@ -239,7 +241,7 @@
             <thead>
               <tr>
                 <th class="text-center">商品编号</th>
-                <th>商品全名</th>
+                <th>商品通用名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">数量</th>
@@ -247,20 +249,33 @@
                 <th class="text-center">生产批号</th>
                 <th class="text-center">灭菌批号</th>
                 <th class="text-center">报价</th>
-                <th class="text-center">税率</th>
+                <!-- <th class="text-center">税率</th>
                 <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th>
+                <th class="text-center">折扣率</th> -->
                 <th class="text-center">含税单价</th>
-                <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th>
-                <th class="text-center">税额</th>
+                <!-- <th class="text-center">无税单价</th>
+                <th class="text-center">无税金额</th> -->
+                <!-- <th class="text-center">税额</th> -->
                 <th class="text-center">价税合计</th>
               </tr>
             </thead>
             <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
               <tr ng-repeat="item in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                 <td class="text-center">{{item.code}}</td>
-                <td>{{item.name}}</td>
+                <td>
+                <span
+                        class="color-orange cur-pot lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                  <show-info-modal ng-show="showInfoArea"
+                                   get-data-type="local"
+                                   template-url="tpl/showInfoModalLendOrder"
+                                   info-object="{{item}}"
+                                   info-title="商品信息">
+                  </show-info-modal>
+                </span>
+                </td>
                 <td class="text-center">{{item.specificationAndModelType}}</td>
                 <td class="text-center">{{item.unit}}</td>
                 <td class="text-right">{{item.quantity}}</td>
@@ -268,14 +283,13 @@
                 <td class="text-center">{{item.productionBatch}}</td>
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                 <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                <td class="text-right">{{item.tax}}%</td>
+                <!-- <td class="text-right">{{item.tax}}%</td>
                 <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                <td class="text-right">{{item.discountRate}}%</td>
-
+                <td class="text-right">{{item.discountRate}}%</td> -->
                 <td class="text-right">￥{{item.duty_price | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.duty_price, item.discountRate, item.tax) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td>
+                <!-- <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.duty_price, item.discountRate, item.tax) | number:2}}</td>
+                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td> -->
+                <!-- <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td> -->
                 <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.duty_price, item.discountRate, item.quantity) | number:2}}</td>
 
 
@@ -306,18 +320,18 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
-        <span class="alink-likeBtn">
-          <a href=""
-             ng-if="isShowCancelBtn"
-             class="btn mgr-s"
-             handle-this-click
-             dialog-title="确认?"
-             dialog-content="还有药械未处理,确认关闭?"
-             dialog-template="pr-dialog-confirm.html"
-             request-url="rest/authen/salesOrder/updateStatus?id={{formData.id}}"
-             callback="$root.goTo('#/salesOrder/get.html?id={{formData.id}}')">关闭
-          </a>
-        </span>
+        <!--<span class="alink-likeBtn">-->
+          <!--<a href=""-->
+             <!--ng-if="isShowCancelBtn"-->
+             <!--class="btn mgr-s"-->
+             <!--handle-this-click-->
+             <!--dialog-title="确认?"-->
+             <!--dialog-content="还有药械未处理,确认关闭?"-->
+             <!--dialog-template="pr-dialog-confirm.html"-->
+             <!--request-url="rest/authen/salesOrder/updateStatus?id={{formData.id}}"-->
+             <!--callback="$root.goTo('#/salesOrder/get.html?id={{formData.id}}')">关闭-->
+          <!--</a>-->
+        <!--</span>-->
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
                   ng-if="showData.orderStatus=='待确认'"

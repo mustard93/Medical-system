@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单')"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');formData.salesDepartmentId=mainStatus.additional.DepartmentId;formData.saleUserId=mainStatus.id;"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -113,8 +113,8 @@
                        ng-model="formData.orderDate" />
                       <span class="date-icon"></span>
               </span>
-
               <span class="text-right color-9 fl-r">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              <span class="fl-r mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
             </p>
             <div>
            <div class="bt-dashed-line">
@@ -124,12 +124,15 @@
                   </span>
                   <!--<span class="flex-item-3 color-9">预计到货日期：<em class="color-3"></em></span>-->
                   <span class="mgl">业务部门：
-                    <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                    <select ng-if="initFlag"
+                            class="ipt pr-short-ipt color-3"
                             data-placeholder=" "
                             chosen
+                            no-first-select-source="true"
                             width="150px"
                             ng-model="formData.salesDepartmentId"
-                            select-source="rest/authen/department/queryForSelectOption">
+                            select-source="rest/authen/department/queryForSelectOption"
+                            >
                     </select>
                   </span>
                   <span class="mgr mgl">业务人员：
@@ -137,8 +140,9 @@
                             class="ipt pr-short-ipt color-3" style="width:90px;"
                             data-placeholder=" "
                             chosen
+                            no-first-select-source="true"
                             ng-model="formData.saleUserId"
-                            select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                            select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                   </span>
                    <span class="mgr" style="position:relative;">
@@ -173,7 +177,7 @@
                       ng-controller="SalesOrderDetailsController">
                     <td class="text-center">{{tr.code}}
                       <div class="table-item-handle-btn">
-                        <div class="table-item-confirm-del-area bg-white">
+                        <div class="table-item-confirm-del-area bg-white" >
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
@@ -244,7 +248,7 @@
                       <p class="color-orange pr-indent-35">
                         <a modal-right="577"
                            modal-scope="this"
-                           modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"销售"}'
+                           modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"销售","customerId":"{{formData.customerId}}"}'
                            modal-url="views/versionFlow/history-price.html">参考价格
                         </a>
                       </p>
@@ -496,16 +500,18 @@
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
 
-          <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr-s"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条购需单吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-             callback="$root.goTo('#/salesOrder/query.html')">删除
-          </a>
+          <span ng-if="$root.hasAuthor('购需删除')">
+            <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+               href="javascript:;"
+               class="pr-color-red mgr-s"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="您确认删除这条购需单吗?"
+               dialog-template="dialog-confirm.html"
+               request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+               callback="$root.goTo('#/salesOrder/query.html')">删除
+            </a>
+          </span>
 
           <span class="alink-likeBtn">
             <a href=""

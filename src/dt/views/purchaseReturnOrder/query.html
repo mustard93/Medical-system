@@ -43,7 +43,7 @@
                          <span class="edit-link-icon">&nbsp;</span>
                      </a>
                     </span>
-                      <a ng-if="tr.orderStatus=='处理中'||tr.orderStatus=='已处理'||tr.orderStatus=='已作废'"
+                      <a ng-if="tr.orderStatus=='待审核'||tr.orderStatus=='处理中'||tr.orderStatus=='已处理'||tr.orderStatus=='已作废'"
                          title="查看详情"
                          class="btn-link pd-m rect-s "
                          ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}" >
@@ -64,15 +64,15 @@
                          <span class="delete-link-icon">&nbsp;</span>
                        </a>
                        </span>
-                       <span ng-if="$root.hasAuthor('采购退货单审批')">
-                       <a ng-if="tr.orderStatus=='待审核' "
-                          ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}"
-                          title="立即审核"
-                          class="btn-link pd-m rect-s "
-                          >
-                         <span class="examine-approve">&nbsp;</span>
-                        </a>
-                        </span>
+                       <!--<span ng-if="$root.hasAuthor('采购退货单审批')">-->
+                       <!--<a ng-if="tr.orderStatus=='待审核' "-->
+                          <!--ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}"-->
+                          <!--title="立即审核"-->
+                          <!--class="btn-link pd-m rect-s "-->
+                          <!--&gt;-->
+                         <!--<span class="examine-approve">&nbsp;</span>-->
+                        <!--</a>-->
+                        <!--</span>-->
                        <!--工作流控制菜单 -->
                        <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                           workflow-button-query-card

@@ -62,10 +62,12 @@
                             <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{tr.status}}</td>
                             <td>
-                              <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/user/editRole.html?id={{tr.id}}">
-                                    <i class="fa fa-folder-open-o"></i>
-                                    授权
-                                </button>
+                                <span ng-if="$root.hasAuthor('成员管理授权')">
+                                  <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/user/editRole.html?id={{tr.id}}">
+                                        <i class="fa fa-folder-open-o"></i>
+                                        授权
+                                    </button>
+                                </span>
 
                                 <!-- <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/user/edit.html?id={{tr.id}}">
                                     <i class="fa fa-edit"></i>

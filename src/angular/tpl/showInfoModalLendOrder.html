@@ -1,4 +1,6 @@
-<div class="show-info-modal" >
+<div class="show-info-modal"
+     ajax-url="rest/authen/medicalStock/get.json?id={{infoObject.relId}}"
+     scope-data="infoData">
     <h1>{{infoTitle}}
       <a class="fl-r mgr" style="color:rgba(255,140,0,1);" href="#/medicalStock/get.html?id={{infoObject.relId}}" target="_blank">
         查看更多商品详情
@@ -9,12 +11,12 @@
     <div class="show-info-modal-content-lend-order">
         <div class="item-info">
             <p>生产企业</p>
-            <p class="color-3">{{infoObject.produceEnterprise || "暂无"}}</p>
+            <p class="color-3">{{infoData.manufacturer  || "暂无"}}</p>
         </div>
 
         <div class="item-info">
             <p>批准证号／批准文号／备案凭证号</p>
-            <p class="color-3">{{infoObject.approvalNo || "暂无" }}</p>
+            <p class="color-3">{{infoData.medicalRegistryCode || "暂无" }}</p>
 
             <!--<p>备案凭证号</p>-->
             <!--<p class="color-3">{{infoObject.filingDocumentNo || "暂无"}}/</p>-->

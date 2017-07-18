@@ -143,15 +143,17 @@
                        ng-model="formData.orderDate" />
                       <span class="date-icon"></span>
               </span>
-              <span class="mgr-l">审核人：<em class="color-3">{{formData.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
               <!-- <span class="mgl-l">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span> -->
+              <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
+
               <span class="mgl-l">状态：<em class="color-3">{{formData.orderStatus || '暂无'}}</span>
             </div>
           </div>
 
-          <div class="flex-column color-9 pdt-m pdb-m pd-c-l">
+          <div class="flex-column color-9 pdt-m pdb-m pd-c-l" ng-init="formData.saleUserId=formData.saleUser.id">
             <span class="mgr-l">业务部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
             <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
@@ -168,7 +170,7 @@
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">可退数量</th>
-                <th class="text-center">退货数量</th>
+                <th class="text-center">计划退货数量</th>
                 <th class="text-center">预入仓库</th>
                 <th class="text-center ">生产批号</th>
                 <th class="text-center ">灭菌批号</th>
@@ -260,8 +262,8 @@
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-right">￥{{item.strike_price}}</td><!-- 报价 -->
-                <td class="text-right">￥{{item.totalPrice ||item.strike_price*item.quantity}}</td><!-- 报价 -->
+                <td class="text-center">￥{{item.strike_price}}</td><!-- 报价 -->
+                <td class="text-center">￥{{item.strike_price*item.quantity | number: 2}}</td><!-- 报价 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
               </tr>
             </tbody>
@@ -274,11 +276,11 @@
         </div>
         <div class="bt-line flex-column">
           <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
-            <span class="mgr mgl">制单部门：{{formData.departmentName || '暂无'}}</span>
+            <span class="mgr mgl color-9">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
 
-            <span class="mgr mgl">制单人：{{formData.inputUser.n || '暂无'}}</span>
+            <span class="mgr mgl color-9">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
 
-            <span class="mgr mgl">制单时间：{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}
+            <span class="mgr mgl color-9">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em>
           </p>
         </div>
       </div>
@@ -318,17 +320,18 @@
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
-
-          <a ng-if="formData.orderCode && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条销售退货单吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
-             callback="$root.goTo('#/saleReturnOrder/query.html')">删除
-          </a>
+          <span ng-if="$root.hasAuthor('销售退货单删除')">
+            <a ng-if="formData.orderCode && formData.inputUserId==mainStatus.id"
+               href="javascript:;"
+               class="pr-color-red mgr"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="您确认删除这条销售退货单吗?"
+               dialog-template="dialog-confirm.html"
+               request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
+               callback="$root.goTo('#/saleReturnOrder/query.html')">删除
+            </a>
+          </span>
 
 
           <button type="button"

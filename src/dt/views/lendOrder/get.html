@@ -1,6 +1,6 @@
 <div class="confirm-order-edit child-project-management"
      ng-controller="lendOrderEditCtrl"
-     ajax-url="rest/authen/lendOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/lendOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="scopeData"
      callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
      alert-error>
@@ -90,9 +90,11 @@
               <em title="{{scopeData.orderCode}}" class="color-3  autocut inline-block fl-l" style="width:100px;">{{scopeData.orderCode || '暂无'}}</em>
             </span>
             <span class="mgr">单据日期：<em class="color-3">{{scopeData.createAt  || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n||'暂无'}}</em></span>
           </div>
 
           <div class="flex-item-6 text-right">
+            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus || '暂无'}}</em></span>
             <!--<a-->
                <!--modal-center="1000px"-->
@@ -179,9 +181,9 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
           <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单部门：{{scopeData.departmentName ||  "暂无" }}</span>
-            <span class="mgr" style="margin: 0 15px;">制单人：{{scopeData.inputUser.n || "暂无"}}</span>
-            <span class="mgr">录单日期：{{ scopeData.createAt || "暂无" | date : "yyyy-MM-dd HH:mm"}}</span>
+            <span class="mgr">制单部门：<em class="color-3">{{scopeData.departmentName ||  "暂无" }}</em></span>
+            <span class="mgr" style="margin: 0 15px;">制单人：<em class="color-3">{{scopeData.inputUser.n || "暂无"}}</em></span>
+            <span class="mgr">制单时间：<em class="color-3">{{ scopeData.createAt || "暂无" | date : "yyyy-MM-dd HH:mm"}}</em></span>
           </div>
         </div>
 
@@ -299,7 +301,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{scopeData.id}}" business-type="借出单"></business-flow-show>
+    <!-- <business-flow-show business-key="{{scopeData.id}}" business-type="借出单"></business-flow-show> -->
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
