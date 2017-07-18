@@ -1655,7 +1655,6 @@ function customTableToggleSort (modal,utils,requestData) {
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
       if (sortItem.canSort) {
-        
         $(element).append('<i class="arrow-sort"></i>');
       }
 
@@ -1696,6 +1695,41 @@ function customTableToggleSort (modal,utils,requestData) {
     }//end link
   };
 }
+
+
+// 自定义表格排序，根据点击不同的标题，对相应列进行按该字段排序。
+/**
+   *
+  	* @Description: 点击发起请求,进行排序
+  	* @author 宋娟
+  	* @date 2017年07月18日 上午09:42:59
+   */
+
+   	   //  关键步骤：
+
+function customTableSet (modal,utils,requestData) {
+  'use strict';
+  return {
+      restrict: 'AE',
+    link: function ($scope, element, $attrs) {
+      var customTableSetP=element.parent().children('p');
+      // console.log(customTableSetP);
+      element.on('click',function(e){
+        // 阻止冒泡
+        e.stopPropagation();
+          var customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+          console.log(customTableSetItem);
+          // 去除选中样式，再重新加上当前选中的样式。
+          $(customTableSetP).removeClass('hover');
+          $(this).addClass('hover');
+          $scope.index=customTableSetItem.index;
+          console.log($scope.index);
+
+      })
+    }//end link
+  };
+}
+
 
 
 
@@ -3206,19 +3240,19 @@ function addressManageComponent (requestData, utils) {
       });
 
       // 监视用户修改后的数据返回，若已修改，则将修改后的信息替换到发送数据体中。
-      scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
-        if (newVal && newVal !== oldVal) {
-          // console.log(newVal);
-          var _contacts = newVal['contacts'] || [];
-
-          for (var i=0; i<_contacts.length; i++) {
-            if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
-              scope.formData[scope.scopeDataContacts] = _contacts[i];
-            }
-          }
-
-        }
-      });
+      // scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     // console.log(newVal);
+      //     var _contacts = newVal['contacts'] || [];
+      //
+      //     for (var i=0; i<_contacts.length; i++) {
+      //       if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+      //         scope.formData[scope.scopeDataContacts] = _contacts[i];
+      //       }
+      //     }
+      //
+      //   }
+      // });
 
       // 重新加载数据
       var reLoadData = function (scope) {
@@ -3251,12 +3285,13 @@ function addressManageComponent (requestData, utils) {
       // 判断默认选中
       $scope.chkDefaultChoise = function (tr) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
-          // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
           if ($scope.returnAddressObj.defaultContactId === tr.id) { return true; }
         } else {        // 如果是编辑
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';
           if ($scope.formData[_moduleName]) {
-            if ($scope.formData[_moduleName].id === tr.id) { return true; }
+            if ($scope.formData[_moduleName]['id'] === tr.id) {
+              return true;
+            }
           } else {
             if ($scope.returnAddressObj.defaultContactId === tr.id) {     // 选中默认地址
               $scope.formData[$scope.scopeDataContacts] = tr;
@@ -3290,6 +3325,7 @@ function addressManageComponent (requestData, utils) {
         //   }
         // }
 
+        // 如果是新建单据
         if (!$scope.formData.id) {
           var _contacts = $scope.returnAddressObj.contacts;
 
@@ -3390,6 +3426,31 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
+
+      // 用户若修改信息后的回调，用于将新的信息更新到formData中，主要用于编辑时的更新
+      $scope.modifiedCallBack = function (id) {
+        // 当为编辑时
+        if ($scope.formData.id) {
+          var _moduleName = $scope.scopeDataPrefix + 'Contacts';    // 获取当前选中的地址信息
+
+          // 如果当前修改的地址条目是选中的地址
+          if ($scope.formData[_moduleName]['id'] === id) {    // 重新请求修改后的地址信息
+            var _requestDataId = $scope.requestDataId ? $scope.requestDataId : '';
+            var _reqUrl = $scope.requestUrl + '?id=' + _requestDataId + '&type=' + $scope.createAddressType + '&logisticsCenterId=' + $scope.logisticsCenterId;
+            requestData(_reqUrl)
+            .then(function (results) {
+              var _data = results[1].data.contacts;
+              angular.forEach(_data, function (item, index) {
+                if ($scope.formData[_moduleName]['id'] === item.id) {
+                  $scope.formData[_moduleName] = item;
+                  // console.log($scope.formData);
+                }
+              });
+            });
+            // console.log($scope.requestUrl+'?id='+$scope.requestDataId);
+          }
+        }
+      }
     }]
   };
 }
@@ -3870,6 +3931,7 @@ angular.module('manageApp.project')
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
+  .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击隐藏或显示，移动位置。
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
