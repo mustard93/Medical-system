@@ -7569,14 +7569,14 @@ define('project/controllers', ['project/init'], function() {
                 // 设置标识符
                 $scope.modifyNodeInfo = false;
 
-                if (!$scope.formData.addressAttribute.parentCode) {
-                    $scope.formData.addressAttribute.parentCode = '';
+                if (!$scope.formData.addressAttribute.name) {
+                    $scope.formData.addressAttribute.name = '';
                 }
 
-                $scope.formData.addressAttribute.parentCode = angular.copy($scope.formData.addressAttribute.parentCode + $scope.formData.addressAttribute.levelCode);
-                $scope.formData.addressAttribute.parentId = $scope.formData.addressAttribute.id;
-                $scope.formData.addressAttribute.levelCode = null;
-                $scope.formData.addressAttribute.showName = null;
+                // $scope.formData.addressAttribute.parentCode = angular.copy($scope.formData.addressAttribute.parentCode + $scope.formData.addressAttribute.levelCode);
+                // $scope.formData.addressAttribute.parentId = $scope.formData.addressAttribute.id;
+                // $scope.formData.addressAttribute.levelCode = null;
+                // $scope.formData.addressAttribute.showName = null;
             }
         }
 
