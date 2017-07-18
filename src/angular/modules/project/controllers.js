@@ -7540,16 +7540,16 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
         // 新增子类节点
         $scope.addNewChildNode = function () {
 
-            //防止多次调用该方法，无线添加addressAttribute.parentCode
-            if(!$scope.formData.addressAttribute.name){
+            //防止多次调用该方法，无线添加medicalAttribute.parentCode
+            if(!$scope.formData.addressAttribute.id){
                 return;
             }
             console.log($scope.formData.addressAttribute.name);
             var addressAttribute={};
-            addressAttribute.parentId = $scope.formData.addressAttribute.name;
+            addressAttribute.parentId = $scope.formData.addressAttribute.id;
             var parentCode=$scope.formData.addressAttribute.parentCode;
             if(!parentCode)parentCode="";
-            addressAttribute.parentCode = angular.copy(parentCode + $scope.formData.addressAttribute.levelCode);
+            addressAttribute.parentCode = angular.copy(parentCode + $scope.formData.addressAttribute.name);
             $scope.formData.addressAttribute=addressAttribute;
 
             // if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
