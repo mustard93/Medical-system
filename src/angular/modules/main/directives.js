@@ -1846,7 +1846,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             var chosenConfig = {
                 search_contains: true,
                 no_results_text: "没有找到",
-                display_selected_options: false
+                display_selected_options: false,
+                default_single_text: "选择一个..."
             };
 
             //后缀连接符号
@@ -2322,7 +2323,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   } else {
                     $attrs.$observe("selectSource", function(value) {
 
-                        //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                        // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
                         if (!$attrs.noFirstSelectSource) {
                           if (firstSelectSource == value) return;
                         }
@@ -2331,6 +2332,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                         // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
                         getData();
+
                     });
                   }
 
@@ -2451,7 +2453,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var chosenConfig = {
                     search_contains: true,
                     no_results_text: "没有找到",
-                    display_selected_options: false
+                    display_selected_options: false,
+                    placeholder_text_single: "选择一个..."
                 };
 
                 //后缀连接符号
@@ -3469,20 +3472,67 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           			enable: true,
           			idKey: $scope.idKey||"id",
           			pIdKey: $scope.pIdKey||"pId",
-          			rootPId: 0,
+          			rootPId: "",
           		}
           	},
             callback: {
               onClick: function(event, treeId, treeNode) {
                   console.log(treeNode);
                   $scope.ngModel=treeNode.id;
+                  $scope.selectTreeNode=treeNode;
                   $scope.$apply();
               }
             }
           };
           require(['ztree'], function(store) {
 
-              $.fn.zTree.init($element, setting, zNodes);
+            var treeObj= $.fn.zTree.init($element, setting, zNodes);
+
+            //自动展开选中项。用于重新加载数据后，定位到数据
+            if($scope.selectTreeNode){
+                treeObj.selectNode($scope.selectTreeNode);
+                        // treeObj.expandNode($scope.selectTreeNode, true, true, true);
+            }
+            //使用广播方式，操作ztree节点
+              //添加节点 modify by liumingquan
+            $scope.$on("zTreeAddNode", function(evt,node) {
+                  console.log('$scope.$on("zTreeAddNode",',evt,node);
+                var parntId=node[setting.data.simpleData.pIdKey];
+                  var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
+                node = treeObj.addNodes(parentNode, node);
+                // if(node)treeObj.selectNode(node);
+            });
+
+            //更新节点  modify by liumingquan
+            $scope.$on("zTreeUpdateNode", function(evt,node) {
+                console.log('$scope.$on("zTreeUpdateNode",',evt,node);
+                  var id=node[setting.data.simpleData.idKey];
+                var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+                if(treeNode==null){//tree中没有，说明是新添加的，
+                    var parntId=node[setting.data.simpleData.pIdKey];
+                    var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
+                  treeObj.addNodes(parentNode, node);
+                }else{
+                  $.extend( true,treeNode,  node);
+                  treeObj.updateNode(treeNode);
+                }
+
+
+            });
+            //删除节点  modify by liumingquan
+            $scope.$on("zTreeRemoveNode", function(evt,id) {
+                  console.log('$scope.$on("zTreeRemoveNode",',evt,id);
+
+                var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+
+                if(node)treeObj.removeNode(node);
+            });
+            // 刷新整个节点 modify by liumingquan
+            $scope.$on("zTreeReloadData", function() {
+               //  getData(_detailsParams);
+               getData({});
+
+            });
 
           });//require
       }
@@ -3490,6 +3540,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         restrict: 'EA',
         scope: {
           "ngModel":"=?",
+          "selectTreeNode":"=?",
           "idKey":"@?",
           "pIdKey":"@?"
         },
@@ -3567,12 +3618,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                });
 
           }
-
-          $scope.$on("ajaxUrlReload", function() {
-             //  getData(_detailsParams);
-             getData({});
-
-          });
 
         }//end link
       };

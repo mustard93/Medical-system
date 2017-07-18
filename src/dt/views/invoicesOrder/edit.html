@@ -42,6 +42,7 @@
                    <select class="ipt pr-short-ipt color-3" style="width:90px;"
                            data-placeholder=" "
                            chosen
+                           ng-disabled="scopeData.id"
                            ng-model="scopeData.orderBusinessType"
                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
                    </select>
@@ -79,15 +80,15 @@
                      datepicker
                      class="ipt color-3"
                      style="width:120px;"
-                     ng-readonly="true"
+                     ng-disabled="scopeData.id"
                      placeholder=""
                      ng-model="scopeData.orderDate" />
                     <span class="date-icon"></span>
             </span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n || "暂无"}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+             <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
             <a
             modal-center="1000px"
             modal-data='{"businessKey":"{{scopeData.id}}"}'
@@ -140,16 +141,16 @@
                          class="color-orange cur-pot lend-order-goods-info"
                          ng-init="showInfoArea=false"
                          ng-mouseenter="showInfoArea=true"
-                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                         ng-mouseleave="showInfoArea=false">{{item.approvedName}}
                       <show-info-modal ng-show="showInfoArea"
                                        get-data-type="local"
                                        template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{tr}}"
+                                       info-object="{{item}}"
                                        info-title="商品信息">
                       </show-info-modal>
                     </span>
                   </td>
-                    <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
+                    <td class="text-left">{{item.dosageForms}}</td><!-- 剂型分类 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
@@ -160,7 +161,7 @@
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
                   <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                  <td class="text-right">￥{{item.totalPrice || item.strike_price*item.quantity | number:2}}</td>
+                  <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>

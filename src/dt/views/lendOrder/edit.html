@@ -2,9 +2,14 @@
      ng-controller="lendOrderEditCtrl"
      ajax-url="rest/authen/lendOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getSaleUserId(mainStatus.pageParams.saleUserId);"
      alert-error
-     >
+     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
+               initFlag=true;
+               $root.watchFormChange('formData',this);
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getSaleUserId(mainStatus.pageParams.saleUserId);">
+
+  <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
 
   <form id="editForm"
         name="editForm"
@@ -123,7 +128,7 @@
           <!-- 列表 -->
           <div class="">
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
-              <div class="flex-item-6">
+              <div class="flex-item-6"  ng-init="numberingPolicy='auto'">
                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode"/>
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
@@ -135,6 +140,7 @@
 
                 <span class="inline-block relative">
                   <span>单据日期：</span>
+
                   <!-- ngIf: initFlag --><input ng-if="initFlag" type="text" datepicker
                                                 class="ipt color-3"
                                                 style="width:120px;" ng-readonly="true" placeholder=""
@@ -144,6 +150,7 @@
 
               </div>
               <div class="flex-item-6 text-right">
+                  <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
                   <span class="mgr">状态：<em class="color-3">{{formData.orderStatus || "暂无"}}</em></span>
               </div>
             </div>
@@ -165,10 +172,11 @@
                         class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
-                        ng-model="formData.saleUser.id"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                        ng-model="formData.saleUserId"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                 </select>
               </span>
+
 
 
               <span class="inline-block relative">
@@ -514,9 +522,9 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
           <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单部门：{{formData.departmentName ||  "暂无" }}</span>
-            <span class="mgr" style="margin: 0 15px;">制单人：{{formData.inputUser.n || "暂无"}}</span>
-            <span class="mgr">录单日期：{{ formData.inputDate || "暂无" | date : "yyyy-MM-dd HH:mm"}}</span>
+            <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName ||  "暂无" }}</em></span>
+            <span class="mgr" style="margin: 0 15px;">制单人：<em class="color-3">{{formData.inputUser.n || "暂无"}}</em></span>
+            <span class="mgr">制单时间：<em class="color-3">{{ formData.createAt || "暂无" | date : "yyyy-MM-dd HH:mm"}}</em></span>
           </div>
         </div>
 
@@ -681,7 +689,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="借出单"></business-flow-show>
+    <!--<business-flow-show business-key="{{formData.id}}" business-type="借出单"></business-flow-show>-->
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -696,18 +704,18 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/lendOrder/query.html?id={{formData.relId}}" >返回借出单列表</a>
-
-        <a ng-if="formData.inputUserId==mainStatus.id"
-           href="javascript:;"
-           class="pr-color-red mgr"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="您确认删除这条借出单吗?"
-           dialog-template="dialog-confirm.html"
-           request-url="rest/authen/lendOrder/delete?id={{formData.id}}"
-           callback="$root.goTo('#/lendOrder/query.html')">删除
-        </a>
-
+        <span ng-if="$root.hasAuthor('借出单删除')">
+          <a ng-if="formData.inputUserId==mainStatus.id"
+             href="javascript:;"
+             class="pr-color-red mgr"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="您确认删除这条借出单吗?"
+             dialog-template="dialog-confirm.html"
+             request-url="rest/authen/lendOrder/delete?id={{formData.id}}"
+             callback="$root.goTo('#/lendOrder/query.html')">删除
+          </a>
+        </span>
 
         <!-- <button type="button"
                 class="pr-btn-save-glodbg mgr"
@@ -748,15 +756,13 @@
                 <!--ng-click="submitForm('editForm','submit')">提交-->
         <!--</button>-->
 
-        <button
-                type="button"
+        <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             !formData.orderCode ||
                              checkBatchsList()"
                 ng-click="submitForm('editForm','submit')">提交
         </button>

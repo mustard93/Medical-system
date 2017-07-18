@@ -82,11 +82,12 @@
               <em class="fl-l">单据日期：</em>
               <em title="{{scopeData.orderDate}}" class="color-3  autocut inline-block fl-l" style="width:100px;">{{scopeData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em>
             </span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n||'暂无'}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n||'暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
             <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span> -->
             <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
             <a ng-if="initFlag"
                modal-center="1000px"
                modal-data='{"businessKey":"{{scopeData.id}}"}'
@@ -119,11 +120,11 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">计划数量</th>
                   <th ng-if="scopeData.orderStatus!='待审核'" class="text-center">已发货数量</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">生产批号</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">灭菌批号</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">价税合计</th>
-                  <th class="text-center">失效日期</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">失效日期</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,11 +158,11 @@
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
                   <td ng-if="scopeData.orderStatus!='待审核'" class="text-center">{{item.outgoingQuantity}}</td><!-- 订购数量 -->
-                  <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.productionBatch}}</td>
+                  <td class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
                   <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 价税合计 -->
-                  <td class="text-right">{{item.validTill | date: 'yyyy-MM-dd'}}</td><!-- 价税合计 -->
+                  <td class="text-right" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.validTill | date: 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
             </table>
@@ -421,16 +422,17 @@
 
 
 
-        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-           href="javascript:;"
-           class="pr-color-red mgr"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="您确认删除这条销售单吗?"
-           dialog-template="dialog-confirm.html"
-           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/salesOrder/query.html')">删除
-        </a>
+            <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+               href="javascript:;"
+               class="pr-color-red mgr"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="您确认删除这条销售单吗?"
+               dialog-template="dialog-confirm.html"
+               request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+               call-back="$root.goTo('#/salesOrder/query.html')">删除
+            </a>
+
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
         <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
@@ -441,6 +443,7 @@
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
       </div>
+
       <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
       </div>

@@ -7,7 +7,7 @@
                $root.watchFormChange('formData',this);
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getSaleUserId(mainStatus.pageParams.saleUserId);
-               getCodeGenerationStrategy('销售单')"
+               getCodeGenerationStrategy('销售单');"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -183,6 +183,7 @@
               <div class="flex-item-6 text-right">
                 <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span> -->
                 <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+                <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
             </div>
@@ -191,6 +192,7 @@
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                         placeholder=" "
                         chosen
+                        no-first-select-source="true"
                         width="150px"
                         ng-model="formData.salesDepartmentId"
                         select-source="rest/authen/department/queryForSelectOption">
@@ -201,8 +203,9 @@
                         class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
+                        no-first-select-source="true"
                         ng-model="formData.saleUserId"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                 </select>
               </span>
               <span class="mgr">销售类型：
@@ -376,7 +379,7 @@
                               </a>
                             </p>
                     </td><!-- 报价 -->
-                    <td class="text-center">￥{{item.totalPrice||item.strike_price*item.quantity | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!-- 价税合计 -->
                     <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n" >
                       <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
