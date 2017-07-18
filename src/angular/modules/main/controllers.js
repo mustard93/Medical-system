@@ -377,21 +377,36 @@ define('main/controllers', ['main/init'], function () {
 
         // 重新发送操作
         $scope.resetSend = function (_id) {
-          var _ids=[];
-          if(orderMedical.length!==0){
-            for(var i= 0;i<orderMedical.length; i++){
-              _ids.push(orderMedical[i].id);
-            }
+          // var _ids=[];
+          // if(orderMedical.length!==0){
+          //   for(var i= 0;i<orderMedical.length; i++){
+          //     _ids.push(orderMedical[i].id);
+          //   }
+          // }
+          // var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids,
+          // _data = {};
+          //   requestData(_url, _data, 'post')
+          //   .then(function (results) {
+          //     utils.refreshHref();
+          //   })
+          //   .catch(function (error) {
+          //     if (error) { console.log(error || '出错!'); }
+          //   });
+          if(_id){
+            var _url = 'rest/authen/op/purchasePlanOrder/sendOrder?id=' + _id,
+            _data = {};
+              requestData(_url, _data, 'post')
+              .then(function (results) {
+                utils.refreshHref();
+              })
+              .catch(function (error) {
+                if (error) {
+                  alertWarn(error || '出错!');
+                 }
+              });
           }
-          var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids,
-          _data = {};
-            requestData(_url, _data, 'post')
-            .then(function (results) {
-              utils.refreshHref();
-            })
-            .catch(function (error) {
-              if (error) { console.log(error || '出错!'); }
-            });
+
+
         };
 
         // 配送数据发送操作

@@ -1581,21 +1581,21 @@ function tableToggleSort (modal,utils,requestData) {
       thList.addClass('cur-pot');
       for (var i = 0; i < tbodyList.length; i++) {
         // 根据传入的索引，选中对应的字段，然后加上相应的箭头样式。
-        thList.eq(tbodyList[i].index).append('<span class="arrow-sort"></span>');
+        thList.eq(tbodyList[i].index).append('<i class="arrow-sort"></i>');
       }
         // 当点击一个标题字段时，触发方法
       thList.on('click',function(e){
         // 阻止冒泡
         e.stopPropagation();
         // 把当前样式进行改变.
-        if ($(this).children('span').hasClass('arrow-sort')||$(this).children('span').hasClass('sort-desc')) {
-          $(this).children('span').removeClass('arrow-sort');
-          $(this).children('span').removeClass('sort-desc');
-          $(this).children('span').addClass('sort-asc');
+        if ($(this).children('i').hasClass('arrow-sort')||$(this).children('i').hasClass('sort-desc')) {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-desc');
+          $(this).children('i').addClass('sort-asc');
         }else {
-          $(this).children('span').removeClass('arrow-sort');
-          $(this).children('span').removeClass('sort-asc');
-          $(this).children('span').addClass('sort-desc');
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-asc');
+          $(this).children('i').addClass('sort-desc');
         }
 
         // 获取当前点击的标题是数组中的第几个th,用于后续判断与之对应的后台字段是哪一个.
@@ -1612,7 +1612,7 @@ function tableToggleSort (modal,utils,requestData) {
               tbodyList[i].sortCriteria='desc';
             }
             // 重新请求数据，然后刷新表格排序
-            var _url = sortRequestUrl+'?sortBy='+tbodyList[i].propertyName+'&sortWay='+tbodyList[i].sortCriteria;
+            var _url = sortRequestUrl+'?sortBy='+tbodyList[i].propertyKey+'&sortWay='+tbodyList[i].sortCriteria;
             requestData(_url, {}, 'get')
             .then(function (results) {
               if (results[1].code === 200) {
@@ -1628,6 +1628,70 @@ function tableToggleSort (modal,utils,requestData) {
             });
           }
         }
+      });
+    }//end link
+  };
+}
+
+// 自定义表格排序，根据点击不同的标题，对相应列进行按该字段排序。
+/**
+   *
+  	* @Description: 点击发起请求,进行排序
+  	* @author 宋娟
+  	* @date 2017年07月18日 上午09:42:59
+   */
+
+   	   //  关键步骤：
+
+function customTableToggleSort (modal,utils,requestData) {
+  'use strict';
+  return {
+      restrict: 'AE',
+    link: function ($scope, element, $attrs) {
+      // 表格数据传入Jason格式
+      var sortItem=$scope.$eval($attrs.sortItem);
+      // 请求重新排序接口
+      var sortRequestUrl=$attrs.sortRequestUrl;
+      // 把需要排序的标题加上排序箭头
+      // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
+      if (sortItem.canSort) {
+        
+        $(element).append('<i class="arrow-sort"></i>');
+      }
+
+        // 当点击一个标题字段时，触发方法
+      element.on('click',function(e){
+        // 阻止冒泡
+        e.stopPropagation();
+        // 把当前样式进行改变.
+        if ($(this).children('i').hasClass('arrow-sort')||$(this).children('i').hasClass('sort-desc')) {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-desc');
+          $(this).children('i').addClass('sort-asc');
+        }else {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-asc');
+          $(this).children('i').addClass('sort-desc');
+        }
+          // 判断切换排降序还是升序
+          if(sortItem.canSort){
+
+            if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
+              sortItem.sortCriteria='desc';
+            }else if (sortItem.sortCriteria=='desc') {
+              sortItem.sortCriteria='asc';
+            }
+            // 重新请求数据，然后刷新表格排序
+            var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+            requestData(_url, {}, 'get')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                  $scope.tbodyList=results[1].data;
+              }
+            })
+            .catch(function (error) {
+            });
+          }
       });
     }//end link
   };
@@ -2841,11 +2905,16 @@ function customTable() {
             if ($attrs.checkboxShow) {
                 $scope._checkboxShow=$attrs.checkboxShow;
             }
+            // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
+            if ($attrs.customTableUrl) {
+                $scope._customTableUrl=$attrs.customTableUrl;
+            }
 
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;
             }
+
             if ($attrs.customTrMenus) {
                 $scope._customTrMenus=$attrs.customTrMenus;
             }
@@ -3799,7 +3868,8 @@ angular.module('manageApp.project')
   .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
   .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
-  .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//表格点击排序
+  .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
+  .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
