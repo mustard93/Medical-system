@@ -149,7 +149,11 @@
                       <span ng-if="tr.type=='移库出库单'"
                       class="flex-item-6 pdl mgb-s text-left">参考wms移库单</span>
                       <span ng-if="tr.type=='调拨出库单'"
-                      class="flex-item-6 pdl mgb-s text-left">参考调拨出库单</span>
+                      class="flex-item-6 pdl mgb-s text-left">参考调拨单</span>
+                      <span ng-if="tr.type=='借出出库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考借出单</span>
+                      <span ng-if="tr.type=='归还出库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考归还单</span>
 
 
                       <span class="flex-item-6 text-right">
@@ -166,6 +170,16 @@
                         <a
                         ng-if="tr.type=='调拨出库单'"
                         href="#/allocateOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                          <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
+                        </a>
+                        <a
+                        ng-if="tr.type=='借出出库单'"
+                        href="#/lendOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                          <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
+                        </a>
+                        <a
+                        ng-if="tr.type=='归还出库单'"
+                        href="#/returnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
                           <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                         </a>
 

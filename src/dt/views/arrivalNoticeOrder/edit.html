@@ -61,7 +61,7 @@
                </div>
              </div>
            </div>
-           <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
+           <!-- <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
              <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
                <div class="inline-block customer-name"></div>
                <div class="inline-block">
@@ -69,7 +69,7 @@
                  <p class="text-m color-3 autocut-default" title="{{formData.customerName}}" style="width:300px;">{{formData.customerName || '暂无'}}</p>
                </div>
              </div>
-           </div>
+           </div> -->
            <div class="inline-block" ng-if="scopeData.orderBusinessType!='直发采购'">
               <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
                 <div class="inline-block logistics-center "></div>
@@ -116,16 +116,18 @@
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
                </div>
                <div class="flex-item-6 text-right">
-                 <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-                 <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span> -->
+                  <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                 <!--<span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>-->
                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
                </div>
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
                <span class="mgr">业务部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                         ng-if="initFlag"
                          data-placeholder=" "
                          chosen
+                         no-first-select-source="true"
                          ng-model="formData.salesDepartmentId"
                          select-source="rest/authen/department/queryForSelectOption">
                  </select>
@@ -134,8 +136,9 @@
                  <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
+                         no-first-select-source="true"
                          ng-model="formData.saleUserId"
-                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                  </select>
                </span>
                <span class="mgr">采购类型：
@@ -216,7 +219,7 @@
                          <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
                          ng-class="{'disabled':(tr.quantity<=1)}">-</button>
                          <span class="inline-block">
-                           <input type="text"
+                           <input type="number"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
                                   name="quantity{{$index}}"
@@ -224,8 +227,8 @@
                                   ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                   required
-                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                  invalid-popover="{{!arrivalNoticeOrderForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
+                                  ng-pattern="/^[0-9]{1}[0-9]{0,10}?$/"
+                                  invalid-popover="{{!arrivalNoticeOrderForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity || tr.quantity==0}}"
                                   popover-show
                                   is-focus="true"
                                   popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
@@ -269,33 +272,33 @@
                      </td><!-- 生产日期 -->
                      <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
                        <div class="inline-block relative">
-                         <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="有效期至"  ng-model="tr.validTill">
+                         <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="失效期致"  ng-model="tr.validTill">
                          <span class="date-icon"></span>
                        </div>
                      </td><!-- 失效日期 -->
                      <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                      <!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              name="strike_price{{$index}}"
-                              ng-model="tr.strike_price"
-                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                              invalid-popover
-                              valid-value="{{!arrivalNoticeOrderForm['strike_price'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                       <p class="color-orange pr-indent-35">
-                         <a modal-right="577"
-                            modal-scope="this"
-                            modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"采购","supplierId":"{{formData.supplier.id}}"}'
-                            modal-url="views/versionFlow/history-price.html">参考价格
-                         </a>
-                       </p>
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price | number:2}}
+                       <!--<input type="text"-->
+                              <!--class="ipt pr-ipt-60 text-right"-->
+                              <!--name="strike_price{{$index}}"-->
+                              <!--ng-model="tr.strike_price"-->
+                              <!--ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"-->
+                              <!--required-->
+                              <!--ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"-->
+                              <!--invalid-popover-->
+                              <!--valid-value="{{!arrivalNoticeOrderForm['strike_price'+$index].$valid}}"-->
+                              <!--popover-show-->
+                              <!--popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />-->
+                       <!--<p class="color-orange pr-indent-35">-->
+                         <!--<a modal-right="577"-->
+                            <!--modal-scope="this"-->
+                            <!--modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"采购","supplierId":"{{formData.supplier.id}}"}'-->
+                            <!--modal-url="views/versionFlow/history-price.html">参考价格-->
+                         <!--</a>-->
+                       <!--</p>-->
                      </td>
-                    <td class="text-center">￥{{tr.totalPrice||tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{tr.strike_price*tr.quantity||tr.totalPrice  | number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
@@ -410,7 +413,7 @@
 
           <a ng-if="!changeFlag" href="#/arrivalNoticeOrder/query.html" >返回来货通知单列表</a>
         </span>
-        <span class="mgl mgt">
+        <span class="mgl mgt" ng-if="$root.hasAuthor('来货通知单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
              href="javascript:;"
              handle-this-click
@@ -433,6 +436,7 @@
           <button
                   class="pr-btn-create-glodbg mgt"
                   type="button"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId"
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"

@@ -419,9 +419,9 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
           // 添加药品后请求当前药品的历史价格
           if (addDataItem) {
-            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            // var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售&customerId='+$scope.formData.customerId,
                 _data = {};
-
             requestData(_url, _data, 'GET')
             .then(function (results) {
               var _resObj = results[1].data;
@@ -1308,6 +1308,28 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
     };
 
+    $scope.diffPurchaseNumber = function (orderMedicalList) {
+      if (orderMedicalList) {
+        // 用于放每一条判断数量后的结果
+        isDisabledNextStepList=[];
+        angular.forEach(orderMedicalList, function (data, index) {
+          // 选择的数量小于计划数量，显示提示信息
+          $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
+          // ..
+          $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
+          // 把每一条判断后的true或者是false放入数组中
+          isDisabledNextStepList.push($scope.isDisabledNextStep);
+        });
+        // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
+        if (isDisabledNextStepList.some(function(item){ return item == true;}))
+        {
+          return $scope.isDisabledNextStep=true;
+        }else{
+          return $scope.isDisabledNextStep=false;
+        }
+      }
+    };
+
     // 总价计算方法
     $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
       if (orderMedicalNos) {
@@ -1358,6 +1380,22 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
       }
     });
 
+    $scope.finishQuantity = function (medicalNos){
+
+      var medicalList=[];
+      for (var i = 0; i < medicalNos.length; i++) {
+        medicalList.push(medicalNos[i].quantity);
+      }
+      if (medicalList.some(function(item){ return item == 0;}))
+      {
+        return $scope.isDisabledNextStep=false;
+
+      }else{
+        return $scope.isDisabledNextStep=true;
+      }
+
+    }
+
     // 检测调拨数量是否大于可调拨数量
     // @param orderMedicalNos  当前药品列表数组
     // @return undefined
@@ -1391,10 +1429,12 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
     $scope.checkQuantity = function (quantity,batches){
       var totalQuantity=0;
       for (var i = 0; i < batches.length; i++) {
-        console.log(batches[i].quantity);
         totalQuantity+=batches[i].quantity;
       }
-      if (totalQuantity>quantity) {
+
+      console.log(totalQuantity + '==>' +quantity);
+
+      if (totalQuantity>quantity||totalQuantity==0) {
         $scope.quantityError=true;
       }else {
         $scope.quantityError=false;
@@ -2192,6 +2232,31 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
                 data.handleFlag = false;
                 $scope.choisedMedicals = false;   // 生成按钮不可用
               });
+            }
+          }
+        };
+
+        // 监控计划采购数量与实际采购数量的方法
+        $scope.diffPurchaseNumber = function (orderMedicalList) {
+          if (orderMedicalList) {
+            // 用于放每一条判断数量后的结果
+            isDisabledNextStepList=[];
+            angular.forEach(orderMedicalList, function (data, index) {
+              // 选择的数量小于计划数量，显示提示信息
+              $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity ) ? true : false;
+              // ..
+
+              $scope.isDisabledNextStep = (data.quantity== 0 || data.quantity > data.planQuantity ) ? true : false;
+              // 把每一条判断后的true或者是false放入数组中
+
+              isDisabledNextStepList.push($scope.isDisabledNextStep);
+            });
+            // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
+            if (isDisabledNextStepList.some(function(item){ return item == true;}))
+            {
+              return $scope.isDisabledNextStep=true;
+            }else{
+              return $scope.isDisabledNextStep=false;
             }
           }
         };
@@ -6949,7 +7014,6 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
     // 定义单据编号前缀数据模型
     $scope.codePrefixList = [
-      {"text": "无", "value": ""},
       {"text": "静态文本", "value": "静态文本"},
       {"text": "单据日期", "value": "单据日期"}
     ];
@@ -6981,83 +7045,94 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
       }
 
       $scope.fixDateString = _text;
+
+      return _text;
     };
 
     // 计算编码字符长度
     $scope.getCodeLength = function (formData) {
 
-      if (formData.prefix1_type === '静态文本' && formData.prefix2) {
-        $scope.createPrefixForDate(formData.prefix2);
-        if ($scope.fixDateString) {
-          $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      if (Number(formData.type) === 1) {
+        var _prefix1Length = 0, _prefix2Length = 0;
+
+        if (formData.prefix1) {
+          if (formData.prefix1 === '年' || formData.prefix1 === '年月' || formData.prefix1 === '年月日') {
+            _prefix1Length = $scope.createPrefixForDate($scope.formData.prefix1).length;
+          } else {
+            _prefix1Length = $scope.formData.prefix1.length;
+          }
         }
+
+        if (formData.prefix2) {
+          if (formData.prefix2 === '年' || formData.prefix2 === '年月' || formData.prefix2 === '年月日') {
+            _prefix2Length = $scope.createPrefixForDate($scope.formData.prefix2).length;
+          } else {
+            _prefix2Length = $scope.formData.prefix2.length;
+          }
+        }
+
+        $scope.codeLength = _prefix1Length + _prefix2Length + Number(formData.serialNumberLength);
+
       }
 
-      if (formData.prefix2_type === '静态文本' && formData.prefix1) {
-        $scope.createPrefixForDate(formData.prefix1);
-        if ($scope.fixDateString) {
-          $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
-        }
-      }
+      // $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+
+      // if (formData.prefix1_type === '静态文本' && formData.prefix2) {
+      //   $scope.createPrefixForDate(formData.prefix2);
+      //   if ($scope.fixDateString) {
+      //     $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      //   }
+      // }
+      //
+      // if (formData.prefix2_type === '静态文本' && formData.prefix1) {
+      //   $scope.createPrefixForDate(formData.prefix1);
+      //   if ($scope.fixDateString) {
+      //     $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
+      //   }
+      // }
     }
 
     // 创建编码样例
     $scope.createCodeSample = function (formData) {
 
-      if (formData.type === 1) {
+      if (Number(formData.type) === 1) {
+        // 构建字符串
+        var _prefix1 = '', _prefix2 = '', _serialNumber;
+
+        // 构建流水号
         var _tmp = formData.serialNumberLength - 1;
-        var _serialNumber = 1;
+        _serialNumber = 1;
         for (var i = 0; i < _tmp; i ++) {
           _serialNumber += '0';
         }
 
-        $scope.codeSample = formData.prefix1 + $scope.fixDateString + _serialNumber;
+        if (formData.prefix1) {
+          if (formData.prefix1 === '年' || formData.prefix1 === '年月' || formData.prefix1 === '年月日') {
+            _prefix1 = $scope.createPrefixForDate($scope.formData.prefix1)
+          } else {
+            _prefix1 = formData.prefix1;
+          }
+        } else {
+          _prefix1 = '';
+        }
+
+        if (formData.prefix2) {
+          if (formData.prefix2 === '年' || formData.prefix2 === '年月' || formData.prefix2 === '年月日') {
+            _prefix2 = $scope.createPrefixForDate($scope.formData.prefix2)
+          } else {
+            _prefix2 = formData.prefix2;
+          }
+        } else {
+          _prefix2 = '';
+        }
+
+        $scope.codeSample = _prefix1 + _prefix2 + _serialNumber;
+
       }
 
-      // if (formData.prefix1_type === '单据日期') {
-      //   $scope.createPrefixForDate(formData.prefix1);
-      // } else {
-      //   $scope.createPrefixForDate(formData.prefix2);
-      // }
-      //
-      // if (formData.prefix1_type === '静态文本' && formData.prefix2) {
-      //   $scope.codeSample = formData.prefix1 + $scope.fixDateString + _serialNumber;
-      // } else {
-      //   $scope.codeSample = $scope.fixDateString + formData.prefix2 + _serialNumber;
-      // }
     }
 
-    // 点击左侧树形菜单加载不通模块的编码策略
-    // $scope.handleClickEvent = function (nodes) {
-    //   if (nodes && nodes['pId']) {    // 不是主节点
-    //     var _nodeName = 'DT_' + nodes['name'];
-    //     var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
-    //     requestData(_reqUrl)
-    //     .then(function (results) {
-    //       if (results[1].code === 200) {
-    //         $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
-    //
-    //         // 如果类型类空，则初始化为1（系统自动生成）
-    //         if (!$scope.formData.type) { $scope.formData.type = 1; }
-    //
-    //         // 如果类型为空，则赋值为当前类型
-    //         if (!$scope.formData.moduleType) { $scope.formData.moduleType = _nodeName; }
-    //
-    //         // 初始化样例
-    //         $scope.codeSample = null;
-    //
-    //         // 初始化获取编码长度和样例
-    //         $scope.getCodeLength($scope.formData);
-    //         $scope.createCodeSample($scope.formData);
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       if (error) { throw new Error(error || '出错'); }
-    //     })
-    //   }
-    // }
-
-    // ...
+    // 树形菜单中选项被点击后，监控medicalAttribute对象变化，并获取响应数据重新渲染右侧表单内容
     $scope.$watchCollection('formData.medicalAttribute', function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
         // 用户点击了树中不同节点，请求当前节点的信息
@@ -7088,6 +7163,17 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
         })
       }
     });
+
+    // ...
+    $scope.clearSetOptions = function () {
+      if (Number($scope.formData.type) === 2) {
+        $scope.formData.prefix1_type = $scope.formData.prefix2_type = '';
+        $scope.formData.prefix1 = $scope.formData.prefix2 = '';
+        $scope.formData.serialNumberLength = null;
+        $scope.codeLength = null;
+        $scope.codeSample = null;
+      }
+    }
   }
 
   /**
@@ -7102,12 +7188,26 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
   function archiveCodeStrategyController ($scope, alertOk, alertError, requestData) {
     // 当用户修改后，如果级别值为空，则从对象中删除
     $scope.chkLevelChange = function (levelMap) {
+
+      $scope.levelSetError = false;
+
       if (levelMap) {
+        // 如果等级被删除则从数据对象中删除此等级
         for (var level in levelMap) {
           if (levelMap.hasOwnProperty(level)) {
             if (!levelMap[level]) { delete levelMap[level]; }
           }
         }
+
+        // 如果等级被置空，且下一个等级有值，则屏蔽提交按钮
+        for(var i = 1; i < 6; i++) {
+          if (!levelMap['level'+i] && levelMap['level'+(i+1)]) {
+            $scope.levelSetError = true;
+          }
+        }
+
+
+
       }
     }
   }
@@ -7126,7 +7226,7 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
     // 定义是否显示右侧编辑界面
     $scope.showEditArea = false;
 
-    // 定义保存节点信息类型，默认为修改节点信息
+    // 定义保存节点信息类型，默认为修改节点信息。不再使用
     $scope.modifyNodeInfo = true;
 
     // 获取模块名，（商品分类模块、供应商分类模块、客户分类模块）
@@ -7165,11 +7265,15 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
         var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
         // 发送请求保存数据
         requestData(_saveUrl, addMainClassObj, 'POST', 'parameterBody')
-        .then(function (resutls) {
-          if (resutls[1].code === 200) {
-            alertOk('操作成功');
-            utils.refreshHref();
-          }
+        .then(function (results) {
+          alertOk('操作成功');
+            console.log("addMainClass",results);
+                $scope.$broadcast('zTreeUpdateNode',results[0]);
+                $scope.showAddClass=false;
+          // if (resutls[1].code === 200) {
+          //   alertOk('操作成功');
+          //   utils.refreshHref();
+          // }
         })
         .catch(function (error) {
           if (error) { alertWarn(error) }
@@ -7182,55 +7286,83 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
       // 保存路径
       var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
 
-      if ($scope.modifyNodeInfo) {     // 修改节点信息
-        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
-        .then(function (results) {
-          if (results[1].code === 200) {
-            alertOk('操作成功');
-            utils.refreshHref();
-          } else {
-            alertWarn(results[1].msg);
-          }
-        })
-        .catch(function (error) {
-          if (error) { alertWarn(error); }
-        })
-      } else {      // 新增子节点
-        // 如果父节点id为空，则将当前节点id复制给父节点
-        if (!medicalAttribute['parentId']) {
-          medicalAttribute['parentId'] = angular.copy(medicalAttribute['id']);
-        }
-        // 将id置空，标识为新建节点
-        medicalAttribute['id'] = null;
+      requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+      .then(function (results) {
+        alertOk('操作成功');
+        console.log("saveNodeInfo",results);
+          $scope.$broadcast('zTreeUpdateNode',results[0]);
+          // $scope.formData.medicalAttribute=null;
+        // if (results[1].code === 200) {
+        //   alertOk('操作成功');
+        //   utils.refreshHref();
+        // } else {
+        //   alertWarn(results[1].msg);
+        // }
+      })
+      .catch(function (error) {
+        if (error) { alertWarn(error); }
+      })
 
-        requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
-        .then(function (results) {
-          if (results[1].code === 200) {
-            alertOk('操作成功');
-            utils.refreshHref();
-          } else {
-            alertWarn(results[1].msg);
-          }
-        })
-        .catch(function (error) {
-          if (error) { alertWarn(error); }
-        });
-      }
+
+      // if ($scope.modifyNodeInfo) {     // 修改节点信息
+      //   requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+      //   .then(function (results) {
+      //     alertOk('操作成功');
+      //       $scope.$broadcast('zTreeReloadData');
+      //     // if (results[1].code === 200) {
+      //     //   alertOk('操作成功');
+      //     //   utils.refreshHref();
+      //     // } else {
+      //     //   alertWarn(results[1].msg);
+      //     // }
+      //   })
+      //   .catch(function (error) {
+      //     if (error) { alertWarn(error); }
+      //   })
+      // } else {      // 新增子节点
+      //   // 如果父节点id为空，则将当前节点id复制给父节点
+      //   if (!medicalAttribute['parentId']) {
+      //     medicalAttribute['parentId'] = angular.copy(medicalAttribute['id']);
+      //   }
+      //   // 将id置空，标识为新建节点
+      //   medicalAttribute['id'] = null;
+      //
+      //   requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
+      //   .then(function (results) {
+      //
+      //     alertOk('操作成功');
+      //       $scope.$broadcast('zTreeReloadData');
+      //
+      //     // if (results[1].code === 200) {
+      //     //   alertOk('操作成功');
+      //     //   utils.refreshHref();
+      //     // } else {
+      //     //   alertWarn(results[1].msg);
+      //     // }
+      //   })
+      //   .catch(function (error) {
+      //     if (error) { alertWarn(error); }
+      //   });
+      // }
     }
 
     // 删除类别
     $scope.deleteThisClass = function () {
-      if ($scope.formData.medicalAttribute.id) {
+        var id=$scope.formData.medicalAttribute.id;
+      if (id) {
         // 删除路径
-        _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.medicalAttribute.id
+        _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + id
         requestData(_delUrl, {}, 'POST')
         .then(function (results) {
-          if (results[1].code === 200) {
-            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
-            utils.refreshHref();
-          } else {
-            alertWarn(results[1].msg);
-          }
+            $scope.$broadcast('zTreeRemoveNode',id);
+              $scope.formData.medicalAttribute=null;
+          //
+          // if (results[1].code === 200) {
+          //   // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+          //   utils.refreshHref();
+          // } else {
+          //   alertWarn(results[1].msg);
+          // }
         })
         .catch(function (error) {
           if (error) { alertWarn(error); }
@@ -7240,23 +7372,205 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
     // 新增子类节点
     $scope.addNewChildNode = function () {
-      // 设置标识符
-      $scope.modifyNodeInfo = false;
 
-      if (!$scope.formData.medicalAttribute.parentCode) {
-        $scope.formData.medicalAttribute.parentCode = '';
+      //防止多次调用该方法，无线添加medicalAttribute.parentCode
+      if(!$scope.formData.medicalAttribute.id){
+        return;
       }
+      console.log($scope.formData.medicalAttribute.levelCode);
+        var medicalAttribute={};
+          medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
+          var parentCode=$scope.formData.medicalAttribute.parentCode;
+          if(!parentCode)parentCode="";
+          medicalAttribute.parentCode = angular.copy(parentCode + $scope.formData.medicalAttribute.levelCode);
+          $scope.formData.medicalAttribute=medicalAttribute;
 
-      $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
-      $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
-      $scope.formData.medicalAttribute.levelCode = null;
-      $scope.formData.medicalAttribute.showName = null;
+      // if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
+      //
+      //   // 设置标识符
+      //   $scope.modifyNodeInfo = false;
+      //
+      //   if (!$scope.formData.medicalAttribute.parentCode) {
+      //     $scope.formData.medicalAttribute.parentCode = '';
+      //   }
+      //
+      //   $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
+      //   $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
+      //   $scope.formData.medicalAttribute.levelCode = null;
+      //   $scope.formData.medicalAttribute.showName = null;
+      // }
+    }
 
-      // 清空节点code和name的数据
+
+  }
+
+
+
+
+
+    /**
+     * [regionManageController manage地址控件管理模块控制器]
+     * @method regionManageController
+     * @param  {[type]}                   $scope      [description]
+     * @param  {[type]}                   alertOk     [description]
+     * @param  {[type]}                   alertError  [description]
+     * @param  {[type]}                   requestData [description]
+     * @return {[type]}                               [description]
+     */
+    function regionManageController ($scope,alertOk,alertError,alertWarn,requestData,utils) {
+
+
+        // 定义是否显示右侧编辑界面
+        $scope.showEditArea = false;
+
+        // 定义保存节点信息类型，默认为修改节点信息
+        $scope.modifyNodeInfo = true;
+
+        // 获取模块名，（商品分类模块、供应商分类模块、客户分类模块）
+        // $scope.$watch('moduleName', function (newVal, oldVal) {
+        //   if (newVal && newVal !== oldVal) {
+        //     // 定义保存url
+        //     var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+        //     // 定义删除请求地址
+        //     var _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=';
+        //   }
+        // });
+
+        // console.log(_saveUrl + '==>' +_delUrl);
+
+        // 转换返回的JSON对象为JSON字符串
+        $scope.filterJSONDate = function (data) {
+            return JSON.stringify(data);
+        }
+
+        // 关闭新增省级区域
+
+        $scope.cancelAddClass = function () {
+
+            $scope.showAddClass = $scope.showAddClass ? false :true;
+
+            // if ($scope.showAddClass) {
+            //   $scope.showAddClass = false;
+            // } else {
+            //   $scope.showAddClass = false;
+            // }
+        }
+
+        // 添加省级
+
+        $scope.addMainClass = function (addMainClassObj) {
+            if (addMainClassObj) {
+                // 保存路径
+                var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+                // 发送请求保存数据
+                requestData(_saveUrl, addMainClassObj, 'POST', 'parameterBody')
+                    .then(function (resutls) {
+                        if (resutls[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error) }
+                    });
+            }
+        }
+
+        // 修改节点信息和保存子节点信息操作
+        $scope.saveNodeInfo = function (addressAttribute) {
+            // 保存路径
+            var _saveUrl = 'rest/authen/' + $scope.moduleName + '/save.json';
+
+            if ($scope.modifyNodeInfo) {     // 修改节点信息
+                requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    })
+            } else {      // 新增子节点
+                // 如果父节点id为空，则将当前节点id复制给父节点
+                if (!addressAttribute['parentId']) {
+                    addressAttribute['parentId'] = angular.copy(addressAttribute['id']);
+                }
+                // 将id置空，标识为新建节点
+                addressAttribute['id'] = null;
+
+                requestData(_saveUrl, addressAttribute, 'POST', 'parameterBody')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            alertOk('操作成功');
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    });
+            }
+        }
+
+        // 删除类别
+        $scope.deleteThisClass = function () {
+            if ($scope.formData.addressAttribute.id) {
+                // 删除路径
+                _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + $scope.formData.addressAttribute.id
+                requestData(_delUrl, {}, 'POST')
+                    .then(function (results) {
+                        if (results[1].code === 200) {
+                            // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
+                            utils.refreshHref();
+                        } else {
+                            alertWarn(results[1].msg);
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error) { alertWarn(error); }
+                    });
+            }
+        }
+
+        // 新增子类节点
+        $scope.addNewChildNode = function () {
+
+            //防止多次调用该方法，无线添加medicalAttribute.parentCode
+            if(!$scope.formData.addressAttribute.id){
+                return;
+            }
+            console.log($scope.formData.addressAttribute.name);
+            var addressAttribute={};
+            addressAttribute.parentId = $scope.formData.addressAttribute.id;
+            var parentCode=$scope.formData.addressAttribute.parentCode;
+            if(!parentCode)parentCode="";
+            addressAttribute.parentCode = angular.copy(parentCode + $scope.formData.addressAttribute.name);
+            $scope.formData.addressAttribute=addressAttribute;
+
+            // if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
+            //
+            //   // 设置标识符
+            //   $scope.modifyNodeInfo = false;
+            //
+            //   if (!$scope.formData.medicalAttribute.parentCode) {
+            //     $scope.formData.medicalAttribute.parentCode = '';
+            //   }
+            //
+            //   $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
+            //   $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
+            //   $scope.formData.medicalAttribute.levelCode = null;
+            //   $scope.formData.medicalAttribute.showName = null;
+            // }
+        }
+
 
     }
 
-  }
 
   /**
    * 借出单编辑Ctrl
@@ -7673,7 +7987,7 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
        $scope.checkQuantity = function (quantity,batches){
            var totalQuantity=0;
            for (var i = 0; i < batches.length; i++) {
-               console.log(batches[i].quantity);
+              //  console.log(batches[i].quantity);
                totalQuantity+=batches[i].quantity;
            }
            if (totalQuantity>quantity) {
@@ -7755,103 +8069,103 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
    }
 
   //归还单 Ctrl
-  function  returnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+  function  returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      //表单数据监控
       $scope.watchFormChange = function(watchName){
           watchFormChange(watchName,$scope);
       };
 
+    //校验计划归还输入数量   待还数量= 借出数量 - 已还数量
+    $scope.checkQuantity=function(tr){
+        var flag=false;
+        if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
+            flag=true;
+        }
+        return flag;
+    };
 
-      //校验计划归还输入数量
-      $scope.checkQuantity=function(tr){
-          var flag=false;
-          if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
-              flag=true;
-          }
-          return flag;
-      };
+    $scope.getGoodsBatchsCount=function (stockBatchs) {
+        var count =0;
+        if(stockBatchs){
+            angular.forEach(stockBatchs,function (item,index) {
+                count += (item.quantity*1);
+            });
+        }
+        return count;
+    };
 
-      $scope.getGoodsBatchsCount=function (stockBatchs) {
-          var count =0;
-          if(stockBatchs){
-              angular.forEach(stockBatchs,function (item,index) {
-                  count += (item.quantity*1);
-              });
-          }
-          return count;
-      };
+    // 检查归还数量是否合法
+    $scope.checkCanSubmit=function () {
+        var flag=true;
 
-      // 检查归还数量是否合法
-      $scope.checkCanSubmit=function () {
-          var flag=true;
-
-          angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
-              //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
-              if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
-                  flag=false;
-              }
-          });
-          return flag;
-      };
-
+        angular.forEach($scope.formData.orderMedicalNos,function (tr,index) {
+            //实际归还数量大于待还数量 或 实际待还数量小于1 ，认为数量不合法
+            if((tr.actualCount - tr.cumulativeReturnCount) < tr.quantity  || tr.quantity <1){
+                flag=false;
+            }
+        });
+        return flag;
+    };
 
 
-      // 回调  保存type:save-草稿,submit-提交订单。
-      $scope.submitFormAfter = function() {
 
-          if($scope.submitForm_type == 'save'){
-              // $scope.goTo('#/collarReturnOrder/edit.html');
-              return;
-          }
+    // 回调  保存type:save-草稿,submit-提交订单。
+    $scope.submitFormAfter = function() {
 
-          if ($scope.submitForm_type == 'submit') {
-              var _url='rest/authen/returnOrder/startProcessInstance';
-              var data= {businessKey:$scope.formData.id};
-              requestData(_url,data, 'POST')
-                  .then(function (results) {
-                      var _data = results[1];
-                      $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
-                  })
-                  .catch(function (error) {
-                      alertError(error || '出错');
-                  });
-          }
+        if($scope.submitForm_type == 'save'){
+            $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+            return;
+        }
 
-      };
+        if ($scope.submitForm_type == 'submit') {
+            var _url='rest/authen/returnOrder/startProcessInstance';
+            var data= {businessKey:$scope.formData.id};
+            requestData(_url,data, 'POST')
+                .then(function (results) {
+                    var _data = results[1];
+                    $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
 
-      // 保存type:save-草稿,submit-提交订单。
-      $scope.submitForm = function(fromId, type) {
+    };
 
-          $scope.submitForm_type = type;
+    // 保存type:save-草稿,submit-提交订单。
+    $scope.submitForm = function(fromId, type) {
 
-          // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
-          if ($scope.submitForm_type === 'save') {
-              $scope.formData.validFlag = false;
-          }
+        $scope.submitForm_type = type;
 
-          if ($scope.submitForm_type == 'submit') {
-              $scope.formData.validFlag = true;
-          }
+        // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+        if ($scope.submitForm_type === 'save') {
+            $scope.formData.validFlag = false;
+        }
 
-          $('#' + fromId).trigger('submit');
-      };
+        if ($scope.submitForm_type == 'submit') {
+            $scope.formData.validFlag = true;
+        }
 
-     // 重置 借出单 信息
-     $scope.resetLendOrderInfo=function () {
+        $('#' + fromId).trigger('submit');
+    };
 
-         if($scope.formData.orderMedicalNos.length<1){
-             $scope.formData.relId="";//关联原订单ID
-             $scope.formData.relOrderNo="";//关联原订单号
-             $scope.formData.relOrderCode="";//关联原订编号
+   // 重置 借出单 信息
+   $scope.resetLendOrderInfo=function () {
 
-
-             //发货方信息   收货方信息
-             $scope.formData.customerContacts=null;
-             $scope.formData.invoicesContacts=null;
+       if($scope.formData.orderMedicalNos.length<1){
+           $scope.formData.relId="";//关联原订单ID
+           $scope.formData.relOrderNo="";//关联原订单号
+           $scope.formData.relOrderCode="";//关联原订编号
 
 
-         }
-     }
+           //发货方信息   收货方信息
+           $scope.formData.customerContacts=null;
+           $scope.formData.invoicesContacts=null;
+
+
+       }
+   }
   }
 
   //归还单择归还商品弹窗 Ctrl
@@ -8053,9 +8367,15 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
 
           //添加商品
           var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+
+          //添加的商品设置的计划归还数量为null, 在页面进行计算；
+          angular.forEach($scope.selectedBatchs2,function (item,index) {
+              item.quantity = null;
+              $scope.selectedBatchs2[index]= item;
+          });
+
           var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
           $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
-
       };
 
 
@@ -8203,7 +8523,11 @@ define('project/controllers', ['project/init','project/controllers-imTaobao'], f
   .controller('returnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderCtrl])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
-  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl]);
+  .controller('choseBatchCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', choseBatchCtrl])
+  .controller('regionManageController', ['$scope', 'alertOk', 'alertError', 'alertWarn', 'requestData', 'utils', regionManageController]);
+
+
+
 
 
 });

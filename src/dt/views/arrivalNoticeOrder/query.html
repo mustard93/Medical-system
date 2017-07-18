@@ -35,7 +35,7 @@
                     </em>
                   </span>
                   <span class="flex-item-6 text-right">
-                    <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
+                    <span class=" text-right"  ng-if="tr.orderStatus!='未提交'" >
                       <a
                       class="btn-link pd-m rect-s"
                       title="查看详情"
@@ -43,28 +43,26 @@
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                   </span>
-                    <span ng-if="tr.orderStatus=='未提交'" class=" text-right">
-                      <a
-                      class="btn-link pd-m rect-s"
-                      title="编辑"
-                      href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" class="mgl">
-                      <span class="edit-link-icon">&nbsp;</span>
-                      </a>
-                      <span>
-                        <a ng-if="tr.orderStatus=='未提交'"
-                           href="javascript:;"
-                           class="btn-link pd-m rect-s"
-                           title="删除"
-                           handle-this-click
-                           dialog-title="确认删除 ?"
-                           dialog-content="您确认删除这条来货通知单吗?"
-                           dialog-template="pr-dialog-confirm.html"
-                           request-url="rest/authen/arrivalNoticeOrder/delete?id={{tr.id}}"
-                           callback="$root.utils.refreshHref()"
-                           emitted="reloadList">
-                        <span class="delete-link-icon">&nbsp;</span>
-                        </a>
-                      </span>
+                  <span ng-if="tr.orderStatus=='未提交'" >
+                    <span>
+                    <a href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                    <span class="edit-link-icon">&nbsp;</span></a>
+                  </span>
+                  <span >
+                    <a ng-if="tr.orderStatus=='未提交'"
+                       href="javascript:;"
+                       class="btn-link pd-m rect-s"
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除 ?"
+                       dialog-content="您确认删除这条来货通知单吗?"
+                       dialog-template="pr-dialog-confirm.html"
+                       request-url="rest/authen/arrivalNoticeOrder/delete?id={{tr.id}}"
+                       callback="$root.utils.refreshHref()"
+                       emitted="reloadList">
+                    <span class="delete-link-icon">&nbsp;</span>
+                    </a>
+                  </span>
                   </span>
                 </div>
 

@@ -1,4 +1,5 @@
 <div class=" purchase-return-order sale-return-order"
+     ng-init="formData={}"
      ng-controller="purchasereturnOrderEditCtrl"
      ajax-url="rest/authen/purchaseReturnOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="formData"
@@ -73,13 +74,14 @@
         <div>
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
               <span class="mgr-l">单据日期：<em class="color-3">{{formData.orderDate || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
               <!-- <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
-              <span class="mgr-l">审核人：<em class="color-3">{{formData.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
               <!-- <span class="mgl-l">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span> -->
+               <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo}}</em></span>
               <a
               modal-center="1000px"
               modal-data='{"businessKey":"{{formData.id}}"}'

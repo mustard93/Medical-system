@@ -3205,6 +3205,21 @@ function addressManageComponent (requestData, utils) {
         }
       });
 
+      // 监视用户修改后的数据返回，若已修改，则将修改后的信息替换到发送数据体中。
+      scope.$watchCollection('returnAddressObj', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          // console.log(newVal);
+          var _contacts = newVal['contacts'] || [];
+
+          for (var i=0; i<_contacts.length; i++) {
+            if (scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+              scope.formData[scope.scopeDataContacts] = _contacts[i];
+            }
+          }
+
+        }
+      });
+
       // 重新加载数据
       var reLoadData = function (scope) {
         var _reqUrl = scope.requestUrl + '?id=' + scope.requestDataId + '&type=' + scope.createAddressType;
@@ -3375,7 +3390,7 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
-    }]//controller
+    }]
   };
 }
 

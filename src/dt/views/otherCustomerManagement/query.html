@@ -12,7 +12,7 @@
                                 crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"批发/零售商管理","link":"","style":"color-custom-orange"}]'
                                 component-title="批发/零售商管理"
                                 is-show-create-btn="批发/零售商申请"
-                                create-btn-author="批发零售商新增"
+                                create-btn-author="首营客户管理新增"
                                 create-new-url="#/otherCustomerApplication/edit1.html"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -119,8 +119,7 @@
                       </span>
                     </span>
                     <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;">
-                        <span ng-if="$root.hasAuthor('批发零售商删除')">
+                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-show="$root.hasAuthor('批发零售商删除')">
                           <div class="del-confirm-area text-center">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                             <p class="pd-v-s">
@@ -131,7 +130,6 @@
                               </a>
                             </p>
                           </div>
-                        </span>
                       </div>
                       <span ng-if="$root.hasAuthor('批发零售商修改')">
                         <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/otherCustomerManagement/edit.html?id='+tr.id)"></div>
@@ -206,12 +204,12 @@
                   <td class="text-left color-orange">
                     <div class="autocut autocut" title="{{tr.name}}">
                       <a href="#/otherCustomerManagement/get.html?id={{tr.id}}">
-                          {{tr.object.name}}
+                          {{tr.name}}
                       </a>
                     </div>
                   </td>
-                  <td>{{tr.object.type}}</td>
-                  <td>{{tr.object.createAt | date : 'yyyy-MM-dd'}}</td>
+                  <td>{{tr.type}}</td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
             </table>

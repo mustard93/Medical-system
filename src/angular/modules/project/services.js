@@ -633,7 +633,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
+                    "ngShow": "tr.orderStatus=='处理中' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/get.html?id=" + showData.id
                 };
@@ -681,22 +681,23 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {
-                    "authority":"销售单审批",
-                    "iconClass": "examine-approve",
-                    "showName": "立即审核",
-                    "ngShow": "tr.orderStatus=='待审核'",
-                    "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/confirmOrder/get.html?id=" + showData.id
-                };
-                if (tmpUtils.canShowButton(bottomButton)) {
-                    arr.push(bottomButton);
-                }
+                // bottomButton = {
+                //     // "authority":"销售单审批",
+                //     "iconClass": "examine-approve",
+                //     "showName": "立即审核",
+                //     "ngShow": "tr.orderStatus=='待审核'",
+                //     "aclass": "btn-link pd-m rect-s",
+                //     "ahref": "#/confirmOrder/get.html?id=" + showData.id
+                // };
+                // if (tmpUtils.canShowButton(bottomButton)) {
+                //     arr.push(bottomButton);
+                // }
+
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
+                    "ngShow": "tr.orderStatus=='已作废'||tr.orderStatus=='已完成'||tr.orderStatus=='已发货'||tr.orderStatus=='部分发货'||tr.orderStatus=='待发货'||tr.orderStatus=='待发单'||tr.orderStatus=='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/confirmOrder/get.html?id=" + showData.id
                 };
@@ -800,28 +801,27 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
+                    "ngShow": "tr.orderStatus=='待审核' || tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
                 }
-                bottomButton = {
-                    "authority":"销售退货单审批",
-                    "iconClass": "examine-approve",
-                    "showName": "立即审核",
-                    "ngShow": "tr.orderStatus=='待审核'",
-                    "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
-                };
-                if (tmpUtils.canShowButton(bottomButton)) {
-                    arr.push(bottomButton);
-                }
+                // bottomButton = {
+                //     "iconClass": "examine-approve",
+                //     "showName": "立即审核",
+                //     "ngShow": "tr.orderStatus=='待审核'",
+                //     "aclass": "btn-link pd-m rect-s",
+                //     "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
+                // };
+                // if (tmpUtils.canShowButton(bottomButton)) {
+                //     arr.push(bottomButton);
+                // }
 
                 bottomButton = {
                     "authority":"销售退货单删除",
-                    "ngShow": "tr.orderStatus=='未提交'",
+                    "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus =='未通过'",
                     "showName": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
@@ -906,22 +906,22 @@ define('project/services', ['project/init'], function() {
                     arr.push(bottomButton);
                 }
 
-                bottomButton = {
-                    // "authority":"借出单审批",
-                    "iconClass": "examine-approve",
-                    "showName": "立即审核",
-                    "ngShow": "tr.orderStatus=='待审核'",
-                    "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/lendOrder/get.html?id=" + showData.id+'&businessKey='+ showData.id
-                };
-                if (tmpUtils.canShowButton(bottomButton)) {
-                    arr.push(bottomButton);
-                }
+                // bottomButton = {
+                //     // "authority":"借出单审批",
+                //     "iconClass": "examine-approve",
+                //     "showName": "立即审核",
+                //     "ngShow": "tr.orderStatus=='待审核'",
+                //     "aclass": "btn-link pd-m rect-s",
+                //     "ahref": "#/lendOrder/get.html?id=" + showData.id+'&businessKey='+ showData.id
+                // };
+                // if (tmpUtils.canShowButton(bottomButton)) {
+                //     arr.push(bottomButton);
+                // }
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
                     "showName": "查看详情",
-                    "ngShow": "tr.orderStatus !='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
+                    "ngShow": "tr.orderStatus =='已作废'||tr.orderStatus =='出库中'||tr.orderStatus =='已完成'||tr.orderStatus =='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/lendOrder/get.html?id=" + showData.id
                 };
