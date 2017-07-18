@@ -1655,7 +1655,6 @@ function customTableToggleSort (modal,utils,requestData) {
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
       if (sortItem.canSort) {
-        
         $(element).append('<i class="arrow-sort"></i>');
       }
 
