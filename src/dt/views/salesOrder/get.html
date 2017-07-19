@@ -62,9 +62,9 @@
 
       <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
         <div class="flex-item-1">
-          <span class="mgr-m color-9">单据来源：<span class="color-6">{{showData.orderSource}}</span></span>
+          <span class="mgr-m color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span>
         </div>
-        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-1">
+        <div  ng-if="showData.orderSource=='线上订单'" class="flex-item-1" style="width: 200px;">
         <span class="mgr-m color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
       </div>
 
@@ -72,10 +72,10 @@
           <!--<span class="mgr-m color-9">来源部门：<span class="color-6">采购部 {{showData.orderNo}}</span></span>-->
         <!--</div>-->
         <div class="flex-item-1">
-          <span class="mgr-m color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName}}</span></span>
+          <span class="mgr-m color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span>
         </div>
         <div class="flex-item-1">
-          <span class="mgr-m color-9">业务人员：<span class="color-6">{{showData.saleUser.n}}</span></span>
+          <span class="mgr-m color-9">业务人员：<span class="color-6">{{showData.saleUser.n || "暂无"}}</span></span>
         </div>
         <div class="flex-item-2">
           <span class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
@@ -174,9 +174,9 @@
     </div>
     <div class="bt-line flex-column pr-bg-white">
       <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
-        <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName}}</em></span>
+        <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || "暂无"}}</em></span>
 
-        <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n}}</em></span>
+        <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || "暂无"}}</em></span>
 
         <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
       </p>
