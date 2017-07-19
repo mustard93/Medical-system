@@ -15,7 +15,7 @@ define('project/controllers-returnOrderAdd', ['project/init'], function() {
     $scope.addDataObj={};
     $scope.hasReturnList = false;
 
-    // 监控用户选择的返货单，发生变化后立即检查当前单据中是否有可退的商品
+    // 监控用户选择的发货单，发生变化后立即检查当前单据中是否有可退的商品
     $scope.$watch('addDataObj.orderMedicalNos', function (newVal) {
       if (newVal) {
         $scope.hasReturnList = false;
