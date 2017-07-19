@@ -1,7 +1,7 @@
 <!--ng-controller="collarApplicationOrderController"-->
 <div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
 
-      ajax-url="rest/authen/returnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
+      ajax-url="rest/authen/salesChangeOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
       callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
       alert-error>
@@ -51,6 +51,8 @@
       </div>
 
     </div>
+
+
     <div class="inline-block purchaseOrder-edit" ng-if="initFlag">
       <div class="inline-block mgr-l">
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
@@ -175,9 +177,9 @@
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
-                <td class="text-center" style="line-height:2.4">{{tr.lendCount}}</td><!-- 可换数量 -->
+                <td class="text-center" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 可换数量 -->
                 <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 换货数量 -->
-                <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 实际收货数量 -->
+                <td class="text-center" style="line-height:2.4">{{tr.actualReturnCount}}</td><!-- 实际收货数量 -->
                 <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--预入库房-->
 
                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 批号 -->
@@ -249,10 +251,10 @@
             <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
             <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
-            <td class="text-center" style="line-height:2.4">{{tr.lendCount}}</td><!-- 换货数量 -->
+            <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 换货数量 -->
             <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 生产批号 -->
-            <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 计划数量 -->
-            <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 实际发货数量 -->
+            <td class="text-center" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 计划数量 -->
+            <td class="text-center" style="line-height:2.4">{{tr.actualReturnCount}}</td><!-- 实际发货数量 -->
 
             <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 含税单价 -->
             <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 价税合计 -->
