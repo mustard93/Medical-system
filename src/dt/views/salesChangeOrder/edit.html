@@ -25,8 +25,8 @@
          novalidate="true">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
-                                 component-title="归还单-{{formData&&formData.id?'编辑':'新建'}}">
+                                 crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"销售换货单","link":"","style":"color-custom-orange"},{"name":"新建销售换货单","link":"","style":""}]'
+                                 component-title="销售换货单-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
      <div class="content-wrapper">
@@ -40,11 +40,46 @@
 
        <!--预入物流中心-->
        <div class="purchaseOrder-edit">
-         <div class="inline-block">
+         <!--客户名-->
+         <div class="inline-block" ng-if="initFlag">
+           <div class="inline-block mgr-l">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+               <div class="inline-block customer-name "></div>
+               <div class="inline-block">
+                 <p class="mgb-s" style="margin-left: 20px;">客户名</p>
+                 <p class="mgb-s" style="margin-left: 20px;font-size: 14px;color: #333333;">{{scopeData.logisticsCenterName || "暂无"}}</p>
+               </div>
+             </div>
+           </div>
+
+         </div>
+
+         <!--退回预入物流中心-->
+         <div class="inline-block" ng-if="initFlag">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block" style="margin-left: 10px;">
-               <p class="mgb-s">预入物流中心</p>
+               <p class="mgb-s">退回预入物流中心</p>
+               <p class="text-m color-3">
+                 <select class="ipt pr-long-ipt color-6"
+                         data-placeholder=" "
+                         chosen
+                         ng-disabled="formData.id"
+                         ng-model="formData.logisticsCenterId"
+                         is-disabled-this="{{formData.customerId}}"
+                         select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                 </select>
+               </p>
+             </div>
+           </div>
+         </div>
+
+         <!--出货物流中心-->
+         <div class="inline-block" ng-if="initFlag">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block" style="margin-left: 10px;">
+               <p class="mgb-s">出货物流中心</p>
                <p class="text-m color-3">
                  <select class="ipt pr-long-ipt color-6"
                          data-placeholder=" "
@@ -98,9 +133,9 @@
                  <span class="date-icon"></span>
                </div>
 
-               <span class="mgr">对应借出单编号:
+               <span class="mgr">发货单编号:
                  <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
-                 <span ng-if="!formData.relOrderNo">暂无</span>
+                 <span ng-if="!formData.relOrderNo" class="color-3">暂无</span>
                </span>
 
                <!--<br>-->
@@ -110,7 +145,7 @@
 
              </div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
+               <!--<span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>-->
                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus || "暂无" }}</em></span>
              </div>
            </div>
@@ -139,7 +174,7 @@
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
              </select>
 
-             <span class="mgr" style="margin-left: 10px;">计划到货日期:</span>
+             <span class="mgr" style="margin-left: 10px;">要求到货日期:</span>
              <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                <input type="text"
                       style="top:0px;"
@@ -314,7 +349,7 @@
             formData.customerName= customerContactsInfo.customerName;
             formData.customerCode= customerContactsInfo.customerCode;"
        >
-         <header class="text-n color-3 text-bold">收货方信息
+         <header class="text-n color-3 text-bold">收货方信息（供应商）
            <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
@@ -327,7 +362,7 @@
        </div>
        <!-- 发货方信息 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-         <header class="text-n color-3 text-bold">发货方信息
+         <header class="text-n color-3 text-bold">发货方信息（客户）
            <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
@@ -361,22 +396,22 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/returnOrder/query.html')"
-             save-callback="submitForm('editForm','exit')">返回归还单列表
+             nosave-callback="goTo('#/salesChangeOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回销售换货单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/returnOrder/query.html" >返回归还单列表</a>
+          <a ng-if="!changeFlag" href="#/salesChangeOrder/query.html" >返回销售换货单列表</a>
         </span>
-        <span class="mgl mgt" ng-if="$root.hasAuthor('归还单删除')">
+        <span class="mgl mgt" ng-if="$root.hasAuthor('销售换货单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
              href="javascript:;"
              handle-this-click
              class="pr-color-red"
              dialog-title="确认删除 ?"
-             dialog-content="您确认删除这条归还单吗?"
+             dialog-content="您确认删除这条销售换货单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
-             callback="goTo('#/returnOrder/query.html')">删除
+             callback="goTo('#/salesChangeOrder/query.html')">删除
           </a>
         </span>
         <!---->
