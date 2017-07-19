@@ -44,7 +44,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-medicalAttribute',
                                'project/controllers-regionManage',
                                'project/controllers-lendOrder',
-                               'project/controllers-returnOrder2'], function() {
+                               'project/controllers-returnOrder2',
+                               'project/controllers-validityStrategy'], function() {
 
   /**
    * 主控（业务模块级别）
