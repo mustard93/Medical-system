@@ -264,26 +264,31 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
 
           dialogConfirm("", function () {
-          //    点击确定的回调
+
+              if (id) {
+                var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
+                requestData(_url, {}, 'POST')
+                .then(function (results) {
+                  if (results[1].code === 200) {
+                      
+                      utils.goTo('#/salesOrder/edit2.html?id='+id);
+
+                  }
+                })
+                .catch(function (err) {
+                  if (err) {
+                    $scope.showData.onLineOrderStatus = '已关闭';
+                  }
+                });
+              }
+
+
           }, "sales-order-edit-confirm.html", "接单确认", null, null, null, {},function () {
           //      点击取消或关闭 的回调
+
           });
 
-        // if (id) {
-        //   var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
-        //   requestData(_url, {}, 'POST')
-        //   .then(function (results) {
-        //     if (results[1].code === 200) {
-        //       // utils.goTo('#/salesOrder/edit2.html?id='+id);
-        //
-        //     }
-        //   })
-        //   .catch(function (err) {
-        //     if (err) {
-        //       $scope.showData.onLineOrderStatus = '已关闭';
-        //     }
-        //   });
-        // }
+
       };
 
   }
