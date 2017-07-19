@@ -561,11 +561,17 @@ function alertOk($rootScope, modal) {
 
           // url存在则跳转，否则刷新。
           goOrRefreshHref : function (url,confirmMsg) {
-            if(url){
-               utilsObj.goTo(url,confirmMsg);
-               return;
-            }
-            utilsObj.refreshHref(confirmMsg);
+
+              if(url){
+                 utilsObj.goTo({'url':url,name:'归还单'},confirmMsg);
+                 return;
+              }
+
+            // if(url){
+            //    utilsObj.goTo(url,confirmMsg);
+            //    return;
+            // }
+            // utilsObj.refreshHref(confirmMsg);
           },
 
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
@@ -590,25 +596,24 @@ function alertOk($rootScope, modal) {
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           goTo : function (url,confirmMsg) {
 
+                console.log("URL",url);
 
-              $rootScope.addTab({
-                  showName: new Date().getTime(),
-                  ahref: url
-              });
+                if(typeof  url == 'object'){
+                    $rootScope.addTab({
+                        showName: url.name,
+                        ahref: url.url
+                    });
+                    return;
+                }
 
-
-
-
-              return;
-
-            url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-            if(confirmMsg){
-              dialogConfirm(confirmMsg, function () {
-                window.location.assign(url);
-              }, null);
-            }else{
-                window.location.assign(url);
-            }
+                url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                if(confirmMsg){
+                  dialogConfirm(confirmMsg, function () {
+                    window.location.assign(url);
+                  }, null);
+                }else{
+                    window.location.assign(url);
+                }
           },
 
           //递归 获取：data.data.data 获取子属性值

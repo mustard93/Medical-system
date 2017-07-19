@@ -86,7 +86,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
 
     var tabs = []; // 所有的tab集合
 
-    this.$get = ["$rootScope", "$q", "$templateRequest", function ($rootScope, $q, $templateRequest) {
+    this.$get = function ($rootScope, $q, $templateRequest) {
         var currentId = 1,
             uiTabs = {
             tabs: tabs,
@@ -148,6 +148,9 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @return {boolean} 是否关闭成功
              */
             close: function close(tab) {
+
+                console.log("close。。。。。。。");
+
                 tab = getTab(tab);
 
                 return closeTab(tab);
@@ -169,6 +172,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @return {boolean} 切换tab页是否成功
              */
             active: function active(tab) {
+
                 tab = getTab(tab);
 
                 return activeTab(tab);
@@ -180,15 +184,39 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @param tab
              */
             refresh: function refresh(tab) {
+
+                console.log("refresh-tab", tab);
+
                 tab = getTab(tab);
 
                 if (tab) {
                     refreshTab(tab);
                 }
+            },
+
+            replace: function replace(tab, newTab) {
+                // body...
+                if (tab.templateUrl !== newTab.templateUrl) {
+
+                    tab = getTab(tab);
+
+                    angular.extend(tab, newTab);
+
+                    getTemplateForUrl(newTab.templateUrl).then(function (template) {
+                        tab.template = template;
+                        replaceTab(tab);
+                    });
+                }
             }
         };
 
         return uiTabs;
+
+        // 替换tab, 先激活再刷新；
+        function replaceTab(tab) {
+            // body...
+            refreshTab(tab);
+        }
 
         /**
          * 刷新tab
@@ -207,6 +235,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
          * @return {boolean}
          */
         function closeTab(tab, isForce) {
+
             var index = tabs.indexOf(tab),
                 isCurrentTab = tab === uiTabs.current,
                 isCloseSuccess = false,
@@ -333,6 +362,11 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
             return $q.resolve(template);
         }
 
+        function getTemplateForUrl(templateUrl) {
+            var template = $templateRequest(templateUrl);
+            return template;
+        }
+
         /**
          * 根据tab Id 或者 tab 获取tab
          *
@@ -349,7 +383,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                 }
             }
         }
-    }];
+    };
 }); /**
      * Created by zhang on 2017/5/26.
      */
@@ -609,10 +643,10 @@ function insertStyleElement (options, style) {
 }
 
 function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
 	style.parentNode.removeChild(style);
 
 	var idx = stylesInsertedAtTop.indexOf(style);
-
 	if(idx >= 0) {
 		stylesInsertedAtTop.splice(idx, 1);
 	}
@@ -829,6 +863,7 @@ _uiTabs2.default.directive('uiTabsMenu', function () {
 
     return {
         restrict: 'CA',
+        scope: {},
         link: function link(scope, element, attr) {
 
             // 监听右键事件，自制系统事件，并且弹出自定义右键菜单
@@ -881,7 +916,7 @@ _uiTabs2.default.directive('uiTabsMenu', function () {
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by tab.id\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\" ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"></i>\n    </li>\n  </ul>\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by tab.id\"></div>\n  </div>\n</div>";
+module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by $index\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\"  ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i ng-if=\"tab === current\" class=\"ui-tabs-refresh-icon\" ng-mousedown=\"refresh($event,tab)\" title=\"刷新\"></i>\n      <i ng-if=\"defaultName != tab.name\" class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"  title=\"关闭\"></i>\n    </li>\n\n  </ul>\n\n\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by $index\">\n    </div>\n\n  </div>\n</div>";
 
 /***/ }),
 /* 5 */
@@ -904,8 +939,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!../../node_modules/sass-loader/lib/loader.js!./ui-tabs.scss", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!../../node_modules/sass-loader/lib/loader.js!./ui-tabs.scss");
+		module.hot.accept("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js??ref--1-1!../../node_modules/_postcss-loader@2.0.6@postcss-loader/lib/index.js!../../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js!./ui-tabs.scss", function() {
+			var newContent = require("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js??ref--1-1!../../node_modules/_postcss-loader@2.0.6@postcss-loader/lib/index.js!../../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js!./ui-tabs.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1506,14 +1541,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Created by zhang on 2017/6/7.
  */
-_uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile", "uiTabs", function ($timeout, $controller, $compile, uiTabs) {
+_uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compile, uiTabs) {
     return {
         restrict: 'EAC',
         priority: 400,
-        scope: true,
+        scope: {},
         replace: true,
         template: _uiTabs4.default,
-        link: function link(scope, element) {
+        link: function link(scope, element, attr) {
+
+            console.log("uiTabs", uiTabs);
 
             scope.tabs = uiTabs.tabs;
             scope.current = uiTabs.current;
@@ -1526,10 +1563,31 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
             scope.$on('tabRefresh', tabRefresh);
             scope.$on('$destroy', uiTabs.closeAll); // 指令销毁时，清楚所有tab
 
-            // 关闭tab
+
+            // 新加 默认页-------------------------------------------------------------------
+            if (attr.defaultPage && attr.defaultName) {
+
+                if (attr.defaultPage.indexOf('#/')) {
+                    attr.defaultPage = attr.defaultPage.replace('#/', 'views/');
+                }
+
+                uiTabs.open({
+                    name: attr.defaultName,
+                    templateUrl: attr.defaultPage
+                });
+
+                scope.defaultName = attr.defaultName;
+            }
+
+            // 关闭tab-用于tab上面的关闭
             scope.close = function (e, tab) {
+                console.log("this  is  close ....");
                 tab.close();
                 e.stopPropagation();
+            };
+
+            scope.refresh = function (e, tab) {
+                tabRefresh(e, tab);
             };
 
             // 切换到tab页
@@ -1545,7 +1603,10 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
                         tab.refresh();
                         break;
                     case 'current':
-                        tab.close();
+                        if (scope.defaultName !== tab.name) {
+                            tab.close();
+                        }
+
                         break;
                     case 'left':
                         closeLeft(tab);
@@ -1556,6 +1617,9 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
                     case 'other':
                         closeLeft(tab);
                         closeRight(tab);
+                        break;
+                    case 'colseAll':
+                        closeAll();
                         break;
                 }
             };
@@ -1593,6 +1657,16 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
                     closeTab.close();
                     closeIndex--;
                 }
+            }
+
+            //关闭所有tab -默认页 除外   
+            function closeAll() {
+
+                angular.forEach(uiTabs.tabs, function (closeTab, index) {
+                    if (scope.defaultName !== closeTab.name) {
+                        closeTab.close();
+                    }
+                });
             }
 
             /**
@@ -1671,6 +1745,9 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
              * @param tab
              */
             function tabRefresh(e, tab) {
+
+                console.log("this is tab refresh .....");
+
                 if (tab.$scope) {
                     tab.$scope.$destroy();
                 }
@@ -1682,7 +1759,7 @@ _uiTabs2.default.directive('uiTabsView', ["$timeout", "$controller", "$compile",
             }
         }
     };
-}]);
+});
 
 /***/ }),
 /* 8 */
@@ -1693,7 +1770,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "ul.ui-tabs-menu {\n  position: absolute;\n  z-index: 999;\n  left: -999px;\n  margin: 0;\n  padding: 5px 0;\n  list-style: none;\n  background: #f5f5f5;\n  border: 1px solid #999;\n  border-radius: 5px;\n  font-size: 0.8em;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  ul.ui-tabs-menu li {\n    padding: 4px 12px; }\n    ul.ui-tabs-menu li:hover {\n      color: #fff;\n      background: #0091ea; }\n", ""]);
+exports.push([module.i, "ul.ui-tabs-menu {\n  position: absolute;\n  z-index: 999;\n  left: -999px;\n  margin: 0;\n  padding: 0px 0;\n  list-style: none;\n  background: #f5f5f5;\n  border: 1px solid #999;\n  border-radius: 5px;\n  font-size: 0.8em;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  opacity: 0.95;\n  background: #FFFFFF;\n  border: 1px solid #D4D4D4;\n  -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.14);\n          box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.14);\n  border-radius: 4px; }\n  ul.ui-tabs-menu li {\n    padding: 0px 12px;\n    height: 30px;\n    width: 112px;\n    line-height: 30px;\n    cursor: pointer; }\n    ul.ui-tabs-menu li:hover {\n      color: #fff;\n      background: #C7A77B; }\n    ul.ui-tabs-menu li:first-child {\n      border-bottom: 1px solid rgba(213, 213, 213, 0.4);\n      margin-bottom: 3px; }\n    ul.ui-tabs-menu li:last-child {\n      border-top: 1px solid rgba(213, 213, 213, 0.4);\n      margin-top: 3px; }\n", ""]);
 
 // exports
 
@@ -1707,7 +1784,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n  .ui-tabs ul.ui-tabs-nav {\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    margin: 10px 0 0;\n    padding: 0 10px;\n    list-style: none;\n    border-bottom: 1px solid #999; }\n    .ui-tabs ul.ui-tabs-nav li {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      margin: 0 -1px -1px -0;\n      max-width: 200px;\n      padding: 3px 5px;\n      border: 1px solid #999;\n      background: #efefef;\n      cursor: default;\n      font-size: 0.8em;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box; }\n      .ui-tabs ul.ui-tabs-nav li span {\n        margin: 0 6px;\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n        -ms-flex-preferred-size: 20px;\n            flex-basis: 20px;\n        width: 20px;\n        overflow: hidden;\n        -webkit-user-select: none;\n           -moz-user-select: none;\n            -ms-user-select: none;\n                user-select: none;\n        white-space: nowrap; }\n      .ui-tabs ul.ui-tabs-nav li.active {\n        background: #fcfcfc;\n        border-bottom: 1px solid transparent;\n        -webkit-transition: none;\n        transition: none; }\n      .ui-tabs ul.ui-tabs-nav li:hover {\n        background: #fcfcfc;\n        -webkit-transition: background 0.4s;\n        transition: background 0.4s; }\n  .ui-tabs .ui-tabs-container {\n    position: relative;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    overflow: auto; }\n    .ui-tabs .ui-tabs-container > div {\n      overflow: hidden; }\n\n.ui-tabs-close-icon {\n  position: relative;\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border-radius: 50%;\n  vertical-align: middle; }\n  .ui-tabs-close-icon:before, .ui-tabs-close-icon:after {\n    content: \"\";\n    position: absolute;\n    top: 7px;\n    left: 2px;\n    width: 11px;\n    height: 1px;\n    border-radius: 1px;\n    background: #777; }\n  .ui-tabs-close-icon:before {\n    -webkit-transform: rotate(45deg);\n            transform: rotate(45deg); }\n  .ui-tabs-close-icon:after {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg); }\n  .ui-tabs-close-icon:hover {\n    background: red; }\n  .ui-tabs-close-icon:hover:after, .ui-tabs-close-icon:hover:before {\n    background: #fff; }\n\n.ui-tabs-loading-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border: 3px solid #5677fc;\n  border-right: 3px solid transparent;\n  border-radius: 50%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  vertical-align: middle;\n  -webkit-animation: rotate-animate 1.5s infinite;\n          animation: rotate-animate 1.5s infinite; }\n\n@-webkit-keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n", ""]);
+exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding: 0; }\n  .ui-tabs ul.ui-tabs-nav {\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    margin: 0px 0 0;\n    padding: 0 0px;\n    list-style: none;\n    border-bottom: 1px solid #C7A77B;\n    background: rgba(0, 0, 0, 0.05);\n    height: 40px; }\n    .ui-tabs ul.ui-tabs-nav li {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      margin: 0 -1px -1px -0;\n      max-width: 200px;\n      padding: 3px 5px;\n      border: 1px solid rgba(199, 167, 123, 0.32);\n      border-top: 0;\n      background: #efefef;\n      cursor: pointer;\n      font-size: 0.8em;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      font-size: 14px;\n      color: #666666; }\n      .ui-tabs ul.ui-tabs-nav li span {\n        margin: 0 6px;\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n        -ms-flex-preferred-size: 20px;\n            flex-basis: 20px;\n        width: 20px;\n        overflow: hidden;\n        -webkit-user-select: none;\n           -moz-user-select: none;\n            -ms-user-select: none;\n                user-select: none;\n        white-space: nowrap;\n        text-align: center; }\n      .ui-tabs ul.ui-tabs-nav li.active {\n        background: #EFECE5;\n        border-bottom: 1px solid rgba(199, 167, 123, 0.32);\n        -webkit-transition: none;\n        transition: none;\n        border-top: #C7A77B solid 3px;\n        color: #333333;\n        height: 41px; }\n      .ui-tabs ul.ui-tabs-nav li:hover {\n        background: #EFECE5;\n        -webkit-transition: background 0.4s;\n        transition: background 0.4s; }\n  .ui-tabs .ui-tabs-container {\n    position: relative;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    overflow: auto; }\n    .ui-tabs .ui-tabs-container > div {\n      overflow: hidden; }\n\n.ui-tabs-close-icon {\n  position: relative;\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border-radius: 50%;\n  vertical-align: middle; }\n  .ui-tabs-close-icon:before, .ui-tabs-close-icon:after {\n    content: \"\";\n    position: absolute;\n    top: 7px;\n    left: 2px;\n    width: 11px;\n    height: 1px;\n    border-radius: 1px;\n    background: #777; }\n  .ui-tabs-close-icon:before {\n    -webkit-transform: rotate(45deg);\n            transform: rotate(45deg); }\n  .ui-tabs-close-icon:after {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg); }\n  .ui-tabs-close-icon:hover {\n    background: red; }\n  .ui-tabs-close-icon:hover:after, .ui-tabs-close-icon:hover:before {\n    background: #fff; }\n\n.ui-tabs-refresh-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  margin-right: 5px;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAR9JREFUGBlNUD1LxEAQvd1EcqdRwWgR/AGW2goRBFt7EaxDEg4hTRqbtApC0kRMYeNfUKtrFVL7E6wW7mAX1IDkwzeBhQxMZt68t2+GsMko0jQ1hRCHXdfd9X1/UZblUtOGboIg2FdK3TPGLjE7QWWe531WVfVDGk6fMAwP4PICTgLewO3dNM2nPM8F8RTM9/111GeIVq7rzqWUhCdZlkniOOdzmDyamG1DtIu8xo1/wJQ61iC6AlhwrNjAKhuDb82O6i96BdcZNwxDwY21bbs3EgwtTBw0WzD54o7jrAAWGN7GcbyjxUmSbOLxAzw+LMsSjIgoiuymaXIMjwDfcEqLPMXKKeo5/c9BSGK4zeq6PkN7jFU2OeGs16Iohtv/AWwEdtxtucU3AAAAAElFTkSuQmCC\");\n  background-position: center;\n  background-repeat: no-repeat; }\n\n.ui-tabs-loading-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border: 3px solid #5677fc;\n  border-right: 3px solid transparent;\n  border-radius: 50%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  vertical-align: middle;\n  -webkit-animation: rotate-animate 1.5s infinite;\n          animation: rotate-animate 1.5s infinite; }\n\n@-webkit-keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n", ""]);
 
 // exports
 
@@ -1716,7 +1793,7 @@ exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-fle
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n  <li data-action=\"left\">关闭左侧标签页</li>\n  <li data-action=\"right\">关闭右侧标签页</li>\n</ul>";
+module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n  <!-- <li data-action=\"left\">关闭左侧标签页</li> -->\n  <!-- <li data-action=\"right\">关闭右侧标签页</li> -->\n  <li data-action=\"colseAll\">关闭所有标签页</li>\n</ul>";
 
 /***/ }),
 /* 11 */
@@ -1739,8 +1816,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!../../node_modules/sass-loader/lib/loader.js!./ui-tabs-menu.scss", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!../../node_modules/sass-loader/lib/loader.js!./ui-tabs-menu.scss");
+		module.hot.accept("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js??ref--1-1!../../node_modules/_postcss-loader@2.0.6@postcss-loader/lib/index.js!../../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js!./ui-tabs-menu.scss", function() {
+			var newContent = require("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js??ref--1-1!../../node_modules/_postcss-loader@2.0.6@postcss-loader/lib/index.js!../../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js!./ui-tabs-menu.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

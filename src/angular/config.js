@@ -56,7 +56,7 @@ var require_config={
         'toastr': '../libs/toastr/toastr.min',   //提示窗口
         'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
         'clndr': '../libs/calendar/clndr.min',                            //日历插件
-        'uiTabs':'../libs/ui-tabs.min'//tabs
+        'uiTabs':'../libs/ui-tabs'//tabs
       },
       shim: {
         'ueditor_config': {

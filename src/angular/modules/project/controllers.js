@@ -7833,13 +7833,17 @@ define('project/controllers', ['project/init'], function() {
           return flag;
       };
 
-
-
       // 回调  保存type:save-草稿,submit-提交订单。
       $scope.submitFormAfter = function() {
 
           if($scope.submitForm_type == 'save'){
-              $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+              // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id,{'name':'归还单'});
+
+              $scope.goTo({
+                  url:'#/returnOrder/edit.html?id='+$scope.formData.id,
+                  name:'归还单'
+              });
+
               return;
           }
 
@@ -7849,7 +7853,13 @@ define('project/controllers', ['project/init'], function() {
               requestData(_url,data, 'POST')
                   .then(function (results) {
                       var _data = results[1];
-                      $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
+                      // $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
+
+                      $scope.goTo({
+                          url:'#/returnOrder/get.html?id='+$scope.formData.id,
+                          name:'归还单'
+                      });
+
                   })
                   .catch(function (error) {
                       alertError(error || '出错');

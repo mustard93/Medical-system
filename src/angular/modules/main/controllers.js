@@ -8,6 +8,14 @@ define('main/controllers', ['main/init'], function () {
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
+        //  $http.defaults.withCredentials=true;
+        $scope.mainStatus = {
+            navFold: document.body.clientWidth < 1500,
+            navigation: "",
+            msgBubble: 0 //消息气泡
+        };
+
+
 
         $rootScope.tabs = uiTabs.tabs;
 
@@ -23,19 +31,28 @@ define('main/controllers', ['main/init'], function () {
             $rootScope.currentTab = uiTabs.current;
         });
 
-
         $rootScope.addTab = function (item) {
+            var params = serializeUrl(item.ahref).param;
+
+            if(!$scope.mainStatus.pageParams){
+                $scope.mainStatus.pageParams={};
+            }
+            $scope.mainStatus.pageParams=params;
+
             var obj=$rootScope._findInArray($rootScope.tabs,item,'name','showName');
             if(obj.flag){
-                obj.tab.templateUrl=item.ahref;
+
+                item.ahref = item.ahref.replace('#/','views/');
+                // $rootScope.active(obj.tab);
+
+                $rootScope.replaceTab(obj.tab,{'templateUrl':item.ahref});
+
                 $rootScope.active(obj.tab);
 
                 return;
             }
 
             item.ahref = item.ahref.replace('#/','views/');
-
-            console.log("item.ahref:",item.ahref);
 
             uiTabs.open({
                 name: item.showName,
@@ -55,6 +72,9 @@ define('main/controllers', ['main/init'], function () {
             uiTabs.closeAll();
         };
 
+        $rootScope.replaceTab=function(tab,newTab) {
+            uiTabs.replace(tab,newTab);
+        };
 
         $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {
 
@@ -76,10 +96,70 @@ define('main/controllers', ['main/init'], function () {
         }
 
 
+       var serializeUrl= function(str){
+            var param = {}, hash = {}, anchor;
+            var url = str || location.href;
+            var arr = /([^?]*)([^#]*)(.*)/.exec(url);
+            var ar1 = /^(http|ftp)/.test(arr[1]) ? /(.*?:)?(?:\/?\/?)([\.\w]*)(:\d*)?(.*?)([^\/]*)$/.exec(arr[1]) : /(.*?)([^\/]*)$/.exec(arr[1]);var ar2 = arr[2].match(/[^?&=]*=[^?&=]*/g);
+            var ar3 = arr[3].match(/[^#&=]*=[^#&=]*/g);
 
+            if(ar2){
+                for(var i = 0, l = ar2.length; i < l; i++){
+                    var ar22 = /([^=]*)(?:=*)(.*)/.exec(ar2[i]);
+                    param[ar22[1]] = ar22[2];
+                }
+            }
 
+            if(ar3){
+                for(var i = 0, l = ar3.length; i < l; i++){
+                    var ar33 = /([^=]*)(?:=*)(.*)/.exec(ar3[i]);
+                    hash[ar33[1]] = ar33[2];
+                }
+            }
 
+            if(arr[3] && !/[=&]/g.test(arr[3])){
+                anchor = arr[3];
+            }
 
+            !/^(http|ftp)/.test(arr[1]) && ar1.splice(1, 0, undefined, undefined, undefined);
+
+            function getUrl(){
+                var that = this, url = [], param = [], hash = [];
+
+                url.push(that.protocol, that.protocol && '//' || '', that.host, that.port, that.path, that.file);
+
+                for(var p in that.param){
+                    param.push(p+ '=' +that.param[p]);
+                }
+
+                for(var p in that.hash){
+                    hash.push(p+ '=' +that.hash[p]);
+                }
+
+                url.push(param.length && '?' + param.join('&') || '');
+
+                if(that.anchor){
+                    url.push(that.anchor);
+                }else{
+                    url.push(hash.length && '#' + hash.join('&') || '');
+                }
+
+                return url.join('');
+            }
+
+            return {
+                href: arr[0],
+                protocol: ar1[1],
+                host: ar1[2],
+                port: (ar1[3] || ''),
+                path: ar1[4],
+                file: ar1[5],
+                param: param,
+                hash: hash,
+                anchor: anchor,
+                getUrl: getUrl
+            };
+        };
 
 
 
@@ -151,12 +231,7 @@ define('main/controllers', ['main/init'], function () {
 
 
 
-        //  $http.defaults.withCredentials=true;
-        $scope.mainStatus = {
-            navFold: document.body.clientWidth < 1500,
-            navigation: "",
-            msgBubble: 0 //消息气泡
-        };
+
 
         //当前用户
         $rootScope.curUser={};
@@ -231,6 +306,11 @@ define('main/controllers', ['main/init'], function () {
 
         //@Deprecated 已移动到$rootScope.utils中 建议使用$rootScope.utils
         $scope.goTo=utils.goTo;
+
+
+
+
+
         $rootScope.goTo=$scope.goTo;
         //遍历数组，返回满足属性值等于val的。
         $rootScope.getObjectByKeyOfArr = utils.getObjectByKeyOfArr;
