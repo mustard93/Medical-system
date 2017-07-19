@@ -1713,16 +1713,16 @@ function customTableSet (modal,utils,requestData) {
       restrict: 'AE',
     link: function ($scope, element, $attrs) {
       // 传入当前字段
-      var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+      // var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+      //
+      // // 下移箭头
+      // var customTableDownArrow=$('.custom-table-down-arrow');
+      // // 上移箭头
+      // var customTableUpArrow=$('.custom-table-up-arrow');
+      // // 隐藏箭头
+      // var customTableRightArrow=$('.custom-table-right-arrow');
 
-      // 下移箭头
-      var customTableDownArrow=$('.custom-table-down-arrow');
-      // 上移箭头
-      var customTableUpArrow=$('.custom-table-up-arrow');
-      // 隐藏箭头
-      var customTableRightArrow=$('.custom-table-right-arrow');
-
-      var itemKey;
+      // var itemKey;
 
       element.on('click',function(e){
         e.stopPropagation();
@@ -1730,58 +1730,58 @@ function customTableSet (modal,utils,requestData) {
         $('.custom-table-show').children('p').removeClass('hover');
         $(this).addClass('hover');
         // 获取当前字段
-        itemKey=_customTableSetItem.propertyKey;
-        $scope.itemShow=_customTableSetItem;
-        console.log($scope.itemShow);
+        // itemKey=_customTableSetItem.propertyKey;
+        // $scope.itemShow=_customTableSetItem;
+        // console.log($scope.itemShow);
       });
 
-        // 点击下移按钮触发事件
-        customTableDownArrow.on('click',function(){
-          if (itemKey) {
-
-            for (var i = 0; i < $scope.formData.items.length; i++) {
-
-              if ($scope.formData.items[i].propertyKey==itemKey) {
-
-                var tmp=$scope.formData.items[i].index;
-                $scope.formData.items[i].index=$scope.formData.items[i+1].index;
-                $scope.formData.items[i+1].index=tmp;
-              }
-
-            }
-          }
-        });
-        // 点击上移按钮触发事件
-        customTableUpArrow.on('click',function(){
-          if (itemKey) {
-
-            for (var i = 0; i < $scope.formData.items.length; i++) {
-
-              if ($scope.formData.items[i].propertyKey==itemKey) {
-                var tmp=$scope.formData.items[i].index;
-                $scope.formData.items[i].index=$scope.formData.items[i-1].index;
-                $scope.formData.items[i-1].index=tmp;
-              }
-
-            }
-          }
-        });
-        // 点击隐藏按钮触发事件
-        customTableRightArrow.on('click',function(){
-          if (itemKey) {
-
-            for (var i = 0; i < $scope.formData.items.length; i++) {
-
-              if ($scope.formData.items[i].propertyKey==itemKey) {
-                console.log(itemKey);
-                console.log($scope.formData.items[i]);
-                $scope.formData.items[i].showFlag=false;
-                console.log($scope.formData.items[i]);
-              }
-
-            }
-          }
-        });
+        // // 点击下移按钮触发事件
+        // customTableDownArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //
+        //         var tmp=$scope.formData.items[i].index;
+        //         $scope.formData.items[i].index=$scope.formData.items[i+1].index;
+        //         $scope.formData.items[i+1].index=tmp;
+        //       }
+        //
+        //     }
+        //   }
+        // });
+        // // 点击上移按钮触发事件
+        // customTableUpArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //         var tmp=$scope.formData.items[i].index;
+        //         $scope.formData.items[i].index=$scope.formData.items[i-1].index;
+        //         $scope.formData.items[i-1].index=tmp;
+        //       }
+        //
+        //     }
+        //   }
+        // });
+        // // 点击隐藏按钮触发事件
+        // customTableRightArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //         console.log(itemKey);
+        //         console.log($scope.formData.items[i]);
+        //         $scope.formData.items[i].showFlag=false;
+        //         console.log($scope.formData.items[i]);
+        //       }
+        //
+        //     }
+        //   }
+        // });
 
     }//end link
   };
