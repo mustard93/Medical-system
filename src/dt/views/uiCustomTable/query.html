@@ -48,13 +48,13 @@
             <div class="flex-item-6 flex-column br-line">
               <div class="flex-item-12 text-center">
                 <p class="text-bold text-m color-3 pd-c-v-l bb-line">
-                 <span class="custom-table-down-arrow" title="下移"  ng-click="$root.utils.switchArrayOrder(formData.items,index,index-1)"></span>
-                 <span class="custom-table-up-arrow" title="上移" ng-click="$root.utils.switchArrayOrder(formData.items,index,index+1)"></span>
+                 <span class="custom-table-down-arrow" title="下移"></span>
+                 <span class="custom-table-up-arrow" title="上移"></span>
                   显示列
                   <span class="custom-table-right-arrow" title="隐藏"></span>
                 </p>
                 <div class="custom-table-show medical-hover">
-                  <p custom-table-set custom-table-set-item="{{item}}"   ng-repeat="item in formData.items " ng-show="item.showFlag" class="cur-pot pd-c-v-s text-left ">
+                  <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.items " class="cur-pot pd-c-v-s text-left ">
                     {{item.propertyName}}
                   </p>
                 </div>
@@ -67,8 +67,8 @@
                   隐藏列
                 </p>
                 <div class=" custom-table-hidden medical-hover">
-                  <p ng-repeat="item in formData.items " ng-show="!item.showFlag" class="cur-pot pd-c-v-s text-left ">
-                    {{item.propertyName}}
+                  <p ng-repeat="item in formData.noShowItems " class="cur-pot pd-c-v-s text-left ">
+                    {{item.propertyName}}{{itemShow}}
                   </p>
                 </div>
               </div>
@@ -76,7 +76,7 @@
           </div>
 
         </div>
-        <div class="custom-table-strategy-bottom flex-column-12 mgt-l">
+        <div class="custom-table-strategy-bottom flex-column-12 mgt-l" ng-init="formData1=item">
           <p class="pd-c-v-l text-left bb-line">
             <em class="text-bold text-m color-3 mgr">设置列属性</em><em class="text-m color-3">(作用于详情及编辑／新建页面)</em>
           </p>
