@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="initFlag=true;formData={};formData.id=showData.id;"
+     callback="initFlag=true;formData={};showData.id=showData.id;"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -50,35 +50,35 @@
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb-m">
         <div class="flex-item-4">
-          <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
+          <span class="mgr-l color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
           <span class="mgr-m color-9">单据日期：<span class="color-6">{{showData.orderDate | date:'yyyy-MM-dd'}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
           <!--<span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>-->
-          <span class=" mgr">系统编号：<em class="color-3">{{showData.orderNo || "暂无"}}</em></span>
+          <span class="mgr-l">系统编号：<em class="color-3">{{showData.orderNo || "暂无"}}</em></span>
           </span><span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
         </div>
       </div>
 
       <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
         <div>
-          <span class="mgr-m color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span>
+          <span class="mgr-l color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span>
         </div>
-        <div  ng-if="showData.orderSource=='线上订单'" style="width: 170px;">
-        <span class="mgr-m color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
+        <div  ng-if="showData.orderSource=='线上订单'">
+        <span class="mgr-l color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
       </div>
 
         <!--<div class="flex-item-2">-->
           <!--<span class="mgr-m color-9">来源部门：<span class="color-6">采购部 {{showData.orderNo}}</span></span>-->
         <!--</div>-->
         <div>
-          <span class="mgr-m color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span>
+          <span class="mgr-l color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span>
         </div>
         <div>
-          <span class="mgr-m color-9">业务人员：<span class="color-6">{{showData.saleUser.n || "暂无"}}</span></span>
+          <span class="mgr-l color-9">业务人员：<span class="color-6">{{showData.saleUser.n || "暂无"}}</span></span>
         </div>
         <div>
-          <span class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
+          <span class="mgr-l color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
 
@@ -95,10 +95,9 @@
       </div>
 
 
-
       <!-- 未处理药械清单 -->
       <div class="confirm-order bb-line">
-        <table ng-if="showData.orderSource!='线上订单'" class="table pr-table pr-new-table">
+        <table ng-if="showData.orderSource =='线上订单'" class="table pr-table pr-new-table">
           <thead>
             <tr>
               <th class="text-center">商品编号</th>
