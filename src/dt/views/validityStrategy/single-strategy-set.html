@@ -1,0 +1,159 @@
+<div class="medical-stock supplier-management child-project-management">
+  <table-list list-data="rest/authen/validityStrategy/querySingleMedicalValidityStrategy"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+
+    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
+      <page-main-header-component list-params="listParams"
+                                  style="min-height:130px;"
+                                  crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"效期策略","link":"","style":"color-custom-orange"}]'
+                                  component-title="效期策略">
+      </page-main-header-component>
+
+      <div class="mgl-xl status-num-list-new" style="top:-56px;">
+        <span status-style-toggle-new class="rect-status mgl-s" ng-click="$root.goTo('#/validityStrategy/query.html')">效期策略</span>
+        <span status-style-toggle-new class="rect-status pr-color rect-status-active-new" ng-click="$root.goTo('#/validityStrategy/single-strategy-set.html')">单个商品效期策略设置</span>
+      </div>
+      <div class="pos-rel-tl order-create-btn" style="margin:-30px 0 20px 45px;">
+        <a href="#"><i></i><span class="text-s">新增单个商品策略</span></a>
+      </div>
+      <div class="content-wrapper" style="margin:0px 45px;">
+        <div class="content-wrapper-main pr-fuzzy-boundary pr-bg-white">
+          <div class="flex-column mgt-m pdt-l pdb-l">
+            <div class="flex-item-6 pdl-l">
+              <div class="flex-column color-9">
+                <a ng-if="!choisedList.length"
+                   href=""
+                   class="batch-delete-btn"
+                   ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json', 'array')"
+                   ng-disabled="!choisedList.length">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+                <a ng-if="choisedList.length"
+                   href=""
+                   class="batch-delete-btn"
+                   handle-this-click
+                   dialog-title="确认删除?"
+                   dialog-content="确认批量删除?"
+                   dialog-template="pr-dialog-confirm.html"
+                   callback="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json', 'array')">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+              </div>
+            </div>
+            <div class="flex-item-6 text-right pdr-l">
+              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="库房编号/库房名称" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+            </div>
+          </div>
+          <div class="pr-bg-white pr-fuzzy-boundary">
+            <table class="table pr-table pr-new-table pr-table-content">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th ng-if="listParams.checkUpStatus!='已完成'" class="w-60 text-center mycheck">
+                    <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                    <label for="1"></label>
+                  </th>
+                  <th >序号</th>
+                  <th >商品编号</th>
+                  <th class="text-left-important">商品名称</th>
+                  <th>剂型／分类</th>
+                  <th>规格／型号</th>
+                  <th>基本单位</th>
+                  <th>有效期预警天数</th>
+                  <th>生产企业</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative"
+                    table-item-multiple-btn>
+                  <td class="select-td text-center mycheck">
+                    <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-init="tr.handleFlag=false;"  ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <label for="{{$index+2}}"></label>
+                  </td>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
+                    <div class="table-item-multiple-btn">
+                      <div ng-if="listParams.checkUpStatus=='待验收'" class="inline-block btn-receiveItem pr-bg-edit color-white"
+                           modal-right="650"
+                           modal-scope="this"
+                           modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'
+                           modal-url="views/checkUp/edit.html">开始验收...
+                      </div>
+                    </div>
+                  </td><!-- 序号 -->
+                  <td>{{tr.code}}</td><!--商品编号-->
+                  <td class="text-left">
+                    <span class="color-orange cur-pot lend-order-goods-info"
+                          ng-init="showInfoArea=false"
+                          ng-mouseenter="showInfoArea=true"
+                          ng-mouseleave="showInfoArea=false">{{tr.name}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{item}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!--商品名称-->
+                  <td>{{tr.medicalAttribute.name}}</td>
+                  <td>{{tr.specification}}</td>
+                  <td>{{tr.unit}}</td>
+                  <td>{{tr.guaranteePeriodAlarmDay}}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+          <div class="flex-column pd-v-l">
+            <div class="flex-item-6 pdl-l">
+              <!-- 批量删除按钮 -->
+              <div class="flex-column color-9">
+                <a ng-if="!choisedList.length"
+                   href=""
+                   class="batch-delete-btn"
+                   ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json', 'array')"
+                   ng-disabled="!choisedList.length">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+                <a ng-if="choisedList.length"
+                   href=""
+                   class="batch-delete-btn"
+                   handle-this-click
+                   dialog-title="确认删除?"
+                   dialog-content="确认批量删除?"
+                   dialog-template="pr-dialog-confirm.html"
+                   callback="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json', 'array')">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+              </div>
+            </div>
+            <div class="flex-item-6 text-right pdr-l">
+              <!-- 导航 -->
+              <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+                <div class="fr"><pagination status="status"></pagination></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </table-list>
+</div>

@@ -44,7 +44,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-medicalAttribute',
                                'project/controllers-regionManage',
                                'project/controllers-lendOrder',
-                               'project/controllers-returnOrder2'], function() {
+                               'project/controllers-returnOrder2',
+                               'project/controllers-validityStrategy'], function() {
 
   /**
    * 主控（业务模块级别）
@@ -309,7 +310,10 @@ define('project/controllers', ['project/init',
         });
       }
 
-      // 将当前批次的灭菌批号和仓库名传递到列表
+        if($scope.submitForm_type == 'save'){
+            // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+            return;
+        }
 
 
     };

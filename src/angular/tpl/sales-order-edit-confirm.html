@@ -1,0 +1,62 @@
+<!--
+        购需单确认编辑
+-->
+
+<div class="salesOrder-edit"
+     ng-controller="salesOrderEditCtrl2"
+     ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');"
+     alert-error>
+<div class="pr-page-dialog-wrap">
+    <div class="pr-page-dialog-title-h-lh-fs bb-line">
+        <span class="mgl-l">{{confirmTitle}}</span>
+    </div>
+    <div class="bb-line">
+        <div class="flex-column pd-c-l pdt-m pdb-s color-9">
+            <span class="inline-block relative">
+              <span>单据日期：</span>
+              <input ng-if="initFlag" type="text"
+                     datepicker
+                     class="ipt color-3"
+                     style="width:120px;"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="formData.orderDate" />
+                <span class="date-icon"></span>
+            </span>
+        </div>
+        <div class="pd-c-l pdt-m pdb-s color-9">
+            <span class="mgr">业务部门：
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                        style="width: 86px;"
+                        placeholder=" "
+                        chosen
+                        no-first-select-source="true"
+                        ng-model="formData.salesDepartmentId"
+                        select-source="rest/authen/department/queryForSelectOption">
+                </select>
+            </span>
+        </div>
+        <div class="pd-c-l pdt-m pdb-s color-9">
+            <span class="mgr">业务人员：
+                <select ng-if="initFlag"
+                        class="ipt pr-short-ipt color-3" style="width:86px;"
+                        data-placeholder=" "
+                        chosen
+                        no-first-select-source="true"
+                        ng-model="formData.saleUserId"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
+                </select>
+            </span>
+        </div>
+
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+        <!-- <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">{{cancelBtnTxt||'取消'}}</button> -->
+        <button type="button" class="pr-btn-save-glodbg btn-new-wid-hei" ng-click="confirm()">{{confirmBtnTxt||'确定'}}</button>
+    </div>
+</div>
+</div>
+
+
