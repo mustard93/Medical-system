@@ -714,10 +714,6 @@ define('project/controllers', ['project/init',
             var tmp=$scope.formData.items[i];
             $scope.formData.items[i]=$scope.formData.items[i-1];
             $scope.formData.items[i-1]=tmp;
-
-            var index=$scope.formData.items[i].index;
-            $scope.formData.items[i].index=$scope.formData.items[i-1].index;
-            $scope.formData.items[i-1].index=index;
           }
         }
       }
@@ -732,16 +728,24 @@ define('project/controllers', ['project/init',
             var tmp=$scope.formData.items[i];
             $scope.formData.items[i]=$scope.formData.items[i+1];
             $scope.formData.items[i+1]=tmp;
-
-            var index=$scope.formData.items[i].index;
-            $scope.formData.items[i].index=$scope.formData.items[i+1].index;
-            $scope.formData.items[i+1].index=index;
             return;
           }
         }
       }
     }
-
+    // 重置操作，点击重置按钮，调用重置接口传入Id
+    $scope.resetTableData=function(id){
+      var _reqUrl = 'rest/authen/uiCustomTable/reset.json?id='+id;
+      requestData(_reqUrl)
+      .then(function (results) {
+        if (results[1].code === 200) {
+          $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+        }
+      })
+      .catch(function (error) {
+        if (error) { throw new Error(error || '出错'); }
+      })
+    }
 
     // $scope.$watchCollection('formData.customTable', function (newVal, oldVal) {
     //   if (newVal && newVal !== oldVal) {
