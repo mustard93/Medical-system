@@ -98,12 +98,12 @@
        <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.orderMedicalNos.length}}" -->
        <div class="pos-rel-tl order-create-btn mgb-m">
          <a
-                 modal-right="1000"
-                 modal-scope="this"
-                 modal-data='{"relId":"{{formData.relId}}"}'
-                 modal-url="views/returnOrder/choice-dialog.html">
+             modal-right="1000"
+             modal-scope="this"
+             modal-data='{"relId":"{{formData.relId}}"}'
+             modal-url="views/returnOrder/choice-dialog.html">
            <i></i>
-           <span>增加归还条目</span>
+           <span>修改换货条目</span>
          </a>
        </div>
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
@@ -111,6 +111,7 @@
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6" ng-init="numberingPolicy='auto'">
+
                <!--自动获取单号-->
                <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
@@ -293,6 +294,109 @@
                </tbody>
              </table>
            </div>
+
+           <!--退回-->
+           <div class="pd-c-l pdt-m pdb-m color-9" style="margin-bottom: 15px; border-top: 1px solid rgba(0,0,0,0.10);">
+             <span class="color-3" style="font-weight: bold; float: left">退回</span>
+           </div>
+           <!-- 退回-商品列表 -->
+           <div class="">
+             <table class="table pr-table pr-new-table mgb-n">
+               <thead>
+               <tr>
+                 <th class="text-center">序号</th>
+                 <th class="text-center">商品编号</th>
+                 <th class="text-left">商品通用名</th>
+                 <th class="text-center">类型/分类</th>
+                 <th class="text-center">规格／型号</th>
+                 <th class="text-center">单位</th>
+                 <th class="text-center">可换数量</th>
+                 <th class="text-center">换货数量</th>
+                 <th class="text-center">预入库房</th>
+                 <th class="text-center">批号</th>
+                 <th class="text-center">灭菌批号</th>
+                 <th class="text-center">失效日期</th>
+                 <th class="text-center">含税单价</th>
+                 <th class="text-center">价税合计</th>
+
+               </tr>
+               </thead>
+               <tbody>
+               <tr ng-repeat="tr in formData.orderMedicalNos">
+                 <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                 <td class="text-left"   style="line-height:2.4">
+                  <span class="lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        style="position: relative"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">
+                    <div class=" color-orange cur-pot " title="{{tr.approvedName}}"> {{tr.approvedName}}</div>
+                    <!--<div class="autocut color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>-->
+                    <show-info-modal ng-show="showInfoArea"
+                                     get-data-type="local"
+                                     template-url="tpl/showInfoModalLendOrder"
+                                     info-object="{{tr}}"
+                                     info-title="商品信息">
+                    </show-info-modal>
+                  </span>
+                 </td><!-- 商品全名 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td><!-- 类型/分类 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.lendCount}}</td><!-- 可换数量 -->
+                 <td class="text-center" style="white-space: nowrap;">
+                   <div class="order-goods-num">
+                     <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="tr.quantity==1">-</button>
+                     <span class="inline-block">
+                          <input type="number"
+                                 name="quantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
+                                 style="width:60px;"
+                                 ng-model="tr.quantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 popover-show="checkQuantity(tr)"
+                                 popover-options='{"content":"计划归还数量不能大于待还数量或小于1", "placement":"top", "trigger":"manual"}'
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                          >
+                        </span>
+                     <button ng-disabled="tr.quantity==(tr.actualCount - tr.cumulativeReturnCount)" type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
+                   </div>
+                 </td><!-- 换货数量 -->
+
+                 <td class="text-center">
+
+                   <!--{{tr.packingAttribute.name}}-->
+                   <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
+                   <select class="pr-select pd-s"
+                           style="width:115px;"
+
+                           ng-model="tr.warehouseId"
+                           ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
+                           scope-data="warehouseList"
+                           callback="tr.warehouseId = tr.warehouseId ? tr.warehouseId : warehouseList[0].value;"
+                   >
+                     <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                   </select>
+
+
+
+                 </td><!-- 预入仓库 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 灭菌批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.quantity}}</td><!-- 含税单价 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.quantity}}</td><!-- 价税合计 -->
+               </tr>
+               </tbody>
+             </table>
+           </div>
            <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
@@ -300,6 +404,89 @@
                <div>&nbsp;</div>
              </div>
            </div>
+
+
+
+           <!--重新发货-->
+           <div class="pd-c-l pdt-m pdb-m color-9" style="margin-top: 25px; margin-bottom: 15px; border-top: 1px solid rgba(0,0,0,0.10);">
+             <span class="color-3" style="font-weight: bold; float: left">重新发货</span>
+           </div>
+           <!--重新发货-商品列表 -->
+           <div class="">
+             <table class="table pr-table pr-new-table mgb-n">
+               <thead>
+               <tr>
+                 <th class="text-center">序号</th>
+                 <th class="text-center">商品编号</th>
+                 <th class="text-left">商品通用名</th>
+                 <th class="text-center">类型/分类</th>
+                 <th class="text-center">规格／型号</th>
+                 <th class="text-center">单位</th>
+
+                 <th class="text-center">换货数量</th>
+                 <th class="text-center">生产批号</th>
+                 <th class="text-center">计划数量</th>
+                 <th class="text-center">实际发货数量</th>
+
+                 <th class="text-center">含税单价</th>
+                 <th class="text-center">价税合计</th>
+                 <th class="text-center">灭菌批号</th>
+                 <th class="text-center">仓库</th>
+                 <th class="text-center">失效日期</th>
+
+
+               </tr>
+               </thead>
+               <tbody>
+               <tr ng-repeat="tr in scopeData.orderMedicalNos">
+                 <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                 <td class="text-left"   style="line-height:2.4">
+                  <span class="lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        style="position: relative"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">
+                    <div class=" color-orange cur-pot " title="{{tr.approvedName}}"> {{tr.approvedName}}</div>
+                    <!--<div class="autocut color-orange cur-pot " title="{{tr.name}}"> {{tr.name}}</div>-->
+                    <show-info-modal ng-show="showInfoArea"
+                                     get-data-type="local"
+                                     template-url="tpl/showInfoModalLendOrder"
+                                     info-object="{{tr}}"
+                                     info-title="商品信息">
+                    </show-info-modal>
+                  </span>
+                 </td><!-- 商品全名 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td><!-- 类型/分类 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.lendCount}}</td><!-- 换货数量 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 生产批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 计划数量 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 实际发货数量 -->
+
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 含税单价 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 价税合计 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 灭菌批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--仓库-->
+                 <td class="text-center" style="line-height:2.4">{{tr.quantity || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
+               </tr>
+               </tbody>
+             </table>
+           </div>
+
+
+           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+             <div class="empty-table clearfix">
+               <div>&nbsp;</div>
+               <div>&nbsp;</div>
+               <div>&nbsp;</div>
+             </div>
+           </div>
+
+
            <!-- 制单人信息 -->
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
              <div class="flex-item-6 text-right"></div>
@@ -309,8 +496,24 @@
                <span class="mgr">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
              </div>
            </div>
+
+
          </div>
        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
        <!-- 运输／仓储 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
