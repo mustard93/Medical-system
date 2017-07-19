@@ -1655,7 +1655,6 @@ function customTableToggleSort (modal,utils,requestData) {
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
       if (sortItem.canSort) {
-        
         $(element).append('<i class="arrow-sort"></i>');
       }
 
@@ -1696,6 +1695,41 @@ function customTableToggleSort (modal,utils,requestData) {
     }//end link
   };
 }
+
+
+// 自定义表格排序，根据点击不同的标题，对相应列进行按该字段排序。
+/**
+   *
+  	* @Description: 点击发起请求,进行排序
+  	* @author 宋娟
+  	* @date 2017年07月18日 上午09:42:59
+   */
+
+   	   //  关键步骤：
+
+function customTableSet (modal,utils,requestData) {
+  'use strict';
+  return {
+      restrict: 'AE',
+    link: function ($scope, element, $attrs) {
+      var customTableSetP=element.parent().children('p');
+      // console.log(customTableSetP);
+      element.on('click',function(e){
+        // 阻止冒泡
+        e.stopPropagation();
+          var customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+          console.log(customTableSetItem);
+          // 去除选中样式，再重新加上当前选中的样式。
+          $(customTableSetP).removeClass('hover');
+          $(this).addClass('hover');
+          $scope.index=customTableSetItem.index;
+          console.log($scope.index);
+
+      })
+    }//end link
+  };
+}
+
 
 
 
@@ -3897,6 +3931,7 @@ angular.module('manageApp.project')
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
+  .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击隐藏或显示，移动位置。
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回

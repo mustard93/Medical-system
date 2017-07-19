@@ -1,12 +1,16 @@
-<div class="order-code-strategy"
-     ng-init="formData={}">
+<div  class="order-code-strategy"
+      ng-controller="uiCustomTableController"
+      ng-init="className_getOfEdit=false"
+      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
+      scope-data="formData"
+      callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
           <!-- ng-controller="orderCodeStrategyController" -->
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/orderCodeStrategy/save.json"
+        action="rest/authen/uiCustomTable/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -16,7 +20,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
-        <a href="#/confirmOrder/query.html"><em class="color-custom-orange">自定义表格设置</em></a>
+        <em>自定义表格设置</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
@@ -31,7 +35,7 @@
            z-tree-select='[{"id":1,"pId":0,"name":"销售管理","open":true},
                            {"id":5,"pId":1,"name":"销售单"}]'
            z-tree-type="static"
-           ng-model="formData.medicalAttribute"
+           ng-model="formData.customTable"
            id-key="id"
            p-id-key="pId">
       </div>
@@ -43,17 +47,29 @@
             </p>
             <div class="flex-item-6 flex-column br-line">
               <div class="flex-item-12 text-center">
-                <p class="text-bold text-m color-3 pd-c-v-l bb-line">显示列</p>
-                <div class="custom-table-show ">
-
+                <p class="text-bold text-m color-3 pd-c-v-l bb-line">
+                 <span class="custom-table-down-arrow" title="下移"  ng-click="$root.utils.switchArrayOrder(formData.items,index,index-1)"></span>
+                 <span class="custom-table-up-arrow" title="上移" ng-click="$root.utils.switchArrayOrder(formData.items,index,index+1)"></span>
+                  显示列
+                  <span class="custom-table-right-arrow" title="隐藏"></span>
+                </p>
+                <div class="custom-table-show medical-hover">
+                  <p custom-table-set custom-table-set-item="{{item}}"   ng-repeat="item in formData.items " ng-show="item.showFlag" class="cur-pot pd-c-v-s text-left ">
+                    {{item.propertyName}}
+                  </p>
                 </div>
               </div>
             </div>
             <div class="flex-item-6 flex-column">
               <div class="flex-item-12 text-center">
-                <p class="text-bold text-m color-3 pd-c-v-l bb-line">隐藏列</p>
-                <div class=" custom-table-hidden">
-
+                <p class="text-bold text-m color-3 pd-c-v-l bb-line">
+                  <span class="custom-table-left-arrow" title="显示"></span>
+                  隐藏列
+                </p>
+                <div class=" custom-table-hidden medical-hover">
+                  <p ng-repeat="item in formData.items " ng-show="!item.showFlag" class="cur-pot pd-c-v-s text-left ">
+                    {{item.propertyName}}
+                  </p>
                 </div>
               </div>
             </div>
@@ -68,7 +84,7 @@
             <div class="flex-item-12 text-left pd-c-v-l" >
               <p class="pd-c-v-s">
                 默认名称：
-                <em class="color-3">商品名称</em>
+                <em class="color-3"></em>
               </p>
               <p class="pd-c-v-s">
                 显示名称：
