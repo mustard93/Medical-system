@@ -1768,7 +1768,7 @@ function businessFlowShow() {
           //  console.log(data);
            var curRelId=$attrs.curRelId;//当前页面业务单id
           //  console.log(data);
-          console.log(data);
+          // console.log(data);
            require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 
              //点击回调方法
