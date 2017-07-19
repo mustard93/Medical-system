@@ -8,7 +8,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
    */
-  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils) {
+  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
       modal.closeAll();
 
@@ -261,24 +261,33 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
       // 详情页待确认订单处理
       $scope.confirmHospitalOrder = function (id) {
-        if (id) {
-          var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
-          requestData(_url, {}, 'POST')
-          .then(function (results) {
-            if (results[1].code === 200) {
-              utils.goTo('#/salesOrder/edit2.html?id='+id);
-            }
-          })
-          .catch(function (err) {
-            if (err) {
-              $scope.showData.onLineOrderStatus = '已关闭';
-            }
+
+
+          dialogConfirm("", function () {
+          //    点击确定的回调
+          }, "sales-order-edit-confirm.html", "接单确认", null, null, null, {},function () {
+          //      点击取消或关闭 的回调
           });
-        }
+
+        // if (id) {
+        //   var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
+        //   requestData(_url, {}, 'POST')
+        //   .then(function (results) {
+        //     if (results[1].code === 200) {
+        //       // utils.goTo('#/salesOrder/edit2.html?id='+id);
+        //
+        //     }
+        //   })
+        //   .catch(function (err) {
+        //     if (err) {
+        //       $scope.showData.onLineOrderStatus = '已关闭';
+        //     }
+        //   });
+        // }
       };
 
   }
 
   angular.module('manageApp.project')
-  .controller('salesOrderEditCtrl2', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils", salesOrderEditCtrl2]);
+  .controller('salesOrderEditCtrl2', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", salesOrderEditCtrl2]);
 });

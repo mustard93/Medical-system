@@ -1712,20 +1712,77 @@ function customTableSet (modal,utils,requestData) {
   return {
       restrict: 'AE',
     link: function ($scope, element, $attrs) {
-      var customTableSetP=element.parent().children('p');
-      // console.log(customTableSetP);
-      element.on('click',function(e){
-        // 阻止冒泡
-        e.stopPropagation();
-          var customTableSetItem=$scope.$eval($attrs.customTableSetItem);
-          console.log(customTableSetItem);
-          // 去除选中样式，再重新加上当前选中的样式。
-          $(customTableSetP).removeClass('hover');
-          $(this).addClass('hover');
-          $scope.index=customTableSetItem.index;
-          console.log($scope.index);
+      // 传入当前字段
+      // var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+      //
+      // // 下移箭头
+      // var customTableDownArrow=$('.custom-table-down-arrow');
+      // // 上移箭头
+      // var customTableUpArrow=$('.custom-table-up-arrow');
+      // // 隐藏箭头
+      // var customTableRightArrow=$('.custom-table-right-arrow');
 
-      })
+      // var itemKey;
+
+      element.on('click',function(e){
+        e.stopPropagation();
+        // 重新选择其他的字段后，点击过后的样式重新定义
+        $('.custom-table-show').children('p').removeClass('hover');
+        $(this).addClass('hover');
+        // 获取当前字段
+        // itemKey=_customTableSetItem.propertyKey;
+        // $scope.itemShow=_customTableSetItem;
+        // console.log($scope.itemShow);
+      });
+
+        // // 点击下移按钮触发事件
+        // customTableDownArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //
+        //         var tmp=$scope.formData.items[i].index;
+        //         $scope.formData.items[i].index=$scope.formData.items[i+1].index;
+        //         $scope.formData.items[i+1].index=tmp;
+        //       }
+        //
+        //     }
+        //   }
+        // });
+        // // 点击上移按钮触发事件
+        // customTableUpArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //         var tmp=$scope.formData.items[i].index;
+        //         $scope.formData.items[i].index=$scope.formData.items[i-1].index;
+        //         $scope.formData.items[i-1].index=tmp;
+        //       }
+        //
+        //     }
+        //   }
+        // });
+        // // 点击隐藏按钮触发事件
+        // customTableRightArrow.on('click',function(){
+        //   if (itemKey) {
+        //
+        //     for (var i = 0; i < $scope.formData.items.length; i++) {
+        //
+        //       if ($scope.formData.items[i].propertyKey==itemKey) {
+        //         console.log(itemKey);
+        //         console.log($scope.formData.items[i]);
+        //         $scope.formData.items[i].showFlag=false;
+        //         console.log($scope.formData.items[i]);
+        //       }
+        //
+        //     }
+        //   }
+        // });
+
     }//end link
   };
 }
@@ -1768,7 +1825,7 @@ function businessFlowShow() {
           //  console.log(data);
            var curRelId=$attrs.curRelId;//当前页面业务单id
           //  console.log(data);
-          console.log(data);
+          // console.log(data);
            require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 
              //点击回调方法
@@ -3931,7 +3988,7 @@ angular.module('manageApp.project')
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
-  .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击隐藏或显示，移动位置。
+  .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击改变
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
