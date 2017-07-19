@@ -1880,6 +1880,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                data0Val=null;
              }
 
+
+
              if(angular.isDefined($attrs.multiple)){
                  if (angular.isDefined($attrs.defaultEmpty)) {
                     _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
@@ -1887,6 +1889,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                  }
              } else {
+
+               //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
+               for(var i=0;i<data.length;i++){
+                 if(ngModel.$viewValue==data[i].value){
+                    return ngModel.$viewValue;
+                 }
+               }
+               //下拉无数据情况下，初始值为null。
+               ngModel.$setViewValue(null);
+
                 if (angular.isDefined($attrs.defaultEmpty)) {
                  _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                 } else {
@@ -1990,18 +2002,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               // 监听一个model 当一个model清空时,重置chosen 选择数据
               //model 变化时，触发回调方法。
               if ($attrs.ngModel &&(!angular.isDefined($attrs.multiple))) {
-                $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
 
+                    if ($attrs.selectData||$attrs.callback){
+                      return
+                    }
+
+                $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
                       // console.log("watch,$attrs.ngModel1");
                         if(!chosenObj|| newValue==oldValue)return;
-
                         try{
                             var chosen=chosenObj.data("chosen");
                             if(!chosen)return;
                             if(!chosen.results_data||chosen.current_selectedIndex<0)return;
-                            chosen.results_data[chosen.current_selectedIndex];
+                            // chosen.results_data[chosen.current_selectedIndex];
                             // console.log("watch,$attrs.ngModel2");
-
 
                               if(callback)callback();
 
@@ -2248,7 +2262,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
 
 
-                  watchNgModel(handleSearch);
+                  watchNgModel();
 
                   // if ($attrs.params) {
                   //
@@ -2301,10 +2315,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           $attrs.$observe("params", function(value) {
 
                               _params = $scope.$eval(value);
-                              if(firstSelectSource==value)return;
-
-                                  firstSelectSource=value;
-                                ngModel.$setViewValue(null);
+                              // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                              //该参数，可以不使用废弃。
+                              // if(firstSelectSource==value)return;
+                              //     firstSelectSource=value;
+                                // ngModel.$setViewValue(null);
 
                               getData(_params);
                           });
@@ -2313,8 +2328,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           //监听对象
                           $scope.$watch($attrs.params, function(value) {
                               _params = value;
-                              if(firstSelectSource==value)return;
-                                ngModel.$setViewValue(null);
+                              // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                              //该参数，可以不使用废弃。
+                              // if(firstSelectSource==value)return;
+                              // firstSelectSource=value;
+                                // ngModel.$setViewValue(null);
 
                               getData(_params);
                           }, true);
@@ -2324,11 +2342,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $attrs.$observe("selectSource", function(value) {
 
                         // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
-                        if (!$attrs.noFirstSelectSource) {
-                          if (firstSelectSource == value) return;
-                        }
+                        //该参数，可以不使用废弃。
+                        // if (!$attrs.noFirstSelectSource) {
+                        //   if (firstSelectSource == value) return;
+                        // }
+                        // firstSelectSource=value;
 
-                        ngModel.$setViewValue(null);
+                        // ngModel.$setViewValue(null);
 
                         // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
                         getData();
@@ -2405,7 +2425,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       });
               }
 
-              watchNgModel(getData);
+              watchNgModel();
 
 
               $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
@@ -2479,6 +2499,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                //设置选中值。1.设置优先级为：ngModel》defaultEmpty》data[0]
                //data 是返回的option 对象数组
                function getInitSelected (data){
+                 if(!data)data=[];
                  var _selected=null;
                  var data0Val=data[0]?data[0].value:null;
 
@@ -2487,6 +2508,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    data0Val=null;
                  }
 
+
+
                  if(angular.isDefined($attrs.multiple)){
                      if (angular.isDefined($attrs.defaultEmpty)) {
                         _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
@@ -2494,6 +2517,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                      }
                  } else {
+                   //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
+                   for(var i=0;i<data.length;i++){
+                     if(ngModel.$viewValue==data[i].value){
+                        return ngModel.$viewValue;
+                     }
+                   }
+                   //下拉无数据情况下，初始值为null。
+                   ngModel.$setViewValue(null);
+                   
                     if (angular.isDefined($attrs.defaultEmpty)) {
                      _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                     } else {
@@ -2501,6 +2533,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     }
                  }
+
+
+
                   ngModel.$setViewValue(_selected);
 
                   if (_selected===null) {
@@ -2583,7 +2618,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 //监听变化
                 function watchNgModel(callback){
 
-                  //只有复选框 的时候才调用该方法
+                  //不是复选框 的时候才调用该方法
                   // 监听一个model 当一个model清空时,重置chosen 选择数据
                   //model 变化时，触发回调方法。
                   if ($attrs.ngModel &&(!angular.isDefined($attrs.multiple))) {

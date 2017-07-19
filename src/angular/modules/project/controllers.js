@@ -310,7 +310,10 @@ define('project/controllers', ['project/init',
         });
       }
 
-      // 将当前批次的灭菌批号和仓库名传递到列表
+        if($scope.submitForm_type == 'save'){
+            // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+            return;
+        }
 
 
     };
