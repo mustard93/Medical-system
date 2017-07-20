@@ -15,6 +15,10 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
 
   function  salesChangeOrderEditCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      
+      
+      
+      
       //表单数据监控
       $scope.watchFormChange = function(watchName){
           watchFormChange(watchName,$scope);
@@ -109,6 +113,13 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
 
        }
    }
+
+     //获取所有批次的和
+     $scope.getAllBatchTotal=function (list,attr) {
+        return utils.countAttrVal(list,attr);
+     }
+
+   
   }
 
   //销售换货单弹窗 Ctrl

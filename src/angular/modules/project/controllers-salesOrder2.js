@@ -260,7 +260,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
       };
 
       // 详情页待确认订单处理
-      $scope.confirmHospitalOrder = function (id) {
+      $scope.confirmHospitalOrder = function (id,showData) {
 
 
 
@@ -274,19 +274,28 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
             //   'saleUserId': formData.saleUserId
             // };
 
+            showData.orderDate= formData.orderDate;
+            showData.salesDepartmentId=formData.salesDepartmentId;
+            showData.saleUserId=formData.saleUserId;
+
+
             if (id) {
               var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
               requestData(_url, {}, 'POST')
               .then(function (results) {
                 if (results[1].code === 200) {
-                  // var _obj = {
-                  //   'orderDate': formData.orderDate,
-                  //   'salesDepartmentId': formData.salesDepartmentId,
-                  //   'saleUserId': formData.saleUserId
-                  // };
+                    //保存确认后的值
+                    var _url2='rest/authen/salesOrder/save';
 
-                  utils.goTo('#/salesOrder/edit2.html?id='+id+'&orderDate='+formData.orderDate+'&salesDepartmentId='+ formData.salesDepartmentId+'&saleUserId='+formData.saleUserId);
-
+                    requestData(_url2, showData, 'POST','parameterBody').then(function (results) {
+                        if (results[1].code === 200) {
+                            utils.goTo('#/salesOrder/edit2.html?id='+id);
+                        }
+                    }) .catch(function (err) {
+                        if (err) {
+                            alertWarn(err);
+                        }
+                    });
                 }
               })
               .catch(function (err) {
