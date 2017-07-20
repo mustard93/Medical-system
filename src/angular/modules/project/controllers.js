@@ -45,7 +45,10 @@ define('project/controllers', ['project/init',
                                'project/controllers-regionManage',
                                'project/controllers-lendOrder',
                                'project/controllers-returnOrder2',
-                               'project/controllers-validityStrategy'], function() {
+                               'project/controllers-validityStrategy',
+                               'project/controllers-salesChangeOrder'
+
+], function() {
 
   /**
    * 主控（业务模块级别）
@@ -305,7 +308,7 @@ define('project/controllers', ['project/init',
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.relId == id) {
             $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
-             $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+             // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           }
         });
       }

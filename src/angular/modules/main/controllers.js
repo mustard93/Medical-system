@@ -98,7 +98,7 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.UICustomTable=UICustomTable;
 
         //自定义table工具类
-      $rootScope.watchFormChange=watchFormChange;
+        $rootScope.watchFormChange=watchFormChange;
         //当前服务器根上下文路径 http://localhost:3000/src/
         $rootScope.curServerPath=utils.getCurServerPath();
 

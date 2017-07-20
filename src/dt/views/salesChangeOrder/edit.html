@@ -1,5 +1,5 @@
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
-     ng-controller="returnOrderCtrl"
+     ng-controller="salesChangeOrderEditCtrl"
      ajax-url="rest/authen/salesChangeOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;
@@ -47,8 +47,8 @@
                <div class="inline-block customer-name "></div>
                <div class="inline-block">
                  <p class="mgb-s" style="margin-left: 20px;">客户名</p>
-                 <p class="mgb-s" style="margin-left: 20px;font-size: 14px;color: #333333;">{{scopeData.customerName || "暂无"}}</p>
-                 <p>::ustomerId：{{scopeData.customerId}}</p>
+                 <p class="mgb-s" style="margin-left: 20px;font-size: 14px;color: #333333;">{{formData.customerName || "暂无"}}</p>
+                 <p>::ustomerId：{{formData.customerId}}</p>
                </div>
              </div>
            </div>
@@ -104,7 +104,6 @@
          <a
              modal-right="1000"
              modal-scope="this"
-             modal-open-auto="true"
              modal-data='{"relId":"{{formData.relId}}"}'
              modal-url="views/salesChangeOrder/choice-dialog.html">
            <i></i>
@@ -140,7 +139,7 @@
                </div>
 
                <span class="mgr">发货单编号:
-                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
+                 <a ng-if="formData.relOrderNo" href="#/invoicesOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
                  <span ng-if="!formData.relOrderNo" class="color-3">暂无</span>
                </span>
 
@@ -198,6 +197,7 @@
            <div class="pd-c-l pdt-m pdb-m color-9" style="margin-bottom: 15px; border-top: 1px solid rgba(0,0,0,0.10);">
              <span class="color-3" style="font-weight: bold; float: left">退回</span>
            </div>
+
            <!-- 退回-商品列表 -->
            <div class="">
              <table class="table pr-table pr-new-table mgb-n">
@@ -223,9 +223,21 @@
                </tr>
                </thead>
                <tbody>
-               <tr ng-repeat="tr in formData.orderMedicalNos">
+               <tr ng-repeat="tr in formData.receiveOrderMedicalNos">
                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
-                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.code}}
+
+                   <div class="table-item-handle-btn">
+                     <div class="table-item-confirm-del-area">
+                       <p class="bb-line color-red pd-v">确认删除本条数据?</p>
+                       <p class="pdt">
+                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                         <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click=" formData.receiveOrderMedicalNos.splice($index,1);">确认</a>
+                       </p>
+                     </div>
+                   </div>
+
+                 </td><!-- 商品编码 -->
                  <td class="text-left"   style="line-height:2.4">
                   <span class="lend-order-goods-info"
                         ng-init="showInfoArea=false"
@@ -247,10 +259,10 @@
                  <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
-                 <td class="text-center" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 可换数量 -->
-                 <td class="text-center" style="white-space: nowrap;">
+                 <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
+                 <td class="text-center" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
-                     <button type="button" class="inline-block left" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="tr.quantity==1">-</button>
+                     <button type="button" class="inline-block left" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)-1;" ng-disabled="tr.stayCount==1">-</button>
                      <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -266,7 +278,7 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                           >
                         </span>
-                     <button ng-disabled="tr.stayCount==(tr.actualCount - tr.cumulativeReturnCount)" type="button" class="inline-block right" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
+                     <button ng-disabled="tr.stayCount==tr.planReturnCount" type="button" class="inline-block right" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)+1;">+</button>
                    </div>
                  </td><!-- 换货数量 -->
 
@@ -274,10 +286,11 @@
 
                    <!--{{tr.packingAttribute.name}}-->
                    <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
+
                    <select class="pr-select pd-s"
                            style="width:115px;"
                            ng-model="tr.warehouseId"
-                           ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
+                           ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}"
                            scope-data="warehouseList"
                            callback="tr.warehouseId = tr.warehouseId ? tr.warehouseId : warehouseList[0].value;"
                    >
@@ -288,16 +301,16 @@
 
                  </td><!-- 预入仓库 -->
 
-                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 批号 -->
-                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 灭菌批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
-                 <td class="text-right" style="line-height:2.4">{{tr.quantity | currency: "￥"}}</td><!-- 含税单价 -->
-                 <td class="text-right" style="line-height:2.4">{{tr.quantity | currency: "￥"}}</td><!-- 价税合计 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.strike_price | currency: "￥"}}</td><!-- 含税单价 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.strike_price * tr.stayCount | currency: "￥"}}</td><!-- 价税合计 -->
                </tr>
                </tbody>
              </table>
            </div>
-           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+           <div class="pr-bg-white" ng-if="!formData.receiveOrderMedicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
@@ -325,7 +338,6 @@
 
                  <th class="text-center">换货数量</th>
                  <th class="text-center">批号／数量</th>
-                 <th class="text-center">实际发货数量</th>
 
                  <th class="text-center">含税单价</th>
                  <th class="text-center">价税合计</th>
@@ -337,9 +349,20 @@
                </tr>
                </thead>
                <tbody>
-               <tr ng-repeat="tr in scopeData.orderMedicalNos">
+               <tr ng-repeat="tr in formData.orderMedicalNos">
                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
-                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.code}}
+
+                   <div class="table-item-handle-btn">
+                     <div class="table-item-confirm-del-area">
+                       <p class="bb-line color-red pd-v">确认删除本条数据?</p>
+                       <p class="pdt">
+                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                         <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                       </p>
+                     </div>
+                   </div>
+                 </td><!-- 商品编码 -->
                  <td class="text-left"   style="line-height:2.4">
                   <span class="lend-order-goods-info"
                         ng-init="showInfoArea=false"
@@ -362,10 +385,12 @@
                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
                  <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 换货数量 -->
-                 <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" >
+                 <td class="text-center relative" style="padding:0 0 10px 0;width:200px;"
+                     ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []"
+                 >
 
                    <!-- 已选批号列表 -->
-                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
+                   <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                         ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
                         class="ipt-div relative"
                         style="width:180px; margin: 0 auto; margin-top:10px;"
@@ -381,38 +406,38 @@
                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                      <input type="hidden" ng-model="batch.id">
-                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                     <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                    </div>
 
-                   <!-- 批号选择 -->
+                   <!-- 批号选择 ng-if="getAllBatchTotal(tr.stockBatchs)<tr.stayCount"-->
                    <div
-                           ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity"
+
                            class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
                      <i class="addImg"
                         modal-right="50%"
                         modal-scope="this"
                         modal-data='{
-                                        "medicalName":"{{item.name}}",
-                                        "id":"{{item.relId}}",
+                                        "medicalName":"{{tr.name}}",
+                                        "id":"{{tr.relId}}",
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                        "quantity":{{item.quantity}},
-                                        "choisedBatchList":{{item.stockBatchs}}
+                                        "quantity":{{tr.quantity}},
+                                        "choisedBatchList":{{tr.stockBatchs}}
                                       }'
                         modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                      </i>
                    </div>
                    <!-- 待选择数 -->
-                   <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                   <p ng-if="getAllBatchTotal(tr.stockBatchs)<tr.stayCount" class="text-right color-red pdr relative">待选择：{{tr.stayCount-getAllBatchTotal(tr.stockBatchs)}}</p>
                  </td><!-- 批号/数量 -->
 
                  <td class="text-center" style="line-height:2.4">
 
-                   <div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
+                   <!--<div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>-->
 
-                   {{tr.quantity  | currency: "￥"}}</td><!-- 含税单价 -->
+                   {{tr.strike_price   | currency: "￥"}}</td><!-- 含税单价 -->
 
-                 <td class="text-center" style="line-height:2.4">{{tr.quantity  | currency: "￥"}}</td><!-- 价税合计 -->
-                 <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 灭菌批号 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.strike_price * tr.stayCount  | currency: "￥"}}</td><!-- 价税合计 -->
+                 <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                  <td class="text-center" style="line-height:2.4">
                    <div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
                  </td>  <!--仓库-->
@@ -426,7 +451,7 @@
            </div>
 
 
-           <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+           <div class="pr-bg-white" ng-if="!formData.deliverOrderMedicalNos.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
@@ -448,16 +473,6 @@
 
          </div>
        </div>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -491,7 +506,7 @@
        <!-- 收货方信息 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb"
 
-            ajax-url="rest/authen/lendOrder/get?id={{formData.relId}}"
+            ajax-url="rest/authen/invoicesOrder/get?id={{formData.relId}}"
             scope-data="customerContactsInfo"
             callback="formData.customerContacts=customerContactsInfo.invoicesContacts;
             formData.invoicesContacts=customerContactsInfo.customerContacts;
@@ -511,6 +526,7 @@
            </p>
          </div>
        </div>
+
        <!-- 发货方信息 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
          <header class="text-n color-3 text-bold">发货方信息（客户）

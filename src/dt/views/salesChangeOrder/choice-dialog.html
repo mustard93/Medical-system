@@ -1,6 +1,6 @@
 
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
-     ng-controller="returnOrderChoiceDialogCtrl"
+     ng-controller="salesChangeOrderDialogCtrl"
      ajax-url=""
      scope-data="stockBatchList"
      ng-init="listParams={};"
@@ -236,12 +236,12 @@
 
                         <td class="select-td text-center mycheck">
 
-                            <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
+                            <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.data.id) || item.disabled"-->
 
                             <input type="checkbox"
                                    ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
                                        item.disabled=  (itemInArray(item.id,formData.orderMedicalNos,'id')   || (item.actualCount - item.cumulativeReturnCount)<1);"
-                                   ng-disabled="!compareOrderId(dialogData.relId,scopeData.data.id) || item.disabled"
+                                   ng-disabled="!item.outgoingQuantity"
                                    class="selectOne cur-pot" id='{{$index+2}}'
                                    ng-model="item.handleFlag"
                                    ng-click="handleItemClickEvent(item,scopeData.data.orderMedicalNos,'id');">
@@ -303,7 +303,7 @@
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
                 <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
                         class="pr-btn-create-glodbg new-left-side-button"
-                        ng-click="addOrderDataToList(dialogData.relId,scopeData.data.id,scopeData.data.orderNo,scopeData.data.orderCode);modal.close()">确定</button>
+                        ng-click="addOrderDataToList(scopeData.data);modal.close()">确定</button>
             </div>
         </div>
 
