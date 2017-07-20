@@ -1,0 +1,46 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ajax-url="rest/authen/medicalStock/get.json?id={{dialogData.id}}"
+     scope-data="formData">
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/validityStrategy/setMedicalValidityStrategy.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">设置单个商品效期预警天数</h1>
+    </div>
+    <div class="bb-dashed-gold pd-xl text-n">
+      <h1 class="mgb-l text-l">商品信息</h1>
+      <p class="mgb-s"><span class="pdr-xl">商品编码：</span><span class="color-white">{{formData.code}}</span></p>
+      <p class="mgb-s"><span class="pdr-xl">商品名称：</span><span class="color-white">{{formData.name}}</span></p>
+      <p class="mgb-s"><span class="pdr-xl">商品规格：</span><span class="color-white">{{formData.specification}}</span></p>
+      <p class="mgb-s"><span class="pdr-xl">基本单位：</span><span class="color-white">{{formData.unit}}</span></p>
+      <p class="mgb-s"><span class="pdr-xl">生产厂商：</span><span class="color-white">{{formData.manufacturer}}</span></p>
+      <p><span class="pdr-l">有效期：</span><span>{{}}</span></p>
+    </div>
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n mgt-l">
+      <h1 class="mgb-xxl">设置效期预警天数</h1>
+      <span>效期预警天数：</span>
+      <input type="text" class="ipt pr-short-ipt pr-bg-black6 color-white" ng-model="formData.guaranteePeriodAlarmDay">
+    </div>
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n">
+      <span class="block mgb-s">备注：</span>
+      <textarea class="pr-textarea pr-bg-black6 color-white border-none text-s" maxlength="240" placeholder="" ng-model="formData.validityStrategyNote"></textarea>
+    </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit"
+              style="margin-left:300px;"
+              class="pr-btn-create-glodbg new-left-side-button"
+              ng-click="modal.closeAll()"
+              ng-disabled="!formData.guaranteePeriodAlarmDay">确定
+      </button>
+    </div>
+  </form>
+</div>
