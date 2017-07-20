@@ -64,7 +64,7 @@
         <div>
           <span class="mgr-l color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span>
         </div>
-        <div  ng-if="showData.orderSource=='线上订单'">
+        <div  ng-if="showData.orderSource=='线上订单'||showData.orderSource=='手工自建'">
         <span class="mgr-l color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
       </div>
 
@@ -97,7 +97,7 @@
 
       <!-- 未处理药械清单 -->
       <div class="confirm-order bb-line">
-        <table ng-if="showData.orderSource =='线上订单'" class="table pr-table pr-new-table">
+        <table ng-if="showData.orderSource =='线上订单'||showData.orderSource=='手工自建'" class="table pr-table pr-new-table">
           <thead>
             <tr>
               <th class="text-center">商品编号</th>
@@ -110,8 +110,8 @@
               <th class="text-center">价税合计</th>
             </tr>
           </thead>
-          <tbody ng-if="showData.orderMedicalNos.length>0">
-            <tr ng-repeat="item in showData.orderMedicalNos">
+          <tbody ng-if="showData.iOrderMedicalNos.length>0">
+            <tr ng-repeat="item in showData.iOrderMedicalNos">
               <td class="text-center">{{item.code}}</td>
               <td>
                 <span

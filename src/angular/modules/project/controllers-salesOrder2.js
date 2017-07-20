@@ -268,33 +268,33 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
             console.log(formData);
 
-            var _obj = {
-              'orderDate': formData.orderDate,
-              'salesDepartmentId': formData.salesDepartmentId,
-              'saleUserId': formData.saleUserId
-            };
+            // var _obj = {
+            //   'orderDate': formData.orderDate,
+            //   'salesDepartmentId': formData.salesDepartmentId,
+            //   'saleUserId': formData.saleUserId
+            // };
 
-            // if (id) {
-            //   var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
-            //   requestData(_url, {}, 'POST')
-            //   .then(function (results) {
-            //     if (results[1].code === 200) {
-            //       var _obj = {
-            //         'orderDate': formData.orderDate,
-            //         'salesDepartmentId': formData.salesDepartmentId,
-            //         'saleUserId': formData.saleUserId
-            //       };
-            //
-            //       utils.goTo('#/salesOrder/edit2.html?id='+id+'&orderDate='+formData.orderDate+'&');
-            //
-            //     }
-            //   })
-            //   .catch(function (err) {
-            //     if (err) {
-            //       $scope.showData.onLineOrderStatus = '已关闭';
-            //     }
-            //   });
-            // }
+            if (id) {
+              var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
+              requestData(_url, {}, 'POST')
+              .then(function (results) {
+                if (results[1].code === 200) {
+                  // var _obj = {
+                  //   'orderDate': formData.orderDate,
+                  //   'salesDepartmentId': formData.salesDepartmentId,
+                  //   'saleUserId': formData.saleUserId
+                  // };
+
+                  utils.goTo('#/salesOrder/edit2.html?id='+id+'&orderDate='+formData.orderDate+'&salesDepartmentId='+ formData.salesDepartmentId+'&saleUserId='+formData.saleUserId);
+
+                }
+              })
+              .catch(function (err) {
+                if (err) {
+                  $scope.showData.onLineOrderStatus = '已关闭';
+                }
+              });
+            }
 
 
           }, "sales-order-edit-confirm.html", "接单确认", null, null, null, {},function () {
