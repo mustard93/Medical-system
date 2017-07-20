@@ -122,7 +122,16 @@
     <div class="handle-btn-area">
 
       <div class="btn-area" style="line-height:4.9;">
-        <button type="button" ng-disabled="!formData.id" class="pr-btn-save-glodbg mgr" ng-click="resetTableData(formData.id);"  style="background-color:#d9534f;" >重置
+        
+        <button class="pr-btn-save-glodbg mgr"
+                type="button"
+                style="background-color:#d9534f;"
+                handle-this-click
+                dialog-title="确认重置?"
+                dialog-content="重置后，将回到初始状态。确认重置?"
+                dialog-template="pr-dialog-submit.html"
+                callback="resetTableData(formData.id);"
+                ng-disabled="!formData.id">重置
         </button>
         <button type="submit" class="pr-btn-save-glodbg mgr" >保存
         </button>

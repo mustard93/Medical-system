@@ -45,7 +45,10 @@ define('project/controllers', ['project/init',
                                'project/controllers-regionManage',
                                'project/controllers-lendOrder',
                                'project/controllers-returnOrder2',
-                               'project/controllers-validityStrategy'], function() {
+                               'project/controllers-validityStrategy',
+                               'project/controllers-salesChangeOrder'
+
+], function() {
 
   /**
    * 主控（业务模块级别）
@@ -305,7 +308,7 @@ define('project/controllers', ['project/init',
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.relId == id) {
             $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
-             $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+             // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           }
         });
       }
@@ -736,10 +739,12 @@ define('project/controllers', ['project/init',
     // 重置操作，点击重置按钮，调用重置接口传入Id
     $scope.resetTableData=function(id){
       var _reqUrl = 'rest/authen/uiCustomTable/reset.json?id='+id;
-      requestData(_reqUrl)
+      var data={};
+      requestData(_reqUrl,data, 'POST')
       .then(function (results) {
         if (results[1].code === 200) {
           $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+          $scope.itemShow={};
         }
       })
       .catch(function (error) {
