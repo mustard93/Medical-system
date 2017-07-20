@@ -36,6 +36,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
       }
+
     });
 
     //监控业务类型，实现用户选择直运销售后选中所有的已添加药品
@@ -315,6 +316,8 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
       return true;
     };
+
+
 
     //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
     //用于chosen 回调过滤数据用。

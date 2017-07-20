@@ -108,14 +108,70 @@
           <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <!-- 商品列表 -->
-        <div ng-if="initFlag"
+        <div
         custom-table="com.pangu.mss.domain.mongo.order.OrderMedicalNo"
         custom-key="销售单详情列表"
-        custom-table-repeat-data="{{scopeData.orderMedicalNos}}"
-        custom-tr-menus="1"
+        custom-tr-menus="spd_pickMedicalStock_query"
         style="width:100%;">
         </div>
         <div class="">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th class="text-left">商品通用名</th>
+                  <th class="text-center">剂型/分类</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">计划数量</th>
+                  <th ng-if="scopeData.orderStatus!='待审核'" class="text-center">已发货数量</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">生产批号</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">灭菌批号</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">价税合计</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">失效日期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
+                  <td class="text-center">{{item.code}}
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                           modal-right="650"
+                           modal-scope="this"
+                           modal-data='{"id":"{{item.id}}"}'
+                           modal-url="views/versionFlow/gs1-barcode-print-dialog.html">打印GS1条码
+                      </div>
+                    </div>
+                  </td><!-- 商品编号 -->
+                  <td>
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{item}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
+                  <td class="text-center">{{item.dosageForms}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
+                  <td ng-if="scopeData.orderStatus!='待审核'" class="text-center">{{item.outgoingQuantity}}</td><!-- 订购数量 -->
+                  <td class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.productionBatch}}</td>
+                  <td class="text-center" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.sterilizationBatchNumber}}</td>
+                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
+                  <td class="text-right">￥{{item.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right" ng-if="scopeData.orderBusinessType=='普通销售'">{{item.validTill | date: 'yyyy-MM-dd'}}</td>
+                </tr>
+              </tbody>
+            </table>
             <div class="bt-line flex-column pr-bg-white">
               <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
                 <span class="mgr mgl">制单部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
@@ -125,6 +181,7 @@
                 <span class="mgr mgl">制单时间：<em class="color-3">{{scopeData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
               </p>
             </div>
+          </div>
         </div>
       </div>
       <!-- 其他信息 -->
@@ -173,8 +230,114 @@
           <h1 class="text-bold color-3 mgb">备注</h1>
           <p>{{scopeData.note}}</p>
         </div>
+
+          <!-- 发票信息  start ---------------------------------->
+          <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l"
+               ng-init="invoiceList=[]"
+               ajax-url="rest/authen/confirmOrder/getInvoicesById?id={{mainStatus.pageParams.id}}"
+               scope-data="invoiceList">
+
+            <header class="text-n color-3 text-bold">发票信息
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+              </span>
+            </header>
+            <div class="panel-body invoice-list"  style="display:none; margin-top: 10px; padding:15px 0 0 0;">
+              <div class="sales-invoice">
+                <h1 class="text-bold color-3 mgb text-center">采购发票</h1>
+
+                <div
+                        ng-repeat="item in invoiceList"
+                        ng-if="item.source == '采购发票'"
+                        class="invoice-item"
+                        modal-img-show
+                        ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
+                >
+                  <div  handle-this-click
+                        title="删除"
+                        dialog-title="确认删除?"
+                        dialog-content="删除后将无法恢复,确认删除?"
+                        dialog-template="pr-dialog-submit.html"
+                        params="{'id':'{{mainStatus.pageParams.id}}','invoiceId':'{{item.id}}'}"
+                        request-url="rest/authen/confirmOrder/delInvoice"
+                        callback="invoiceList.splice($index,1)"
+                        ng-click="$event.stopPropagation();" class="del-invoice-icon"></div>
+                  <div class="invoice-item-title">{{item.billingDate  || '暂无' | date :'yyyy-MM-dd' }}</div>
+                  <p class="invoice-supplier-name" title="{{item.seller.name || '暂无'}}">{{item.seller.name || '暂无'}}</p>
+                  <p class="invoice-num">{{item.code  || '暂无'}}</p>
+                </div>
+
+
+                <div class="add-invoice"
+                     modal-right="50%"
+                     modal-scope="this"
+                     modal-data='{
+                                "orderId":"{{mainStatus.pageParams.id}}",
+                                "choiceInvoiceList":{{invoiceList}},
+                                "invoiceSource":"采购发票"
+                              }'
+                     modal-url="views/confirmOrder/invoice-dialog.html"
+                >
+                  <div class="add-invoice-border">
+                    <div class="add-invoice-icon">+</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="sales-invoice" style="border: none">
+                <h1 class="text-bold color-3 mgb text-center">销售发票</h1>
+
+                <div
+                        ng-repeat="item in invoiceList"
+                        ng-if="item.source == '销售发票'"
+                        class="invoice-item"
+                        modal-img-show
+                        ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
+                >
+                  <div
+
+                          handle-this-click
+                          title="删除"
+                          dialog-title="确认删除?"
+                          dialog-content="删除后将无法恢复,确认删除?"
+                          dialog-template="pr-dialog-submit.html"
+                          params="{'id':'{{mainStatus.pageParams.id}}','invoiceId':'{{item.id}}'}"
+                          request-url="rest/authen/confirmOrder/delInvoice"
+                          callback="invoiceList.splice($index,1)"
+                          ng-click="$event.stopPropagation();" class="del-invoice-icon"></div>
+                  <div class="invoice-item-title">{{item.billingDate | date :'yyyy-MM-dd'  || '暂无'}}</div>
+                  <p class="invoice-supplier-name" title="{{item.purchaser.name || '暂无'}}">{{item.purchaser.name || '暂无'}}</p>
+                  <p class="invoice-num">{{item.code  || '暂无' }}</p>
+                </div>
+
+
+                <div class="add-invoice"
+                     modal-right="50%"
+                     modal-scope="this"
+                     modal-data='{
+                                        "orderId":"{{mainStatus.pageParams.id}}",
+                                        "choiceInvoiceList":{{invoiceList}},
+                                        "invoiceSource":"销售发票"
+                                      }'
+                     modal-url="views/confirmOrder/invoice-dialog.html"
+                >
+                  <div class="add-invoice-border">
+                    <div class="add-invoice-icon">+</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div> -->
+          <!-- 发票信息  end ---------------------------------->
+
       </div>
     </div>
+
+
+
 
     <!-- 已发货状态单据显示物流信息 -->
     <div class="bt-dashed-line"
