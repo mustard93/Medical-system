@@ -441,6 +441,16 @@ function alertOk($rootScope, modal) {
         }
 
         var utilsObj = {
+
+            //计算一个list 中对想的 attr 属性 和；
+            countAttrVal:function (list,attr) {
+                var sum=0;
+                angular.forEach(list,function (item,index) {
+                    sum+= (1*item[attr]);
+                });
+                return sum;
+            },
+
           // 获取一个月的最大天数
           getNumberArrayByMaxNum : function(startNumber,endNumber){
             var returnArr=[];
