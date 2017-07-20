@@ -1719,7 +1719,16 @@ function customTableSet (modal,utils,requestData) {
         e.stopPropagation();
         // 重新选择其他的字段后，点击过后的样式重新定义
         $('.custom-table-show').children('p').removeClass('hover');
+        $('.custom-table-hidden').children('p').removeClass('hover');
         $(this).addClass('hover');
+        // 判断是否是必须要显示的字段，如果是，不允许点击隐藏按钮
+        if (_customTableSetItem.necessaryShowFlag) {
+          $('.hidden-button').removeClass('custom-table-right-arrow');
+          $('.hidden-button').addClass('custom-table-right-arrow-disabled');
+        }else {
+          $('.hidden-button').removeClass('custom-table-right-arrow-disabled');
+          $('.hidden-button').addClass('custom-table-right-arrow');
+        }
         $scope.itemShow=_customTableSetItem;
       });
 

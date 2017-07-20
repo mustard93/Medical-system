@@ -263,28 +263,41 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
       $scope.confirmHospitalOrder = function (id) {
 
 
-          dialogConfirm("", function () {
 
-              if (id) {
-                var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
-                requestData(_url, {}, 'POST')
-                .then(function (results) {
-                  if (results[1].code === 200) {
-                      
-                      utils.goTo('#/salesOrder/edit2.html?id='+id);
+          dialogConfirm("", function (formData) {
 
-                  }
-                })
-                .catch(function (err) {
-                  if (err) {
-                    $scope.showData.onLineOrderStatus = '已关闭';
-                  }
-                });
-              }
+            console.log(formData);
+
+            // var _obj = {
+            //   'orderDate': formData.orderDate,
+            //   'salesDepartmentId': formData.salesDepartmentId,
+            //   'saleUserId': formData.saleUserId
+            // };
+
+            if (id) {
+              var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
+              requestData(_url, {}, 'POST')
+              .then(function (results) {
+                if (results[1].code === 200) {
+                  // var _obj = {
+                  //   'orderDate': formData.orderDate,
+                  //   'salesDepartmentId': formData.salesDepartmentId,
+                  //   'saleUserId': formData.saleUserId
+                  // };
+
+                  utils.goTo('#/salesOrder/edit2.html?id='+id+'&orderDate='+formData.orderDate+'&salesDepartmentId='+ formData.salesDepartmentId+'&saleUserId='+formData.saleUserId);
+
+                }
+              })
+              .catch(function (err) {
+                if (err) {
+                  $scope.showData.onLineOrderStatus = '已关闭';
+                }
+              });
+            }
 
 
           }, "sales-order-edit-confirm.html", "接单确认", null, null, null, {},function () {
-          //      点击取消或关闭 的回调
 
           });
 
