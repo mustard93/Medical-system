@@ -1652,6 +1652,8 @@ function customTableToggleSort (modal,utils,requestData) {
       var sortItem=$scope.$eval($attrs.sortItem);
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
+      // 可以进行排序的表头，增加鼠标移入样式。
+      var tableData=$scope.$eval($attrs.tableData);
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
       if (sortItem.canSort) {
@@ -1685,7 +1687,11 @@ function customTableToggleSort (modal,utils,requestData) {
             requestData(_url, {}, 'get')
             .then(function (results) {
               if (results[1].code === 200) {
+                if (tableData) {
+                  tableData=results[1].data;
+                }else {
                   $scope.tbodyList=results[1].data;
+                }
               }
             })
             .catch(function (error) {
@@ -2949,7 +2955,11 @@ function customTable() {
             if ($attrs.customTableUrl) {
                 $scope._customTableUrl=$attrs.customTableUrl;
             }
-
+            // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
+            if ($attrs.customTableRepeatData) {
+                $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
+                console.log($scope._customTableRepeatData);
+            }
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;
