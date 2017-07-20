@@ -744,6 +744,7 @@ define('project/controllers', ['project/init',
       .then(function (results) {
         if (results[1].code === 200) {
           $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
+          $scope.itemShow={};
         }
       })
       .catch(function (error) {
