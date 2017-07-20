@@ -45,7 +45,10 @@ define('project/controllers', ['project/init',
                                'project/controllers-regionManage',
                                'project/controllers-lendOrder',
                                'project/controllers-returnOrder2',
-                               'project/controllers-validityStrategy'], function() {
+                               'project/controllers-validityStrategy',
+                               'project/controllers-salesChangeOrder'
+
+], function() {
 
   /**
    * 主控（业务模块级别）
