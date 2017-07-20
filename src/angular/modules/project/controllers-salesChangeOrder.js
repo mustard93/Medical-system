@@ -15,6 +15,10 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
 
   function  salesChangeOrderEditCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      
+      
+      
+      
       //表单数据监控
       $scope.watchFormChange = function(watchName){
           watchFormChange(watchName,$scope);
@@ -109,6 +113,13 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
 
        }
    }
+
+     //获取所有批次的和
+     $scope.getAllBatchTotal=function (list,attr) {
+        return utils.countAttrVal(list,attr);
+     }
+
+   
   }
 
   //销售换货单弹窗 Ctrl
@@ -254,8 +265,8 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
 
                 //判断添加的药械是否存在列表， 如果存在，更新“换货数量”，否者 就添加
                 if( $scope.itemInArray(item.id,$scope.formData.orderMedicalNos,'id')){
+                    //如果存在，更新“换货数量”
 
-                    console.log("存在？");
 
                 }else{
                     $scope.formData.orderMedicalNos.push(item);

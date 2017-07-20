@@ -411,8 +411,8 @@
 
                    <!-- 批号选择 ng-if="getAllBatchTotal(tr.stockBatchs)<tr.stayCount"-->
                    <div
-
-                           class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
+                      ng-if="getAllBatchTotal(tr.stockBatchs,'quantity')<tr.stayCount"
+                      class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
                      <i class="addImg"
                         modal-right="50%"
                         modal-scope="this"
@@ -427,7 +427,7 @@
                      </i>
                    </div>
                    <!-- 待选择数 -->
-                   <p ng-if="getAllBatchTotal(tr.stockBatchs)<tr.stayCount" class="text-right color-red pdr relative">待选择：{{tr.stayCount-getAllBatchTotal(tr.stockBatchs)}}</p>
+                   <p ng-if="getAllBatchTotal(tr.stockBatchs,'quantity')<tr.stayCount" class="text-right color-red pdr relative">待选择：{{tr.stayCount-getAllBatchTotal(tr.stockBatchs,'quantity')}}</p>
                  </td><!-- 批号/数量 -->
 
                  <td class="text-center" style="line-height:2.4">

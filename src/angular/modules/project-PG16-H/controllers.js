@@ -697,7 +697,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         $scope.handleChoiseAllEvent = function (isChoiseAll) {
             if (isChoiseAll) {      // 全部选中
-
                 if ($scope.tbodyList) {
                     $scope.choisedMedicalList = [];
                     angular.forEach($scope.tbodyList, function (data, index) {

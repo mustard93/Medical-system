@@ -1652,6 +1652,8 @@ function customTableToggleSort (modal,utils,requestData) {
       var sortItem=$scope.$eval($attrs.sortItem);
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
+      // 可以进行排序的表头，增加鼠标移入样式。
+      var tableData=$scope.$eval($attrs.tableData);
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
       if (sortItem.canSort) {
@@ -1672,25 +1674,7 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
         }
-          // 判断切换排降序还是升序
-          if(sortItem.canSort){
 
-            if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
-              sortItem.sortCriteria='desc';
-            }else if (sortItem.sortCriteria=='desc') {
-              sortItem.sortCriteria='asc';
-            }
-            // 重新请求数据，然后刷新表格排序
-            var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
-            requestData(_url, {}, 'get')
-            .then(function (results) {
-              if (results[1].code === 200) {
-                  $scope.tbodyList=results[1].data;
-              }
-            })
-            .catch(function (error) {
-            });
-          }
       });
     }//end link
   };
@@ -2949,7 +2933,11 @@ function customTable() {
             if ($attrs.customTableUrl) {
                 $scope._customTableUrl=$attrs.customTableUrl;
             }
-
+            // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
+            if ($attrs.customTableRepeatData) {
+                $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
+                console.log($scope._customTableRepeatData);
+            }
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;
@@ -3790,19 +3778,66 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       });
 
       // 执行删除操作
-      scope.handleDelDetails = function (id, requestUrl, callbackUrl) {
-        if (id && requestUrl && callbackUrl) {
-          var _url = requestUrl + '?id=' + id;
-          requestData(_url, {}, 'POST')
-          .then(function (results) {
-            if (results[1].code == 200) {
-              utils.goTo(callbackUrl);
+      // 扩展删除方法，使id值支持单值和数组两种方式
+      // 增加第4个参数dataType，若不传入则表示单个id值传入，若设置且值为array,则将传入的id字符串包装成数组
+      scope.handleDelDetails = function (id, requestUrl, callbackUrl, dataType) {
+        // 如果dataType参数为空,传入单个值
+        try {
+          if (id && requestUrl && callbackUrl) {
+            // 定义数据对象
+            var _data = null;
+
+            // 定义发送数据
+            if (!dataType || dataType !== 'array') {
+              _data = {
+                'id': id
+              }
+            } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+              _data = id.split(',');
             }
-          })
-          .catch(function (error) {
-            if (error) { alertError(error); }
-          });
+
+            // 发送请求
+            requestData(requestUrl, _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              if (results[1].code == 200) {
+                utils.goTo(callbackUrl);
+              }
+            })
+            .catch(function (error) {
+              if (error) { alertError(error); }
+            });
+          }
         }
+        catch (err) {
+          if (err) { throw new Error(err); }
+        }
+
+
+
+        // if (!dataType || dataType !== 'array') {
+        //   if (id && requestUrl && callbackUrl) {
+        //     var _url = requestUrl + '?id=' + id;
+        //     requestData(_url, {}, 'POST')
+        //     .then(function (results) {
+        //       if (results[1].code == 200) {
+        //         utils.goTo(callbackUrl);
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       if (error) { alertError(error); }
+        //     });
+        //   }
+        // } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+        //   var _dataArr = id.split(',');
+        //   requestData(_url, _dataArr, 'POST')
+        //   .then(function (results) {
+        //     utils.goTo(callbackUrl);
+        //   })
+        //   .catch(function (error) {
+        //     if (error) { alertEorr(error || '出错'); }
+        //   });
+        // }
+
       };
 
     }

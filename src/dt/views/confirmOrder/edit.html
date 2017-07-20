@@ -247,21 +247,20 @@
             <div >
               <table class="table pr-table pr-new-table mgb-n ">
                 <thead>
-                  <tr>
-                    <!-- <th>
-                      <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
-                    </th> -->
-                    <th class="text-center">商品编号</th>
-                    <th class="text-left">商品通用名</th>
-                    <th class="text-center">剂型/分类</th>
-                    <th class="text-center">规格/型号</th>
-                    <th class="text-center">单位</th>
-                    <th class="text-center">计划数量</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/数量</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">灭菌批号</th>
-                    <th class="text-center">含税单价</th>
-                    <th class="text-center">价税合计</th>
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">失效日期</th>
+                  <tr
+                  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表"
+                  scope-data="thData">
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='code'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='approvedName'" class="text-left">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='dosageForms'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='specificationAndModelType'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='unit'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='quantity'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='productionBatch'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}/数量</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='sterilizationBatchNumber'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='strike_price'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='totalPrice'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='validTill'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
                   </tr>
                 </thead>
                 <tbody >
@@ -318,7 +317,7 @@
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
                     </td><!-- 订购数量 -->
-                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
+                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-if="formData.orderBusinessType=='普通销售'">
                       <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
@@ -356,7 +355,7 @@
                       <!-- 待选择数 -->
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
                     </td><!-- 生产批号/数量 -->
-                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n">
+                    <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td>
                     <td class="text-center" style="white-space: nowrap;">￥
@@ -380,7 +379,7 @@
                             </p>
                     </td><!-- 报价 -->
                     <td class="text-center">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!-- 价税合计 -->
-                    <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n" >
+                    <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
                       <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
                   </tr>

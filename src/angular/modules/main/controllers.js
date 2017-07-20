@@ -98,7 +98,7 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.UICustomTable=UICustomTable;
 
         //自定义table工具类
-      $rootScope.watchFormChange=watchFormChange;
+        $rootScope.watchFormChange=watchFormChange;
         //当前服务器根上下文路径 http://localhost:3000/src/
         $rootScope.curServerPath=utils.getCurServerPath();
 
@@ -191,20 +191,10 @@ define('main/controllers', ['main/init'], function () {
           }
         };
 
-
-        //计算某个列表中对象的某属性的和
-        $scope.countAttrVal=function (list,attr) {
-            var sum=0;
-            angular.forEach(list,function (item,index) {
-                sum+= (1*item[attr]);
-            });
-            return sum;
-        };
-
         $rootScope.hasAuthor = $scope.hasAuthor;
         $rootScope.hasAuthorOr = $scope.hasAuthorOr;
         $rootScope.hasAuthorAnd = $scope.hasAuthorAnd;
-        $rootScope.countAttrVal = $scope.countAttrVal;
+        $rootScope.countAttrVal = utils.countAttrVal;
 
 
 
@@ -602,11 +592,38 @@ define('main/controllers', ['main/init'], function () {
         }
       }
     }
+    // 自定义表格
+    function customTableDataController ($scope, utils, requestData) {
+
+      // 切换用户机构
+      $scope.refreshTable = function (sortRequestUrl,sortItem) {
+        console.log(sortItem);
+        if(sortItem.canSort){
+
+          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
+            sortItem.sortCriteria='desc';
+          }else if (sortItem.sortCriteria=='desc') {
+            sortItem.sortCriteria='asc';
+          }
+          // 重新请求数据，然后刷新表格排序
+          var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+          requestData(_url, {}, 'get')
+          .then(function (results) {
+            if (results[1].code === 200) {
+                $scope.tbodyList=results[1].data;
+            }
+          })
+          .catch(function (error) {
+          });
+        }
+      }
+    }
 
     angular.module('manageApp.main')
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
-    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController]);
+    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController])
+    .controller('customTableDataController', ['$scope', 'utils', 'requestData', customTableDataController]);
 });
