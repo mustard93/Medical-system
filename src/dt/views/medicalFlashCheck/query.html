@@ -1,0 +1,81 @@
+<div  class="order-code-strategy"
+      ng-controller="uiCustomTableController"
+      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
+      scope-data="formData"
+      callback="initFlag=true;">
+
+          <!--ng-controller="medicalFlashCheckController"-->
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/uiCustomTable/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback=""
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">库存报表 >
+        <em>药械闪查</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">药械闪查</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper flex-column">
+      <div class="flex-item-6">
+        <div class="pr-bg-white pr-border pd-c-v-s flex-column">
+          <div class="inline-block mgr-l relative">
+            <p class="mgb-s">商品</p>
+            <input type="text"
+              class="inline-block mgb"
+              style="border: 1px solid rgba(0,0,0,.2);width:320px;height:36px;"
+              placeholder=""
+              auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
+            <i class="medical-search-icon"></i>
+          </div>
+
+          <div class="inline-block mgr-l relative">
+            <p class="mgb-s">批号</p>
+            <input type="text"
+              class="inline-block mgb"
+              style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;"
+              placeholder=""
+              />
+          </div>
+
+          <div class="inline-block mgl-xxl mgr-s mgt-l relative">
+            <button type="button" style="width:150px;" class="mgt-s pr-btn-save-glodbg mgr" >查询
+            </button>
+          </div>
+        </div>
+
+        <div class="pr-bg-white pr-border pd-c-v-s flex-column mgt-l">
+          <div class="">
+            <p class="meidcal-select-type">
+              <span class="medical-active ">
+                商品信息</br>
+                <i class="mgl"></i>
+              </span>
+              <span class="mgl-xxl" style="display:inline-block;">
+                进销价格
+                <i class="mgl"></i>
+              </span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="flex-item-6">
+
+      </div>
+    </div>
+  </form>
+</div>
