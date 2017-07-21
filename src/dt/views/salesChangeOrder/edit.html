@@ -48,7 +48,6 @@
                <div class="inline-block">
                  <p class="mgb-s" style="margin-left: 20px;">客户名</p>
                  <p class="mgb-s" style="margin-left: 20px;font-size: 14px;color: #333333;">{{formData.customerName || "暂无"}}</p>
-                 <p>::ustomerId：{{formData.customerId}}</p>
                </div>
              </div>
            </div>
@@ -68,9 +67,8 @@
                  <select class="ipt pr-long-ipt color-6"
                          data-placeholder="请选择"
                          chosen
-                         ng-disabled="formData.id"
                          ng-model="formData.logisticsCenterId"
-                         is-disabled-this="{{formData.customerId}}"
+                         is-disabled-this="{{!formData.customerId}}"
                          select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
                  </select>
                </p>
@@ -88,9 +86,8 @@
                  <select class="ipt pr-long-ipt color-6"
                          data-placeholder=" "
                          chosen
-                         ng-disabled="formData.id"
                          ng-model="formData.outlogisticsCenterId"
-                         is-disabled-this="{{formData.customerId}}"
+                         is-disabled-this="{{!formData.customerId}}"
                          select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
                  </select>
                </p>
@@ -397,7 +394,7 @@
                         style="width:180px; margin: 0 auto; margin-top:10px;"
                         ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                      <div class="inline-block text-ellips-s"
-                          style="width:118px;height:100%;"
+                          style="width:118px;"
                           ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                      </div>
                      <input type="number"
@@ -600,7 +597,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.customerId || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>

@@ -144,7 +144,12 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
   //销售换货单弹窗 Ctrl
   function  salesChangeOrderDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-
+        //监控选择的发货单变化
+        $scope.$watch('scopeData',function (newVal,oldVal){
+            if(newVal){
+                $scope.checkRelId($scope.dialogData.relId,newVal.id);
+            }
+        });
 
         //单击选择
         $scope.selectedBatchs2=[];
@@ -313,9 +318,10 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
         };
 
         $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
-            // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
+            console.log("returnOderRelId,choiceReturnOderRelId",returnOderRelId,choiceReturnOderRelId);
+
             if(!$scope.compareOrderId(returnOderRelId,choiceReturnOderRelId)) {
-                alertWarn("只能选择同一借出单药械");
+                alertWarn("只能选择同一发货单药械");
             }
         };
 
@@ -349,9 +355,6 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
         }
 
     }
-
-
-
 
     angular.module('manageApp.project')
     .controller('salesChangeOrderEditCtrl', ['$scope',"modal",'watchFormChange',"requestData", "utils", "alertError", "alertWarn", salesChangeOrderEditCtrl])
