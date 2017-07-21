@@ -1674,29 +1674,7 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
         }
-          // 判断切换排降序还是升序
-          if(sortItem.canSort){
 
-            if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
-              sortItem.sortCriteria='desc';
-            }else if (sortItem.sortCriteria=='desc') {
-              sortItem.sortCriteria='asc';
-            }
-            // 重新请求数据，然后刷新表格排序
-            var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
-            requestData(_url, {}, 'get')
-            .then(function (results) {
-              if (results[1].code === 200) {
-                if (tableData) {
-                  tableData=results[1].data;
-                }else {
-                  $scope.tbodyList=results[1].data;
-                }
-              }
-            })
-            .catch(function (error) {
-            });
-          }
       });
     }//end link
   };

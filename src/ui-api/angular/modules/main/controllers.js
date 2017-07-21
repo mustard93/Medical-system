@@ -35,6 +35,7 @@ define('main/controllers', ['main/init'], function () {
             }else{
                 window.location.assign(url);
             }
+
         };
 
 

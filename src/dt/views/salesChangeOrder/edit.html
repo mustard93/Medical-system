@@ -262,7 +262,7 @@
                  <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
                  <td class="text-center" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
-                     <button type="button" class="inline-block left" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)-1;" ng-disabled="tr.stayCount==1">-</button>
+                     <button type="button" class="inline-block left" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)-1; updateMedcalInfo($index,tr);" ng-disabled="tr.stayCount==1">-</button>
                      <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -276,9 +276,10 @@
                                  popover-show="checkQuantity(tr)"
                                  popover-options='{"content":"计划归还数量不能大于待还数量或小于1", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                                 ng-change="updateMedcalInfo($index,tr);"
                           >
                         </span>
-                     <button ng-disabled="tr.stayCount==tr.planReturnCount" type="button" class="inline-block right" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)+1;">+</button>
+                     <button ng-disabled="tr.stayCount==tr.planReturnCount" type="button" class="inline-block right" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)+1;  updateMedcalInfo($index,tr);">+</button>
                    </div>
                  </td><!-- 换货数量 -->
 
