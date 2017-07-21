@@ -51,6 +51,7 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
           }
 
           var canvas = document.getElementById(divId);
+          this.canvas=canvas;
           var stage = new JTopo.Stage(canvas);
           var scene = new JTopo.Scene(stage);
           // stage.wheelZoom = 1.2; // 设置鼠标缩放比例
@@ -143,7 +144,15 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
             require(['CanvasTreeLayout'],function(CanvasTreeLayout){
                 var rootNodes=that.getNodesByEventType("StartEvent");
                   // var rootNodes=null;
-                that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes));
+                // that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes));
+
+                var doLayoutFN=CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes);
+                //  that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right', that.options.spacingWidth, that.options.spacingHeight));
+                 var maxXY=doLayoutFN(that.scene, that.scene.childs);
+                 //自适应高度
+                  // if(lastXY)that.canvas.height=lastXY.y;
+                  //自适应高度,有问题，居中模式不能用
+                // if(maxXY&&maxXY.y>0)that.canvas.height=maxXY.y;
 
             });
 
