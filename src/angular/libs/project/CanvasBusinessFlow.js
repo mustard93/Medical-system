@@ -4,7 +4,7 @@
 */
 define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
       var defaultOptions={
-
+            adaptHeight:true,//自适应高度
            spacingWidth:20,
            spacingHeight:80,
           baseImageUrl:"../images/canvasBusinessFlow/",//图片路径
@@ -61,6 +61,7 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
           }
 
           var canvas = document.getElementById(divId);
+          this.canvas=canvas;
           var stage = new JTopo.Stage(canvas);
           var scene = new JTopo.Scene(stage);
           // stage.wheelZoom = 1.2; // 设置鼠标缩放比例
@@ -143,7 +144,13 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
               this.showWorkflowTaskDataLinks();
               var that=this;
               require(['CanvasTreeLayout'],function(CanvasTreeLayout){
-                       that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right', that.options.spacingWidth, that.options.spacingHeight));
+                    var doLayoutFN=CanvasTreeLayout.TreeLayout2(JTopo,'right', that.options.spacingWidth, that.options.spacingHeight);
+                    //  that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right', that.options.spacingWidth, that.options.spacingHeight));
+                     var maxXY=doLayoutFN(that.scene, that.scene.childs);
+                      //自适应高度
+                      if(that.options.adaptHeight){
+                              if(maxXY&&maxXY.y>0)that.canvas.height=maxXY.y;
+                      }
 
               });
 

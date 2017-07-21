@@ -172,7 +172,7 @@
         <div class="">
           <table class="table pr-table pr-new-table mgb-n">
               <thead>
-                <tr>
+                <!-- <tr>
                   <th class="text-center w-50 mycheck">
                     <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
                     <label for="1"></label>
@@ -188,6 +188,25 @@
                   <th class="text-center">含税单价</th>
                   <th class="text-center">价税合计</th>
                   <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">失效日期</th>
+                </tr> -->
+                <tr
+                ajax-url="rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表"
+                scope-data="thData">
+                <th class="text-center w-50 mycheck">
+                  <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
+                  <label for="1"></label>
+                </th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='code'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='approvedName'" class="text-left">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='dosageForms'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='specificationAndModelType'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='unit'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='quantity'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='productionBatch'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}/数量</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='sterilizationBatchNumber'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='strike_price'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='totalPrice'" class="text-center">{{th.propertyName}}</th>
+                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='validTill'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
                 </tr>
               </thead>
               <tbody >

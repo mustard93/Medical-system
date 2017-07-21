@@ -1,0 +1,209 @@
+<div class="inoutstockDetail clearfix"><!-- pageCtrl-->
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+    <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxl">库存报表 > <em class="">出入库明细</em></p>
+    <div class="pd-c-xxxl">
+      <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">出入库明细</h1>
+      </div>
+    </div>
+  </div>
+
+    <!--listParams:{{listParams}}-->
+
+<!--body wrapper start                ?createAtBeg={{listParams.createAtBeg}}&createAtEnd={{listParams.createAtEnd}} -->
+<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
+    <div class="pd-c-xxxl mgb-l">
+        <select class="pr-select select-wd"
+          chosen
+           ng-model="listParams.warehouseId"
+           default-empty="选择仓库"
+           select-source="rest/authen/warehouse/queryForSelectOption">
+         </select>
+    </div>
+
+    <div class="panel pr-fuzzy-boundary clearfix">
+
+      <div class="text-left relative order-list-i pdt-m pdb-m pd-c-xxxl" ng-init="queryDatePeriod='最近7天'">
+        <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+         date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+          <option value="最近7天" >最近7天</option>
+          <option  value="最近10天">最近10天</option>
+          <option  value="最近一个月">最近一个月</option>
+        </select>
+
+        <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtBeg">
+            <span class="date-icon"></span>
+        </div>
+        <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtBeg">
+            <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+        </div>
+        <span class="mgr">至</span>
+        <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtEnd"
+                   invalid-popover
+                   popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                   popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+            <span class="date-icon"></span>
+        </div>
+        <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtEnd"/>
+            <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+        </div>
+
+
+           <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
+           ng-model="listParams.type"
+           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+
+           </select>
+
+
+          <div class="order-list-search text-left  pos-rel-tr inline-block pdl-l">
+
+
+          <input type="text" class="ipt pdr-xxl" placeholder="商品名称/单据编号" ng-model="listParams.q">
+          <i class=""></i>
+        </div>
+
+      </div>
+
+    <div>
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading" ng-controller="inoutstockDetailQueryCtrl">
+            <div class="outside-table-d">
+                <table class="table pr-table pr-new-table pr-table-content table-s-wid">
+                    <thead class="pr-bg-side">
+                        <tr >
+                            <!-- <th>序号</th> -->
+                            <th>单据日期</th>
+                            <th class="w-106" style="width:180px; ">单据类型</th>
+                            <th>单据编号</th>
+                            <th class="w-140">仓库名称</th>
+                            <th>商品编号</th>
+                            <th class="w-220">商品名称</th>
+                            <th>规格/型号</th>
+                            <th>注册证号</th>
+                            <th>单位</th>
+                            <th>实收数量</th>
+                            <th>拒收数量</th>
+                            <th>出库数量</th>
+                            <th>差异数量</th>
+                            <th>生产批号</th>
+                            <th>灭菌批号</th>
+                            <th>有效期至</th>
+                            <th>生产日期</th>
+                            <th class="w-260">备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
+                            <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
+                            <td style="width: 180px;">
+                              <span ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'">{{tr.type}}</span>
+                              <span ng-if="tr.type=='采购入库单_红字'">采购入库单
+                              <em class="color-red">(红字)</em></span>
+                              <span ng-if="tr.type=='销售出库单_红字'">
+                                销售出库单
+                              <em class="color-red">(红字)</em></span>
+
+                            </td>
+                            <td class="color-orange">
+                              <a  href="javascript:void(0);"  ng-click="queryItemClick(tr)">{{tr.orderNo}}</a>
+                            </td>
+                            <td class="text-left">
+                                <div class="autocut" title="{{tr.warehouseName}}">
+                                    {{tr.warehouseName}}
+                                </div>
+                            </td>
+                            <td>{{tr.code}}</td>
+                            <td class="text-left">
+                              <div class="autocut" title="{{tr.medicalStockName}}">
+                                  {{tr.medicalStockName}}
+                              </div>
+                            </td>
+
+                            <td>{{tr.specificationAndModelType}}</td>
+
+                            <td >
+                              {{tr.drugAdministrationCode}}
+                            </td>
+
+                            <td>{{tr.unit}}</td>
+                            <td class="text-right">
+                              <span ng-if="tr.inoutType=='入库'">
+                                {{tr.actualStockQuantity}}
+                              </span>
+                              <span ng-if="tr.inoutType=='出库'">—</span>
+                            </td>
+                            <td class="text-right">
+                            {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
+                            </td>
+                            <td class="text-right" >
+                              <span ng-if="tr.inoutType=='出库'">
+                                {{tr.actualStockQuantity}}
+                              </span>
+                              <span ng-if="tr.inoutType=='入库'">
+                                —
+                              </span>
+                            </td>
+                            <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
+                            <td>{{tr.productionBatch}}</td>
+                            <td>{{tr.sterilizationBatchNumber}}</td>
+                            <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+                            <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                            <td>{{tr.note}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
+            <div class="clearfix " ng-if="tbodyList.length">
+                <div class="fr">
+                    <pagination status="status"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div>
+</div>

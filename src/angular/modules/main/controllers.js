@@ -592,11 +592,38 @@ define('main/controllers', ['main/init'], function () {
         }
       }
     }
+    // 自定义表格
+    function customTableDataController ($scope, utils, requestData) {
+
+      // 切换用户机构
+      $scope.refreshTable = function (sortRequestUrl,sortItem) {
+        console.log(sortItem);
+        if(sortItem.canSort){
+
+          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
+            sortItem.sortCriteria='desc';
+          }else if (sortItem.sortCriteria=='desc') {
+            sortItem.sortCriteria='asc';
+          }
+          // 重新请求数据，然后刷新表格排序
+          var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+          requestData(_url, {}, 'get')
+          .then(function (results) {
+            if (results[1].code === 200) {
+                $scope.tbodyList=results[1].data;
+            }
+          })
+          .catch(function (error) {
+          });
+        }
+      }
+    }
 
     angular.module('manageApp.main')
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
-    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController]);
+    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController])
+    .controller('customTableDataController', ['$scope', 'utils', 'requestData', customTableDataController]);
 });

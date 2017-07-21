@@ -1,0 +1,141 @@
+<div ajax-url="rest/authen/salesChangeOrder/get.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;padding-bottom:10px;" scope-data="showData">
+    <!--
+http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmOrderPrint&id=58c277e6e4b070f25854cdf9
+-->
+
+    <div>
+        <span style="float:right;position:relative;right:10px;top:0px;font-size:9px;"> 第<span tdata="PageNO" format="0">##</span>页</span>&nbsp; &nbsp; &nbsp; &nbsp;
+        <p style="text-align:center;font-size:16px;padding:10px;font-weight:bold;">
+            其他出库单
+        </p>
+    </div>
+    <table style="text-align:left;font-size:14px;height:100px;border-collapse:collapse;" width="100%">
+        <tbody>
+            <tr class="firstRow">
+                <td colspan='2' style="text-align:left;">
+                    出库日期： &nbsp;{{showData.createAt | date : &#39;yyyy-MM-dd&#39; }}
+                </td>
+                <td style="text-align:right;">
+                    出库单号：{{showData.orderCode}}
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">
+                    业务类型:{{showData.orderBusinessType}}
+                </td>
+                <td style="text-align:center;">
+                    部门：{{showData.departmentName}}
+                </td>
+                <td style="text-align:right;">
+                    出库类别：归还
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-algin:left;">
+                    备注：{{showData.note}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="text-align:center;font-size:14px;width:100%;height:200px;border:1px solid #000000;border-collapse:collapse;" border="1">
+        <thead>
+            <tr class="firstRow">
+                <td style="text-align:center;max-width:2%;">
+                    存货编码
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    存货名称
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    规格型号
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    数量
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    金额
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    批号
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    失效日期
+                </td>
+                <td style="text-align:center;max-width:2%;">
+                    仓库
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="tr in showData.orderMedicalNos ">
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.code}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.approvedName}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.specificationAndModelType}}
+                </td>
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
+                    {{tr.quantity}}
+                </td><!-- 数量 -->
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
+                    <!-- {{tr.totalPrice}} -->
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    <!-- {{tr.productionBatch}} -->
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.validTill | date:&quot;yyyy-MM-dd&quot;}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.warehouseName}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    小计
+                </td>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalQuantity}}
+                </td>
+                <td style="text-align:right;">
+                    <!-- {{showData.totalPrice}} -->
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    合计
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalQuantity}}
+                </td>
+                <td style="text-align:right;">
+                    <!-- {{showData.totalPrice}} -->
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="text-align:left;font-size:14px;width:100%;height:50px;border-collapse:collapse;">
+        <tbody>
+            <tr class="firstRow">
+                <td style="text-align:left;">
+                    制单人：{{showData.inputUser.n}}
+                </td>
+                <td style="text-align:left;">
+                    审核人: {{showData.approver.approverUser.n}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

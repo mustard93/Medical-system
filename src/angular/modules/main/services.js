@@ -1031,6 +1031,7 @@ function alertOk($rootScope, modal) {
 
                 if(!LODOP&&LodopFuncs){
                   LODOP=LodopFuncs.getLodop(document.getElementById("LODOP_OB_Id"),document.getElementById("LODOP_EM_Id"));
+                  LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
                 }
                 return LODOP;
               }//_getLODOP
