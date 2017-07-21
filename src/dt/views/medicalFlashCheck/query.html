@@ -1,99 +1,246 @@
-<div  class="order-code-strategy"
-      ng-controller="uiCustomTableController"
-      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
-      scope-data="formData"
-      callback="initFlag=true;">
+<div class="" ng-controller="medicalFlashCheckEditCtrl">
+  <!-- 头部信息 -->
+  <div class="header-info relative">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">库存报表 >
+      <em>药械闪查</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb">
+        <h1 class="pr-font-20 color-black">药械闪查</h1>
+      </div>
+    </div>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="content-wrapper flex-column" style="margin-right:0px;">
+    <div class="flex-item-7 mgt-l">
+      <div class="pr-bg-white pr-border pd-c-v-s flex-column">
+        <div class="inline-block mgr-xxl relative">
+        <p class="mgb-s">商品</p>
+        <span style="border: 1px solid rgba(0,0,0,.2);width:450px;height:36px;"
+               angucomplete
+               title-field="name"
+               url="rest/authen/medicalStock/query.json"
+               class="inline-block medical-select-span"
+               ng-model="medicalData">
 
-          <!--ng-controller="medicalFlashCheckController"-->
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/uiCustomTable/save.json"
-        alert-error
-        alert-ok
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        callback=""
-        novalidate="true">
-    <!-- 头部信息 -->
-    <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">库存报表 >
-        <em>药械闪查</em>
-      </p>
-      <div class="pd-c-xxl pdt-l pdb-l">
-        <!-- 标题 -->
-        <div class="mgb">
-          <h1 class="pr-font-20 color-black">药械闪查</h1>
+        </span>
+        <i class="medical-search-icon"></i>
+        </div>
+        <div class="inline-block mgr-xxl relative">
+          <p class="mgb-s">批号</p>
+          <input type="text"
+            ng-disabled="!medicalData.id"
+            class="inline-block mgb"
+            style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;"
+            placeholder=""
+            ng-modal="medicalData.productionBatch"
+            />
+        </div>
+
+        <div class="inline-block mgl-xxl mgr-s mgt-l relative">
+          <button ng-disabled="!medicalData.id"  ng-class="{'disabled':(!medicalData.id)}" type="button" style="width:150px;" class="mgt-s pr-btn-save-glodbg mgr"
+          ng-click="medicalData.type='商品';medicalSearch(medicalData.id,medicalData.productionBatch);
+          stockSearch(medicalData.id,medicalData.productionBatch);">查询
+
+          <!-- inOutStockSearch(medicalData.id,medicalData.productionBatch); -->
+          </button>
+        </div>
+      </div>
+
+      <div class="pr-bg-white pr-border  flex-column mgt-l " style="min-height:150px;">
+        <div class="meidcal-select-type pd-c-v-s flex-item-12 bb-dashed-line">
+            <div class=" inline-block cur-pot" ng-click="medicalData.type='商品'" ng-class="{'medical-active':(medicalData.type=='商品')}">
+              <p>
+                商品信息
+              </p>
+              <i class="mgl"></i>
+            </div>
+            <div class="mgl-xxl inline-block cur-pot" ng-click="medicalData.type='价格'" ng-class="{'medical-active':(medicalData.type=='价格')}">
+              <p>
+                进销价格
+              </p>
+              <i class="mgl"></i>
+            </div>
+        </div>
+        <!-- 显示商品信息 -->
+        <div class="pd-c-v-s flex-item-12 flex-column "  ng-if="scopeData&&medicalData.type=='商品'">
+          <!-- 第一行 -->
+          <div class="inline-block flex-item-4 text-s text-left">
+            <p>商品通用名称</p><p class="color-3 mgt-s">{{scopeData.approvedName}}</p>
+          </div>
+          <div class="inline-block flex-item-4 text-s text-left">
+            <p>商品编号</p><p class="color-3 mgt-s">{{scopeData.code}}</p>
+          </div>
+          <div class="inline-block flex-item-4 text-s text-left">
+            <p>产品注册证号／备案凭证编号／批准文号</p><p class="color-3 mgt-s">{{scopeData.medicalRegistryCode}}</p>
+          </div>
+          <!-- 第二行 -->
+          <div class="inline-block flex-item-4 text-s text-left mgt">
+            <p>剂型／分类</p><p class="color-3 mgt-s">{{scopeData.dosageForms}}</p>
+          </div>
+          <div class="inline-block flex-item-4 text-s text-left mgt">
+            <p>规格／型号</p><p class="color-3 mgt-s">{{scopeData.specificationAndModelType}}</p>
+          </div>
+          <div class="inline-block flex-item-4 text-s text-left mgt">
+            <p>生产企业</p><p class="color-3 mgt-s">{{scopeData.manufacturer}}</p>
+          </div>
+        </div>
+        <!-- 进销价格 -->
+        <div class="pd-c-v-s flex-item-12" ng-if="scopeData && medicalData.type=='价格'">
+          <!-- 第一行 -->
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>牌价</p><p class="color-3 mgt-s">￥{{scopeData.quoteprice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>批发价</p><p class="color-3 mgt-s">￥{{scopeData.tradePrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax | number:2}}%</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+
+          </div>
+          <!-- 第二行 -->
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>参考采购价</p><p class="color-3 mgt-s">￥{{scopeData.purchasePrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最新采购价</p><p class="color-3 mgt-s">￥{{scopeData.newPurchasePrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最高采购价</p><p class="color-3 mgt-s">￥{{scopeData.maxPurchasePrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最低采购价</p><p class="color-3 mgt-s">￥{{scopeData.minPurchasePrice | number:2}}</p>
+          </div>
+          <!-- 第三行 -->
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>参考销售价</p><p class="color-3 mgt-s">￥{{scopeData.retailPrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最新销售价</p><p class="color-3 mgt-s">￥{{scopeData.newSalePrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最高销售价</p><p class="color-3 mgt-s">￥{{scopeData.maxRetailPrice | number:2}}</p>
+          </div>
+          <div class="inline-block flex-item-3 text-s text-left">
+            <p>最低销售价</p><p class="color-3 mgt-s">￥{{scopeData.minRetailPrice | number:2}}</p>
+          </div>
+        </div>
+        <div class="pr-bg-white flex-item-12" ng-if="!scopeData">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
+        </div>
+      </div>
+      <!-- 显示表格库存信息 -->
+      <div class="flex-item-12 flex-column pr-bg-white mgt-l scroll-out-div pr-border">
+        <div class="flex-item-12 flex-column scroll-in-div">
+          <p class="pd-c-v-l text-n flex-item-12 flex-column">
+            <span class="text-left flex-item-6 color-6 text-bold">库存信息</span>
+            <span class="text-right flex-item-6">合计：<em class="color-3"></em></span>
+          </p>
+          <table class="table pr-table pr-new-table mgb-n">
+            <thead>
+              <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">仓库</th>
+                <th class="text-center">批号</th>
+                <th class="text-center">现存量</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in formData.orderMedicalNos">
+                <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                <td class="text-center">{{item.quantity}}</td><!-- 计划调拨数量 -->
+                <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
+              </tr>
+            </tbody>
+          </table>
+          <div class="pr-bg-white flex-item-12" ng-if="!medicalData.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- 主内容区域 -->
-    <div class="content-wrapper flex-column">
-      <div class="flex-item-6">
-        <div class="pr-bg-white pr-border pd-c-v-s flex-column">
-          <div class="inline-block mgr-l relative">
-            <p class="mgb-s">商品</p>
-            <input type="text"
-              class="inline-block mgb"
-              style="border: 1px solid rgba(0,0,0,.2);width:320px;height:36px;"
-              placeholder=""
-              auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
-            <i class="medical-search-icon"></i>
+    <div class="flex-item-5 flex-column" >
+      <div class="pd-c-v-l mgl-l" style="width:98%;background: rgba(255,255,255,0.40);min-height:780px;">
+        <p class="mgt-l mgl-m text-bold color-6" >
+          出入库记录
+        </p>
+        <div class="mgt mgl-m">
+          <span class="color-9" >起止年月：</span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.createAtBeg">
+              <span class="date-icon"></span>
           </div>
-
-          <div class="inline-block mgr-l relative">
-            <p class="mgb-s">批号</p>
-            <input type="text"
-              class="inline-block mgb"
-              style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;"
-              placeholder=""
-              />
+          <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.createAtBeg">
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
           </div>
-
-          <div class="inline-block mgl-xxl mgr-s mgt-l relative">
-            <button type="button" style="width:150px;" class="mgt-s pr-btn-save-glodbg mgr" >查询
-            </button>
+          <span class="color-9">至</span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.createAtEnd"
+                     invalid-popover
+                     popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+              <span class="date-icon"></span>
           </div>
-        </div>
-
-        <div class="pr-bg-white pr-border  flex-column mgt-l ">
-          <div class="meidcal-select-type pd-c-v-s flex-item-12 bb-dashed-line">
-              <div class="medical-active inline-block">
-                <p>
-                  商品信息
-                </p>
-                <i class="mgl"></i>
-              </div>
-              <div class="mgl-xxl inline-block">
-                <p>
-                  进销价格
-                </p>
-                <i class="mgl"></i>
-              </div>
-          </div>
-          <!-- 显示商品信息 -->
-          <div class="pd-c-v-s flex-item-12 flex-column ">
-            <div class="inline-block flex-item-4 text-s text-left">
-              <p>商品通用名称</p><p class="color-3 mgt-s">阿司匹林</p>
-            </div>
-            <div class="inline-block flex-item-4 text-s text-left">
-              <p>商品编号</p><p class="color-3 mgt-s">0001</p>
-            </div>
-            <div class="inline-block flex-item-4 text-s text-left">
-              <p>产品注册证号／备案凭证编号／批准文号</p><p class="color-3 mgt-s">1231314141</p>
-            </div>
-          </div>
-          <div class="pd-c-v-s flex-item-12">
-
+          <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.createAtEnd"/>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
           </div>
         </div>
 
-
-      </div>
-      <div class="flex-item-6">
-
+        <!-- 显示出入库时间段信息 -->
+        <div class="mgl-m flex-item-12 scroll-out-div mgt">
+          <div class="flex-item-12 flex-column">
+            <p class="pd-c-v-s color-3 flex-item-12 text-left " style="text-indent:50px;">
+              2017
+            </p>
+            <div class="text-s relative flex-item-12">
+              <span class="relative" style="top:-40px;">2017-07-17</span>
+              <span class="inStock-icon"></span>
+              <span class="outStock-icon"></span>
+              <div class="show-info-stock">
+                  <div class="show-info-stock-content">
+                  <p>
+                    xxx部门xxx业务员从xxx供应商采购xxx批号xx包入库到xx仓库
+                  </p>
+                  <p>
+                    单据编号：<em class="color-orange">1021290414</em>
+                  </p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </form>
+  </div>
+
 </div>
