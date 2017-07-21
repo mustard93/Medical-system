@@ -46,6 +46,7 @@ define('project/controllers', ['project/init',
                                'project/controllers-lendOrder',
                                'project/controllers-returnOrder2',
                                'project/controllers-validityStrategy',
+                               'project/controllers-medicalFlashCheck',
                                'project/controllers-salesChangeOrder'
 
 ], function() {
@@ -760,8 +761,6 @@ define('project/controllers', ['project/init',
     // });
 
   }
-
-
 
   angular.module('manageApp.project')
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
