@@ -1,0 +1,66 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ajax-If-eval="selectedData.id||formData.relId"
+     ajax-url="rest/authen/medicalStock/get.json?id={{selectedData.id||formData.relId}}"
+     scope-data="formData">
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/validityStrategy/setMedicalValidityStrategy.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">设置单个商品效期预警天数</h1>
+    </div>
+    <div class="bb-dashed-gold pd-xl">
+      <div class="block">
+         <span angucomplete
+               placeholder="商品名称\商品名称拼音首字母"
+               title-field="name"
+               search-str-class="ipt pr-long-ipt"
+               url="rest/authen/medicalStock/query.json"
+               class="inline-block"
+               ng-model="selectedData">
+          </span>
+      </div>
+      <div class="mgt-l">
+        <p class="flex-column color-9 mgb">
+          <span class="flex-item-6">生产厂家：<em class="color-white">{{formData.manufacturer}}</em></span>
+          <span class="flex-item-6">商品编号：<em class="color-white">{{formData.code}}</em></span>
+        </p>
+        <p class="flex-column color-9 mgb">
+          <span class="flex-item-6">商品规格：<em class="color-white">{{formData.specification}}</em></span>
+          <span class="flex-item-6">商品单位：<em class="color-white">{{formData.unit}}</em></span>
+        </p>
+        <p class="flex-column color-9">
+          <span class="flex-item-6">有效期：<em class="color-white">{{formData.guaranteePeriod}}</em></span>
+        </p>
+      </div>
+    </div>
+    <div ng-if="selectedData&&!formData.guaranteePeriod" class="pd-l">
+      <p class="color-red">提示：该商品不能设置效期预警！</p>
+    </div>
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n mgt-l">
+      <h1 class="mgb-xxl">设置效期预警天数</h1>
+      <span>效期预警天数：</span>
+      <input type="text" class="ipt pr-short-ipt pr-bg-black6 color-white" ng-model="formData.guaranteePeriodAlarmDay">
+    </div>
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n">
+      <span class="block mgb-s">备注：</span>
+      <textarea class="pr-textarea pr-bg-black6 color-white border-none text-s" maxlength="240" placeholder="" ng-model="formData.validityStrategyNote"></textarea>
+    </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit"
+              style="margin-left:300px;"
+              class="pr-btn-create-glodbg new-left-side-button"
+              ng-click="modal.closeAll()"
+              ng-disabled="!formData.guaranteePeriodAlarmDay">确定
+      </button>
+    </div>
+  </form>
+</div>

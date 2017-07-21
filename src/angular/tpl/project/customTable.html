@@ -1,7 +1,8 @@
 <div class=""
      ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}&&key={{_customKey}}"
      scope-data="uICustomTable"
-     ng-init="bottomButtonList=[]">
+     ng-init="bottomButtonList=[]"
+     ng-controller="customTableDataController">
 
   <div class="loader" ng-if="status.isLoading">
       <div class="loader-inner pacman">
@@ -31,14 +32,18 @@
                 <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                 <label for="1"></label>
               </th>
-              <th class='{{item.thCss}}' style='{{item.thStyle}}' ng-class="{'cur-pot':(item.canSort)}" ng-repeat="item in uICustomTable.items"
+              <th
               custom-table-toggle-sort
               sort-item='{{item}}'
-              sort-request-url='{{_customTableUrl}}'>
+              class='{{item.thCss}}' style='{{item.thStyle}}' ng-class="{'cur-pot':(item.canSort)}" ng-repeat="item in uICustomTable.items">
 
-              <!-- table-data='{{_customTableRepeatData}}' -->
-                  <span ng-if="item.thHtml" ng-compile2="item.thHtml"></span>
-                  <span ng-if="!item.thHtml">{{item.propertyName}}</span>
+                  <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
+                  </span>
+                  <span ng-if="!item.thHtml"
+                  style="display:inline-block;width:100%;height:100%;"
+                  ng-click="refreshTable(_customTableUrl,item)" >
+                    {{item.propertyName}}
+                  </span>
               </th>
 
             </tr>
