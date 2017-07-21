@@ -33,15 +33,16 @@
                 <label for="1"></label>
               </th>
               <th
-              custom-table-toggle-sort
-              sort-item='{{item}}'
-              class='{{item.thCss}}' style='{{item.thStyle}}' ng-class="{'cur-pot':(item.canSort)}" ng-repeat="item in uICustomTable.items">
+               style='{{item.thStyle}}padding:0px;' ng-class="{'cur-pot':(item.canSort)}" ng-repeat="item in uICustomTable.items">
 
                   <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
                   </span>
                   <span ng-if="!item.thHtml"
-                  style="display:inline-block;width:100%;height:100%;"
-                  ng-click="refreshTable(_customTableUrl,item)" >
+                  custom-table-toggle-sort
+                  sort-item='{{item}}'
+                  class='{{item.thCss}}sort-custom-table'
+                  style="display:inline-block;width:100%;height:100%;padding:10px;"
+                  ng-click="refreshTable(_customTableUrl,item)">
                     {{item.propertyName}}
                   </span>
               </th>
