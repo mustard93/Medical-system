@@ -3310,7 +3310,7 @@ function expressManageComponent (requestData, utils) {
  * [pageMainHeaderComponent 模块主内容区域头部通组件]
  * @return {[type]} [description]
  */
-function pageMainHeaderComponent () {
+function pageMainHeaderComponent ($sce) {
   'use strict';
   return {
     restrict: 'EA',
@@ -3333,7 +3333,8 @@ function pageMainHeaderComponent () {
       getUserListUrl: '@',
       getApplyUserListUrl: '@',
       createBtnAuthor:'@',
-      getInventoryTypeUrl: '@'
+      getInventoryTypeUrl: '@',
+      tabName:'@'
     },
     replace: true,
     transclude: true,
@@ -3351,9 +3352,11 @@ function pageMainHeaderComponent () {
           } else {    //最后一个
             scope.crumbsCode += '<span class="mgr-s ' + data.style + '">' + data.name + '</span>';
           }
+          scope.crumbsCode= $sce.trustAsHtml(scope.crumbsCode);
         });
         //将代码插入id为crumbsNav的父容器中
-        $('#crumbsNav').append(scope.crumbsCode);
+        // $('#crumbsNav').append(scope.crumbsCode);
+
       }
 
       //状态按钮组格式化数据对象
@@ -3711,7 +3714,7 @@ function  dtRightSide(utils) {
 angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
-  .directive("pageMainHeaderComponent", pageMainHeaderComponent)
+  .directive("pageMainHeaderComponent", ['$sce',pageMainHeaderComponent])
   .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])

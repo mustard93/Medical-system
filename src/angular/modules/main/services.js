@@ -562,16 +562,11 @@ function alertOk($rootScope, modal) {
           // url存在则跳转，否则刷新。
           goOrRefreshHref : function (url,confirmMsg) {
 
-              if(url){
-                 utilsObj.goTo({'url':url,name:'归还单'},confirmMsg);
-                 return;
-              }
-
-            // if(url){
-            //    utilsObj.goTo(url,confirmMsg);
-            //    return;
-            // }
-            // utilsObj.refreshHref(confirmMsg);
+            if(url){
+               utilsObj.goTo(url,confirmMsg);
+               return;
+            }
+            utilsObj.refreshHref(confirmMsg);
           },
 
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
@@ -596,12 +591,12 @@ function alertOk($rootScope, modal) {
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           goTo : function (url,confirmMsg) {
 
-                console.log("URL",url);
+                console.log("URL",url,typeof  url == 'object');
 
                 if(typeof  url == 'object'){
                     $rootScope.addTab({
-                        showName: url.name,
-                        ahref: url.url
+                        tabName: url.tabName,
+                        tabHref: url.tabHref
                     });
                     return;
                 }

@@ -32,31 +32,40 @@ define('main/controllers', ['main/init'], function () {
         });
 
         $rootScope.addTab = function (item) {
-            var params = serializeUrl(item.ahref).param;
+
+            if(!item.tabHref){
+                item.tabHref=item.ahref;
+            }
+
+            if(!item.tabName){
+                item.tabName=item.showName;
+            }
+
+
+            var params = serializeUrl(item.tabHref).param;
 
             if(!$scope.mainStatus.pageParams){
                 $scope.mainStatus.pageParams={};
             }
             $scope.mainStatus.pageParams=params;
 
-            var obj=$rootScope._findInArray($rootScope.tabs,item,'name','showName');
+            var obj=$rootScope._findInArray($rootScope.tabs,item,'name','tabName');
+
+
+            if(item.tabHref.indexOf('#/') != -1){
+                item.tabHref = item.tabHref.replace('#/','views/');
+            }
+
+
             if(obj.flag){
-
-                item.ahref = item.ahref.replace('#/','views/');
-                // $rootScope.active(obj.tab);
-
-                $rootScope.replaceTab(obj.tab,{'templateUrl':item.ahref});
-
+                $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
                 $rootScope.active(obj.tab);
-
                 return;
             }
 
-            item.ahref = item.ahref.replace('#/','views/');
-
             uiTabs.open({
-                name: item.showName,
-                templateUrl: item.ahref
+                name: item.tabName,
+                templateUrl: item.tabHref
             });
         };
 
@@ -163,76 +172,6 @@ define('main/controllers', ['main/init'], function () {
 
 
 
-
-
-
-       $scope.menuArr=[];
-       //
-       // $scope.clickThis=function (item,index) {
-       //
-       //     angular.forEach($scope.menuArr,function (menu,i) {
-       //         menu.showMe=false;
-       //         $scope.menuArr[i]=menu;
-       //     });
-       //
-       //     item.showMe=true;
-       //     $scope.menuArr[index]=item;
-       //
-       //
-       // };
-       //
-       //  $scope.findMenuByURL=function (url) {
-       //
-       //      console.log("URL---->",url);
-       //      //
-       //      // var moudel= url.split('#/');
-       //      //     moudel= moudel.split('/')[0];
-       //
-       //      // console.log("moudel",moudel);
-       //
-       //
-       //      var obj=null;
-       //
-       //      console.log("$root.menus",$rootScope.menus);
-       //
-       //      angular.forEach($rootScope.menus.items,function (menu,index) {
-       //
-       //          angular.forEach(menu.items,function (submenu,index2) {
-       //
-       //              var _moudel= submenu.ahref.split('#/');
-       //              _moudel= _moudel.split('/')[0];
-       //
-       //              if(_moudel == moudel){
-       //                  obj=submenu;
-       //                  return;
-       //              }
-       //          })
-       //      });
-       //      return obj;
-       //  };
-       //
-       //  $scope._itemInArray=function(list,item,compareAttr) {
-       //
-       //      var flag =false;
-       //      var _index=-1;
-       //      angular.forEach(list,function (menu,index) {
-       //          if(menu[compareAttr] == item[compareAttr]){
-       //              flag =true;
-       //              _index=index;
-       //              return;
-       //          }
-       //      });
-       //
-       //      return {
-       //          flag:flag,
-       //          _index:_index
-       //      };
-       //  };
-
-
-
-
-
         //当前用户
         $rootScope.curUser={};
 
@@ -286,6 +225,14 @@ define('main/controllers', ['main/init'], function () {
 
         //页面跳转
         $scope.pageTo = function (_url) {
+            if(typeof  url == 'object'){
+                $rootScope.addTab({
+                    tabName: _url.tabName,
+                    tabHref: _url.tabHref
+                });
+                return;
+            }
+
             window.location.assign(_url);
         };
 
@@ -306,10 +253,6 @@ define('main/controllers', ['main/init'], function () {
 
         //@Deprecated 已移动到$rootScope.utils中 建议使用$rootScope.utils
         $scope.goTo=utils.goTo;
-
-
-
-
 
         $rootScope.goTo=$scope.goTo;
         //遍历数组，返回满足属性值等于val的。

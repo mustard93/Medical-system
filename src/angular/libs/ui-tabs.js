@@ -86,11 +86,13 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
 
     var tabs = []; // 所有的tab集合
 
+    var defaultName = null;
+
     this.$get = function ($rootScope, $q, $templateRequest) {
         var currentId = 1,
             uiTabs = {
             tabs: tabs,
-
+            defaultName: defaultName,
             /**
              * 打开一个tab页
              *
@@ -863,7 +865,6 @@ _uiTabs2.default.directive('uiTabsMenu', function () {
 
     return {
         restrict: 'CA',
-        scope: {},
         link: function link(scope, element, attr) {
 
             // 监听右键事件，自制系统事件，并且弹出自定义右键菜单
@@ -1545,7 +1546,6 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
     return {
         restrict: 'EAC',
         priority: 400,
-        scope: {},
         replace: true,
         template: _uiTabs4.default,
         link: function link(scope, element, attr) {
@@ -1563,21 +1563,8 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
             scope.$on('tabRefresh', tabRefresh);
             scope.$on('$destroy', uiTabs.closeAll); // 指令销毁时，清楚所有tab
 
-
-            // 新加 默认页-------------------------------------------------------------------
-            if (attr.defaultPage && attr.defaultName) {
-
-                if (attr.defaultPage.indexOf('#/')) {
-                    attr.defaultPage = attr.defaultPage.replace('#/', 'views/');
-                }
-
-                uiTabs.open({
-                    name: attr.defaultName,
-                    templateUrl: attr.defaultPage
-                });
-
-                scope.defaultName = attr.defaultName;
-            }
+            //创建默认tab
+            createDefaultTab(attr);
 
             // 关闭tab-用于tab上面的关闭
             scope.close = function (e, tab) {
@@ -1603,23 +1590,26 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
                         tab.refresh();
                         break;
                     case 'current':
+
                         if (scope.defaultName !== tab.name) {
                             tab.close();
                         }
-
                         break;
+
                     case 'left':
                         closeLeft(tab);
                         break;
                     case 'right':
                         closeRight(tab);
                         break;
+
                     case 'other':
                         closeLeft(tab);
                         closeRight(tab);
                         break;
                     case 'colseAll':
                         closeAll();
+                        createDefaultTab(attr);
                         break;
                 }
             };
@@ -1630,7 +1620,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
             };
 
             /**
-             * 关闭左侧标签
+             * 关闭左侧标签  -默认页 除外
              * @param tab
              */
             function closeLeft(tab) {
@@ -1639,14 +1629,13 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
 
                 while ((closeTab = uiTabs.tabs[closeIndex]) !== tab) {
                     if (!closeTab.close()) {
-                        // 关闭失败时，则关闭下一个
                         closeIndex++;
                     }
                 }
             }
 
             /**
-             * 关闭右侧标签
+             * 关闭右侧标签  -默认页 除外
              * @param tab
              */
             function closeRight(tab) {
@@ -1661,12 +1650,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
 
             //关闭所有tab -默认页 除外   
             function closeAll() {
-
-                angular.forEach(uiTabs.tabs, function (closeTab, index) {
-                    if (scope.defaultName !== closeTab.name) {
-                        closeTab.close();
-                    }
-                });
+                uiTabs.closeAll();
             }
 
             /**
@@ -1757,6 +1741,27 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
 
                 tabOpenSuccess(e, tab);
             }
+
+            /**
+             * 创建默认tab
+             * @param attr
+             */
+            function createDefaultTab(attr) {
+                if (attr.defaultPage && attr.defaultName) {
+
+                    if (attr.defaultPage.indexOf('#/')) {
+                        attr.defaultPage = attr.defaultPage.replace('#/', 'views/');
+                    }
+
+                    uiTabs.open({
+                        name: attr.defaultName,
+                        templateUrl: attr.defaultPage
+                    });
+
+                    scope.defaultName = attr.defaultName;
+                    uiTabs.defaultName = scope.defaultName;
+                }
+            }
         }
     };
 });
@@ -1793,7 +1798,7 @@ exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-fle
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n  <!-- <li data-action=\"left\">关闭左侧标签页</li> -->\n  <!-- <li data-action=\"right\">关闭右侧标签页</li> -->\n  <li data-action=\"colseAll\">关闭所有标签页</li>\n</ul>";
+module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n   <!--<li data-action=\"left\">关闭左侧标签页</li>-->\n   <!--<li data-action=\"right\">关闭右侧标签页</li>-->\n  <li data-action=\"colseAll\">关闭所有标签页</li>\n</ul>";
 
 /***/ }),
 /* 11 */
