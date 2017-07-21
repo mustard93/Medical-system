@@ -5,7 +5,6 @@ var conf={
   //serverPath:"http://120.76.232.188:8080/dt/",    //外部地址，系统api调用接口地址
   // serverPath:"http://192.168.0.249:60456/dt/",    //系统api调用接口地址
     serverPath:"http://192.168.0.211:8080/dt/",    //系统api调用接口地址
-    // serverPath:"http://192.168.0.211:8090/dt/",    //系统api调用接口地址
   //  serverPath:"http://localhost:8080/dt/",    //系统api调用接口地址
   // serverPath:"http://118.113.146.159:33333/dt/",
   // serverPath:"",    //系统api调用接口地址

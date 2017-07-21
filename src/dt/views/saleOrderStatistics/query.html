@@ -1,0 +1,91 @@
+<div  class="order-code-strategy"
+      ng-controller="uiCustomTableController"
+      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
+      scope-data="formData"
+      callback="initFlag=true;">
+
+    <!--ng-controller="medicalFlashCheckController"-->
+    <form id="editForm"
+          name="editForm"
+          form-validator
+          parameter-body
+          action="rest/authen/uiCustomTable/save.json"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          callback=""
+          novalidate="true">
+        <!-- 头部信息 -->
+        <div class="header-info relative mgb-l">
+            <p class="pdb-s pdt-s crumbs pd-c-xxl">报表查询 >
+                <em>销售统计表</em>
+            </p>
+            <div class="pd-c-xxl pdt-l pdb-l">
+                <!-- 标题 -->
+                <div class="mgb">
+                    <h1 class="pr-font-20 color-black">销售统计表</h1>
+                </div>
+            </div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="content-wrapper flex-column">
+            <div class="sales-statistics">
+                    <div class="inline-block relative mgb-l">
+                        <!--<a ng-if="initFlag"-->
+                           <!--modal-right="1000"-->
+                           <!--modal-open-auto="{{!formData.orderMedicalNos.length}}"-->
+                           <!--modal-scope="this"-->
+                           <!--modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'-->
+                           <!--modal-url="views/saleReturnOrder/edit-right-side.html">-->
+                            <a
+                               modal-right="480"
+                               modal-scope="this"
+                               modal-url="views/saleOrderStatistics/get.html">
+                            <i class="sales-statistics-icon"></i>
+                                <span style="width:74px;" class="mgt-s ">查询</span>
+
+                        </a>
+                    </div>
+
+            <!--统计表-->
+            <div class="confirm-order bb-line">
+                <table class="table pr-table pr-new-table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">单据数量</th>
+                        <th class="text-center">采购数量</th>
+                        <th class="text-center">采购金额</th>
+                        <th style="width: 800px;"></th>
+                    </tr>
+                    </thead>
+                    <!--<tbody ng-if="showData.iOrderMedicalNos.length>0">-->
+                    <!--<tr ng-repeat="item in showData.iOrderMedicalNos">-->
+                        <!--<td class="text-center">{{item.code}}</td>-->
+                        <!--<td>-->
+                <!--<span-->
+                        <!--class="color-orange cur-pot lend-order-goods-info"-->
+                        <!--ng-init="showInfoArea=false"-->
+                        <!--ng-mouseenter="showInfoArea=true"-->
+                        <!--ng-mouseleave="showInfoArea=false">{{item.approvedName}}-->
+                  <!--<show-info-modal ng-show="showInfoArea"-->
+                                   <!--get-data-type="local"-->
+                                   <!--template-url="tpl/showInfoModalLendOrder"-->
+                                   <!--info-object="{{item}}"-->
+                                   <!--info-title="商品信息">-->
+                  <!--</show-info-modal>-->
+                <!--</span> -->
+                        <td class="text-center">1</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">4</td>
+
+                    <!--</tbody>-->
+                </table>
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
