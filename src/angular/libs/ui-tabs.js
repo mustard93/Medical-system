@@ -150,11 +150,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @return {boolean} 是否关闭成功
              */
             close: function close(tab) {
-
-                console.log("close。。。。。。。");
-
                 tab = getTab(tab);
-
                 return closeTab(tab);
             },
 
@@ -917,7 +913,7 @@ _uiTabs2.default.directive('uiTabsMenu', function () {
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by $index\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\"  ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i ng-if=\"tab === current\" class=\"ui-tabs-refresh-icon\" ng-mousedown=\"refresh($event,tab)\" title=\"刷新\"></i>\n      <i ng-if=\"defaultName != tab.name\" class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"  title=\"关闭\"></i>\n    </li>\n\n  </ul>\n\n\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by $index\">\n    </div>\n\n  </div>\n</div>";
+module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by tab.id\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\"  ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i ng-if=\"tab === current\" class=\"ui-tabs-refresh-icon\" ng-mousedown=\"refresh($event,tab)\" title=\"刷新\"></i>\n      <i ng-if=\"defaultName != tab.name\" class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"  title=\"关闭\"></i>\n    </li>\n\n  </ul>\n\n\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by tab.id\">\n    </div>\n\n  </div>\n</div>";
 
 /***/ }),
 /* 5 */

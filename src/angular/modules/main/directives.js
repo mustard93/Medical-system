@@ -3856,6 +3856,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       };
     }
 
+    /**
+     * tab导航
+     * 使用方式 :
+     * tab-nav
+     * tab-name: string
+     * tab-href: string
+     * @param $rootScope
+     * @returns {{scope: {tabName: string, tabHref: string}, restrict: string, link: link}}
+     */
     function  tabNav($rootScope){
         return {
             scope:{

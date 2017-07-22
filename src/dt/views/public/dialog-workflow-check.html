@@ -2,7 +2,7 @@
     <form class="confirmOrder-reject-form"
           ng-init="formData=dialogData.params"
           action="{{dialogData.requestUrl}}"
-          callback="$root.utils.goOrRefreshHref(dialogData.callBackUrl)"
+          callback="$root.utils.goOrRefreshHref({tabName:'{{formData.type}}',tabHref:'{{dialogData.callBackUrl}}'})"
           auto-close-dialog
           parameter-body="{{dialogData.requestParam=='JSON'}}"
           alert-error
@@ -11,6 +11,8 @@
         >
   <div class="pr-page-dialog-title bb-line">
     <span class="mgl-l">审核</span>
+    formData：：{{formData.type}}
+
 
   </div>
   <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='通过';formData.conditionType='通过'"

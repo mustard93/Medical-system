@@ -363,11 +363,16 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/returnOrder/query.html')"
+             nosave-callback="goTo({tabName:'归还单',tabHref:'#/returnOrder/query.html'})"
              save-callback="submitForm('editForm','exit')">返回归还单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/returnOrder/query.html" >返回归还单列表</a>
+          <a ng-if="!changeFlag"
+             tab-nav
+             tab-name="归还单"
+             tab-href="#/returnOrder/query.html"
+          >返回归还单列表</a>
+
         </span>
         <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -378,7 +383,7 @@
              dialog-content="您确认删除这条采购单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
-             callback="goTo({url:'#/returnOrder/query.html',name:'归还单'})">删除
+             callback="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">删除
           </a>
         </span>
         <!---->

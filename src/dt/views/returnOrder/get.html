@@ -219,14 +219,18 @@
          dialog-title="确认返回?"
          dialog-content="该归还单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo({url:'#/returnOrder/query.html',name:'归还单'})"
+         nosave-callback="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})"
          save-callback="submitForm('editForm','exit')">返回归还单列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-click="goTo({url:'#/returnOrder/query.html',name:'归还单'})" >返回归还单列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-click="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})"
+
+
+      >返回归还单列表</a>
       <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
         <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=returnOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
       </button>
+
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list
             custom-menu-arr="{{scopeData.didateFilter.buttons}}">

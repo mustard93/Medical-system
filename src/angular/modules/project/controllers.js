@@ -7840,8 +7840,8 @@ define('project/controllers', ['project/init'], function() {
               // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id,{'name':'归还单'});
 
               $scope.goTo({
-                  url:'#/returnOrder/edit.html?id='+$scope.formData.id,
-                  name:'归还单'
+                  tabHref:'#/returnOrder/edit.html?id='+$scope.formData.id,
+                  tabName:'归还单'
               });
 
               return;
@@ -7856,8 +7856,8 @@ define('project/controllers', ['project/init'], function() {
                       // $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
 
                       $scope.goTo({
-                          url:'#/returnOrder/get.html?id='+$scope.formData.id,
-                          name:'归还单'
+                          tabHref:'#/returnOrder/get.html?id='+$scope.formData.id,
+                          tabName:'归还单'
                       });
 
                   })

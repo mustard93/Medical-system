@@ -42,27 +42,48 @@ define('main/controllers', ['main/init'], function () {
             }
 
 
-            var params = serializeUrl(item.tabHref).param;
-
             if(!$scope.mainStatus.pageParams){
                 $scope.mainStatus.pageParams={};
             }
-            $scope.mainStatus.pageParams=params;
+            $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;;
 
             var obj=$rootScope._findInArray($rootScope.tabs,item,'name','tabName');
 
+            //如果tab 存在 并且 url 不为空；就替换tab
+            if(obj.flag && item.tabHref){
 
-            if(item.tabHref.indexOf('#/') != -1){
-                item.tabHref = item.tabHref.replace('#/','views/');
-            }
+                if(item.tabHref.indexOf('#/') != -1){
+                    item.tabHref = item.tabHref.replace('#/','views/');
+                }
 
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
 
-            if(obj.flag){
+                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
+
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
                 $rootScope.active(obj.tab);
                 return;
             }
 
+            //tab 存在  url 为空， 就刷新当前 tab
+            if(obj.flag && !item.tabHref){
+
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
+                $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
+
+                uiTabs.refresh(obj.tab);
+                return;
+            }
+
+
+
+            if(item.tabHref.indexOf('#/') != -1){
+                item.tabHref = item.tabHref.replace('#/','views/');
+            }
             uiTabs.open({
                 name: item.tabName,
                 templateUrl: item.tabHref
@@ -106,8 +127,14 @@ define('main/controllers', ['main/init'], function () {
 
 
        var serializeUrl= function(str){
+
+            if(!str){
+                return {};
+            }
+
             var param = {}, hash = {}, anchor;
-            var url = str || location.href;
+            var url = str;
+
             var arr = /([^?]*)([^#]*)(.*)/.exec(url);
             var ar1 = /^(http|ftp)/.test(arr[1]) ? /(.*?:)?(?:\/?\/?)([\.\w]*)(:\d*)?(.*?)([^\/]*)$/.exec(arr[1]) : /(.*?)([^\/]*)$/.exec(arr[1]);var ar2 = arr[2].match(/[^?&=]*=[^?&=]*/g);
             var ar3 = arr[3].match(/[^#&=]*=[^#&=]*/g);
