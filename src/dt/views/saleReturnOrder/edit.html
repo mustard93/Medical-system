@@ -154,8 +154,28 @@
           </div>
 
           <div class="flex-column color-9 pdt-m pdb-m pd-c-l" ng-init="formData.saleUserId=formData.saleUser.id">
-            <span class="mgr-l">业务部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n || '暂无'}}</em></span>
+            <span class="mgr">业务部门：
+              <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+                      placeholder=" "
+                      chosen
+                      no-first-select-source="true"
+                      width="150px"
+                      ng-model="formData.salesDepartmentId"
+                      select-source="rest/authen/department/queryForSelectOption">
+              </select>
+            </span>
+            <span class="mgr">业务人员：
+              <select ng-if="initFlag"
+                      class="ipt pr-short-ipt color-3" style="width:90px;"
+                      data-placeholder=" "
+                      chosen
+                      no-first-select-source="true"
+                      ng-model="formData.saleUserId"
+                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
+              </select>
+            </span>
+            <!-- <span class="mgr-l">业务部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n || '暂无'}}</em></span> -->
             <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
             <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType || '暂无'}}</em></span>
           </div>
