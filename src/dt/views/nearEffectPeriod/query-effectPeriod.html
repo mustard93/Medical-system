@@ -1,0 +1,118 @@
+<div class="medical-stock supplier-management child-project-management">
+  <table-list list-data="http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json  rest/authen/nearEffectPeriod/query.json -->
+
+    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
+      <page-main-header-component list-params="listParams"
+                                  style="min-height:130px;"
+                                  crumbs-nav='[{"name":"库存报表","link":"","style":""},{"name":"近效期／已过期","link":"","style":"color-custom-orange"}]'
+                                  component-title="近效期／已过期">
+      </page-main-header-component>
+
+      <div class="mgl-xl status-num-list-new" style="top:-56px;">
+        <span status-style-toggle-new class="rect-status mgl-s pr-color rect-status-active-new" ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期(283)</span>
+        <span status-style-toggle-new class="rect-status" ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期(0)</span>
+      </div>
+      <div class="content-wrapper" style="margin:0px 45px;">
+        <div class="content-wrapper-main pr-fuzzy-boundary">
+          <div class="flex-column bg-white pd-l bb-dashed-line">
+            <div class="flex-item-6">
+              <span class="mgr" style="position:relative;top:5px;">仓库：
+                <select class="ipt pr-short-ipt color-3"
+                        placeholder=" "
+                        default-empty="全部"
+                        chosen
+                        no-first-select-source="true"
+                        width="150px"
+                        ng-model="formData.salesDepartmentId"
+                        select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}&type=正常库">
+                </select>
+              </span>
+            </div>
+            <div class="flex-item-6 text-right">
+              <div style="position:relative;top:5px;">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品名称/商品编码" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" >重置搜索条件</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column bg-white pd-l text-n">
+            <div class="flex-item-6">
+              <span class="mgr-l">总计数量：<em class="pr-color">233</em></span>
+              <span>总计金额：<em class="pr-color">233</em></span>
+            </div>
+            <div class="flex-item-6">
+              <!-- 导出 / 打印 -->
+            </div>
+          </div>
+          <div class="pr-bg-white pr-fuzzy-boundary">
+            <table class="table pr-table pr-new-table pr-table-content ">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="w-120">序号</th>
+                  <th>商品编号</th>
+                  <th>商品通用名</th>
+                  <th>剂型／分类</th>
+                  <th>规格／型号</th>
+                  <th>批号</th>
+                  <th>灭菌批号</th>
+                  <th>基本单位</th>
+                  <th>剩余有效期天数</th>
+                  <th>数量</th>
+                  <th>仓库</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative"
+                    table-item-multiple-btn>
+                  <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
+                    <div class="table-item-multiple-btn" style="padding:2px 50px;width:auto;">
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                           modal-center="500px"
+                           modal-scope="this"
+                           modal-data='{"data":{{tr}}}'
+                           modal-url="views/nearEffectPeriod/show-proportion-dialog.html">占比情况
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{tr.code}}</td>
+                  <td>{{tr.name}}</td>
+                  <td>{{tr.medicalAttribute.name}}</td>
+                  <td>{{tr.specification}}</td>
+                  <td>{{tr.productionBatch}}</td>
+                  <td>{{tr.sterilizationBatchNumber}}</td>
+                  <td>{{tr.unit}}</td>
+                  <td>{{tr.guaranteePeriodAlarmDay}}</td>
+                  <td>{{tr.quantity}}</td>
+                  <td>{{tr.warehouseName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>

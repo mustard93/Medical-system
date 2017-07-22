@@ -1304,15 +1304,16 @@ body.ngdialog-open {
   border-radius: 3px;
   /*color: #BBB;*/
 	color:rgba(255,140,0,1);
-  content: url(../../images/cancel.png);
-  font-size: 14px;
+  /*content: url(../../images/cancel.png);*/
+	content: '取消';
+  font-size: 13px;
   font-weight: 400;
   height: 30px;
   line-height: 26px;
   position: absolute;
   right: 8px;
   text-align: center;
-  top: 0px;
+  top: 5px;
   width: 30px;
 }
 .ngdialog .ngdialog-theme-default .ngdialog-close:hover:before,
@@ -2559,7 +2560,7 @@ border-left: 1px dashed #e2e2e2;
 
 
 .pr-table > tbody > tr > td {
-  /*position: relative;*/
+  text-align: center;
 }
 .pr-table > tbody > tr > td.has-border {
   border: 1px solid #e2e2e2;
@@ -2823,7 +2824,7 @@ div.order-goods-num > button.right {
 }
 /* 确认框 */
 .pr-page-dialog-wrap {
-  width: 340px;
+  width: 100%;
   height: auto;
 }
 .pr-page-dialog-wrap .pr-page-dialog-title {
@@ -3523,7 +3524,6 @@ label.checkbox_label > div {
   position: relative;
   width: 125px;
   height: 26px;
-	top: 3px;
   background-color: rgba(255, 255, 255, .8);
   border: 1px solid rgba(0,0,0,0.2);
   border-radius: 4px
@@ -3532,7 +3532,6 @@ label.checkbox_label > div {
 .sale-return-order .select
 {
   position: relative;
-	top:-2px;
   background-color:transparent;
   color:#000;
   z-index: 10;
@@ -3551,7 +3550,7 @@ label.checkbox_label > div {
   display: inline-block;
   width: 20px;
   height: 20px;
-  top: 2px;
+  top: -2px;
   right: 3px;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
@@ -6442,17 +6441,13 @@ span.bg-active{
 	left: 100%;
 	z-index: 99999;
 	width: 350px;
-  /*height: 300px;*/
 	background: rgba(255,255,255,0.90);
 	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
 	min-width: 282px;
   text-align: left;
 	color: #999;
-	/*overflow-y: hidden;*/
-	/*display: none;*/
 }
-.show-info-modal:before {
-	content: '';
+.show-info-modal > .arrow-icon {
 	display: inline-block;
 	width: 12px;
 	height: 12px;
@@ -6463,6 +6458,18 @@ span.bg-active{
 	left: -6px;
 	/*box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);*/
 }
+/*.show-info-modal:before {
+	content: '';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-color: white;
+	transform: rotate(-45deg);
+	position: absolute;
+	top: 10px;
+	left: -6px;
+	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
+}*/
 .show-info-modal > h1 {
 	width: 100%;
 	height: 37px;
@@ -7173,12 +7180,17 @@ span.custom-table-left-arrow{
 
 /*GS1条码打印按钮*/
 .print-GS1-icon-white{
+	position: relative;
+	right: 50px;
+	top: -5px;
 	display: inline-block;
-	height: 32px;
-	width: 85px;
+	height: 35px;
+	width: 100px;
 	border-radius: 20px;
-	background-image: url(../../images/print-GSP.png);
+	background-image: url(../../images/prin-GS1.png);
 	box-shadow: 0 0 6px 0 rgba(54,48,44,0.9);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
 }
 
 /*药械闪查，商品搜索图标*/
@@ -7194,13 +7206,91 @@ span.custom-table-left-arrow{
     background-repeat: no-repeat;
     background-position: -128px -3718px;
 }
-
+.medical-active{
+	color:#c7a77b;
+}
 .medical-active>i{
 	display: inline-block;
 	width: 30px;
 	height: 2px;
 	background-color: #c7a77b;
 
+}
+
+/* 药械闪查出入库明细显示*/
+.show-info-stock {
+	position: absolute;
+	top: 25px;
+	left: 120px;
+	z-index: 10;
+	width: 450px;
+	background: rgba(255,255,255,0.90);
+	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
+	min-width: 282px;
+  text-align: left;
+	color: #999;
+}
+.show-info-stock:before {
+	content: '';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-color: white;
+	transform: rotate(-45deg);
+	position: absolute;
+	top: 10px;
+	left: -6px;
+}
+.show-info-stock > div.show-info-stock-content {
+	width: 100%;
+	padding: 10px 15px;
+}
+
+.out-scroll-div{
+	width: 100%;
+	max-height: 450px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.scroll-out-div{
+	width: 100%;
+	height: 650px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+/*入库显示图标*/
+.inStock-icon{
+		content: '';
+    width: 50px;
+    height: 85px;
+    display: inline-block;
+    background-image: url(../../images/inStock.png);
+    background-repeat: no-repeat;
+    background-position: 10px 0px;
+}
+/*出库显示图标*/
+.outStock-icon{
+		content: '';
+    width: 50px;
+    height: 85px;
+    display: inline-block;
+    background-image: url(../../images/outStock.png);
+    background-repeat: no-repeat;
+    background-position: 10px 0px;
+}
+
+.pr-bg-inStock{
+	background: rgba(244,190,116,0.10);
+}
+.pr-bg-inStock:before{
+	background: rgba(244,190,116,0.10);
+}
+.medical-select-span>.angucomplete-holder>input{
+	border: none;
+	width: 100%;
+	height: 100%;
 }
 /*销售统计表，查询图标*/
 .sales-statistics{
@@ -7250,6 +7340,7 @@ span.custom-table-left-arrow{
     box-sizing: border-box;
 }
 
+
 .sale-bg{
     background: rgba(54,48,44,0.60);
 }
@@ -7266,6 +7357,7 @@ span.custom-table-left-arrow{
     border: 1px solid rgba(0,0,0,0.10);
     border-radius: 2px;
 }
+
 .sale-bg .pr-panel-height .medical-search-icon{
     content: '';
     width: 22px;
@@ -7318,3 +7410,4 @@ span.custom-table-left-arrow{
 .sales-detailed-btm{
     border: 1px solid rgba(255,255,255,0.26);
 }
+
