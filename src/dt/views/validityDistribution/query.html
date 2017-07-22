@@ -2,7 +2,7 @@
   <table-list list-data="http://localhost:3000/src/dt/rest/validityDistribution/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
-              search-param="q"><!-- http://localhost:3000/src/dt/rest/validityDistribution/query.json   rest/authen/validityDistribution/query.json -->
+              search-param="q"><!-- http://localhost:3000/src/dt/rest/validityDistribution/query.json rest/authen/validityDistribution/query.json -->
 
     <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
       <page-main-header-component list-params="listParams"
@@ -14,7 +14,7 @@
 
     <div class="content-wrapper-main pd-c-xxxxxl">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
-        <div chart="http://localhost:3000/src/dt/rest/validityDistribution/demo2.json" style="width:100%;height:500px;padding:20px;"></div>
+        <div chart="rest/authen/validityDistribution/countByValidity4Echarts" style="width:100%;height:500px;padding:20px;"></div>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
         <h1 class="text-m pd-l">总计数量： <span class="pr-color">233</span></h1>
@@ -37,50 +37,52 @@
           <tbody>
             <tr ng-repeat="tr in tbodyList track by $index">
               <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-              <td>{{tr.code}}</td>
+              <td>{{tr.medical.code}}</td>
               <td class="text-left-important">
-                <span class="color-orange cur-pot lend-order-goods-info"
-                      ng-init="showInfoArea1=false"
-                      ng-mouseenter="showInfoArea1=true"
-                      ng-mouseleave="showInfoArea1=false">{{tr.name}}
-                  <show-info-modal ng-show="showInfoArea1"
-                                   get-data-type="local"
-                                   template-url="tpl/showInfoModalLendOrder"
-                                   info-object="{{tr}}"
-                                   info-title="商品信息">
-                  </show-info-modal>
-                </span>
+                <div class="relative inline-block">{{tr.medical.name}}
+                  <span show-info-modalbox
+                        get-data-type="local"
+                        template-url="tpl/showMedicalInfoModal"
+                        info-object="{{tr}}"
+                        info-title="商品信息">
+                  </span>
+                </div>
               </td>
-              <td>{{tr.medicalAttribute.name}}</td>
-              <td>{{tr.specification}}</td>
+              <td>{{tr.medical.medicalAttribute.name}}</td>
+              <td>{{tr.medical.specification}}</td>
               <td>{{tr.productionBatch}}</td>
               <td>{{tr.sterilizationBatchNumber}}</td>
-              <td>{{tr.unit}}</td>
+              <td>{{tr.medical.unit}}</td>
               <td>
-                <span class="color-orange cur-pot lend-order-goods-info"
-                      ng-init="showInfoArea2=false"
-                      ng-mouseenter="showInfoArea2=true"
-                      ng-mouseleave="showInfoArea2=false">{{tr.guaranteePeriodAlarmDay}}
-                  <show-info-modal ng-show="showInfoArea2"
-                                   get-data-type="local"
-                                   template-url="tpl/showInfoGuaranteePeriodAlarmDay"
-                                   info-object="{{tr}}"
-                                   info-title="剩余有效期天数">
-                  </show-info-modal>
-                </span>
+                <div class="relative inline-block">{{tr.guaranteePeriodAlarmDay}}
+                  <span show-info-modalbox
+                        get-data-type="local"
+                        template-url="tpl/showInfoGuaranteePeriodAlarmDay"
+                        info-object="{{tr}}"
+                        info-title="剩余有效期天数">
+                  </span>
+                </div>
               </td>
               <td>
-                <span class="color-orange cur-pot lend-order-goods-info"
+                <!-- <span class="color-orange cur-pot lend-order-goods-info"
                       ng-init="showInfoArea3=false"
                       ng-mouseenter="showInfoArea3=true"
-                      ng-mouseleave="showInfoArea3=false">{{tr.quantity}}
+                      ng-mouseleave="showInfoArea3=false">{{tr.stockModel.quantity}}
                   <show-info-modal ng-show="showInfoArea3"
                                    get-data-type="local"
                                    template-url="tpl/showInfoModalLendOrder"
                                    info-object="{{tr}}"
                                    info-title="商品信息">
                   </show-info-modal>
-                </span>
+                </span> -->
+                <div class="relative inline-block">{{tr.stockModel.quantity}}
+                  <span show-info-modalbox
+                        get-data-type="local"
+                        template-url="tpl/showInfoQuantity"
+                        info-object="{{tr}}"
+                        info-title="数量">
+                  </span>
+                </div>
               </td>
               <td>{{tr.warehouseName}}</td>
             </tr>
