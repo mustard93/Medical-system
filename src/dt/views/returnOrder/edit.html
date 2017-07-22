@@ -76,7 +76,7 @@
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
-             <div class="flex-item-6" ng-init="numberingPolicy='auto'">
+             <div class="flex-item-6">
                <!--自动获取单号-->
                <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
@@ -87,17 +87,17 @@
                </span>
                <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
 
-               <span class="mgr" style="margin-left: 10px;">单据日期: </span>
-               <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
+               <span class="relative mgr">
+                 <span>单据日期：</span>
                  <input type="text"
-                        style="top:0px;"
                         datepicker
                         class="ipt-date ipt color-3"
+                        style="border: 1px solid rgba(0,0,0,.2);"
                         ng-readonly="true"
                         placeholder=""
                         ng-model="formData.orderDate">
                  <span class="date-icon"></span>
-               </div>
+               </span>
 
                <span class="mgr">对应借出单编号:
                  <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>

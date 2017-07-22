@@ -111,6 +111,7 @@
             <tr ng-if="tbodyList.length" ng-repeat="item1 in tbodyList" class="pr-bg-black3 trHover-bg"
                 ng-controller="choseBatchCtrl"
                 ng-class="{'pr-bg-grey3':listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}"
+                ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id);modal.closeAll()"
             >
                 <td class="text-center">
                     <!--{{test}}-->
@@ -120,7 +121,6 @@
                                name="medicals"
                                class="default-radio"
                                ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"
-                               ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id);modal.closeAll()"
                                ><i></i>
                     </label>
                 </td>
