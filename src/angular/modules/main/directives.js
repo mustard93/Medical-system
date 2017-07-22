@@ -2525,7 +2525,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    }
                    //下拉无数据情况下，初始值为null。
                    ngModel.$setViewValue(null);
-                   
+
                     if (angular.isDefined($attrs.defaultEmpty)) {
                      _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                     } else {
@@ -3893,11 +3893,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }//zTreeSelect
 
     /**
-     *  全局弹出层显示信息组件
+     * [showInfoModal 全局弹出层显示信息组件]
+     *
      *  支持两种获取信息的模式：
-     *    1、从本地读取，getDataType: local
-     *    2、从远程服务器拉取  getDataType: fetch
-     *  create by liuzhen at 2017/06/23
+     *  1、从本地读取，getDataType: local
+     *  2、从远程服务器拉取  getDataType: fetch (未完成)
+     *
+     * @method showInfoModal
+     * @param  {[type]}      requestData [description]
+     * @param  {[type]}      utils       [description]
+     * @param  {[type]}      alertOk     [description]
+     * @param  {[type]}      alertError  [description]
+     * @return {[type]}                  [description]
+     * create by liuzhen at 2017/06/23
      */
     function showInfoModal (requestData, utils, alertOk, alertError) {
       'use strict';
@@ -3906,21 +3914,28 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         scope: true,
         replace: true,
         templateUrl: function (element, attrs) {
-          // return Config.tplPath + scope.templateUrl;
-          if (($(document).height() - $(element).offset().top) > 200) {
-            return Config.tplPath + attrs.templateUrl + '.html';
-          } else {
-            return Config.tplPath + attrs.templateUrl + '2.html';
-          }
+          return Config.tplPath + attrs.templateUrl + '.html';
         },
         link: function (scope, element, attrs) {
+          // 获取当前弹出层元素的高度值和宽度
+          var _eleHeight = angular.element(element).height();
+          var _eleWidth = angular.element(element).width();
 
-          var _test = $(document).height() - $(element).offset().top;
+          // 当前弹出层元素的父元素距离body底部的距离
+          // 当前弹出层元素的父元素距离body右边的距离
+          var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
+          var _eleRight = $(document.body).width() - $(element).parent().offset().left;
 
+          // 计算当前元素与页面底部的距离
+          // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
+          if (_eleBottom < _eleHeight) {
+            $(element).css({'top' : (0 - _eleBottom - 20)});
+            $(element).find('div.arrow-icon').css({'top': '80%'});
+          }
 
-
-          if (_test < 500) {
-            console.log(_test);
+          if (_eleRight < _eleWidth) {
+            $(element).css({'left': 'inherit', 'right': '150%'});
+            $(element).find('div.arrow-icon').css({'top': '80%'});
           }
 
           // 获取数据拉取模式
@@ -3930,8 +3945,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             // 详细信息
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
-
-
         }
       };
     }
