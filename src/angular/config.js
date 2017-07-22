@@ -41,7 +41,7 @@ var require_config={
         'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
         'moment': '../libs/moment.min',                         //日历插件
-        'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
+        'echarts': '../libs/echarts/echarts-3.6.2.min',         // echars v3.2.3
         'chosen': '../libs/chosen.jquery.pg.min',                  //下拉筛选插件.已修改源码
         'angular': '../libs/angular.min',                           //Angular
         'ngRoute': '../libs/angular-route.min',                     //路由

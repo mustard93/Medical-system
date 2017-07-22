@@ -1304,15 +1304,16 @@ body.ngdialog-open {
   border-radius: 3px;
   /*color: #BBB;*/
 	color:rgba(255,140,0,1);
-  content: url(../../images/cancel.png);
-  font-size: 14px;
+  /*content: url(../../images/cancel.png);*/
+	content: '取消';
+  font-size: 13px;
   font-weight: 400;
   height: 30px;
   line-height: 26px;
   position: absolute;
   right: 8px;
   text-align: center;
-  top: 0px;
+  top: 5px;
   width: 30px;
 }
 .ngdialog .ngdialog-theme-default .ngdialog-close:hover:before,
@@ -2559,7 +2560,7 @@ border-left: 1px dashed #e2e2e2;
 
 
 .pr-table > tbody > tr > td {
-  /*position: relative;*/
+  text-align: center;
 }
 .pr-table > tbody > tr > td.has-border {
   border: 1px solid #e2e2e2;
@@ -2823,7 +2824,7 @@ div.order-goods-num > button.right {
 }
 /* 确认框 */
 .pr-page-dialog-wrap {
-  width: 340px;
+  width: 100%;
   height: auto;
 }
 .pr-page-dialog-wrap .pr-page-dialog-title {
@@ -6440,17 +6441,13 @@ span.bg-active{
 	left: 100%;
 	z-index: 99999;
 	width: 350px;
-  /*height: 300px;*/
 	background: rgba(255,255,255,0.90);
 	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
 	min-width: 282px;
   text-align: left;
 	color: #999;
-	/*overflow-y: hidden;*/
-	/*display: none;*/
 }
-.show-info-modal:before {
-	content: '';
+.show-info-modal > .arrow-icon {
 	display: inline-block;
 	width: 12px;
 	height: 12px;
@@ -6461,6 +6458,18 @@ span.bg-active{
 	left: -6px;
 	/*box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);*/
 }
+/*.show-info-modal:before {
+	content: '';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-color: white;
+	transform: rotate(-45deg);
+	position: absolute;
+	top: 10px;
+	left: -6px;
+	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
+}*/
 .show-info-modal > h1 {
 	width: 100%;
 	height: 37px;
@@ -7202,17 +7211,14 @@ span.custom-table-left-arrow{
 	background-color: #c7a77b;
 
 }
-.scroll-div{
-
-}
 
 /* 药械闪查出入库明细显示*/
 .show-info-stock {
 	position: absolute;
 	top: 25px;
 	left: 120px;
-	z-index: 99999;
-	width: 400px;
+	z-index: 10;
+	width: 450px;
 	background: rgba(255,255,255,0.90);
 	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
 	min-width: 282px;
@@ -7235,6 +7241,20 @@ span.custom-table-left-arrow{
 	padding: 10px 15px;
 }
 
+.out-scroll-div{
+	width: 100%;
+	max-height: 450px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.scroll-out-div{
+	width: 100%;
+	height: 650px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
 /*入库显示图标*/
 .inStock-icon{
 		content: '';
@@ -7243,7 +7263,24 @@ span.custom-table-left-arrow{
     display: inline-block;
     background-image: url(../../images/inStock.png);
     background-repeat: no-repeat;
-    background-position: 10px -0px;
+    background-position: 10px 0px;
+}
+/*出库显示图标*/
+.outStock-icon{
+		content: '';
+    width: 50px;
+    height: 85px;
+    display: inline-block;
+    background-image: url(../../images/outStock.png);
+    background-repeat: no-repeat;
+    background-position: 10px 0px;
+}
+
+.pr-bg-inStock{
+	background: rgba(244,190,116,0.10);
+}
+.pr-bg-inStock:before{
+	background: rgba(244,190,116,0.10);
 }
 .medical-select-span>.angucomplete-holder>input{
 	border: none;
