@@ -1,9 +1,8 @@
 <div class="sale-return-order right-side pr-bg-black3"
      ng-controller="returnOrderAddController"
-     ajax-If-eval="selectedData.id||formData.relId"
-     ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
+     ajax-url="rest/authen/saleOrderStatistics/query"
      scope-data="addDataObj"
-     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos);"
      alert-error
 >
     <div class="sale-bg">
@@ -15,131 +14,192 @@
                     查询
                 </div>
 
-                <div class="pr-panel-height mgb" style="padding:15px 0;">
-                    <div class="flex-column mgt relative">
-                        <label class="flex-item-2 text-right control-label pdr-s">供应商：</label>
+                <div class="pr-panel-height sale-boder-btm select-bg" style="padding:15px 0;">
+                    <!--客户-->
+                    <div class="flex-column mgt relative ">
+                        <label class="flex-item-2 text-right control-label pdr-s">客户</label>
                         <input type="text"
-                               class="inline-block mgb"
+                               class="inline-block mgb "
                                style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
                                placeholder=""
-                               auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
+                               auto-complete="rest/authen/customerAddress/queryForSelectOption">
                         <i class="medical-search-icon"></i>
                     </div>
-                    <div class=" pd-v-m">
+                    <!--data-placeholder="选择剂型"-->
+                    <!--chosen-->
+                    <!--default-empty="无"-->
+                    <!--ng-model="formData.dosageForms"-->
+                    <!--select-source="rest/baseData/queryForSelectOptionByType?type=剂型"-->
+                    <!--业务部门-->
                         <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">业务部门：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new"
-                                       name="genericName"
-                                       required
-                                       ng-model="formData.approvedName" />
-                                <!--<span ng-if="!formData.approvedName" class="color-red">（必填）</span>-->
-                            </div>
+                        <label class="flex-item-2 text-right control-label pdr-s">业务部门</label>
+                        <div class="flex-item-10 text-left">
+                            <select class="ipt pr-short-ipt ipt-new-s "
+                                    chosen
+                                    ng-model="addDataObj.salesDepartmentId"
+                                    select-source="rest/authen/department/queryForSelectOption">
+                            </select>
                         </div>
+                    </div>
+                    <!--业务人员-->
                         <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">销售起止时间：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new"
-                                       name="name"
-                                       required
-                                       ng-model="formData.name" />
-                            </div>
+                        <label class="flex-item-2 text-right control-label pdr-s">业务人员</label>
+                        <div class="flex-item-10 text-left">
+                            <select class="ipt pr-short-ipt ipt-new-s "
+                                    data-placeholder=" "
+                                    chosen
+                                    ng-model="addDataObj.saleUserId"
+                                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
+                            >
+                            </select>
                         </div>
+                    </div>
+                    <!--销售起止时间-->
                         <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">业务类型：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new "
-                                       style="width:115px; text-align: center;"
-                                       name="code"
-                                       ng-model="formData.attributeCode"/>
-                            </div>
+                            <label class="flex-item-2 text-right control-label pdr-s pdt-s">销售起止时间</label>
+                        <div class="sela-icon-outside" >
+                            <input type="text"
+                                   style="color: white;"
+                                   datepicker
+                                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                                   ng-readonly="true"
+                                   ng-model="listParams.createAtBeg">
+                            <span class="date-icon"></span>
                         </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">销售类型：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new-s ipt-new"
-                                       name="specification"
-                                       ng-model="formData.specificationAndModelType"
-                                       required />
-                                <!--<span ng-if="!formData.specificationAndModelType" class="color-red">（必填）</span>-->
-                            </div>
+
+                        <span class="pdt-s mgl-s mgr-s" style="color: white;">至</span>
+                        <div class="sela-icon-outside" >
+                            <input type="text"
+                                   style="color: white;"
+                                   datepicker
+                                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                                   ng-readonly="true"
+                                   ng-model="listParams.createAtEnd"
+                                   invalid-popover
+                                   popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                                   popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                            <span class="date-icon"></span>
                         </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">商品分类：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new-s ipt-new"
-                                       name="specification"
-                                       ng-model="formData.specificationAndModelType"
-                                       required />
-                                <!--<span ng-if="!formData.specificationAndModelType" class="color-red">（必填）</span>-->
-                            </div>
                         </div>
+                    <!--业务类型-->
                         <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">商品通用名：</label>
+                            <label class="flex-item-2 text-right control-label pdr-s">业务类型</label>
                             <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new-s ipt-new"
-                                       name="specification"
-                                       ng-model="formData.packingSpecification" />
-                            </div>
-                        </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">商品编码：</label>
-                            <div class="flex-item-10 text-left">
-                                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
+                                <select class="ipt pr-short-ipt ipt-new-s "
                                         chosen
-                                        default-empty="无"
-                                        ng-model="formData.dosageForms"
-                                        select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
+                                        ng-model="addDataObj.salesType"
+                                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+                                </select>
+
+                            </div>
+                        </div>
+                    <!--销售类型-->
+                        <div class="flex-column mgt">
+                            <label class="flex-item-2 text-right control-label pdr-s">销售类型</label>
+                            <div class="flex-item-10 text-left">
+                                <select class="ipt pr-short-ipt ipt-new-s"
+                                        chosen
+                                        ng-model="addDataObj.orderBusinessType"
+                                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+
+                                </select>
+                                <!--<span ng-if="!formData.specificationAndModelType" class="color-red">（必填）</span>-->
+                            </div>
+                        </div>
+                    <!--商品分类-->
+                        <div class="flex-column mgt">
+                            <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
+                            <div class="flex-item-10 text-left">
+                                <select class="ipt pr-short-ipt ipt-new-s select-bg"
+                                    chosen
+                                    ng-model="addDataObj.orderBusinessType"
+                                    select-source="rest/authen/medicalAttribute/queryForSelectOption">
+                                </select>
+                                <!--<span ng-if="!formData.specificationAndModelType" class="color-red">（必填）</span>-->
+                            </div>
+                        </div>
+                    <!--商品通用名-->
+                        <div class="flex-column mgt relative">
+                            <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
+                            <div class="flex-item-10 text-left">
+                                <input type="text"
+                                       class="inline-block mgb "
+                                       style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
+                                       placeholder=""
+                                       auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
+                                <i class="medical-search-icon"></i>
+                            </div>
+                        </div>
+                    <!--商品编码-->
+                        <div class="flex-column mgt">
+                            <label class="flex-item-2 text-right control-label pdr-s">商品编码</label>
+                            <div class="flex-item-10 text-left">
+                                <input type="text"
+                                       class="inline-block mgb "
+                                       style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
+                                       placeholder=""
+                                       auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
+                            </div>
+                        </div>
+                    <!--商品条码-->
+                        <div class="flex-column mgt">
+                            <label class="flex-item-2 text-right control-label pdr-s">商品条码</label>
+                            <div class="flex-item-10 text-left">
+                                <input type="text"
+                                       class="inline-block mgb "
+                                       style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
+                                       placeholder=""
+                                       auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
+                            </div>
+                        </div>
+                    <!--销售预入仓库-->
+                        <!--<div class="flex-column mgt">-->
+                            <!--<label class="flex-item-2 text-right control-label pdr-s">销售预入仓库</label>-->
+                            <!--<div class="flex-item-10 text-left">-->
+                                <!--<select class="ipt pr-short-ipt ipt-new-s">-->
+
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--制单部门-->
+                        <div class="flex-column mgt">
+                            <label class="flex-item-2 text-right control-label pdr-s">制单部门</label>
+                            <div class="flex-item-10 text-left">
+                                <select class="ipt pr-short-ipt ipt-new-s"
+                                        chosen
+                                        ng-model="addDataObj.departmentName"
+                                        select-source="rest/authen/department/queryForSelectOption">
                                 </select>
                             </div>
                         </div>
+                    <!--制单人-->
                         <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">商品条码：</label>
+                            <label class="flex-item-2 text-right control-label pdr-s">制单人</label>
                             <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new-s ipt-new"
-                                       name="unit"
-                                       ng-model="formData.unit"
-                                       required />
-                                <span ng-if="!formData.unit" class="color-red">（必填）</span>
-                            </div>
-                        </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">销售预入仓库：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="number"
-                                       class="ipt-new-s ipt-new"
-                                       name="unit"
-                                       style="width:60px"
-                                       ng-model="formData.guaranteePeriod" />
-                            </div>
-                        </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">制单部门：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new"
-                                       name="genericName"
-                                       ng-model="formData.factoryAddress" />
-                            </div>
-                        </div>
-                        <div class="flex-column mgt">
-                            <label class="flex-item-2 text-right control-label pdr-s">制单人：</label>
-                            <div class="flex-item-10 text-left">
-                                <input type="text"
-                                       class="ipt-new"
-                                       name="factoryAddress"
-                                       ng-model="formData.productionPlace" />
+                                    <select class="ipt pr-short-ipt ipt-new-s "
+                                            data-placeholder=" "
+                                            chosen
+                                            ng-model="addDataObj.saleUserId"
+                                            select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
+                                    >
+                                </select>
                             </div>
                         </div>
                     </div>
 
+                <div class="mgb-l pd-c-l pdt pdb pr-font-12 color-light-brown sale-boder-btm-2">统计方式设置
+                    <div class="form-ctrl"
+                         ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SaleOrderStatisticsGroupEnum"
+                         scope-data="departments"
+                         alert-error
+                    >
+                        <fieldset>
+                            <label class="sales-selection relative"  ng-repeat=" item in departments" title="{{item.value}}">
+                                <input type="checkbox"  value="{{item.id}}"
+                                       class="click-reverse-selection3 mgt-l mgl -m"/> {{item.value}}</label>
+                        </fieldset>
+                    </div>
+                </div>
 
 
                 <!-- 功能按钮 -->

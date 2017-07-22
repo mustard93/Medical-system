@@ -4,7 +4,6 @@
       scope-data="formData"
       callback="initFlag=true;">
 
-    <!--ng-controller="medicalFlashCheckController"-->
     <form id="editForm"
           name="editForm"
           form-validator
@@ -44,13 +43,12 @@
                                modal-url="views/saleOrderStatistics/get.html">
                             <i class="sales-statistics-icon"></i>
                                 <span style="width:74px;" class="mgt-s ">查询</span>
-
                         </a>
                     </div>
 
             <!--统计表-->
-            <div class="confirm-order bb-line">
-                <table class="table pr-table pr-new-table">
+            <div class="confirm-order bb-line " >
+                <table class="table pr-table pr-new-table" style="display: none">
                     <thead>
                     <tr>
                         <th class="text-center">序号</th>
@@ -60,28 +58,49 @@
                         <th style="width: 800px;"></th>
                     </tr>
                     </thead>
-                    <!--<tbody ng-if="showData.iOrderMedicalNos.length>0">-->
-                    <!--<tr ng-repeat="item in showData.iOrderMedicalNos">-->
-                        <!--<td class="text-center">{{item.code}}</td>-->
-                        <!--<td>-->
-                <!--<span-->
-                        <!--class="color-orange cur-pot lend-order-goods-info"-->
-                        <!--ng-init="showInfoArea=false"-->
-                        <!--ng-mouseenter="showInfoArea=true"-->
-                        <!--ng-mouseleave="showInfoArea=false">{{item.approvedName}}-->
-                  <!--<show-info-modal ng-show="showInfoArea"-->
-                                   <!--get-data-type="local"-->
-                                   <!--template-url="tpl/showInfoModalLendOrder"-->
-                                   <!--info-object="{{item}}"-->
-                                   <!--info-title="商品信息">-->
-                  <!--</show-info-modal>-->
-                <!--</span> -->
+                    <tbody>
+                    <tr>
                         <td class="text-center">1</td>
                         <td class="text-center">2</td>
                         <td class="text-center">3</td>
                         <td class="text-center">4</td>
                         <td class="text-center">4</td>
-
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table pr-table pr-new-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">客户</th>
+                            <th class="text-center">销售起止时间</th>
+                            <th class="text-center">销售类型</th>
+                            <th class="text-center">业务部门</th>
+                            <th class="text-center">业务类型</th>
+                            <th class="text-center">仓库</th>
+                            <th style="width: 500px;">4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr table-item-multiple-btn>
+                        <td class="text-center">1</td>
+                        <td class="text-center">{{formData.customerName}}</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center" >
+                            <div class="table-item-multiple-btn" style="display: none;">
+                                <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                                     modal-right="980"
+                                     modal-scope="this"
+                                     modal-url="views/saleOrderStatistics/sale-get-detailed.html">查看明细
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
                     <!--</tbody>-->
                 </table>
             </div>

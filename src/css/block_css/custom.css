@@ -1280,6 +1280,7 @@ body.ngdialog-open {
           animation: dialogFadeOut .2s;
 }
 .ngdialog.ngdialog-theme-default .ngdialog-content {
+	min-width: 350px;
 	background: rgba(255, 255, 255, 1);
   -webkit-animation: dialogFadeIn .2s;
           animation: dialogFadeIn .2s;
@@ -7211,12 +7212,17 @@ span.custom-table-left-arrow{
 
 /*GS1条码打印按钮*/
 .print-GS1-icon-white{
+	position: relative;
+	right: 50px;
+	top: -5px;
 	display: inline-block;
-	height: 32px;
-	width: 85px;
+	height: 35px;
+	width: 100px;
 	border-radius: 20px;
-	background-image: url(../../images/print-GSP.png);
+	background-image: url(../../images/prin-GS1.png);
 	box-shadow: 0 0 6px 0 rgba(54,48,44,0.9);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
 }
 
 /*药械闪查，商品搜索图标*/
@@ -7242,17 +7248,14 @@ span.custom-table-left-arrow{
 	background-color: #c7a77b;
 
 }
-.scroll-div{
-
-}
 
 /* 药械闪查出入库明细显示*/
 .show-info-stock {
 	position: absolute;
 	top: 25px;
 	left: 120px;
-	z-index: 99999;
-	width: 400px;
+	z-index: 10;
+	width: 450px;
 	background: rgba(255,255,255,0.90);
 	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
 	min-width: 282px;
@@ -7275,6 +7278,20 @@ span.custom-table-left-arrow{
 	padding: 10px 15px;
 }
 
+.out-scroll-div{
+	width: 100%;
+	max-height: 450px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.scroll-out-div{
+	width: 100%;
+	height: 650px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
 /*入库显示图标*/
 .inStock-icon{
 		content: '';
@@ -7283,7 +7300,24 @@ span.custom-table-left-arrow{
     display: inline-block;
     background-image: url(../../images/inStock.png);
     background-repeat: no-repeat;
-    background-position: 10px -0px;
+    background-position: 10px 0px;
+}
+/*出库显示图标*/
+.outStock-icon{
+		content: '';
+    width: 50px;
+    height: 85px;
+    display: inline-block;
+    background-image: url(../../images/outStock.png);
+    background-repeat: no-repeat;
+    background-position: 10px 0px;
+}
+
+.pr-bg-inStock{
+	background: rgba(244,190,116,0.10);
+}
+.pr-bg-inStock:before{
+	background: rgba(244,190,116,0.10);
 }
 .medical-select-span>.angucomplete-holder>input{
 	border: none;
@@ -7337,14 +7371,75 @@ span.custom-table-left-arrow{
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+
 .sale-bg{
     background: rgba(54,48,44,0.60);
 }
 .sale-bg .sale-boder-btm{
-    border: 1px solid rgba(199,167,123,0.60);
+    border-bottom: 1px solid rgba(199,167,123,0.60);
+}
+.sale-bg .sale-boder-btm-2{
+    height: 50px;
+    line-height: 30px;
+    border-bottom: 1px solid rgba(199,167,123,0.20);
 }
 .sale-bg .sale-boder-btm .mgb{
     background: #595450;
     border: 1px solid rgba(0,0,0,0.10);
     border-radius: 2px;
 }
+
+.sale-bg .pr-panel-height .medical-search-icon{
+    content: '';
+    width: 22px;
+    height: 30px;
+    display: inline-block;
+    position: absolute;
+    left: 310px;
+    top:0;
+    background-image: url(../../images/pr-sprites.png);
+    background-repeat: no-repeat;
+    background-position: -128px -3718px;
+}
+.sela-icon-outside{
+    display: inline-block;
+    position: relative;
+    width: 125px;
+    height: 26px;
+    top: 3px;
+    background: #595450;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 2px;
+}
+.sale-bg .select-bg select{
+    background: #595450;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 2px;
+    width: 120px;
+    color:white;
+}
+.click-reverse-selection3{
+    width: 17px;
+    height: 17px;
+}
+.sales-selection{
+    line-height: 25px;
+    ont-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #FFFFFF;
+    margin-left: 50px;
+    margin-top: 25px;
+    font-weight: normal;
+}
+.sales-selection input{
+    position:absolute;
+    top: 0px;
+    left: -25px;
+    background: #595450;
+    border: 1px solid rgba(0,0,0,0.10);;
+}
+.sales-detailed-btm{
+    border: 1px solid rgba(255,255,255,0.26);
+}
+
