@@ -128,7 +128,7 @@
             <p>最低销售价</p><p class="color-3 mgt-s">￥{{scopeData.minRetailPrice | number:2}}</p>
           </div>
         </div>
-        <div class="pr-bg-white flex-item-12" ng-if="!scopeData">
+        <div class="pr-bg-white flex-item-12" ng-if="!scopeData||!medicalData.id">
           <div class="empty-table clearfix">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
@@ -179,7 +179,7 @@
         <p class="mgt-l mgl-m text-bold color-6" >
           出入库记录
         </p>
-        <div class="mgt mgl-m" ng-if="inOutStockData.length">
+        <div class="mgt mgl-m">
           <span class="color-9" >起止年月：</span>
           <div class="date-icon-outside" ng-if="!stockData.createAtBeg">
               <input type="text"
@@ -196,7 +196,7 @@
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg">
-              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtBeg='';"></span>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtBeg='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id)"></span>
           </div>
           <span class="color-9">至</span>
           <div class="date-icon-outside" ng-if="!stockData.createAtEnd">
@@ -217,7 +217,7 @@
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"/>
-              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtEnd='';"></span>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtEnd='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id)"></span>
           </div>
         </div>
 
