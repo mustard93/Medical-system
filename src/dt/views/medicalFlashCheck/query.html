@@ -34,16 +34,16 @@
             class="inline-block mgb"
             style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;"
             placeholder=""
-            ng-modal="medicalData.productionBatch"
+            ng-model="medicalData.productionBatch"
             />
         </div>
 
         <div class="inline-block mgl-xxl mgr-s mgt-l relative">
           <button ng-disabled="!medicalData.id"  ng-class="{'disabled':(!medicalData.id)}" type="button" style="width:150px;" class="mgt-s pr-btn-save-glodbg mgr"
           ng-click="medicalData.type='商品';medicalSearch(medicalData.id,medicalData.productionBatch);
-          stockSearch(medicalData.id,medicalData.productionBatch);">查询
+          stockSearch(medicalData.id,medicalData.productionBatch);inOutStockSearch(medicalData.id,medicalData.productionBatch);">查询
 
-          <!-- inOutStockSearch(medicalData.id,medicalData.productionBatch); -->
+          <!--  -->
           </button>
         </div>
       </div>
@@ -96,7 +96,7 @@
             <p>批发价</p><p class="color-3 mgt-s">￥{{scopeData.tradePrice | number:2}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax | number:2}}%</p>
+            <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax}}%</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
 
@@ -137,12 +137,15 @@
         </div>
       </div>
       <!-- 显示表格库存信息 -->
-      <div class="flex-item-12 flex-column pr-bg-white mgt-l scroll-out-div pr-border">
-        <div class="flex-item-12 flex-column scroll-in-div">
+      <div class="flex-item-12 flex-column pr-bg-white mgt-l pr-border" >
+        <div class="flex-item-12 flex-column " >
           <p class="pd-c-v-l text-n flex-item-12 flex-column">
             <span class="text-left flex-item-6 color-6 text-bold">库存信息</span>
-            <span class="text-right flex-item-6">合计：<em class="color-3"></em></span>
+            <span class="text-right flex-item-6">合计：{{totalQuantity}}<em class="color-3"></em></span>
           </p>
+          <!-- <div class="scroll-in-div">
+
+          </div> -->
           <table class="table pr-table pr-new-table mgb-n">
             <thead>
               <tr>
@@ -153,15 +156,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="item in formData.orderMedicalNos">
-                <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                <td class="text-center">{{item.quantity}}</td><!-- 计划调拨数量 -->
-                <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
+              <tr ng-repeat="item in stockData">
+                <td class="text-center">{{$index+1}}</td><!-- 序号-->
+                <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
               </tr>
             </tbody>
           </table>
-          <div class="pr-bg-white flex-item-12" ng-if="!medicalData.length">
+          <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
             <div class="empty-table clearfix">
               <div>&nbsp;</div>
               <div>&nbsp;</div>
@@ -172,71 +175,87 @@
       </div>
     </div>
     <div class="flex-item-5 flex-column" >
-      <div class="pd-c-v-l mgl-l" style="width:98%;background: rgba(255,255,255,0.40);min-height:780px;">
+      <div class="pd-c-v-l mgl-l" style="width:98%;background: rgba(255,255,255,0.40);min-height:780px;" >
         <p class="mgt-l mgl-m text-bold color-6" >
           出入库记录
         </p>
-        <div class="mgt mgl-m">
+        <div class="mgt mgl-m" ng-if="inOutStockData.length">
           <span class="color-9" >起止年月：</span>
-          <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+          <div class="date-icon-outside" ng-if="!stockData.createAtBeg">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-                     ng-model="listParams.createAtBeg">
+                     ng-model="stockData.createAtBeg"
+                     ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id)">
               <span class="date-icon"></span>
           </div>
-          <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+          <div class="date-icon-outside" ng-if="stockData.createAtBeg">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-                     ng-model="listParams.createAtBeg">
-              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+                     ng-model="stockData.createAtBeg">
+              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtBeg='';"></span>
           </div>
           <span class="color-9">至</span>
-          <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+          <div class="date-icon-outside" ng-if="!stockData.createAtEnd">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-                     ng-model="listParams.createAtEnd"
+                     ng-model="stockData.createAtEnd"
                      invalid-popover
-                     popover-show="listParams.createAtEnd<listParams.createAtBeg"
-                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                     popover-show="stockData.createAtEnd<stockData.createAtBeg"
+                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}'
+                     ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id)" />
               <span class="date-icon"></span>
           </div>
-          <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+          <div class="date-icon-outside" ng-if="stockData.createAtEnd">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-                     ng-model="listParams.createAtEnd"/>
-              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+                     ng-model="stockData.createAtEnd"/>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="stockData.createAtEnd='';"></span>
           </div>
         </div>
 
         <!-- 显示出入库时间段信息 -->
-        <div class="mgl-m flex-item-12 scroll-out-div mgt">
-          <div class="flex-item-12 flex-column">
+        <div class="mgl-m flex-item-12 scroll-out-div mgt" ng-if="inOutStockData.length">
+          <div class="flex-item-12 flex-column" ng-repeat="yearData in inOutStockData">
             <p class="pd-c-v-s color-3 flex-item-12 text-left " style="text-indent:50px;">
-              2017
+              {{yearData.year}}
             </p>
-            <div class="text-s relative flex-item-12">
-              <span class="relative" style="top:-40px;">2017-07-17</span>
-              <span class="inStock-icon"></span>
-              <span class="outStock-icon"></span>
-              <div class="show-info-stock">
+            <div class="text-s relative flex-item-12" ng-repeat="tr in yearData.detailVos">
+              <span class="relative" style="top:-40px;">{{tr.date | date : 'yyyy-MM-dd'}}</span>
+              <span ng-if="tr.inoutType=='入库'" class="inStock-icon"></span>
+              <span ng-if="tr.inoutType=='出库'" class="outStock-icon"></span>
+              <div class="show-info-stock" ng-class="{'pr-bg-inStock':(tr.inoutType=='入库')}">
                   <div class="show-info-stock-content">
                   <p>
-                    xxx部门xxx业务员从xxx供应商采购xxx批号xx包入库到xx仓库
+                    {{tr.message}}
                   </p>
                   <p>
-                    单据编号：<em class="color-orange">1021290414</em>
+                    单据编号：<em class="color-orange">
+                      <a href="#/arrivalNoticeOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='入库'">
+                          {{tr.relOrderNo}}
+                      </a>
+                      <a href="#/invoicesOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='出库'">
+                          {{tr.relOrderNo}}
+                      </a>
+                    </em>
                   </p>
                   </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class=" flex-item-12 mgt" ng-if="!inOutStockData.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
           </div>
         </div>
       </div>
