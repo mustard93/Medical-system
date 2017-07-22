@@ -99,7 +99,7 @@
             <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax}}%</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-
+            <p>&nbsp;</p><p class="color-3 mgt-s">&nbsp;</p>
           </div>
           <!-- 第二行 -->
           <div class="inline-block flex-item-3 text-s text-left">
@@ -137,42 +137,42 @@
         </div>
       </div>
       <!-- 显示表格库存信息 -->
-      <div class="flex-item-12 flex-column pr-bg-white mgt-l pr-border" >
-        <div class="flex-item-12 flex-column " >
-          <p class="pd-c-v-l text-n flex-item-12 flex-column">
-            <span class="text-left flex-item-6 color-6 text-bold">库存信息</span>
-            <span class="text-right flex-item-6">合计：{{totalQuantity}}<em class="color-3"></em></span>
-          </p>
-          <!-- <div class="scroll-in-div">
-
-          </div> -->
-          <table class="table pr-table pr-new-table mgb-n">
-            <thead>
-              <tr>
-                <th class="text-center">序号</th>
-                <th class="text-center">仓库</th>
-                <th class="text-center">批号</th>
-                <th class="text-center">现存量</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in stockData">
-                <td class="text-center">{{$index+1}}</td><!-- 序号-->
-                <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
-              </tr>
-            </tbody>
-          </table>
-          <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
-            <div class="empty-table clearfix">
-              <div>&nbsp;</div>
-              <div>&nbsp;</div>
-              <div>&nbsp;</div>
+      <div class="out-scroll-div mgt-l ">
+        <div class="flex-item-12 flex-column pr-bg-white pr-border" >
+          <div class="flex-item-12 flex-column " >
+            <p class="pd-c-v-l text-n flex-item-12 flex-column">
+              <span class="text-left flex-item-6 color-6 text-bold">库存信息</span>
+              <span class="text-right flex-item-6">合计：{{totalQuantity}}<em class="color-3"></em></span>
+            </p>
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">仓库</th>
+                  <th class="text-center">批号</th>
+                  <th class="text-center">现存量</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in stockData">
+                  <td class="text-center">{{$index+1}}</td><!-- 序号-->
+                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                  <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
+                </tr>
+              </tbody>
+            </table>
+            <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
     <div class="flex-item-5 flex-column" >
       <div class="pd-c-v-l mgl-l" style="width:98%;background: rgba(255,255,255,0.40);min-height:780px;" >
@@ -222,40 +222,43 @@
         </div>
 
         <!-- 显示出入库时间段信息 -->
-        <div class="mgl-m flex-item-12 scroll-out-div mgt" ng-if="inOutStockData.length">
-          <div class="flex-item-12 flex-column" ng-repeat="yearData in inOutStockData">
-            <p class="pd-c-v-s color-3 flex-item-12 text-left " style="text-indent:50px;">
-              {{yearData.year}}
-            </p>
-            <div class="text-s relative flex-item-12" ng-repeat="tr in yearData.detailVos">
-              <span class="relative" style="top:-40px;">{{tr.date | date : 'yyyy-MM-dd'}}</span>
-              <span ng-if="tr.inoutType=='入库'" class="inStock-icon"></span>
-              <span ng-if="tr.inoutType=='出库'" class="outStock-icon"></span>
-              <div class="show-info-stock" ng-class="{'pr-bg-inStock':(tr.inoutType=='入库')}">
-                  <div class="show-info-stock-content">
-                  <p>
-                    {{tr.message}}
-                  </p>
-                  <p>
-                    单据编号：<em class="color-orange">
-                      <a href="#/arrivalNoticeOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='入库'">
-                          {{tr.relOrderNo}}
-                      </a>
-                      <a href="#/invoicesOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='出库'">
-                          {{tr.relOrderNo}}
-                      </a>
-                    </em>
-                  </p>
-                  </div>
+        <div class="scroll-out-div mgt">
+          <div class="mgl-m flex-item-12 " ng-if="inOutStockData.length">
+            <div class="flex-item-12 flex-column" ng-repeat="yearData in inOutStockData">
+              <p class="pd-c-v-s color-3 flex-item-12 text-left " style="text-indent:50px;">
+                {{yearData.year}}
+              </p>
+              <div class="text-s relative flex-item-12" ng-repeat="tr in yearData.detailVos">
+                <span class="relative" style="top:-40px;">{{tr.date | date : 'yyyy-MM-dd'}}</span>
+                <span ng-if="tr.inoutType=='入库'" class="inStock-icon"></span>
+                <span ng-if="tr.inoutType=='出库'" class="outStock-icon"></span>
+                <div class="show-info-stock" ng-class="{'pr-bg-inStock':(tr.inoutType=='入库')}">
+                    <div class="show-info-stock-content">
+                    <p>
+                      {{tr.message}}
+                    </p>
+                    <p>
+                      单据编号：<em class="color-orange">
+                        <a href="#/arrivalNoticeOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='入库'">
+                            {{tr.relOrderNo}}
+                        </a>
+                        <a href="#/invoicesOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='出库'">
+                            {{tr.relOrderNo}}
+                        </a>
+                      </em>
+                    </p>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class=" flex-item-12 mgt" ng-if="!inOutStockData.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
+
+          <div class=" flex-item-12 mgt" ng-if="!inOutStockData.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
           </div>
         </div>
       </div>
