@@ -616,10 +616,17 @@ function alertOk($rootScope, modal) {
 
                       if(confirmMsg){
                           dialogConfirm(confirmMsg, function () {
-                              $rootScope.replaceTab(null,{templateUrl:url});
+                              $rootScope.addTab({
+                                  tabName:$rootScope.getCurrentTab().name,
+                                  tabHref:url
+
+                              });
                           }, null);
                       }else{
-                          $rootScope.replaceTab(null,{templateUrl:url});
+                          $rootScope.addTab({
+                              tabName:$rootScope.getCurrentTab().name,
+                              tabHref:url
+                          });
                       }
                       return;
                   }
