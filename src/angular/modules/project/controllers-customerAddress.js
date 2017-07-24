@@ -68,7 +68,7 @@ define('project/controllers-customerAddress', ['project/init'], function() {
          .then(function (results) {
            if (results[1].code === 200) {
              $scope.formData.validFlag = true;
-             $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
+             $scope.goTo({tabHref:'#/hospitalManagement/get.html?id='+$scope.formData.id,tabName:'医院信息管理'});
            }
          })
          .catch(function (error) {
@@ -80,7 +80,7 @@ define('project/controllers-customerAddress', ['project/init'], function() {
          .then(function (results) {
            if (results[1].code === 200) {
              $scope.formData.validFlag = true;
-             $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
+             $scope.goTo({tabHref:'#/supplier/get.html?id='+$scope.formData.id,tabName:'供应商管理'});
            }
          })
          .catch(function (error) {
@@ -92,7 +92,7 @@ define('project/controllers-customerAddress', ['project/init'], function() {
          .then(function (results) {
            if (results[1].code === 200) {
              $scope.formData.validFlag = false;
-             $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
+             $scope.goTo({tabHref:'#/otherCustomerManagement/get.html?id='+$scope.formData.id,tabName:'批发/零售商管理'});
            }
          })
          .catch(function (error) {

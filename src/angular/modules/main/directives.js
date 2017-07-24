@@ -132,19 +132,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                  if ($attrs.params) {
                      if ($attrs.params.indexOf("{") === 0) {
                          //监听具体值
-                         $attrs.$observe("params", function(value) {
+                         $attrs.$observe("params", function(value,old) {
+                            console.log("ajaxUrl.observe",value,old)
                              _params = $scope.$eval(value);
                              getData(_params);
                          });
                      } else {
                          //监听对象
-                         $scope.$watch($attrs.params, function(value) {
+                         $scope.$watch($attrs.params, function(value,old) {
+                                 console.log("ajaxUrl.watch",value,old)
                              _params = value;
                              getData(_params);
                          }, true);
                      }
                  } else {
-                     $attrs.$observe("ajaxUrl", function(value) {
+                     $attrs.$observe("ajaxUrl", function(value,old) {
+                            console.log("ajaxUrl.observe.ajaxUrl",value,old)
                          getData({});
                      });
                  }

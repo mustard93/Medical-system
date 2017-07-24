@@ -140,7 +140,7 @@ define('project/controllers-freezeThawOrder', ['project/init'], function() {
         $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
-          $scope.goTo('#/salesOrder/query.html');
+          $scope.goTo({tabHref:'#/salesOrder/query.html',tabName:'购需单'});
           return;
         }
 

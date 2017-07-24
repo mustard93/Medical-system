@@ -62,7 +62,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
     $scope.submitFormAfter = function() {
 
     if($scope.submitForm_type == 'save'){
-        $scope.goTo('#/salesChangeOrder/edit.html?id='+$scope.formData.id);
+        $scope.goTo({tabHref:'#/salesChangeOrder/edit.html?id='+$scope.formData.id,tabName:'销售换货单'});
         return;
     }
 
@@ -72,7 +72,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
         requestData(_url,data, 'POST')
             .then(function (results) {
                 var _data = results[1];
-                $scope.goTo('#/salesChangeOrder/get.html?id='+$scope.formData.id);
+                $scope.goTo({tabHref:'#/salesChangeOrder/get.html?id='+$scope.formData.id,tabName:'销售单'});
             })
             .catch(function (error) {
                 alertError(error || '出错');
