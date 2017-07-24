@@ -85,7 +85,7 @@
                     <td>{{tr.orderStatus}}</td>
                     <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
                     <td ng-if="tr.orderStatus=='未提交'">
-                      <a href="#/hospitalApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                      <a tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
                       <!-- <a href="javascript:;" class="delete-link-icon"></a> -->
                       <a ng-if="tr.proposerId==mainStatus.id"
                          href="javascript:;"
@@ -95,23 +95,23 @@
                          dialog-title="确认删除?"
                          dialog-content="删除后将无法恢复,确认删除?"
                          dialog-template="pr-dialog-submit.html"
-                         callback="$root.goTo('#/hospitalApplication/query.html')"
+                         callback="$root.goTo({tabHref:'#/hospitalApplication/query.html',tabName:'供应商管理'})"
                          params='{"id":tr.id}'
                          request-url="rest/authen/hospitalApplication/delete"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
-                      <a class="examine-approve-link-icon" ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"></a>
+                      <a class="examine-approve-link-icon" tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='待审批' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
-                      <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                      <a tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='未通过'">
-                          <a href="#/hospitalApplication/edit.html?copyId={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
-                          <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                          <a tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/edit.html?copyId={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                          <a tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
                           <!-- <a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a> -->
                     </td>
                     <td ng-if="tr.orderStatus=='已通过'">
-                    <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                    <a tab-nav tab-name="供应商管理" tab-href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
                     </td>
                   </tr>
                 </tbody>

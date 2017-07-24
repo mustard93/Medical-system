@@ -609,13 +609,17 @@ function alertOk($rootScope, modal) {
               console.log("URL",url,typeof  url == 'object');
 
               if(conf.useTab){
-                  if(typeof  url == 'object'){
-                      $rootScope.addTab({
-                          tabName: url.tabName,
-                          tabHref: url.tabHref
-                      });
-                      return;
+                var tabPara=url;
+
+                  if(typeof  url == 'string'){
+                    tabPara={
+                        tabName:url,
+                        tabHref: url
+                    }
+
                   }
+                  console.log("goTo",tabPara);
+                  $rootScope.addTab(tabPara);
               }else{
                   if(typeof  url == 'object'){
                       url=url.tabHref
