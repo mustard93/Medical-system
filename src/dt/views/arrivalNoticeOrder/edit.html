@@ -19,7 +19,7 @@
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
-         <a href="#/arrivalNoticeOrder/query.html">
+         <a tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html">
             <em class="color-custom-orange">来货通知单</em>
          </a>
         <em>>新建来货通知单</em>
@@ -407,11 +407,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/arrivalNoticeOrder/query.html')"
+             nosave-callback="goTo({tabHref:'#/arrivalNoticeOrder/query.html',tabName:'来货通知单'})"
              save-callback="submitForm('arrivalNoticeOrderForm','exit')">返回来货通知单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/arrivalNoticeOrder/query.html" >返回来货通知单列表</a>
+          <a ng-if="!changeFlag" tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html" >返回来货通知单列表</a>
         </span>
         <span class="mgl mgt" ng-if="$root.hasAuthor('来货通知单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -422,7 +422,7 @@
              dialog-content="您确认删除这条来货通知单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/arrivalNoticeOrder/delete?id={{formData.id}}"
-             callback="goTo('#/arrivalNoticeOrder/query.html')">删除
+             callback="goTo({tabHref:'#/arrivalNoticeOrder/query.html',tabName:'来货通知单'})">删除
           </a>
         </span>
 
