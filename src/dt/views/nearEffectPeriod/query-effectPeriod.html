@@ -92,15 +92,34 @@
                       </div>
                     </div>
                   </td>
-                  <td>{{tr.code}}</td>
-                  <td>{{tr.name}}</td>
-                  <td>{{tr.medicalAttribute.name}}</td>
-                  <td>{{tr.specification}}</td>
+                  <td>{{tr.medical.code}}</td>
+                  <td>{{tr.medical.name}}</td>
+                  <td>{{tr.medical.medicalAttribute.name}}</td>
+                  <td>{{tr.medical.specification}}</td>
                   <td>{{tr.productionBatch}}</td>
                   <td>{{tr.sterilizationBatchNumber}}</td>
-                  <td>{{tr.unit}}</td>
-                  <td>{{tr.guaranteePeriodAlarmDay}}</td>
-                  <td>{{tr.quantity}}</td>
+                  <td>{{tr.medical.unit}}</td>
+                  <td>
+                    <div class="relative inline-block">{{tr.nearValiditType}}
+                      <span show-info-modalbox
+                            get-data-type="local"
+                            template-url="tpl/showInfoGuaranteePeriodAlarmDay"
+                            info-object="{{tr}}"
+                            info-title="剩余有效期天数">
+                  </span>
+                    </div>
+
+                  </td>
+                  <td>
+                    <div class="relative inline-block">{{tr.stockModel.quantity}}
+                      <span show-info-modalbox
+                            get-data-type="local"
+                            template-url="tpl/showInfoQuantity"
+                            info-object="{{tr}}"
+                            info-title="数量">
+                      </span>
+                    </div>
+                  </td>
                   <td>{{tr.warehouseName}}</td>
                 </tr>
               </tbody>
