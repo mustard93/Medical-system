@@ -11,7 +11,7 @@
   <!-- 头部信息 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
     <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 >
-      <a href="#/salesOrder/query.html">
+      <a ng-href="#/salesOrder/query.html">
       <em class="color-custom-orange">购需单</em>
       </a>
       <em>>购需单详情</em>
@@ -232,7 +232,7 @@
               <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
               <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
             </div>
-            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel toggle-checked="true" style="float:right"></a>
+            <a ng-href="javascript:;" class="fa fa-chevron-down" toggle-panel toggle-checked="true" style="float:right"></a>
           </span>
         </header>
         <div class="panel-body" style="display:none; margin:0 -20px; padding: 0;">
@@ -314,11 +314,11 @@
            dialog-title="确认返回?"
            dialog-content="该购需单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/salesOrder/query.html')"
+           nosave-callback="goTo({tabHref:'#/salesOrder/query.html',tabName:'购需单'})"
            save-callback="submitForm('editForm','exit')">返回购需单列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/query.html" >返回购需单列表</a>
         <!--<span class="alink-likeBtn">-->
           <!--<a href=""-->
              <!--ng-if="isShowCancelBtn"-->

@@ -132,19 +132,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                  if ($attrs.params) {
                      if ($attrs.params.indexOf("{") === 0) {
                          //监听具体值
-                         $attrs.$observe("params", function(value) {
+                         $attrs.$observe("params", function(value,old) {
+                            console.log("ajaxUrl.observe",value,old)
                              _params = $scope.$eval(value);
                              getData(_params);
                          });
                      } else {
                          //监听对象
-                         $scope.$watch($attrs.params, function(value) {
+                         $scope.$watch($attrs.params, function(value,old) {
+                                 console.log("ajaxUrl.watch",value,old)
                              _params = value;
                              getData(_params);
                          }, true);
                      }
                  } else {
-                     $attrs.$observe("ajaxUrl", function(value) {
+                     $attrs.$observe("ajaxUrl", function(value,old) {
+                            console.log("ajaxUrl.observe.ajaxUrl",value,old)
                          getData({});
                      });
                  }
@@ -2864,14 +2867,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
     //省市县的三级联动
-    function selectAddress ($http, $q, $compile) {
+    function selectAddress ($http, $q, $compile,requestData) {
         var cityURL, delay, templateURL;
         delay = $q.defer();
         templateURL = Config.tplPath+'tpl/cascading-select-address/cascading-select-address.html';
         cityURL = Config.tplPath+'tpl/cascading-select-address/city.min.js';
-        $http.get(cityURL).success(function(data) {
-            return delay.resolve(data);
-        });
+        // $http.get(cityURL).success(function(data) {
+        //     return delay.resolve(data);
+        // });
+        var _url ="rest/authen/regionManage/queryDetailForWeb";
+
+
+        requestData(_url, {}, 'post')
+            .then(function (results) {
+                if (results[1].code === 200) {
+                    return delay.resolve(results[1].data);
+            }
+        })
         return {
             restrict: 'A',
             scope: {
@@ -3924,7 +3936,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
       .directive("formItem", formItem)
       .directive("autoComplete", autoComplete)
-      .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
+      .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
       .directive("customConfig", customConfig)
       .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
       .directive("tabNav",['$rootScope',tabNav])

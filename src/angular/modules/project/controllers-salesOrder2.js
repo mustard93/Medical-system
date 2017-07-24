@@ -195,7 +195,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
         $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
-          $scope.goTo('#/salesOrder/query.html');
+          $scope.goTo({tabHref:'#/salesOrder/query.html',tabName:'购需单'});
           return;
         }
 
@@ -208,7 +208,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
             .then(function (results) {
               var _data = results[1].data;
               // console.log(_data);
-              $scope.goTo('#/confirmOrder/edit-from-salesOrder.html?id='+_data.confirmOrder.id);
+              $scope.goTo({tabHref:'#/confirmOrder/edit-from-salesOrder.html?id='+_data.confirmOrder.id,tabName:'销售单'});
 
             })
             .catch(function (error) {
@@ -289,7 +289,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
                     requestData(_url2, showData, 'POST','parameterBody').then(function (results) {
                         if (results[1].code === 200) {
-                            utils.goTo('#/salesOrder/edit2.html?id='+id);
+                            utils.goTo({tabHref:'#/salesOrder/edit2.html?id='+id,tabName:'购需单'});
                         }
                     }) .catch(function (err) {
                         if (err) {
