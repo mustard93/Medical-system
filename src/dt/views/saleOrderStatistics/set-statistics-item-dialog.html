@@ -36,6 +36,7 @@
                         <div class="flex-item-10 text-left">
                             <select class="ipt pr-short-ipt ipt-new-s "
                                     chosen
+                                    default-empty="全部"
                                     ng-model="addDataObj.salesDepartmentId"
                                     select-source="rest/authen/department/queryForSelectOption">
                             </select>
@@ -48,6 +49,7 @@
                             <select class="ipt pr-short-ipt ipt-new-s "
                                     data-placeholder=" "
                                     chosen
+                                    default-empty="全部"
                                     ng-model="addDataObj.saleUserId"
                                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
                             >
@@ -87,6 +89,7 @@
                             <div class="flex-item-10 text-left">
                                 <select class="ipt pr-short-ipt ipt-new-s "
                                         chosen
+                                        default-empty="全部"
                                         ng-model="addDataObj.salesType"
                                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
                                 </select>
@@ -99,6 +102,7 @@
                             <div class="flex-item-10 text-left">
                                 <select class="ipt pr-short-ipt ipt-new-s"
                                         chosen
+                                        default-empty="全部"
                                         ng-model="addDataObj.orderBusinessType"
                                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
 
@@ -112,6 +116,7 @@
                             <div class="flex-item-10 text-left">
                                 <select class="ipt pr-short-ipt ipt-new-s select-bg"
                                     chosen
+                                    default-empty="全部"
                                     ng-model="addDataObj.orderBusinessType"
                                     select-source="rest/authen/medicalAttribute/queryForSelectOption">
                                 </select>
@@ -167,6 +172,7 @@
                             <div class="flex-item-10 text-left">
                                 <select class="ipt pr-short-ipt ipt-new-s"
                                         chosen
+                                        default-empty="全部"
                                         ng-model="addDataObj.departmentName"
                                         select-source="rest/authen/department/queryForSelectOption">
                                 </select>
@@ -179,6 +185,7 @@
                                     <select class="ipt pr-short-ipt ipt-new-s "
                                             data-placeholder=" "
                                             chosen
+                                            default-empty="全部"
                                             ng-model="addDataObj.saleUserId"
                                             select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
                                     >
@@ -191,12 +198,14 @@
                     <div class="form-ctrl"
                          ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SaleOrderStatisticsGroupEnum"
                          scope-data="departments"
-                         alert-error
-                    >
+                         alert-error>
                         <fieldset>
                             <label class="sales-selection relative"  ng-repeat=" item in departments" title="{{item.value}}">
-                                <input type="checkbox"  value="{{item.id}}"
-                                       class="click-reverse-selection3 mgt-l mgl -m"/> {{item.value}}</label>
+                                <input type="checkbox"
+                                       value="{{item.id}}"
+                                       ng-checked="item.value=='年'||item.value=='月'"
+                                       class="click-reverse-selection3 mgt-l mgl -m">{{item.value}}
+                            </label>
                         </fieldset>
                     </div>
                 </div>
@@ -206,9 +215,8 @@
                 <div class="sales-btn-area-2nd relative">
                     <div class="btn-area full-width text-center">
                     <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
-                    <button
-                            ng-click=""
-                            type="button"
+                    <button type="button"
+                            ng-click="handleTypeChange()"
                             class="pr-btn-save-glodbg mgr-l"
                             style="width:160px;">确定
                     </button>
