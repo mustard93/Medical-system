@@ -45,7 +45,7 @@ define('main/controllers', ['main/init'], function () {
             if(!$scope.mainStatus.pageParams){
                 $scope.mainStatus.pageParams={};
             }
-            $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
+            $scope.mainStatus.pageParams=serializeUrl(tab.templateUrl).param;
 
         });
 
@@ -124,7 +124,16 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $rootScope.replaceTab=function(tab,newTab) {
+
+            if(!tab){
+                tab= uiTabs.current;
+            }
+
             uiTabs.replace(tab,newTab);
+        };
+
+        $rootScope.refreshTab=function () {
+            uiTabs.refreshTab();
         };
 
         $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {

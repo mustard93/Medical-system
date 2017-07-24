@@ -28,7 +28,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
-        <a href="#/lendOrder/query.html"><em class="color-custom-orange">借出单</em></a>
+        <a tab-nav tab-name="借出单" tab-href="#/lendOrder/query.html"><em class="color-custom-orange">借出单</em></a>
         <em> >{{!formData.id ? "新建" : "编辑"}}借出单</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -711,11 +711,11 @@
            dialog-title="确认返回?"
            dialog-content="该借出单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/lendOrder/query.html')"
+           nosave-callback="goTo({tabHref:'#/lendOrder/query.html',tabName:'借出单'})"
            save-callback="submitForm('editForm','exit')">返回借出单
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/lendOrder/query.html?id={{formData.relId}}" >返回借出单列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="借出单" tab-href="#/lendOrder/query.html?id={{formData.relId}}" >返回借出单列表</a>
         <span ng-if="$root.hasAuthor('借出单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
              href="javascript:;"
@@ -725,7 +725,7 @@
              dialog-content="您确认删除这条借出单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/lendOrder/delete?id={{formData.id}}"
-             callback="$root.goTo('#/lendOrder/query.html')">删除
+             callback="$root.goTo({tabHref:'#/lendOrder/query.html',tabName:'借出单'})">删除
           </a>
         </span>
 

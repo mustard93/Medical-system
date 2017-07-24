@@ -7,7 +7,7 @@
 
   <div class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-      <a href="#/hospitalApplication/query.html">
+      <a tab-nav tab-name="首营客户管理" tab-href="#/hospitalApplication/query.html">
          <em class="color-custom-orange">客户管理</em>
       </a>
      <em>>医院资格申请</em>
@@ -58,7 +58,7 @@
               scope-error-msg="errorMsg"
               scope-data="formData"
               novalidate="true"
-              callback="submitFormAfter('#/hospitalApplication/edit-step-3.html');watchFormChange('formData')">
+              callback="submitFormAfter('#/hospitalApplication/edit-step-3.html','医院资格申请');watchFormChange('formData')">
           <!-- 单号 -->
           <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
             <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -82,11 +82,11 @@
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/hospitalApplication/query.html')"
-                 save-callback="submitForm('hospital-editForm','save');$root.goTo('#/hospitalApplication/query.html')">返回申请单列表
+                 nosave-callback="goTo({tabHref:'#/hospitalApplication/query.html',tabName:'首营客户管理'})"
+                 save-callback="submitForm('hospital-editForm','save');$root.goTo({tabHref:'#/hospitalApplication/query.html',tabName:'首营客户管理'})">返回申请单列表
               </a>
 
-              <a ng-if="!changeFlag" href="#/hospitalApplication/query.html">返回申请单列表</a>
+              <a ng-if="!changeFlag" tab-nav tab-name="首营客户管理" tab-href="#/hospitalApplication/query.html">返回申请单列表</a>
             </span>
             <span class="mgl mgt">
               <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -96,7 +96,7 @@
                  dialog-title="确认删除?"
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/hospitalApplication/query.html')"
+                 callback="$root.goTo({tabHref:'#/hospitalApplication/query.html',tabName:'首营客户管理'})"
                  params='{"id":formData.id}'
                  request-url="rest/authen/hospitalApplication/delete">删除</a>
             </span>
@@ -107,7 +107,7 @@
               </button>
             </span>
             <span class="mgl mgt">
-              <button type="button" class="pr-btn-save-glodbg" ng-click="pageTo('#/hospitalApplication/edit1.html?id='+formData.id)">上一步</button>
+              <button type="button" class="pr-btn-save-glodbg" ng-click="pageTo({tabHref:'#/hospitalApplication/edit1.html?id='+formData.id,tabName:'首营客户管理'})">上一步</button>
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"

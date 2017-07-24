@@ -8,7 +8,7 @@
 
   <div class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-      <a href="#/otherCustomerApplication/query.html">
+      <a tab-nav tab-name="批发/零售商资格申请" tab-href="#/otherCustomerApplication/query.html">
          <em class="color-custom-orange">客户管理</em>
       </a>
      <em>>经销商/零售商资格申请</em>
@@ -50,7 +50,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/otherCustomerApplication/edit-step-2.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/otherCustomerApplication/edit-step-2.html','经销商/零售商资格申请');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -333,9 +333,9 @@
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/otherCustomerApplication/query.html')"
+                 nosave-callback="goTo({tabHref:'#/otherCustomerApplication/query.html',tabName:'批发/零售商资格申请'})"
                  save-callback="submitForm('editForm','exit')">返回申请单列表</a>
-              <a ng-if="!changeFlag" href="#/otherCustomerApplication/query.html">返回申请单列表</a>
+              <a ng-if="!changeFlag" tab-nav tab-name="批发/零售商资格申请" tab-href="#/otherCustomerApplication/query.html">返回申请单列表</a>
             </span>
             <span class="mgl mgt">
               <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -345,7 +345,7 @@
                  dialog-title="确认删除?"
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/otherCustomerApplication/query.html')"
+                 callback="$root.goTo({tabHref:'#/otherCustomerApplication/query.html',tabName:'批发/零售商资格申请'})"
                  params='{"id":formData.id}'
                  request-url="rest/authen/otherCustomerApplication/delete">删除</a>
             </span>

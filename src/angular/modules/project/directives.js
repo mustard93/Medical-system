@@ -1468,98 +1468,6 @@ function intervalCountdown ($interval) {
   };
 }
 
-/**
- * []
- canvas-workflow
- */
-function canvasWorkflow (modal,utils) {
-  'use strict';
-  return {
-      restrict: 'AE',
-      scope: {
-          workflowTaskData:"=?",
-          ngModel:"=?"
-      },
-    link: function ($scope, element, $attrs) {
-      var workflow=null;
-
-      // $scope.ngModel;
-      // var data=$scope[$attrs.ngModel];
-
-      $scope.$watch("ngModel", function(value) {
-        console.log("watch.workflow.ngModel",value);
-        if(workflow)workflow.reload(value);
-      }, true);
-
-      var data= $scope.ngModel;
-
-      require(['WorkflowProcess'], function(WorkflowProcess) {
-
-        function clickCallback(event,that){
-
-                if(!angular.isDefined($attrs.modalUrl)){
-                    return;
-                }
-
-                 modal.closeAll();
-
-                // alert(that.currentNode.text);
-                  $scope.$parent.currentEvent=that.currentNode.data;
-                  modal.open({
-                    template: $attrs.modalUrl,
-                    className: 'ngdialog-theme-right',
-                    cache: false,
-                    trapFocus: true,
-                    overlay: ($attrs.modalOverlay == "true"),
-                    data: that.currentNode.data,
-                    scope: $scope.$parent,
-                    controller: ["$scope", "$element", function ($scope, $element) {
-                        $(".ngdialog-content", $element).width("50%");
-                    }]
-                });
-            }//end clickCallback
-
-        var option={
-          showStatus:$attrs.showStatus=="true",
-          node:{
-            clickCallback:clickCallback
-          }
-        };
-
-        workflow=new WorkflowProcess($attrs.id,option);
-
-        if ($attrs.scopeExtend){
-          var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
-          if(scopeExtend){
-            if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
-          }
-        }
-
-        workflow.addWorkflowProcess(data);
-
-        if($scope.workflowTaskData){
-          workflow.addWorkflowTaskData($scope.workflowTaskData);
-        }
-          //编辑节点回掉函数 新建保存，作用域调用不到该函数
-          // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
-          //   modal.closeAll();
-          //   workflow.reload();
-          //
-          // }
-          //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
-
-          // if(angular.isDefined($attrs.updateWorkflowFlag)){
-          //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
-          //     modal.closeAll();
-          //     workflow.reload();
-          //   }, true);
-          // }
-
-
-      });//WorkflowProcess
-    }//end link
-  };
-}//canvasWorkflow
 
 
 // 表格排序，根据点击不同的标题，对相应列进行按该字段排序。
@@ -1738,123 +1646,6 @@ function customTableSet (modal,utils,requestData) {
 
 
 
-/**
-  药械订单列表-采购
-*/
-function businessFlowShow() {
-  return {
-    restrict: 'EA',
-    scope: {
-        businessKey:"@",
-        businessType: "@"
-    },
-    templateUrl:  Config.tplPath +'tpl/project/businessFlowShow.html',
-    link: function ($scope, element, $attrs,ngModel) {
-
-    }//link
-  };
-}
- /**
-  * 业务单流程展示
-  */
- function canvasBusinessFlow (modal,utils) {
-   'use strict';
-   return {
-       restrict: 'AE',
-       // scope: false,
-       scope: {
-           ngModel:"=?"
-       },
-     link: function ($scope, element, $attrs) {
-
-       // $scope.ngModel;
-       // var data=$scope[$attrs.ngModel];
-           var data= $scope.ngModel;
-          //  console.log(data);
-           var curRelId=$attrs.curRelId;//当前页面业务单id
-          //  console.log(data);
-          // console.log(data);
-           require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
-
-             //点击回调方法
-             function clickCallback(event,that){
-                 if(angular.isDefined($attrs.disableClick)){
-                     return;
-                 }
-               var moduleType=that.currentNode.data.moduleType;
-               var relId= that.currentNode.data.relId;
-                var subModuleAttribute= that.currentNode.data.subModuleAttribute;
-               if(!moduleType||!relId){
-                 console.log("moduleType="+moduleType+",relId="+relId);
-                 return;
-               }
-
-               if(curRelId==relId){//当前页面节点点击不做跳转
-                 return;
-               }
-               var url="#/"+moduleType+"/get.html?id="+relId;
-
-               if(moduleType=='lossOrder'){
-                   url="#/lossOverOrder/get-reimburse.html?id="+relId;
-               }
-               else if(moduleType=='overOrder'){
-                   url="#/lossOverOrder/get-overflow.html?id="+relId;
-               }
-
-               else if(moduleType=="outstockOrder"){
-                    if(subModuleAttribute=="销售出库单"||subModuleAttribute=="销售出库单_红字"){
-                           url="#/saleOutstockOrder/get.html?id="+relId;
-                    }
-                    else{
-                         url="#/otherOutstockOrder/get.html?id="+relId;
-                    }
-               }
-
-               else if(moduleType=="instockOrder"){
-                    if(subModuleAttribute=="采购入库单"||subModuleAttribute=="采购入库单_红字"){
-                        url="#/purchaseInstockOrder/get.html?id="+relId;
-                    }
-                    else{
-                         url="#/otherInstockOrder/get.html?id="+relId;
-                    }
-               }
-
-               utils.goTo(url);
-             }//end clickCallback
-
-             //参数定义
-             var option={
-
-                 node:{
-                   clickCallback:clickCallback
-                 }
-             };
-             if($attrs.baseImageUrl){
-               option.baseImageUrl=$attrs.baseImageUrl;
-             }
-             if($attrs.spacingWidth){
-               option.spacingWidth=parseInt($attrs.spacingWidth);
-             }
-             if($attrs.spacingHeight){
-               option.spacingWidth=parseInt($attrs.spacingHeight);
-             }
-
-
-             var workflow=new CanvasBusinessFlow($attrs.id,option);
-             if ($attrs.scopeExtend){
-                 var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
-                 if(scopeExtend){
-                   if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
-                 }
-             }
-
-             workflow.addCanvasBusinessFlow(data,curRelId);
-
-           });//WorkflowProcess
-
-     }//end link
-   };
- }//canvasWorkflow
 
 /**
     打印组件
@@ -1988,7 +1779,7 @@ function saleOutStockKuaDi () {
    	    //1.传入参数:url(跳转路径)，className(控制样式的class)
    		//2.mouseenter:表示鼠标移入之后要执行的步骤。
    		//3.mouseleave:表示鼠标移出后执行的步骤。
-function medicalStockMouseOver(utils){
+function medicalStockMouseOver(utils,$compile){
   return{
     restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -2010,12 +1801,15 @@ function medicalStockMouseOver(utils){
             if (bt.progress=='0') {
               return;
             }else{
-              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+
               var btn1=$(tmp);
               // btn1.appendto(moveBtnDiv);
               moveBtnDiv.append(btn1);
+
             }
         }
+
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -2037,13 +1831,14 @@ function medicalStockMouseOver(utils){
            });
 
            $(this).append(moveBtnDiv);
+           $compile($(this).contents())($scope);
 
         });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
-        });//mouseleave
+        });//mouseleave;
       }//link
   };
 }
@@ -2105,7 +1900,6 @@ function stepFlowArrowShow(utils){
               // 最后一个箭头的形状定义
               $($element).children('div').last().prepend("<div></div>");
           }
-
         $(window).resize(function () {
           //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
             $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount });
@@ -3600,6 +3394,8 @@ function pageMainHeaderComponent ($sce) {
       if (scope.isShowSelectItem) {
         scope.selectObj = angular.fromJson(scope.isShowSelectItem);
         scope.itemChooise = scope.selectObj[0].link;
+        scope.itemElseChooise = scope.selectObj[1].link;
+        scope.itemElseChooiseName = scope.selectObj[1].name;
       }
       if(attrs.showDateName){
         scope._showDateName=attrs.showDateName;
@@ -4016,9 +3812,7 @@ angular.module('manageApp.project')
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("saleOutStockKuaDi", [saleOutStockKuaDi])  //销售出库单快递侧边栏显示
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
-  .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
-  .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
-  .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
+
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
   .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击改变
@@ -4051,7 +3845,7 @@ angular.module('manageApp.project')
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
-  .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
+  .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
   .directive("dtRightSide",["utils",dtRightSide])

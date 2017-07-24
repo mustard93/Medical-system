@@ -44,8 +44,37 @@
                      custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
                   </a> -->
 
-                  <span query-item-card-button-list="bottomButtonList"></span>
+                  <!--<span query-item-card-button-list="bottomButtonList"></span>-->
+                    <span class="text-right">
+                        <span ng-if="tr.orderStatus=='未提交'" >
+                          <span ng-if="$root.hasAuthor('发货单修改')">
+                          <a tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <span class="edit-link-icon">&nbsp;</span></a>
+                        </span>
+                        <span ng-if="$root.hasAuthor('发货单删除')">
+                          <a ng-if="tr.orderStatus=='未提交'  && tr.inputUserId==mainStatus.id"
+                             href="javascript:;"
+                             class="btn-link pd-m rect-s"
+                             title="删除"
+                             handle-this-click
+                             dialog-title="确认删除 ?"
+                             dialog-content="您确认删除这条采购单吗?"
+                             dialog-template="pr-dialog-confirm.html"
+                             request-url="rest/authen/invoicesOrder /delete?id={{tr.id}}"
+                             callback="$root.utils.refreshHref()"
+                             emitted="reloadList">
+                          <span class="delete-link-icon">&nbsp;</span>
+                          </a>
+                        </span>
+                        </span>
 
+                        <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
+                          <a ng-if="tr.orderStatus!='未提交'" tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                          <span class="watch-detail-icon">&nbsp;</span>
+                          </a>
+
+                        </span>
+                      </span>
                    </span>
                 </div>
 
@@ -81,7 +110,7 @@
                       <span class="flex-item-6 text-left">参照销售单</span>
                       <span class="flex-item-6 text-right">
                           <strong class="color-orange text-normal">
-                            <a href="#/confirmOrder/get.html?id={{tr.relId}}">{{tr.confirmOrderNo }}</a>
+                            <a tab-nav tab-name="销售单" tab-href="#/confirmOrder/get.html?id={{tr.relId}}">{{tr.confirmOrderNo }}</a>
                           </strong>
 
                       </span>

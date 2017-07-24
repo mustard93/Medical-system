@@ -5,7 +5,7 @@
     <div class="first-medical-application" ng-controller="customerAddressCtrl">
       <div class="header-info relative mgb-l">
         <p class="pdb-s pdt-s crumbs pd-c-xxl">供应商中心 >
-          <a href="#/supplier/query.html">
+          <a tab-nav tab-name="供应商管理" tab-href="#/supplier/query.html">
              <em class="color-custom-orange">供应商管理</em>
           </a>
          <em>>供应商管理-详情</em>
@@ -251,10 +251,10 @@
                        dialog-title="确认返回?"
                        dialog-content="该申请单存在未保存数据，是否保存?"
                        dialog-template="pr-dialog-return.html"
-                       nosave-callback="goTo('#/supplier/query.html')"
+                       nosave-callback="goTo({tabHref:'#/supplier/query.html',tabName:'供应商管理'})"
                        save-callback="submitForm('editForm','exit');
-                       $root.goTo('#/supplier/query.html')">返回申请单列表</a>
-                    <a ng-if="!changeFlag" href="#/supplier/query.html">返回申请单列表</a>
+                       $root.goTo({tabHref:'#/supplier/query.html',tabName:'供应商管理'})">返回申请单列表</a>
+                    <a ng-if="!changeFlag" tab-nav tab-name="供应商管理" tab-href="#/supplier/query.html">返回申请单列表</a>
                   </span>
                   <span bottom-button-list="bottomButtonList">  </span>
                   <span class="mgl" ng-if="$root.hasAuthor('供应商管理删除')">
@@ -265,7 +265,7 @@
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/supplier/query.html')"
+                       callback="$root.goTo({tabHref:'#/supplier/query.html',tabName:'供应商管理'})"
                        params='{"id":showData.id}'
                        request-url="rest/authen/supplier/delete">删除</a>
                   </span>
@@ -323,10 +323,10 @@
                     </span>
               </span>
 
-              <a ng-if="!showData.businessApplication.businessStatus" href="#/supplier/query.html">返回申请单列表</a>
+              <a ng-if="!showData.businessApplication.businessStatus" tab-nav tab-name="供应商管理" tab-href="#/supplier/query.html">返回申请单列表</a>
               <span>
                 <button type="button" name="button"  class="pr-btn-save-glodbg mgl mgt">
-                  <a class="color-white" href="#/supplier/edit.html?id={{showData.id}}">编辑</a>
+                  <a class="color-white" tab-nav tab-name="供应商管理" tab-href="#/supplier/edit.html?id={{showData.id}}">编辑</a>
                 </button>
               </span>
           </div>

@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
-         <a href="#/confirmOrder/query.html">采购退货单</a> > 新建采购退货单
+         <a tab-nav tab-name="采购退货单" tab-href="#/confirmOrder/query.html">采购退货单</a> > 新建采购退货单
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
@@ -252,7 +252,7 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
+             nosave-callback="goTo({tabHref:'#/purchaseReturnOrder/query.html',tabName:'采购退货单'})"
              save-callback="submitForm('saleReturnEditForm','exit')">返回采购退货单列表
           </a>
 
@@ -265,7 +265,7 @@
              dialog-content="您确认删除这条采购退货单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
-             callback="$root.goTo('#/purchaseReturnOrder/query.html')">删除
+             callback="$root.goTo({tabHref:'#/purchaseReturnOrder/query.html',tabName:'采购退货单'})">删除
           </a>
           <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"

@@ -7,7 +7,9 @@
 
     <div class="header-info relative mgb-l">
         <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
-            <a href="#/firstMedicalApplication/query.html"><em class="color-custom-orange">首营管理</em></a>
+            <a tab-nav
+            tab-name='首营品种管理'
+            tab-href="#/firstMedicalApplication/query.html"><em class="color-custom-orange">首营管理</em></a>
             <em>>首营品种申请</em>
         </p>
         <div class="pd-c-xxl pdt-l pdb-l">
@@ -34,7 +36,7 @@
                   scope-error-msg="errorMsg"
                   scope-data="formData"
                   novalidate="true"
-                  callback="submitFormAfter('#/firstMedicalApplication/edit-step-3.html');watchFormChange('formData')">
+                  callback="submitFormAfter('#/firstMedicalApplication/edit-step-3.html','首营品种管理');watchFormChange('formData')">
                 <!-- 单号 -->
                 <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
                     <div class="flex-item-6">
@@ -72,7 +74,9 @@
                nosave-callback="goTo('#/otherCustomerApplication/query.html')"
                save-callback="submitForm('firstMedical-editForm','save');$root.goTo('#/otherCustomerApplication/query.html')">返回申请单列表
             </a>
-            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+            <a ng-if="!changeFlag" tab-nav
+            tab-name='首营品种管理'
+            tab-href="#/firstMedicalApplication/query.html">返回申请单列表</a>
           </span>
                         <span class="mgl">
             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -82,7 +86,7 @@
                dialog-title="确认删除?"
                dialog-content="删除后将无法恢复,确认删除?"
                dialog-template="pr-dialog-submit.html"
-               callback="$root.goTo('#/firstMedicalApplication/query.html')"
+               callback="$root.goTo({'tabHref':'#/firstMedicalApplication/query.html','tabName':'首营品种管理'})"
                params='{"id":formData.id}'
                request-url="rest/authen/firstMedicalApplication/delete">删除</a>
           </span>
@@ -93,7 +97,7 @@
             </button>
           </span>
                         <span class="mgl">
-            <button class="pr-btn-save-glodbg" ng-click="pageTo('#/firstMedicalApplication/edit1.html?id='+formData.id)">上一步</button>
+            <button class="pr-btn-save-glodbg" ng-click="$root.goTo({'tabHref':'#/firstMedicalApplication/edit1.html?id='+formData.id,'tabName':'首营品种管理'})">上一步</button>
           </span>
                         <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"

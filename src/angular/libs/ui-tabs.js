@@ -114,7 +114,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                     $rootScope.$broadcast('tabOpenStarting', tab, lastTab);
 
                     return $q.resolve(tab.template).then(function (tpl) {
-                        tab.template = tpl;
+                        tab.template = '<div ng-controller="tabCtrl">'+tpl+'</div>';
 
                         $rootScope.$broadcast('tabOpenSuccess', tab, lastTab);
 
@@ -185,7 +185,12 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
 
                 console.log("refresh-tab", tab);
 
-                tab = getTab(tab);
+                if(tab){
+                    tab = getTab(tab);
+				}else{
+                	tab = this.current;
+                	// console.log(" this.current", this.current);
+				}
 
                 if (tab) {
                     refreshTab(tab);
@@ -201,7 +206,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                     angular.extend(tab, newTab);
 
                     getTemplateForUrl(newTab.templateUrl).then(function (template) {
-                        tab.template = template;
+                        tab.template =  '<div ng-controller="tabCtrl">'+template+'</div>';
                         replaceTab(tab);
                     });
                 }
@@ -312,6 +317,8 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
             }, option);
 
             tab.template = getTemplateFor(tab);
+
+
             tab.close = function () {
                 return closeTab(tab);
             };
@@ -355,6 +362,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                 template = tab.template;
             } else if (isDefined(tab.templateUrl)) {
                 template = $templateRequest(tab.templateUrl);
+                console.log("template",template);
             }
 
             return $q.resolve(template);
@@ -1657,7 +1665,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
              */
             function tabOpenStarting(e, tab) {
                 scope.current = uiTabs.current;
-                tab.loading = true;
+                tab.loading = false;
             }
 
             /**

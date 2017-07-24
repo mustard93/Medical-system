@@ -11,7 +11,7 @@
                 class="select pr-select pr-select-sm z-index-l relative"
                 style="width:120px;"
                 ng-model="itemChooise"
-                ng-change="$root.utils.goTo(itemChooise)">
+                ng-change="$root.utils.goTo({'tabHref':itemElseChooise,'tabName':itemElseChooiseName})">
           <option ng-repeat="opt in selectObj" value="{{opt.link}}" ng-selected="(itemChooise==opt.link)?'selected':false">{{opt.name}}</option>
         </select>
       </div>
@@ -41,7 +41,7 @@
         <div ng-if=" $root.hasAuthor(createBtnAuthor) " class="pos-rel-tl order-create-btn inline-block fl-l">
           <!--<a ng-if="isShowCreateBtn" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>-->
 
-          <a ng-if="isShowCreateBtn" href="{{createNewUrl}}" tab-nav tab-href="{{createNewUrl}}" tab-name="{{tabName || componentTitle}}" ><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
+          <a ng-if="isShowCreateBtn"  tab-nav tab-href="{{createNewUrl}}" tab-name="{{tabName || componentTitle ||isShowCreateBtn}}" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
 
         </div>
 
