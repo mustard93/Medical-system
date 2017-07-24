@@ -580,6 +580,12 @@ function alertOk($rootScope, modal) {
 
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           refreshHref : function (confirmMsg) {
+
+              if(conf.useTab){
+                  $rootScope.refreshTab();
+                  return;
+              }
+
               var url=window.location.href;
               //避免参数越来越多
               if (url.indexOf('refreshTime=') > -1) {
