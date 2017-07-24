@@ -4019,9 +4019,230 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
     /**
+      药械订单列表-采购
+    */
+    function businessFlowShow() {
+      return {
+        restrict: 'EA',
+        scope: {
+            businessKey:"@",
+            businessType: "@"
+        },
+        templateUrl:  Config.tplPath +'tpl/project/businessFlowShow.html',
+        link: function ($scope, element, $attrs,ngModel) {
+
+        }//link
+      };
+    }
+     /**
+      * 业务单流程展示
+      */
+     function canvasBusinessFlow (modal,utils) {
+       'use strict';
+       return {
+           restrict: 'AE',
+           // scope: false,
+           scope: {
+               ngModel:"=?"
+           },
+         link: function ($scope, element, $attrs) {
+
+           // $scope.ngModel;
+           // var data=$scope[$attrs.ngModel];
+               var data= $scope.ngModel;
+              //  console.log(data);
+               var curRelId=$attrs.curRelId;//当前页面业务单id
+              //  console.log(data);
+              // console.log(data);
+               require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+
+                 //点击回调方法
+                 function clickCallback(event,that){
+                     if(angular.isDefined($attrs.disableClick)){
+                         return;
+                     }
+                   var moduleType=that.currentNode.data.moduleType;
+                   var relId= that.currentNode.data.relId;
+                    var subModuleAttribute= that.currentNode.data.subModuleAttribute;
+                   if(!moduleType||!relId){
+                     console.log("moduleType="+moduleType+",relId="+relId);
+                     return;
+                   }
+
+                   if(curRelId==relId){//当前页面节点点击不做跳转
+                     return;
+                   }
+                   var url="#/"+moduleType+"/get.html?id="+relId;
+
+                   if(moduleType=='lossOrder'){
+                       url="#/lossOverOrder/get-reimburse.html?id="+relId;
+                   }
+                   else if(moduleType=='overOrder'){
+                       url="#/lossOverOrder/get-overflow.html?id="+relId;
+                   }
+
+                   else if(moduleType=="outstockOrder"){
+                        if(subModuleAttribute=="销售出库单"||subModuleAttribute=="销售出库单_红字"){
+                               url="#/saleOutstockOrder/get.html?id="+relId;
+                        }
+                        else{
+                             url="#/otherOutstockOrder/get.html?id="+relId;
+                        }
+                   }
+
+                   else if(moduleType=="instockOrder"){
+                        if(subModuleAttribute=="采购入库单"||subModuleAttribute=="采购入库单_红字"){
+                            url="#/purchaseInstockOrder/get.html?id="+relId;
+                        }
+                        else{
+                             url="#/otherInstockOrder/get.html?id="+relId;
+                        }
+                   }
+
+                   //var tabNameMap={"",""};
+                   var tabPara={
+                       tabName:"查看详细",
+                       tabHref: url
+                   }
+
+                   utils.goTo(tabPara);
+                 }//end clickCallback
+
+                 //参数定义
+                 var option={
+
+                     node:{
+                       clickCallback:clickCallback
+                     }
+                 };
+                 if($attrs.baseImageUrl){
+                   option.baseImageUrl=$attrs.baseImageUrl;
+                 }
+                 if($attrs.spacingWidth){
+                   option.spacingWidth=parseInt($attrs.spacingWidth);
+                 }
+                 if($attrs.spacingHeight){
+                   option.spacingWidth=parseInt($attrs.spacingHeight);
+                 }
+
+
+                 var workflow=new CanvasBusinessFlow(element[0],option);
+                 if ($attrs.scopeExtend){
+                     var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                     if(scopeExtend){
+                       if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+                     }
+                 }
+
+                 workflow.addCanvasBusinessFlow(data,curRelId);
+
+               });//WorkflowProcess
+
+         }//end link
+       };
+     }//canvasWorkflow
+
+
+
+     /**
+      * []
+      canvas-workflow
+      */
+     function canvasWorkflow (modal,utils) {
+       'use strict';
+       return {
+           restrict: 'AE',
+           scope: {
+               workflowTaskData:"=?",
+               ngModel:"=?"
+           },
+         link: function ($scope, element, $attrs) {
+           var workflow=null;
+
+           // $scope.ngModel;
+           // var data=$scope[$attrs.ngModel];
+
+           $scope.$watch("ngModel", function(value) {
+             console.log("watch.workflow.ngModel",value);
+             if(workflow)workflow.reload(value);
+           }, true);
+
+           var data= $scope.ngModel;
+
+           require(['WorkflowProcess'], function(WorkflowProcess) {
+
+             function clickCallback(event,that){
+
+                     if(!angular.isDefined($attrs.modalUrl)){
+                         return;
+                     }
+
+                      modal.closeAll();
+
+                     // alert(that.currentNode.text);
+                       $scope.$parent.currentEvent=that.currentNode.data;
+                       modal.open({
+                         template: $attrs.modalUrl,
+                         className: 'ngdialog-theme-right',
+                         cache: false,
+                         trapFocus: true,
+                         overlay: ($attrs.modalOverlay == "true"),
+                         data: that.currentNode.data,
+                         scope: $scope.$parent,
+                         controller: ["$scope", "$element", function ($scope, $element) {
+                             $(".ngdialog-content", $element).width("50%");
+                         }]
+                     });
+                 }//end clickCallback
+
+             var option={
+               showStatus:$attrs.showStatus=="true",
+               node:{
+                 clickCallback:clickCallback
+               }
+             };
+
+             workflow=new WorkflowProcess($attrs.id,option);
+
+             if ($attrs.scopeExtend){
+               var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+               if(scopeExtend){
+                 if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+               }
+             }
+
+             workflow.addWorkflowProcess(data);
+
+             if($scope.workflowTaskData){
+               workflow.addWorkflowTaskData($scope.workflowTaskData);
+             }
+               //编辑节点回掉函数 新建保存，作用域调用不到该函数
+               // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
+               //   modal.closeAll();
+               //   workflow.reload();
+               //
+               // }
+               //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
+
+               // if(angular.isDefined($attrs.updateWorkflowFlag)){
+               //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
+               //     modal.closeAll();
+               //     workflow.reload();
+               //   }, true);
+               // }
+
+
+           });//WorkflowProcess
+         }//end link
+       };
+     }//canvasWorkflow
+    /**
      * 加入项目
      */
     angular.module('manageApp.main')
+    .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
+    .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
+    .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
       .directive("textInterception", textInterception)

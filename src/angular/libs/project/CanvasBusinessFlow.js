@@ -53,6 +53,19 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
               image:"../images/logo.png"
             }
         };
+        /**
+         * @Description: 构造函数
+         * @param {Object} divId dom节点或dom的id
+           * @param {Object} option 配置参数
+         * @author liumingquan
+         * @date 2017年7月24日
+
+         修改记录：
+            @Description: divId 参数支持  dom节点或dom的id
+         * @author liumingquan
+         * @date 2017年7月24日
+        */
+
         function CanvasBusinessFlow(divId,option){
           if(option){
               this.options=jQuery.extend(true,{},defaultOptions,option);
@@ -60,7 +73,11 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
               this.options=jQuery.extend(true,{},defaultOptions);
           }
 
-          var canvas = document.getElementById(divId);
+          var canvas=divId;
+          if(typeof  divId == 'string'){
+               canvas = document.getElementById(divId);
+          }
+      
           this.canvas=canvas;
           var stage = new JTopo.Stage(canvas);
           var scene = new JTopo.Scene(stage);
