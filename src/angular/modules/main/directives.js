@@ -1846,8 +1846,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             var chosenConfig = {
                 search_contains: true,
                 no_results_text: "没有找到",
-                display_selected_options: false,
-                default_single_text: "选择一个..."
+                display_selected_options: false
             };
 
             //后缀连接符号
@@ -1880,8 +1879,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                data0Val=null;
              }
 
-
-
              if(angular.isDefined($attrs.multiple)){
                  if (angular.isDefined($attrs.defaultEmpty)) {
                     _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
@@ -1889,16 +1886,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                  }
              } else {
-
-               //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
-               for(var i=0;i<data.length;i++){
-                 if(ngModel.$viewValue==data[i].value){
-                    return ngModel.$viewValue;
-                 }
-               }
-               //下拉无数据情况下，初始值为null。
-               ngModel.$setViewValue(null);
-
                 if (angular.isDefined($attrs.defaultEmpty)) {
                  _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                 } else {
@@ -2002,20 +1989,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               // 监听一个model 当一个model清空时,重置chosen 选择数据
               //model 变化时，触发回调方法。
               if ($attrs.ngModel &&(!angular.isDefined($attrs.multiple))) {
-
-                    if ($attrs.selectData||$attrs.callback){
-                      return
-                    }
-
                 $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
+
                       // console.log("watch,$attrs.ngModel1");
                         if(!chosenObj|| newValue==oldValue)return;
+
                         try{
                             var chosen=chosenObj.data("chosen");
                             if(!chosen)return;
                             if(!chosen.results_data||chosen.current_selectedIndex<0)return;
-                            // chosen.results_data[chosen.current_selectedIndex];
+                            chosen.results_data[chosen.current_selectedIndex];
                             // console.log("watch,$attrs.ngModel2");
+
 
                               if(callback)callback();
 
@@ -2262,7 +2247,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
 
 
-                  watchNgModel();
+                  watchNgModel(handleSearch);
 
                   // if ($attrs.params) {
                   //
@@ -2315,11 +2300,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           $attrs.$observe("params", function(value) {
 
                               _params = $scope.$eval(value);
-                              // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
-                              //该参数，可以不使用废弃。
-                              // if(firstSelectSource==value)return;
-                              //     firstSelectSource=value;
-                                // ngModel.$setViewValue(null);
+                              if(firstSelectSource==value)return;
+
+                                  firstSelectSource=value;
+                                ngModel.$setViewValue(null);
 
                               getData(_params);
                           });
@@ -2328,11 +2312,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           //监听对象
                           $scope.$watch($attrs.params, function(value) {
                               _params = value;
-                              // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
-                              //该参数，可以不使用废弃。
-                              // if(firstSelectSource==value)return;
-                              // firstSelectSource=value;
-                                // ngModel.$setViewValue(null);
+                              if(firstSelectSource==value)return;
+                                ngModel.$setViewValue(null);
 
                               getData(_params);
                           }, true);
@@ -2341,18 +2322,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   } else {
                     $attrs.$observe("selectSource", function(value) {
 
-                        // 修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
-                        //该参数，可以不使用废弃。
-                        // if (!$attrs.noFirstSelectSource) {
-                        //   if (firstSelectSource == value) return;
-                        // }
-                        // firstSelectSource=value;
+                        //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                        if (!$attrs.noFirstSelectSource) {
+                          if (firstSelectSource == value) return;
+                        }
 
-                        // ngModel.$setViewValue(null);
+                        ngModel.$setViewValue(null);
 
                         // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
                         getData();
-
                     });
                   }
 
@@ -2377,8 +2355,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           var data = results[0];
 
                           //如果已定义请求数据后的回调，执行回调
-                          if ($attrs.callback) {
-                            $scope.$eval($attrs.callback);
+                          if ($attrs.callBack) {
+                            $scope.$eval($attrs.callBack);
                           }
 
                           if (!data) data = [];
@@ -2425,7 +2403,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       });
               }
 
-              watchNgModel();
+              watchNgModel(getData);
 
 
               $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
@@ -2473,8 +2451,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var chosenConfig = {
                     search_contains: true,
                     no_results_text: "没有找到",
-                    display_selected_options: false,
-                    placeholder_text_single: "选择一个..."
+                    display_selected_options: false
                 };
 
                 //后缀连接符号
@@ -2499,7 +2476,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                //设置选中值。1.设置优先级为：ngModel》defaultEmpty》data[0]
                //data 是返回的option 对象数组
                function getInitSelected (data){
-                 if(!data)data=[];
                  var _selected=null;
                  var data0Val=data[0]?data[0].value:null;
 
@@ -2508,8 +2484,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    data0Val=null;
                  }
 
-
-
                  if(angular.isDefined($attrs.multiple)){
                      if (angular.isDefined($attrs.defaultEmpty)) {
                         _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
@@ -2517,15 +2491,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                      }
                  } else {
-                   //下拉数据中包含，初始值，则不编号。如果不包含，则清空原来的初始值为null。下拉无数据情况下，初始值为null。
-                   for(var i=0;i<data.length;i++){
-                     if(ngModel.$viewValue==data[i].value){
-                        return ngModel.$viewValue;
-                     }
-                   }
-                   //下拉无数据情况下，初始值为null。
-                   ngModel.$setViewValue(null);
-
                     if (angular.isDefined($attrs.defaultEmpty)) {
                      _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                     } else {
@@ -2533,9 +2498,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     }
                  }
-
-
-
                   ngModel.$setViewValue(_selected);
 
                   if (_selected===null) {
@@ -2618,7 +2580,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 //监听变化
                 function watchNgModel(callback){
 
-                  //不是复选框 的时候才调用该方法
+                  //只有复选框 的时候才调用该方法
                   // 监听一个model 当一个model清空时,重置chosen 选择数据
                   //model 变化时，触发回调方法。
                   if ($attrs.ngModel &&(!angular.isDefined($attrs.multiple))) {
@@ -2902,28 +2864,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
     //省市县的三级联动
-    function selectAddress ($http, $q, $compile,requestData) {
+    function selectAddress ($http, $q, $compile) {
         var cityURL, delay, templateURL;
         delay = $q.defer();
         templateURL = Config.tplPath+'tpl/cascading-select-address/cascading-select-address.html';
         cityURL = Config.tplPath+'tpl/cascading-select-address/city.min.js';
-        // if(Config.cityURL){cityURL=Config.tplPath+Config.cityURL;}
-
-        var _url ="rest/authen/regionManage/queryDetailForWeb";
-
-        // $http.get(_url).success(function(data) {
-        //     return delay.resolve(data);
-        // });
-
-
-        requestData(_url, {}, 'post')
-            .then(function (results) {
-                if (results[1].code === 200) {
-                    return delay.resolve(results[1].data);
-                }
-            })
-
-
+        $http.get(cityURL).success(function(data) {
+            return delay.resolve(data);
+        });
         return {
             restrict: 'A',
             scope: {
@@ -3521,67 +3469,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           			enable: true,
           			idKey: $scope.idKey||"id",
           			pIdKey: $scope.pIdKey||"pId",
-          			rootPId: "",
+          			rootPId: 0,
           		}
           	},
             callback: {
               onClick: function(event, treeId, treeNode) {
                   console.log(treeNode);
                   $scope.ngModel=treeNode.id;
-                  $scope.selectTreeNode=treeNode;
                   $scope.$apply();
               }
             }
           };
           require(['ztree'], function(store) {
 
-            var treeObj= $.fn.zTree.init($element, setting, zNodes);
-
-            //自动展开选中项。用于重新加载数据后，定位到数据
-            if($scope.selectTreeNode){
-                treeObj.selectNode($scope.selectTreeNode);
-                        // treeObj.expandNode($scope.selectTreeNode, true, true, true);
-            }
-            //使用广播方式，操作ztree节点
-              //添加节点 modify by liumingquan
-            $scope.$on("zTreeAddNode", function(evt,node) {
-                  console.log('$scope.$on("zTreeAddNode",',evt,node);
-                var parntId=node[setting.data.simpleData.pIdKey];
-                  var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
-                node = treeObj.addNodes(parentNode, node);
-                // if(node)treeObj.selectNode(node);
-            });
-
-            //更新节点  modify by liumingquan
-            $scope.$on("zTreeUpdateNode", function(evt,node) {
-                console.log('$scope.$on("zTreeUpdateNode",',evt,node);
-                  var id=node[setting.data.simpleData.idKey];
-                var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
-                if(treeNode==null){//tree中没有，说明是新添加的，
-                    var parntId=node[setting.data.simpleData.pIdKey];
-                    var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
-                  treeObj.addNodes(parentNode, node);
-                }else{
-                  $.extend( true,treeNode,  node);
-                  treeObj.updateNode(treeNode);
-                }
-
-
-            });
-            //删除节点  modify by liumingquan
-            $scope.$on("zTreeRemoveNode", function(evt,id) {
-                  console.log('$scope.$on("zTreeRemoveNode",',evt,id);
-
-                var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
-
-                if(node)treeObj.removeNode(node);
-            });
-            // 刷新整个节点 modify by liumingquan
-            $scope.$on("zTreeReloadData", function() {
-               //  getData(_detailsParams);
-               getData({});
-
-            });
+              $.fn.zTree.init($element, setting, zNodes);
 
           });//require
       }
@@ -3589,7 +3490,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         restrict: 'EA',
         scope: {
           "ngModel":"=?",
-          "selectTreeNode":"=?",
           "idKey":"@?",
           "pIdKey":"@?"
         },
@@ -3667,6 +3567,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                });
 
           }
+
+          $scope.$on("ajaxUrlReload", function() {
+             //  getData(_detailsParams);
+             getData({});
+
+          });
 
         }//end link
       };
@@ -3907,19 +3813,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }//zTreeSelect
 
     /**
-     * [showInfoModal 全局弹出层显示信息组件]
-     *
+     *  全局弹出层显示信息组件
      *  支持两种获取信息的模式：
-     *  1、从本地读取，getDataType: local
-     *  2、从远程服务器拉取  getDataType: fetch (未完成)
-     *
-     * @method showInfoModal
-     * @param  {[type]}      requestData [description]
-     * @param  {[type]}      utils       [description]
-     * @param  {[type]}      alertOk     [description]
-     * @param  {[type]}      alertError  [description]
-     * @return {[type]}                  [description]
-     * create by liuzhen at 2017/06/23
+     *    1、从本地读取，getDataType: local
+     *    2、从远程服务器拉取  getDataType: fetch
+     *  create by liuzhen at 2017/06/23
      */
     function showInfoModal (requestData, utils, alertOk, alertError) {
       'use strict';
@@ -3928,28 +3826,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         scope: true,
         replace: true,
         templateUrl: function (element, attrs) {
-          return Config.tplPath + attrs.templateUrl + '.html';
+          // return Config.tplPath + scope.templateUrl;
+          if (($(document).height() - $(element).offset().top) > 200) {
+            return Config.tplPath + attrs.templateUrl + '.html';
+          } else {
+            return Config.tplPath + attrs.templateUrl + '2.html';
+          }
         },
         link: function (scope, element, attrs) {
-          // 获取当前弹出层元素的高度值和宽度
-          var _eleHeight = angular.element(element).height();
-          var _eleWidth = angular.element(element).width();
 
-          // 当前弹出层元素的父元素距离body底部的距离
-          // 当前弹出层元素的父元素距离body右边的距离
-          var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
-          var _eleRight = $(document.body).width() - $(element).parent().offset().left;
+          var _test = $(document).height() - $(element).offset().top;
 
-          // 计算当前元素与页面底部的距离
-          // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
-          if (_eleBottom < _eleHeight) {
-            $(element).css({'top' : (0 - _eleBottom - 20)});
-            $(element).find('div.arrow-icon').css({'top': '80%'});
-          }
 
-          if (_eleRight < _eleWidth) {
-            $(element).css({'left': 'inherit', 'right': '150%'});
-            $(element).find('div.arrow-icon').css({'top': '80%'});
+
+          if (_test < 500) {
+            console.log(_test);
           }
 
           // 获取数据拉取模式
@@ -3959,80 +3850,42 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             // 详细信息
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
+
+
         }
       };
     }
 
     /**
-     * [showInfoModalbox 全局弹出层显示信息组件]
-     *
-     *  支持两种获取信息的模式：
-     *  1、从本地读取，getDataType: local
-     *  2、从远程服务器拉取  getDataType: fetch (未完成)
-     *
-     * @method showInfoModalbox
-     * @param  {[type]}         requestData [description]
-     * @param  {[type]}         utils       [description]
-     * @param  {[type]}         alertOk     [description]
-     * @param  {[type]}         alertError  [description]
-     * @return {[type]}                     [description]
-     * @author create by liuzhen at 2017/06/23
+     * tab导航
+     * 使用方式 :
+     * tab-nav
+     * tab-name: string
+     * tab-href: string
+     * @param $rootScope
+     * @returns {{scope: {tabName: string, tabHref: string}, restrict: string, link: link}}
      */
-    function showInfoModalbox (requestData, utils, alertOk, alertError) {
-      'use strict';
-      return {
-        restrict: 'EA',
-        scope: true,
-        replace: true,
-        templateUrl: function (element, attrs) {
-          return Config.tplPath + attrs.templateUrl + '.html';
-        },
-        link: function (scope, element, attrs) {
-          // 定义当前组件的父元素
-          var _parent = $(element).parent();
+    function  tabNav($rootScope){
+        return {
+            scope:{
+                tabName:"@",
+                tabHref:"@"
+            },
+            restrict: 'A',
+            link: function ($scope, element, $attrs) {
 
-          // 获取当前弹出层元素的高度值和宽度
-          var _eleHeight = angular.element(element).height();
-          var _eleWidth = angular.element(element).width();
+                var tabObj=  {
+                    tabName: $scope.tabName,
+                    tabHref: $scope.tabHref
+                };
 
-          // 当前弹出层元素的父元素距离body底部和右边的距离
-          var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
-          var _eleRight = $(document.body).width() - $(element).parent().offset().left;
+                console.log("tabObj",tabObj);
 
-          // 计算当前元素与页面底部的距离
-          // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
-          if (_eleBottom < _eleHeight) {
-            $(element).css({'top': 'inherit', 'bottom': '-5px'});
-            $(element).find('div.arrow-icon').css({'top': '90%'});
-          }
-
-          if (_eleRight < _eleWidth) {
-            $(element).css({'left': 'inherit', 'right': '150%'});
-            $(element).find('div.arrow-icon').css({'top': 'inherit', 'bottom': '8px', 'left': 'inherit', 'right': '-4px', 'transform': 'rotate(135deg)'});
-          }
-
-          // 获取数据拉取模式
-          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
-            // 弹出层标题
-            scope.infoTitle = attrs.infoTitle || '暂无';
-            // 详细信息
-            scope.infoObject = JSON.parse(attrs.infoObject);
-          }
-
-          // 为其父元素添加样式
-          if (!$(_parent).hasClass('cur-pot')) { $(_parent).addClass('cur-pot'); }
-          if (!$(_parent).hasClass('color-custom-orange')) { $(_parent).addClass('color-custom-orange'); }
-
-          // 为其父元素绑定鼠标移入事件
-          $(_parent, element).hover(function () {
-            $(element).show();
-          }, function () {
-            $(element).hide();
-          });
-
-
-        }
-      };
+                element.on('click',function(){
+                    $rootScope.addTab(tabObj)
+                });
+            }
+        };
     }
 
 
@@ -4071,8 +3924,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
       .directive("formItem", formItem)
       .directive("autoComplete", autoComplete)
-      .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
+      .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
       .directive("customConfig", customConfig)
       .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
-      .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox]);
+      .directive("tabNav",['$rootScope',tabNav])
 });
