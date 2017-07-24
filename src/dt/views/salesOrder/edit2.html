@@ -104,14 +104,15 @@
               <span ng-if="numberingPolicy=='auto'" class="mgr color-9">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
               <span class="relative">
                 <span class="color-9">单据日期：</span>
-                <input ng-if="initFlag" type="text"
-                       datepicker
-                       class="ipt-date ipt color-3"
-                       style="border: 1px solid rgba(0,0,0,.2);"
-                       ng-readonly="true"
-                       placeholder=""
-                       ng-model="formData.orderDate" />
-                      <span class="date-icon"></span>
+                <span class="date-icon-outside">
+                  <input ng-if="initFlag" type="text"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.orderDate" />
+                  <span class="date-icon"></span>
+                </span>
               </span>
               <span class="text-right color-9 fl-r">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               <span class="fl-r mgr-l color-9">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
@@ -145,13 +146,15 @@
                             select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                   </span>
-                   <span class="mgr">
-                     <span class="mgr color-9" ng-if="formData.orderSource!='线上订单'">预计到货日期：
-                        <input type="text" class="ipt  pr-short-ipt color-6" placeholder="期望到货时间"
-                         readonly="true" datepicker   ng-model="formData.expectDate" style="width: 180px; ">
-                        <span class="date-icon" style="right: 15px;  "></span>
+                  <span class="mgr">
+                    <span class="mgr color-9" ng-if="formData.orderSource!='线上订单'">预计到货日期：
+                      <span class="date-icon-outside">
+                        <input type="text" class="ipt-date ipt color-3" placeholder="期望到货时间"
+                           readonly="true" datepicker   ng-model="formData.expectDate">
+                          <span class="date-icon"></span>
                       </span>
-                      <span ng-if="formData.orderSource=='线上订单'" class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
+                    </span>
+                    <span ng-if="formData.orderSource=='线上订单'" class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
                    </span>
                 </p>
 
