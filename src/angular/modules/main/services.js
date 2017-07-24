@@ -421,7 +421,7 @@ function alertOk($rootScope, modal) {
       }
 
       //工具类
-      function utils ($timeout) {
+      function utils ($timeout,$rootScope) {
 
         // 递归获取：data.data.data 获取子属性值
         function getObjectValByKeyArr(obj,keyArr,index){
@@ -571,6 +571,7 @@ function alertOk($rootScope, modal) {
 
           // url存在则跳转，否则刷新。
           goOrRefreshHref : function (url,confirmMsg) {
+
             if(url){
                utilsObj.goTo(url,confirmMsg);
                return;
@@ -599,14 +600,25 @@ function alertOk($rootScope, modal) {
 
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           goTo : function (url,confirmMsg) {
-            url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-            if(confirmMsg){
-              dialogConfirm(confirmMsg, function () {
-                window.location.assign(url);
-              }, null);
-            }else{
-                window.location.assign(url);
-            }
+
+                console.log("URL",url,typeof  url == 'object');
+
+                if(typeof  url == 'object'){
+                    $rootScope.addTab({
+                        tabName: url.tabName,
+                        tabHref: url.tabHref
+                    });
+                    return;
+                }
+
+                url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                if(confirmMsg){
+                  dialogConfirm(confirmMsg, function () {
+                    window.location.assign(url);
+                  }, null);
+                }else{
+                    window.location.assign(url);
+                }
           },
 
           //递归 获取：data.data.data 获取子属性值
@@ -1363,7 +1375,7 @@ e
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
       .factory('store', store)
-      .factory('utils', ["$timeout",utils])
+      .factory('utils', ["$timeout","$rootScope",utils])
       .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
       .factory('UICustomTable', ["$filter","utils",UICustomTable])
       .factory('proLoading', proLoading)

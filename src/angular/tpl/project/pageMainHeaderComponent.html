@@ -1,6 +1,6 @@
 <div class="page-main-header-component content-wrapper-heading pdb-m mgb-l relative clearfix">
   <!-- 面包屑导航 -->
-  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl"></div>
+  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl" ng-bind-html="crumbsCode"></div>
   <!-- 页头主内容区 -->
   <div class="pd-c-xxxxxl clearfix">
     <!-- 页头主内容上部 -->
@@ -39,8 +39,12 @@
       <div class="flex-item-4">
 
         <div ng-if=" $root.hasAuthor(createBtnAuthor) " class="pos-rel-tl order-create-btn inline-block fl-l">
-          <a ng-if="isShowCreateBtn" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
+          <!--<a ng-if="isShowCreateBtn" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>-->
+
+          <a ng-if="isShowCreateBtn"  tab-nav tab-href="{{createNewUrl}}" tab-name="{{tabName || componentTitle}}" ><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
+
         </div>
+
 
       </div>
       <div class="flex-item-8 text-right">

@@ -6,14 +6,204 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
-      //  $http.defaults.withCredentials=true;
+        //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+
+
+
+        $rootScope.tabs = uiTabs.tabs;
+
+        $rootScope.$on('tabChangeStart', function (e, tab) {
+
+            console.log('打开tab 页面',tab,$scope.tabs);
+
+        });
+
+        $rootScope.$on('tabChangeSuccess', function (e, tab) {
+            console.log(tab);
+
+            $rootScope.currentTab = uiTabs.current;
+        });
+
+        $rootScope.addTab = function (item) {
+
+            if(!item.tabHref){
+                item.tabHref=item.ahref;
+            }
+
+            if(!item.tabName){
+                item.tabName=item.showName;
+            }
+
+
+            if(!$scope.mainStatus.pageParams){
+                $scope.mainStatus.pageParams={};
+            }
+            $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;;
+
+            var obj=$rootScope._findInArray($rootScope.tabs,item,'name','tabName');
+
+            //如果tab 存在 并且 url 不为空；就替换tab
+            if(obj.flag && item.tabHref){
+
+                if(item.tabHref.indexOf('#/') != -1){
+                    item.tabHref = item.tabHref.replace('#/','views/');
+                }
+
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
+                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
+
+                $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
+                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
+
+                $rootScope.active(obj.tab);
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
+                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
+                return;
+            }
+
+            //tab 存在  url 为空， 就刷新当前 tab
+            if(obj.flag && !item.tabHref){
+
+                if(!$scope.mainStatus.pageParams){
+                    $scope.mainStatus.pageParams={};
+                }
+                $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
+
+                uiTabs.refresh(obj.tab);
+                return;
+            }
+
+            if(item.tabHref.indexOf('#/') != -1){
+                item.tabHref = item.tabHref.replace('#/','views/');
+            }
+            uiTabs.open({
+                name: item.tabName,
+                templateUrl: item.tabHref
+            });
+        };
+
+        $rootScope.closeTab = function (tab) {
+            uiTabs.close(tab);
+        };
+
+        $rootScope.active = function (tab) {
+            uiTabs.active(tab);
+        };
+
+        $rootScope.closeAll = function () {
+            uiTabs.closeAll();
+        };
+
+        $rootScope.replaceTab=function(tab,newTab) {
+            uiTabs.replace(tab,newTab);
+        };
+
+        $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {
+
+            var flag =false;
+            var tab =null;
+            angular.forEach(list,function (item2,index) {
+                if(item[itemAttr]==item2[listObjAttr]){
+                    flag=true;
+                    tab=item2;
+                    return;
+                }
+            });
+
+            return {
+                tab:tab,
+                flag:flag
+            };
+
+        }
+
+
+       var serializeUrl= function(str){
+
+            if(!str){
+                return {};
+            }
+
+            var param = {}, hash = {}, anchor;
+            var url = str;
+
+            var arr = /([^?]*)([^#]*)(.*)/.exec(url);
+            var ar1 = /^(http|ftp)/.test(arr[1]) ? /(.*?:)?(?:\/?\/?)([\.\w]*)(:\d*)?(.*?)([^\/]*)$/.exec(arr[1]) : /(.*?)([^\/]*)$/.exec(arr[1]);var ar2 = arr[2].match(/[^?&=]*=[^?&=]*/g);
+            var ar3 = arr[3].match(/[^#&=]*=[^#&=]*/g);
+
+            if(ar2){
+                for(var i = 0, l = ar2.length; i < l; i++){
+                    var ar22 = /([^=]*)(?:=*)(.*)/.exec(ar2[i]);
+                    param[ar22[1]] = ar22[2];
+                }
+            }
+
+            if(ar3){
+                for(var i = 0, l = ar3.length; i < l; i++){
+                    var ar33 = /([^=]*)(?:=*)(.*)/.exec(ar3[i]);
+                    hash[ar33[1]] = ar33[2];
+                }
+            }
+
+            if(arr[3] && !/[=&]/g.test(arr[3])){
+                anchor = arr[3];
+            }
+
+            !/^(http|ftp)/.test(arr[1]) && ar1.splice(1, 0, undefined, undefined, undefined);
+
+            function getUrl(){
+                var that = this, url = [], param = [], hash = [];
+
+                url.push(that.protocol, that.protocol && '//' || '', that.host, that.port, that.path, that.file);
+
+                for(var p in that.param){
+                    param.push(p+ '=' +that.param[p]);
+                }
+
+                for(var p in that.hash){
+                    hash.push(p+ '=' +that.hash[p]);
+                }
+
+                url.push(param.length && '?' + param.join('&') || '');
+
+                if(that.anchor){
+                    url.push(that.anchor);
+                }else{
+                    url.push(hash.length && '#' + hash.join('&') || '');
+                }
+
+                return url.join('');
+            }
+
+            return {
+                href: arr[0],
+                protocol: ar1[1],
+                host: ar1[2],
+                port: (ar1[3] || ''),
+                path: ar1[4],
+                file: ar1[5],
+                param: param,
+                hash: hash,
+                anchor: anchor,
+                getUrl: getUrl
+            };
+        };
+
+
 
         //当前用户
         $rootScope.curUser={};
@@ -42,6 +232,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $scope.leftSideisShow = true;   //默认显示
+
         $scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
           // 当Url发生变化，则更新Url信息
           $scope.urlInfo = getUrlInfo();
@@ -53,6 +244,12 @@ define('main/controllers', ['main/init'], function () {
             $scope.leftSideisShow = true;
           }
 
+
+
+            // $scope.findMenuByURL($scope.urlInfo.url);
+
+
+
           // 关闭所有已打开的modal窗体
           modal.closeAll();
         });
@@ -61,6 +258,14 @@ define('main/controllers', ['main/init'], function () {
 
         //页面跳转
         $scope.pageTo = function (_url) {
+            if(typeof  url == 'object'){
+                $rootScope.addTab({
+                    tabName: _url.tabName,
+                    tabHref: _url.tabHref
+                });
+                return;
+            }
+
             window.location.assign(_url);
         };
 
@@ -81,6 +286,7 @@ define('main/controllers', ['main/init'], function () {
 
         //@Deprecated 已移动到$rootScope.utils中 建议使用$rootScope.utils
         $scope.goTo=utils.goTo;
+
         $rootScope.goTo=$scope.goTo;
         //遍历数组，返回满足属性值等于val的。
         $rootScope.getObjectByKeyOfArr = utils.getObjectByKeyOfArr;
@@ -620,7 +826,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
+    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])

@@ -1,17 +1,10 @@
+<!--      alert-error   -->
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
      ng-controller="returnOrderCtrl"
      ajax-url="rest/authen/returnOrder/getOfEdit?lendOrderId={{mainStatus.pageParams.lendOrderId}}&id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;
-               formData.relIds=formData.relIds?formData.relIds:[];
-               changeFlag=watchFormChange('formData');
-               choisedMedicals=false;
-               calcTotalPrice(formData.orderMedicalNos);
-               quantityError=false;
-               canSubmit=false;
-               comfirmQuantity(formData.orderMedicalNos);">
-  <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
-
+     callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+   >
   <form id="editForm"
          name="editForm"
          form-validator
@@ -22,7 +15,7 @@
          scope-error-msg="errorMsg"
          scope-data="formData"
          callback="submitFormAfter();watchFormChange('formData')"
-         novalidate="true">
+         novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
@@ -38,16 +31,24 @@
          </p>
        </div>
 
+
        <!--预入物流中心-->
        <div class="purchaseOrder-edit">
+
+
          <div class="inline-block">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block" style="margin-left: 10px;">
                <p class="mgb-s">预入物流中心</p>
                <p class="text-m color-3">
+
+                 <!--<select ng-if="!formData.customerId"-->
+                         <!--class="ipt-new-select"-->
+                         <!--ng-disabled="true">-->
+                 <!--</select>-->
+
                  <select class="ipt pr-long-ipt color-6"
-                          ng-if="initFlag"
                          data-placeholder=" "
                          chosen
                          ng-disabled="formData.id"
@@ -72,35 +73,38 @@
            <span>增加归还条目</span>
          </a>
        </div>
+
+
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <!--自动获取单号-->
-               <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
+               <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                  <input type="text"
                         class="inline ipt pr-ipt-60 text-center"
                         style="width:100px;"
                         ng-model="formData.orderCode" />
-                  <em ng-if="initFlag&&!formData.orderCode" class="color-red">（必填）</em>
+                  <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
                </span>
-               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
 
-               <span class="relative mgr">
-                 <span>单据日期：</span>
+               <span class="mgr" style="margin-left: 10px;">单据日期:</span>
+               <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                  <input type="text"
+                        style="top:0px;"
                         datepicker
                         class="ipt-date ipt color-3"
-                        style="border: 1px solid rgba(0,0,0,.2);"
                         ng-readonly="true"
                         placeholder=""
                         ng-model="formData.orderDate">
                  <span class="date-icon"></span>
-               </span>
+               </div>
 
                <span class="mgr">对应借出单编号:
-                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
+                 <a ng-if="formData.relOrderNo" href="#/lendOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode}}</a>
                  <span ng-if="!formData.relOrderNo">暂无</span>
                </span>
 
@@ -111,7 +115,6 @@
 
              </div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>
                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus || "暂无" }}</em></span>
              </div>
            </div>
@@ -121,8 +124,9 @@
 
              <span class="mgr">业务部门:</span>
              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                    ng-if="initFlag"
+
                      data-placeholder=" "
+                     no-first-select-source="true"
                      chosen
                      ng-model="formData.salesDepartmentId"
                      select-source="rest/authen/department/queryForSelectOption">
@@ -130,11 +134,11 @@
 
              <span class="mgr" style="margin-left: 20px;">业务人员:</span>
              <select class="ipt pr-short-ipt color-3" style="width:125px; margin-right: 20px;"
-                      ng-if="initFlag"
                      data-placeholder=" "
+                     no-first-select-source="true"
                      chosen
                      ng-model="formData.saleUserId"
-                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
+                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
              </select>
 
              <span class="mgr" style="margin-left: 10px;">计划到货日期:</span>
@@ -209,11 +213,11 @@
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
 
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
-                   <td class="text-center" ng-init="tr.stayCount = (tr.actualCount - tr.cumulativeReturnCount )">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 = 借出数量-已还数量 -->
+                   <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
 
                    <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="tr.quantity==1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-disabled="item.quantity==1">-</button>
                        <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
@@ -229,7 +233,7 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  >
                         </span>
-                       <button ng-disabled="tr.quantity==(tr.actualCount - tr.cumulativeReturnCount)" type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
+                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;">+</button>
                      </div>
                    </td><!-- 计划归还数量 -->
 
@@ -269,7 +273,7 @@
              <div class="flex-item-6 text-right">
                <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
-               <span class="mgr">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
+               <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
              </div>
            </div>
          </div>
@@ -282,7 +286,7 @@
          <span class="mgr">运输方式：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
                  data-placeholder=" "
-                 ng-if="initFlag"
+                 no-first-select-source="true"
                  chosen
                  ng-model="formData.payAndDelivery.transportType"
                  select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType">
@@ -290,7 +294,7 @@
          <!--ng-disabled="formData.id"-->
          <span class="mgr" style="margin-left: 30px;">承运公司：</span>
          <select class="ipt pr-short-ipt color-3" style="width:100px;"
-            ng-if="initFlag"
+
                  data-placeholder=" "
                  no-first-select-source="true"
                  chosen
@@ -359,22 +363,27 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/returnOrder/query.html')"
+             nosave-callback="goTo({tabName:'归还单',tabHref:'#/returnOrder/query.html'})"
              save-callback="submitForm('editForm','exit')">返回归还单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/returnOrder/query.html" >返回归还单列表</a>
+          <a ng-if="!changeFlag"
+             tab-nav
+             tab-name="归还单"
+             tab-href="#/returnOrder/query.html"
+          >返回归还单列表</a>
+
         </span>
-        <span class="mgl mgt" ng-if="$root.hasAuthor('归还单删除')">
+        <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id"
              href="javascript:;"
              handle-this-click
              class="pr-color-red"
              dialog-title="确认删除 ?"
-             dialog-content="您确认删除这条归还单吗?"
+             dialog-content="您确认删除这条采购单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
-             callback="goTo('#/returnOrder/query.html')">删除
+             callback="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">删除
           </a>
         </span>
         <!---->
@@ -382,7 +391,8 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('editForm','save')">保存
+                  ng-click="submitForm('editForm','save')"
+              >保存
           </button>
         </span>
 
@@ -395,7 +405,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
         </span>
