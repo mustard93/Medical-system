@@ -601,15 +601,21 @@ function alertOk($rootScope, modal) {
           // 跳转到对应页面 utils.goTo(url,confirmMsg);
           goTo : function (url,confirmMsg) {
 
-                console.log("URL",url,typeof  url == 'object');
+              console.log("URL",url,typeof  url == 'object');
 
-                if(typeof  url == 'object'){
-                    $rootScope.addTab({
-                        tabName: url.tabName,
-                        tabHref: url.tabHref
-                    });
-                    return;
-                }
+              if(conf.useTab){
+                  if(typeof  url == 'object'){
+                      $rootScope.addTab({
+                          tabName: url.tabName,
+                          tabHref: url.tabHref
+                      });
+                      return;
+                  }
+              }else{
+                  if(typeof  url == 'object'){
+                      url=url.tabHref
+                  }
+              }
 
                 url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
                 if(confirmMsg){

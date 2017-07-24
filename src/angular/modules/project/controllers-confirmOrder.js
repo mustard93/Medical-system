@@ -92,10 +92,10 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/confirmOrder/query.html');
+        $scope.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'});
        return;
      }else if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo('#/allocateOrder/query.html');
+       $scope.goTo({tabHref:'#/allocateOrder/query.html',tabName:'调拨单'});
       return;
      }
      else   if ($scope.submitForm_type == 'print') {
@@ -118,7 +118,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
+           $scope.goTo({tabHref:'#/confirmOrder/get.html?id='+$scope.formData.id,tabName:'销售单'});
 
          })
          .catch(function (error) {
@@ -132,7 +132,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/allocateOrder/get.html?id='+$scope.formData.id);
+           $scope.goTo({tabHref:'#/allocateOrder/get.html?id='+$scope.formData.id,tabName:'调拨单'});
 
          })
          .catch(function (error) {

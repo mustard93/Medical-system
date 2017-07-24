@@ -64,7 +64,7 @@ define('project/controllers-allocateOrder', ['project/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/confirmOrder/query.html');
+        $scope.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'});
        return;
      }else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
@@ -85,7 +85,7 @@ define('project/controllers-allocateOrder', ['project/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
+           $scope.goTo({tabHref:'#/confirmOrder/get.html?id='+$scope.formData.id,tabName:'销售单'});
 
          })
          .catch(function (error) {

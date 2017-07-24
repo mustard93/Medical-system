@@ -56,7 +56,12 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
     $scope.submitFormAfter = function() {
 
         if($scope.submitForm_type == 'save'){
-            $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
+
+
+            $scope.goTo({
+                tabName:'归还单',
+                tabHref:'#/returnOrder/edit.html?id='+$scope.formData.id
+            });
             return;
         }
 
@@ -66,7 +71,10 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
             requestData(_url,data, 'POST')
                 .then(function (results) {
                     var _data = results[1];
-                    $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
+                    $scope.goTo({
+                        tabName:'归还单',
+                        tabHref: '#/returnOrder/get.html?id='+$scope.formData.id
+                    });
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
