@@ -3869,6 +3869,78 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }
 
     /**
+     * [showInfoModalbox 全局弹出层显示信息组件]
+     *
+     *  支持两种获取信息的模式：
+     *  1、从本地读取，getDataType: local
+     *  2、从远程服务器拉取  getDataType: fetch (未完成)
+     *
+     * @method showInfoModalbox
+     * @param  {[type]}         requestData [description]
+     * @param  {[type]}         utils       [description]
+     * @param  {[type]}         alertOk     [description]
+     * @param  {[type]}         alertError  [description]
+     * @return {[type]}                     [description]
+     * @author create by liuzhen at 2017/06/23
+     */
+    function showInfoModalbox (requestData, utils, alertOk, alertError) {
+      'use strict';
+      return {
+        restrict: 'EA',
+        scope: true,
+        replace: true,
+        templateUrl: function (element, attrs) {
+          return Config.tplPath + attrs.templateUrl + '.html';
+        },
+        link: function (scope, element, attrs) {
+          // 定义当前组件的父元素
+          var _parent = $(element).parent();
+
+          // 获取当前弹出层元素的高度值和宽度
+          var _eleHeight = angular.element(element).height();
+          var _eleWidth = angular.element(element).width();
+
+          // 当前弹出层元素的父元素距离body底部和右边的距离
+          var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
+          var _eleRight = $(document.body).width() - $(element).parent().offset().left;
+
+          // 计算当前元素与页面底部的距离
+          // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
+          if (_eleBottom < _eleHeight) {
+            $(element).css({'top': 'inherit', 'bottom': '-5px'});
+            $(element).find('div.arrow-icon').css({'top': '90%'});
+          }
+
+          if (_eleRight < _eleWidth) {
+            $(element).css({'left': 'inherit', 'right': '150%'});
+            $(element).find('div.arrow-icon').css({'top': 'inherit', 'bottom': '8px', 'left': 'inherit', 'right': '-4px', 'transform': 'rotate(135deg)'});
+          }
+
+          // 获取数据拉取模式
+          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
+            // 弹出层标题
+            scope.infoTitle = attrs.infoTitle || '暂无';
+            // 详细信息
+            scope.infoObject = JSON.parse(attrs.infoObject);
+          }
+
+          // 为其父元素添加样式
+          if (!$(_parent).hasClass('cur-pot')) { $(_parent).addClass('cur-pot'); }
+          if (!$(_parent).hasClass('color-custom-orange')) { $(_parent).addClass('color-custom-orange'); }
+
+          // 为其父元素绑定鼠标移入事件
+          $(_parent, element).hover(function () {
+            $(element).show();
+          }, function () {
+            $(element).hide();
+          });
+
+
+        }
+      };
+    }
+
+    /**
      * tab导航
      * 使用方式 :
      * tab-nav
@@ -3939,5 +4011,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
       .directive("customConfig", customConfig)
       .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
+      .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
 });
