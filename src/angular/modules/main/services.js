@@ -946,6 +946,11 @@ function alertOk($rootScope, modal) {
 
               return dest;
             },
+            // 深拷贝数据。
+            deepCopy : function (source) {                
+              return utilsObj.replaceObject(null,source);
+
+            },
 
             /**
                *
