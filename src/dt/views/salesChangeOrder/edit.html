@@ -1,4 +1,5 @@
-<div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
+<div ng-controller="tabCtrl">
+  <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
      ng-controller="salesChangeOrderEditCtrl"
      ajax-url="rest/authen/salesChangeOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -136,7 +137,7 @@
                </div>
 
                <span class="mgr">发货单编号:
-                 <a ng-if="formData.relOrderNo" href="#/invoicesOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
+                 <a ng-if="formData.relOrderNo" tab-nav tab-name="销售换货单" tab-href="#/invoicesOrder/get.html?id={{formData.relId}}" target="_blank" class="color-orange">{{formData.relOrderCode || '暂无'}}</a>
                  <span ng-if="!formData.relOrderNo" class="color-3">暂无</span>
                </span>
 
@@ -561,11 +562,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/salesChangeOrder/query.html')"
+             nosave-callback="goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/query.html'})"
              save-callback="submitForm('editForm','exit')">返回销售换货单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/salesChangeOrder/query.html" >返回销售换货单列表</a>
+          <a ng-if="!changeFlag" tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html" >返回销售换货单列表</a>
         </span>
         <span class="mgl mgt" ng-if="$root.hasAuthor('销售换货单删除')">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -576,7 +577,7 @@
              dialog-content="您确认删除这条销售换货单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/salesChangeOrder/delete?id={{formData.id}}"
-             callback="goTo('#/salesChangeOrder/query.html')">删除
+             callback="goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/query.html'})">删除
           </a>
         </span>
         <!---->
@@ -604,4 +605,5 @@
       </div>
     </div>
   </form>
+</div>
 </div>
