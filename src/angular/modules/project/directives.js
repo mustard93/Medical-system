@@ -3604,6 +3604,8 @@ function pageMainHeaderComponent ($sce) {
       if (scope.isShowSelectItem) {
         scope.selectObj = angular.fromJson(scope.isShowSelectItem);
         scope.itemChooise = scope.selectObj[0].link;
+        scope.itemElseChooise = scope.selectObj[1].link;
+        scope.itemElseChooiseName = scope.selectObj[1].name;
       }
       if(attrs.showDateName){
         scope._showDateName=attrs.showDateName;

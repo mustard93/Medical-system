@@ -259,8 +259,8 @@
                    dialog-template="pr-dialog-return.html"
                    nosave-callback="goTo('#/medicalStock/query.html')"
                    save-callback="submitForm('editForm','exit');
-                   $root.goTo('#/medicalStock/query.html')">返回申请单列表</a>
-                <a ng-if="!changeFlag" href="#/medicalStock/query.html">返回申请单列表</a>
+                   $root.goTo({tabHref:'#/medicalStock/query.html',tabName:'品种管理'})">返回申请单列表</a>
+                <a ng-if="!changeFlag" tab-nav tab-name="品种管理" tab-href="#/medicalStock/query.html">返回申请单列表</a>
               </span>
               <span bottom-button-list="bottomButtonList">  </span>
               <span class="mgl" ng-if="$root.hasAuthor('品种管理删除')">
@@ -271,7 +271,7 @@
                    dialog-title="确认删除?"
                    dialog-content="删除后将无法恢复,确认删除?"
                    dialog-template="pr-dialog-submit.html"
-                   callback="$root.goTo('#/medicalStock/query.html')"
+                   callback="$root.goTo({tabHref:'#/medicalStock/query.html',tabName:'品种管理'})"
                    params='{"id":showData.id}'
                    request-url="rest/authen/medicalStock/delete">删除</a>
               </span>
@@ -328,10 +328,10 @@
                   </button>
                 </span>
           </span>
-          <a ng-if="!showData.businessApplication.businessStatus" href="#/medicalStock/query.html">返回申请单列表</a>
+          <a ng-if="!showData.businessApplication.businessStatus" tab-nav tab-name="品种管理" tab-href="#/medicalStock/query.html">返回申请单列表</a>
           <span >
             <button type="button" name="button"  class="pr-btn-save-glodbg mgl mgt">
-              <a class="color-white" href="#/medicalStock/edit.html?id={{showData.id}}">编辑</a>
+              <a class="color-white" tab-nav tab-name="品种管理" tab-href="#/medicalStock/edit.html?id={{showData.id}}">编辑</a>
             </button>
           </span>
       </div>
