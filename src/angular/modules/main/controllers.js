@@ -29,9 +29,23 @@ define('main/controllers', ['main/init'], function () {
 
         $rootScope.tabs = uiTabs.tabs;
 
+
+        $rootScope.$on('tabBeforeOnLoad', function (e, tab) {
+
+
+            if(!$scope.mainStatus.pageParams){
+                $scope.mainStatus.pageParams={};
+            }
+            $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
+
+        });
+
         $rootScope.$on('tabChangeStart', function (e, tab) {
 
-            console.log('打开tab 页面',tab,$scope.tabs);
+            if(!$scope.mainStatus.pageParams){
+                $scope.mainStatus.pageParams={};
+            }
+            $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
 
         });
 
@@ -66,16 +80,7 @@ define('main/controllers', ['main/init'], function () {
                     item.tabHref = item.tabHref.replace('#/','views/');
                 }
 
-                if(!$scope.mainStatus.pageParams){
-                    $scope.mainStatus.pageParams={};
-                }
-                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
-
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
-                if(!$scope.mainStatus.pageParams){
-                    $scope.mainStatus.pageParams={};
-                }
-                $scope.mainStatus.pageParams=serializeUrl(item.tabHref).param;
 
                 $rootScope.active(obj.tab);
                 if(!$scope.mainStatus.pageParams){
