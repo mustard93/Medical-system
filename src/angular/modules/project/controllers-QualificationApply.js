@@ -134,7 +134,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              requestData(url,data, 'POST')
               .then(function (results) {
                 var _data = results[1];
-                $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                $scope.goTo({'tabHref':'#/firstEnterpriseApplication/get.html?id='+$scope.formData.id,'tabName':'首营企业管理'});
               })
               .catch(function (error) {
                 alertError(error || '出错');
@@ -154,7 +154,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              requestData(url,data, 'POST')
               .then(function (results) {
                 if (results[1].code === 200) {
-                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                  $scope.goTo({'tabHref':'#/firstMedicalApplication/get.html?id='+$scope.formData.id,'tabName':'首营品种'});
                 }
 
               })
@@ -179,7 +179,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              requestData(url,data, 'POST')
               .then(function (results) {
                 if (results[1].code === 200) {
-                $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
+                $scope.goTo({'tabHref':'#/hospitalApplication/get.html?id='+$scope.formData.id,'tabName':'医院资格申请'});
                }
               })
               .catch(function (error) {
@@ -199,7 +199,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              requestData(url,data, 'POST')
               .then(function (results) {
                 if (results[1].code === 200) {
-                $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                $scope.goTo({'tabHref':'#/otherCustomerApplication/get.html?id='+$scope.formData.id,'tabName':'批发/零售商'});
               }
               })
               .catch(function (error) {
@@ -215,7 +215,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
          requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
            if (results[1].code === 200) {
-             $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+results[1].data.id);
+             $scope.goTo({'tabHref':'#/firstMedicalApplication/edit-step-2.html?id='+results[1].data.id,'tabName':'首营品种'});
            } else {
              alertError(results[1].msg);
            }
@@ -231,9 +231,9 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
       $('#' + fromId).trigger('submit');
     };
 
-    $scope.submitFormAfter = function (_url) {
+    $scope.submitFormAfter = function (_url,_name) {
       if ($scope.submitForm_type === 'submit') {
-        $scope.goTo({tabHref:_url + '?id=' + $scope.formData.id,tabName:'首营客户管理'});
+        $scope.goTo({'tabHref':_url+ '?id=' + $scope.formData.id,'tabName':_name});
       }
     };
 
