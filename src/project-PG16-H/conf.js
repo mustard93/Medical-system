@@ -9,5 +9,6 @@ var conf={
   // serverPath:"http://localhost:3000/src/project-PG16-H/",    //系统api调用接口地址
   // serverPath:"http://118.113.146.159:33333/spd/",
   //  serverPath:"http://localhost:8080/spd/",    //系统api调用接口地址
-  ver:"1.0.0"
+  ver:"1.0.0",
+  useTab:false
 };

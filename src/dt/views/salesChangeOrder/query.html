@@ -55,7 +55,7 @@
 
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
 
-                          <a href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
 
@@ -80,7 +80,8 @@
                         <!---->
 
                         <!--tr.orderStatus =='待审核' && (tr.orderStatus!='未通过')-->
-                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'" href="#/salesChangeOrder/get.html?id={{tr.id}}"
+                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'"
+                           tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
                            class="btn-link pd-m rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
@@ -88,7 +89,7 @@
                         <!--ng-if="$root.hasAuthor('归还单审批')"-->
                         <span>
                           <a ng-if="tr.orderStatus=='待审核'"
-                             ng-href="#/salesChangeOrder/get.html?id={{tr.id}}"
+                             tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
                              title="立即审核"
                              class="btn-link pd-m rect-s "
                              >
@@ -123,7 +124,7 @@
                       <span class="flex-item-6 text-left">参照发货单</span>
                       <span class="flex-item-6 text-right">
                           <strong class="color-black text-normal">
-                              <a ng-if="tr.relOrderCode" href="#/invoicesOrder/get.html?id={{tr.relId}}" class="color-orange" target="_blank">{{tr.relOrderCode}}</a>
+                              <a ng-if="tr.relOrderCode" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/get.html?id={{tr.relId}}" class="color-orange" target="_blank">{{tr.relOrderCode}}</a>
                               <span ng-if="!tr.relOrderCode">暂无</span>
                           </strong>
                       </span>

@@ -1,5 +1,6 @@
 <!--ng-controller="collarApplicationOrderController"-->
-<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
+<div ng-controller="tabCtrl">
+  <div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
 
       ajax-url="rest/authen/salesChangeOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
@@ -98,7 +99,7 @@
           </span>
 
           <span class="mgr">发货单编号：
-             <a ng-if="scopeData.relOrderNo" href="#/invoicesOrder/get.html?id={{scopeData.relId}}" target="_blank" class="color-orange">{{scopeData.relOrderCode}}</a>
+             <a ng-if="scopeData.relOrderNo" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/get.html?id={{scopeData.relId}}" target="_blank" class="color-orange">{{scopeData.relOrderCode}}</a>
              <span ng-if="!scopeData.relOrderNo">暂无</span>
            </span>
           <!--<span class="mgr">审核日期：<em class="color-3">{{scopeData.approver.approverDate|| '暂无' | date:'yyyy-MM-dd'}}</em></span>-->
@@ -336,11 +337,11 @@
          dialog-title="确认返回?"
          dialog-content="该销售换货单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/salesChangeOrder/query.html')"
+         nosave-callback="goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/query.html'})"
          save-callback="submitForm('editForm','exit')">返回销售换货单列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesChangeOrder/query.html?id={{scopeData.relId}}" >返回销售换货单列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html?id={{scopeData.relId}}" >返回销售换货单列表</a>
 
       <!--<button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">-->
         <!--<a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=returnOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>-->
@@ -359,4 +360,5 @@
 
     </div>
   </div>
+</div>
 </div>
