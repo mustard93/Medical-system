@@ -3607,7 +3607,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
           var urlKey="zTreeSelect";
           //插下tree div
-          var zTreeSelectDivId="zTreeSelectDiv";
+          var zTreeSelectDivId="zTreeSelectDiv";//+"_"+new Date().getTime();
 
           if (angular.isDefined($attrs.zTreeType) && $attrs.zTreeType === 'static') {     // 如果树形zTreeType定义且值为static，则为静态显示树形列表
             // 定义模板

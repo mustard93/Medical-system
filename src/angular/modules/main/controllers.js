@@ -45,7 +45,7 @@ define('main/controllers', ['main/init'], function () {
             if(!$scope.mainStatus.pageParams){
                 $scope.mainStatus.pageParams={};
             }
-            $scope.mainStatus.pageParams=serializeUrl(obj.tab.templateUrl).param;
+            $scope.mainStatus.pageParams=serializeUrl(tab.templateUrl).param;
 
         });
 
