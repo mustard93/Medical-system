@@ -147,7 +147,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      }
                  } else {
                      $attrs.$observe("ajaxUrl", function(value,old) {
-                            console.log("ajaxUrl.observe.ajaxUrl",value,old)
+                            // console.log("ajaxUrl.observe.ajaxUrl",value,old)
                          getData({});
                      });
                  }

@@ -1,16 +1,9 @@
-<!--销售统计明细表-->
-
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
-     ng-controller="cfgGoodsBarcodeCtroller"
-     ajax-url="rest/authen/saleOrderStatistics/getSaleOrderStatisticsList"
-     scope-data="fromData"
-     ng-init="showBatchs=false; listParams={};angucomplete_data={};curOrder=null;"
-     style="position: relative"
+     ng-controller="orderStatisticsController"
+     ajax-url="rest/authen/saleOrderStatistics/getSaleOrderStatisticsList.json"
+     scope-data="scopeData"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
->
-
-    <!--dialogData:{{dialogData}}-->
-
+     alert-error>{{dialogData.data}}
     <style>
 
         .tab a {
@@ -133,126 +126,103 @@
         .angucomplete-holder .ipt{
             width: 100%;
         }
-
     </style>
 
-    <!-- 标题 -->
-    <div class="bb-line-gold pr-bg-black2 min-h-l">
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 ng-init="type='详情'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">详情</h1>
+  </div>
+  <div ng-if="type=='详情'" ng-init=" listParams.departmentId=formData.applicationDepartmentId;">
+    <div ng-show="!showBatchs">
+      <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+          <div class="pdt-s pdb-s pd-c-xl" style="margin-left: -40px;">
+              <div class="angucomplete-holder">
+                  <div style="width: 300px;">
+                  </div>
+              </div>
+              <div class="goods-info">
+                  <span class="color-6">生产厂家：<i>{{angucomplete_data.data.data.manufacturer}}</i></span>
+                  <span class="color-6">商品编号：<i>{{angucomplete_data.data.data.code}}</i></span>
+              </div>
 
-        <h1 ng-init="type='详情'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
-            详情
-        </h1>
+              <div class="goods-info">
+                  <span class="color-6">商品规格：<i>{{angucomplete_data.data.data.specificationAndModelType}}</i></span>
+                  <span class="color-6">商品单位：<i>{{angucomplete_data.data.data.packingAttribute.name}}</i></span>
+              </div>
+
+          </div>
+      </div>
+      <!-- 过滤条件 -->
+      <div  class="pdt-s pd-c-xl sales-detailed-btm pdb-l">
+          <div style="display: inline-flex;">
+              <!-- 日期过滤 -->
+              <div class="mgt">
+                  <div class="text-left">
+                      <span class="control-label pdr-s color-9">业务类型</span>
+                      <select class="ipt pr-short-ipt ipt-new-s "
+                              chosen
+                              ng-model="fromData.salesType"
+                              select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+                      </select>
+                  </div>
+              </div>
+              <div class="inline-block relative mgt-s">
+                  <div>
+                      <span class="color-9 mgl-m">制单日期：</span>
+                      <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+                          <input type="text"
+                                 datepicker
+                                 class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                                 ng-readonly="true"
+                                 ng-model="listParams.createAtBeg"
+                                 placeholder=""
+
+                                 ng-change="handleSearchFilter(listParams,dialogData.id)">
+                          <span class="date-icon"></span>
+                      </div>
+                      <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                          <input type="text"
+                                 datepicker
+                                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                                 ng-readonly="true"
+
+                                 ng-model="listParams.createAtBeg">
+                          <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+                      </div>
+                      <span class="color-9">至</span>
+                      <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                          <input type="text"
+                                 datepicker
+                                 class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                                 ng-readonly="true"
+                                 ng-model="listParams.createAtEnd"
+                                 placeholder=""
+
+                                 ng-change="handleSearchFilter(listParams,dialogData.id)">
+                          <span class="date-icon"></span>
+                      </div>
+                      <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                          <input type="text"
+                                 datepicker
+                                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                                 ng-readonly="true"
+
+                                 ng-model="listParams.createAtEnd"/>
+                          <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
-
-    <div ng-if="type=='详情'" ng-init=" listParams.departmentId=formData.applicationDepartmentId;">
-
-        <div ng-show="!showBatchs">
-
-            <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
-                <div class="pdt-s pdb-s pd-c-xl" style="margin-left: -40px;">
-                    <div class="angucomplete-holder">
-                        <div style="width: 300px;">
-                        </div>
-                    </div>
-                    <div class="goods-info">
-                        <span class="color-6">生产厂家：<i>{{angucomplete_data.data.data.manufacturer}}</i></span>
-                        <span class="color-6">商品编号：<i>{{angucomplete_data.data.data.code}}</i></span>
-                    </div>
-
-                    <div class="goods-info">
-                        <span class="color-6">商品规格：<i>{{angucomplete_data.data.data.specificationAndModelType}}</i></span>
-                        <span class="color-6">商品单位：<i>{{angucomplete_data.data.data.packingAttribute.name}}</i></span>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- 过滤条件 -->
-            <div  class="pdt-s pd-c-xl sales-detailed-btm pdb-l">
-                <div style="display: inline-flex;">
-                    <!-- 日期过滤 -->
-                    <div class="mgt">
-
-                        <div class="text-left">
-                            <span class="control-label pdr-s color-9">业务类型</span>
-                            <select class="ipt pr-short-ipt ipt-new-s "
-                                    chosen
-                                    ng-model="fromData.salesType"
-                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="inline-block relative mgt-s">
-                        <div>
-                            <span class="color-9 mgl-m">制单日期：</span>
-                            <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
-                                <input type="text"
-                                       datepicker
-                                       class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                                       ng-readonly="true"
-                                       ng-model="listParams.createAtBeg"
-                                       placeholder=""
-
-                                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                                <span class="date-icon"></span>
-                            </div>
-                            <div class="date-icon-outside" ng-if="listParams.createAtBeg">
-                                <input type="text"
-                                       datepicker
-                                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                                       ng-readonly="true"
-
-                                       ng-model="listParams.createAtBeg">
-                                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
-                            </div>
-                            <span class="color-9">至</span>
-                            <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
-                                <input type="text"
-                                       datepicker
-                                       class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-                                       ng-readonly="true"
-                                       ng-model="listParams.createAtEnd"
-                                       placeholder=""
-
-                                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                                <span class="date-icon"></span>
-                            </div>
-                            <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-                                <input type="text"
-                                       datepicker
-                                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                                       ng-readonly="true"
-
-                                       ng-model="listParams.createAtEnd"/>
-                                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 客户明细列表 -->
-            <!--<div  ng-show="!showBatchs" class="color-red text-n pdl-l pdt-m text-center">-->
-
-                <!--<div ng-if="!tbodyList.length" class="empty-table clearfix" style="padding: 5px;">-->
-                    <!--<div>&nbsp;</div>-->
-                    <!--<div>&nbsp;</div>-->
-                    <!--<div>&nbsp;</div>-->
-                <!--</div>-->
-
-            <!--</div>-->
-
-
-
-
-<div class="content-wrapper order-center"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+  </div>
+  <div class="content-wrapper order-center" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
     <table-list list-data="rest/authen/saleOrderStatistics/getSaleOrderStatisticsList"
                 list-params="listParams"
                 search-mode="noCaseSensitive"
                 search-param="q">
         <!-- 主内容区域 -->
-        <div class="content-wrapper-main">
+      <div class="content-wrapper-main">
             <div ng-if="!status.isLoading">
                 <div ng-if="tbodyList.length==0">
                     <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
@@ -334,8 +304,6 @@
                 </div>
             </div>
         </div>
-     </table-list>
-            </div>
-        </div>
-    </div>
+    </table-list>
+  </div>
 </div>
