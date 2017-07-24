@@ -56,6 +56,37 @@ is-show-type-filter=false
                   <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-m" >{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
 
+                     <a class="btn-link pd-m rect-s" title="查看详情" ng-if="!tr.orderStatus=='未提交'||tr.orderStatus!='未通过'"
+                        tab-nav tab-name="借出单"  tab-href="#/lendOrder/get.html?id={{tr.id}}">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                    </a>
+
+
+                      <span  ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过' && $root.hasAuthor('借出单修改')">
+                      <a tab-nav tab-name="借出单"  tab-href="#/lendOrder/edit2.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span></a>
+
+
+
+                    <span ng-if="$root.hasAuthor('借出单删除')">
+                      <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id "
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-template="pr-dialog-confirm.html"
+                         request-url="rest/authen/lendOrder/delete?id={{tr.id}}"
+                         callback="$root.utils.refreshHref()"
+                         emitted="reloadList">
+                      <span class="delete-link-icon">&nbsp;</span>
+                      </a>
+                    </span>
+                    </span>
+
+                  </span>
+
                     <!--<span>-->
                       <!--<a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"-->
                          <!--class="btn-link pd-m rect-s "-->
@@ -80,11 +111,11 @@ is-show-type-filter=false
                      <!--</a>-->
                 <!--</span>-->
 
-                    <span query-item-card-button-list="bottomButtonList"></span>
-                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
-                       workflow-button-query-card
-                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
-                    </a>
+                    <!--<span query-item-card-button-list="bottomButtonList"></span>-->
+                    <!--<a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"-->
+                       <!--workflow-button-query-card-->
+                       <!--custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">-->
+                    <!--</a>-->
                   </span>
                 </div>
 
