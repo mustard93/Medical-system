@@ -349,10 +349,17 @@ function alertOk($rootScope, modal) {
             var maskObj={
               maskId:"MaskId_"+new Date().getTime(),
               hide:function(){
-                  $('#'+this.maskId).remove();
+
+                  //TODO 临时添加 定时器处理 ； 存在BUG. 后续跟进....
+                  var that=this;
+                  window.setTimeout(function(){
+                      // console.log("maskObj.maskId.hide",that.maskId,type);
+                      $('#'+that.maskId).remove();
+                  },100);
+
               }
             };
-
+              // console.log("maskObj.maskId.show",maskObj.maskId,type);
             if(!element)element=$("body");
 
             //定义Loading的HTML
@@ -616,10 +623,17 @@ function alertOk($rootScope, modal) {
 
                       if(confirmMsg){
                           dialogConfirm(confirmMsg, function () {
-                              $rootScope.replaceTab(null,{templateUrl:url});
+                              $rootScope.addTab({
+                                  tabName:$rootScope.getCurrentTab().name,
+                                  tabHref:url
+
+                              });
                           }, null);
                       }else{
-                          $rootScope.replaceTab(null,{templateUrl:url});
+                          $rootScope.addTab({
+                              tabName:$rootScope.getCurrentTab().name,
+                              tabHref:url
+                          });
                       }
                       return;
                   }

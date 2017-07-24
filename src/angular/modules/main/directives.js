@@ -184,6 +184,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
+                          if($attrs.ajaxUrl=='rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit'){
+                              console.log($attrs.ajaxUrl);
+                          }
                             if(maskObj)maskObj.hide();
                           var data = results[0];
 

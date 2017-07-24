@@ -55,6 +55,10 @@ define('main/controllers', ['main/init'], function () {
             $rootScope.currentTab = uiTabs.current;
         });
 
+        $rootScope.getCurrentTab=function () {
+            return uiTabs.current;
+        }
+
         $rootScope.addTab = function (item) {
 
             if(!item.tabHref){
