@@ -356,7 +356,7 @@ function alertOk($rootScope, modal) {
             if(!element)element=$("body");
 
             //定义Loading的HTML
-            var _loadHtml = '<div id="'+maskObj.maskId+'" class="pr-spinner" style="position:absolute;top:20%;left:102%;" >' +
+            var _loadHtml = '<div id="'+maskObj.maskId+'" title="'+type+'" class="pr-spinner" style="position:absolute;top:20%;left:102%;" >' +
             '<div class="bar1 cblack"></div><div class="bar2 cblack"></div>' +
             '<div class="bar3 cblack"></div><div class="bar4 cblack"></div><div class="bar5 cblack"></div>' +
             '<div class="bar6 cblack"></div><div class="bar7 cblack"></div><div class="bar8 cblack"></div>' +
@@ -608,6 +608,7 @@ function alertOk($rootScope, modal) {
 
               console.log("URL",url,typeof  url == 'object');
 
+              //  //配置启动也方式 tab方式
               if(conf.useTab){
                 var tabPara=url;
 
@@ -619,11 +620,23 @@ function alertOk($rootScope, modal) {
 
                   }
                   console.log("goTo",tabPara);
-                  $rootScope.addTab(tabPara);
-              }else{
-                  if(typeof  url == 'object'){
-                      url=url.tabHref
+
+
+                  if(confirmMsg){
+                    dialogConfirm(confirmMsg, function () {
+                      $rootScope.addTab(tabPara);
+                    }, null);
+                  }else{
+                      $rootScope.addTab(tabPara);
                   }
+
+
+                  return;
+              }
+
+              //兼容模式，支持非tab方式
+              if(typeof  url == 'object'){
+                  url=url.tabHref
               }
 
                 url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
