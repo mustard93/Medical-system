@@ -3,6 +3,16 @@
  */
 
 define('main/controllers', ['main/init'], function () {
+
+
+  /**
+   * 主控
+   */
+  function tabCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
+
+        $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
+        console.log("tabCtrl",$scope.mainStatus);
+  }
     /**
      * 主控
      */
@@ -827,6 +837,9 @@ define('main/controllers', ['main/init'], function () {
 
     angular.module('manageApp.main')
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
+
+.controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
+
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
