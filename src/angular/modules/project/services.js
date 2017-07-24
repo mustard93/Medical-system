@@ -16,14 +16,14 @@ define('project/services', ['project/init'], function() {
     }
 
     //Loading  bottomButtonList
-    //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
+    //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.tab-name}}</a>
     /**
           bottomButton ={
           aclass ："",//样式，
           ahref："",//连接，
           ngClick:"",//执行函数
           "target":"_blank" //_blank|_self|_parent|_top
-          showName："",必填。显示名
+          tab-name："",必填。显示名
           type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框),ngClick(执行函数)
           authority:""，不为空，当前用户有该权限，才能显示。
           ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
@@ -57,11 +57,12 @@ define('project/services', ['project/init'], function() {
             //前台自定义按钮 样例
             get_ButtonListDemo: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
+                //tab页样式：tab-href：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -71,8 +72,8 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority": "采购单新建权限",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "新建权限"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "新建权限"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -82,8 +83,8 @@ define('project/services', ['project/init'], function() {
                     "type": "modalRight",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "右侧弹出层"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "右侧弹出层"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -93,8 +94,8 @@ define('project/services', ['project/init'], function() {
                     "type": "modalCenter",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "中间弹出层"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "中间弹出层"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -105,14 +106,14 @@ define('project/services', ['project/init'], function() {
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
                     "ngClick": "$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)",
-                    "showName": "自定义方法"
+                    "tab-name": "自定义方法"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
                 }
 
                 bottomButton = {
-                    "showName": "自定义ctr方法",
+                    "tab-name": "自定义ctr方法",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -125,7 +126,7 @@ define('project/services', ['project/init'], function() {
                 //button
                 bottomButton = {
                     "ngDisabled": "!!ngDisabled",
-                    "showName": "ngDisabled_button",
+                    "tab-name": "ngDisabled_button",
                     "type": "button",
                     "modalWidth": "1000",
                     "ngClick": "openIm('123','fff')"
@@ -136,7 +137,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "!!ngShow",
-                    "showName": "ngShow",
+                    "tab-name": "ngShow",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -149,7 +150,7 @@ define('project/services', ['project/init'], function() {
                 //button
                 bottomButton = {
                     "ngDisabled": "!!ngDisabled",
-                    "showName": "handleThisClick",
+                    "tab-name": "handleThisClick",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-return.html",
                     "ngClick": "openIm('123','fff')"
@@ -161,7 +162,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "editForm.$valid",
-                    "showName": "保存",
+                    "tab-name": "保存",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -176,8 +177,8 @@ define('project/services', ['project/init'], function() {
                 if (showData) {
                     bottomButton = {
                         "aclass": "btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                        "ahref": Config.serverPath + "rest/authen/firstEnterpriseApplication/exportWord?id=" + showData.id,
-                        "showName": "打印"
+                        "tab-href": Config.serverPath + "rest/authen/firstEnterpriseApplication/exportWord?id=" + showData.id,
+                        "tab-name": "打印"
                     };
                     if (tmpUtils.canShowButton(bottomButton)) {
                         arr.push(bottomButton);
@@ -192,8 +193,8 @@ define('project/services', ['project/init'], function() {
                 var arr = [];
                 var bottomButton = {
                     "aclass": "mgr-l",
-                    "ahref": "#/confirmOrder/query.html",
-                    "showName": "返回销售单列表"
+                    "tab-href": "#/confirmOrder/query.html",
+                    "tab-name": "返回销售单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -202,7 +203,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "type": "handleThisClick",
                     "alertTemplate": "dialog-confirm.html",
                     "requestUrl": "rest/authen/salesOrder/delete?id=" + showData.id,
@@ -219,9 +220,9 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "aclass": "pr-btn-save-glodbg mgr color-white",
-                    "ahref": "indexOfPrint.html#/print/confirmOrderPrint.html?id=" + showData.id,
+                    "tab-href": "indexOfPrint.html#/print/confirmOrderPrint.html?id=" + showData.id,
                     "target": "_blank",
-                    "showName": "打印预览"
+                    "tab-name": "打印预览"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -234,11 +235,11 @@ define('project/services', ['project/init'], function() {
             //获取首营企业菜单定义
             get_firstEnterpriseApplication: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -247,13 +248,13 @@ define('project/services', ['project/init'], function() {
                 //     "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
                 //     "httpMethod":"GET",
                 //     "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
-                //     "showName":"查看操作记录"};
+                //     "tab-name":"查看操作记录"};
                 //
                 //  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                 // if(showData){
                 //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
                 //     "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
-                //     "showName":"打印"};
+                //     "tab-name":"打印"};
                 //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                 // }
 
@@ -264,11 +265,11 @@ define('project/services', ['project/init'], function() {
             get_firstMedicalApplication: function(showData) {
 
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/firstMedicalApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/firstMedicalApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -278,14 +279,14 @@ define('project/services', ['project/init'], function() {
                 //     "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
                 //     "httpMethod":"GET",
                 //     "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
-                //     "showName":"查看操作记录"};
+                //     "tab-name":"查看操作记录"};
                 //
                 //  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                 // if(showData){
                 //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
                 //     "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
-                //     "showName":"打印"};
+                //     "tab-name":"打印"};
                 //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                 // }
 
@@ -298,15 +299,15 @@ define('project/services', ['project/init'], function() {
             get_medicalStock: function(showData) {
 
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "type": "modalRight",
                     "modalWidth": "800",
                     "aclass": "color-orange add-return-order mgl-s",
                     "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
                     "httpMethod": "GET",
-                    "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
-                    "showName": "查看操作记录"
+                    "tab-href": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                    "tab-name": "查看操作记录"
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -318,15 +319,15 @@ define('project/services', ['project/init'], function() {
             get_storeRoom: function(showData) {
 
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "type": "modalRight",
                     "modalWidth": "800",
                     "aclass": "color-orange add-return-order mgl-s",
                     "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
                     "httpMethod": "GET",
-                    "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
-                    "showName": "查看操作记录"
+                    "tab-href": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                    "tab-name": "查看操作记录"
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -338,15 +339,15 @@ define('project/services', ['project/init'], function() {
             get_purchaseContent: function(showData) {
 
                     var arr = [];
-                    //aclass ：样式，ahref：连接，showName：显示名
+                    //aclass ：样式，ahref：连接，tab-name：显示名
                     var bottomButton = {
                         "type": "modalRight",
                         "modalWidth": "800",
                         "aclass": "color-orange add-return-order mgl-s",
                         "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
                         "httpMethod": "GET",
-                        "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
-                        "showName": "查看操作记录"
+                        "tab-href": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                        "tab-name": "查看操作记录"
                     };
 
                     if (tmpUtils.canShowButton(bottomButton)) {
@@ -360,15 +361,15 @@ define('project/services', ['project/init'], function() {
             get_customerAddress: function(showData) {
 
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "type": "modalRight",
                     "modalWidth": "800",
                     "aclass": "color-orange add-return-order mgl-s",
                     "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
                     "httpMethod": "GET",
-                    "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
-                    "showName": "查看操作记录"
+                    "tab-href": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                    "tab-name": "查看操作记录"
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -382,11 +383,11 @@ define('project/services', ['project/init'], function() {
             //获取医院资格声请菜单定义
             get_hospitalApplication: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/hospitalApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/hospitalApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -398,15 +399,15 @@ define('project/services', ['project/init'], function() {
             //获取医院采购目录菜单定义
             get_hospitalPurchaseContents: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "type": "modalRight",
                     "modalWidth": "800",
                     "aclass": "color-orange add-return-order mgl-s",
                     "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
                     "httpMethod": "GET",
-                    "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
-                    "showName": "查看操作记录"
+                    "tab-href": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                    "tab-name": "查看操作记录"
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -418,11 +419,11 @@ define('project/services', ['project/init'], function() {
             //获取医院资格声请菜单定义
             get_otherCustomerApplication: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/otherCustomerApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/otherCustomerApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -435,13 +436,13 @@ define('project/services', ['project/init'], function() {
     }
 
     //Loading  bottomButtonList
-    //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
+    //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.tab-name}}</a>
     /**
         bottomButton ={
         aclass ："",//样式，
         ahref："",//连接，
         "target":"_blank" //_blank|_self|_parent|_top
-        showName："",必填。显示名
+        tab-name："",必填。显示名
         type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框)
         authority:""，不为空，当前用户有该权限，才能显示。
         ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
@@ -474,11 +475,11 @@ define('project/services', ['project/init'], function() {
             //前台自定义按钮 样例
             get_ButtonListDemo: function(showData) {
                 var arr = [];
-                //aclass ：样式，ahref：连接，showName：显示名
+                //aclass ：样式，ahref：连接，tab-name：显示名
                 var bottomButton = {
                     "aclass": "",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "返回申请单列表"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "返回申请单列表"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -487,8 +488,8 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority": "采购单新建权限",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "新建权限"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "新建权限"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -498,8 +499,8 @@ define('project/services', ['project/init'], function() {
                     "type": "modalRight",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "右侧弹出层"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "右侧弹出层"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -509,8 +510,8 @@ define('project/services', ['project/init'], function() {
                     "type": "modalCenter",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
-                    "ahref": "#/firstEnterpriseApplication/query.html",
-                    "showName": "中间弹出层"
+                    "tab-href": "#/firstEnterpriseApplication/query.html",
+                    "tab-name": "中间弹出层"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -521,14 +522,14 @@ define('project/services', ['project/init'], function() {
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
                     "ngClick": "$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)",
-                    "showName": "自定义方法"
+                    "tab-name": "自定义方法"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
                 }
 
                 bottomButton = {
-                    "showName": "自定义ctr方法",
+                    "tab-name": "自定义ctr方法",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -541,7 +542,7 @@ define('project/services', ['project/init'], function() {
                 //button
                 bottomButton = {
                     "ngDisabled": "!!ngDisabled",
-                    "showName": "ngDisabled_button",
+                    "tab-name": "ngDisabled_button",
                     "type": "button",
                     "modalWidth": "1000",
                     "ngClick": "openIm('123','fff')"
@@ -552,7 +553,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "!!ngShow",
-                    "showName": "ngShow",
+                    "tab-name": "ngShow",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -565,7 +566,7 @@ define('project/services', ['project/init'], function() {
                 //button
                 bottomButton = {
                     "ngDisabled": "!!ngDisabled",
-                    "showName": "handleThisClick",
+                    "tab-name": "handleThisClick",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-return.html",
                     "ngClick": "openIm('123','fff')"
@@ -577,7 +578,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "editForm.$valid",
-                    "showName": "保存",
+                    "tab-name": "保存",
                     "type": "ngClick",
                     "modalWidth": "1000",
                     "aclass": "color-orange add-return-order",
@@ -590,8 +591,8 @@ define('project/services', ['project/init'], function() {
                 if (showData) {
                     bottomButton = {
                         "aclass": "btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                        "ahref": Config.serverPath + "rest/authen/firstEnterpriseApplication/exportWord?id=" + showData.id,
-                        "showName": "打印"
+                        "tab-href": Config.serverPath + "rest/authen/firstEnterpriseApplication/exportWord?id=" + showData.id,
+                        "tab-name": "打印"
                     };
                     if (tmpUtils.canShowButton(bottomButton)) {
                         arr.push(bottomButton);
@@ -608,7 +609,7 @@ define('project/services', ['project/init'], function() {
 
                 var bottomButton = {
                     "iconClass": "View-Logistics-icon",
-                    "showName": "查看物流",
+                    "tab-name": "查看物流",
                     "ngShow": "tr.orderStatus=='已发货'",
                     "aclass": "btn-link pd-m rect-s mr--4",
                     "ahref": "#/salesOrder/get.html?openWuliu=true&id=" + showData.id
@@ -621,7 +622,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"购需单修改",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "ngShow": "tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单修改')",
                     "aclass": "btn-link pd-m rect-s",
                     "ahref": "#/salesOrder/edit2.html?id=" + showData.id
@@ -632,10 +633,10 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "tr.orderStatus=='处理中' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/salesOrder/get.html?id=" + showData.id
+                    "tab-href": "#/salesOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -644,7 +645,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"购需单删除",
                     "ngShow": "tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -671,10 +672,10 @@ define('project/services', ['project/init'], function() {
                 var bottomButton = {
                     "authority":"销售单修改",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": _jumpUrlForEdit
+                    "tab-href": _jumpUrlForEdit
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -684,7 +685,7 @@ define('project/services', ['project/init'], function() {
                 // bottomButton = {
                 //     // "authority":"销售单审批",
                 //     "iconClass": "examine-approve",
-                //     "showName": "立即审核",
+                //     "tab-name": "立即审核",
                 //     "ngShow": "tr.orderStatus=='待审核'",
                 //     "aclass": "btn-link pd-m rect-s",
                 //     "ahref": "#/confirmOrder/get.html?id=" + showData.id
@@ -696,10 +697,10 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "tr.orderStatus=='已作废'||tr.orderStatus=='已完成'||tr.orderStatus=='已发货'||tr.orderStatus=='部分发货'||tr.orderStatus=='待发货'||tr.orderStatus=='待发单'||tr.orderStatus=='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/confirmOrder/get.html?id=" + showData.id
+                    "tab-href": "#/confirmOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -708,7 +709,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"销售单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -730,10 +731,10 @@ define('project/services', ['project/init'], function() {
                 var bottomButton = {
                     "authority":"发货单修改",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/invoicesOrder/edit.html?id=" + showData.id
+                    "tab-href": "#/invoicesOrder/edit.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -741,10 +742,10 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "tr.orderStatus!='未提交'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/invoicesOrder/get.html?id=" + showData.id
+                    "tab-href": "#/invoicesOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -753,7 +754,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"发货单删除",
                     "ngShow": "tr.orderStatus=='未提交'",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -774,7 +775,7 @@ define('project/services', ['project/init'], function() {
                 var arr = [];
                 // var  bottomButton = {
                 //   "ngShow":"tr.orderStatus=='待出库'",
-                //   "showName":"生成出库",
+                //   "tab-name":"生成出库",
                 //   "iconClass":"outStork-icon",
                 //   "type":"handleThisClick",
                 //   "alertTemplate":"pr-dialog-submit.html",
@@ -789,10 +790,10 @@ define('project/services', ['project/init'], function() {
                 var bottomButton = {
                     "authority":"销售退货单修改",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/saleReturnOrder/edit.html?id=" + showData.id
+                    "tab-href": "#/saleReturnOrder/edit.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -800,17 +801,17 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "tr.orderStatus=='待审核' || tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
+                    "tab-href": "#/saleReturnOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
                 }
                 // bottomButton = {
                 //     "iconClass": "examine-approve",
-                //     "showName": "立即审核",
+                //     "tab-name": "立即审核",
                 //     "ngShow": "tr.orderStatus=='待审核'",
                 //     "aclass": "btn-link pd-m rect-s",
                 //     "ahref": "#/saleReturnOrder/get.html?id=" + showData.id
@@ -822,7 +823,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"销售退货单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus =='未通过'",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -846,10 +847,10 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/hospitalPurchaseContents/get.html?id=" + showData.id
+                    "tab-href": "#/hospitalPurchaseContents/get.html?id=" + showData.id
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -859,9 +860,9 @@ define('project/services', ['project/init'], function() {
                 var bottomButton = {
                     "ngShow": "tr.businessApplication.businessStatus!='已冻结' || tr.businessApplication.businessStatus!='已终止'",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/hospitalPurchaseContents/edit.html?id=" + showData.id
+                    "tab-href": "#/hospitalPurchaseContents/edit.html?id=" + showData.id
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -870,7 +871,7 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "ngShow": "tr.orderStatus=='未提交'",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -896,10 +897,10 @@ define('project/services', ['project/init'], function() {
                 var bottomButton = {
                     "authority":"借出单修改",
                     "iconClass": "edit-link-icon",
-                    "showName": "编辑",
+                    "tab-name": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/lendOrder/edit.html?id=" + showData.id
+                    "tab-href": "#/lendOrder/edit.html?id=" + showData.id
                 };
 
                 if (tmpUtils.canShowButton(bottomButton)) {
@@ -909,7 +910,7 @@ define('project/services', ['project/init'], function() {
                 // bottomButton = {
                 //     // "authority":"借出单审批",
                 //     "iconClass": "examine-approve",
-                //     "showName": "立即审核",
+                //     "tab-name": "立即审核",
                 //     "ngShow": "tr.orderStatus=='待审核'",
                 //     "aclass": "btn-link pd-m rect-s",
                 //     "ahref": "#/lendOrder/get.html?id=" + showData.id+'&businessKey='+ showData.id
@@ -920,10 +921,10 @@ define('project/services', ['project/init'], function() {
 
                 bottomButton = {
                     "iconClass": "watch-detail-icon",
-                    "showName": "查看详情",
+                    "tab-name": "查看详情",
                     "ngShow": "tr.orderStatus =='已作废'||tr.orderStatus =='出库中'||tr.orderStatus =='已完成'||tr.orderStatus =='待审核'&&tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/lendOrder/get.html?id=" + showData.id
+                    "tab-href": "#/lendOrder/get.html?id=" + showData.id
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
@@ -932,7 +933,7 @@ define('project/services', ['project/init'], function() {
                 bottomButton = {
                     "authority":"借出单删除",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
-                    "showName": "删除",
+                    "tab-name": "删除",
                     "iconClass": "delete-link-icon",
                     "type": "handleThisClick",
                     "alertTemplate": "pr-dialog-submit.html",
@@ -1177,7 +1178,7 @@ define('project/services', ['project/init'], function() {
                 "type":"" ,
                   "aclass":"",
                   "ahref":"#/uICustomMenu/edit.html?id={{id}}",
-                  "showName":"编辑",
+                  "tab-name":"编辑",
                   "authority":"",
                   "ngShow":"",
                   "ngDisabled":"",
@@ -1194,7 +1195,7 @@ define('project/services', ['project/init'], function() {
                   "type":"" ,
                     "aclass":"",
                     "ahref":"#/uICustomMenu/edit.html?id=1234",
-                    "showName":"编辑",
+                    "tab-name":"编辑",
                     "authority":"",
                     "ngShow":"",
                     "ngDisabled":"",

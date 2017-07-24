@@ -270,7 +270,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
         $scope.formData.validFlag = false;
 
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/arrivalNoticeOrder/query.html');
+        $scope.goTo({tabHref:'#/arrivalNoticeOrder/query.html',tabName:'来货通知单'});
        return;
      }
       if ($scope.submitForm_type == 'submit') {
@@ -280,7 +280,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
           .then(function (results) {
             var _data = results[1];
            //  alertOk(_data.message || '操作成功');
-            $scope.goTo('#/arrivalNoticeOrder/get.html?id='+$scope.formData.id);
+            $scope.goTo({tabHref:'#/arrivalNoticeOrder/get.html?id='+$scope.formData.id,tabName:'来货通知单'});
 
           })
           .catch(function (error) {
