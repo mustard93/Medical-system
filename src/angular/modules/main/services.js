@@ -571,7 +571,6 @@ function alertOk($rootScope, modal) {
 
           // url存在则跳转，否则刷新。
           goOrRefreshHref : function (url,confirmMsg) {
-
             if(url){
                utilsObj.goTo(url,confirmMsg);
                return;
@@ -959,7 +958,7 @@ function alertOk($rootScope, modal) {
               return dest;
             },
             // 深拷贝数据。
-            deepCopy : function (source) {                
+            deepCopy : function (source) {
               return utilsObj.replaceObject(null,source);
 
             },

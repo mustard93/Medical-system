@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
-         <a tab-nav tab-name="销售退货单" tab-href="#/confirmOrder/query.html">销售退货单</a>
+         <a tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html">销售退货单</a>
          > 新建销售退货单
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -336,11 +336,11 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo({tabName:'销售退货单',tabHref:'#/saleReturnOrder/query.html'})"
+             nosave-callback="goTo({tabHref:'#/saleReturnOrder/query.html',tabName:'销售退货单'})"
              save-callback="submitForm('saleReturnEditForm','exit')">返回销售退货单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售退货单" tab-href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售退货单" tab- href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
           <span ng-if="$root.hasAuthor('销售退货单删除')">
             <a ng-if="formData.orderCode && formData.inputUserId==mainStatus.id"
                href="javascript:;"
@@ -350,7 +350,7 @@
                dialog-content="您确认删除这条销售退货单吗?"
                dialog-template="dialog-confirm.html"
                request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
-               callback="$root.goTo({tabName:'销售退货单',tabHref:'#/saleReturnOrder/query.html'})">删除
+               callback="$root.goTo({tabHref:'#/saleReturnOrder/query.html',tabName:'销售退货单'})">删除
             </a>
           </span>
 

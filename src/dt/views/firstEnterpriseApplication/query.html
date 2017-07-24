@@ -41,20 +41,26 @@
                     <span ng-if="$root.hasAuthor('首营企业管理修改')">
                     <a
                        ng-if="$root.hasAuthor('首营企业管理修改')&&tr.orderStatus=='未提交'"
-                       ng-href="#/firstEnterpriseApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                       tab-nav
+                       tab-name='首营企业'
+                       tab-href="#/firstEnterpriseApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                      <span class="edit-link-icon">&nbsp;</span>
 
                    </a>
                    </span>
 
                     <a ng-if="tr.orderStatus=='待审核'||tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
-                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
+                      tab-nav
+                      tab-name='首营企业'
+                      tab-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                        <span class="watch-detail-icon">&nbsp;</span>
                      </a>
 
                      <span ng-if="$root.hasAuthor('首营企业管理审批')">
                         <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                          ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
+                        tab-nav
+                        tab-name='首营企业'
+                        tab-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                           <span class="examine-approve">&nbsp;</span>
                         </a>
                      </span>
@@ -67,7 +73,7 @@
                           dialog-title="确认删除?"
                           dialog-content="删除后将无法恢复,确认删除?"
                           dialog-template="pr-dialog-submit.html"
-                          callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                          callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
                           params='{"id":tr.id}'
                           title="删除"
                           request-url="rest/authen/firstEnterpriseApplication/delete">

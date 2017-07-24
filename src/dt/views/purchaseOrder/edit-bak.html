@@ -12,7 +12,7 @@
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
-         <a href="#/purchaseOrder/query.html">
+         <a tab-nav tab-name="采购单" tab-href="#/purchaseOrder/query.html">
             <em class="color-custom-orange">采购单</em>
          </a>
         <em>>新建采购单</em>
@@ -369,11 +369,11 @@
          dialog-title="确认返回?"
          dialog-content="有修改数据还未保存，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/purchaseOrder/query.html')"
+         nosave-callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})"
          save-callback="submitForm('editForm','exit')">返回采购单列表
       </a>
 
-      <a ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回采购单列表</a>
+      <a ng-if="!changeFlag" tab-nav tab-name="采购单" tab-href="#/purchaseOrder/query.html" >返回采购单列表</a>
     </span>
     <span class="mgl">
       <a ng-if="formData.inputUserId==mainStatus.id"
@@ -384,7 +384,7 @@
          dialog-content="您确认删除这条采购单吗?"
          dialog-template="dialog-confirm.html"
          request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
-         call-back="goTo('#/purchaseOrder/query.html')">删除
+         call-back="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
       </a>
     </span>
     <span class="mgr mgl">
