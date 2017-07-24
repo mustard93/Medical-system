@@ -1181,7 +1181,7 @@ function leftNavigationMenu(uiTabs,$rootScope) {
     templateUrl:  Config.tplPath +'tpl/project/leftNavigationMenu.html',
     link:function($scope,elment,attrs) {
 
-        console.log("uiTabs",uiTabs);
+        // console.log("uiTabs",uiTabs);
 
 
 
