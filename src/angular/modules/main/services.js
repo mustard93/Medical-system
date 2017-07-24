@@ -356,7 +356,7 @@ function alertOk($rootScope, modal) {
             if(!element)element=$("body");
 
             //定义Loading的HTML
-            var _loadHtml = '<div id="'+maskObj.maskId+'" title="'+type+'" class="pr-spinner" style="position:absolute;top:20%;left:102%;" >' +
+            var _loadHtml = '<div id="'+maskObj.maskId+'" class="pr-spinner" style="position:absolute;top:20%;left:102%;" >' +
             '<div class="bar1 cblack"></div><div class="bar2 cblack"></div>' +
             '<div class="bar3 cblack"></div><div class="bar4 cblack"></div><div class="bar5 cblack"></div>' +
             '<div class="bar6 cblack"></div><div class="bar7 cblack"></div><div class="bar8 cblack"></div>' +
@@ -365,7 +365,7 @@ function alertOk($rootScope, modal) {
                             '</div>';
 
 
-            var _loadHtml2 = '<div id="'+maskObj.maskId+'" class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
+            var _loadHtml2 = '<div id="'+maskObj.maskId+'"  title="'+type+'" class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
                              'top:50%;left:50%;z-index:100;border-radius:5px;opacity:0.4;filter:alpha(opacity=30);background-color:#000;transform:translateX(-50%) translateY(-50%);">' +
                              '<div style="position:absolute;top:50%;left:50%;transform:translateX(-40%) translateY(-40%);" class="pr-spinner">' +
                              '<div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div>' +
@@ -613,11 +613,15 @@ function alertOk($rootScope, modal) {
                 var tabPara=url;
 
                   if(typeof  url == 'string'){
-                    tabPara={
-                        tabName:url,
-                        tabHref: url
-                    }
 
+                      if(confirmMsg){
+                          dialogConfirm(confirmMsg, function () {
+                              $rootScope.replaceTab(null,{templateUrl:url});
+                          }, null);
+                      }else{
+                          $rootScope.replaceTab(null,{templateUrl:url});
+                      }
+                      return;
                   }
                   console.log("goTo",tabPara);
 
