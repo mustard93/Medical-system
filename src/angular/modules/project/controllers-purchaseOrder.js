@@ -429,7 +429,7 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
         .then(function (results) {
           var _data = results[1].data;
           console.log(_data);
-          $scope.goTo('#/purchaseVoucher/get.html?id='+_data.id);
+          $scope.goTo({tabHref:'#/purchaseVoucher/get.html?id='+_data.id,tabName:'采购凭证'});
         })
         .catch(function (error) {
           alertError(error || '出错');
