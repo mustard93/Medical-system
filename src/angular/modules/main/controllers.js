@@ -123,6 +123,10 @@ define('main/controllers', ['main/init'], function () {
             uiTabs.closeAll();
         };
 
+        $rootScope.refreshTab=function () {
+            uiTabs.refresh();
+        };
+
         $rootScope.replaceTab=function(tab,newTab) {
             uiTabs.replace(tab,newTab);
         };

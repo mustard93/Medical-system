@@ -185,7 +185,12 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
 
                 console.log("refresh-tab", tab);
 
-                tab = getTab(tab);
+                if(tab){
+                    tab = getTab(tab);
+				}else{
+                	tab = this.current;
+                	// console.log(" this.current", this.current);
+				}
 
                 if (tab) {
                     refreshTab(tab);
@@ -1660,7 +1665,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
              */
             function tabOpenStarting(e, tab) {
                 scope.current = uiTabs.current;
-                tab.loading = true;
+                tab.loading = false;
             }
 
             /**

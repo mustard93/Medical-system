@@ -148,7 +148,6 @@ define('project/controllers-lossOverOrder', ['project/init'], function() {
       $scope.formData.validFlag = false;
 
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/salesOrder/query.html');
         return;
       }
 
@@ -161,7 +160,7 @@ define('project/controllers-lossOverOrder', ['project/init'], function() {
           .then(function (results) {
             var _data = results[1].data;
             // console.log(_data);
-            $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
+            // $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
 
           })
           .catch(function (error) {

@@ -86,13 +86,13 @@
                   </div>
                   <div class="flex-item-8 text-right">
                     <span ng-if="tr.orderStatus!='未提交'" class="mgl">
-                      <a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a>
+                      <a tab-nav tab-name="发货单" tab-href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a>
                     </span>
                     <!--工作流控制菜单 -->
                     <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" ></button>
 
                     <span ng-if="tr.orderStatus=='未提交'" class="mgl">
-                      <a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a>
+                      <a tab-nav tab-name="发货单" tab-href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a>
                     </span>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
                   <p class="mgt-s">发票：<em>{{tr.distributionInfo.invoiceNo || '无'}}</em></p>
                   <p class="mgt-s">备货位：<em>{{tr.distributionInfo.storageLocation || '无'}}</em></p>
                   <p ng-if="tr.outStockOrderId" class="mgt-s">出库单号：<em>
-                     <a href="#/outstockOrder/get.html?id={{tr.outStockOrderId}}" >{{tr.outStockOrderNo|| '无'}}</a></em>
+                     <a tab-nav tab-name="其他出库单" tab-href="#/outstockOrder/get.html?id={{tr.outStockOrderId}}" >{{tr.outStockOrderNo|| '无'}}</a></em>
                     </p>
 
                 </div>

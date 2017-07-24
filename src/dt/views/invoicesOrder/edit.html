@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 >
-        <a href="#/invoicesOrder/query.html">
+        <a tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html">
             <em class="color-custom-orange">发货单</em>
         </a>
         <em>> 发货单详情</em>
@@ -286,11 +286,11 @@
            dialog-title="确认返回?"
            dialog-content="该发货单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/invoicesOrder/query.html')"
+           nosave-callback="goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})"
            save-callback="submitForm('editForm','exit')">返回发货单列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
         <a ng-if="formData.orderStatus=='未提交' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
@@ -299,7 +299,7 @@
            dialog-content="您确认删除这条发货单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/invoicesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/invoicesOrder/query.html')">删除
+           call-back="$root.goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})">删除
         </a>
 
         <!-- <button type="button"
