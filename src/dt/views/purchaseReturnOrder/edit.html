@@ -37,18 +37,6 @@
           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
         </p>
       </div>
-      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
-        <a ng-if="initFlag"
-           modal-right="1000"
-           modal-open-auto="{{!formData.orderMedicalNos.length}}"
-           modal-scope="this"
-           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
-           modal-url="views/purchaseReturnOrder/edit-right-side.html">
-          <i></i>
-          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
-          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
-        </a>
-      </div>
       <!-- <div ng-if="formData.orderMedicalNos.length"  class="pr-panel pr-panel-height mgb pd-n">
         <div class="inline-block br-line supplier-name relative">
           <p class="mgb-s">供应商</p>
@@ -70,34 +58,46 @@
             {{formData.orderBusinessType || '暂无'}}
           </p>
         </div> -->
-        <div class="inline-block mgr-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:90px;">
+        <div class="inline-block mgr">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
             <div class="inline-block logistics-center"></div>
             <div class="inline-block">
               <p class="mgb-s">业务类型</p>
-              <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}" style="width:90px;">{{formData.orderBusinessType || '暂无'}}</p>
+              <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}">{{formData.orderBusinessType || '暂无'}}</p>
             </div>
           </div>
         </div>
-        <div class="inline-block mgr-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+        <div class="inline-block mgr">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
             <div class="inline-block supplier-name"></div>
             <div class="inline-block">
               <p class="mgb-s">供应商</p>
-              <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}" style="width:300px;">{{formData.supplier.name || '暂无'}}</p>
+              <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}">{{formData.supplier.name || '暂无'}}</p>
 
             </div>
           </div>
         </div>
         <div class="inline-block">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block">
                <p class="mgb-s">物流中心</p>
-               <p class="text-m color-3 autocut-default" title="{{formData.logisticsCenterName}}" style="width:300px;">{{formData.logisticsCenterName ||'暂无'}}</p>
+               <p class="text-m color-3 autocut-default" title="{{formData.logisticsCenterName}}">{{formData.logisticsCenterName ||'暂无'}}</p>
              </div>
            </div>
         </div>
+      </div>
+      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
+        <a ng-if="initFlag"
+           modal-right="1000"
+           modal-open-auto="{{!formData.orderMedicalNos.length}}"
+           modal-scope="this"
+           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+           modal-url="views/purchaseReturnOrder/edit-right-side.html">
+          <i></i>
+          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
+          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
+        </a>
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
