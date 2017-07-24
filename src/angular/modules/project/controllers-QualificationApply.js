@@ -233,7 +233,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
     $scope.submitFormAfter = function (_url) {
       if ($scope.submitForm_type === 'submit') {
-        $scope.goTo(_url + '?id=' + $scope.formData.id);
+        $scope.goTo({tabHref:_url + '?id=' + $scope.formData.id,tabName:'首营客户管理'});
       }
     };
 
