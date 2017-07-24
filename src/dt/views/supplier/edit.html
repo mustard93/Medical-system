@@ -385,14 +385,14 @@
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/supplier/query.html')"
+                 nosave-callback="goTo({tabHref:'#/supplier/query.html',tabName:'供应商管理'})"
                  save-callback="submitForm('editForm','exit');
-                 $root.goTo('#/supplier/query.html')">返回申请单列表</a>
-              <a ng-if="!changeFlag" href="#/supplier/query.html">返回申请单列表</a>
+                 $root.goTo({tabHref:'#/supplier/query.html',tabName:'供应商管理'})">返回申请单列表</a>
+              <a ng-if="!changeFlag" tab-nav tab-name="供应商管理" tab-href="#/supplier/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
             <span class="mgl" >
-              <a href="#/views/supplier/edit.html?id={{formData.id}}"></a>
+              <a tab-nav tab-name="供应商管理" tab-href="#/views/supplier/edit.html?id={{formData.id}}"></a>
               <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
