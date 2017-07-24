@@ -667,7 +667,7 @@ define('project/services', ['project/init'], function() {
                 var arr = [];
 
                 // 根据返回的relId值判断当前编辑跳转地址
-                var _jumpUrlForEdit = showData.relId ? "#/confirmOrder/edit-from-salesOrder.html?id=" + showData.id : "#/confirmOrder/edit.html?id=" + showData.id;
+                var _jumpUrlForEdit ={tabHref: showData.relId ? "#/confirmOrder/edit-from-salesOrder.html?id=" + showData.id : "#/confirmOrder/edit.html?id=" + showData.id,tabName:'销售单'};
 
                 var bottomButton = {
                     "authority":"销售单修改",
@@ -717,7 +717,7 @@ define('project/services', ['project/init'], function() {
                     "aclass": "btn-link pd-m rect-s mr--4",
                     "alertTitle": "确认删除?",
                     "alertMsg": "删除后将无法恢复,确认删除?",
-                    "ngClick": "$root.goTo('#/confirmOrder/query.html')"
+                    "ngClick": "$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})"
                 };
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
