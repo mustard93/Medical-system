@@ -8,7 +8,7 @@
        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
          <a
          tab-nav
-         tab-name='首营企业'
+         tab-name='首营企业管理'
          tab-href="#/firstEnterpriseApplication/query.html">
             <em class="color-custom-orange">首营管理</em>
          </a>
@@ -43,7 +43,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html','首营企业管理');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
@@ -90,16 +90,16 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
-             save-callback="submitForm('first-enterprise-editForm','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})">返回申请单列表
+             nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})"
+             save-callback="submitForm('first-enterprise-editForm','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">返回申请单列表
           </a>
           <a ng-if="!changeFlag"
           tab-nav
-          tab-name='首营企业'
+          tab-name='首营企业管理'
           tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl">
-          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+          <!-- <a ng-if="formData.id && formData.proposerName==mainStatus.name"
              href="javascript:;"
              class="color-red mgt"
              handle-this-click
@@ -108,7 +108,18 @@
              dialog-template="pr-dialog-submit.html"
              callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
              params='{"id":formData.id}'
-             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a> -->
+
+             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                href="javascript:;"
+                class="pr-color-red mgr-l"
+                handle-this-click
+                dialog-title="确认删除?"
+                dialog-content="删除后将无法恢复,确认删除?"
+                dialog-template="dialog-confirm.html"
+                request-url="rest/authen/firstEnterpriseApplication/delete?id={{formData.id}}"
+                callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query-overflow.html','tabName':'首营企业管理'})">删除
+             </a>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
@@ -119,12 +130,12 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                  ng-click="pageTo('#/firstEnterpriseApplication/edit1.html?id='+formData.id)">上一步</button>
+                  ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit1.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
                    ng-disabled="!firstEnterpriseEditForm.$valid || canSubmit"
-                  ng-click="submitForm('first-enterprise-editForm','submit')">下一步
+                  ng-click="submitForm('first-enterprise-editForm','submit');$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-3.html?id='+formData.id,'tabName':'首营企业管理'})">下一步
           </button>
 
           <!-- ng-disabled="!formData.note" -->
