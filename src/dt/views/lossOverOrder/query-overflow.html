@@ -46,7 +46,10 @@
                       </em>
                     </span>
                     <span ng-if="!tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id" class="text-right">
-                    <a href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑" ng-if="$root.hasAuthor('报损报溢修改')">
+                    <a
+                    tab-nav
+                    tab-name='报溢单'
+                    tab-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑" ng-if="$root.hasAuthor('报损报溢修改')">
 
                     <span class="edit-link-icon">&nbsp;</span></a>
                         <span ng-if="$root.hasAuthor('报损报溢删除')">
@@ -67,7 +70,9 @@
                     </span>
                     <span class="flex-item-6 text-right">
                       <a ng-if="tr.orderStatus=='待审核' || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
-                       href="#/lossOverOrder/get-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      tab-nav
+                      tab-name='报溢单'
+                      tab-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                      <!--<a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"-->
