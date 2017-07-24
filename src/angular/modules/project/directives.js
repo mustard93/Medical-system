@@ -2110,6 +2110,7 @@ function stepFlowArrowShow(utils){
               $($element).children('div').last().prepend("<div></div>");
           }
 
+
         $(window).resize(function () {
           //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
             $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount });
