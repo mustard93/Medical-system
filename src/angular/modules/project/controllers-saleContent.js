@@ -131,7 +131,7 @@ define('project/controllers-saleContent', ['project/init'], function() {
         requestData('rest/authen/salecontent/save', formData, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            utils.goTo('#/salecontent/query.html');
+            utils.goTo({tabName:'销售目录',tabHref:'#/salecontent/query.html'});
           }
         });
       }
