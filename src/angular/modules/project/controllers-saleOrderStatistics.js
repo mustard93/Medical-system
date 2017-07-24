@@ -126,6 +126,40 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       }
     }
 
+    // 查看详情回调方法
+    $scope.handleThisItemData = function (data, groupData) {
+      // data是当前点击表格的数据
+      // groupData是当前用户选择的列的数据
+
+      // 构建发送对象
+      var _postData = {
+        "groupKey": data.groupKey,
+        "customerId": data.customerId,
+        "salesDepartmentId": data.salesDepartmentId,
+        "saleUserId": data.saleUserId,
+        "medicalAttributeId": data.medicalAttributeId,
+        "departmentId": data.departmentId,
+        "inputUserId": data.inputUserId
+      }
+
+      angular.forEach(groupData, function (item, index) {
+        _postData[item.value] = data[item.value];
+      });
+
+      $scope.listParams = _postData;
+
+      console.log($scope.listParams);
+
+      // var _reqUrl = 'rest/authen/saleOrderStatistics/getSaleOrderStatisticsList.json';
+      // debugger;
+      // requestData(_reqUrl, _postData)
+      // .then(function (results) {
+      //   $scope.tbodyList = results[1].data;
+      // })
+
+
+    }
+
 
   }
 
