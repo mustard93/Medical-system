@@ -365,7 +365,7 @@ function alertOk($rootScope, modal) {
                             '</div>';
 
 
-            var _loadHtml2 = '<div id="'+maskObj.maskId+'" class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
+            var _loadHtml2 = '<div id="'+maskObj.maskId+'"  title="'+type+'" class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
                              'top:50%;left:50%;z-index:100;border-radius:5px;opacity:0.4;filter:alpha(opacity=30);background-color:#000;transform:translateX(-50%) translateY(-50%);">' +
                              '<div style="position:absolute;top:50%;left:50%;transform:translateX(-40%) translateY(-40%);" class="pr-spinner">' +
                              '<div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div>' +
@@ -608,18 +608,39 @@ function alertOk($rootScope, modal) {
 
               console.log("URL",url,typeof  url == 'object');
 
+              //  //配置启动也方式 tab方式
               if(conf.useTab){
-                  if(typeof  url == 'object'){
-                      $rootScope.addTab({
-                          tabName: url.tabName,
-                          tabHref: url.tabHref
-                      });
+                var tabPara=url;
+
+                  if(typeof  url == 'string'){
+
+                      if(confirmMsg){
+                          dialogConfirm(confirmMsg, function () {
+                              $rootScope.replaceTab(null,{templateUrl:url});
+                          }, null);
+                      }else{
+                          $rootScope.replaceTab(null,{templateUrl:url});
+                      }
                       return;
                   }
-              }else{
-                  if(typeof  url == 'object'){
-                      url=url.tabHref
+                  console.log("goTo",tabPara);
+
+
+                  if(confirmMsg){
+                    dialogConfirm(confirmMsg, function () {
+                      $rootScope.addTab(tabPara);
+                    }, null);
+                  }else{
+                      $rootScope.addTab(tabPara);
                   }
+
+
+                  return;
+              }
+
+              //兼容模式，支持非tab方式
+              if(typeof  url == 'object'){
+                  url=url.tabHref
               }
 
                 url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();

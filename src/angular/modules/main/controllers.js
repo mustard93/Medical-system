@@ -123,12 +123,17 @@ define('main/controllers', ['main/init'], function () {
             uiTabs.closeAll();
         };
 
-        $rootScope.refreshTab=function () {
-            uiTabs.refresh();
+        $rootScope.replaceTab=function(tab,newTab) {
+
+            if(!tab){
+                tab= uiTabs.current;
+            }
+
+            uiTabs.replace(tab,newTab);
         };
 
-        $rootScope.replaceTab=function(tab,newTab) {
-            uiTabs.replace(tab,newTab);
+        $rootScope.refreshTab=function () {
+            uiTabs.refreshTab();
         };
 
         $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {
