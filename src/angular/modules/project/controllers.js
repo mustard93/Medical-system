@@ -47,7 +47,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-returnOrder2',
                                'project/controllers-validityStrategy',
                                'project/controllers-medicalFlashCheck',
-                               'project/controllers-salesChangeOrder'
+                               'project/controllers-salesChangeOrder',
+                               'project/controllers-orderStatistics'
 
 ], function() {
 

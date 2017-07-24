@@ -117,7 +117,7 @@
               <div class="inline-block">
                 <p class="mgb-s">预入物流中心</p>
                 <p class="text-m color-3">
-                  <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                  <select ng-if="initFlag" class="ipt ipt-new-select color-6"
                           data-placeholder=" "
                           chosen
                           ng-model="formData.logisticsCenterId"
@@ -177,14 +177,15 @@
                  <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
                  <span class="inline-block relative">
                    <span>单据日期：</span>
-                   <input ng-if="initFlag" type="text"
-                          datepicker
-                          class="ipt color-3"
-                          style="width:120px;"
-                          ng-readonly="true"
-                          placeholder=""
-                          ng-model="formData.orderDate" />
-                         <span class="date-icon"></span>
+                   <span class="date-icon-outside">
+                     <input ng-if="initFlag" type="text"
+                            datepicker
+                            class="ipt-date ipt color-3"
+                            ng-readonly="true"
+                            placeholder=""
+                            ng-model="formData.orderDate" />
+                     <span class="date-icon"></span>
+                   </span>
                  </span>
                  <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
@@ -224,15 +225,18 @@
                  </select>
                </span>
 
-               <span class="mgr">计划到货时间：
-                 <input type="text"
-                        datepicker
-                        class="ipt pr-short-ipt color-3"
-                        style="width:90px;"
-                        placeholder=""
-                        ng-readonly="true"
-                        ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
-               </span>
+               <span class="mgr">计划到货日期：
+                 <span class="date-icon-outside">
+                   <input type="text"
+                          datepicker
+                          class="ipt-date ipt color-3"
+                          placeholder=""
+                          ng-readonly="true"
+                          ng-model="formData.expectDate" />
+                          <span class="date-icon"></span>
+                   </span>
+                 <span class="color-red">(必填)</span>
+                </span>
                <span class="mgr">合同号：
                  <input type="text"
                       class="inline ipt pr-ipt-60 text-center"
@@ -585,11 +589,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchaseOrder/query.html')"
+             nosave-callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})"
              save-callback="submitForm('purchaseForm','exit')">返回采购单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回采购单列表</a>
+          <a ng-if="!changeFlag" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/query.html" >返回采购单列表</a>
         </span>
         <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -600,7 +604,7 @@
              dialog-content="您确认删除这条采购单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
-             callback="goTo('#/purchaseOrder/query.html')">删除
+             callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
           </a>
         </span>
 

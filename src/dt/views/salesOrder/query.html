@@ -38,19 +38,43 @@
                   <span class="flex-item-6 text-right">
 
 
-                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
-                       workflow-button-query-card
-                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
-                    </a>
+                    <!--<a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"-->
+                       <!--workflow-button-query-card-->
+                       <!--custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">-->
+                    <!--</a>-->
 
-                    <span query-item-card-button-list="bottomButtonList"></span>
+                    <!--<span query-item-card-button-list="bottomButtonList"></span>-->
 
-                    <!-- <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')"
-                    href="#/salesOrder/get.html?id={{tr.id}}">
+                     <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理'"
+                        tab-nav tab-name="购需单"  tab-href="#/salesOrder/get.html?id={{tr.id}}">
                       <span class="watch-detail-icon">&nbsp;</span>
                     </a>
 
-                    <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>-->
+
+                      <span  ng-if="tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单修改')">
+                      <a tab-nav tab-name="购需单"  tab-href="#/salesOrder/edit2.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span></a>
+
+
+
+                    <span ng-if="$root.hasAuthor('购需单删除')">
+                      <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id "
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-template="pr-dialog-confirm.html"
+                         request-url="rest/authen/salesOrder/delete?id={{tr.id}}"
+                         callback="$root.utils.refreshHref()"
+                         emitted="reloadList">
+                      <span class="delete-link-icon">&nbsp;</span>
+                      </a>
+                    </span>
+                    </span>
+
+                    <!--<a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" tab-nav tab-name="购需单"  tab-href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>-->
                   </span>
                 </div>
 
