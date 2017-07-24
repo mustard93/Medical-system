@@ -185,7 +185,12 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
 
                 console.log("refresh-tab", tab);
 
-                tab = getTab(tab);
+                if(tab){
+                    tab = getTab(tab);
+				}else{
+                	tab = this.current;
+                	// console.log(" this.current", this.current);
+				}
 
                 if (tab) {
                     refreshTab(tab);
