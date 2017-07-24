@@ -12,6 +12,7 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
      * @return {[type]}                              [description]
      */
     function medicalFlashCheckEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange) {
+
       // 点击查询按钮之后触发的方法，请求商品信息。
       $scope.medicalSearch=function(_id,_productionBatch){
         if (!_productionBatch) {
@@ -71,6 +72,7 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
       }
       // 出入库记录根据时间段查询
       $scope.handleSearchFilter = function (createAtBeg,createAtEnd, relMedicalStockId) {
+
         if (!createAtBeg) {
           createAtBeg='';
         }
@@ -89,7 +91,6 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
                   throw new Error(error || '出错');
               });
       };
-
     }
 
 
