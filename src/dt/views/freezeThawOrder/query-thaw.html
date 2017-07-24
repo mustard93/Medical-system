@@ -11,9 +11,9 @@
         <div class="pd-c-xxxxl">
           <div class="flex-column mgb-m">
             <div class="flex-item-4 pos-rel-tl inline-block fl-l">
-                <select ng-init="itemChooise='#/freezeThawOrder/query-thaw.html'"
+                <select ng-init="itemChooise='#/freezeThawOrder/query-thaw.html';itemElseChooise='#/freezeThawOrder/query-freeze.html';itemElseChooiseName='批次冻结单'"
                 class="select pr-select pr-select-sm z-index-l relative" style="width:120px;"
-                ng-model="itemChooise" ng-change="$root.utils.goTo(itemChooise)">
+                ng-model="itemChooise" ng-change="$root.utils.goTo({'tabHref':itemElseChooise,'tabName':itemElseChooiseName})">
                   <option value="#/freezeThawOrder/query-thaw.html">批次解冻单</option>
                   <option value="#/freezeThawOrder/query-freeze.html">批次冻结单</option>
                 </select>
@@ -42,7 +42,10 @@
         <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
 
 
-          <a href="#/freezeThawOrder/edit-thaw.html" title="新建批次解冻单"><i></i><span class="text-s ">新建批次解冻单</span></a>
+          <a
+          tab-nav
+          tab-name='批次解冻单'
+          tab-href="#/freezeThawOrder/edit-thaw.html" title="新建批次解冻单"><i></i><span class="text-s ">新建批次解冻单</span></a>
         </div>
         <div class="relative">
           <span class="mgr color-999">仓库</span>
@@ -132,7 +135,10 @@
                       </span>
                       <span ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
                       class="flex-item-6 text-right ">
-                      <a href="#/freezeThawOrder/edit-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <a
+                      tab-nav
+                      tab-name='批次解冻'
+                      tab-href="#/freezeThawOrder/edit-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                       <a ng-if="tr.orderStatus=='待审核' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
@@ -150,7 +156,9 @@
                     </span>
                     <span class="flex-item-6 text-right">
                         <a ng-if="tr.orderStatus=='待审批' && !$root.hasAuthor('批次冻结解冻单审批') || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
-                         href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                        tab-nav
+                        tab-name='批次解冻单'
+                         tab-href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                         <span class="watch-detail-icon">&nbsp;</span>
                         </a>
                        <!--<a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('批次冻结解冻单审批')"-->
