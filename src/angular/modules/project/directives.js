@@ -1988,7 +1988,7 @@ function saleOutStockKuaDi () {
    	    //1.传入参数:url(跳转路径)，className(控制样式的class)
    		//2.mouseenter:表示鼠标移入之后要执行的步骤。
    		//3.mouseleave:表示鼠标移出后执行的步骤。
-function medicalStockMouseOver(utils){
+function medicalStockMouseOver(utils,$compile){
   return{
     restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -2010,12 +2010,15 @@ function medicalStockMouseOver(utils){
             if (bt.progress=='0') {
               return;
             }else{
-              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+
               var btn1=$(tmp);
               // btn1.appendto(moveBtnDiv);
               moveBtnDiv.append(btn1);
+
             }
         }
+
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -2037,13 +2040,14 @@ function medicalStockMouseOver(utils){
            });
 
            $(this).append(moveBtnDiv);
+           $compile($(this).contents())($scope);
 
         });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
-        });//mouseleave
+        });//mouseleave;
       }//link
   };
 }
@@ -4051,7 +4055,7 @@ angular.module('manageApp.project')
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
-  .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
+  .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
   .directive("dtRightSide",["utils",dtRightSide])
