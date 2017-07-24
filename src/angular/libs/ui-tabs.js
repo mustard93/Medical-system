@@ -1660,7 +1660,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
              */
             function tabOpenStarting(e, tab) {
                 scope.current = uiTabs.current;
-                tab.loading = true;
+                tab.loading = false;
             }
 
             /**
