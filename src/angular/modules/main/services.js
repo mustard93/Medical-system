@@ -613,11 +613,15 @@ function alertOk($rootScope, modal) {
                 var tabPara=url;
 
                   if(typeof  url == 'string'){
-                    tabPara={
-                        tabName:url,
-                        tabHref: url
-                    }
 
+                      if(confirmMsg){
+                          dialogConfirm(confirmMsg, function () {
+                              $rootScope.replaceTab(null,{templateUrl:url});
+                          }, null);
+                      }else{
+                          $rootScope.replaceTab(null,{templateUrl:url});
+                      }
+                      return;
                   }
                   console.log("goTo",tabPara);
 
