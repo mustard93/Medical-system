@@ -172,11 +172,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                     $scope.isLoading = true;
                     var maskObj=null;
-                    if (!$attrs.noshowLoading) {
-                      maskObj=proLoading($element);
-                      //  if(maskObj)maskObj.hide();
-                    }
+
                    if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+
+                   var url=$attrs.ajaxUrl;
+                   if (!$attrs.noshowLoading) {
+                     maskObj=proLoading($element,url);
+                     //  if(maskObj)maskObj.hide();
+                   }
+
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
                             if(maskObj)maskObj.hide();
@@ -684,9 +689,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.isLoading = statusInfo.isLoading;
 
                     var maskObj=null;
+
+
+                    var url=$attrs.listData;
                     if (!$attrs.noshowLoading) {
-                      maskObj=proLoading($element);
-                      //  if(maskObj)maskObj.hide();
+                      maskObj=proLoading($element,url);
                     }
 
                       //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
@@ -3159,10 +3166,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
                   $scope.isLoading = true;
                     var maskObj=null;
-                    if (!$attrs.noshowLoading) {
-                      maskObj=proLoading($element);
-                      //  if(maskObj)maskObj.hide();
-                    }
+
                    var parameterBody = false;
                    if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
 
@@ -3174,6 +3178,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      httpMethod=$attrs.httpMethod;
                    }
 
+                   var url=$attrs.ajaxUrlSubmit;
+                   if (!$attrs.noshowLoading) {
+                     maskObj=proLoading($element,url);
+                     //  if(maskObj)maskObj.hide();
+                   }
                    requestData($attrs.ajaxUrlSubmit, params, httpMethod, parameterBody)
                      .then(function(results) {
                            if(maskObj)maskObj.hide();
@@ -3652,13 +3661,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      var tmp=$scope.$eval($attrs.ajaxIfEval);
                    if (!tmp) return;
                  }
-                 $scope.isLoading = true;
-                 var maskObj=null;
-                 if (!$attrs.noshowLoading) {
-                   maskObj=proLoading($element);
-                   //  if(maskObj)maskObj.hide();
-                 }
+
+
                 if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+
+                $scope.isLoading = true;
+                var maskObj=null;
+                var url=$attrs[urlKey];
+                if (!$attrs.noshowLoading) {
+                  maskObj=proLoading($element,url);
+                  //  if(maskObj)maskObj.hide();
+                }
+
                  requestData($attrs[urlKey], params)
                    .then(function(results) {
                          if(maskObj)maskObj.hide();
@@ -3814,13 +3829,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      var tmp=$scope.$eval($attrs.ajaxIfEval);
                    if (!tmp) return;
                  }
-                 $scope.isLoading = true;
+
                  var maskObj=null;
-                 if (!$attrs.noshowLoading) {
-                   maskObj=proLoading($element);
-                   //  if(maskObj)maskObj.hide();
-                 }
+
                 if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+                $scope.isLoading = true;
+                var url=$attrs[urlKey];
+                if (!$attrs.noshowLoading) {
+                  maskObj=proLoading($element,url);
+                  //  if(maskObj)maskObj.hide();
+                }
                  requestData($attrs[urlKey], params)
                    .then(function(results) {
                          if(maskObj)maskObj.hide();
