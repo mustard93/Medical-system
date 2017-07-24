@@ -15,7 +15,10 @@
              <p class="mgb-l crumbs pr-indent-20 pdb-s relative  ">
 
                <em >库存报表 </em>/
-               <a href="#/wareHouseTable/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
+               <a
+               tab-nav
+               tab-name='库存查询'
+               tab-href="#/wareHouseTable/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
                   <em class="color-custom-orange">库存查询</em>
                </a>
                /<em >库存变动明细</em>
@@ -30,7 +33,10 @@
                        callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','storageQuantity','outgoingQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
                        search-param="q">
           <p class="mg-m pdb-s relative">
-            <a href="#/wareHouseTable/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
+            <a
+            tab-nav
+            tab-name='库存查询'
+            tab-href="#/wareHouseTable/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
               <span class="circle ">
                    <span class="pr-arrow-l"></span>
               </span>
@@ -136,22 +142,40 @@
                                <td class="text-ellips-s" ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
                                <td class="text-ellips-s" ng-if="tr.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em></td>
                                <td class="color-orange">
-                                 <a ng-if="tr.type=='采购入库单'||tr.type=='采购入库单_红字'" href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='采购入库单'||tr.type=='采购入库单_红字'"
+                                 tab-nav
+                                 tab-name='采购入库单'
+                                 tab-href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
-                                 <a ng-if="tr.type=='销售出库单'||tr.type=='销售出库单_红字'" href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='销售出库单'||tr.type=='销售出库单_红字'"
+                                 tab-nav
+                                 tab-name='销售出库单'
+                                 tab-href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
-                                 <a ng-if="tr.type=='报损出库单'||tr.type=='批次冻结出库单'||tr.type=='移库出库单'" href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='报损出库单'||tr.type=='批次冻结出库单'||tr.type=='移库出库单'"
+                                 tab-nav
+                                 tab-name='其他出库单'
+                                 tab-href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
-                                 <a ng-if="tr.type=='报溢入库单' ||tr.type=='批次解冻入库单'||tr.type=='移库入库单'" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='报溢入库单' ||tr.type=='批次解冻入库单'||tr.type=='移库入库单'"
+                                 tab-nav
+                                 tab-name='其他入库单'
+                                 tab-href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
-                                 <a ng-if="tr.type=='调拨入库单'" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='调拨入库单'"
+                                 tab-nav
+                                 tab-name='其他入库单'
+                                 tab-href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
-                                 <a ng-if="tr.type=='调拨出库单'" href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 <a ng-if="tr.type=='调拨出库单'"
+                                 tab-nav
+                                 tab-name='其他出库单'
+                                 tab-href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
                                </td>
