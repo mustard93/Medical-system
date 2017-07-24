@@ -166,10 +166,10 @@
                        dialog-title="确认返回?"
                        dialog-content="该申请单存在未保存数据，是否保存?"
                        dialog-template="pr-dialog-return.html"
-                       nosave-callback="goTo('#/hospitalManagement/query.html')"
+                       nosave-callback="goTo({tabHref:'#/hospitalManagement/query.html',tabName:'医院信息管理'})"
                        save-callback="submitForm('editForm','exit');
                        $root.goTo('#/hospitalManagement/query.html')">返回申请单列表</a>
-                    <a ng-if="!changeFlag" href="#/hospitalManagement/query.html">返回申请单列表</a>
+                    <a ng-if="!changeFlag" tab-nav tab-name="医院信息管理"  tab-href="#/hospitalManagement/query.html">返回申请单列表</a>
                   </span>
                   <span bottom-button-list="bottomButtonList">  </span>
                   <span class="mgl" ng-if="$root.hasAuthor('医院信息管理删除')">
@@ -180,7 +180,7 @@
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/hospitalManagement/query.html')"
+                       callback="$root.goTo({tabHref:'#/hospitalManagement/query.html',tabName:'医院信息管理'})"
                        params='{"id":showData.id}'
                        request-url="rest/authen/customerAddress/delete">删除</a>
                   </span>
@@ -237,10 +237,10 @@
                     </span>
               </span>
 
-              <a ng-if="!showData.businessApplication.businessStatus" href="#/hospitalManagement/query.html">返回申请单列表</a>
+              <a ng-if="!showData.businessApplication.businessStatus" tab-nav tab-name="医院信息管理"  tab-href="#/hospitalManagement/query.html">返回申请单列表</a>
               <span>
                 <button type="button" name="button"  class="pr-btn-save-glodbg mgl mgt">
-                  <a class="color-white" href="#/hospitalManagement/edit.html?id={{showData.id}}">编辑</a>
+                  <a class="color-white" tab-nav tab-name="医院信息管理"  tab-href="#/hospitalManagement/edit.html?id={{showData.id}}">编辑</a>
                 </button>
               </span>
           </div>
