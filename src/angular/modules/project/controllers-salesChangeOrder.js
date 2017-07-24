@@ -61,23 +61,24 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
     // 回调  保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
 
-    if($scope.submitForm_type == 'save'){
-        $scope.goTo({tabHref:'#/salesChangeOrder/edit.html?id='+$scope.formData.id,tabName:'销售换货单'});
-        return;
-    }
+        if($scope.submitForm_type == 'save'){
+            $scope.goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/edit.html?id='+$scope.formData.id});
+            return;
+        }
 
-    if ($scope.submitForm_type == 'submit') {
-        var _url='rest/authen/salesChangeOrder/startProcessInstance';
-        var data= {businessKey:$scope.formData.id};
-        requestData(_url,data, 'POST')
-            .then(function (results) {
-                var _data = results[1];
-                $scope.goTo({tabHref:'#/salesChangeOrder/get.html?id='+$scope.formData.id,tabName:'销售单'});
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    }
+        if ($scope.submitForm_type == 'submit') {
+            var _url='rest/authen/salesChangeOrder/startProcessInstance';
+            var data= {businessKey:$scope.formData.id};
+            requestData(_url,data, 'POST')
+                .then(function (results) {
+                    var _data = results[1];
+
+                    $scope.goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/get.html?id='+$scope.formData.id});
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
 
     };
 
