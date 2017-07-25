@@ -84,6 +84,18 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
                 });
         }
     };
+
+
+
+      $scope.$on('selected',function (e,data) {
+          console.log("e",e,data);
+          _reloadListData();
+      });
+
+      $scope.selected=function () {
+          $scope.$emit('selected','update')
+      }
+
   }
 
   angular.module('manageApp.project')
