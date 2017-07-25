@@ -6,5 +6,6 @@ var conf={
   // serverPath:"http://localhost:8080/manage/",    //系统api调用接口地址
     serverPath:"/spd/",    //接口和web同一个服务器
   // serverPath:"",    //系统api调用接口地址
-  ver:"1.0.0"
+  ver:"1.0.0",
+  useTab:false
 };
