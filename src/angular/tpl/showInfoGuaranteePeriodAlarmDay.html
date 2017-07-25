@@ -3,16 +3,16 @@
        ajax-url="rest/authen/medicalStock/get.json?id={{infoObject.relId}}"
        scope-data="infoData">
       <h1>{{infoTitle}}</h1>
-
       <div class="show-info-modal-content">
           <div class="item-info">
+
               <span>生产日期：</span>
-              <span class="color-3">{{infoData.manufacturer  || "2017-01-01"}}</span>
+              <span class="color-3">{{infoObject.productionDate  | date : 'yyyy-MM-dd'}}</span>
           </div>
 
           <div class="item-info">
               <span>失效日期：</span>
-              <span class="color-3">{{infoData.medicalRegistryCode || "2020-01-01" }}</span>
+              <span class="color-3">{{infoObject.validTill | date : 'yyyy-MM-dd'}}</span>
           </div>
       </div>
 
