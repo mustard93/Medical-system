@@ -28,32 +28,22 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       "inputUserName": "制单人"
     };
 
-    // 定义过滤字符串对象
+    // 初始化过滤字符串对象
     $scope.filterObject = {};
-
-    // 定义初始化的分组
-    $scope.groupArray = [
-      {"text": "年", "value": "year"},
-      {"text": "月", "value": "month"}
-    ];
+    // 加入默认值（年、月）  queryGroupEnum
+    $scope.$watchCollection('tbodyList', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        var tmpArr = $scope.tbodyList[0]['groupHeaderKey'].split('-').join();
+        $scope.filterObject['queryGroupEnum'] = tmpArr;
+      }
+    });
 
     $scope.groupData = [];
 
-    // 定义初始化的表格列定义modal
-    $scope.initTableTheadModal = [
-      {'name': '年'},
-      {'name': '月'},
-      {'name': '单据数量'},
-      {'name': '销售数量'},
-      {'name': '销售金额'}
-    ];
-
-    // $scope.$watchCollection('tbodyList', function (newVal, oldVal) {
-    //   if (newVal && newVal !== oldVal && oldVal) {
-    //     $scope.groupArray = $scope.tbodyList[0]['groupKey'].split('-');
-    //     // $scope.initTableTbodyModal(newVal);
-    //   }
-    // });
+    // 侧边栏选择分组时判断是否已选中
+    $scope.judgeHasThisItem = function (tbodyList, value) {
+      return tbodyList[0]['groupHeaderKey'].split('-').indexOf(value) > -1 ? true : false;
+    }
 
     $scope.initTableTbodyModal = function (tbodyList) {
       // 获取groupKey
@@ -72,9 +62,8 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     // 处理用户查询中类型变更事件
     $scope.handleTypeChange = function () {
-      console.log($scope.groupData);
       // 将用户定义的分组初始化为字符串
-      $scope.filterObject['queryGroupEnum'] = $scope.groupData.join(',');
+      // $scope.filterObject['queryGroupEnum'] = $scope.groupData.join(',');
 
       // 将对象filterObject赋值给listParams
       $scope.listParams = angular.copy($scope.filterObject);
@@ -93,38 +82,53 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     // 处理分组选中与取消选中事件
     $scope.handleGroupChoised = function (event, value) {
-      if (event.currentTarget.checked) {     // 选中
-        // 从初始数据中获取当前选中的分组名称及key
-        for(var key in groupDataList) {
-          // debugger;
-          if (groupDataList.hasOwnProperty(key)) {
-            if (groupDataList[key] === value) {
-              $scope.groupArray.push({"text": value, "value": key});
-            }
-          }
-        }
 
-        // 重组queryGroupEnum并赋值到listParams上
-        var tmp = [];
-        angular.forEach($scope.groupArray, function (item, index) {
-          tmp.push(item['text']);
-        });
+      var tmparr = $scope.filterObject.queryGroupEnum.split(',');
 
-        $scope.listParams.queryGroupEnum = tmp.join(',');
-
+      if (event.currentTarget.checked) {    // 选中
+        tmparr.push(value);    // 拼接queryGroupEnum字段值
       } else {
-        angular.forEach($scope.groupArray, function (data, index) {
-          if (data['text'] === value) { $scope.groupArray.splice(index, 1); }
+        angular.forEach(tmparr, function (item, index) {
+          if (item === value) { tmparr.splice(index, 1); }
         });
-
-        var tmp = [];
-        angular.forEach($scope.groupArray, function (item, index) {
-          tmp.push(item['text']);
-        });
-
-        $scope.listParams.queryGroupEnum = tmp.join(',');
       }
+
+      $scope.filterObject.queryGroupEnum = tmparr.join();
     }
+
+    // $scope.handleGroupChoised = function (event, value) {
+    //   if (event.currentTarget.checked) {     // 选中
+    //     // 从初始数据中获取当前选中的分组名称及key
+    //     for(var key in groupDataList) {
+    //       // debugger;
+    //       if (groupDataList.hasOwnProperty(key)) {
+    //         if (groupDataList[key] === value) {
+    //           $scope.groupArray.push({"text": value, "value": key});
+    //         }
+    //       }
+    //     }
+    //
+    //     // 重组queryGroupEnum并赋值到listParams上
+    //     var tmp = [];
+    //     angular.forEach($scope.groupArray, function (item, index) {
+    //       tmp.push(item['text']);
+    //     });
+    //
+    //     $scope.listParams.queryGroupEnum = tmp.join(',');
+    //
+    //   } else {
+    //     angular.forEach($scope.groupArray, function (data, index) {
+    //       if (data['text'] === value) { $scope.groupArray.splice(index, 1); }
+    //     });
+    //
+    //     var tmp = [];
+    //     angular.forEach($scope.groupArray, function (item, index) {
+    //       tmp.push(item['text']);
+    //     });
+    //
+    //     $scope.listParams.queryGroupEnum = tmp.join(',');
+    //   }
+    // }
 
     // 查看详情回调方法
     $scope.handleThisItemData = function (data, groupData) {
@@ -133,14 +137,15 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
       // 构建发送对象
       var _postData = {
-        "groupKey": data.groupKey,
-        "customerId": data.customerId,
-        "salesDepartmentId": data.salesDepartmentId,
-        "saleUserId": data.saleUserId,
-        "medicalAttributeId": data.medicalAttributeId,
-        "departmentId": data.departmentId,
-        "inputUserId": data.inputUserId
+        "groupKey": data.groupKey
       }
+
+      // "customerId": data.customerId,
+      // "salesDepartmentId": data.salesDepartmentId,
+      // "saleUserId": data.saleUserId,
+      // "medicalAttributeId": data.medicalAttributeId,
+      // "departmentId": data.departmentId,
+      // "inputUserId": data.inputUserId
 
       angular.forEach(groupData, function (item, index) {
         _postData[item.value] = data[item.value];
@@ -148,18 +153,9 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
       $scope.listParams = _postData;
 
-      console.log($scope.listParams);
-
-      // var _reqUrl = 'rest/authen/saleOrderStatistics/getSaleOrderStatisticsList.json';
-      // debugger;
-      // requestData(_reqUrl, _postData)
-      // .then(function (results) {
-      //   $scope.tbodyList = results[1].data;
-      // })
-
+      // console.log($scope.listParams);
 
     }
-
 
   }
 
