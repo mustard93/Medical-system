@@ -1,8 +1,6 @@
-<div class="medical-stock supplier-management child-project-management"
-
-
->
-  <table-list list-data="rest/authen/nearEffectPeriod/query.json"
+<div class="medical-stock supplier-management child-project-management">
+  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType={{formData.nearValiditType['近效期']}}"
+              ng-model="formData.nearValiditType"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json   -->
@@ -15,7 +13,7 @@
       </page-main-header-component>
 
       <div class="mgl-xl status-num-list-new" style="top:-56px;">
-        <span status-style-toggle-new class="rect-status mgl-s "  ng-controller="validityStrategyCtrl"
+        <span status-style-toggle-new class="rect-status mgl-s "
         ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{totalNep}})</span>
         <span status-style-toggle-new class="rect-status pr-color rect-status-active-new"
         ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
@@ -52,7 +50,7 @@
           <div class="flex-column bg-white pd-l text-n">
             <div class="flex-item-6">
               <span class="mgr-l">总计数量：<em class="pr-color">{{totalExpired}}</em></span>
-              <span>总计金额：<em class="pr-color">233</em></span>
+              <!--<span>总计金额：<em class="pr-color">233</em></span>-->
             </div>
             <div class="flex-item-6" ng-click="listParams.q=''">
               <!--<button type="button" href="" style="width: 80px;height: 20px;" class="pr-btn-save-glodbg fl-r">刷新效期</button>-->
