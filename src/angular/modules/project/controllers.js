@@ -653,7 +653,11 @@ define('project/controllers', ['project/init',
       };
   }
 
-  function uiCustomTableController ($scope, alertOk, alertError, requestData) {
+  function uiCustomTableController ($scope, alertOk,watchFormChange, alertError, requestData) {
+
+    $scope.watchFormChange = function(watchName){
+      watchFormChange(watchName,$scope);
+    };
 
     // 树形菜单中选项被点击后，监控customTable对象变化，并获取响应数据重新渲染右侧表单内容
     $scope.$watchCollection('formData.customTable', function (newVal, oldVal) {
@@ -756,13 +760,6 @@ define('project/controllers', ['project/init',
       })
     }
 
-    // $scope.$watchCollection('formData.customTable', function (newVal, oldVal) {
-    //   if (newVal && newVal !== oldVal) {
-    //
-    //
-    //   }
-    // });
-
   }
 
   angular.module('manageApp.project')
@@ -773,7 +770,7 @@ define('project/controllers', ['project/init',
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
-  .controller('uiCustomTableController', ['$scope', 'alertOk', 'alertError', 'requestData', uiCustomTableController])
+  .controller('uiCustomTableController', ['$scope', 'alertOk', 'watchFormChange','alertError', 'requestData', uiCustomTableController])
   .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
   .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
   .controller('choseBatchCtrl', ['$scope', choseBatchCtrl]);

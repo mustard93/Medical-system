@@ -4,7 +4,7 @@
       ng-init="className_getOfEdit=false;className='com.pangu.mss.domain.mongo.order.OrderMedicalNo';key='销售单详情列表'"
       ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}&key={{key}}"
       scope-data="formData"
-      callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
+      callback="initFlag=true;watchFormChange('formData');formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
   <form id="editForm"
         name="editForm"
@@ -15,7 +15,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback=""
+        callback="watchFormChange('formData')"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
@@ -135,16 +135,17 @@
       <div class="btn-area" style="line-height:4.9;">
 
         <button class="pr-btn-save-glodbg mgr"
+                ng-class="{'disabled':(!formData.id)}"
                 type="button"
                 style="background-color:#d9534f;"
                 handle-this-click
                 dialog-title="确认重置?"
                 dialog-content="重置后，将回到初始状态。确认重置?"
                 dialog-template="pr-dialog-submit.html"
-                callback="resetTableData(formData.id);"
+                callback="resetTableData(formData.id);watchFormChange(formData);"
                 ng-disabled="!formData.id">重置
         </button>
-        <button type="submit" class="pr-btn-save-glodbg mgr" >保存
+        <button type="submit" ng-disabled='!changeFlag' class="pr-btn-save-glodbg mgr" >保存
         </button>
       </div>
     </div>
