@@ -6,20 +6,13 @@
       <div class="pr-panel-height sale-boder-btm select-bg" style="padding:15px 0;">
         <div class="flex-column mgt relative ">
             <label class="flex-item-2 text-right control-label pdr-s">客户</label>
-            <!-- <input type="text"
-                   class="inline-block mgb color-white pr-indent-5"
-                   style="border:1px solid rgba(0,0,0,.2);width:245px;height:28px;"
-                   placeholder=""
-                   ng-model="listParams.customerId"
-                   auto-complete="rest/authen/customerAddress/queryForSelectOption">
-            <i class="medical-search-icon"></i> -->
             <span angucomplete-supplier
                   placeholder=""
                   title-field="name"
                   search-fields="{{formData.customerName}}"
                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                   ng-model="tmp_customer"
-                  ng-model-id="listParams.customerId"
+                  ng-model-id="filterObject.customerId"
                   class="inline-block text-s" style="height:28px;">
             </span>
         </div>
@@ -29,7 +22,7 @@
                 <select class="ipt pr-short-ipt ipt-new-s "
                         chosen
                         default-empty="全部"
-                        ng-model="listParams.salesDepartmentId"
+                        ng-model="filterObject.salesDepartmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
             </div>
@@ -41,7 +34,7 @@
                         data-placeholder=" "
                         chosen
                         default-empty="全部"
-                        ng-model="listParams.saleUserId"
+                        ng-model="filterObject.saleUserId"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
                 >
                 </select>
@@ -55,7 +48,7 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-                       ng-model="listParams.createAtBeg">
+                       ng-model="filterObject.createAtBeg">
                 <span class="date-icon"></span>
             </div>
 
@@ -66,9 +59,9 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-                       ng-model="listParams.createAtEnd"
+                       ng-model="filterObject.createAtEnd"
                        invalid-popover
-                       popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                       popover-show="filterObject.createAtEnd<filterObject.createAtBeg"
                        popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
                 <span class="date-icon"></span>
             </div>
@@ -79,7 +72,7 @@
                     <select class="ipt pr-short-ipt ipt-new-s "
                             chosen
                             default-empty="全部"
-                            ng-model="listParams.orderBusinessType"
+                            ng-model="filterObject.orderBusinessType"
                             select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
                     </select>
 
@@ -92,7 +85,7 @@
                     <select class="ipt pr-short-ipt ipt-new-s"
                             chosen
                             default-empty="全部"
-                            ng-model="listParams.orderBusinessType"
+                            ng-model="filterObject.orderBusinessType"
                             select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
 
                     </select>
@@ -105,7 +98,7 @@
                     <select class="ipt pr-short-ipt ipt-new-s select-bg"
                         chosen
                         default-empty="全部"
-                        ng-model="listParams.medicalAttributeId"
+                        ng-model="filterObject.medicalAttributeId"
                         select-source="rest/authen/medicalAttribute/queryForSelectOption">
                     </select>
                 </div>
@@ -120,7 +113,7 @@
                           search-fields="{{formData.customerName}}"
                           url="rest/authen/medicalStock/query"
                           ng-model="tmp_medicalApprovedName"
-                          ng-model-id="listParams.medicalApprovedName"
+                          ng-model-id="filterObject.medicalApprovedName"
                           class="inline-block text-s" style="height:28px;">
                     </span>
                 </div>
@@ -133,7 +126,7 @@
                            class="inline-block mgb color-white pr-indent-5"
                            style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
                            placeholder=""
-                           ng-model="listParams.medicalCode"
+                           ng-model="filterObject.medicalCode"
                            auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>
                 </div>
             </div>
@@ -145,7 +138,7 @@
                            class="inline-block mgb color-white pr-indent-5"
                            style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;"
                            placeholder=""
-                           ng-model="listParams.medicalBarcode">
+                           ng-model="filterObject.medicalBarcode">
                 </div>
             </div>
         <!--制单部门-->
@@ -155,7 +148,7 @@
                     <select class="ipt pr-short-ipt ipt-new-s"
                             chosen
                             default-empty="全部"
-                            ng-model="listParams.departmentId"
+                            ng-model="filterObject.departmentId"
                             select-source="rest/authen/department/queryForSelectOption">
                     </select>
                 </div>
@@ -168,7 +161,7 @@
                                 data-placeholder=" "
                                 chosen
                                 default-empty="全部"
-                                ng-model="listParams.saleUserId"
+                                ng-model="filterObject.saleUserId"
                                 select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
                         >
                     </select>
@@ -184,7 +177,7 @@
                   <label class="sales-selection relative"  ng-repeat="item in departments track by $index" title="{{item.value}}">
                       <input type="checkbox"
                              value="{{item.id}}"
-                             ng-checked="item.value=='年'||item.value=='月'"
+                             ng-checked="judgeHasThisItem(tbodyList,item.value)"
                              ng-click="handleGroupChoised($event,item.value)"
                              class="click-reverse-selection3 mgt-l mgl -m">{{item.value}}
                   </label>
@@ -192,7 +185,7 @@
           </div>
       </div>
       <!-- 功能按钮 -->
-      <!-- <div class="sales-btn-area-2nd relative">
+      <div class="sales-btn-area-2nd relative">
           <div class="btn-area full-width text-center">
 
           <button type="button"
@@ -201,7 +194,7 @@
                   style="width:160px;">确定
           </button>
           </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>

@@ -29,7 +29,7 @@
             <thead class="pr-bg-side">
               <tr>
                 <th>序号</th>
-                <th ng-repeat="thItem in groupArray track by $index">{{thItem.text}}</th>
+                <th ng-repeat="thItem in tbodyList[0]['groupHeaderKey'].split('-') track by $index">{{thItem}}</th>
                 <th>单据数量</th>
                 <th>销售数量</th>
                 <th>销售金额</th>
@@ -50,8 +50,7 @@
                     </div>
                   </div>
                 </td>
-                <td ng-repeat="trItem in groupArray track by $index">{{tr[trItem.value]}}</td>
-                <!-- <td ng-repeat="trItem in groupArray track by $index">{{trItem.value.indexOf('.')>-1?tr[trItem.value.]}}</td> -->
+                <td ng-repeat="trItem in tbodyList[0]['groupKey'].split('-') track by $index">{{tr[trItem]}}</td>
                 <td>{{tr.count}}</td>
                 <td>{{tr.planTotalCount}}</td>
                 <td>{{tr.totalPrice | currency: '￥'}}</td>
@@ -71,111 +70,3 @@
   </div>
   </table-list>
 </div>
-
-
-
-
-<!-- <div  class="order-code-strategy"
-      ng-controller="saleOrderStatisticsController"
-      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
-      scope-data="formData"
-      callback="initFlag=true;">
-
-    <form id="editForm"
-          name="editForm"
-          form-validator
-          parameter-body
-          action="rest/authen/uiCustomTable/save.json"
-          alert-error
-          alert-ok
-          scope-error-msg="errorMsg"
-          scope-data="formData"
-          callback=""
-          novalidate="true">
-
-        <div class="header-info relative mgb-l">
-            <p class="pdb-s pdt-s crumbs pd-c-xxl">报表查询 >
-                <em>销售统计表</em>
-            </p>
-            <div class="pd-c-xxl pdt-l pdb-l">
-
-                <div class="mgb">
-                    <h1 class="pr-font-20 color-black">销售统计表</h1>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-wrapper flex-column">
-            <div class="sales-statistics">
-                    <div class="inline-block relative mgb-l">
-
-                            <a
-                               modal-right="480"
-                               modal-scope="this"
-                               modal-url="views/saleOrderStatistics/get.html">
-                            <i class="sales-statistics-icon"></i>
-                                <span style="width:74px;" class="mgt-s ">查询</span>
-                        </a>
-                    </div>
-
-            <div class="confirm-order bb-line " >
-                <table class="table pr-table pr-new-table" style="display: none">
-                    <thead>
-                    <tr>
-                        <th class="text-center">序号</th>
-                        <th class="text-center">单据数量</th>
-                        <th class="text-center">采购数量</th>
-                        <th class="text-center">采购金额</th>
-                        <th style="width: 800px;"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">2</td>
-                        <td class="text-center">3</td>
-                        <td class="text-center">4</td>
-                        <td class="text-center">4</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table pr-table pr-new-table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center">客户</th>
-                            <th class="text-center">销售起止时间</th>
-                            <th class="text-center">销售类型</th>
-                            <th class="text-center">业务部门</th>
-                            <th class="text-center">业务类型</th>
-                            <th class="text-center">仓库</th>
-                            <th style="width: 500px;">4</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr table-item-multiple-btn>
-                        <td class="text-center">1</td>
-                        <td class="text-center">{{formData.customerName}}</td>
-                        <td class="text-center">3</td>
-                        <td class="text-center">4</td>
-                        <td class="text-center">4</td>
-                        <td class="text-center">3</td>
-                        <td class="text-center">4</td>
-                        <td class="text-center" >
-                            <div class="table-item-multiple-btn" style="display: none;">
-                                <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                                     modal-right="980"
-                                     modal-scope="this"
-                                     modal-url="views/saleOrderStatistics/sale-get-detailed.html">查看明细
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-            </div>
-            </div>
-        </div>
-    </form>
-</div> -->
