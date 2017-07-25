@@ -1,20 +1,24 @@
 <div class="medical-stock supplier-management child-project-management">
+  <page-main-header-component list-params="listParams"
+                              style="min-height:130px;"
+                              crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"效期策略","link":"","style":"color-custom-orange"}]'
+                              component-title="效期策略">
+  </page-main-header-component>
+
+  <div class="mgl-xl status-num-list-new" style="top:-56px;">
+        <span status-style-toggle-new class="rect-status mgl-s pr-color rect-status-active-new"
+              ng-click="$root.goTo('#/validityStrategy/query.html')"
+        >效期策略</span>
+    <span status-style-toggle-new class="rect-status"
+          ng-click="$root.goTo('#/validityStrategy/single-strategy-set.html')">单个商品效期策略设置</span>
+  </div>
+
   <table-list list-data="rest/authen/validityStrategy/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
 
     <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
-      <page-main-header-component list-params="listParams"
-                                  style="min-height:130px;"
-                                  crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"效期策略","link":"","style":"color-custom-orange"}]'
-                                  component-title="效期策略1">
-      </page-main-header-component>
-
-      <div class="mgl-xl status-num-list-new" style="top:-56px;">
-        <span status-style-toggle-new class="rect-status mgl-s pr-color rect-status-active-new" ng-click="goTo('#/validityStrategy/query.html')">效期策略</span>
-        <span status-style-toggle-new class="rect-status" ng-click="goTo('#/validityStrategy/single-strategy-set.html')">单个商品效期策略设置</span>
-      </div>
       <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
           <div class="pr-bg-white pr-fuzzy-boundary">
