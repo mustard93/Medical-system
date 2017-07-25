@@ -1,12 +1,11 @@
 <div ng-controller="tabCtrl">
 <div  class="order-code-strategy"
       ng-controller="uiCustomTableController"
-      ng-init="className_getOfEdit=false"
-      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
+      ng-init="className_getOfEdit=false;className='com.pangu.mss.domain.mongo.order.OrderMedicalNo';key='销售单详情列表'"
+      ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}&key={{key}}"
       scope-data="formData"
       callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
-          <!-- ng-controller="orderCodeStrategyController" -->
   <form id="editForm"
         name="editForm"
         form-validator
@@ -38,7 +37,7 @@
           <div class="custom-table-strategy-menu mgt pd-c-v-l">
           <ul class="ztree"
           z-tree='[{"id":1,"pId":0,"name":"销售管理","open":true},
-                          {"id":5,"pId":1,"name":"销售单"}]'
+                          {"id":2,"pId":1,"name":"销售单","className":"com.pangu.mss.domain.mongo.order.OrderMedicalNo","key":"销售单详情列表"}]'
           z-tree-type="static"
 
           select-tree-node="formData.customTable"

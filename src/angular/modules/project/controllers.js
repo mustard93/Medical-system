@@ -656,24 +656,26 @@ define('project/controllers', ['project/init',
 
   function uiCustomTableController ($scope, alertOk, alertError, requestData) {
 
-    // 进入页面，就先请求销售单表格数据
-    requestTableUrl();
+    // 树形菜单中选项被点击后，监控customTable对象变化，并获取响应数据重新渲染右侧表单内容
+    $scope.$watchCollection('formData.customTable', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        // 用户点击了树中不同节点，请求当前节点的信息
+        var _className = newVal['className'];
+        var _key = newVal['key'];
+        var _reqUrl = 'rest/authen/uiCustomTable/getOfEdit.json?className='+_className+'&key='+_key;
+        requestData(_reqUrl)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
 
-    // 请求表格数据
-    function requestTableUrl(){
-      var _reqUrl = 'rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表';
-      requestData(_reqUrl)
-      .then(function (results) {
-        if (results[1].code === 200) {
-          $scope.formData = results[1].data;  // 新获取的模块配置数据赋值给当前表单数据对象
-
-        }
-      })
-      .catch(function (error) {
-        if (error) { throw new Error(error || '出错'); }
-      })
-    };
-
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        })
+      }
+    });
+    // 点击选中某个字段
     $scope.selectThisItem=function(item){
       $scope.itemShow=item;
     }
