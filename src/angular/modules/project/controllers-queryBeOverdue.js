@@ -10,7 +10,7 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
    * @param  {[type]}                   requestData [description]
    * @return {[type]}                               [description]
    */
-  function validityStrategyCtrl ($scope, modal, alertWarn, alertOk, alertError, requestData) {
+  function validityStrategyController ($scope, modal, alertWarn, alertOk, alertError, requestData) {
 
 
       requestData('rest/authen/validityDistribution/countByNearValiditType?nearValiditType=', {}, 'GET')
@@ -45,5 +45,5 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
 
 
   angular.module('manageApp.project')
-  .controller('validityStrategyCtrl', ['$scope', 'modal', 'alertWarn', 'alertOk', 'alertError', 'requestData', validityStrategyCtrl]);
+  .controller('validityStrategyController', ['$scope', 'modal', 'alertWarn', 'alertOk', 'alertError', 'requestData', validityStrategyController]);
 });
