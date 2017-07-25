@@ -109,11 +109,20 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
       if ($scope.listParams) {
         for (var key in $scope.listParams) {
-          if ($scope.listParams.hasOwnProperty(key)) {
+          if ($scope.listParams.hasOwnProperty(key) && $scope.listParams[key]) {
             $scope.dataDetailsList[key] = $scope.listParams[key];
           }
         }
       }
+
+      if (data['confirmOrderId']) { $scope.dataDetailsList['confirmOrderId'] = data['confirmOrderId']; }
+      if (data['customerId']) { $scope.dataDetailsList['customerId'] = data['customerId']; }
+      if (data['departmentId']) { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
+      if (data['inputUserId']) { $scope.dataDetailsList['inputUserId'] = data['inputUserId']; }
+      if (data['medicalAttributeId']) { $scope.dataDetailsList['medicalAttributeId'] = data['medicalAttributeId']; }
+      if (data['orderMedicalNoId']) { $scope.dataDetailsList['orderMedicalNoId'] = data['orderMedicalNoId']; }
+      if (data['saleUserId']) { $scope.dataDetailsList['saleUserId'] = data['saleUserId']; }
+      if (data['salesDepartmentId']) { $scope.dataDetailsList['salesDepartmentId'] = data['salesDepartmentId']; }
 
       var _reqUrl = 'rest/authen/saleOrderStatistics/getSaleOrderStatisticsList';
       requestData(_reqUrl, $scope.dataDetailsList)
