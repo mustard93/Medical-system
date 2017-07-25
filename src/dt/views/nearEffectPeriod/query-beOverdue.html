@@ -1,6 +1,6 @@
 <div class="medical-stock supplier-management child-project-management">
-  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType={{formData.nearValiditType['近效期']}}"
-              ng-model="formData.nearValiditType"
+  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=已过期"
+
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json   -->
@@ -29,7 +29,7 @@
                         chosen
                         no-first-select-source="true"
                         width="150px"
-                        ng-model="formData.salesDepartmentId"
+                        ng-model="listParams.warehouseId"
                         select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}&type=正常库">
                 </select>
               </span>
@@ -49,7 +49,7 @@
           </div>
           <div class="flex-column bg-white pd-l text-n">
             <div class="flex-item-6">
-              <span class="mgr-l">总计数量：<em class="pr-color">{{totalExpired}}</em></span>
+              <span class="mgr-l">总计数量：<em class="pr-color">{{totalCount}}</em></span>
               <!--<span>总计金额：<em class="pr-color">233</em></span>-->
             </div>
             <div class="flex-item-6" ng-click="listParams.q=''">
@@ -83,7 +83,7 @@
                     class="relative"
                     table-item-multiple-btn>
                   <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
-                    <div class="table-item-multiple-btn" style="padding:2px 50px;width:auto;">
+                    <div class="table-item-multiple-btn" style="padding:2px 20px;width:auto;margin-left: 25px">
                       <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                            modal-center="500px"
                            modal-scope="this"
@@ -109,7 +109,8 @@
                   </span>
                     </div>
                   </td>
-                  <td><div class="relative inline-block">{{tr.stockModel.quantity}}
+                  <td>
+                    <div class="relative inline-block">{{tr.stockModel.quantity}}
                     <span show-info-modalbox
                           get-data-type="local"
                           template-url="tpl/showInfoQuantity"
