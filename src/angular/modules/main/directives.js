@@ -537,6 +537,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.theadList = angular.fromJson($attrs.listThead);
                 $scope.tbodyList = [];
                 $scope.getListData = getListData;
+
                 if (!angular.isDefined($scope.listParams)) {
                     $scope.listParams = {};
                 }
@@ -546,6 +547,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 if (!angular.isDefined($scope.listObject)) {
                     $scope.listObject = {};
                 }
+
 
                 //单个删除
                 $scope.delete1 = function(_url, _param) {
@@ -659,6 +661,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var timestamp=null;
                 function getListData(_callback) {
                   if(!$attrs.listData)return;
+                  if (!$scope.customCondition) {
+                    $scope.customCondition={};
+                  }
 
                     if ($attrs.listSource) {
                         if ($scope.listSource) {
@@ -703,7 +708,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if(!(statusInfo.currentPage >1)){
                           timestamp=new Date().getTime();
                         }
-                    requestData($attrs.listData, angular.merge({}, formData, {
+                    requestData($attrs.listData, angular.merge({},$scope.customCondition,formData, {
                             timestamp:timestamp,
                             pageNo: statusInfo.currentPage
                         }))
@@ -950,6 +955,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             link: function($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
+                    // 判断是否有排序相关的条件传入
+                    if ($attrs.customCondition) {
+                      $scope.customCondition=$scope.$eval($attrs.customCondition);
+                    }
 
                 $scope.start = function() {
                     if ($scope.status.currentPage == 1) {
@@ -980,6 +989,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.getListData();
                 };
                 $scope.goto = function(_page) {
+
 
                     $scope.status.currentPage = _page;
                     $scope.getListData();

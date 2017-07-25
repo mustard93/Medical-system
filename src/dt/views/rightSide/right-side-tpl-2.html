@@ -1,24 +1,34 @@
 <div
-    ajax-url="rest/authen/nearEffectPeriod/query"
+    ajax-url="rest/authen/nearEffectPeriod/query?nearValiditType={{listParams.nearValiditType || '近效期'}}"
     scope-data="tabs"
     alert-error
-    ng-init="listObject={};"
-    callback="type=tabs[0].type; obj.type=type; obj.tabThis=0; initFlag=true;"
+    ng-init="listObject={};listParams.nearValiditType='近效期'"
+    callback="initFlag=true;"
 >
     <div class="dt-right-side-content-tab-title">
 
-        <div  class="dt-right-side-content-tab-title-item" ng-repeat="item in tabs"  ng-class="{'on':obj.tabThis==$index}">
-
-            <span ng-click="obj.type=item.type;obj.tabThis=$index;">{{item.type}}(<i class="color-custom-orange">{{item.count || 0 }}</i>)</span>
+        <div  class="dt-right-side-content-tab-title-item" ng-class="{'on':(listParams.nearValiditType=='近效期')}">
+            <span ng-click="listParams.nearValiditType='近效期'">近效期(<i class="color-custom-orange">{{tabs.length || 0 }}</i>)</span>
             <div class="vertical-line"></div>
             <div class="level-line"></div>
+        </div>
+        <div  class="dt-right-side-content-tab-title-item" ng-class="{'on':(listParams.nearValiditType=='已过期')}">
+            <span ng-click="listParams.nearValiditType='已过期'">已过期(<i class="color-custom-orange">{{tabs.length || 0 }}</i>)</span>
+            <div class="vertical-line"></div>
+            <div class="level-line"></div>
+        </div>
+        <div  class="dt-right-side-content-tab-title-item" ng-if='listParams.nearValiditType=="近效期"'>
+            <a tab-nav tab-name="近效期/已过期" tab-href="#/nearEffectPeriod/query-effectPeriod.html" >查看详情</a>
+        </div>
+        <div  class="dt-right-side-content-tab-title-item" ng-if='listParams.nearValiditType=="已过期"'>
+            <a tab-nav tab-name="近效期/已过期" tab-href="#/nearEffectPeriod/query-beOverdue.html" >查看详情</a>
         </div>
     </div>
 
     <table-list
             ng-if="initFlag"
             list-object="obj"
-            list-data="rest/authen/nearEffectPeriod/query" list-params="listParams" search-mode="noCaseSensitive" search-param="q"
+            list-data="rest/authen/nearEffectPeriod/query?nearValiditType={{listParams.nearValiditType}}" list-params="listParams" search-mode="noCaseSensitive" search-param="q"
     >
 
     <div ng-if="tbodyList.length==0">
@@ -30,40 +40,16 @@
         <ul  ng-if="tbodyList.length">
             <li  ng-repeat="tr in tbodyList">
 
-                <!--客户-->
-                <!-- <span  ng-if="tr.type=='客户'">
-
-                    <a ng-if="tr.source=='医院'" tab-nav tab-name="医院信息管理"  tab-href="{{ $root.hasAuthor('医院信息管理修改') ? '#/hospitalManagement/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('医院信息管理修改')}">
-                        <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
-                        <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
-                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
-                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                <span>
+                    <a style="color: inherit" >
+                        <p><span class="color-custom-orange " style="display: inline-block;width: 24px;">{{$index+1}}.</span><em class="text-m">{{tr.medical.approvedName}}</em></p>
+                        <p style="text-indent: 24px;" class="flex-column">
+                            <span class="flex-item-4 text-left">剩余有效期天数：<em class="color-red" >{{tr.remainValidityDays}}</em></span>
+                            <span class="flex-item-4 text-left">数量：<em class="color-red" >{{tr.stockModel.quantity}}</em></span>
+                            <span class="flex-item-4 text-left">批号：{{tr.productionBatch}}</span>
                         </p>
                     </a>
-
-                    <a ng-if="tr.source!='医院'" tab-nav tab-name="批发/零售商管理"  tab-href="{{ $root.hasAuthor('批发零售商修改') ? '#/otherCustomerManagement/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('批发零售商修改')}">
-                        <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
-                        <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
-                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
-                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
-                        </p>
-                    </a>
-                </span> -->
-
-                <!--商品-->
-                <a ng-if="tr.type=='商品'" tab-nav tab-name="品种管理"  tab-href="{{ $root.hasAuthor('品种管理修改') ? '#/medicalStock/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('品种管理修改')}">
-                    <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
-                    <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
-                        <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
-                        <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
-                    </p>
-                </a>
-
-                <!--查看详情-->
-                <a ng-if="tr.type=='供应商'" tab-nav tab-name="供应商管理"  tab-href="{{ $root.hasAuthor('供应商管理修改') ? '#/supplier/get.html?id='+tr.id : ''}}" style="color: inherit">
-                查看详情
-                </a>
-
+                </span>
             </li>
 
         </ul>
