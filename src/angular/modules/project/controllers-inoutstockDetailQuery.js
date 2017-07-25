@@ -20,9 +20,19 @@ define('project/controllers-inoutstockDetailQuery', ['project/init'], function()
           createAtEnd:endTime
       };
 
+      $scope.listObject2={
+        a:11,
+        b:22,
+        method:function(tr) {
+          conosle.log(">>>>>>>>>>>>",tr);
+        }
+      }
+
+
 
     //表格条目点击跳转方法，根据类型不同跳转页面不同
     $scope.queryItemClick=function(tr){
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       var    url="#/otherOutstockOrder/get.html?orderNo=";
       var name='其他出库单';
       switch (tr.type)
@@ -75,6 +85,11 @@ define('project/controllers-inoutstockDetailQuery', ['project/init'], function()
         });
         return url;
       };//getUrlByQueryOfType
+
+      $scope.listObject2.queryItemClick=$scope.queryItemClick;
+
+        console.log($scope.listObject2);
+
     }
 
   angular.module('manageApp.project')
