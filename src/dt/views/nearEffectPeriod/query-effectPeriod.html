@@ -4,7 +4,7 @@
               search-mode="noCaseSensitive"
               search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json  rest/authen/nearEffectPeriod/query.json -->
 
-    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
+    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyCtrl">
       <page-main-header-component list-params="listParams"
                                   style="min-height:130px;"
                                   crumbs-nav='[{"name":"库存报表","link":"","style":""},{"name":"近效期／已过期","link":"","style":"color-custom-orange"}]'
@@ -14,9 +14,9 @@
       <div class="mgl-xl status-num-list-new" style="top:-56px;">
         <span status-style-toggle-new class="rect-status mgl-s pr-color rect-status-active-new"
         ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')"
-          >近效期(283)</span>
+          >近效期({{totalNep}})</span>
         <span status-style-toggle-new class="rect-status"
-        ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期(0)</span>
+        ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
       </div>
       <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
@@ -49,7 +49,7 @@
           </div>
           <div class="flex-column bg-white pd-l text-n">
             <div class="flex-item-6">
-              <span class="mgr-l">总计数量：<em class="pr-color">233</em></span>
+              <span class="mgr-l">总计数量：<em class="pr-color">{{totalNep}}</em></span>
               <span>总计金额：<em class="pr-color">233</em></span>
             </div>
             <div class="flex-item-6" ng-click="listParams.q=''">
