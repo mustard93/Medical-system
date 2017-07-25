@@ -1,0 +1,83 @@
+<div
+    ajax-url="rest/authen/firstEarlyWarning/queryExpireTotal?warnDays=30"
+    scope-data="tabs"
+    alert-error
+    ng-init="listObject={};"
+    callback="type=tabs[0].type; obj.type=type; obj.tabThis=0; initFlag=true;"
+>
+    <div class="dt-right-side-content-tab-title">
+
+        <div  class="dt-right-side-content-tab-title-item" ng-repeat="item in tabs"  ng-class="{'on':obj.tabThis==$index}">
+
+            <span ng-click="obj.type=item.type;obj.tabThis=$index;">{{item.type}}(<i class="color-custom-orange">{{item.count || 0 }}</i>)</span>
+            <div class="vertical-line"></div>
+            <div class="level-line"></div>
+        </div>
+    </div>
+
+    <table-list
+            ng-if="initFlag"
+            list-object="obj"
+            list-data="rest/authen/firstEarlyWarning/query?warnDays=30&pageSize=20&type={{obj.type}}" list-params="listParams" search-mode="noCaseSensitive" search-param="q"
+    >
+
+    <div ng-if="tbodyList.length==0">
+        <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+        <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+    </div>
+
+    <div  class="dt-right-side-content-tab-content">
+        <ul  ng-if="tbodyList.length">
+            <li  ng-repeat="tr in tbodyList">
+
+                <!--客户-->
+                <span  ng-if="tr.type=='客户'">
+
+                    <a ng-if="tr.source=='医院'" tab-nav tab-name="医院信息管理"  tab-href="{{ $root.hasAuthor('医院信息管理修改') ? '#/hospitalManagement/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('医院信息管理修改')}">
+                        <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
+                        <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
+                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                        </p>
+                    </a>
+
+                    <a ng-if="tr.source!='医院'" tab-nav tab-name="批发/零售商管理"  tab-href="{{ $root.hasAuthor('批发零售商修改') ? '#/otherCustomerManagement/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('批发零售商修改')}">
+                        <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
+                        <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
+                            <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                            <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                        </p>
+                    </a>
+                </span>
+
+                <!--商品-->
+                <a ng-if="tr.type=='商品'" tab-nav tab-name="品种管理"  tab-href="{{ $root.hasAuthor('品种管理修改') ? '#/medicalStock/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('品种管理修改')}">
+                    <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
+                    <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
+                        <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                        <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                    </p>
+                </a>
+
+                <!--供应商-->
+                <a ng-if="tr.type=='供应商'" tab-nav tab-name="供应商管理"  tab-href="{{ $root.hasAuthor('供应商管理修改') ? '#/supplier/get.html?id='+tr.id : ''}}" style="color: inherit" ng-class="{'cursor-default':!$root.hasAuthor('供应商管理修改')}">
+                    <p><span class="color-custom-orange" style="display: inline-block;width: 24px;">{{$index+1}}.</span>{{tr.distributorName}}</p>
+                    <p style="text-indent: 24px;"  ng-repeat="item in tr.attachmentExpires">
+                        <span  ng-if="item.type=='即将过期'" ><span class="color-custom-orange" >[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                        <span  ng-if="item.type=='已过期'" ><span class="color-red">[{{item.type}}] ({{item.date || '暂无'|date : 'yyyy-MM-dd' }})</span> 《{{item.attachmentName}}》</span>
+                    </p>
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+    </table-list>
+</div>
