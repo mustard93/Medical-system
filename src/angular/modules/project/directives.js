@@ -1872,10 +1872,12 @@ function stepFlowArrowShow(utils){
 
       var lossWidht=4; //丢弃宽度（兼容计算精度造成的折行显示, by venray 2017年6月16日 16:04:10）;
 
-      // 当每个箭头创建好之后，定义每个的宽度
-      var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount;
 
-            if(stepFlowArrow && stepFlowArrow.length>0){
+      window.setTimeout(function () {
+          // 当每个箭头创建好之后，定义每个的宽度
+          var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount;
+
+          if(stepFlowArrow && stepFlowArrow.length>0){
               // 计算得到每个div的宽度
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
@@ -1883,14 +1885,14 @@ function stepFlowArrowShow(utils){
                   $($element).append($(tmp));
                   // 中间箭头的形状定义
                   if(i>0&&i<stepFlowArrow.length-1){
-                    if($($element).children('div').eq(i).hasClass('visited')){
-                      // 如果有visited这个类，说明是已完成的状态，所以形状要改变。
-                      $($element).children('div').eq(i).append("<div class='triangle1'></div><div class='triangle2'></div>");
-                      $($element).children('div').eq(i).prepend("<div></div><div></div>");
-                    }else{
-                      $($element).children('div').eq(i).append("<div></div>");
-                      $($element).children('div').eq(i).prepend("<div></div>");
-                    }
+                      if($($element).children('div').eq(i).hasClass('visited')){
+                          // 如果有visited这个类，说明是已完成的状态，所以形状要改变。
+                          $($element).children('div').eq(i).append("<div class='triangle1'></div><div class='triangle2'></div>");
+                          $($element).children('div').eq(i).prepend("<div></div><div></div>");
+                      }else{
+                          $($element).children('div').eq(i).append("<div></div>");
+                          $($element).children('div').eq(i).prepend("<div></div>");
+                      }
                   }
               }
               // 箭头创建完成之后，设置宽度
@@ -1900,6 +1902,9 @@ function stepFlowArrowShow(utils){
               // 最后一个箭头的形状定义
               $($element).children('div').last().prepend("<div></div>");
           }
+      },300);
+
+
         $(window).resize(function () {
           //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
             $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount });
