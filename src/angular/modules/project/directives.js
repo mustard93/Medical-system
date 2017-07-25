@@ -3783,7 +3783,6 @@ function  dtRightSide(utils) {
 
 
 
-
 angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
@@ -3853,7 +3852,7 @@ angular.module('manageApp.project')
   .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
-  .directive("dtRightSide",["utils",dtRightSide])
+    .directive("dtRightSide",["utils",dtRightSide])
   // .directive("tabHref",['$rootScope',tabHref])
 
 ;//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数

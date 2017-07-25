@@ -1,10 +1,13 @@
-<div class="medical-stock supplier-management child-project-management">
+<div class="medical-stock supplier-management child-project-management"
+
+
+>
   <table-list list-data="rest/authen/nearEffectPeriod/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json   -->
 
-    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyController">
+    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyCtrl">
       <page-main-header-component list-params="listParams"
                                   style="min-height:130px;"
                                   crumbs-nav='[{"name":"库存报表","link":"","style":""},{"name":"近效期／已过期","link":"","style":"color-custom-orange"}]'
@@ -12,10 +15,10 @@
       </page-main-header-component>
 
       <div class="mgl-xl status-num-list-new" style="top:-56px;">
-        <span status-style-toggle-new class="rect-status mgl-s "
-        ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期(283)</span>
+        <span status-style-toggle-new class="rect-status mgl-s "  ng-controller="validityStrategyCtrl"
+        ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{totalNep}})</span>
         <span status-style-toggle-new class="rect-status pr-color rect-status-active-new"
-        ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期(0)</span>
+        ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
       </div>
       <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
@@ -48,8 +51,12 @@
           </div>
           <div class="flex-column bg-white pd-l text-n">
             <div class="flex-item-6">
-              <span class="mgr-l">总计数量：<em class="pr-color">233</em></span>
+              <span class="mgr-l">总计数量：<em class="pr-color">{{totalExpired}}</em></span>
               <span>总计金额：<em class="pr-color">233</em></span>
+            </div>
+            <div class="flex-item-6" ng-click="listParams.q=''">
+              <!--<button type="button" href="" style="width: 80px;height: 20px;" class="pr-btn-save-glodbg fl-r">刷新效期</button>-->
+              <a href="" class="pr-btn-save-glodbg fl-r pdt-s">刷新效期</a>
             </div>
             <div class="flex-item-6">
               <!-- 导出 / 打印 -->
@@ -87,15 +94,32 @@
                       </div>
                     </div>
                   </td>
-                  <td>{{tr.code}}</td>
-                  <td>{{tr.name}}</td>
-                  <td>{{tr.medicalAttribute.name}}</td>
+                  <td>{{tr.medical.code}}</td>
+                  <td>{{tr.medical.name}}</td>
+                  <td>{{tr.medical.medicalAttribute.name}}</td>
                   <td>{{tr.specification}}</td>
                   <td>{{tr.productionBatch}}</td>
                   <td>{{tr.sterilizationBatchNumber}}</td>
-                  <td>{{tr.unit}}</td>
-                  <td>{{tr.guaranteePeriodAlarmDay}}</td>
-                  <td>{{tr.quantity}}</td>
+                  <td>{{tr.medical.unit}}</td>
+                  <td>
+                    <div class="relative inline-block">{{tr.remainValidityDays}}
+                      <span show-info-modalbox
+                            get-data-type="local"
+                            template-url="tpl/showInfoGuaranteePeriodAlarmDay"
+                            info-object="{{tr}}"
+                            info-title="剩余有效期天数">
+                  </span>
+                    </div>
+                  </td>
+                  <td><div class="relative inline-block">{{tr.stockModel.quantity}}
+                    <span show-info-modalbox
+                          get-data-type="local"
+                          template-url="tpl/showInfoQuantity"
+                          info-object="{{tr}}"
+                          info-title="数量">
+                      </span>
+                  </div>
+                  </td>
                   <td>{{tr.warehouseName}}</td>
                 </tr>
               </tbody>
