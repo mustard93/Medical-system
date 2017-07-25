@@ -3,8 +3,15 @@
      ng-controller="returnOrderCtrl"
      ajax-url="rest/authen/returnOrder/getOfEdit?lendOrderId={{mainStatus.pageParams.lendOrderId}}&id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
-   >
+     callback="formData.relIds=formData.relIds?formData.relIds:[];
+               initFlag=true;
+               watchFormChange('formData');
+               choisedMedicals=false;
+               calcTotalPrice(formData.orderMedicalNos);
+               quantityError=false;
+               canSubmit=false;
+               comfirmQuantity(formData.orderMedicalNos);
+               getCodeGenerationStrategy('归还单');">
   <form id="editForm"
          name="editForm"
          form-validator
@@ -89,7 +96,7 @@
                         ng-model="formData.orderCode" />
                   <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
                </span>
-               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode}}</em></span>
+               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
 
                <span class="mgr" style="margin-left: 10px;">单据日期:</span>
                <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
