@@ -22,13 +22,13 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
                $scope.totalNep =0;
               $scope.totalExpired =0;
 
-              $scope.totalExpired+= 1* data['已过期']['totalQuantity'];
+              $scope.totalExpired+= 1* data['已过期']['count'];
 
-              $scope.totalNep+= 1* data['近效期']['totalQuantity'];
+              $scope.totalNep+= 1* data['近效期']['count'];
 
-              $scope.totalCount+= 1* data['正常']['totalQuantity'];
-              $scope.totalCount+= 1* data['已过期']['totalQuantity'];
-              $scope.totalCount+= 1* data['近效期']['totalQuantity'];
+              $scope.totalCount+= 1* data['正常']['count'];
+              $scope.totalCount+= 1* data['已过期']['count'];
+              $scope.totalCount+= 1* data['近效期']['count'];
 
               console.log(" $scope.totalCount>>",$scope.totalCount);
 
