@@ -106,6 +106,13 @@ define('main/controllers', ['main/init'], function () {
                 return;
             }
 
+            //如果链接为空
+            if(!item.tabHref){
+                $rootScope.replaceTab($rootScope.getCurrentTab(),{templateUrl:$rootScope.getCurrentTab().templateUrl});
+                return;
+            }
+
+
             if(item.tabHref.indexOf('#/') != -1){
                 item.tabHref = item.tabHref.replace('#/','views/');
             }
@@ -137,7 +144,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $rootScope.refreshTab=function () {
-            uiTabs.refreshTab();
+            uiTabs.refresh();
         };
 
         $rootScope._findInArray=function (list,item,listObjAttr,itemAttr) {
