@@ -26,9 +26,9 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
 
               $scope.totalNep+= 1* data['近效期']['count'];
 
-              $scope.totalCount+= 1* data['正常']['count'];
-              $scope.totalCount+= 1* data['已过期']['count'];
-              $scope.totalCount+= 1* data['近效期']['count'];
+              $scope.totalCount+= 1* data['正常']['totalQuantity'];
+              $scope.totalCount+= 1* data['已过期']['totalQuantity'];
+              $scope.totalCount+= 1* data['近效期']['totalQuantity'];
 
               console.log(" $scope.totalCount>>",$scope.totalCount);
 
