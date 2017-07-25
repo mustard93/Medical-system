@@ -3783,7 +3783,6 @@ function  dtRightSide(utils) {
 // }
 
 
-
 angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
