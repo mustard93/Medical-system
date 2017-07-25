@@ -105,6 +105,15 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       var _keyarr = data['groupKey'].split('-');
       angular.forEach(_keyarr, function (item, index) {
         $scope.dataDetailsList[item] = data[item];
+
+        // 循环查找对应的分组条件，将其ID写入参数对象中
+        if (item === 'customerName') { $scope.dataDetailsList['customerId'] = data['customerId']; }
+        if (item === 'medicalAttributeName') { $scope.dataDetailsList['medicalAttributeId'] = data['medicalAttributeId']; }
+        if (item === 'medicalApprovedName') { $scope.dataDetailsList['orderMedicalNoId'] = data['orderMedicalNoId']; }
+        if (item === 'salesDepartmentName') { $scope.dataDetailsList['salesDepartmentId'] = data['salesDepartmentId']; }
+        if (item === 'saleUserName') { $scope.dataDetailsList['saleUserId'] = data['saleUserId']; }
+        if (item === 'departmentName') { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
+        if (item === 'inputUserName') { $scope.dataDetailsList['inputUserId'] = data['inputUserId']; }
       });
 
       if ($scope.listParams) {
@@ -115,14 +124,16 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
         }
       }
 
-      if (data['confirmOrderId']) { $scope.dataDetailsList['confirmOrderId'] = data['confirmOrderId']; }
-      if (data['customerId']) { $scope.dataDetailsList['customerId'] = data['customerId']; }
-      if (data['departmentId']) { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
-      if (data['inputUserId']) { $scope.dataDetailsList['inputUserId'] = data['inputUserId']; }
-      if (data['medicalAttributeId']) { $scope.dataDetailsList['medicalAttributeId'] = data['medicalAttributeId']; }
-      if (data['orderMedicalNoId']) { $scope.dataDetailsList['orderMedicalNoId'] = data['orderMedicalNoId']; }
-      if (data['saleUserId']) { $scope.dataDetailsList['saleUserId'] = data['saleUserId']; }
-      if (data['salesDepartmentId']) { $scope.dataDetailsList['salesDepartmentId'] = data['salesDepartmentId']; }
+      console.log(data);
+
+      // if (data['confirmOrderId']) { $scope.dataDetailsList['confirmOrderId'] = data['confirmOrderId']; }
+      // if (data['customerId']) { $scope.dataDetailsList['customerId'] = data['customerId']; }
+      // if (data['departmentId']) { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
+      // if (data['inputUserId']) { $scope.dataDetailsList['inputUserId'] = data['inputUserId']; }
+      // if (data['medicalAttributeId']) { $scope.dataDetailsList['medicalAttributeId'] = data['medicalAttributeId']; }
+      // if (data['orderMedicalNoId']) { $scope.dataDetailsList['orderMedicalNoId'] = data['orderMedicalNoId']; }
+      // if (data['saleUserId']) { $scope.dataDetailsList['saleUserId'] = data['saleUserId']; }
+      // if (data['salesDepartmentId']) { $scope.dataDetailsList['salesDepartmentId'] = data['salesDepartmentId']; }
 
       var _reqUrl = 'rest/authen/saleOrderStatistics/getSaleOrderStatisticsList';
       requestData(_reqUrl, $scope.dataDetailsList)
