@@ -981,19 +981,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 };
                 $scope.goto = function(_page) {
 
-
-                    // if(typeof  $scope.beforeGoto == 'function'){
-                    //
-                    //
-                    //     $scope.beforeGoto();
-                    //
-                    //
-                    //     // if(){
-                    //     //     $scope.status.currentPage = _page;
-                    //     //     $scope.getListData();
-                    //     // }
-                    // }
-
                     $scope.status.currentPage = _page;
                     $scope.getListData();
 

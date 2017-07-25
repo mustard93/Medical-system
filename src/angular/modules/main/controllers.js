@@ -830,18 +830,22 @@ define('main/controllers', ['main/init'], function () {
     function customTableDataController ($scope, utils, requestData) {
 
       // 切换用户机构
-      $scope.refreshTable = function (sortRequestUrl,sortItem) {
-        console.log(sortItem);
+      $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
+        // console.log(customListParams);
+        if (!customListParams.sortBy||!customListParams.sortWay) {
+          customListParams.sortBy=sortItem.propertyKey;
+          customListParams.sortWay=sortItem.sortCriteria;
+        }
         if(sortItem.canSort){
 
-          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
-            sortItem.sortCriteria='desc';
-          }else if (sortItem.sortCriteria=='desc') {
-            sortItem.sortCriteria='asc';
+          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
+            customListParams.sortWay='desc';
+          }else if (customListParams.sortWay=='desc') {
+            customListParams.sortWay='asc';
           }
           // 重新请求数据，然后刷新表格排序
-          var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
-          requestData(_url, {}, 'get')
+          // var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+          requestData(sortRequestUrl, customListParams, 'get')
           .then(function (results) {
             if (results[1].code === 200) {
                 $scope.tbodyList=results[1].data;
@@ -850,14 +854,17 @@ define('main/controllers', ['main/init'], function () {
           .catch(function (error) {
           });
         }
+      };
+
+      // 点击分页请求数据也要带上筛选条件
+      $scope.reGetListData=function(){
+
       }
     }
 
     angular.module('manageApp.main')
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
-
-.controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
-
+    .controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])

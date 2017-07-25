@@ -1644,9 +1644,6 @@ function customTableSet (modal,utils,requestData) {
 }
 
 
-
-
-
 /**
     打印组件
   */
@@ -2750,8 +2747,12 @@ function customTable() {
             // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
             if ($attrs.customTableRepeatData) {
                 $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
-                console.log($scope._customTableRepeatData);
             }
+
+            if ($attrs.customListParams) {
+                $scope._customListParams=$scope.$eval($attrs.customListParams);
+            }
+
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;

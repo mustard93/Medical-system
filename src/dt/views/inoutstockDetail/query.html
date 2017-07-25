@@ -1,4 +1,4 @@
-<div class="inoutstockDetail clearfix"><!-- pageCtrl-->
+<div class="inoutstockDetail clearfix" ><!-- pageCtrl-->
 
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
@@ -13,7 +13,9 @@
     <!--listParams:{{listParams}}-->
 
 <!--body wrapper start                ?createAtBeg={{listParams.createAtBeg}}&createAtEnd={{listParams.createAtEnd}} -->
-<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
+<table-list list-data="rest/authen/inoutstockDetail/query.json"
+    class="table pr-table pr-new-table"
+    list-params="listParams">
     <div class="pd-c-xxxl mgb-l">
         <select class="pr-select select-wd"
           chosen
@@ -36,18 +38,18 @@
         <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
             <input type="text"
                    datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   class="ipt-date  color-6 mgr pr-indent-10"
+                   width="120px"
                    ng-readonly="true"
-
                    ng-model="listParams.createAtBeg">
             <span class="date-icon"></span>
         </div>
         <div class="date-icon-outside" ng-if="listParams.createAtBeg">
             <input type="text"
                    datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   class="ipt-date color-6 mgr pr-indent-10"
+                    width="120px"
                    ng-readonly="true"
-
                    ng-model="listParams.createAtBeg">
             <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
         </div>
@@ -55,9 +57,9 @@
         <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
             <input type="text"
                    datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   class="ipt-date  color-6 mgr pr-indent-10"
                    ng-readonly="true"
-
+                   width="120px"
                    ng-model="listParams.createAtEnd"
                    invalid-popover
                    popover-show="listParams.createAtEnd<listParams.createAtBeg"
@@ -67,9 +69,9 @@
         <div class="date-icon-outside" ng-if="listParams.createAtEnd">
             <input type="text"
                    datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   class="ipt-date  color-6 mgr pr-indent-10"
                    ng-readonly="true"
-
+                   width="120px"
                    ng-model="listParams.createAtEnd"/>
             <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
         </div>
@@ -88,7 +90,7 @@
           <input type="text" class="ipt pdr-xxl" placeholder="商品名称/单据编号" ng-model="listParams.q">
           <i class=""></i>
         </div>
-
+        <!-- {{listParams}} -->
       </div>
 
     <div>
@@ -101,11 +103,13 @@
                 <div></div>
             </div>
         </div>
-        <div ng-if="!status.isLoading" ng-controller="inoutstockDetailQueryCtrl">
+         <!-- ng-controller="inoutstockDetailQueryCtrl" -->
+        <div ng-if="!status.isLoading">
           <div
           custom-table="com.pangu.mss.domain.mongo.warehouse.InoutstockDetail"
           custom-key="warehouse-InoutstockDetail"
           custom-table-url="rest/authen/inoutstockDetail/query.json"
+          custom-list-params={{listParams}}
           custom-tr-menus="1"
           style="width:100%;">
           </div>
