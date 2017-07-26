@@ -77,14 +77,17 @@
                             <td>{{tr.address}}</td>
                             <td>{{tr.groupId}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/warehouse/edit.html?id={{tr.id}}" ng-if="$root.hasAuthor('仓库管理修改')">
+                                <button type="button"
+                                class="btn btn-primary" modal-right="700" modal-scope="this"
+                                modal-url="views/warehouse/edit.html?id={{tr.id}}"
+                                ng-if="$root.hasAuthor('仓库管理修改')">
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
                                 <button type="button"
                                 class="btn btn-danger"
                                 ng-click="deleteThis('rest/authen/warehouse/delete', tr.id)"
-                                ng-disabled=""
+                                ng-disabled="tr.isDefault=='是'&&(tr.type=='外部库'||tr.type=='虚拟库')"
                                 ng-if="$root.hasAuthor('仓库管理删除')">
                                     <i class="fa fa-trash-o"></i>
                                     删除</button>
