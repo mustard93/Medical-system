@@ -23,8 +23,8 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstMedical-editForm"
-            name="EditForm"
+            id="medicalStock_editForm"
+            name="medicalStock_editForm"
             form-validator
             parameter-body
             action="rest/authen/firstMedicalApplication/saveBaseInfo"
@@ -112,6 +112,14 @@
                         style="width:80px;"
                         name="code"
                         ng-model="formData.originalCode"/>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new-s ipt-new"
+                         ng-model="formData.barcode"/>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -359,7 +367,7 @@
                          name="quoteprice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.quoteprice.$valid"
+                         popover-show="!medicalStock_editForm.quoteprice.$valid"
                          popover-options='{"content":"牌价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -374,7 +382,7 @@
                          name="retailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.retailPrice.$valid"
+                         popover-show="!medicalStock_editForm.retailPrice.$valid"
                          popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -389,7 +397,7 @@
                          name="tradePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.tradePrice.$valid"
+                         popover-show="!medicalStock_editForm.tradePrice.$valid"
                          popover-options='{"content":"批发价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -404,7 +412,7 @@
                          name="maxRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.maxRetailPrice.$valid"
+                         popover-show="!medicalStock_editForm.maxRetailPrice.$valid"
                          popover-options='{"content":"最高售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -419,7 +427,7 @@
                          name="minRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.minRetailPrice.$valid"
+                         popover-show="!medicalStock_editForm.minRetailPrice.$valid"
                          popover-options='{"content":"最低售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -434,7 +442,7 @@
                          name="purchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.purchasePrice.$valid"
+                         popover-show="!medicalStock_editForm.purchasePrice.$valid"
                          popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -449,7 +457,7 @@
                          name="maxPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.maxPurchasePrice.$valid"
+                         popover-show="!medicalStock_editForm.maxPurchasePrice.$valid"
                          popover-options='{"content":"最高采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -464,7 +472,7 @@
                          name="minPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!EditForm.minPurchasePrice.$valid"
+                         popover-show="!medicalStock_editForm.minPurchasePrice.$valid"
                          popover-options='{"content":"最低采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -524,7 +532,7 @@
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
                  nosave-callback="goTo({tabHref:'#/medicalStock/query.html'tabName:'品种管理'})"
-                 save-callback="submitForm('editForm','exit');
+                 save-callback="submitForm('medicalStock_editForm','exit');
                  $root.goTo({tabHref:'#/medicalStock/query.html',tabName:'品种管理'})">返回申请单列表</a>
               <a ng-if="!changeFlag" tab-nav tab-name="品种管理"  tab-href="#/medicalStock/query.html">返回申请单列表</a>
             </span>
@@ -535,7 +543,7 @@
                       href="javascript:;"
                       class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="EditForm.$invalid "
+                      ng-disabled="medicalStock_editForm.$invalid "
                       modal-center="350"
                       modal-scope="this"
                       modal-data='{"title":"确认提示",
@@ -554,8 +562,8 @@
                       href="javascript:;"
                       class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="EditForm.$invalid || !changeFlag"
-                      ng-click="submitForm('editForm','save')">保存
+                      ng-disabled="medicalStock_editForm.$invalid || !changeFlag"
+                      ng-click="submitForm('medicalStock_editForm','save')">保存
               </button>
           </span>
       </form>

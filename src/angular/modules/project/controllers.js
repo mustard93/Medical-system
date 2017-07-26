@@ -684,6 +684,11 @@ define('project/controllers', ['project/init',
       $scope.itemShow=item;
     }
 
+    // 保存之后是否依然选中
+    $scope.isSelectItem=function(item){
+
+    }
+
   // 点击隐藏按钮，隐藏当前选中的该字段
     $scope.hiddenThisItem=function(hiddenItem){
 
