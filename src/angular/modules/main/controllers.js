@@ -86,8 +86,9 @@ define('main/controllers', ['main/init'], function () {
 
                 //如果当前tab 的 templateUrl 与 新的templateUrl 一致 刷新 tab;
                 if(obj.tab.templateUrl == item.tabHref){
-                    $rootScope.refreshTab();
-                    return;
+                    uiTabs.refresh(obj.tab);
+                    $rootScope.active(obj.tab);
+                   return;
                 }
 
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
