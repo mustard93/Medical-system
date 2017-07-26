@@ -2581,6 +2581,8 @@ function flashAddMedical(utils,$timeout) {
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
+          $scope.id='_'+new Date().getTime();
+
           // 隐藏标题
           if (angular.isDefined($attrs.hideTitle)) {
             $scope.hideTitle = true;
@@ -2639,7 +2641,7 @@ function flashAddMedical(utils,$timeout) {
           $scope.angucompleteMedicalOnChange = function () {
             //隐藏数量输入字段情况下，选择药械，触发添加事件。
             if($scope.hideQuantity){
-              $('#addMedicalList').focus();
+              $('#addMedicalList'+$scope.id).focus();
               $scope.addDataFn();
             }else{//隐藏字段情况下，选择药械，触发添加事件。
               var inputId='flashAddMedical_input_count';

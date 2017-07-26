@@ -12,6 +12,7 @@ define('main/controllers', ['main/init'], function () {
 
         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
         console.log("tabCtrl",$scope.mainStatus);
+        modal.close();
   }
     /**
      * 主控
@@ -50,7 +51,7 @@ define('main/controllers', ['main/init'], function () {
         });
 
         $rootScope.$on('tabChangeSuccess', function (e, tab) {
-            console.log(tab);
+            modal.close();
 
             $rootScope.currentTab = uiTabs.current;
         });
@@ -60,7 +61,7 @@ define('main/controllers', ['main/init'], function () {
         }
 
         $rootScope.addTab = function (item) {
-
+            modal.close();
             if(!item.tabHref){
                 item.tabHref=item.ahref;
             }
@@ -134,6 +135,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $rootScope.active = function (tab) {
+
             uiTabs.active(tab);
         };
 
