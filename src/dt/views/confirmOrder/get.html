@@ -5,8 +5,8 @@
      callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
      alert-error>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="confirmOrder_editForm_query"
+        name="confirmOrder_editForm_query"
         form-validator
         parameter-body
         action="rest/authen/confirmOrder/save.json"
@@ -259,7 +259,7 @@
            dialog-content="该销售单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})"
-           save-callback="submitForm('editForm','exit')">返回销售单列表
+           save-callback="submitForm('confirmOrder_editForm_query','exit')">返回销售单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html?id={{scopeData.relId}}" >返回销售单列表</a>
@@ -278,7 +278,7 @@
             </a>
 
 
-        <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('confirmOrder_editForm_query','save')">保存</button>
         <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>

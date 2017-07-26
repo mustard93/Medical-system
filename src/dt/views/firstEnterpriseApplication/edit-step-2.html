@@ -33,8 +33,8 @@
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstEnterpriseEditForm"
-            name="firstEnterpriseEditForm"
+            id="firstEnterpriseApplication_editForm_step"
+            name="firstEnterpriseApplication_editForm_step"
             form-validator
             parameter-body
             action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validateFlag=true"
@@ -91,7 +91,7 @@
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})"
-             save-callback="submitForm('first-enterprise-editForm','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">返回申请单列表
+             save-callback="submitForm('firstEnterpriseApplication_editForm_step','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">返回申请单列表
           </a>
           <a ng-if="!changeFlag"
           tab-nav
@@ -124,7 +124,7 @@
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag "
-                  ng-click="submitForm('first-enterprise-editForm','save')">保存
+                  ng-click="submitForm('firstEnterpriseApplication_editForm_step','save')">保存
                   <!-- || firstMedicalEditForm.applyReason.$pristine -->
           </button>
         </span>
@@ -134,8 +134,8 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                   ng-disabled="!firstEnterpriseEditForm.$valid || canSubmit"
-                  ng-click="submitForm('first-enterprise-editForm','submit');$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-3.html?id='+formData.id,'tabName':'首营企业管理'})">下一步
+                   ng-disabled="!firstEnterpriseApplication_editForm_step.$valid || canSubmit"
+                  ng-click="submitForm('firstEnterpriseApplication_editForm_step','submit');$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-3.html?id='+formData.id,'tabName':'首营企业管理'})">下一步
           </button>
 
           <!-- ng-disabled="!formData.note" -->
