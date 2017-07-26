@@ -84,6 +84,12 @@ define('main/controllers', ['main/init'], function () {
                     item.tabHref = item.tabHref.replace('#/','views/');
                 }
 
+
+                if(obj.tab.templateUrl == item.tabHref){
+                    $rootScope.refreshTab();
+                    return;
+                }
+
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
 
                 $rootScope.active(obj.tab);
