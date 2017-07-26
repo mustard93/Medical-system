@@ -4,7 +4,7 @@
       ng-init="className_getOfEdit=false;className='com.pangu.mss.domain.mongo.order.OrderMedicalNo';key='销售单详情列表'"
       ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}&key={{key}}"
       scope-data="formData"
-      callback="initFlag=true;watchFormChange('formData');formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
+      callback="initFlag=true;watchFormChange('itemShow');formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
   <form id="editForm"
         name="editForm"
@@ -15,7 +15,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="watchFormChange('formData')"
+        callback="watchFormChange('itemShow');isSelectItem(itemShow);"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
