@@ -1,19 +1,22 @@
 <div
-    ajax-url="rest/authen/nearEffectPeriod/query?nearValiditType={{listParams.nearValiditType || '近效期'}}"
+    ajax-url="rest/authen/nearEffectPeriod/query?nearValiditType={{listParams.nearValiditType}}"
     scope-data="tabs"
     alert-error
     ng-init="listObject={};listParams.nearValiditType='近效期'"
     callback="initFlag=true;"
 >
-    <div class="dt-right-side-content-tab-title">
+    <div class="dt-right-side-content-tab-title"
+    ajax-url="rest/authen/nearEffectPeriod/countByNearValiditType"
+    scope-data="countData"
+    >
 
         <div  class="dt-right-side-content-tab-title-item" ng-class="{'on':(listParams.nearValiditType=='近效期')}">
-            <span ng-click="listParams.nearValiditType='近效期'">近效期(<i class="color-custom-orange">{{tabs.length || 0 }}</i>)</span>
+            <span ng-click="listParams.nearValiditType='近效期'">近效期预警(<i class="color-custom-orange">{{countData['近效期'].count || 0}}</i>)</span>
             <div class="vertical-line"></div>
             <div class="level-line"></div>
         </div>
         <div  class="dt-right-side-content-tab-title-item" ng-class="{'on':(listParams.nearValiditType=='已过期')}">
-            <span ng-click="listParams.nearValiditType='已过期'">已过期(<i class="color-custom-orange">{{tabs.length || 0 }}</i>)</span>
+            <span ng-click="listParams.nearValiditType='已过期'">已过期预警(<i class="color-custom-orange">{{countData['已过期'].count || 0}}</i>)</span>
             <div class="vertical-line"></div>
             <div class="level-line"></div>
         </div>
