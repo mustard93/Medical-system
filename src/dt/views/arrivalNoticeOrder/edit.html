@@ -172,6 +172,7 @@
                     <th class="text-center">单位</th>
                     <th class="text-center w-106">到货数量</th>
                     <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">批号</th>
+                    <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">灭菌批号</th>
                     <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">生产日期</th>
                     <th class="text-center" ng-if="formData.orderBusinessType=='直发采购'">失效日期</th>
                     <th class="text-center w-130" >预入仓库</th>
@@ -264,6 +265,13 @@
                             ng-model="tr.productionBatch"
                             >
                      </td><!-- 批号 -->
+                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
+                       <input type="text"
+                            class="inline ipt pr-ipt-60 text-center"
+                            style="width:100px;"
+                            ng-model="tr.sterilizationBatchNumber"
+                            >
+                     </td><!-- 灭菌批号 -->
                      <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
                        <div class="inline-block relative">
                          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期"  ng-model="tr.productionDate">
