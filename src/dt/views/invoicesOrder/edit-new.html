@@ -11,8 +11,8 @@
           callback="formData=showData.distributionInfo;formData.id=showData.id"
           alert-error> -->
 
-  <form id="editForm"
-        name="editForm"
+  <form id="invoicesOrder_editForm"
+        name="invoicesOrder_editForm"
         form-validator
         parameter-body
         action="rest/authen/invoicesOrder/save.json"
@@ -148,7 +148,7 @@
            dialog-content="该发货单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})"
-           save-callback="submitForm('editForm','exit')">返回发货单列表
+           save-callback="submitForm('invoicesOrder_editForm','exit')">返回发货单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
@@ -163,7 +163,7 @@
            call-back="$root.goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('invoicesOrder_editForm','save')">保存</button>
 
         <span ng-if="formData&& scopeData.didateFilter.buttons.length>0"
                   before-if-eval="formData"
