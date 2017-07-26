@@ -2687,12 +2687,8 @@ function flashAddMedical(utils,$timeout) {
 
           //input输入框回车事件。
           $scope.handleAddThisItem = function (e) {
-              console.log("enter key  ...........");
             var keycode = window.event ? e.keyCode : e.which;
             if (keycode == 13) {
-
-
-
               $scope.addDataFn();
             }
               return false;
