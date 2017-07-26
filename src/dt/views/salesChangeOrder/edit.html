@@ -13,8 +13,8 @@
                comfirmQuantity(formData.orderMedicalNos);">
   <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
 
-  <form id="editForm"
-         name="editForm"
+  <form id="salesChangeOrder_editForm"
+         name="salesChangeOrder_editForm"
          form-validator
          parameter-body
          action="rest/authen/salesChangeOrder/save"
@@ -267,7 +267,7 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!salesChangeOrder_editForm['quantity'+$index].$valid}}"
                                  popover-show="checkQuantity(tr)"
                                  popover-options='{"content":"换货数量不能大于可换数量或小于1", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
@@ -560,7 +560,7 @@
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/query.html'})"
-             save-callback="submitForm('editForm','exit')">返回销售换货单列表
+             save-callback="submitForm('salesChangeOrder_editForm','exit')">返回销售换货单列表
           </a>
 
           <a ng-if="!changeFlag" tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html" >返回销售换货单列表</a>
@@ -582,7 +582,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('editForm','save')">保存
+                  ng-click="submitForm('salesChangeOrder_editForm','save')">保存
           </button>
         </span>
 
@@ -594,7 +594,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('editForm','submit')"
+                  callback="submitForm('salesChangeOrder_editForm','submit')"
                   ng-disabled="!formData.customerId || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>
