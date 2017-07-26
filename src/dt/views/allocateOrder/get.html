@@ -6,7 +6,7 @@
      alert-error>
 
   <form id="editForm"
-        name="editForm"
+        name="allocateOrder_editForm_query"
         form-validator
         parameter-body
         action="rest/authen/allocateOrder/save.json"
@@ -186,7 +186,7 @@
            dialog-content="该调拨单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabName:'调拨单',tabHref:'#/allocateOrder/query.html'})"
-           save-callback="submitForm('editForm','exit')">返回调拨单列表
+           save-callback="submitForm('allocateOrder_editForm_query','exit')">返回调拨单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag"
@@ -207,7 +207,7 @@
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a> -->
 
-        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('allocateOrder_editForm_query','save')">保存</button>
         <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{formData.didateFilter.buttons}}">
