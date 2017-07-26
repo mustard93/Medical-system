@@ -3573,10 +3573,11 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
       element.hover(function () {
         // 计算当前tr距离顶部的高度
-        var _offsetTop = $(element).offset().top - document.body.scrollTop - 15;
+        var _offsetTop = $(element).offset().top - document.body.scrollTop +23;
+        console.log(_handleBtnGroup.width());
         // 解决屏幕变小后按钮消失的bug。
-        // 向左的偏移量=当前元素的宽度-本身按钮的宽度-15
-        var leftShift=parseInt($(element).width()-_handleBtnGroup.width()-15);
+        // 向左的偏移量=当前元素的宽度-本身按钮的宽度
+        var leftShift=parseInt($(element).width()-_handleBtnGroup.width());
         // 计算当前页面宽度
         // var _pageWidth = null;
         // if (window.innerWidth) {
@@ -3587,9 +3588,9 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
         // var _pageWidth = $("#main_body").width() - 23;
 
-        // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
+        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
 
-        _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
+        // _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
