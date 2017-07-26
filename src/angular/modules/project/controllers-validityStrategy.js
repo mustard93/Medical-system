@@ -62,7 +62,7 @@ define('project/controllers-validityStrategy', ['project/init'], function() {
       requestData(requestUrl, _data, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            _reloadListData(returnUrl);debugger;
+            _reloadListData(returnUrl);
             $scope.isChoiseAll = false;
             $scope.choisedMedicalList=[];
           }
