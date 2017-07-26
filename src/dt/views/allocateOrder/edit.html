@@ -4,8 +4,8 @@
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('调拨单');finishQuantity(formData.orderMedicalNos);quantityError=false;"
      alert-error>
-  <form id="editForm"
-        name="editForm"
+  <form id="allocateOrder_editForm"
+        name="allocateOrder_editForm"
         form-validator
         parameter-body
         action="rest/authen/allocateOrder/save.json"
@@ -365,30 +365,30 @@
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag "
-                ng-click="submitForm('editForm','save');">保存
+                ng-click="submitForm('allocateOrder_editForm','save');">保存
         </button>
 
         <button ng-if="(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 ng-disabled="!formData.orderMedicalNos.length ||
                              !formData.orderCode ||!isDisabledNextStep||
-                             editForm.$invalid ||
+                             allocateOrder_editForm.$invalid ||
                              formData.sourceId==formData.targetId ||
                              !formData.sourceId || !formData.targetId ||
                              !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
                 class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+                ng-click="formData.validFlag=true;submitForm('allocateOrder_editForm','submit-allocate')">提交
         </button>
 
         <button ng-if="(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 ng-disabled="!formData.orderMedicalNos.length ||!isDisabledNextStep||
-                             editForm.$invalid ||
+                             allocateOrder_editForm.$invalid ||
                              formData.sourceId==formData.targetId ||
                              !formData.sourceId || !formData.targetId ||
                              !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
                 class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+                ng-click="formData.validFlag=true;submitForm('allocateOrder_editForm','submit-allocate')">提交
         </button>
 
       </div>
