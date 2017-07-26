@@ -49,7 +49,9 @@ define('project/controllers', ['project/init',
                                'project/controllers-medicalFlashCheck',
                                'project/controllers-salesChangeOrder',
                                'project/controllers-orderStatistics',
-                               'project/controllers-validityStrategy'
+                               'project/controllers-validityStrategy',
+                               'project/controllers-validityDistribution',
+                               'project/controllers-nearEffectPeriod'
 
 ], function() {
 

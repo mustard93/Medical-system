@@ -1,11 +1,10 @@
 <div class="medical-stock supplier-management child-project-management">
   <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=已过期"
-
               list-params="listParams"
               search-mode="noCaseSensitive"
-              search-param="q"><!-- http://localhost:3000/src/dt/rest/nearEffectPeriod/query.json   -->
+              search-param="q">
 
-    <div class="medical-stock child-project-management receive-item" ng-controller="validityStrategyCtrl">
+    <div class="medical-stock child-project-management receive-item" ng-controller="nearEffectPeriodController">
       <page-main-header-component list-params="listParams"
                                   style="min-height:130px;"
                                   crumbs-nav='[{"name":"库存报表","link":"","style":""},{"name":"近效期／已过期","link":"","style":"color-custom-orange"}]'
@@ -13,10 +12,8 @@
       </page-main-header-component>
 
       <div class="mgl-xl status-num-list-new" style="top:-56px;">
-        <span status-style-toggle-new class="rect-status mgl-s "
-        ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{totalNep}})</span>
-        <span status-style-toggle-new class="rect-status pr-color rect-status-active-new"
-        ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
+        <span status-style-toggle-new class="rect-status mgl-s" ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{totalNep}})</span>
+        <span status-style-toggle-new class="rect-status pr-color rect-status-active-new" ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
       </div>
       <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
