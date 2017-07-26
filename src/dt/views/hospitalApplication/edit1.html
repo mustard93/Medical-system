@@ -309,11 +309,11 @@
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/hospitalApplication/query.html')"
+               nosave-callback="goTo({tabHref:'#/hospitalApplication/query.html',tabName:'首营客户管理'})"
                save-callback="submitForm('hospitalApplication_editForm1','save');$root.goTo('#/hospitalApplication/query.html')">返回申请单列表
             </a>
 
-            <a ng-if="!changeFlag" href="#/hospitalApplication/query.html">返回申请单列表</a>
+            <a ng-if="!changeFlag" tab-nav tab-name="首营客户管理" tab-href="#/hospitalApplication/query.html">返回申请单列表</a>
           </span>
           <span class="mgl mgt">
             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
