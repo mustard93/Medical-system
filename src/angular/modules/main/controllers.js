@@ -84,6 +84,12 @@ define('main/controllers', ['main/init'], function () {
                     item.tabHref = item.tabHref.replace('#/','views/');
                 }
 
+                //如果当前tab 的 templateUrl 与 新的templateUrl 一致 刷新 tab;
+                if(obj.tab.templateUrl == item.tabHref){
+                    $rootScope.refreshTab();
+                    return;
+                }
+
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
 
                 $rootScope.active(obj.tab);

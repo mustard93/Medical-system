@@ -8,8 +8,8 @@
   <!-- 关闭信息 -->
   <div ng-if="formData.onLineOrderStatus=='已关闭'" class="cancel-info-layer-style">采购计划已关闭，无法生成销售单</div>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="salesOrder_editForm1"
+        name="salesOrder_editForm1"
         form-validator
         parameter-body
         action="rest/authen/salesOrder/save.json"
@@ -220,7 +220,7 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
@@ -245,7 +245,7 @@
                              required
                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                              invalid-popover
-                             valid-value="{{!editForm['strike_price'+$index].$valid}}"
+                             valid-value="{{!salesOrder_editForm1['strike_price'+$index].$valid}}"
                              popover-show
                              popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                       <p class="color-orange pr-indent-35">
@@ -276,7 +276,7 @@
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
-                             valid-value="{{!editForm['discountPrice'+$index].$valid}}"
+                             valid-value="{{!salesOrder_editForm1['discountPrice'+$index].$valid}}"
                              popover-show
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountRate=((tr.price-tr.discountPrice)/tr.price*100).toFixed(2)"/>
@@ -289,7 +289,7 @@
                              ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
                              required
                              invalid-popover
-                             valid-value="{{!editForm['discountRate'+$index].$valid}}"
+                             valid-value="{{!salesOrder_editForm1['discountRate'+$index].$valid}}"
                              popover-show="tr.discountRate>100"
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
@@ -498,7 +498,7 @@
              dialog-content="该购需单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo({tabHref:'#/salesOrder/query.html',tabName:'购需单'})"
-             save-callback="submitForm('editForm','exit')">返回购需单列表
+             save-callback="submitForm('salesOrder_editForm1','exit')">返回购需单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="购需单" tab-href="#/salesOrder/query.html" >返回购需单列表</a>
@@ -533,15 +533,15 @@
           <button class="pr-btn-save-glodbg mgr-s"
                   type="button"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('editForm','save')">保存
+                  ng-click="submitForm('salesOrder_editForm1','save')">保存
           </button>
 
           <button type="button"
-                  ng-click="submitForm('editForm','submit')"
+                  ng-click="submitForm('salesOrder_editForm1','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
                                !formData.customerId ||
-                               !editForm.$valid ||
+                               !salesOrder_editForm1.$valid ||
                                formData.contactsNull ||
                                formData.onLineOrderStatus=='已关闭'">生成销售单
           </button>

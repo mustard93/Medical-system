@@ -5,8 +5,8 @@
      callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
      alert-error>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="lendOrder_editForm1"
+        name="lendOrder_editForm1"
         form-validator
         parameter-body
         action="rest/authen/confirmOrder/save.json"
@@ -94,7 +94,7 @@
           </div>
 
           <div class="flex-item-6 text-right">
-            <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span> -->
             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus || '暂无'}}</em></span>
             <!--<a-->
                <!--modal-center="1000px"-->
@@ -315,7 +315,7 @@
            dialog-content="该借出单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabHref:'#/lendOrder/query.html',tabName:'借出单'})"
-           save-callback="submitForm('editForm','exit')">返回借出单列表
+           save-callback="submitForm('lendOrder_editForm1','exit')">返回借出单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="借出单" tab-href="#/lendOrder/query.html?id={{scopeData.relId}}" >返回借出单列表</a>
@@ -331,7 +331,7 @@
            call-back="$root.goTo({tabHref:'#/lendOrder/query.html',tabName:'借出单'})">删除
         </a>
 
-        <!--<button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>-->
+        <!--<button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('lendOrder_editForm1','save')">保存</button>-->
 
         <button ng-if="scopeData.orderStatus=='已完成' && scopeData.returnType=='待归还'" type="button" class="pr-btn-save-glodbg mgr" ng-click="cereatReturnOrder(scopeData.id)">生成归还单</button>
 

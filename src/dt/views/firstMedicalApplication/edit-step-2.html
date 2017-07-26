@@ -26,8 +26,8 @@
         </div>
         <div class="content-wrapper-main mgt">
             <form class="form-horizontal"
-                  id="firstMedical-editForm"
-                  name="firstMedicalEditForm"
+                  id="firstMedicalApplication_editForm_step"
+                  name="firstMedicalApplication_editForm_step"
                   form-validator
                   parameter-body
                   action="rest/authen/firstMedicalApplication/saveApplyReason?validateFlag=true"
@@ -72,7 +72,7 @@
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
                nosave-callback="goTo('#/otherCustomerApplication/query.html')"
-               save-callback="submitForm('firstMedical-editForm','save');$root.goTo('#/otherCustomerApplication/query.html')">返回申请单列表
+               save-callback="submitForm('firstMedicalApplication_editForm_step','save');$root.goTo('#/otherCustomerApplication/query.html')">返回申请单列表
             </a>
             <a ng-if="!changeFlag" tab-nav
             tab-name='首营品种管理'
@@ -92,8 +92,8 @@
           </span>
                         <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!changeFlag || !formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
-                    ng-click="submitForm('firstMedical-editForm','save')">保存
+                    ng-disabled="!changeFlag || !formData.applyReason || firstMedicalApplication_editForm_step.applyReason.$pristine"
+                    ng-click="submitForm('firstMedicalApplication_editForm_step','save')">保存
             </button>
           </span>
                         <span class="mgl">
@@ -102,7 +102,7 @@
                         <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
                     ng-disabled="!formData.applyReason"
-                    ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                    ng-click="submitForm('firstMedicalApplication_editForm_step','submit')">下一步
             </button>
           </span>
                     </div>

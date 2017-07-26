@@ -5,8 +5,8 @@
     callback="formData=scopeData.distributionInfo;formData.id=scopeData.id"
     alert-error>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="invoicesOrder_editForm"
+        name="invoicesOrder_editForm"
         form-validator
         parameter-body
         action="rest/authen/invoicesOrder/save.json"
@@ -88,7 +88,7 @@
             <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n || "暂无"}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-             <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+             <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span> -->
             <a
             modal-center="1000px"
             modal-data='{"businessKey":"{{scopeData.id}}"}'
@@ -287,7 +287,7 @@
            dialog-content="该发货单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})"
-           save-callback="submitForm('editForm','exit')">返回发货单列表
+           save-callback="submitForm('invoicesOrder_editForm','exit')">返回发货单列表
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
@@ -305,7 +305,7 @@
         <!-- <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
-                ng-click="submitForm('editForm','save')">保存
+                ng-click="submitForm('invoicesOrder_editForm','save')">保存
         </button> -->
 
         <span ng-if="formData&& scopeData.didateFilter.buttons.length>0"

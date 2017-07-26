@@ -29,8 +29,8 @@
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstMedical-editForm"
-            name="firstMedicalEditForm"
+            id="firstMedicalApplication_editForm1"
+            name="firstMedicalApplication_editForm1"
             form-validator
             parameter-body
             action="rest/authen/firstMedicalApplication/saveBaseInfo"
@@ -370,7 +370,7 @@
                          name="quoteprice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.quoteprice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.quoteprice.$valid"
                          popover-options='{"content":"牌价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -385,7 +385,7 @@
                          name="retailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.retailPrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.retailPrice.$valid"
                          popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -400,7 +400,7 @@
                          name="tradePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.tradePrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.tradePrice.$valid"
                          popover-options='{"content":"批发价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -415,7 +415,7 @@
                          name="maxRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.maxRetailPrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.maxRetailPrice.$valid"
                          popover-options='{"content":"最高售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -430,7 +430,7 @@
                          name="minRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.minRetailPrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.minRetailPrice.$valid"
                          popover-options='{"content":"最低售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -445,7 +445,7 @@
                          name="purchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.purchasePrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.purchasePrice.$valid"
                          popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -460,7 +460,7 @@
                          name="maxPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.maxPurchasePrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.maxPurchasePrice.$valid"
                          popover-options='{"content":"最高采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -475,7 +475,7 @@
                          name="minPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.minPurchasePrice.$valid"
+                         popover-show="!firstMedicalApplication_editForm1.minPurchasePrice.$valid"
                          popover-options='{"content":"最低采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -531,7 +531,7 @@
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
                nosave-callback="goTo('#/firstMedicalApplication/query.html')"
-               save-callback="submitForm('firstMedical-editForm','save');$root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表
+               save-callback="submitForm('firstMedicalApplication_editForm1','save');$root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表
             </a>
 
             <a ng-if="!changeFlag" tab-nav
@@ -553,12 +553,12 @@
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag "
-                      ng-click="submitForm('firstMedical-editForm','save')">保存</button>
+                      ng-click="submitForm('firstMedicalApplication_editForm1','save')">保存</button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!firstMedicalEditForm.$valid ||!formData.medicalAttribute.name"
-                      ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                      ng-disabled="!firstMedicalApplication_editForm1.$valid ||!formData.medicalAttribute.name"
+                      ng-click="submitForm('firstMedicalApplication_editForm1','submit')">下一步
               </button>
             </span>
           </div>

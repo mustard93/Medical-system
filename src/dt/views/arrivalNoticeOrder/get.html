@@ -4,8 +4,8 @@
      callback="initFlag=true;formData.note=scopeData.note;formData.id=scopeData.id;"
      alert-error>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="arrivalNoticeOrder_editForm"
+        name="arrivalNoticeOrder_editForm"
         form-validator
         parameter-body
         action="rest/authen/arrivalNoticeOrder/save.json"
@@ -93,7 +93,7 @@
           <div class="flex-item-6 text-right">
             <!-- <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n ||'暂无'}}</em></span> -->
             <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
-             <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+             <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span> -->
             <a ng-if="initFlag"
                modal-center="1000px"
                modal-data='{"businessKey":"{{scopeData.relId}}"}'
@@ -286,7 +286,7 @@
            dialog-content="该来货通知单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo({tabHref:'#/arrivalNoticeOrder/query.html',tabName:'来货通知单'})"
-           save-callback="submitForm('editForm','exit')">返回来货通知单列表
+           save-callback="submitForm('arrivalNoticeOrder_editForm','exit')">返回来货通知单列表
         </a>
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html?id={{scopeData.relId}}" >返回来货通知单列表</a>
         </span>

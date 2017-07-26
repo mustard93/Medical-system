@@ -12,8 +12,8 @@
                canSubmit=false;
                comfirmQuantity(formData.orderMedicalNos);
                getCodeGenerationStrategy('归还单');">
-  <form id="editForm"
-         name="editForm"
+  <form id="returnOrder_editForm"
+         name="returnOrder_editForm"
          form-validator
          parameter-body
          action="rest/authen/returnOrder/save"
@@ -234,7 +234,7 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!returnOrder_editForm['quantity'+$index].$valid}}"
                                  popover-show="checkQuantity(tr)"
                                  popover-options='{"content":"计划归还数量不能大于待还数量或小于1", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
@@ -371,7 +371,7 @@
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo({tabName:'归还单',tabHref:'#/returnOrder/query.html'})"
-             save-callback="submitForm('editForm','exit')">返回归还单列表
+             save-callback="submitForm('returnOrder_editForm','exit')">返回归还单列表
           </a>
 
           <a ng-if="!changeFlag"
@@ -398,7 +398,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('editForm','save')"
+                  ng-click="submitForm('returnOrder_editForm','save')"
               >保存
           </button>
         </span>
@@ -411,7 +411,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('editForm','submit')"
+                  callback="submitForm('returnOrder_editForm','submit')"
                   ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
           </button>

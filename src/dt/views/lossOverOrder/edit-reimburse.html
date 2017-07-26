@@ -5,8 +5,8 @@
      callback='initFlag=true;watchFormChange("formData");formData.type="报损";getCodeGenerationStrategy("报损报溢单")'
      alert-error>
 
-  <form id="editForm"
-        name="editForm"
+  <form id="lossOverOrder_editForm1"
+        name="lossOverOrder_editForm1"
         form-validator
         parameter-body
         action="rest/authen/lossOverOrder/save.json"
@@ -193,7 +193,7 @@
                                ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                invalid-popover
-                               valid-value="{{!editForm['quantity'+$index].$valid}}"
+                               valid-value="{{!lossOverOrder_editForm1['quantity'+$index].$valid}}"
                                popover-show
                                popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
@@ -284,7 +284,7 @@
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo({'tabHref':'#/lossOverOrder/query-reimburse.html','tabName':'报损单'})"
-             save-callback="submitForm('editForm','exit');
+             save-callback="submitForm('lossOverOrder_editForm1','exit');
              $root.goTo({'tabHref':'#/lossOverOrder/query-reimburse.html','tabName':'报损单'})"
              >返回报损单列表
           </a>
@@ -308,7 +308,7 @@
           <button type="submit" class="pr-btn-save-glodbg"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
-          <button ng-disabled="!editForm.quantity.$valid"
+          <button ng-disabled="!lossOverOrder_editForm1.quantity.$valid"
                   class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
