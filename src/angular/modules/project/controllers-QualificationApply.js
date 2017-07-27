@@ -228,6 +228,9 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
        if ($scope.submitForm_type == 'submit') {
          $scope.formData.validFlag = true;
        }
+
+
+
       $('#' + fromId).trigger('submit');
     };
 
