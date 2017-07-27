@@ -4027,7 +4027,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     tabHref: $scope.tabHref
                 };
 
-                console.log("tabObj",tabObj);
+                // console.log("tabObj",tabObj);
 
                 element.on('click',function(){
                     $rootScope.addTab(tabObj)

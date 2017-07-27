@@ -12,6 +12,7 @@ define('main/controllers', ['main/init'], function () {
 
         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
         console.log("tabCtrl",$scope.mainStatus);
+        modal.close();
   }
     /**
      * 主控
@@ -50,7 +51,7 @@ define('main/controllers', ['main/init'], function () {
         });
 
         $rootScope.$on('tabChangeSuccess', function (e, tab) {
-            console.log(tab);
+            modal.close();
 
             $rootScope.currentTab = uiTabs.current;
         });
@@ -60,7 +61,7 @@ define('main/controllers', ['main/init'], function () {
         }
 
         $rootScope.addTab = function (item) {
-
+            modal.close();
             if(!item.tabHref){
                 item.tabHref=item.ahref;
             }
@@ -86,8 +87,9 @@ define('main/controllers', ['main/init'], function () {
 
                 //如果当前tab 的 templateUrl 与 新的templateUrl 一致 刷新 tab;
                 if(obj.tab.templateUrl == item.tabHref){
-                    $rootScope.refreshTab();
-                    return;
+                    uiTabs.refresh(obj.tab);
+                    $rootScope.active(obj.tab);
+                   return;
                 }
 
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
@@ -133,6 +135,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $rootScope.active = function (tab) {
+
             uiTabs.active(tab);
         };
 

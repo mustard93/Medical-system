@@ -626,7 +626,6 @@ function alertOk($rootScope, modal) {
                               $rootScope.addTab({
                                   tabName:$rootScope.getCurrentTab().name,
                                   tabHref:url
-
                               });
                           }, null);
                       }else{
@@ -637,8 +636,6 @@ function alertOk($rootScope, modal) {
                       }
                       return;
                   }
-                  console.log("goTo",tabPara);
-
 
                   if(confirmMsg){
                     dialogConfirm(confirmMsg, function () {
