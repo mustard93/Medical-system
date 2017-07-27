@@ -3724,6 +3724,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             树形z-tree-select
         */
         function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
+          //弹出框的样式，用于选择div隐藏。
+          var selectDivClass="menuContent";
+          //隐藏选择窗口
+          function hideMenu() {
+                console.log("hideMenu");
+                $("."+selectDivClass).fadeOut("fast");
+                $("body").unbind("mousedown", onBodyDown);
+              }
+
+          function onBodyDown(event) {
+            if (!(event.target.className.indexOf("menuContent" )>-01 || $(event.target).parents(".menuContent").length>0)) {
+              hideMenu();
+            }
+          }
 
           function zTree_init($element,zNodes,$scope){
 
@@ -3743,7 +3757,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               		onClick: function(event, treeId, treeNode) {
                       console.log(treeNode);
                       $scope.ngModel=treeNode;
-                          $scope.$apply();
+                      $scope.$apply();
+
+                      hideMenu();
+                       //  阻止事件冒泡
+                     event.stopPropagation();
+                     return false;
                   }
               	}
               };
@@ -3753,16 +3772,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               });//require
           }
 
-          function hideMenu() {
-                $("#menuContent").fadeOut("fast");
-                $("body").unbind("mousedown", onBodyDown);
-              }
 
-          function onBodyDown(event) {
-            if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-              hideMenu();
-            }
-          }
 
           return {
             restrict: 'EA',
@@ -3772,10 +3782,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               "pIdKey":"@?"
             },
             link: function ($scope, $element, $attrs) {
+
+              var suff=new Date().getTime();
                 var urlKey="zTreeSelect";
                 //插下tree div
-              var zTreeSelectDivId="zTreeSelectDiv";
-              var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+              var zTreeSelectDivId="zTreeSelectDiv_"+suff;
+
+              var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
+
+              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
@@ -3789,7 +3804,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                var cityObj = $element;
                var cityOffset = $element.offset();
                //显示div
-               $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+               $("#"+zTreeSelectshowDivId).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
                $("body").bind("mousedown", onBodyDown);
 
              }
