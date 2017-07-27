@@ -11,7 +11,7 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
    * @param  {[type]}                      watchFormChange [description]
    * @return {[type]}                                      [description]
    */
-  function orderStatisticsController ($scope, modal, alertWarn, alertError, alertOk, requestData, watchFormChange) {
+  function orderStatisticsController ($scope, modal, alertWarn, alertError, alertOk, requestData) {
 
     // 定义参照数据集合
     var groupDataList = {
@@ -35,11 +35,11 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       if (newVal && newVal !== oldVal) {
         if ($scope.tbodyList.length) {
           var tmpArr = $scope.tbodyList[0]['groupHeaderKey'].split('-').join();
-          $scope.filterObject['queryGroupEnum'] = tmpArr
+          $scope.filterObject['queryGroupEnum'] = tmpArr;
+          $scope.filterObject['pageSize'] = 999;
         }
       }
     });
-
 
     $scope.groupData = [];
 
@@ -124,8 +124,6 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
         }
       }
 
-      console.log(data);
-
       // if (data['confirmOrderId']) { $scope.dataDetailsList['confirmOrderId'] = data['confirmOrderId']; }
       // if (data['customerId']) { $scope.dataDetailsList['customerId'] = data['customerId']; }
       // if (data['departmentId']) { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
@@ -148,6 +146,39 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
   }
 
+  /**
+   * [orderStatisticsGetDetailsController 销售统计表中侧边栏显示详情信息]
+   * @method orderStatisticsGetDetailsController
+   * @param  {[type]}                            $socpe      [description]
+   * @param  {[type]}                            modal       [description]
+   * @param  {[type]}                            alertWarn   [description]
+   * @param  {[type]}                            alertError  [description]
+   * @param  {[type]}                            alertOk     [description]
+   * @param  {[type]}                            requestData [description]
+   * @return {[type]}                                        [description]
+   */
+  function orderStatisticsGetDetailsController ($scope, modal, alertWarn, alertError, alertOk, requestData) {
+    var keyData = $scope.dialogData.data;
+    var _keyarr = keyData['groupKey'].split('-');
+
+    $scope.listParams1 = {};
+
+    angular.forEach(_keyarr, function (item, index) {
+      $scope.listParams1[item] = keyData[item];
+
+      // 循环查找对应的分组条件，将其ID写入参数对象中
+      if (item === 'customerName') { $scope.listParams1['customerId'] = keyData['customerId']; }
+      if (item === 'medicalAttributeName') { $scope.listParams1['medicalAttributeId'] = keyData['medicalAttributeId']; }
+      if (item === 'medicalApprovedName') { $scope.listParams1['orderMedicalNoId'] = keyData['orderMedicalNoId']; }
+      if (item === 'salesDepartmentName') { $scope.listParams1['salesDepartmentId'] = keyData['salesDepartmentId']; }
+      if (item === 'saleUserName') { $scope.listParams1['saleUserId'] = keyData['saleUserId']; }
+      if (item === 'departmentName') { $scope.listParams1['departmentId'] = keyData['departmentId']; }
+      if (item === 'inputUserName') { $scope.listParams1['inputUserId'] = keyData['inputUserId']; }
+    });
+
+  }
+
   angular.module('manageApp.project')
-  .controller('orderStatisticsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", "watchFormChange", orderStatisticsController]);
+  .controller('orderStatisticsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", orderStatisticsController])
+  .controller('orderStatisticsGetDetailsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", orderStatisticsGetDetailsController]);
 });
