@@ -955,25 +955,27 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             link: function($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
-                    // 判断是否有排序相关的条件传入
-                    if ($attrs.customCondition) {
-                      $scope.customCondition=$scope.$eval($attrs.customCondition);
-                    }
+                // 判断是否有排序相关的条件传入
+                if ($attrs.customCondition) {
+                  $scope.customCondition = $scope.$eval($attrs.customCondition);
+                }
 
                 $scope.start = function() {
-                    if ($scope.status.currentPage == 1) {
-                        return;
-                    }
-                    $scope.status.currentPage = 1;
-                    $scope.getListData();
+                  if ($scope.status.currentPage == 1) {
+                      return;
+                  }
+                  $scope.status.currentPage = 1;
+                  $scope.getListData();
                 };
+
                 $scope.prev = function() {
-                    if ($scope.status.currentPage <= 1) {
-                        return;
-                    }
-                    $scope.status.currentPage--;
-                    $scope.getListData();
+                  if ($scope.status.currentPage <= 1) {
+                      return;
+                  }
+                  $scope.status.currentPage--;
+                  $scope.getListData();
                 };
+
                 $scope.next = function() {
                     if ($scope.status.currentPage >= $scope.status.totalPage) {
                         return;
@@ -981,6 +983,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.status.currentPage++;
                     $scope.getListData();
                 };
+
                 $scope.end = function() {
                     if ($scope.status.currentPage == $scope.status.totalPage) {
                         return;
@@ -988,13 +991,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.status.currentPage = $scope.status.totalPage;
                     $scope.getListData();
                 };
+
                 $scope.goto = function(_page) {
+                  $scope.status.currentPage = _page;
+                  $scope.getListData();
 
-
-                    $scope.status.currentPage = _page;
-                    $scope.getListData();
-
-                    // $scope.aftereGoto();
+                  // $scope.aftereGoto();
                 };
 
                 $scope.$watch("status.totalPage", function() {

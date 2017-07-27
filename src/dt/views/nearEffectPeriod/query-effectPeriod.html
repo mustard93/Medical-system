@@ -1,10 +1,10 @@
-<div class="medical-stock supplier-management child-project-management">
-  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=近效期"
+<div class="medical-stock supplier-management child-project-management" ng-init="$root.reloadTime=$root.utils.getNowTime()">
+  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=近效期&{{$root.reloadTime}}"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
 
-    <div class="medical-stock child-project-management receive-item" ng-controller="nearEffectPeriodController">
+    <div class="medical-stock child-project-management receive-item" ng-controller="nearEffectPeriodController" ng-init="getNearEffectNum()">
       <page-main-header-component list-params="listParams"
                                   style="min-height:130px;"
                                   crumbs-nav='[{"name":"库存报表","link":"","style":""},{"name":"近效期／已过期","link":"","style":"color-custom-orange"}]'
@@ -50,8 +50,7 @@
               <!--<span>总计金额：<em class="pr-color">233</em></span>-->
             </div>
             <div class="flex-item-6" ng-click="listParams.q=''">
-              <!--<button type="button" href="" style="width: 80px;height: 20px;" class="pr-btn-save-glodbg fl-r">刷新效期</button>-->
-              <a href="" class="pr-btn-save-glodbg fl-r pdt-s">刷新效期</a>
+              <button type="button" class="pr-btn-save-glodbg fl-r" ng-click="refreshNearEffect()">刷新效期</button>
             </div>
             <div class="flex-item-6">
               <!-- 导出 / 打印 -->

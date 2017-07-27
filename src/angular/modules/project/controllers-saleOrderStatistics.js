@@ -11,7 +11,7 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
    * @param  {[type]}                      watchFormChange [description]
    * @return {[type]}                                      [description]
    */
-  function orderStatisticsController ($scope, modal, alertWarn, alertError, alertOk, requestData) {
+  function orderStatisticsController ($scope, modal, alertWarn, alertError, alertOk, requestData, utils) {
 
     // 定义参照数据集合
     var groupDataList = {
@@ -36,7 +36,6 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
         if ($scope.tbodyList.length) {
           var tmpArr = $scope.tbodyList[0]['groupHeaderKey'].split('-').join();
           $scope.filterObject['queryGroupEnum'] = tmpArr;
-          $scope.filterObject['pageSize'] = 999;
         }
       }
     });
@@ -66,16 +65,11 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
     // 处理用户查询中类型变更事件
     $scope.handleTypeChange = function () {
       // 将对象filterObject赋值给listParams
-      $scope.listParams = angular.copy($scope.filterObject);
-      var _reqUrl = 'rest/authen/saleOrderStatistics/query.json';
-      requestData(_reqUrl, $scope.listParams)
-      .then(function (results) {
-        $scope.tbodyList = results[1].data;
-      })
-      .catch(function (err) {
-        throw new Error(err || '出错');
-      });
-
+      for (var key in $scope.filterObject) {
+        if ($scope.filterObject.hasOwnProperty(key)) {
+          $scope.listParams[key] = $scope.filterObject[key];
+        }
+      }
 
       modal.closeAll();
     }
@@ -179,6 +173,6 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
   }
 
   angular.module('manageApp.project')
-  .controller('orderStatisticsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", orderStatisticsController])
+  .controller('orderStatisticsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", "utils", orderStatisticsController])
   .controller('orderStatisticsGetDetailsController', ['$scope',"modal",'alertWarn',"alertError", "alertOk", "requestData", orderStatisticsGetDetailsController]);
 });
