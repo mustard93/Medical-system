@@ -8839,7 +8839,7 @@ $.extend( Datepicker.prototype, {
 			while ( this._daylightSavingAdjust( new Date( drawYear, drawMonth, 1 ) ) > maxDraw ) {
 				drawMonth--;
 				if ( drawMonth < 0 ) {
-					drawMonth = 11;
+					drawMonth = 10;
 					drawYear--;
 				}
 			}
