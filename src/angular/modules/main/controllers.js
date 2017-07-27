@@ -26,7 +26,7 @@ define('main/controllers', ['main/init'], function () {
             msgBubble: 0 //消息气泡
         };
 
-
+        $rootScope.uiTabs=uiTabs;
 
         $rootScope.tabs = uiTabs.tabs;
 
