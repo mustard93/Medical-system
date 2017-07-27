@@ -245,15 +245,17 @@
                     </p>
                     <p>
                       单据编号：<em class="color-orange">
-                        <a ng-if="tr.inoutType=='入库'"
+                        <a ng-if="inOutStockData.length && tr.inoutType=='入库'"
                         tab-nav
                         tab-name="药械闪查"
                         tab-href="#/purchaseInstockOrder/get.html?orderNo={{tr.relOrderNo}}">
                             {{tr.relOrderNo}}
                         </a>
-                        <a tab-nav
+                        <a
+                        ng-if="inOutStockData.length && tr.inoutType=='出库'"
+                        tab-nav
                         tab-name="药械闪查"
-                        tab-href="#/saleOutstockOrder/get.html?orderNo={{tr.relOrderNo}}" ng-if="tr.inoutType=='出库'">
+                        tab-href="#/saleOutstockOrder/get.html?orderNo={{tr.relOrderNo}}">
                             {{tr.relOrderNo}}
                         </a>
                       </em>
