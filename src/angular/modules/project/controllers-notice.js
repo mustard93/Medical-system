@@ -26,7 +26,7 @@ define('project/controllers-notice', ['project/init'], function() {
         }
             //相应跳转
           // window.location.assign('#/'+notice.moduleType+'/get.html?id='+notice.relId);
-            goTo('#/'+notice.moduleType+'/get.html?id='+notice.relId);
+        $rootScope.goTo('#/'+notice.moduleType+'/get.html?id='+notice.relId);
 
      };//noticeClick
 
