@@ -257,13 +257,13 @@
                  <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
                  <td class="text-center" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
-                     <button type="button" class="inline-block left" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)-1; updateMedcalInfo($index,tr);" ng-disabled="tr.stayCount==1">-</button>
+                     <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1; updateMedcalInfo($index,tr);" ng-disabled="tr.quantity==1">-</button>
                      <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
-                                 ng-model="tr.stayCount"
+                                 ng-model="tr.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
@@ -274,7 +274,10 @@
                                  ng-change="updateMedcalInfo($index,tr);"
                           >
                         </span>
-                     <button ng-disabled="tr.stayCount==tr.planReturnCount" type="button" class="inline-block right" ng-click="tr.stayCount=$root.utils.transformToNumber(tr.stayCount)+1;  updateMedcalInfo($index,tr);">+</button>
+                     <button ng-disabled="tr.quantity==tr.planReturnCount"
+                             type="button" class="inline-block right"
+                             ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;
+                             updateMedcalInfo($index,tr);">+</button>
                    </div>
                  </td><!-- 换货数量 -->
 
