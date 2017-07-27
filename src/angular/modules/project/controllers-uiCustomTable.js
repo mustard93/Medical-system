@@ -40,11 +40,14 @@ define('project/controllers-uiCustomTable', ['project/init'], function() {
           $scope.itemShow=item;
         }
 
-        // 保存之后是否依然选中
-        $scope.isSelectItem=function(item){
-
+        // 点击保存之后，选中上一次改的该字段。
+        $scope.isSelectItem=function(key,item){
+          for (var i = 0; i < item.length; i++) {
+            if (item[i].propertyKey==key) {
+              $scope.itemShow=item[i];
+            }
+          }
         }
-
       // 点击隐藏按钮，隐藏当前选中的该字段
         $scope.hiddenThisItem=function(hiddenItem){
 
@@ -56,6 +59,7 @@ define('project/controllers-uiCustomTable', ['project/init'], function() {
                 $scope.formData.noShowItems.push($scope.formData.items[i]);
                 // 再把该字段从显示列中去除
                 $scope.formData.items.splice(i,1);
+                $scope.changeFlag=true;
               }
             }
 
@@ -72,6 +76,7 @@ define('project/controllers-uiCustomTable', ['project/init'], function() {
                 $scope.formData.items.push($scope.formData.noShowItems[i]);
                 // 再把该字段从显示列中去除
                 $scope.formData.noShowItems.splice(i,1);
+                $scope.changeFlag=true;
               }
             }
           }
@@ -87,6 +92,7 @@ define('project/controllers-uiCustomTable', ['project/init'], function() {
                 var tmp=$scope.formData.items[i];
                 $scope.formData.items[i]=$scope.formData.items[i-1];
                 $scope.formData.items[i-1]=tmp;
+                $scope.changeFlag=true;
               }
             }
           }
@@ -101,11 +107,13 @@ define('project/controllers-uiCustomTable', ['project/init'], function() {
                 var tmp=$scope.formData.items[i];
                 $scope.formData.items[i]=$scope.formData.items[i+1];
                 $scope.formData.items[i+1]=tmp;
+                $scope.changeFlag=true;
                 return;
               }
             }
           }
         }
+
         // 重置操作，点击重置按钮，调用重置接口传入Id
         $scope.resetTableData=function(id){
           var _reqUrl = 'rest/authen/uiCustomTable/reset.json?id='+id;
