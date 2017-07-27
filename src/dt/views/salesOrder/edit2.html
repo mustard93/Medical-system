@@ -17,10 +17,9 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
-
+<!-- onkeydown="if(window.event.keyCode==13) return false;" -->
     <!-- 关闭信息 -->
     <div ng-if="showData.onLineOrderStatus=='已关闭'" class="cancel-info-layer-style">采购计划已关闭，无法生成销售单</div>
 
@@ -503,7 +502,7 @@
 
           <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="购需单" tab-href="#/salesOrder/query.html" >返回购需单列表</a>
 
-          <span ng-if="$root.hasAuthor('购需单删除')">
+          <span ng-if="$root.hasAuthor('购需单删除')&&formData.id">
             <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
                href="javascript:;"
                class="pr-color-red mgr-s"
