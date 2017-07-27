@@ -1,6 +1,7 @@
-<div class="medical-stock supplier-management child-project-management" ng-init="$root.reloadTime=$root.utils.getNowTime()">
-  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=近效期&{{$root.reloadTime}}"
+<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
+  <table-list list-data="rest/authen/nearEffectPeriod/query.json?nearValiditType=近效期&t={{listObject.reloadTime}}"
               list-params="listParams"
+              list-object="listObject"
               search-mode="noCaseSensitive"
               search-param="q">
 
@@ -12,8 +13,14 @@
       </page-main-header-component>
 
       <div class="mgl-xl status-num-list-new" style="top:-56px;">
-        <span status-style-toggle-new class="rect-status mgl-s pr-color rect-status-active-new" ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{totalNep}})</span>
-        <span status-style-toggle-new class="rect-status" ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{totalExpired}})</span>
+        <span status-style-toggle-new
+              class="rect-status mgl-s pr-color rect-status-active-new"
+              ng-click="$root.goTo('#/nearEffectPeriod/query-effectPeriod.html')">近效期({{numCollection['近效期']['count'] || 0}})
+        </span>
+        <span status-style-toggle-new
+              class="rect-status"
+              ng-click="$root.goTo('#/nearEffectPeriod/query-beOverdue.html')">已过期({{numCollection['已过期']['count'] || 0}})
+        </span>
       </div>
       <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
@@ -46,8 +53,7 @@
           </div>
           <div class="flex-column bg-white pd-l text-n">
             <div class="flex-item-6">
-              <span class="mgr-l">总计数量：<em class="pr-color">{{totalCount}}</em></span>
-              <!--<span>总计金额：<em class="pr-color">233</em></span>-->
+              <span class="mgr-l">总计数量：<em class="pr-color">{{numCollection['近效期']['totalQuantity'] || 0}}</em></span>
             </div>
             <div class="flex-item-6" ng-click="listParams.q=''">
               <button type="button" class="pr-btn-save-glodbg fl-r" ng-click="refreshNearEffect()">刷新效期</button>
@@ -102,9 +108,8 @@
                             template-url="tpl/showInfoGuaranteePeriodAlarmDay"
                             info-object="{{tr}}"
                             info-title="剩余有效期天数">
-                  </span>
+                      </span>
                     </div>
-
                   </td>
                   <td>
                     <div class="relative inline-block">{{tr.stockModel.quantity}}

@@ -711,7 +711,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
                     if(!(statusInfo.currentPage >1 )){
-                      timestamp=new Date().getTime();
+                      timestamp = new Date().getTime();
                     }
 
                     requestData($attrs.listData, angular.merge({}, $scope.customCondition, formData, {timestamp:timestamp,pageNo: statusInfo.currentPage}))

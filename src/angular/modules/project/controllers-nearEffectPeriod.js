@@ -7,29 +7,27 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
    * @param  {[type]}                   alertWarn       [description]
    * @param  {[type]}                   alertError      [description]
    * @param  {[type]}                   requestData     [description]
-   * @param  {[type]}                   watchFormChange [description]
+   * @param  {[type]}                   utls            [description]
    * @return {[type]}                                   [description]
    */
-  function nearEffectPeriodController ($scope, modal, alertWarn, alertError, requestData, watchFormChange) {
+  function nearEffectPeriodController ($scope, modal, alertWarn, alertError, requestData, utils) {
+
     // 公共请求地址
     var pReqUrl = 'rest/authen/nearEffectPeriod/countByNearValiditType';
 
-
     // 获取近效期、的数量
-    // $scope.getNearEffectNum = function () {
-    //   var _reqUrl = pReqUrl + '近效期';
-    //   requestData(_reqUrl)
-    //   .then(function (results) {
-    //     if (results[1].code === 200) {
-    //       var data = results[1].data;
-    //       console.log(data);
-    //     }
-    //   })
-    //   .catch(function (err) {
-    //     throw new Error(err || '出错');
-    //   })
-    // }
-    //
+    $scope.getNearEffectNum = function () {
+      requestData(pReqUrl)
+      .then(function (results) {
+        if (results[1].code === 200) {
+          $scope.numCollection = results[1].data;
+        }
+      })
+      .catch(function (err) {
+        throw new Error(err || '出错');
+      })
+    }
+
     // // 已过期
     // $scope.getBeOverdueNum = function () {
     //   var _reqUrl = pReqUrl + '已过期';
@@ -52,7 +50,7 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
       requestData(reqUrl)
       .then(function (results) {
         if (results[1].code === 200) {
-
+          $scope.$parent.listObject.reloadTime = new Date().getTime();
         }
       })
       .catch(function (err) {
@@ -111,5 +109,5 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
   }
 
   angular.module('manageApp.project')
-  .controller('nearEffectPeriodController', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", nearEffectPeriodController]);
+  .controller('nearEffectPeriodController', ['$scope',"modal",'alertWarn',"alertError", "requestData", "utils", nearEffectPeriodController]);
 });
