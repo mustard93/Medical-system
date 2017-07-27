@@ -2581,6 +2581,8 @@ function flashAddMedical(utils,$timeout) {
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
+          $scope.id='_'+new Date().getTime();
+
           // 隐藏标题
           if (angular.isDefined($attrs.hideTitle)) {
             $scope.hideTitle = true;
@@ -2639,7 +2641,7 @@ function flashAddMedical(utils,$timeout) {
           $scope.angucompleteMedicalOnChange = function () {
             //隐藏数量输入字段情况下，选择药械，触发添加事件。
             if($scope.hideQuantity){
-              $('#addMedicalList').focus();
+              $('#addMedicalList'+$scope.id).focus();
               $scope.addDataFn();
             }else{//隐藏字段情况下，选择药械，触发添加事件。
               var inputId='flashAddMedical_input_count';
@@ -3574,10 +3576,17 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       element.hover(function () {
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop +23;
-        console.log(_handleBtnGroup.width());
         // 解决屏幕变小后按钮消失的bug。
         // 向左的偏移量=当前元素的宽度-本身按钮的宽度
-        var leftShift=parseInt($(element).width()-_handleBtnGroup.width());
+
+        // 兼容有横向滚动条的表格宽度。
+        // if ($('.outside-table-d')) {
+        //   var leftShift=parseInt($('.outside-table-d').width()-_handleBtnGroup.width());
+        // }else {
+        //   var leftShift=parseInt($(element).width()-_handleBtnGroup.width());
+        // }
+        //
+        // console.log($('.outside-table-d').width());
         // 计算当前页面宽度
         // var _pageWidth = null;
         // if (window.innerWidth) {
