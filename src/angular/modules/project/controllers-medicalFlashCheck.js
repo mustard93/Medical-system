@@ -59,7 +59,7 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
           _productionBatch='';
         }
         if (_id) {
-          var _url = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?relMedicalId=' + _id + '&productionBatch='+_productionBatch,
+          var _url = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?relMedicalId=' + _id + '&productionBatch='+_productionBatch+'&pageSize=999',
               _data = {};
           requestData(_url, _data, 'GET')
           .then(function (results) {
@@ -80,7 +80,8 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
                 'relMedicalId':$scope.medicalData.id,
                 'productionBatch':$scope.medicalData.productionBatch,
                 'createAtBeg':newVal,
-                'createAtEnd':$scope.stockData.createAtEnd
+                'createAtEnd':$scope.stockData.createAtEnd,
+                'pageSize':'999'
               };
           requestData(_url, _data, 'GET')
           .then(function (results) {
@@ -99,7 +100,8 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
                 'relMedicalId':$scope.medicalData.id,
                 'productionBatch':$scope.medicalData.productionBatch,
                 'createAtBeg':$scope.stockData.createAtBeg,
-                'createAtEnd':newVal
+                'createAtEnd':newVal,
+                'pageSize':'999'
               };
           requestData(_url, _data, 'GET')
           .then(function (results) {
@@ -122,7 +124,7 @@ define('project/controllers-medicalFlashCheck', ['project/init'], function() {
           createAtEnd='';
         }
           // 构建完整的查询url
-          var _queryUrl = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?relMedicalId=' + relMedicalStockId+"&&createAtBeg="+createAtBeg+"&&createAtEnd="+createAtEnd;
+          var _queryUrl = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?pageSize=999&relMedicalId=' + relMedicalStockId+"&&createAtBeg="+createAtBeg+"&&createAtEnd="+createAtEnd;
 
           // 更新数据
           requestData(_queryUrl)
