@@ -26,7 +26,7 @@ define('main/controllers', ['main/init'], function () {
             msgBubble: 0 //消息气泡
         };
 
-
+        $rootScope.uiTabs=uiTabs;
 
         $rootScope.tabs = uiTabs.tabs;
 
@@ -848,19 +848,18 @@ define('main/controllers', ['main/init'], function () {
       // 切换用户机构
       $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
         // console.log(customListParams);
-        if (!customListParams.sortBy||!customListParams.sortWay) {
-          customListParams.sortBy=sortItem.propertyKey;
-          customListParams.sortWay=sortItem.sortCriteria;
-        }
+        console.log(sortItem.propertyKey);
         if(sortItem.canSort){
 
-          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
-            customListParams.sortWay='desc';
-          }else if (customListParams.sortWay=='desc') {
-            customListParams.sortWay='asc';
+          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
+            sortItem.sortCriteria='desc';
+          }else if (sortItem.sortCriteria=='desc') {
+            sortItem.sortCriteria='asc';
           }
+          customListParams.sortBy=sortItem.propertyKey;
+          customListParams.sortWay=sortItem.sortCriteria;
           // 重新请求数据，然后刷新表格排序
-          // var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+          var _url = sortRequestUrl;
           requestData(sortRequestUrl, customListParams, 'get')
           .then(function (results) {
             if (results[1].code === 200) {

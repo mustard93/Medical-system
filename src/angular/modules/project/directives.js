@@ -3574,32 +3574,26 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       });
 
       element.hover(function () {
-        // 计算当前tr距离顶部的高度
-        var _offsetTop = $(element).offset().top - document.body.scrollTop +23;
+
         // 解决屏幕变小后按钮消失的bug。
-        // 向左的偏移量=当前元素的宽度-本身按钮的宽度
 
         // 兼容有横向滚动条的表格宽度。
-        // if ($('.outside-table-d')) {
-        //   var leftShift=parseInt($('.outside-table-d').width()-_handleBtnGroup.width());
-        // }else {
-        //   var leftShift=parseInt($(element).width()-_handleBtnGroup.width());
-        // }
-        //
-        // console.log($('.outside-table-d').width());
-        // 计算当前页面宽度
-        // var _pageWidth = null;
-        // if (window.innerWidth) {
-        //   _pageWidth = window.innerWidth - 180;
-        // } else if ((document.body) && (document.body.clientWidth)) {
-        //   _pageWidth = document.body.clientWidth - 180;
-        // }
+        if ($('div.outside-table-d').hasClass('outside-table-d')) {
+          // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
+          var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+          // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
+          var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
+        }else {
+          // 没有横向滚动条的情况下
+          // 向左的偏移量=当前元素的宽度-本身按钮的宽度
+          var leftShift=$(element).width()-_handleBtnGroup.width();
+          // 计算当前tr距离顶部的高度
+          var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
+        }
 
-        // var _pageWidth = $("#main_body").width() - 23;
+        // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
 
-        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
-
-        // _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
+        _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
