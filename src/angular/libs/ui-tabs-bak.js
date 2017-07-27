@@ -114,8 +114,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                     $rootScope.$broadcast('tabOpenStarting', tab, lastTab);
 
                     return $q.resolve(tab.template).then(function (tpl) {
-                        // tab.template = tpl;
-                        tab.template = '<div ng-controller="tabCtrl">' + tpl + '</div>';
+                        tab.template = '<div ng-controller="tabCtrl">'+tpl+'</div>';
 
                         $rootScope.$broadcast('tabOpenSuccess', tab, lastTab);
 
@@ -183,26 +182,19 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @param tab
              */
             refresh: function refresh(tab) {
+
                 console.log("refresh-tab", tab);
 
-                if (tab) {
+                if(tab){
                     tab = getTab(tab);
-                } else {
-                    tab = this.current;
-                    // console.log(" this.current", this.current);
-                }
+				}else{
+                	tab = this.current;
+                	// console.log(" this.current", this.current);
+				}
 
                 if (tab) {
                     refreshTab(tab);
                 }
-
-                // console.log("refresh-tab",tab);
-                //
-                // tab = getTab(tab);
-                //
-                // if (tab) {
-                //     refreshTab(tab);
-                // }
             },
 
             replace: function replace(tab, newTab) {
@@ -214,9 +206,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                     angular.extend(tab, newTab);
 
                     getTemplateForUrl(newTab.templateUrl).then(function (template) {
-
-                        tab.template = tab.template = '<div ng-controller="tabCtrl">' + template + '</div>';;
-
+                        tab.template =  '<div ng-controller="tabCtrl">'+template+'</div>';
                         replaceTab(tab);
                     });
                 }
@@ -327,6 +317,8 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
             }, option);
 
             tab.template = getTemplateFor(tab);
+
+
             tab.close = function () {
                 return closeTab(tab);
             };
@@ -370,6 +362,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
                 template = tab.template;
             } else if (isDefined(tab.templateUrl)) {
                 template = $templateRequest(tab.templateUrl);
+                console.log("template",template);
             }
 
             return $q.resolve(template);
@@ -928,7 +921,7 @@ _uiTabs2.default.directive('uiTabsMenu', function () {
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by tab.id\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\"  ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i ng-if=\"tab === current\" class=\"ui-tabs-refresh-icon\" ng-mousedown=\"refresh($event,tab)\" title=\"刷新\"></i>\n      <i ng-if=\"defaultName != tab.name\" class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"  title=\"关闭\"></i>\n    </li>\n\n  </ul>\n\n\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by tab.id\">\n\n    </div>\n\n  </div>\n</div>";
+module.exports = "<div class=\"ui-tabs\" ng-show=\"tabs.length > 0\">\n  <ul class=\"ui-tabs-nav\" sv-root sv-part=\"tabs\">\n    <li ng-repeat=\"tab in tabs track by tab.id\" ng-class=\"{active: tab === current}\" sv-element=\"opts\" ng-mousedown=\"activeTab(tab)\"  ng-mousedown=\"mouseDown($event)\" ui-tabs-menu=\"menuSelect(tab, action)\">\n      <i class=\"ui-tabs-loading-icon\" ng-show=\"tab.loading\"></i>\n      <span>{{tab.name}}</span>\n      <i ng-if=\"tab === current\" class=\"ui-tabs-refresh-icon\" ng-mousedown=\"refresh($event,tab)\" title=\"刷新\"></i>\n      <i ng-if=\"defaultName != tab.name\" class=\"ui-tabs-close-icon\" ng-mousedown=\"close($event, tab)\"  title=\"关闭\"></i>\n    </li>\n\n  </ul>\n\n\n  <div class=\"ui-tabs-container\">\n    <div class=\"ui-tabs-page\" id=\"ui-tabs-{{tab.id}}\" ng-show=\"tab === current\" ng-repeat=\"tab in tabs track by tab.id\">\n    </div>\n\n  </div>\n</div>";
 
 /***/ }),
 /* 5 */
@@ -1561,7 +1554,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
         template: _uiTabs4.default,
         link: function link(scope, element, attr) {
 
-            console.log("uiTabs", uiTabs);
+            // console.log("uiTabs", uiTabs);
 
             scope.tabs = uiTabs.tabs;
             scope.current = uiTabs.current;
@@ -1615,7 +1608,6 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
                         break;
 
                     case 'other':
-
                         closeLeft(tab);
                         closeRight(tab);
                         break;
@@ -1660,15 +1652,8 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
                 }
             }
 
-            //关闭所有tab -默认页 除外   
+            //关闭所有tab -默认页 除外
             function closeAll() {
-                //
-                // angular.forEach(uiTabs.tabs,function(closeTab,index){
-                //     if(scope.defaultName !== closeTab.name){
-                //         closeTab.close();
-                //     }
-                // });
-
                 uiTabs.closeAll();
             }
 
@@ -1808,7 +1793,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding: 0; }\n  .ui-tabs ul.ui-tabs-nav {\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    margin: 0px 0 0;\n    padding: 0 0px;\n    list-style: none;\n    border-bottom: 1px solid #C7A77B;\n    background: rgba(0, 0, 0, 0.05);\n    height: 40px; }\n    .ui-tabs ul.ui-tabs-nav li {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      margin: 0 -1px -1px -0;\n      max-width: 200px;\n      padding: 3px 5px;\n      border: 1px solid rgba(199, 167, 123, 0.32);\n      border-top: 0;\n      background: #efefef;\n      cursor: pointer;\n      font-size: 0.8em;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      font-size: 14px;\n      color: #666666; }\n      .ui-tabs ul.ui-tabs-nav li span {\n        margin: 0 6px;\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n        -ms-flex-preferred-size: 20px;\n            flex-basis: 20px;\n        width: 20px;\n        overflow: hidden;\n        -webkit-user-select: none;\n           -moz-user-select: none;\n            -ms-user-select: none;\n                user-select: none;\n        white-space: nowrap;\n        text-align: center; }\n      .ui-tabs ul.ui-tabs-nav li.active {\n        background: #EFECE5;\n        border-bottom: 1px solid rgba(199, 167, 123, 0.32);\n        -webkit-transition: none;\n        transition: none;\n        border-top: #C7A77B solid 3px;\n        color: #333333;\n        height: 41px; }\n      .ui-tabs ul.ui-tabs-nav li:hover {\n        background: #EFECE5;\n        -webkit-transition: background 0.4s;\n        transition: background 0.4s; }\n  .ui-tabs .ui-tabs-container {\n    position: relative;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    overflow: auto; }\n    .ui-tabs .ui-tabs-container > div {\n      overflow: hidden; }\n\n.ui-tabs-close-icon {\n  position: relative;\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border-radius: 50%;\n  vertical-align: middle; }\n  .ui-tabs-close-icon:before, .ui-tabs-close-icon:after {\n    content: \"\";\n    position: absolute;\n    top: 7px;\n    left: 2px;\n    width: 11px;\n    height: 1px;\n    border-radius: 1px;\n    background: #777; }\n  .ui-tabs-close-icon:before {\n    -webkit-transform: rotate(45deg);\n            transform: rotate(45deg); }\n  .ui-tabs-close-icon:after {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg); }\n  .ui-tabs-close-icon:hover {\n    background: red; }\n  .ui-tabs-close-icon:hover:after, .ui-tabs-close-icon:hover:before {\n    background: #fff; }\n\n.ui-tabs-refresh-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  margin-right: 5px;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAR9JREFUGBlNUD1LxEAQvd1EcqdRwWgR/AGW2goRBFt7EaxDEg4hTRqbtApC0kRMYeNfUKtrFVL7E6wW7mAX1IDkwzeBhQxMZt68t2+GsMko0jQ1hRCHXdfd9X1/UZblUtOGboIg2FdK3TPGLjE7QWWe531WVfVDGk6fMAwP4PICTgLewO3dNM2nPM8F8RTM9/111GeIVq7rzqWUhCdZlkniOOdzmDyamG1DtIu8xo1/wJQ61iC6AlhwrNjAKhuDb82O6i96BdcZNwxDwY21bbs3EgwtTBw0WzD54o7jrAAWGN7GcbyjxUmSbOLxAzw+LMsSjIgoiuymaXIMjwDfcEqLPMXKKeo5/c9BSGK4zeq6PkN7jFU2OeGs16Iohtv/AWwEdtxtucU3AAAAAElFTkSuQmCC\");\n  background-position: center;\n  background-repeat: no-repeat; }\n\n.ui-tabs-loading-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border: 3px solid #5677fc;\n  border-right: 3px solid transparent;\n  border-radius: 50%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  vertical-align: middle;\n  -webkit-animation: rotate-animate 1.5s infinite;\n          animation: rotate-animate 1.5s infinite; }\n\n@-webkit-keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n", ""]);
+exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding: 0; }\n  .ui-tabs ul.ui-tabs-nav {\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    margin: 0px 0 0;\n    padding: 0 0px;\n    list-style: none;\n    border-bottom: 1px solid rgba(199, 167, 123, .4);\n    background: rgba(230, 226, 215, 0.9);\n    height: 30px; }\n    .ui-tabs ul.ui-tabs-nav li {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      margin: 0 -1px -1px -0;\n      max-width: 200px;\n      padding: 3px 5px;\n      border: 1px solid rgba(199, 167, 123, 0.15);\n      border-top: 0;\n      cursor: pointer;\n      font-size: 0.8em;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      font-size: 14px;\n      color: #666666; }\n      .ui-tabs ul.ui-tabs-nav li span {\n        margin: 0 6px;\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n        -ms-flex-preferred-size: 20px;\n            flex-basis: 20px;\n        width: 20px;\n        overflow: hidden;\n        -webkit-user-select: none;\n           -moz-user-select: none;\n            -ms-user-select: none;\n                user-select: none;\n        white-space: nowrap;\n        text-align: left; }\n      .ui-tabs ul.ui-tabs-nav li.active {\n        font-weight: bold;\n        background: rgba(243, 241, 236, 1);\n        border-bottom: 0;\n        -webkit-transition: none;\n        transition: none;\n        border-top: 2px solid rgba(199, 167, 123, .7);\n        border-left: 1px solid rgba(199, 167, 123, .4);\n        border-right: 1px solid rgba(199, 167, 123, .4);\n        color: #333333;\n        height: 30px;\n        box-shadow: 0 -3px 8px rgba(199, 167, 123, .25); }\n      .ui-tabs ul.ui-tabs-nav li:hover {\n        background: rgba(234,230,219,0.8);\n        -webkit-transition: background 0.4s;\n        transition: background 0.4s; }\n  .ui-tabs .ui-tabs-container {\n    position: relative;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    overflow: auto; }\n    .ui-tabs .ui-tabs-container > div {\n      overflow: hidden; }\n\n.ui-tabs-close-icon {\n  position: relative;\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border-radius: 50%;\n  vertical-align: middle; }\n  .ui-tabs-close-icon:before, .ui-tabs-close-icon:after {\n    content: \"\";\n    position: absolute;\n    top: 7px;\n    left: 2px;\n    width: 11px;\n    height: 1px;\n    border-radius: 1px;\n    background: #777; }\n  .ui-tabs-close-icon:before {\n    -webkit-transform: rotate(45deg);\n            transform: rotate(45deg); }\n  .ui-tabs-close-icon:after {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg); }\n  .ui-tabs-close-icon:hover {\n    background: red; }\n  .ui-tabs-close-icon:hover:after, .ui-tabs-close-icon:hover:before {\n    background: #fff; }\n\n.ui-tabs-refresh-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  margin-right: 5px;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAR9JREFUGBlNUD1LxEAQvd1EcqdRwWgR/AGW2goRBFt7EaxDEg4hTRqbtApC0kRMYeNfUKtrFVL7E6wW7mAX1IDkwzeBhQxMZt68t2+GsMko0jQ1hRCHXdfd9X1/UZblUtOGboIg2FdK3TPGLjE7QWWe531WVfVDGk6fMAwP4PICTgLewO3dNM2nPM8F8RTM9/111GeIVq7rzqWUhCdZlkniOOdzmDyamG1DtIu8xo1/wJQ61iC6AlhwrNjAKhuDb82O6i96BdcZNwxDwY21bbs3EgwtTBw0WzD54o7jrAAWGN7GcbyjxUmSbOLxAzw+LMsSjIgoiuymaXIMjwDfcEqLPMXKKeo5/c9BSGK4zeq6PkN7jFU2OeGs16Iohtv/AWwEdtxtucU3AAAAAElFTkSuQmCC\");\n  background-position: center;\n  background-repeat: no-repeat; }\n\n.ui-tabs-loading-icon {\n  display: inline-block;\n  height: 15px;\n  width: 15px;\n  border: 3px solid #5677fc;\n  border-right: 3px solid transparent;\n  border-radius: 50%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  vertical-align: middle;\n  -webkit-animation: rotate-animate 1.5s infinite;\n          animation: rotate-animate 1.5s infinite; }\n\n@-webkit-keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes rotate-animate {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n", ""]);
 
 // exports
 
@@ -1817,7 +1802,7 @@ exports.push([module.i, ".ui-tabs {\n  display: -webkit-box;\n  display: -ms-fle
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li ng-show=\"uiTabs.defaultName!=uiTabs.current.name\" data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n   <!--<li data-action=\"left\">关闭左侧标签页</li>-->\n   <!--<li data-action=\"right\">关闭右侧标签页</li>-->\n  <li data-action=\"colseAll\">关闭所有标签页</li>\n</ul>";
+module.exports = "<ul class=\"ui-tabs-menu\">\n  <li data-action=\"refresh\">重新加载</li>\n  <li data-action=\"current\">关闭标签页</li>\n  <li data-action=\"other\">关闭其它标签页</li>\n   <!--<li data-action=\"left\">关闭左侧标签页</li>-->\n   <!--<li data-action=\"right\">关闭右侧标签页</li>-->\n  <li data-action=\"colseAll\">关闭所有标签页</li>\n</ul>";
 
 /***/ }),
 /* 11 */

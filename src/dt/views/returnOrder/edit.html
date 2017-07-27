@@ -173,6 +173,7 @@
                   <th class="text-center">剂型／分类</th>
                   <th class="text-center">商品规格</th>
                   <th class="text-center">基本单位</th>
+                  <th class="text-center">批号</th>
 
                   <th class="text-center">借出数量</th>
                   <th class="text-center">待还数量</th>
@@ -218,6 +219,7 @@
                    <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td> <!--剂型／分类 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
 
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
                    <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
@@ -405,15 +407,29 @@
 
         <span>
           <!---->
-          <button class="pr-btn-create-glodbg mgt"
+          <button ng-if="numberingPolicy!='auto'"
+                  class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('returnOrder_editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
+          </button>
+
+
+           <button ng-if="numberingPolicy=='auto'"
+                   class="pr-btn-create-glodbg mgt"
+                   type="button"
+                   handle-this-click
+                   dialog-title="确认提交?"
+                   dialog-content="提交后，将无法修改。确认提交?"
+                   dialog-template="pr-dialog-submit.html"
+                   callback="submitForm('returnOrder_editForm','submit')"
+                   ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+           >提交
           </button>
         </span>
       </div>
