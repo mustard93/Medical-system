@@ -1,4 +1,4 @@
-<div ng-controller="tabCtrl">
+
 <div  class="order-code-strategy"
       ng-controller="uiCustomTableEditCtrl"
       ng-init="className_getOfEdit=false;className='com.pangu.mss.domain.mongo.order.OrderMedicalNo';key='销售单详情列表'"
@@ -15,7 +15,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="watchFormChange('itemShow');isSelectItem(itemShow);"
+        callback="watchFormChange('itemShow');isSelectItem(itemShow.propertyKey,formData.items);"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
@@ -58,7 +58,7 @@
                 <div class="flex-item-12 text-center">
                   <p class="text-bold   color-3 pd-c-v-l bb-line flex-column text-right">
                     <span class="flex-item-4 text-left">
-                      <span class="custom-table-down-arrow " title="下移" ng-click="changeDownThisItem(itemShow)">
+                      <span class="custom-table-down-arrow " title="下移" ng-click="changeDownThisItem(itemShow);">
                       </span>
                       <span class="custom-table-up-arrow " title="上移" ng-click="changeUpThisItem(itemShow);">
                       </span>
@@ -73,7 +73,8 @@
 
                   </p>
                   <div class="custom-table-show medical-hover">
-                    <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.items " class="cur-pot text-left " ng-class="{'hover':(item.propertyName==itemShow.propertyName)}">
+                    <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.items " class="cur-pot text-left "
+                    ng-class="{'hover':(itemShow.propertyKey==item.propertyKey)}" >
                       <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItem(item);">{{item.propertyName}}</em>
                     </p>
                   </div>
@@ -94,7 +95,7 @@
 
                   </p>
                   <div class=" custom-table-hidden medical-hover">
-                    <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.noShowItems "  class="cur-pot text-left " ng-class="{'hover':(item.propertyName==itemShow.propertyName)}">
+                    <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.noShowItems "  class="cur-pot text-left " >
                       <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItem(item);">{{item.propertyName}}</em>
                     </p>
                   </div>
@@ -107,7 +108,7 @@
             <p class="pd-c-v-l text-left bb-line">
               <em class="text-bold   color-3 mgr">设置列属性</em><em class="  color-3">(作用于详情及编辑／新建页面)</em>
             </p>
-            <div class="flex-item-6 flex-column">
+            <div class="flex-item-6 flex-column pr-bg-white">
               <div class="flex-item-12 text-left pd-c-v-l" >
                 <p class="pd-c-v-s">
                   默认名称：{{itemShow.name}}
@@ -115,11 +116,11 @@
                 </p>
                 <p class="pd-c-v-s">
                   显示名称：
-                  <input type="text" value="" ng-model="itemShow.propertyName" style="">
+                  <input type="text" value="" ng-model="itemShow.propertyName" style="" >
                 </p>
               </div>
             </div>
-            <div class="flex-item-6 flex-column">
+            <div class="flex-item-6 flex-column pr-bg-white">
               <div class="flex-item-12 text-left pd-c-v-l">
                 <p class="pd-c-v-s" style="margin-left:27px;">
                   宽度：
@@ -162,5 +163,4 @@
       </div>
     </div>
   </form>
-</div>
 </div>
