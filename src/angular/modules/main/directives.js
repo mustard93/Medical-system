@@ -535,8 +535,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.status = statusInfo;
                 $scope.listData = $attrs.listData;
                 $scope.theadList = angular.fromJson($attrs.listThead);
-                $scope.tbodyList = [];
                 $scope.getListData = getListData;
+
+                // 如果定义了自定义数据对象，否则默认为tbodyList
+                if (angular.isDefined($attrs.customDataList) && $attrs.customDataList) {
+                  $scope[$attrs.customDataList] = [];
+                } else {
+                  $scope.tbodyList = [];
+                }
 
                 if (!angular.isDefined($scope.listParams)) {
                     $scope.listParams = {};
@@ -640,7 +646,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             });
                     });
                 };
-
                 //弹窗修改后的回调
                 $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
@@ -665,7 +670,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.customCondition={};
                   }
 
-                    if ($attrs.listSource) {
+                  if ($attrs.listSource) {
                         if ($scope.listSource) {
                             $scope.tbodyList = angular.isArray($scope.listSource) ? $scope.listSource : $scope.listSource.list;
                             if ($scope.listSource.options) {
@@ -704,65 +709,63 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       maskObj=proLoading($element,url);
                     }
 
-                      //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
-                        if(!(statusInfo.currentPage >1)){
-                          timestamp=new Date().getTime();
-                        }
-                    requestData($attrs.listData, angular.merge({},$scope.customCondition,formData, {
-                            timestamp:timestamp,
-                            pageNo: statusInfo.currentPage
-                        }))
-                        .then(function(results) {
-                           if(maskObj)maskObj.hide();
-                            var data = results[1];
-                            if (data.code == 200) {
-                                statusInfo.totalCount = data.totalCount;
-                                statusInfo.pageSize = data.pageSize;
+                    //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
+                    if(!(statusInfo.currentPage >1 )){
+                      timestamp=new Date().getTime();
+                    }
 
-                                if (statusInfo.totalCount && statusInfo.pageSize) {
-                                    statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
-                                }
+                    requestData($attrs.listData, angular.merge({}, $scope.customCondition, formData, {timestamp:timestamp,pageNo: statusInfo.currentPage}))
+                    .then(function(results) {
+                      if(maskObj)maskObj.hide();
+                      var data = results[1];
+                      if (data.code == 200) {
+                            statusInfo.totalCount = data.totalCount;
+                            statusInfo.pageSize = data.pageSize;
 
-                                if (data.thead) {
-                                    $scope.theadList = data.thead;
-                                }
-                                //自定义 tableList 增加 $scope.resultsData = data
-                                $scope.resultsData = data;
+                            if (statusInfo.totalCount && statusInfo.pageSize) {
+                                statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
+                            }
 
+                            if (data.thead) {
+                                $scope.theadList = data.thead;
+                            }
 
-                                if (data.data && data.data.length > 0) {
-                                    $scope.tbodyList = data.data;
-                                } else {
-                                    statusInfo.isFinished = true;
-                                }
-                                statusInfo.loadFailMsg = data.msg;
-
+                            if (data.data && data.data.length > 0) {
+                              if (angular.isDefined($attrs.customDataList) && $attrs.customDataList) {
+                                $scope[$attrs.customDataList] = data.data;
+                              } else {
+                                $scope.tbodyList = data.data;
+                              }
                             } else {
                                 statusInfo.isFinished = true;
-                                statusInfo.loadFailMsg = data.msg;
+                            }
+                            statusInfo.loadFailMsg = data.msg;
 
-                            }
+                        } else {
+                        statusInfo.isFinished = true;
+                        statusInfo.loadFailMsg = data.msg;
+                      }
 
-                            if ($attrs.callback) {
-                                $scope.$eval($attrs.callback);
-                            }
+                      if ($attrs.callback) {
+                          $scope.$eval($attrs.callback);
+                      }
 
-                            statusInfo.isLoading = false;
-                            $scope.isLoading = false;
-                            $timeout(bindSelectOneEvent);
-                            if (_callback) {
-                                _callback();
-                            }
-                        })
-                        .catch(function(error) {
-                           if(maskObj)maskObj.hide();
-                            statusInfo.isLoading = false;
-                            alertError(error);
-                            statusInfo.loadFailMsg = error;
-                            if (_callback) {
-                                _callback();
-                            }
-                        });
+                      statusInfo.isLoading = false;
+                      $scope.isLoading = false;
+                      $timeout(bindSelectOneEvent);
+                      if (_callback) {
+                          _callback();
+                      }
+                    })
+                    .catch(function(error) {
+                       if(maskObj)maskObj.hide();
+                        statusInfo.isLoading = false;
+                        alertError(error);
+                        statusInfo.loadFailMsg = error;
+                        if (_callback) {
+                            _callback();
+                        }
+                    });
                 }
 
                 //设置值
@@ -817,9 +820,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         getListData(setSelectedValue);
                     }
                 });
-
-                //
-
 
                 $scope.$watch("listParams", function() {
                     statusInfo.currentPage = 1;
