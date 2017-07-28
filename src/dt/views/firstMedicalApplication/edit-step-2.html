@@ -62,23 +62,22 @@
                     </p>
                 </div>
                 <!-- 功能按钮 -->
-                <div class="handle-btn-area relative">
-                    <div class="mgb text-right btn-area">
-                        <span class="mgl">
-            <a ng-if="changeFlag"
-               href="javascript:;"
-               handle-this-click
-               dialog-title="确认返回?"
-               dialog-content="该申请单存在未保存数据，是否保存?"
-               dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/otherCustomerApplication/query.html')"
-               save-callback="submitForm('firstMedicalApplication_editForm_step','save');$root.goTo('#/otherCustomerApplication/query.html')">返回申请单列表
-            </a>
-            <a ng-if="!changeFlag" tab-nav
-            tab-name='首营品种管理'
-            tab-href="#/firstMedicalApplication/query.html">返回申请单列表</a>
-          </span>
-                        <span class="mgl">
+          <div class="handle-btn-area relative">
+              <div class="mgb text-right btn-area">
+                  <span class="mgl">
+                      <a ng-if="changeFlag"  href="javascript:;"
+                         handle-this-click
+                         dialog-title="确认返回?"
+                         dialog-content="该申请单存在未保存数据，是否保存?"
+                         dialog-template="pr-dialog-return.html"
+                         nosave-callback="goTo('#/firstMedicalApplication/query.html')"
+                         save-callback="submitForm('firstMedicalApplication_editForm_step','save');$root.goTo('#/firstMedicalApplication/query.html');">返回申请单列表
+                      </a>
+                      <a ng-if="!changeFlag" tab-nav
+                      tab-name='首营品种管理'
+                      tab-href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+              </span>
+          <span class="mgl">
             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
                href="javascript:;"
                class="color-red mgt"
@@ -90,7 +89,7 @@
                params='{"id":formData.id}'
                request-url="rest/authen/firstMedicalApplication/delete">删除</a>
           </span>
-                        <span class="mgl">
+          <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
                     ng-disabled="!changeFlag || !formData.applyReason || firstMedicalApplication_editForm_step.applyReason.$pristine"
                     ng-click="submitForm('firstMedicalApplication_editForm_step','save')">保存
