@@ -3535,6 +3535,11 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     scope: true,
     link: function (scope, element, attrs) {
 
+      $(element).css({
+          position: 'relative'
+      });
+
+
       // 操作按钮组
       var _handleBtnGroup = $(element).find('div.table-item-multiple-btn');
       // 删除按钮
@@ -3575,10 +3580,36 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
       element.hover(function () {
 
+         //  var thisHeight= -1*($(this).height()-_handleBtnGroup.height());
+         //
+         //  var thisWidth=$(this).width();
+         //
+         //  var  offsetTop= $(this).offset().top;
+         //
+         //  var offsetLeft= $(this).offset().left;
+         //
+         // var documentWidth=$(document).width();
+         //
+         //  console.log("offsetTop",offsetTop,"offsetLeft",offsetLeft,"_handleBtnGroup.width():",_handleBtnGroup.width())
+         //
+         //  _handleBtnGroup.css({
+         //      left:(thisWidth -  _handleBtnGroup.width())+'px',
+         //      top:offsetTop+'px'
+         //  }).show();
+         //
+         //  return;
+
         // 解决屏幕变小后按钮消失的bug。
 
         // 兼容有横向滚动条的表格宽度。
-        if ($('div.outside-table-d').hasClass('outside-table-d')) {
+
+          // $(element).parent('table').parent('div')
+
+           // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
+          //  需要判断当前table 的父节点div 是否包含 outside-table-d；
+          //   BUG 编号：1011 用户先打开出入库明细界面，然后再打开品种管理，结果品种管理的按钮挪动了位置，并且显示不正确
+          if($(element).parent('table').parent('div').hasClass('outside-table-d')){
+
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
           // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
