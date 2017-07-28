@@ -183,7 +183,8 @@
                   </label>
               </fieldset>
           </div>
-          <p ng-if="!groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
+          <p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
+          <p ng-if="yearMonthGroupFlag" class="color-red pdl-xl">不能对月进行单独分组查询，必须带年分组查询!</p>
       </div>
       <!-- 功能按钮 -->
       <div class="sales-btn-area-2nd relative">
@@ -192,7 +193,7 @@
           <button type="button"
                   ng-click="handleTypeChange()"
                   class="pr-btn-save-glodbg mgr-l"
-                  ng-disabled="!groupFlag"
+                  ng-disabled="groupFlag || yearMonthGroupFlag"
                   style="width:160px;">确定
           </button>
           </div>
