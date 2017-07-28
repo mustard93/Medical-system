@@ -90,10 +90,10 @@
         <div class="pd-c-v-s flex-item-12" ng-if="scopeData && medicalData.type=='价格'">
           <!-- 第一行 -->
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>牌价</p><p class="color-3 mgt-s">￥{{scopeData.quoteprice ||'——' | number:2}}</p>
+            <p>牌价</p><p class="color-3 mgt-s">{{scopeData.quoteprice | currency:'￥'   }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>批发价</p><p class="color-3 mgt-s">￥{{scopeData.tradePrice ||'——' | number:2}}</p>
+            <p>批发价</p><p class="color-3 mgt-s">{{scopeData.tradePrice  | currency:'￥'  }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
             <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax}}%</p>
@@ -103,29 +103,31 @@
           </div>
           <!-- 第二行 -->
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>参考采购价</p><p class="color-3 mgt-s">￥{{scopeData.purchasePrice ||'——' | number:2}}</p>
+            <p>参考采购价</p><p class="color-3 mgt-s">{{scopeData.purchasePrice  | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最新采购价</p><p class="color-3 mgt-s">￥{{scopeData.newPurchasePrice ||'——' | number:2}}</p>
+            <p>最新采购价</p>
+            <p ng-if="scopeData.newPurchasePrice" class="color-3 mgt-s">{{scopeData.newPurchasePrice  | currency:'￥' }}</p>
+            <p ng-if="!scopeData.newPurchasePrice" class="color-3 mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最高采购价</p><p class="color-3 mgt-s">￥{{scopeData.maxPurchasePrice ||'——' | number:2}}</p>
+            <p>最高采购价</p><p class="color-3 mgt-s">{{scopeData.maxPurchasePrice | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最低采购价</p><p class="color-3 mgt-s">￥{{scopeData.minPurchasePrice ||'——' | number:2}}</p>
+            <p>最低采购价</p><p class="color-3 mgt-s">{{scopeData.minPurchasePrice   | currency:'￥'}}</p>
           </div>
           <!-- 第三行 -->
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>参考销售价</p><p class="color-3 mgt-s">￥{{scopeData.retailPrice ||'——' | number:2}}</p>
+            <p>参考销售价</p><p class="color-3 mgt-s">{{scopeData.retailPrice   | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最新销售价</p><p class="color-3 mgt-s">￥{{scopeData.newSalePrice ||'——' | number:2}}</p>
+            <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 mgt-s">{{scopeData.newSalePrice   | currency:'￥'}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最高销售价</p><p class="color-3 mgt-s">￥{{scopeData.maxRetailPrice ||'——' | number:2}}</p>
+            <p>最高销售价</p><p class="color-3 mgt-s">{{scopeData.maxRetailPrice   | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left">
-            <p>最低销售价</p><p class="color-3 mgt-s">￥{{scopeData.minRetailPrice ||'——' | number:2}}</p>
+            <p>最低销售价</p><p class="color-3 mgt-s">{{scopeData.minRetailPrice   | currency:'￥'}}</p>
           </div>
         </div>
         <div class="pr-bg-white flex-item-12" ng-if="!scopeData||!medicalData.id">
