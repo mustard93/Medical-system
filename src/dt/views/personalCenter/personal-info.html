@@ -7,14 +7,28 @@
      alert-error
      callback="initFlag=true;showData=formData;watchFormChange('formData')">
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-m mgb-m">
+  <div class="content-wrapper-heading mgt-m mgb-m" ng-init="psActive='个人资料'">
     <h1 class="pr-title-color pr-font-24">个人中心</h1>
   </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper-main flex-column">
     <!-- 左侧菜单 -->
     <div class="flex-item-2 left-menu-list">
-      <ng-include src="'views/personalCenter/personal-center-left-menu.html'"></ng-include>
+      <!--<ng-include src="'views/personalCenter/personal-center-left-menu.html'"></ng-include>-->
+
+      <ul class="text-center text-n">
+
+        <li class="block-important pd-v" style="min-width:0;">
+          <a class="active" ng-click="$root.goTo('#/personalCenter/personal-info.html'); ">个人资料</a>
+        </li>
+
+        <li class="block-important pd-v" style="min-width:0;">
+          <a ng-click="$root.goTo('#/personalCenter/modify-pwd.html');">修改密码</a>
+        </li>
+        <li class="block-important pd-v" style="min-width:0;"><a  tab-nav tab-name="首页" tab-href="#/main.html">提醒设置</a></li>
+      </ul>
+
+
     </div>
     <!-- 右侧住内容区域 -->
     <form class="personalModifyInfoForm"
