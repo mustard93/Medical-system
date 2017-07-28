@@ -80,7 +80,7 @@
                     ajax-if-eval="formData.supplier.id"
                     ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
                     scope-data="supplier"
-                    callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
+                    callback="formData.supplier=supplier;chkSupplierInfo(supplier);getHistoryFirstPrice(supplier);"
                     alert-error>
                  <div>
                    <span ng-if="initFlag"
@@ -165,6 +165,7 @@
                 is-disabled-this="{{formData.supplier.id}}"
                 frozen-goods-disabled=true>
            </div>
+           {{data1}}
 
            <!-- 列表 -->
            <div class="bt-line">
@@ -399,7 +400,6 @@
                      <!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                        <input type="text"
-                              ng-init=" formData.orderBusinessType=='直发采购' ?  tr.strike_price='' : tr.strike_price"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
                               ng-model="tr.strike_price"
