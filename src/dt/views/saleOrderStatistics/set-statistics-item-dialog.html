@@ -44,7 +44,7 @@
                 <label class="flex-item-2 text-right control-label pdr-s pdt-s">销售起止时间</label>
             <div class="sela-icon-outside" >
                 <input type="text"
-                       style="color: white;"
+                       style="color: white;z-index: 15;"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
@@ -55,7 +55,7 @@
             <span class="pdt-s mgl-s mgr-s" style="color: white;">至</span>
             <div class="sela-icon-outside" >
                 <input type="text"
-                       style="color: white;"
+                       style="color: white;z-index: 15;"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
@@ -86,7 +86,7 @@
                             chosen
                             default-empty="全部"
                             ng-model="filterObject.orderBusinessType"
-                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+                            select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
 
                     </select>
                 </div>
@@ -183,6 +183,7 @@
                   </label>
               </fieldset>
           </div>
+          <p ng-if="!groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
       </div>
       <!-- 功能按钮 -->
       <div class="sales-btn-area-2nd relative">
@@ -191,6 +192,7 @@
           <button type="button"
                   ng-click="handleTypeChange()"
                   class="pr-btn-save-glodbg mgr-l"
+                  ng-disabled="!groupFlag"
                   style="width:160px;">确定
           </button>
           </div>

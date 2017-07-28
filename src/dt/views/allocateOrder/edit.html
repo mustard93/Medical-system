@@ -13,9 +13,10 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
+
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
+        <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库存管理 >
@@ -349,21 +350,21 @@
         tab-nav
         tab-name='调拨单'
         tab-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单</a>
-      <!--<span ng-if="$root.hasAuthor('调拨单删除')">-->
-        <!--<a ng-if="formData.inputUserId==mainStatus.id"-->
-           <!--href="javascript:;"-->
-           <!--class="pr-color-red mgr"-->
-           <!--handle-this-click-->
-           <!--dialog-title="确认删除?"-->
-           <!--dialog-content="您确认删除这条购调拨单吗?"-->
-           <!--dialog-template="dialog-confirm.html"-->
-           <!--request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"-->
-           <!--callback="$root.goTo('#/allocateOrder/query.html')">删除-->
-        <!--</a>-->
-        <!--</span>-->
+      <span ng-if="$root.hasAuthor('调拨单删除')&&formData.id">
+        <a ng-if="formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条购调拨单吗?"
+           dialog-template="pr-dialog-confirm.html"
+           request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
+           callback="$root.goTo('#/allocateOrder/query.html')">删除
+        </a>
+        </span>
 
         <button type="button"
-                class="pr-btn-save-glodbg mgr"
+                class="pr-btn-save-glodbg mgr mgt"
                 ng-disabled="!changeFlag "
                 ng-click="submitForm('allocateOrder_editForm','save');">保存
         </button>

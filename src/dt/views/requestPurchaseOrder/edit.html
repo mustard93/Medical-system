@@ -67,7 +67,7 @@
                          data-placeholder=" "
                          chosen
                          no-first-select-source="true"
-                         ng-model="formData.salesDepartmentName"
+                         ng-model="formData.salesDepartmentId"
                          select-source="rest/authen/department/queryForSelectOption">
                  </select>
 
@@ -90,8 +90,8 @@
                <thead>
                 <tr>
                   <th  class="w-60 text-center mycheck">
-                    <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
-                    <label for="1"></label>
+                    <input type="checkbox" class="selectAll cur-pot" id='requestPurchaseOrder_1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                    <label for="requestPurchaseOrder_1"></label>
                   </th>
                  <th class="text-center">商品编号</th>
                  <th class="text-left">商品通用名</th>
@@ -106,7 +106,7 @@
                    <td class="select-td mycheck">
                      <input ng-if="formData.orderStatus!='已处理'"
                             type="checkbox"
-                            id="{{$index + 2}}"
+                            id="requestPurchaseOrder_{{$index + 2}}"
                             class="selectOne"
                             name="choise-this"
                             ng-model="tr.handleFlag"
@@ -119,7 +119,7 @@
                             name="choise-this"
                             ng-model="tr.handleFlag"
                             disabled="disabled">
-                    <label for="{{$index + 2}}"></label>
+                    <label for="requestPurchaseOrder_{{$index + 2}}"></label>
                    </td><!-- 选择checkbox -->
                    <td class="text-center" style="line-height:2.4;">{{tr.code}}</td><!-- 商品编号 -->
                     <td class="text-left" >

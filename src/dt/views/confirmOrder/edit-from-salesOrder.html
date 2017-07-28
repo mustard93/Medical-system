@@ -8,6 +8,7 @@
                formData.exchangeRate='1.00';
                formData.thisPageTotal=0;
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getCodeGenerationStrategy('销售单');
                initFlag=true;"
      alert-error>
   <form id="confirmOrder_editForm_salesOrder"
@@ -19,9 +20,10 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
+
         callback="submitFormAfter(true);$root.watchFormChange('formData',this)"
         novalidate="true">
+        <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xl">销售中心 > <em class="color-custom-orange">销售单</em> > <em>编辑销售单</em></p>
@@ -192,8 +194,8 @@
                 ajax-url="rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表"
                 scope-data="thData">
                 <th class="text-center w-50 mycheck">
-                  <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
-                  <label for="1"></label>
+                  <input type="checkbox" ng-model="choiseStatus" id='saleOrder_1' ng-click="isChoiseAll(choiseStatus)">
+                  <label for="saleOrder_1"></label>
                 </th>
                   <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='code'" class="text-center">{{th.propertyName}}</th>
                   <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='approvedName'" class="text-left">{{th.propertyName}}</th>
@@ -211,8 +213,8 @@
               <tbody >
                 <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
                   <td class="text-center w-50 mycheck">
-                    <input type="checkbox" ng-model="item.handleFlag" id="{{'b'+$index+2}}" ng-change="handleThischoise(item)">
-                  <label for="{{'b'+$index+2}}"></label>
+                    <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
+                  <label for="{{'saleOrder_'+$index+2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}
                     <div class="table-item-handle-btn">
@@ -383,7 +385,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html" >返回销售单</a>
 
-        <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id"
+        <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id&&formData.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click

@@ -121,7 +121,7 @@
                            ng-readonly="true"
 
                            ng-model="listParams.dtOrderCreateAtBeg">
-                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
+                    <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
                 </div>
                 <span class="mgr">至</span>
                 <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtEnd">
@@ -143,7 +143,7 @@
                            ng-readonly="true"
 
                            ng-model="listParams.dtOrderCreateAtEnd"/>
-                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
+                    <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
                 </div>
               </div>
             </div>
@@ -179,10 +179,10 @@
             <em class="bulk-receipt-btn-icon"></em>
           </a>
         </div>
-        <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+        <div class="outside-table-d pr-bg-white pr-fuzzy-boundary relative">
           <table class="table pr-table pr-new-table pr-table-content table-wid-l">
             <thead class="pr-bg-side">
-              <tr>
+              <tr class="">
                 <th class="w-60 text-center mycheck" ng-if="!listParams.receiveItemStatus">
                   <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                   <label for="1"></label>
@@ -216,13 +216,13 @@
             <tbody>
               <tr ng-if="tbodyList.length"
                   ng-repeat="tr in tbodyList track by $index"
-                  class="relative"
+                  class=""
                   table-item-multiple-btn>
                 <td ng-if="!listParams.receiveItemStatus" class="select-td text-center mycheck">
                   <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                   <label for="{{$index+2}}"></label>
                 </td>
-                <td class="relative">
+                <td class="">
                   <span class="circle-status"
                         ng-class="{'pr-bg-grey4':tr.receiveItemStatus=='待收货'||tr.receiveItemStatus=='未匹配商品关系'||tr.receiveItemStatus=='未加入采购目录商品',
                                    'bg-pass-green':tr.receiveItemStatus =='已完成',
@@ -239,7 +239,7 @@
 
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='待收货'  || tr.receiveItemStatus=='收货中' "
-                         style="right:200px;visibility:hidden;"
+                         style="right:85px;visibility:hidden;"
                          modal-right="280"
                          modal-scope="this"
                          modal-data='{"dtConfirmOrderId":"{{tr.dtConfirmOrderId}}"}'
@@ -248,7 +248,7 @@
 
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='已完成'"
-                         style="right:60px;visibility:hidden;"
+                         style="right:-60px;visibility:hidden;"
                          modal-right="280"
                          modal-scope="this"
                          modal-data='{"dtConfirmOrderId":"{{tr.dtConfirmOrderId}}"}'
@@ -258,7 +258,7 @@
 
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='待收货'"
-                         style="right:190px;"
+                         style="right:75px;"
                          modal-right="50%"
                          modal-scope="this"
                          modal-data='{"id":"{{tr.id}}"}'
@@ -267,7 +267,7 @@
 
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
                          ng-if="tr.receiveItemStatus=='待收货'&&tr.instockType!='调拨'"
-                         style="right:60px;top: -33px;"
+                         style="right:-60px;top: -33px;"
                          handle-this-click
                          dialog-title="确认提示?"
                          dialog-content="确认全部拒收？"

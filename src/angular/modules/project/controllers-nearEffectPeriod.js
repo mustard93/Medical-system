@@ -7,34 +7,43 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
    * @param  {[type]}                   alertWarn       [description]
    * @param  {[type]}                   alertError      [description]
    * @param  {[type]}                   requestData     [description]
-   * @param  {[type]}                   watchFormChange [description]
+   * @param  {[type]}                   utls            [description]
    * @return {[type]}                                   [description]
    */
-  function nearEffectPeriodController ($scope, modal, alertWarn, alertError, requestData, watchFormChange) {
-    requestData('rest/authen/validityDistribution/countByNearValiditType?nearValiditType=', {}, 'GET')
+  function nearEffectPeriodController ($scope, modal, alertWarn, alertError, requestData, utils) {
+
+    // 公共请求地址
+    var pReqUrl = 'rest/authen/nearEffectPeriod/countByNearValiditType';
+
+    // 获取近效期、的数量
+    $scope.getNearEffectNum = function () {
+      requestData(pReqUrl)
       .then(function (results) {
         if (results[1].code === 200) {
-
-             var data= results[1].data;
-             $scope.totalCount=0;
-             $scope.totalNep =0;
-            $scope.totalExpired =0;
-
-            $scope.totalExpired+= 1* data['已过期']['count'];
-
-            $scope.totalNep+= 1* data['近效期']['count'];
-
-            $scope.totalCount+= 1* data['正常']['totalQuantity'];
-            $scope.totalCount+= 1* data['已过期']['totalQuantity'];
-            $scope.totalCount+= 1* data['近效期']['totalQuantity'];
-
+          $scope.numCollection = results[1].data;
         }
       })
-      .catch(function (error) {
-        alertError(error || '出错');
-      });
+      .catch(function (err) {
+        throw new Error(err || '出错');
+      })
+    }
+
+    // 刷新效期
+    $scope.refreshNearEffect = function () {
+      // 定义请求地址
+      var reqUrl = 'rest/authen/nearEffectPeriod/flush';
+      requestData(reqUrl)
+      .then(function (results) {
+        if (results[1].code === 200) {
+          $scope.$parent.listObject.reloadTime = new Date().getTime();
+        }
+      })
+      .catch(function (err) {
+        throw new Errow(err);
+      })
+    }
   }
 
   angular.module('manageApp.project')
-  .controller('nearEffectPeriodController', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", nearEffectPeriodController]);
+  .controller('nearEffectPeriodController', ['$scope',"modal",'alertWarn',"alertError", "requestData", "utils", nearEffectPeriodController]);
 });

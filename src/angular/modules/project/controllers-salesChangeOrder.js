@@ -23,7 +23,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
     //校验计划归还输入数量   待还数量= 借出数量 - 已还数量
     $scope.checkQuantity=function(tr){
         var flag=false;
-        if(tr.planReturnCount < tr.stayCount  || tr.stayCount <1){
+        if(tr.planReturnCount < tr.quantity  || tr.quantity <1){
             flag=true;
         }
         return flag;
@@ -126,7 +126,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
     //更新药械的换货数量
     $scope.updateMedcalInfo=function (index,item) {
 
-     $scope.formData.orderMedicalNos[index].stayCount= item.stayCount;
+     $scope.formData.orderMedicalNos[index].stayCount= item.quantity;
 
      //   判断当前药械的 “换货数量” 是否 小于 已选择批次总数； 小于: 清空批次信息
      if($scope.formData.orderMedicalNos[index].stayCount < $scope.getAllBatchTotal($scope.formData.orderMedicalNos[index].stockBatchs,'quantity')){
