@@ -42,7 +42,9 @@
                   <span class="text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
                       <span ng-if="$root.hasAuthor('销售单修改')">
-                      <a tab-nav tab-name="销售单"  tab-href="#/confirmOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                        <a ng-if='!tr.relId' tab-nav tab-name="销售单"  tab-href="#/confirmOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span></a>
+                        <a ng-if='tr.relId' tab-nav tab-name="销售单"  tab-href="#/confirmOrder/edit-from-salesOrder.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                     </span>
                     <span ng-if="$root.hasAuthor('销售单删除')">

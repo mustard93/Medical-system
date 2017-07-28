@@ -3636,7 +3636,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       // 执行删除操作
       // 扩展删除方法，使id值支持单值和数组两种方式
       // 增加第4个参数dataType，若不传入则表示单个id值传入，若设置且值为array,则将传入的id字符串包装成数组
-      scope.handleDelDetails = function (id, requestUrl, callbackUrl, dataType,parameterType) {
+      scope.handleDelDetails = function (id, requestUrl, callbackUrl, parameterType, dataType) {
         // 如果dataType参数为空,传入单个值
         try {
           if (id && requestUrl && callbackUrl) {
@@ -3652,7 +3652,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
               _data = id.split(',');
             }
             //提交数据类型，默认为json, 如果传值就用表单key-value
-            var _parameterType='';
+            var _parameterType = null;
             if(!parameterType){
                 _parameterType ='parameter-body';
             }
