@@ -4,74 +4,74 @@
               search-mode="noCaseSensitive"
               search-param="q">
     <div class="medical-stock child-project-management receive-item" ng-controller="orderStatisticsController">
-    <!-- 主内容头部 -->
-    <page-main-header-component list-params="listParams"
-                                style="min-height:130px;"
-                                crumbs-nav='[{"name":"报表查询","link":"","style":""},{"name":"销售统计报表","link":"","style":"color-custom-orange"}]'
-                                component-title="销售统计报表">
-    </page-main-header-component>
-    <!-- 主内容区域 -->
-    <div class="content-wrapper">
-      <!-- 查询按钮 -->
-      <div class="sales-statistics">
-        <div class="inline-block relative mgb-l">
-          <a modal-right="550"
-             modal-scope="this"
-             modal-url="views/saleOrderStatistics/set-statistics-item-dialog.html">
-            <i class="sales-statistics-icon"></i><span style="width:74px;" class="mgt-s ">查询</span>
-          </a>
-        </div>
-      </div>
-      <!-- 表格区域 -->
-      <div class="content-wrapper-main pr-fuzzy-boundary">
-        <div class=" pr-bg-white pr-fuzzy-boundary">
-          <table class="table pr-table pr-new-table pr-table-content">
-            <thead class="pr-bg-side">
-              <tr>
-                <th>序号</th>
-                <th ng-repeat="thItem in tbodyList[0]['groupHeaderKey'].split('-') track by $index">{{thItem}}</th>
-                <th>单据数量</th>
-                <th>销售数量</th>
-                <th>销售金额</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-if="tbodyList.length"
-                  ng-repeat="tr in tbodyList track by $index"
-                  class="relative"
-                  table-item-multiple-btn>
-                <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
-                  <div class="table-item-multiple-btn" style="padding:2px 20px;width:auto;">
-                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                         modal-right="980"
-                         modal-scope="this"
-                         modal-data='{"data":{{tr}}}'
-                         modal-url="views/saleOrderStatistics/sale-get-detailed.html">查看明细
-                    </div>
-                  </div>
-                </td>
-                <td ng-repeat="trItem in tbodyList[0]['groupKey'].split('-') track by $index">{{tr[trItem]}}</td>
-                <td>{{tr.count}}</td>
-                <td>{{tr.planTotalCount}}</td>
-                <td>{{tr.totalPrice | currency: '￥'}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pr-bg-white" ng-if="!tbodyList.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
+      <!-- 主内容头部 -->
+      <page-main-header-component list-params="listParams"
+                                  style="min-height:130px;"
+                                  crumbs-nav='[{"name":"报表查询","link":"","style":""},{"name":"销售统计报表","link":"","style":"color-custom-orange"}]'
+                                  component-title="销售统计报表">
+      </page-main-header-component>
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <!-- 查询按钮 -->
+        <div class="sales-statistics">
+          <div class="inline-block relative mgb-l">
+            <a modal-right="550"
+               modal-scope="this"
+               modal-url="views/saleOrderStatistics/set-statistics-item-dialog.html">
+              <i class="sales-statistics-icon"></i><span style="width:74px;" class="mgt-s ">查询</span>
+            </a>
           </div>
         </div>
-        <div class="clearfix" ng-if="tbodyList.length">
-          <div class="fr">
-            <pagination status="status"></pagination>
+        <!-- 表格区域 -->
+        <div class="content-wrapper-main pr-fuzzy-boundary">
+          <div class=" pr-bg-white pr-fuzzy-boundary">
+            <table class="table pr-table pr-new-table pr-table-content">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th>序号</th>
+                  <th ng-repeat="thItem in tbodyList[0]['groupHeaderKey'].split('-') track by $index">{{thItem}}</th>
+                  <th>单据数量</th>
+                  <th>销售数量</th>
+                  <th>销售金额</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative"
+                    table-item-multiple-btn>
+                  <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
+                    <div class="table-item-multiple-btn" style="padding:2px 20px;width:auto;">
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                           modal-right="980"
+                           modal-scope="this"
+                           modal-data='{"data":{{tr}}}'
+                           modal-url="views/saleOrderStatistics/sale-get-detailed.html">查看明细
+                      </div>
+                    </div>
+                  </td>
+                  <td ng-repeat="trItem in tbodyList[0]['groupKey'].split('-') track by $index">{{tr[trItem]}}</td>
+                  <td>{{tr.count}}</td>
+                  <td>{{tr.planTotalCount}}</td>
+                  <td>{{tr.totalPrice | currency: '￥'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+          <div class="clearfix" ng-if="tbodyList.length">
+            <div class="fr">
+              <pagination status="status"></pagination>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </table-list>
 </div>
