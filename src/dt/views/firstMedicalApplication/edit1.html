@@ -39,7 +39,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="validFlag=true;submitFormAfter('#/firstMedicalApplication/edit-step-2.html','首营品种管理');watchFormChange('formData');">
+            callback="validFlag=true;submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column" style="line-height:2.4">
           <div class="flex-item-6">
@@ -525,14 +525,14 @@
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
           <span class="mgl">
-  
+
             <a ng-if="changeFlag"  href="javascript:;"
                handle-this-click
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
                nosave-callback="goTo('#/firstMedicalApplication/query.html')"
-               save-callback="submitForm('firstMedicalApplication_editForm1','save');$root.goTo('#/firstMedicalApplication/query.html');">返回申请单列表
+               save-callback="submitSaveCallBack('firstMedicalApplication')">返回申请单列表
             </a>
 
             <a ng-if="!changeFlag" tab-nav
