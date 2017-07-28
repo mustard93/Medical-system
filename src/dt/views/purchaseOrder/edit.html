@@ -606,28 +606,25 @@
              callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
           </a>
         </span>
-
+        <button type="button"
+                class="pr-btn-save-glodbg mgr-s"
+                ng-click="submitForm('purchaseForm','print')">打印预览
+        </button>
         <button ng-if="formData.orderNo"
                 type="button"
-                class="pr-btn-save-glodbg mgr"
+                class="pr-btn-save-glodbg mgr-s"
                 modal-center="340"
                 modal-data='{"id":"{{formData.id}}"}'
                 modal-scope="this"
                 modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同
         </button>
 
-        <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg mgr-l"
+        <button class="pr-btn-save-glodbg mgr-s"
                   type="button"
                   ng-click="submitForm('purchaseForm','save')"
                   ng-disabled="!changeFlag">保存
-          </button>
+        </button>
 
-          <button type="button"
-                  class="pr-btn-save-glodbg mgr"
-                  ng-click="submitForm('purchaseForm','print')">打印预览
-          </button>
-        </span>
         <span>
           <button ng-if="!formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
@@ -694,4 +691,3 @@
     </div>
 </form>
 </div>
-
