@@ -193,8 +193,8 @@
                 ajax-url="rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表"
                 scope-data="thData">
                 <th class="text-center w-50 mycheck">
-                  <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
-                  <label for="1"></label>
+                  <input type="checkbox" ng-model="choiseStatus" id='saleOrder_1' ng-click="isChoiseAll(choiseStatus)">
+                  <label for="saleOrder_1"></label>
                 </th>
                   <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='code'" class="text-center">{{th.propertyName}}</th>
                   <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='approvedName'" class="text-left">{{th.propertyName}}</th>
@@ -212,8 +212,8 @@
               <tbody >
                 <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
                   <td class="text-center w-50 mycheck">
-                    <input type="checkbox" ng-model="item.handleFlag" id="{{'b'+$index+2}}" ng-change="handleThischoise(item)">
-                  <label for="{{'b'+$index+2}}"></label>
+                    <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
+                  <label for="{{'saleOrder_'+$index+2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}
                     <div class="table-item-handle-btn">
