@@ -186,10 +186,27 @@ define('project/controllers-otherCustomerApplication', ['project/init'], functio
     };
 
     $scope.submitFormAfter = function (_url) {
+
       if ($scope.submitForm_type === 'submit') {
         $scope.goTo(_url + '?id=' + $scope.formData.id);
       }
+
     };
+
+    // 解决新建时保存并返回的问题。返回query页面后要刷新当前数据。
+    $scope.submitSaveCallBack=function(){
+        requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+            .then(function (results) {
+                if (results[1].code === 200) {
+                  $scope.formData.validFlag = true;
+                  $scope.goTo('#/otherCustomerApplication/query.html?id='+$scope.formData.id);
+                }
+            })
+            .catch(function (error) {
+              alertError('出错！')
+            });
+
+    }
 
     // 选中相应药品类别，放入数组中传到后台
     $scope.choiceCommodityType=function(item){

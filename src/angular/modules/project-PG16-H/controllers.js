@@ -1023,25 +1023,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             // 添加药品后请求当前药品的历史价格
-            if (addDataItem) {
-                var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
-                    _data = {};
-
-                requestData(_url, _data, 'GET')
-                    .then(function (results) {
-                        var _resObj = results[1].data;
-                        for (var item in _resObj) {
-                            if (item === addDataItem.relId && _resObj[item]) {
-                                addDataItem.strike_price = _resObj[item].value;
-                            } else {
-                                addDataItem.strike_price = '';
-                            }
-                        }
-                    })
-                    .catch(function (error) {
-                        if (error) { console.log(error || '出错!'); }
-                    });
-            }
+            // if (addDataItem) {
+            //     var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            //         _data = {};
+            //
+            //     requestData(_url, _data, 'GET')
+            //         .then(function (results) {
+            //             var _resObj = results[1].data;
+            //             for (var item in _resObj) {
+            //                 if (item === addDataItem.relId && _resObj[item]) {
+            //                     addDataItem.strike_price = _resObj[item].value;
+            //                 } else {
+            //                     addDataItem.strike_price = '';
+            //                 }
+            //             }
+            //         })
+            //         .catch(function (error) {
+            //             if (error) { console.log(error || '出错!'); }
+            //         });
+            // }
 
 
             //添加到列表
