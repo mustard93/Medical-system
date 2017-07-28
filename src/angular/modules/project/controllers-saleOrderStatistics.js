@@ -79,20 +79,31 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     // 处理分组选中与取消选中事件
     $scope.handleGroupChoised = function (event, value) {
-      // 定义选择的分组集合
-      var tmparr = $scope.filterObject.queryGroupEnum.split(',');
 
       if (event.currentTarget.checked) {    // 选中
-        tmparr.push(value);    // 拼接queryGroupEnum字段值
+        // 定义选择的分组集合
+        var tmparr = [];
+
+        if ($scope.filterObject.queryGroupEnum) {
+          tmparr = $scope.filterObject.queryGroupEnum.split(',');
+        }
+
+        // 拼接queryGroupEnum字段值
+        tmparr.push(value);
 
         // 判断分组集合是否不为空，若不为空，则更新标识
-        if (tmparr.length) { $scope.groupFlag = true; }
+        if (tmparr.length !== 0) { $scope.groupFlag = true; }
+
       } else {
+        // 定义选择的分组集合
+        var tmparr = $scope.filterObject.queryGroupEnum.split(',');
+
         angular.forEach(tmparr, function (item, index) {
           if (item === value) { tmparr.splice(index, 1); }
 
           // 判断分组集合是否为空，若为空则标识用户未选择任何一种分组标识
-          if (!tmparr.length) { $scope.groupFlag = false; }
+          if (tmparr.length === 0) { $scope.groupFlag = false; }
+
         });
       }
 
