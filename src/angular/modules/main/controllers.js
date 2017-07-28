@@ -25,13 +25,9 @@ define('main/controllers', ['main/init'], function () {
             msgBubble: 0 //消息气泡
         };
 
-
-
         $rootScope.tabs = uiTabs.tabs;
 
-
         $rootScope.$on('tabBeforeOnLoad', function (e, tab) {
-
 
             if(!$scope.mainStatus.pageParams){
                 $scope.mainStatus.pageParams={};
@@ -60,6 +56,8 @@ define('main/controllers', ['main/init'], function () {
         }
 
         $rootScope.addTab = function (item) {
+            //关闭弹出来
+            modal.close();
 
             if(!item.tabHref){
                 item.tabHref=item.ahref;
