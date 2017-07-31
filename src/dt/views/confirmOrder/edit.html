@@ -341,7 +341,7 @@
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);checkConfirmOrderQuantity(batch.quantity,batch.salesQuantity);checkSalesQuantity(item.stockBatchs,item.quantity);">
                         <input type="hidden" ng-model="batch.id">
-                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);checkSalesQuantity(item.stockBatchs,item.quantity);"><i class="fa fa-times-circle"></i></span>
                       </div>
                       <!-- 批号选择 -->
                       <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
