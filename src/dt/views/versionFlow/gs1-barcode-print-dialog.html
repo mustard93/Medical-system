@@ -7,10 +7,12 @@
        ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
        scope-data="scopeMedicalData"
        alert-error
-       callback="initFlag=true;loadCLodop();$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;scopeMedicalData.medicalType='一段式'">
+       callback="initFlag=true;loadCLodop();$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;scopeMedicalData.medicalType='一段式'"
+  >
     <div class="modal-header">
       <h4 class="modal-title color-or">GS1条码打印</h4>
     </div>
+
     <div class="modal-body modal-body-new">
       <div class="pd-c-xxxxl bb-dashed-line mgt-l">
         <div id="installNoteDiv" class="mgb-xl" ng-if="notInstallPlusin">
@@ -120,6 +122,10 @@
           </div>
         </div>
       </div>
+
+
+
+
       <div class="pd-c-xxxxl">
         <h1 class="text-bold">
           <button type="button"
@@ -136,7 +142,8 @@
              callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
         </div>
 
-        <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >
+        <!-- 因挂载 mainCtrl， 导致页面刷新-多窗口问题报对象不存在，  <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >-->
+        <div class="mgt" id="Print_Div_id" >
           <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsFullBarcode'"></ng-include>
         </div>
 
@@ -144,7 +151,12 @@
           <img ng-src="{{goodsFullBarcode}}" alt="">
         </div> -->
       </div>
+
+
+
+
     </div>
+
     <div class="btn-confirm-area">
       <button type="button"
               class="ngdialog-close btn pr-btn-create-glodbg "
