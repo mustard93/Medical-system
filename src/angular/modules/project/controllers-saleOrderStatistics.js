@@ -40,6 +40,12 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
           var tmpArr = $scope.tbodyList[0]['groupHeaderKey'].split('-').join();
           $scope.filterObject['queryGroupEnum'] = tmpArr;
         }
+
+
+        // if ($scope.tbodyList[0]['customerName']) {
+        //   $scope.filterObject.customerName = newVal[0].customerName;
+        //   console.log($scope.filterObject.customerName);
+        // }
       }
     });
 
@@ -62,7 +68,6 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
           }
         }
       });
-      // console.log($scope.groupList);
     }
 
     // 处理用户查询中类型变更事件
@@ -158,6 +163,13 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     }
 
+    // 监控医院选择组件对外绑定的对象listObejct，若更改则将其name属性值赋值给filterObject
+    // 以便在再次打开时将上次选择的医院名称赋值在选择框内
+    $scope.$watchCollection('listObject', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        $scope.filterObject.customerName = $scope.listObject.name;
+      }
+    });
   }
 
   /**
