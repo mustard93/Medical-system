@@ -4049,7 +4049,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $attrs.href="javascript:;";
                 }
 
-                // console.log("tabObj",tabObj);
                 if($rootScope.useTab){
                     element.on('click',function(){
                         $rootScope.addTab(tabObj)
@@ -4079,7 +4078,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      /**
       * 业务单流程展示
       */
-     function canvasBusinessFlow (modal,utils) {
+     function canvasBusinessFlow ($rootScope,modal,utils) {
        'use strict';
        return {
            restrict: 'AE',
@@ -4097,6 +4096,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               //  console.log(data);
               // console.log(data);
                require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+                   var tabPara={
+                       tabName:"查看详细",
+                       tabHref: null
+                   };
+
 
                  //点击回调方法
                  function clickCallback(event,that){
@@ -4114,7 +4118,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    if(curRelId==relId){//当前页面节点点击不做跳转
                      return;
                    }
+
+
                    var url="#/"+moduleType+"/get.html?id="+relId;
+
+                   var moduleName = $rootScope.findModuleNameByType(moduleType);
+                   tabPara.tabName= moduleName ? moduleName :'查看详细';
+
 
                    if(moduleType=='lossOrder'){
                        url="#/lossOverOrder/get-reimburse.html?id="+relId;
@@ -4125,28 +4135,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                    else if(moduleType=="outstockOrder"){
                         if(subModuleAttribute=="销售出库单"||subModuleAttribute=="销售出库单_红字"){
+                               tabPara.tabName='销售出库单';
                                url="#/saleOutstockOrder/get.html?id="+relId;
                         }
                         else{
+                             tabPara.tabName='其他出库单';
                              url="#/otherOutstockOrder/get.html?id="+relId;
                         }
                    }
 
                    else if(moduleType=="instockOrder"){
                         if(subModuleAttribute=="采购入库单"||subModuleAttribute=="采购入库单_红字"){
+                            tabPara.tabName='采购入库单';
                             url="#/purchaseInstockOrder/get.html?id="+relId;
                         }
                         else{
+                             tabPara.tabName='其他入库单';
                              url="#/otherInstockOrder/get.html?id="+relId;
                         }
                    }
-
                    //var tabNameMap={"",""};
-                   var tabPara={
-                       tabName:"查看详细",
-                       tabHref: url
-                   }
+                   // var tabPara={
+                   //     tabName:"查看详细",
+                   //     tabHref: url
+                   // }
 
+                   tabPara.tabHref=url;
                    utils.goTo(tabPara);
                  }//end clickCallback
 
@@ -4282,7 +4296,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      * 加入项目
      */
     angular.module('manageApp.main')
-    .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
+    .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
     .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
