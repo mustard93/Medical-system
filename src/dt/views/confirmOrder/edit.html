@@ -3,7 +3,7 @@
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
-               initFlag=true;
+               initFlag=true;quantityConfirmOrderError=false;quantityError=false;
                $root.watchFormChange('formData',this);
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getSaleUserId(mainStatus.pageParams.saleUserId);
@@ -312,10 +312,10 @@
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
                                  valid-value="{{!confirmOrder_editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
+                                 popover-show="totalQuantity > item.quantity"
+                                 popover-options='{"content":"批次总数不能大于商品数量或商品数量不正确", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);checkSalesQuantity(item.stockBatchs,item.quantity);">
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
@@ -335,10 +335,13 @@
                                class="in_ipt"
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
+                               invalid-popover
+                               popover-show="batch.quantity>batch.salesQuantity "
+                               popover-options='{"content":"批次数量不能大于商品数量或可用量", "placement":"right", "trigger":"manual"}'
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);checkConfirmOrderQuantity(batch.quantity,batch.salesQuantity);checkSalesQuantity(item.stockBatchs,item.quantity);">
                         <input type="hidden" ng-model="batch.id">
-                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);checkSalesQuantity(item.stockBatchs,item.quantity);"><i class="fa fa-times-circle"></i></span>
                       </div>
                       <!-- 批号选择 -->
                       <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
@@ -638,7 +641,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000"
+                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -651,7 +654,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000"
+                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -664,7 +667,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000"
+                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -676,7 +679,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000"
+                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 

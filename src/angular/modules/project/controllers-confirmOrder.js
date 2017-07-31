@@ -507,6 +507,34 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         $scope.quantityError=false;
       }
     }
+    // 销售单中批号数量自己手动修改之后。
+    $scope.checkConfirmOrderQuantity = function (batchQuantity,salesQuantity){
+        // 确定是该商品的哪个批号，然后取出对应的可用量。与当前修改的数量做对比。如果修改的数量大于可用量，则不允许提交。
+            if (batchQuantity > salesQuantity) {
+              $scope.quantityConfirmOrderError=true;
+            }else {
+              $scope.quantityConfirmOrderError=false;
+            }
+
+    }
+
+    $scope.totalQuantity=0;
+    // 判断商品数量和该商品所选批号所有的数量之和的对比。
+    $scope.checkSalesQuantity = function (batches,quantity){
+
+      // 刚执行此方法时要把总数清空，置为0.
+      $scope.totalQuantity=0;
+      for (var i = 0; i < batches.length; i++) {
+        $scope.totalQuantity+=batches[i].quantity;
+      }
+      console.log($scope.totalQuantity);
+      if ($scope.totalQuantity > quantity) {
+        $scope.quantityError=true;
+      }else {
+        $scope.quantityError=false;
+      }
+    }
+
 
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {

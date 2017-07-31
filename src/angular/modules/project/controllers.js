@@ -270,6 +270,7 @@ define('project/controllers', ['project/init',
         stockBatchId: obj.id,                     // 批次号id
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
+        salesQuantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
         validTill:obj.validTill,
         productionDate:obj.productionDate,
