@@ -3559,11 +3559,15 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       // 绑定点击显示其他操作层
       _handleBtn.on('click', function () {
 
-        var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
+        // 解决bug：1013 品种管理中 选择一个商品的菜单默认显示不完整，需要用户手动下拉展开菜单。用户使用不方便。$('.content-wrapper-main')以该容器的高度来作为判断依据，而不是document。
+        var _offsetTop = $(element).offset().top-$('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
         $(this).find('.handle-area-show').show(0,function () {
             var handleAreaHeight=$(this).height();
             //如果显示不下 就向上显示菜单
-            if((_offsetTop+handleAreaHeight) > $(document).height()){
+            // console.log($('.content-wrapper-main'));
+            console.log(document.body.scrollTop);
+            console.log(_offsetTop+handleAreaHeight);
+            if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
                 $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
             }else{
                 $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
@@ -3607,7 +3611,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
-          
+
           if($('.outside-table-d').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
