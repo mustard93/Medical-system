@@ -19,6 +19,11 @@ define('main/controllers', ['main/init'], function () {
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
+        //是否使用 TAB 标签页，读取项目根目录下的conf.js 配置文件
+        $rootScope.useTab= conf.useTab;
+
+        console.log("$rootScope.useTab:",$rootScope.useTab);
+
         //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,

@@ -3333,7 +3333,7 @@ function expressManageComponent (requestData, utils) {
  * [pageMainHeaderComponent 模块主内容区域头部通组件]
  * @return {[type]} [description]
  */
-function pageMainHeaderComponent ($sce) {
+function pageMainHeaderComponent ($rootScope,$sce) {
   'use strict';
   return {
     restrict: 'EA',
@@ -3827,7 +3827,7 @@ function  dtRightSide(utils) {
 angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
-  .directive("pageMainHeaderComponent", ['$sce',pageMainHeaderComponent])
+  .directive("pageMainHeaderComponent", ['$rootScope','$sce',pageMainHeaderComponent])
   .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])

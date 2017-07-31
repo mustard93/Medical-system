@@ -3912,7 +3912,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      *    2、从远程服务器拉取  getDataType: fetch
      *  create by liuzhen at 2017/06/23
      */
-    function showInfoModal (requestData, utils, alertOk, alertError) {
+    function showInfoModal ($rootScope,requestData, utils, alertOk, alertError) {
       'use strict';
       return {
         restrict: 'EA',
@@ -4044,11 +4044,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     tabHref: $scope.tabHref
                 };
 
-                // console.log("tabObj",tabObj);
+                if($rootScope.useTab){
+                    $(element).attr('href',"javascript:;");
+                    $attrs.href="javascript:;";
+                }
 
-                element.on('click',function(){
-                    $rootScope.addTab(tabObj)
-                });
+                // console.log("tabObj",tabObj);
+                if($rootScope.useTab){
+                    element.on('click',function(){
+                        $rootScope.addTab(tabObj)
+                    });
+                }
             }
         };
     }
@@ -4312,7 +4318,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("autoComplete", autoComplete)
       .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
       .directive("customConfig", customConfig)
-      .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
+      .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
       .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
 });
