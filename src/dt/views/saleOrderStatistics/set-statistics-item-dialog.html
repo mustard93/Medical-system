@@ -9,7 +9,8 @@
             <span angucomplete-supplier
                   placeholder=""
                   title-field="name"
-                  search-fields="{{formData.customerName}}"
+                  search-fields="{{filterObject.customerName}}"
+                  list-object="listObject"
                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                   ng-model="tmp_customer"
                   ng-model-id="filterObject.customerId"
@@ -35,8 +36,7 @@
                         chosen
                         default-empty="全部"
                         ng-model="filterObject.saleUserId"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
-                >
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                 </select>
             </div>
         </div>
@@ -92,17 +92,19 @@
                 </div>
             </div>
         <!--商品分类-->
-        <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
-                <div class="flex-item-10 text-left">
-                    <select class="ipt pr-short-ipt ipt-new-s select-bg"
-                        chosen
-                        default-empty="全部"
-                        ng-model="filterObject.medicalAttributeId"
-                        select-source="rest/authen/medicalAttribute/queryForSelectOption">
-                    </select>
-                </div>
-            </div>
+        <div class="flex-column mgt relative">
+          <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
+          <div class="flex-item-10 text-left">
+            <div class="autocut z-tree-div inline-block fl-l">{{filterObject.medicalAttributeName}}</div>
+            <button type="button"
+                    z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
+                    class="btn-select-dialog fl-l"
+                    ng-model="filterObject.medicalAttribute"
+                    id-key="id"
+                    p-id-key="parentId">选择
+             </button>
+          </div>
+        </div>
         <!--商品通用名-->
         <div class="flex-column mgt relative">
                 <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
@@ -162,8 +164,7 @@
                                 chosen
                                 default-empty="全部"
                                 ng-model="filterObject.saleUserId"
-                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
-                        >
+                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.departmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                 </div>
             </div>
