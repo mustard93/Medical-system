@@ -29,7 +29,10 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
     };
 
     // 判断分组选择标识符，如果为false，则表示用户未选择任何一种分组标识
-    $scope.groupFlag = true;
+    $scope.groupFlag = false;
+
+    // 判断用户是否取消了年分组且保留了月分组，若是则提示用户错误
+    $scope.yearMonthGroupFlag = false;
 
     // 初始化过滤字符串对象
     $scope.filterObject = {};
@@ -79,20 +82,42 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     // 处理分组选中与取消选中事件
     $scope.handleGroupChoised = function (event, value) {
-      // 定义选择的分组集合
-      var tmparr = $scope.filterObject.queryGroupEnum.split(',');
-
       if (event.currentTarget.checked) {    // 选中
-        tmparr.push(value);    // 拼接queryGroupEnum字段值
+        // 定义选择的分组集合
+        var tmparr = [];
+
+        if ($scope.filterObject.queryGroupEnum) {
+          tmparr = $scope.filterObject.queryGroupEnum.split(',');
+        }
+
+        // 拼接queryGroupEnum字段值
+        tmparr.push(value);
 
         // 判断分组集合是否不为空，若不为空，则更新标识
-        if (tmparr.length) { $scope.groupFlag = true; }
-      } else {
+        if (tmparr.length !== 0) { $scope.groupFlag = false; }
+
+        // 判断如果当前选择的是年，
+        if (value === '年') {
+          $scope.yearMonthGroupFlag = false;
+        }
+
+      } else {    // 取消选中
+        // 定义选择的分组集合
+        var tmparr = $scope.filterObject.queryGroupEnum.split(',');
+
         angular.forEach(tmparr, function (item, index) {
           if (item === value) { tmparr.splice(index, 1); }
 
           // 判断分组集合是否为空，若为空则标识用户未选择任何一种分组标识
-          if (!tmparr.length) { $scope.groupFlag = false; }
+          if (tmparr.length === 0) { $scope.groupFlag = true; }
+
+          // 判断如果当前取消选择的是年，则月分组也应该取消，并判断分组是否为空
+          if (value === '年') {
+            if ($scope.filterObject.queryGroupEnum.indexOf('月') > -1) {
+              $scope.yearMonthGroupFlag = true;
+            }
+          }
+
         });
       }
 
