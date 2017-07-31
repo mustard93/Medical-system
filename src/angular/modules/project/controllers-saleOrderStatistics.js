@@ -170,6 +170,15 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
         $scope.filterObject.customerName = $scope.listObject.name;
       }
     });
+
+    // 监控分类选择，当用户选择分类后，筛选其id值赋值给medicalAttributeId
+    $scope.$watchCollection('filterObject.medicalAttribute', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        $scope.filterObject.medicalAttributeId = newVal['id'];
+        $scope.filterObject.medicalAttributeName = newVal['name'];
+        $scope.filterObject.medicalAttribute = null;
+      }
+    });
   }
 
   /**
