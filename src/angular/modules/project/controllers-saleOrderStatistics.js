@@ -172,6 +172,23 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     }
 
+    // 监控医院选择组件对外绑定的对象listObejct，若更改则将其name属性值赋值给filterObject
+    // 以便在再次打开时将上次选择的医院名称赋值在选择框内
+    $scope.$watchCollection('listObject', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        $scope.filterObject.customerName = $scope.listObject.name;
+      }
+    });
+
+    // 监控分类选择，当用户选择分类后，筛选其id值赋值给medicalAttributeId
+    $scope.$watchCollection('filterObject.medicalAttribute', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        $scope.filterObject.medicalAttributeId = newVal['id'];
+        $scope.filterObject.medicalAttributeName = newVal['name'];
+        $scope.filterObject.medicalAttribute = null;
+      }
+    });
+
   }
 
   /**
