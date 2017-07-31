@@ -521,8 +521,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
     $scope.totalQuantity=0;
     // 判断商品数量和该商品所选批号所有的数量之和的对比。
     $scope.checkSalesQuantity = function (batches,quantity){
-      console.log(batches);
-      console.log(quantity);
+
       // 刚执行此方法时要把总数清空，置为0.
       $scope.totalQuantity=0;
       for (var i = 0; i < batches.length; i++) {
@@ -534,8 +533,8 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       }else {
         $scope.quantityError=false;
       }
-
     }
+
 
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {
