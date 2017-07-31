@@ -514,7 +514,7 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
             for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
               console.log($scope.formData.orderMedicalNos[i]);
 
-              if (_data[ $scope.formData.orderMedicalNos[i].id].value!==null) {
+              if ($scope.formData.orderMedicalNos[i].id!=null) {
                 $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
               }else {
                 $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
