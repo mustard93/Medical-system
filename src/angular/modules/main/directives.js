@@ -3757,7 +3757,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               	},
                 callback: {
               		onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
                       $scope.ngModel=treeNode;
                       $scope.$apply();
 
@@ -3781,7 +3780,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             scope: {
               "ngModel":"=",
               "idKey":"@?",
-              "pIdKey":"@?"
+              "pIdKey":"@?",
+              "width": "@?"
             },
             link: function ($scope, $element, $attrs) {
 
@@ -3792,7 +3792,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
 
-              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+              // 如果定义了宽度
+              var _width = $attrs.width ? $attrs.width : '100%';
+
+              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
