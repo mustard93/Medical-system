@@ -84,8 +84,47 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         var data= {};
         requestData(_url, data, 'get')
           .then(function (results) {
-            var thData= results[1].data.items;
-            for (var i = 0; i < $scope.thData.length; i++) {
+            var thData={};
+            for (var i = 0; i < results[1].data.items.length; i++) {
+
+            switch (results[1].data.items[i].propertyKey) {
+              case 'code':
+                thData.code=results[1].data.items[i].propertyName;
+                break;
+
+              case 'approvedName':
+                thData.approvedName=results[1].data.items[i].propertyName;
+                break;
+              case 'dosageForms':
+                thData.dosageForms=results[1].data.items[i].propertyName;
+                break;
+
+              case 'specificationAndModelType':
+                thData.specificationAndModelType=results[1].data.items[i].propertyName;
+                break;
+              case 'unit':
+                thData.unit=results[1].data.items[i].propertyName;
+                break;
+              case 'quantity':
+                thData.quantity=results[1].data.items[i].propertyName;
+                break;
+              case 'productionBatch':
+                thData.productionBatch=results[1].data.items[i].propertyName;
+                break;
+              case 'sterilizationBatchNumber':
+                thData.sterilizationBatchNumber=results[1].data.items[i].propertyName;
+                break;
+              case 'strike_price':
+                thData.strike_price=results[1].data.items[i].propertyName;
+                break;
+              case 'totalPrice':
+                thData.totalPrice=results[1].data.items[i].propertyName;
+                break;
+              case 'validTill':
+                thData.validTill=results[1].data.items[i].propertyName;
+                break;
+              default:
+            }
             }
             $scope.thData= thData;
           })
