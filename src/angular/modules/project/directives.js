@@ -3567,8 +3567,6 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
             var handleAreaHeight=$(this).height();
             //如果显示不下 就向上显示菜单
             // console.log($('.content-wrapper-main'));
-            console.log(document.body.scrollTop);
-            console.log(_offsetTop+handleAreaHeight);
             if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
                 $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
             }else{

@@ -3985,6 +3985,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
           var _eleRight = $(document.body).width() - $(element).parent().offset().left;
 
+          // 如果有content-wrapper-main这个父容器，则以该父容器为主要父容器。
+          // if($('.content-wrapper-main').hasClass('content-wrapper-main')){
+          //   var _contentHeight=$('.content-wrapper-main').height();
+          // }else {
+          //   var _contentHeight=0;
+          // }
+
           // 计算当前元素与页面底部的距离
           // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
           if (_eleBottom < _eleHeight) {
