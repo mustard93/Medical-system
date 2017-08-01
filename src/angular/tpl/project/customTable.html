@@ -19,12 +19,14 @@
       <p class="text-center">什么也没有</p>
     </div> -->
     <div class="pr-bg-white pr-fuzzy-boundary"
+         ng-class="{'outside-table-d':uICustomTable.items.length>10}"
          ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
          scope-data="_uICustomMenu"
          alert-error
          callback="_menuList=_uICustomMenu.items">
       <table ng-if="_customTrMenus&& _menuList"
              class='{{"table pr-table pr-new-table pr-table-content "||uICustomTable.className}}'
+             ng-class="{'table-wid-l':uICustomTable.items.length>10}"
              style='{{uICustomTable.style}}'>
         <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
             <tr>
