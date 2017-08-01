@@ -77,6 +77,23 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       }
     }, true);
 
+    // 调接口取用户在自定义表格中编辑的表格的标题显示
+    $scope.geThName=function(medicalData){
+      if (medicalData.length) {
+        var _url='rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表';
+        var data= {};
+        requestData(_url, data, 'get')
+          .then(function (results) {
+            var thData= results[1].data.items;
+            for (var i = 0; i < $scope.thData.length; i++) {
+            }
+            $scope.thData= thData;
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      }
+    }
 
     $scope.deleteQuantity=function(item){
       angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
