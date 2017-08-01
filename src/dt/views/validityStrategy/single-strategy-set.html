@@ -1,4 +1,4 @@
-<div class="medical-stock supplier-management child-project-management">
+<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
 
   <page-main-header-component list-params="listParams"
                               style="min-height:130px;"
@@ -19,8 +19,9 @@
        modal-url="views/validityStrategy/add-for-single-set.html"><i></i><span class="text-s">新增单个商品策略</span></a>
   </div>
 
-  <table-list list-data="rest/authen/validityStrategy/querySingleMedicalValidityStrategy.json"
+  <table-list list-data="rest/authen/validityStrategy/querySingleMedicalValidityStrategy.json?t={{listObject.reloadTime}}"
               list-params="listParams"
+              list-object="listObject"
               search-mode="noCaseSensitive"
               search-param="q">
 
