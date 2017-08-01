@@ -220,18 +220,18 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
          $scope.formData.orderMedicalNos = [];
        }
        // 如果已添加
-       if ($scope.formData.orderMedicalNos.length !== 0) {
-         var _len = $scope.formData.orderMedicalNos.length;
-
-         for (var i=0; i<_len; i++) {
-           if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-             alertWarn('此药械已添加到列表');
-              // $scope.ids.push($scope.formData.orderMedicalNos[i].relId);
-             return false;
-           }
-
-         }
-       }
+      //  if ($scope.formData.orderMedicalNos.length !== 0) {
+      //    var _len = $scope.formData.orderMedicalNos.length;
+       //
+      //    for (var i=0; i<_len; i++) {
+      //      if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+      //        alertWarn('此药械已添加到列表');
+      //         // $scope.ids.push($scope.formData.orderMedicalNos[i].relId);
+      //        return false;
+      //      }
+       //
+      //    }
+      //  }
 
        // 添加药品后请求当前药品的历史价格
        if (addDataItem) {
