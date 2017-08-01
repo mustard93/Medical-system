@@ -367,6 +367,30 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
         });
     };
 
+      // 点击新增商品单位信息，新增一条商品辅助单位
+      $scope.addMedicalUnit = function(){
+          // 判断othersPackingAttribute对象是否是空值，如果是，就新建一个为空的数组，不是则直接就把新的一条辅助单位的数据加入数组
+          if (!$scope.formData.othersPackingAttribute) {
+              $scope.formData.othersPackingAttribute=[];
+          }
+          var otherPobject={
+              type:"辅助单位",
+              name:"",
+              ratio:"",
+              barcode:"",
+              bidPrice:"",
+              length:"",
+              width:"",
+              height:"",
+              unitWeightKg:""
+          };
+          if($scope.formData.othersPackingAttribute){
+              $scope.formData.othersPackingAttribute.push(otherPobject);
+          }else{
+              $scope.formData.othersPackingAttribute.push(otherPobject);
+          }
+      };
+
   }
 
   angular.module('manageApp.project')
