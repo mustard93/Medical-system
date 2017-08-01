@@ -3974,6 +3974,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           return Config.tplPath + attrs.templateUrl + '.html';
         },
         link: function (scope, element, attrs) {
+          // 获取数据拉取模式
+          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
+            // 弹出层标题
+            scope.infoTitle = attrs.infoTitle || '暂无';
+            // 详细信息
+            scope.infoObject = JSON.parse(attrs.infoObject);
+          }
+
+          // 为分页增加监控，当用户切换分页时，刷新数据
+          scope.$watchCollection('tr', function (newVal, oldVal) {
+            if (newVal && newVal !== oldVal) {
+              scope.infoObject = angular.copy(newVal);
+            }
+          });
+
           // 定义当前组件的父元素
           var _parent = $(element).parent();
 
@@ -3985,13 +4000,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           var _eleBottom = $(document.body).height() - $(element).parent().offset().top;
           var _eleRight = $(document.body).width() - $(element).parent().offset().left;
 
-          // 如果有content-wrapper-main这个父容器，则以该父容器为主要父容器。
-          // if($('.content-wrapper-main').hasClass('content-wrapper-main')){
-          //   var _contentHeight=$('.content-wrapper-main').height();
-          // }else {
-          //   var _contentHeight=0;
-          // }
-
           // 计算当前元素与页面底部的距离
           // 若距离小于当前元素的高度，则为当前模板加入css属性使其容器向上展示
           if (_eleBottom < _eleHeight) {
@@ -4002,14 +4010,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           if (_eleRight < _eleWidth) {
             $(element).css({'left': 'inherit', 'right': '150%'});
             $(element).find('div.arrow-icon').css({'top': 'inherit', 'bottom': '8px', 'left': 'inherit', 'right': '-4px', 'transform': 'rotate(135deg)'});
-          }
-
-          // 获取数据拉取模式
-          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
-            // 弹出层标题
-            scope.infoTitle = attrs.infoTitle || '暂无';
-            // 详细信息
-            scope.infoObject = JSON.parse(attrs.infoObject);
           }
 
           // 为其父元素添加样式
