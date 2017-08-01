@@ -165,7 +165,7 @@
                         ng-options="item.value as item.text for item in batchRequirementStatus">
                 </select>
               </td>
-              <td class="has-border text-center text-v-t pd-s pdt">{{tr.productionDate|date : 'yyyy-MM-dd'}}</td>
+              <td class="has-border text-center text-v-t pd-s pdt">{{tr.productionDate |date : 'yyyy-MM-dd'}} </td>
               <td class="has-border text-center text-v-t pd-s pdt">{{tr.guaranteePeriod}}</td>
               <td class="has-border text-center text-v-t pd-s pdt">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border text-center text-v-t pd-s pdt" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
@@ -384,7 +384,7 @@
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
     <span>
-      <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+      <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id&&formData.id"
          href="javascript:;"
          class="pr-color-red mgl"
          handle-this-click

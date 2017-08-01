@@ -331,6 +331,7 @@
             </em>
 
           </div>
+
           <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
@@ -339,9 +340,10 @@
              nosave-callback="goTo({tabHref:'#/saleReturnOrder/query.html',tabName:'销售退货单'})"
              save-callback="submitForm('saleReturnEditForm','exit')">返回销售退货单列表
           </a>
+        </a>
+          <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售退货单" tab-href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
 
-          <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售退货单" tab- href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
-          <span ng-if="$root.hasAuthor('销售退货单删除')">
+          <span ng-if="$root.hasAuthor('销售退货单删除')&&formData.id">
             <a ng-if="formData.orderCode && formData.inputUserId==mainStatus.id"
                href="javascript:;"
                class="pr-color-red mgr"

@@ -449,6 +449,15 @@ function alertOk($rootScope, modal) {
 
         var utilsObj = {
 
+            //获取一个唯一ID
+             getUUID:function() {
+                  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                      return v.toString(16);
+                  });
+              },
+
+
             //计算一个list 中对想的 attr 属性 和；
             countAttrVal:function (list,attr) {
                 var sum=0;
@@ -626,7 +635,6 @@ function alertOk($rootScope, modal) {
                               $rootScope.addTab({
                                   tabName:$rootScope.getCurrentTab().name,
                                   tabHref:url
-
                               });
                           }, null);
                       }else{
@@ -637,8 +645,6 @@ function alertOk($rootScope, modal) {
                       }
                       return;
                   }
-                  console.log("goTo",tabPara);
-
 
                   if(confirmMsg){
                     dialogConfirm(confirmMsg, function () {

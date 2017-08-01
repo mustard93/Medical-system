@@ -13,6 +13,8 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
    */
   function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
 
+    // 先声明一个ids数组，用于存放药品id，以备后续查询历史价格时使用。
+    $scope.ids=[];
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
 
@@ -218,16 +220,18 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
          $scope.formData.orderMedicalNos = [];
        }
        // 如果已添加
-       if ($scope.formData.orderMedicalNos.length !== 0) {
-         var _len = $scope.formData.orderMedicalNos.length;
-
-         for (var i=0; i<_len; i++) {
-           if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-             alertWarn('此药械已添加到列表');
-             return false;
-           }
-         }
-       }
+      //  if ($scope.formData.orderMedicalNos.length !== 0) {
+      //    var _len = $scope.formData.orderMedicalNos.length;
+       //
+      //    for (var i=0; i<_len; i++) {
+      //      if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+      //        alertWarn('此药械已添加到列表');
+      //         // $scope.ids.push($scope.formData.orderMedicalNos[i].relId);
+      //        return false;
+      //      }
+       //
+      //    }
+      //  }
 
        // 添加药品后请求当前药品的历史价格
        if (addDataItem) {
@@ -468,6 +472,61 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
         });
       }
     };
+    // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
+    $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
+      if (newVal && newVal!==oldVal) {
+        for (var i = 0; i < newVal.length; i++) {
+          $scope.ids.push(newVal[i].relId);
+        }
+        // 去重一次
+        $scope.ids=unique1($scope.ids);
+        console.log($scope.ids);
+      }
+    })
+
+    // 数组去重
+    function unique1(array){
+    var n = []; //一个新的临时数组
+    //遍历当前数组
+    for(var i = 0; i < array.length; i++){
+    if (n.indexOf(array[i]) == -1) n.push(array[i]);
+    }
+    return n;
+    }
+
+    // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
+    $scope.getHistoryFirstPrice=function(supplier){
+
+    if (!$scope.ids.length) {
+      for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+        $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+      }
+    }
+    console.log($scope.ids.length);
+      if (supplier.id&&$scope.ids.length&&supplier.contact) {
+        var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
+        _data={};
+        requestData(_url,_data, 'get')
+          .then(function (results) {
+            var _data = results[1].data;
+            console.log(_data);
+            // 把相应的历史价格赋值叨叨相应的商品上
+            for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+              console.log($scope.formData.orderMedicalNos[i]);
+
+              if ($scope.formData.orderMedicalNos[i].id!=null) {
+                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
+              }else {
+                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+              }
+
+            }
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      }
+    }
 
     // 总价金额计算方法
     $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {

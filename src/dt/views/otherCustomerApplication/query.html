@@ -1,7 +1,7 @@
 <div class="hospital-application"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/otherCustomerApplication/query.json"
+  <table-list list-data="rest/authen/otherCustomerApplication/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -29,7 +29,7 @@
       </div>
 
       <div class="pos-rel-tl order-create-btn " style="top:-20px;margin-left:42px;" ng-if="$root.hasAuthor('首营客户管理新增')">
-        <a tab-nav tab-name="批发/零售商资格申请" tab-href="#/otherCustomerApplication/edit1.html"  title="新建批发/零售商资格申请"><i style="top:3px;"></i><span class="text-s">新建批发/零售商资格申请</span></a>
+        <a tab-nav tab-name="首营客户管理" tab-href="#/otherCustomerApplication/edit1.html"  title="新建批发/零售商资格申请"><i style="top:3px;"></i><span class="text-s">新建批发/零售商资格申请</span></a>
       </div>
 
     <!-- 主内容区域 -->
@@ -79,7 +79,7 @@
                               dialog-title="确认删除?"
                               dialog-content="删除后将无法恢复,确认删除?"
                               dialog-template="pr-dialog-submit.html"
-                              callback="$root.goTo({tabHref:'#/otherCustomerApplication/query.html',tabName:'批发/零售商资格申请'})"
+                              callback="$root.goTo('#/otherCustomerApplication/query.html')"
                               params='{"id":tr.id}'
                               title="删除"
                               request-url="rest/authen/otherCustomerApplication/delete">

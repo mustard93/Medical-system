@@ -1,0 +1,48 @@
+<div class="sale-return-order right-side pr-bg-black3">
+    <div class="sale-bg">
+        <!-- 头部信息 -->
+        <div class="relative ">
+            <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增出入库类型</div>
+            <div class="pr-panel-height select-bg" style="padding:15px 0;">
+                <div class="flex-column mgt relative ">
+                    <label class="flex-item-2 text-right control-label pdr-s">名称</label>
+                    <span class="mgl-s"
+                          angucomplete-supplier
+                          placeholder=""
+                          title-field="name"
+                          search-fields="{{formData.customerName}}"
+                          url="rest/authen/customerAddress/query.json?isFilterDefault=true"
+                          ng-model="tmp_customer"
+                          ng-model-id="filterObject.customerId"
+                          class="inline-block text-s" style="height:28px;">
+            </span>
+                </div>
+                <div class="flex-column mgt mgt-l">
+                    <label class="flex-item-2 text-right control-label pdr-s">出库/入库</label>
+                    <div class="mgl-s text-left">
+                        <select class="ipt pr-short-ipt ipt-new-s "
+                                data-placeholder=" "
+                                chosen
+                                default-empty="出库"
+                                ng-model="filterObject.saleUserId"
+                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
+                        >
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能按钮 -->
+            <div class="sales-btn-area-2nd relative">
+                <div class="btn-area full-width text-center">
+                    <button type="button"
+                            ng-click="handleTypeChange()"
+                            class="pr-btn-save-glodbg mgr-l"
+                            ng-disabled="groupFlag || yearMonthGroupFlag"
+                            style="width:160px;">确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

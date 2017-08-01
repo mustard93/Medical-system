@@ -12,6 +12,7 @@ define('main/controllers', ['main/init'], function () {
 
         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
         console.log("tabCtrl",$scope.mainStatus);
+        modal.close();
   }
     /**
      * 主控
@@ -24,6 +25,8 @@ define('main/controllers', ['main/init'], function () {
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+
+        $rootScope.uiTabs=uiTabs;
 
         $rootScope.tabs = uiTabs.tabs;
 
@@ -46,7 +49,7 @@ define('main/controllers', ['main/init'], function () {
         });
 
         $rootScope.$on('tabChangeSuccess', function (e, tab) {
-            console.log(tab);
+            modal.close();
 
             $rootScope.currentTab = uiTabs.current;
         });
@@ -56,9 +59,7 @@ define('main/controllers', ['main/init'], function () {
         }
 
         $rootScope.addTab = function (item) {
-            //关闭弹出来
             modal.close();
-
             if(!item.tabHref){
                 item.tabHref=item.ahref;
             }
@@ -84,8 +85,9 @@ define('main/controllers', ['main/init'], function () {
 
                 //如果当前tab 的 templateUrl 与 新的templateUrl 一致 刷新 tab;
                 if(obj.tab.templateUrl == item.tabHref){
-                    $rootScope.refreshTab();
-                    return;
+                    uiTabs.refresh(obj.tab);
+                    $rootScope.active(obj.tab);
+                   return;
                 }
 
                 $rootScope.replaceTab(obj.tab,{'templateUrl':item.tabHref});
@@ -131,6 +133,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
         $rootScope.active = function (tab) {
+
             uiTabs.active(tab);
         };
 
@@ -843,19 +846,18 @@ define('main/controllers', ['main/init'], function () {
       // 切换用户机构
       $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
         // console.log(customListParams);
-        if (!customListParams.sortBy||!customListParams.sortWay) {
-          customListParams.sortBy=sortItem.propertyKey;
-          customListParams.sortWay=sortItem.sortCriteria;
-        }
+        console.log(sortItem.propertyKey);
         if(sortItem.canSort){
 
-          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
-            customListParams.sortWay='desc';
-          }else if (customListParams.sortWay=='desc') {
-            customListParams.sortWay='asc';
+          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
+            sortItem.sortCriteria='desc';
+          }else if (sortItem.sortCriteria=='desc') {
+            sortItem.sortCriteria='asc';
           }
+          customListParams.sortBy=sortItem.propertyKey;
+          customListParams.sortWay=sortItem.sortCriteria;
           // 重新请求数据，然后刷新表格排序
-          // var _url = sortRequestUrl+'?sortBy='+sortItem.propertyKey+'&sortWay='+sortItem.sortCriteria;
+          var _url = sortRequestUrl;
           requestData(sortRequestUrl, customListParams, 'get')
           .then(function (results) {
             if (results[1].code === 200) {

@@ -9,7 +9,8 @@
             <span angucomplete-supplier
                   placeholder=""
                   title-field="name"
-                  search-fields="{{formData.customerName}}"
+                  search-fields="{{filterObject.customerName}}"
+                  list-object="listObject"
                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                   ng-model="tmp_customer"
                   ng-model-id="filterObject.customerId"
@@ -35,8 +36,7 @@
                         chosen
                         default-empty="全部"
                         ng-model="filterObject.saleUserId"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
-                >
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                 </select>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <label class="flex-item-2 text-right control-label pdr-s pdt-s">销售起止时间</label>
             <div class="sela-icon-outside" >
                 <input type="text"
-                       style="color: white;"
+                       style="color: white;z-index: 15;"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
@@ -55,7 +55,7 @@
             <span class="pdt-s mgl-s mgr-s" style="color: white;">至</span>
             <div class="sela-icon-outside" >
                 <input type="text"
-                       style="color: white;"
+                       style="color: white;z-index: 15;"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
@@ -86,23 +86,31 @@
                             chosen
                             default-empty="全部"
                             ng-model="filterObject.orderBusinessType"
-                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+                            select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
 
                     </select>
                 </div>
             </div>
         <!--商品分类-->
-        <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
-                <div class="flex-item-10 text-left">
-                    <select class="ipt pr-short-ipt ipt-new-s select-bg"
-                        chosen
-                        default-empty="全部"
-                        ng-model="filterObject.medicalAttributeId"
-                        select-source="rest/authen/medicalAttribute/queryForSelectOption">
-                    </select>
-                </div>
-            </div>
+        <div class="flex-column mgt relative">
+          <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
+          <div class="flex-item-10 text-left">
+              <!-- <select class="ipt pr-short-ipt ipt-new-s select-bg"
+                      chosen
+                      default-empty="全部"
+                      ng-model="filterObject.medicalAttributeId"
+                      select-source="rest/authen/medicalAttribute/queryForSelectOption">
+              </select> -->
+              <div class="autocut z-tree-div inline-block fl-l">{{filterObject.medicalAttributeName}}</div>
+              <button type="button"
+                      z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
+                      class="btn-select-dialog fl-l"
+                      ng-model="filterObject.medicalAttribute"
+                      id-key="id"
+                      p-id-key="parentId">选择
+              </button>
+          </div>
+      </div>
         <!--商品通用名-->
         <div class="flex-column mgt relative">
                 <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
@@ -162,8 +170,7 @@
                                 chosen
                                 default-empty="全部"
                                 ng-model="filterObject.saleUserId"
-                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
-                        >
+                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.departmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                 </div>
             </div>
@@ -183,6 +190,7 @@
                   </label>
               </fieldset>
           </div>
+          <p ng-if="!groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
       </div>
       <!-- 功能按钮 -->
       <div class="sales-btn-area-2nd relative">
@@ -191,6 +199,7 @@
           <button type="button"
                   ng-click="handleTypeChange()"
                   class="pr-btn-save-glodbg mgr-l"
+                  ng-disabled="!groupFlag"
                   style="width:160px;">确定
           </button>
           </div>

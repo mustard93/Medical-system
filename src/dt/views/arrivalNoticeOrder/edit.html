@@ -14,9 +14,9 @@
      scope-error-msg="errorMsg"
      scope-data="formData"
      callback="submitFormAfter();watchFormChange('formData')"
-     onkeydown="if(window.event.keyCode==13) return false;"
-     novalidate="novalidate">
 
+     novalidate="novalidate">
+     <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
          <a tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html">
@@ -435,7 +435,7 @@
         </span>
 
         <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg mgr-l"
+          <button ng-disabled="!changeFlag" class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('arrivalNoticeOrderForm','save')">保存
           </button>

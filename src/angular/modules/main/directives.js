@@ -535,8 +535,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.status = statusInfo;
                 $scope.listData = $attrs.listData;
                 $scope.theadList = angular.fromJson($attrs.listThead);
-                $scope.tbodyList = [];
                 $scope.getListData = getListData;
+
+                // 如果定义了自定义数据对象，否则默认为tbodyList
+                if (angular.isDefined($attrs.customDataList) && $attrs.customDataList) {
+                  $scope[$attrs.customDataList] = [];
+                } else {
+                  $scope.tbodyList = [];
+                }
 
                 if (!angular.isDefined($scope.listParams)) {
                     $scope.listParams = {};
@@ -640,7 +646,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             });
                     });
                 };
-
                 //弹窗修改后的回调
                 $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
@@ -665,7 +670,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.customCondition={};
                   }
 
-                    if ($attrs.listSource) {
+                  if ($attrs.listSource) {
                         if ($scope.listSource) {
                             $scope.tbodyList = angular.isArray($scope.listSource) ? $scope.listSource : $scope.listSource.list;
                             if ($scope.listSource.options) {
@@ -704,65 +709,63 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       maskObj=proLoading($element,url);
                     }
 
-                      //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
-                        if(!(statusInfo.currentPage >1)){
-                          timestamp=new Date().getTime();
-                        }
-                    requestData($attrs.listData, angular.merge({},$scope.customCondition,formData, {
-                            timestamp:timestamp,
-                            pageNo: statusInfo.currentPage
-                        }))
-                        .then(function(results) {
-                           if(maskObj)maskObj.hide();
-                            var data = results[1];
-                            if (data.code == 200) {
-                                statusInfo.totalCount = data.totalCount;
-                                statusInfo.pageSize = data.pageSize;
+                    //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
+                    if(!(statusInfo.currentPage >1 )){
+                      timestamp = new Date().getTime();
+                    }
 
-                                if (statusInfo.totalCount && statusInfo.pageSize) {
-                                    statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
-                                }
+                    requestData($attrs.listData, angular.merge({}, $scope.customCondition, formData, {timestamp:timestamp,pageNo: statusInfo.currentPage}))
+                    .then(function(results) {
+                      if(maskObj)maskObj.hide();
+                      var data = results[1];
+                      if (data.code == 200) {
+                            statusInfo.totalCount = data.totalCount;
+                            statusInfo.pageSize = data.pageSize;
 
-                                if (data.thead) {
-                                    $scope.theadList = data.thead;
-                                }
-                                //自定义 tableList 增加 $scope.resultsData = data
-                                $scope.resultsData = data;
+                            if (statusInfo.totalCount && statusInfo.pageSize) {
+                                statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
+                            }
 
+                            if (data.thead) {
+                                $scope.theadList = data.thead;
+                            }
 
-                                if (data.data && data.data.length > 0) {
-                                    $scope.tbodyList = data.data;
-                                } else {
-                                    statusInfo.isFinished = true;
-                                }
-                                statusInfo.loadFailMsg = data.msg;
-
+                            if (data.data && data.data.length > 0) {
+                              if (angular.isDefined($attrs.customDataList) && $attrs.customDataList) {
+                                $scope[$attrs.customDataList] = data.data;
+                              } else {
+                                $scope.tbodyList = data.data;
+                              }
                             } else {
                                 statusInfo.isFinished = true;
-                                statusInfo.loadFailMsg = data.msg;
+                            }
+                            statusInfo.loadFailMsg = data.msg;
 
-                            }
+                        } else {
+                        statusInfo.isFinished = true;
+                        statusInfo.loadFailMsg = data.msg;
+                      }
 
-                            if ($attrs.callback) {
-                                $scope.$eval($attrs.callback);
-                            }
+                      if ($attrs.callback) {
+                          $scope.$eval($attrs.callback);
+                      }
 
-                            statusInfo.isLoading = false;
-                            $scope.isLoading = false;
-                            $timeout(bindSelectOneEvent);
-                            if (_callback) {
-                                _callback();
-                            }
-                        })
-                        .catch(function(error) {
-                           if(maskObj)maskObj.hide();
-                            statusInfo.isLoading = false;
-                            alertError(error);
-                            statusInfo.loadFailMsg = error;
-                            if (_callback) {
-                                _callback();
-                            }
-                        });
+                      statusInfo.isLoading = false;
+                      $scope.isLoading = false;
+                      $timeout(bindSelectOneEvent);
+                      if (_callback) {
+                          _callback();
+                      }
+                    })
+                    .catch(function(error) {
+                       if(maskObj)maskObj.hide();
+                        statusInfo.isLoading = false;
+                        alertError(error);
+                        statusInfo.loadFailMsg = error;
+                        if (_callback) {
+                            _callback();
+                        }
+                    });
                 }
 
                 //设置值
@@ -817,9 +820,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         getListData(setSelectedValue);
                     }
                 });
-
-                //
-
 
                 $scope.$watch("listParams", function() {
                     statusInfo.currentPage = 1;
@@ -955,25 +955,27 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             link: function($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
-                    // 判断是否有排序相关的条件传入
-                    if ($attrs.customCondition) {
-                      $scope.customCondition=$scope.$eval($attrs.customCondition);
-                    }
+                // 判断是否有排序相关的条件传入
+                if ($attrs.customCondition) {
+                  $scope.customCondition = $scope.$eval($attrs.customCondition);
+                }
 
                 $scope.start = function() {
-                    if ($scope.status.currentPage == 1) {
-                        return;
-                    }
-                    $scope.status.currentPage = 1;
-                    $scope.getListData();
+                  if ($scope.status.currentPage == 1) {
+                      return;
+                  }
+                  $scope.status.currentPage = 1;
+                  $scope.getListData();
                 };
+
                 $scope.prev = function() {
-                    if ($scope.status.currentPage <= 1) {
-                        return;
-                    }
-                    $scope.status.currentPage--;
-                    $scope.getListData();
+                  if ($scope.status.currentPage <= 1) {
+                      return;
+                  }
+                  $scope.status.currentPage--;
+                  $scope.getListData();
                 };
+
                 $scope.next = function() {
                     if ($scope.status.currentPage >= $scope.status.totalPage) {
                         return;
@@ -981,6 +983,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.status.currentPage++;
                     $scope.getListData();
                 };
+
                 $scope.end = function() {
                     if ($scope.status.currentPage == $scope.status.totalPage) {
                         return;
@@ -988,13 +991,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.status.currentPage = $scope.status.totalPage;
                     $scope.getListData();
                 };
+
                 $scope.goto = function(_page) {
+                  $scope.status.currentPage = _page;
+                  $scope.getListData();
 
-
-                    $scope.status.currentPage = _page;
-                    $scope.getListData();
-
-                    // $scope.aftereGoto();
+                  // $scope.aftereGoto();
                 };
 
                 $scope.$watch("status.totalPage", function() {
@@ -3724,6 +3726,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             树形z-tree-select
         */
         function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
+          //弹出框的样式，用于选择div隐藏。
+          var selectDivClass="menuContent";
+          //隐藏选择窗口
+          function hideMenu() {
+                console.log("hideMenu");
+                $("."+selectDivClass).fadeOut("fast");
+                $("body").unbind("mousedown", onBodyDown);
+              }
+
+          function onBodyDown(event) {
+            if (!(event.target.className.indexOf("menuContent" )>-01 || $(event.target).parents(".menuContent").length>0)) {
+              hideMenu();
+            }
+          }
 
           function zTree_init($element,zNodes,$scope){
 
@@ -3743,7 +3759,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               		onClick: function(event, treeId, treeNode) {
                       console.log(treeNode);
                       $scope.ngModel=treeNode;
-                          $scope.$apply();
+                      $scope.$apply();
+
+                      hideMenu();
+                       //  阻止事件冒泡
+                     event.stopPropagation();
+                     return false;
                   }
               	}
               };
@@ -3753,16 +3774,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               });//require
           }
 
-          function hideMenu() {
-                $("#menuContent").fadeOut("fast");
-                $("body").unbind("mousedown", onBodyDown);
-              }
 
-          function onBodyDown(event) {
-            if (!(event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-              hideMenu();
-            }
-          }
 
           return {
             restrict: 'EA',
@@ -3772,10 +3784,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               "pIdKey":"@?"
             },
             link: function ($scope, $element, $attrs) {
+
+              var suff=new Date().getTime();
                 var urlKey="zTreeSelect";
                 //插下tree div
-              var zTreeSelectDivId="zTreeSelectDiv";
-              var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+              var zTreeSelectDivId="zTreeSelectDiv_"+suff;
+
+              var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
+
+              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
@@ -3789,7 +3806,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                var cityObj = $element;
                var cityOffset = $element.offset();
                //显示div
-               $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+               $("#"+zTreeSelectshowDivId).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
                $("body").bind("mousedown", onBodyDown);
 
              }
@@ -4027,7 +4044,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     tabHref: $scope.tabHref
                 };
 
-                console.log("tabObj",tabObj);
+                // console.log("tabObj",tabObj);
 
                 element.on('click',function(){
                     $rootScope.addTab(tabObj)

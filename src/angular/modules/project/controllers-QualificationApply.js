@@ -228,17 +228,32 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
        if ($scope.submitForm_type == 'submit') {
          $scope.formData.validFlag = true;
        }
+
+
+
       $('#' + fromId).trigger('submit');
     };
 
-    $scope.submitFormAfter = function (_url,_name) {
+    $scope.submitFormAfter = function (_url) {
       if ($scope.submitForm_type === 'submit') {
-        // $scope.goTo({'tabHref':_url+ '?id=' + $scope.formData.id,'tabName':_name});
-
           $scope.goTo(_url+'?id=' + $scope.formData.id);
       }
 
     };
+
+    $scope.submitSaveCallBack=function(type){
+        requestData('rest/authen/'+type+'/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+            .then(function (results) {
+                if (results[1].code === 200) {
+                  $scope.formData.validFlag = true;
+                  $scope.goTo('#/'+type+'/query.html?id='+$scope.formData.id);
+                }
+            })
+            .catch(function (error) {
+              alertError('出错！')
+            });
+
+    }
 
     // 选中相应药品类别，放入数组中传到后台
     $scope.choiceCommodityType=function(item){

@@ -89,14 +89,19 @@
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <!--自动获取单号-->
+               <!--<span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：-->
+                 <!--<input type="text"-->
+                        <!--class="inline ipt pr-ipt-60 text-center"-->
+                        <!--style="width:100px;"-->
+                        <!--ng-model="formData.orderCode" />-->
+                  <!--<em ng-if="!formData.orderCode" class="color-red">（必填）</em>-->
+               <!--</span>-->
+               <!--<span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>-->
                <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
-                 <input type="text"
-                        class="inline ipt pr-ipt-60 text-center"
-                        style="width:100px;"
-                        ng-model="formData.orderCode" />
-                  <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
-               </span>
-               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+                  <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode"/>
+                  <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
+                </span>
+               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：{{formData.orderCode || "暂无" }}</span>
 
                <span class="mgr" style="margin-left: 10px;">单据日期:</span>
                <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
@@ -173,6 +178,7 @@
                   <th class="text-center">剂型／分类</th>
                   <th class="text-center">商品规格</th>
                   <th class="text-center">基本单位</th>
+                  <th class="text-center">批号</th>
 
                   <th class="text-center">借出数量</th>
                   <th class="text-center">待还数量</th>
@@ -218,6 +224,7 @@
                    <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td> <!--剂型／分类 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
 
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
                    <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
@@ -382,7 +389,7 @@
 
         </span>
         <span class="mgl mgt">
-          <a ng-if="formData.inputUserId==mainStatus.id"
+          <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
              href="javascript:;"
              handle-this-click
              class="pr-color-red"
@@ -405,15 +412,29 @@
 
         <span>
           <!---->
-          <button class="pr-btn-create-glodbg mgt"
+          <button ng-if="numberingPolicy!='auto'"
+                  class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('returnOrder_editForm','submit')"
-                  ng-disabled="!formData.orderCode || !formData.orderMedicalNos.length || !checkCanSubmit()"
+                  ng-disabled="!formData.orderCode||!formData.orderMedicalNos.length || !checkCanSubmit()"
                    >提交
+          </button>
+
+
+           <button ng-if="numberingPolicy=='auto'"
+                   class="pr-btn-create-glodbg mgt"
+                   type="button"
+                   handle-this-click
+                   dialog-title="确认提交?"
+                   dialog-content="提交后，将无法修改。确认提交?"
+                   dialog-template="pr-dialog-submit.html"
+                   callback="submitForm('returnOrder_editForm','submit')"
+                   ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
+           >提交
           </button>
         </span>
       </div>

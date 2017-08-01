@@ -2453,7 +2453,8 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?"
+            "ngDisabled": "=?",
+            "listObject": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
@@ -2471,10 +2472,10 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             //绑定返回对象的某个属性值。
             if($attrs.ngModelId){
               $scope.$watch("ngModel", function(value) {
-                // console.log("ngModelProperty.watch.ngModel",value);
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
+                $scope.listObject.name = value.data.name;
               }, true);
             }
 
@@ -2581,6 +2582,8 @@ function flashAddMedical(utils,$timeout) {
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
+          $scope.id='_'+new Date().getTime();
+
           // 隐藏标题
           if (angular.isDefined($attrs.hideTitle)) {
             $scope.hideTitle = true;
@@ -2639,7 +2642,7 @@ function flashAddMedical(utils,$timeout) {
           $scope.angucompleteMedicalOnChange = function () {
             //隐藏数量输入字段情况下，选择药械，触发添加事件。
             if($scope.hideQuantity){
-              $('#addMedicalList').focus();
+              $('#addMedicalList'+$scope.id).focus();
               $scope.addDataFn();
             }else{//隐藏字段情况下，选择药械，触发添加事件。
               var inputId='flashAddMedical_input_count';
@@ -3340,6 +3343,7 @@ function pageMainHeaderComponent ($sce) {
       crumbsNav: '@',               // 面包屑导航
       componentTitle: '@',          // 头部标题
       createNewUrl: '@',            // 新建URL
+      enterNewUrl: '@',            // 其他URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
@@ -3408,6 +3412,8 @@ function pageMainHeaderComponent ($sce) {
         scope.createBtnAuthor= angular.isDefined(attrs.createBtnAuthor)  ?  attrs.createBtnAuthor :  '';
         // console.log("scope.createBtnAuthor",scope.createBtnAuthor);
         scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+        // 扩展，首营模块多加一个入口，录入审核人入口菜单。
+        scope.isShowEnterBtn = angular.isDefined(attrs.isShowEnterBtn) ? attrs.isShowEnterBtn : false;
 
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
@@ -3533,6 +3539,11 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     scope: true,
     link: function (scope, element, attrs) {
 
+      $(element).css({
+          position: 'relative'
+      });
+
+
       // 操作按钮组
       var _handleBtnGroup = $(element).find('div.table-item-multiple-btn');
       // 删除按钮
@@ -3572,19 +3583,52 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       });
 
       element.hover(function () {
-        // 计算当前tr距离顶部的高度
-        var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
-        // 计算当前页面宽度
-        // var _pageWidth = null;
-        // if (window.innerWidth) {
-        //   _pageWidth = window.innerWidth - 180;
-        // } else if ((document.body) && (document.body.clientWidth)) {
-        //   _pageWidth = document.body.clientWidth - 180;
-        // }
 
-        // var _pageWidth = $("#main_body").width() - 23;
+         //  var thisHeight= -1*($(this).height()-_handleBtnGroup.height());
+         //
+         //  var thisWidth=$(this).width();
+         //
+         //  var  offsetTop= $(this).offset().top;
+         //
+         //  var offsetLeft= $(this).offset().left;
+         //
+         // var documentWidth=$(document).width();
+         //
+         //  console.log("offsetTop",offsetTop,"offsetLeft",offsetLeft,"_handleBtnGroup.width():",_handleBtnGroup.width())
+         //
+         //  _handleBtnGroup.css({
+         //      left:(thisWidth -  _handleBtnGroup.width())+'px',
+         //      top:offsetTop+'px'
+         //  }).show();
+         //
+         //  return;
 
-        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':140+'rem'}).show();
+        // 解决屏幕变小后按钮消失的bug。
+
+        // 兼容有横向滚动条的表格宽度。
+
+          // $(element).parent('table').parent('div')
+
+           // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
+          //  需要判断当前table 的父节点div 是否包含 outside-table-d；
+          //   BUG 编号：1011 用户先打开出入库明细界面，然后再打开品种管理，结果品种管理的按钮挪动了位置，并且显示不正确
+          if($(element).parent('table').parent('div').hasClass('outside-table-d')){
+
+          // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
+          var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+          // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
+          var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
+        }else {
+          // 没有横向滚动条的情况下
+          // 向左的偏移量=当前元素的宽度-本身按钮的宽度
+          var leftShift=$(element).width()-_handleBtnGroup.width();
+          // 计算当前tr距离顶部的高度
+          var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
+        }
+
+        // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
+
+        _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
@@ -3596,7 +3640,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       // 执行删除操作
       // 扩展删除方法，使id值支持单值和数组两种方式
       // 增加第4个参数dataType，若不传入则表示单个id值传入，若设置且值为array,则将传入的id字符串包装成数组
-      scope.handleDelDetails = function (id, requestUrl, callbackUrl, dataType,parameterType) {
+      scope.handleDelDetails = function (id, requestUrl, callbackUrl, parameterType, dataType) {
         // 如果dataType参数为空,传入单个值
         try {
           if (id && requestUrl && callbackUrl) {
@@ -3612,7 +3656,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
               _data = id.split(',');
             }
             //提交数据类型，默认为json, 如果传值就用表单key-value
-            var _parameterType='';
+            var _parameterType = null;
             if(!parameterType){
                 _parameterType ='parameter-body';
             }
