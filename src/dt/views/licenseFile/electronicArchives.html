@@ -1,0 +1,128 @@
+<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
+    <table-list list-data="rest/authen/nearEffectPeriod/query.json"
+                list-params="listParams"
+                list-object="listObject"
+                search-mode="noCaseSensitive"
+                search-param="q">
+
+        <div class="medical-stock child-project-management receive-item" ng-controller="nearEffectPeriodController" ng-init="getNearEffectNum()">
+            <page-main-header-component list-params="listParams"
+                                        style="min-height:130px;"
+                                        crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"证照档案","link":"","style":""}]'
+                                        component-title="证照档案-企业">
+            </page-main-header-component>
+
+        <div class="mgl-xl status-num-list-new" style="top:-56px;">
+        <span status-style-toggle-new
+              class="rect-status mgl-s "
+              ng-click="$root.goTo('#/licenseFile/qualificationcertificate.html')">资质证照
+        </span>
+            <span status-style-toggle-new
+                  class="rect-status pr-color rect-status-active-new"
+                  ng-click="$root.goTo('#/licenseFile/electronicArchives.html')">电子档案
+        </span>
+        </div>
+        <!--主内容区域-->
+        <div class="content-wrapper">
+            <!-- 新建按钮 -->
+            <div class="sales-statistics">
+                <div class="inline-block relative mgb-l">
+                    <a modal-right="550"
+                       modal-scope="this"
+                       modal-url="views/licenseFile/set-licenseFile-dialog2.html">
+                        <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s ">新建电子档案</span>
+                    </a>
+                </div>
+            </div>
+            <div class="content-wrapper-main">
+
+                <div class="pr-bg-white pr-fuzzy-boundary">
+                    <table class="table pr-table pr-new-table pr-table-content">
+                        <thead class="pr-bg-side">
+                        <tr>
+                            <th>序号</th>
+                            <th>证件类型</th>
+                            <th>系统预置</th>
+                            <th>是否预警</th>
+                            <th>证照过期控制</th>
+                            <th>关联企业类型</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="tbodyList.length"
+                            ng-repeat="tr in tbodyList track by $index"
+                            class="relative"
+                            table-item-multiple-btn>
+                            <td>1
+                                <div class="table-item-multiple-btn">
+                                    <div class="inline-block handle-btn del-details-btn relative delete-icon">
+                                        <div class="del-confirm-area text-center" n>
+                                            <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                                            <p class="pd-v-s">
+                                                <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                                                <a href="javascript:;"
+                                                   class="pr-btn-best-small pr-btn-bg-gold"
+                                                   ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/electronicArchives/query.html', 'parameterType')">确认
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!--修改-->
+                                    <span>
+                                <div class="sales-statistics">
+                                    <div class="inline-block relative mgb-l">
+                                        <a modal-right="550"
+                                           modal-scope="this"
+                                           modal-url="views/licenseFile/set-licenseFile-dialog2.html">
+                                            <div class="inline-block handle-btn edit-icon entry-ab"> </div>
+                                        </a>
+                                    </div>
+                                </div>
+                              </span>
+                                    <!--<div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">-->
+                                        <!--<div class="handle-area-show handle-area text-center">-->
+                                            <!--<a href="javascript:;"-->
+                                               <!--modal-right="800"-->
+                                               <!--modal-scope="this"-->
+                                               <!--modal-data='{  "type":"modalRight",-->
+                                                              <!--"modalWidth":"800",-->
+                                                              <!--"aclass":"color-orange add-return-order mgl-s",-->
+                                                              <!--"requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",-->
+                                                              <!--"httpMethod":"GET",-->
+                                                              <!--"ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",-->
+                                                              <!--"showName":"查看操作记录"}'-->
+                                               <!--modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录-->
+                                            <!--</a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>8</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pr-bg-white" ng-if="!tbodyList.length">
+                    <div class="empty-table clearfix">
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+            <div class="fr">
+                <pagination status="status"></pagination>
+            </div>
+        </div>
+        </div>
+    </table-list>
+</div>
