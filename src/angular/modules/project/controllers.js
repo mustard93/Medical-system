@@ -53,7 +53,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-validityStrategy',
                                'project/controllers-validityDistribution',
                                'project/controllers-nearEffectPeriod',
-                               'project/controllers-entryExitTypeSetting'
+                               'project/controllers-entryExitTypeSetting',
+                               'project/controllers-businessScope'
 
 ], function() {
 
