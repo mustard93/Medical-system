@@ -52,7 +52,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-orderStatistics',
                                'project/controllers-validityStrategy',
                                'project/controllers-validityDistribution',
-                               'project/controllers-nearEffectPeriod'
+                               'project/controllers-nearEffectPeriod',
+                               'project/controllers-entryExitTypeSetting'
 
 ], function() {
 
