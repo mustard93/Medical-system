@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
+     callback="thData={};geThName(formData.orderMedicalNos);defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
                initFlag=true;
                $root.watchFormChange('formData',this);
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
@@ -250,20 +250,18 @@
             <div >
               <table class="table pr-table pr-new-table mgb-n ">
                 <thead>
-                  <tr
-                  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表"
-                  scope-data="thData">
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='code'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='approvedName'" class="text-left">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='dosageForms'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='specificationAndModelType'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='unit'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='quantity'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='productionBatch'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}/数量</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='sterilizationBatchNumber'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='strike_price'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='totalPrice'" class="text-center">{{th.propertyName}}</th>
-                  <th ng-repeat="th in thData.items" ng-if="th.propertyKey=='validTill'&&formData.orderBusinessType=='普通销售'" class="text-center">{{th.propertyName}}</th>
+                  <tr>
+                  <th class="text-center">{{thData.code || '商品编号'}}</th>
+                  <th class="text-left">{{thData.approvedName || '商品通用名'}}</th>
+                  <th class="text-center">{{thData.dosageForms || '剂型/分类'}}</th>
+                  <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
+                  <th class="text-center">{{thData.unit || '单位'}}</th>
+                  <th class="text-center">{{thData.quantity || '商品数量'}}</th>
+                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
+                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
+                  <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
+                  <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
+                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
                   </tr>
                 </thead>
                 <tbody >
