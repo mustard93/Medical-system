@@ -16,7 +16,8 @@
     <div class="pd-c-xxl pdt-l pdb-l">
       <!-- 标题 -->
       <div class="mgb-l">
-        <h1 class="color-black pr-font-20">首营品种申请</h1>
+        <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营品种</h1>
+        <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营品种</h1>
       </div>
     </div>
   </div>
@@ -24,8 +25,12 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+    <div  ng-if="!mainStatus.pageParams.isEnter" step-flow-arrow-show
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
+    </div>
+
+    <div  ng-if="mainStatus.pageParams.isEnter" step-flow-arrow-show
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"},{"arrowText":"首营品种审核人","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"

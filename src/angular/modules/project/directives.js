@@ -3343,6 +3343,7 @@ function pageMainHeaderComponent ($sce) {
       crumbsNav: '@',               // 面包屑导航
       componentTitle: '@',          // 头部标题
       createNewUrl: '@',            // 新建URL
+      enterNewUrl: '@',            // 其他URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
@@ -3411,6 +3412,8 @@ function pageMainHeaderComponent ($sce) {
         scope.createBtnAuthor= angular.isDefined(attrs.createBtnAuthor)  ?  attrs.createBtnAuthor :  '';
         // console.log("scope.createBtnAuthor",scope.createBtnAuthor);
         scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+        // 扩展，首营模块多加一个入口，录入审核人入口菜单。
+        scope.isShowEnterBtn = angular.isDefined(attrs.isShowEnterBtn) ? attrs.isShowEnterBtn : false;
 
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
