@@ -89,6 +89,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         }
       });
     };
+
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
@@ -270,16 +271,16 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         $scope.formData.orderMedicalNos = [];
       }
       // 如果已添加
-      if ($scope.formData.orderMedicalNos.length !== 0) {
-        var _len = $scope.formData.orderMedicalNos.length;
-
-        for (var i=0; i<_len; i++) {
-          if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-            alertWarn('此药械已添加到列表');
-            return false;
-          }
-        }
-      }
+      // if ($scope.formData.orderMedicalNos.length !== 0) {
+      //   var _len = $scope.formData.orderMedicalNos.length;
+      //
+      //   for (var i=0; i<_len; i++) {
+      //     if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+      //       alertWarn('此药械已添加到列表');
+      //       return false;
+      //     }
+      //   }
+      // }
       addDataItem.stockBatchs=[];
 
 
@@ -316,8 +317,6 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
       return true;
     };
-
-
 
     //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
     //用于chosen 回调过滤数据用。
