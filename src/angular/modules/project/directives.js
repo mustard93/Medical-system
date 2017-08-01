@@ -3614,7 +3614,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
 
-          if($('.outside-table-d').hasClass('outside-table-d')){
+          if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;

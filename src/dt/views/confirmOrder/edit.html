@@ -3,7 +3,7 @@
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="defaultLogisticsCenterId=$scope.formData.logisticsCenterId;
-               initFlag=true;quantityConfirmOrderError=false;quantityError=false;
+               initFlag=true;
                $root.watchFormChange('formData',this);
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getSaleUserId(mainStatus.pageParams.saleUserId);
@@ -312,10 +312,10 @@
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
                                  valid-value="{{!confirmOrder_editForm['quantity'+$index].$valid}}"
-                                 popover-show="totalQuantity > item.quantity"
+                                 popover-show
                                  popover-options='{"content":"批次总数不能大于商品数量或商品数量不正确", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);checkSalesQuantity(item.stockBatchs,item.quantity);">
+                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
@@ -335,13 +335,14 @@
                                class="in_ipt"
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
-                               invalid-popover
-                               popover-show="batch.quantity>batch.salesQuantity "
-                               popover-options='{"content":"批次数量不能大于商品数量或可用量", "placement":"right", "trigger":"manual"}'
+
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);checkConfirmOrderQuantity(batch.quantity,batch.salesQuantity);checkSalesQuantity(item.stockBatchs,item.quantity);">
+                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
                         <input type="hidden" ng-model="batch.id">
-                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);checkSalesQuantity(item.stockBatchs,item.quantity);"><i class="fa fa-times-circle"></i></span>
+                        <!-- invalid-popover
+                        popover-show="batch.quantity>batch.salesQuantity "
+                        popover-options='{"content":"批次数量不能大于商品数量或可用量", "placement":"right", "trigger":"manual"}' -->
+                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                       </div>
                       <!-- 批号选择 -->
                       <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
