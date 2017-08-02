@@ -35,10 +35,13 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
           console.log(scopeData);
         }
       }
-
+      // 全选调用的方法，把所有的都传入，然后一一选中，放入businessScope中。
       $scope.selectAll=function(scopeData){
         if (scopeData) {
-          
+          for (var i = 0; i < scopeData.length; i++) {
+            // 勾选
+              scopeData[i].checked=true;
+          }
         }
       }
 
