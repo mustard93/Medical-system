@@ -1590,12 +1590,12 @@ function customTableToggleSort (modal,utils,requestData) {
         // 把当前样式进行改变.
         if (count%2) {
           $(this).children('i').removeClass('arrow-sort');
-          $(this).children('i').removeClass('sort-desc');
-          $(this).children('i').addClass('sort-asc');
-        }else {
-          $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
+        }else {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-desc');
+          $(this).children('i').addClass('sort-asc');
         }
 
       });
