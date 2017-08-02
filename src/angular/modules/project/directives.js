@@ -3334,7 +3334,7 @@ function expressManageComponent (requestData, utils) {
  * [pageMainHeaderComponent 模块主内容区域头部通组件]
  * @return {[type]} [description]
  */
-function pageMainHeaderComponent ($sce) {
+function pageMainHeaderComponent ($rootScope,$sce) {
   'use strict';
   return {
     restrict: 'EA',
@@ -3563,11 +3563,13 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       // 绑定点击显示其他操作层
       _handleBtn.on('click', function () {
 
-        var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
+        // 解决bug：1013 品种管理中 选择一个商品的菜单默认显示不完整，需要用户手动下拉展开菜单。用户使用不方便。$('.content-wrapper-main')以该容器的高度来作为判断依据，而不是document。
+        var _offsetTop = $(element).offset().top-$('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
         $(this).find('.handle-area-show').show(0,function () {
             var handleAreaHeight=$(this).height();
             //如果显示不下 就向上显示菜单
-            if((_offsetTop+handleAreaHeight) > $(document).height()){
+            // console.log($('.content-wrapper-main'));
+            if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
                 $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
             }else{
                 $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
@@ -3611,8 +3613,8 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
-          //   BUG 编号：1011 用户先打开出入库明细界面，然后再打开品种管理，结果品种管理的按钮挪动了位置，并且显示不正确
-          if($(element).parent('table').parent('div').hasClass('outside-table-d')){
+
+          if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
@@ -3831,7 +3833,7 @@ function  dtRightSide(utils) {
 angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
-  .directive("pageMainHeaderComponent", ['$sce',pageMainHeaderComponent])
+  .directive("pageMainHeaderComponent", ['$rootScope','$sce',pageMainHeaderComponent])
   .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])

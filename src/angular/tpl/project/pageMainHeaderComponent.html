@@ -39,11 +39,13 @@
       <div class="flex-item-4">
 
         <div ng-if=" $root.hasAuthor(createBtnAuthor) " class="pos-rel-tl order-create-btn inline-block fl-l">
-          <a ng-if="isShowCreateBtn"  tab-nav tab-href="{{createNewUrl}}" tab-name="{{tabName || componentTitle ||isShowCreateBtn}}" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
-        </div>
-
-        <div ng-if=" $root.hasAuthor(enterBtnAuthor) " class="pos-rel-tl order-create-btn inline-block fl-l mgl-l">
-          <a ng-if="isShowEnterBtn"  tab-nav tab-href="{{enterNewUrl}}" tab-name="{{tabName || componentTitle ||isShowEnterBtn}}" href="{{enterNewUrl}}"><i></i><span class="text-s">{{isShowEnterBtn}}</span></a>
+          <!--<a ng-if="isShowCreateBtn" href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>-->
+          <a ng-if="isShowCreateBtn"
+             tab-nav tab-href="{{createNewUrl}}"
+             tab-name="{{tabName || componentTitle ||isShowCreateBtn}}"
+             ng-href="{{$root.useTab ?  'javascript:;' : createNewUrl}}">
+              <i></i><span class="text-s">{{isShowCreateBtn}}</span>
+          </a>
         </div>
 
 

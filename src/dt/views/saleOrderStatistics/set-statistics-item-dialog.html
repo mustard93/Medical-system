@@ -48,7 +48,7 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-                       ng-model="filterObject.createAtBeg">
+                       ng-model="filterObject.updateAtBeg">
                 <span class="date-icon"></span>
             </div>
 
@@ -59,9 +59,9 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-                       ng-model="filterObject.createAtEnd"
+                       ng-model="filterObject.updateAtEnd"
                        invalid-popover
-                       popover-show="filterObject.createAtEnd<filterObject.createAtBeg"
+                       popover-show="filterObject.updateAtEnd<filterObject.updateAtBeg"
                        popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
                 <span class="date-icon"></span>
             </div>
@@ -85,7 +85,7 @@
                     <select class="ipt pr-short-ipt ipt-new-s"
                             chosen
                             default-empty="全部"
-                            ng-model="filterObject.orderBusinessType"
+                            ng-model="filterObject.salesType"
                             select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
 
                     </select>
@@ -95,22 +95,16 @@
         <div class="flex-column mgt relative">
           <label class="flex-item-2 text-right control-label pdr-s">商品分类</label>
           <div class="flex-item-10 text-left">
-              <!-- <select class="ipt pr-short-ipt ipt-new-s select-bg"
-                      chosen
-                      default-empty="全部"
-                      ng-model="filterObject.medicalAttributeId"
-                      select-source="rest/authen/medicalAttribute/queryForSelectOption">
-              </select> -->
-              <div class="autocut z-tree-div inline-block fl-l">{{filterObject.medicalAttributeName}}</div>
-              <button type="button"
-                      z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
-                      class="btn-select-dialog fl-l"
-                      ng-model="filterObject.medicalAttribute"
-                      id-key="id"
-                      p-id-key="parentId">选择
-              </button>
+            <div class="autocut z-tree-div inline-block fl-l">{{filterObject.medicalAttributeName}}</div>
+            <button type="button"
+                    z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
+                    class="btn-select-dialog fl-l"
+                    ng-model="filterObject.medicalAttribute"
+                    id-key="id"
+                    p-id-key="parentId">选择
+             </button>
           </div>
-      </div>
+        </div>
         <!--商品通用名-->
         <div class="flex-column mgt relative">
                 <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
@@ -118,10 +112,11 @@
                     <span angucomplete-supplier
                           placeholder=""
                           title-field="name"
-                          search-fields="{{formData.customerName}}"
+                          list-object="listObject"
+                          search-fields="{{filterObject.medicalApprovedName}}"
                           url="rest/authen/medicalStock/query"
                           ng-model="tmp_medicalApprovedName"
-                          ng-model-id="filterObject.medicalApprovedName"
+                          ng-model-id="filterObject.medicalApprovedId"
                           class="inline-block text-s" style="height:28px;">
                     </span>
                 </div>
@@ -190,7 +185,8 @@
                   </label>
               </fieldset>
           </div>
-          <p ng-if="!groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
+          <p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
+          <p ng-if="yearMonthGroupFlag" class="color-red pdl-xl">不能对月进行单独分组查询，必须带年分组查询!</p>
       </div>
       <!-- 功能按钮 -->
       <div class="sales-btn-area-2nd relative">
@@ -199,7 +195,7 @@
           <button type="button"
                   ng-click="handleTypeChange()"
                   class="pr-btn-save-glodbg mgr-l"
-                  ng-disabled="!groupFlag"
+                  ng-disabled="groupFlag || yearMonthGroupFlag"
                   style="width:160px;">确定
           </button>
           </div>

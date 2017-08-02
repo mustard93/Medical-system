@@ -19,6 +19,29 @@ define('main/controllers', ['main/init'], function () {
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
+        /**
+         * moduleMap 为全局 conf.js 中维护；
+         * 根据ModuleType 查找 ModuleName
+         * @returns {*}
+         */
+        $rootScope.findModuleNameByType=function(moduleType){
+            var moduleName=null;
+            if(moduleMap.length){
+                angular.forEach(moduleMap,function (item,index) {
+                    if(item.moduleType.toUpperCase() == moduleType.toUpperCase()){
+                        moduleName = item.moduleName;
+                        return;
+                    }
+                });
+            }
+            return moduleName;
+        };
+
+        //是否使用 TAB 标签页，读取项目根目录下的conf.js 配置文件
+        $rootScope.useTab= conf.useTab;
+
+        console.log("$rootScope.useTab:",$rootScope.useTab);
+
         //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -67,6 +90,7 @@ define('main/controllers', ['main/init'], function () {
             if(!item.tabName){
                 item.tabName=item.showName;
             }
+
 
 
             if(!$scope.mainStatus.pageParams){

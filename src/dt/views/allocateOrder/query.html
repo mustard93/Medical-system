@@ -1,6 +1,6 @@
 <!-- 主内容头部 -->
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"调拨单","link":"","style":"color-custom-orange"}]'
+                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"调拨单","link":"","style":""}]'
                             component-title="调拨单"
                             is-show-create-btn="新建调拨单"
                             create-btn-author="调拨单新增"
@@ -10,7 +10,7 @@
                             is-show-date-filter=true
                             is-show-key-filter=true
                             is-show-business-btn-group=true
-                            search-placeholder-info="系统编号">
+                            search-placeholder-info="单据编号">
 </page-main-header-component>
 
 <div class="content-wrapper allocate-order"
@@ -28,7 +28,7 @@
           <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
         </div>
         <ul ng-if="tbodyList.length!='0'" class="li-min-h">
-          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList track by $index">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
                 <div class="flex-column">
@@ -77,17 +77,17 @@
                       tab-href="#/allocateOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
-                      <span ng-if="$root.hasAuthor('调拨单审批')">
-                      <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                        tab-nav
-                        tab-name='调拨单'
-                         tab-ng-href="#/allocateOrder/get.html?id={{tr.id}}"
-                         title="立即审核"
-                         class="btn-link pd-m rect-s "
-                         >
-                        <span class="examine-approve">&nbsp;</span>
-                       </a>
-                       </span>
+                      <!--<span ng-if="$root.hasAuthor('调拨单审批')">-->
+                      <!--<a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"-->
+                        <!--tab-nav-->
+                        <!--tab-name='调拨单'-->
+                         <!--tab-ng-href="#/allocateOrder/get.html?id={{tr.id}}"-->
+                         <!--title="立即审核"-->
+                         <!--class="btn-link pd-m rect-s "-->
+                         <!--&gt;-->
+                        <!--<span class="examine-approve">&nbsp;</span>-->
+                       <!--</a>-->
+                       <!--</span>-->
                       <!--工作流控制菜单 -->
                         <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                         workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
