@@ -344,13 +344,28 @@ define('project/controllers', ['project/init',
    */
   function choseBatchCtrl($scope) {
       //选择当前订单-商品
-      $scope.choiceThis=function (obj,choisedList,id){
+      $scope.choiceThis=function (obj,choisedList,id,listObject){
+
+        try{
+          //判断该批号已经添加过了，就不允许在添加了。
+          if(listObject.choisedBatchsIdList.indexOf(obj.id)!=-1){
+            console.log(listObject.choisedBatchsIdList,obj);
+            return ;
+          }
+            //解决该方法在span，ng-click上面，偶尔出现2次调用bug，临时解决方案。选择后，加入到批号选中
+            listObject.choisedBatchsIdList.push(obj.id);
+        }catch(e){
+            console.log(e);
+        }
+
           var obj ={
               'obj':obj,
               'choisedList':choisedList,
               'id':id
           };
+
           $scope.$emit('chosedBatch',obj);
+
       };
   }
 
