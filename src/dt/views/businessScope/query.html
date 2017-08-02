@@ -1,5 +1,5 @@
 <div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
-    <table-list list-data="rest/authen/businessScope/query"
+    <table-list list-data="rest/authen/businessScope/query?t={{listObject.reloadTime}}"
                 list-params="listParams"
                 list-object="listObject"
                 search-mode="noCaseSensitive"
@@ -62,6 +62,7 @@
                                                 <div class="inline-block relative mgb-l">
                                                     <a modal-right="480"
                                                        modal-scope="this"
+                                                       modal-data="'data':'{{tr.id}}'"
                                                        modal-url="views/businessScope/set-dialog.html">
                                                         <div class="inline-block handle-btn edit-icon entry-ab"> </div>
                                                     </a>

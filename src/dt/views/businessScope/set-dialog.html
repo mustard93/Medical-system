@@ -1,7 +1,8 @@
 <div class="first-medical-application"
      ng-controller="businessScopeController"
-     ajax-url="rest/authen/businessScope/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/businessScope/getOfEdit.json?id={{tr.id}}"
      scope-data="formData"
+
      alert-error>
 <div class="sale-return-order right-side pr-bg-black3" style="min-height: 950px">
   <div class="sale-bg">
@@ -17,7 +18,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="watchFormChange('formData');">
+            callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="relative ">
       <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增经营范围</div>
       <div class="pr-panel-height select-bg" style="padding:15px 0;">
@@ -51,8 +52,7 @@
       <div class="sales-btn-area-2nd relative">
           <div class="btn-area full-width text-center">
 
-          <button type="button"
-                  ng-click="submitForm('businessScope_editForm1','save')"
+          <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"
                   ng-disabled=""
                   style="width:160px;">确定
