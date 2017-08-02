@@ -79,5 +79,8 @@ var moduleMap=[
     {
         moduleType:'overOrder',
         moduleName:'报溢单'
+    },{
+        moduleType:'productEnterprise',
+        moduleName:'生成企业管理'
     }
 ];
