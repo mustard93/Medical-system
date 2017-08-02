@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <title>二维码跟踪回溯</title>
+    <script>
+        var deviceWidth = parseInt(window.screen.width);  //获取当前设备的屏幕宽度
+        var deviceScale = deviceWidth / 640;  //得到当前设备屏幕与640之间的比例，之后我们就可以将网页宽度固定为640px
+        var ua = navigator.userAgent;
+        //获取当前设备类型（安卓或苹果）
+        if (/Android (\d+\.\d+)/.test(ua)) {
+            var version = parseFloat(RegExp.$1);
+            if (version > 2.3) {
+                document.write('<meta name="viewport" content="width=640,initial-scale=' + deviceScale + ', minimum-scale = ' + deviceScale + ', maximum-scale = ' + deviceScale + ', target-densitydpi=device-dpi">');
+            } else {
+                document.write('<meta name="viewport" content="width=640,initial-scale=0.75,maximum-scale=0.75,minimum-scale=0.75,target-densitydpi=device-dpi" />');
+            }
+        } else {
+            document.write('<meta name="viewport" content="width=640, user-scalable=no">');
+        }
+    </script>
+    <link  href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="goods-info">
+    1111
+</div>
+
+<div class="goods-list">
+    <div class="title">销售去向</div>
+    <ul>
+        <li style="border: 0;">
+            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
+            <p><span class="lables">采购数量：</span>10</p>
+            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+        </li>
+
+
+
+
+
+    </ul>
+    <div class="title">供应来源</div>
+    <ul>
+        <li>
+            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
+            <p><span class="lables">采购数量：</span>10</p>
+            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+        </li>
+        <li>
+            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
+            <p><span class="lables">采购数量：</span>10</p>
+            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+        </li>
+        <li>
+            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
+            <p><span class="lables">采购数量：</span>10</p>
+            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
