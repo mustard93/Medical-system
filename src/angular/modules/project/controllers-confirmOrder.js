@@ -77,6 +77,62 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       }
     }, true);
 
+    // 调接口取用户在自定义表格中编辑的表格的标题显示
+    $scope.geThName=function(medicalData){
+      if (medicalData.length) {
+        var _url='rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表';
+        var data= {};
+        requestData(_url, data, 'get')
+          .then(function (results) {
+            var thData={};
+            for (var i = 0; i < results[1].data.items.length; i++) {
+
+            switch (results[1].data.items[i].propertyKey) {
+              case 'code':
+                thData.code=results[1].data.items[i].propertyName;
+                break;
+
+              case 'approvedName':
+                thData.approvedName=results[1].data.items[i].propertyName;
+                break;
+              case 'dosageForms':
+                thData.dosageForms=results[1].data.items[i].propertyName;
+                break;
+
+              case 'specificationAndModelType':
+                thData.specificationAndModelType=results[1].data.items[i].propertyName;
+                break;
+              case 'unit':
+                thData.unit=results[1].data.items[i].propertyName;
+                break;
+              case 'quantity':
+                thData.quantity=results[1].data.items[i].propertyName;
+                break;
+              case 'productionBatch':
+                thData.productionBatch=results[1].data.items[i].propertyName;
+                break;
+              case 'sterilizationBatchNumber':
+                thData.sterilizationBatchNumber=results[1].data.items[i].propertyName;
+                break;
+              case 'strike_price':
+                thData.strike_price=results[1].data.items[i].propertyName;
+                break;
+              case 'totalPrice':
+                thData.totalPrice=results[1].data.items[i].propertyName;
+                break;
+              case 'validTill':
+                thData.validTill=results[1].data.items[i].propertyName;
+                break;
+              default:
+            }
+            }
+            $scope.thData= thData;
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      }
+    }
 
     $scope.deleteQuantity=function(item){
       angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
@@ -506,6 +562,34 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         $scope.quantityError=false;
       }
     }
+    // 销售单中批号数量自己手动修改之后。
+    $scope.checkConfirmOrderQuantity = function (batchQuantity,salesQuantity){
+        // 确定是该商品的哪个批号，然后取出对应的可用量。与当前修改的数量做对比。如果修改的数量大于可用量，则不允许提交。
+            if (batchQuantity > salesQuantity) {
+              $scope.quantityConfirmOrderError=true;
+            }else {
+              $scope.quantityConfirmOrderError=false;
+            }
+
+    }
+
+    $scope.totalQuantity=0;
+    // 判断商品数量和该商品所选批号所有的数量之和的对比。
+    $scope.checkSalesQuantity = function (batches,quantity){
+
+      // 刚执行此方法时要把总数清空，置为0.
+      $scope.totalQuantity=0;
+      for (var i = 0; i < batches.length; i++) {
+        $scope.totalQuantity+=batches[i].quantity;
+      }
+      console.log($scope.totalQuantity);
+      if ($scope.totalQuantity > quantity) {
+        $scope.quantityError=true;
+      }else {
+        $scope.quantityError=false;
+      }
+    }
+
 
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {

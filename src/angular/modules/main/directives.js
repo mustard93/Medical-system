@@ -3757,7 +3757,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               	},
                 callback: {
               		onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
                       $scope.ngModel=treeNode;
                       $scope.$apply();
 
@@ -3781,7 +3780,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             scope: {
               "ngModel":"=",
               "idKey":"@?",
-              "pIdKey":"@?"
+              "pIdKey":"@?",
+              "width": "@?"
             },
             link: function ($scope, $element, $attrs) {
 
@@ -3792,7 +3792,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
 
-              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+              // 如果定义了宽度
+              var _width = $attrs.width ? $attrs.width : '100%';
+
+              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
@@ -3912,7 +3915,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      *    2、从远程服务器拉取  getDataType: fetch
      *  create by liuzhen at 2017/06/23
      */
-    function showInfoModal (requestData, utils, alertOk, alertError) {
+    function showInfoModal ($rootScope,requestData, utils, alertOk, alertError) {
       'use strict';
       return {
         restrict: 'EA',
@@ -3974,6 +3977,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           return Config.tplPath + attrs.templateUrl + '.html';
         },
         link: function (scope, element, attrs) {
+          // 获取数据拉取模式
+          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
+            // 弹出层标题
+            scope.infoTitle = attrs.infoTitle || '暂无';
+            // 详细信息
+            scope.infoObject = JSON.parse(attrs.infoObject);
+          }
+
+          // 为分页增加监控，当用户切换分页时，刷新数据
+          scope.$watchCollection('tr', function (newVal, oldVal) {
+            if (newVal && newVal !== oldVal) {
+              scope.infoObject = angular.copy(newVal);
+            }
+          });
+
           // 定义当前组件的父元素
           var _parent = $(element).parent();
 
@@ -3995,14 +4013,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           if (_eleRight < _eleWidth) {
             $(element).css({'left': 'inherit', 'right': '150%'});
             $(element).find('div.arrow-icon').css({'top': 'inherit', 'bottom': '8px', 'left': 'inherit', 'right': '-4px', 'transform': 'rotate(135deg)'});
-          }
-
-          // 获取数据拉取模式
-          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
-            // 弹出层标题
-            scope.infoTitle = attrs.infoTitle || '暂无';
-            // 详细信息
-            scope.infoObject = JSON.parse(attrs.infoObject);
           }
 
           // 为其父元素添加样式
@@ -4044,11 +4054,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     tabHref: $scope.tabHref
                 };
 
-                // console.log("tabObj",tabObj);
+                if($rootScope.useTab){
+                    $(element).attr('href',"javascript:;");
+                    $attrs.href="javascript:;";
+                }
 
-                element.on('click',function(){
-                    $rootScope.addTab(tabObj)
-                });
+                if($rootScope.useTab){
+                    element.on('click',function(){
+                        $rootScope.addTab(tabObj)
+                    });
+                }
             }
         };
     }
@@ -4073,7 +4088,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      /**
       * 业务单流程展示
       */
-     function canvasBusinessFlow (modal,utils) {
+     function canvasBusinessFlow ($rootScope,modal,utils) {
        'use strict';
        return {
            restrict: 'AE',
@@ -4091,6 +4106,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               //  console.log(data);
               // console.log(data);
                require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+                   var tabPara={
+                       tabName:"查看详细",
+                       tabHref: null
+                   };
+
 
                  //点击回调方法
                  function clickCallback(event,that){
@@ -4108,7 +4128,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    if(curRelId==relId){//当前页面节点点击不做跳转
                      return;
                    }
+
+
                    var url="#/"+moduleType+"/get.html?id="+relId;
+
+                   var moduleName = $rootScope.findModuleNameByType(moduleType);
+                   tabPara.tabName= moduleName ? moduleName :'查看详细';
+
 
                    if(moduleType=='lossOrder'){
                        url="#/lossOverOrder/get-reimburse.html?id="+relId;
@@ -4119,28 +4145,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                    else if(moduleType=="outstockOrder"){
                         if(subModuleAttribute=="销售出库单"||subModuleAttribute=="销售出库单_红字"){
+                               tabPara.tabName='销售出库单';
                                url="#/saleOutstockOrder/get.html?id="+relId;
                         }
                         else{
+                             tabPara.tabName='其他出库单';
                              url="#/otherOutstockOrder/get.html?id="+relId;
                         }
                    }
 
                    else if(moduleType=="instockOrder"){
                         if(subModuleAttribute=="采购入库单"||subModuleAttribute=="采购入库单_红字"){
+                            tabPara.tabName='采购入库单';
                             url="#/purchaseInstockOrder/get.html?id="+relId;
                         }
                         else{
+                             tabPara.tabName='其他入库单';
                              url="#/otherInstockOrder/get.html?id="+relId;
                         }
                    }
-
                    //var tabNameMap={"",""};
-                   var tabPara={
-                       tabName:"查看详细",
-                       tabHref: url
-                   }
+                   // var tabPara={
+                   //     tabName:"查看详细",
+                   //     tabHref: url
+                   // }
 
+                   tabPara.tabHref=url;
                    utils.goTo(tabPara);
                  }//end clickCallback
 
@@ -4276,7 +4306,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      * 加入项目
      */
     angular.module('manageApp.main')
-    .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
+    .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
     .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
@@ -4312,7 +4342,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("autoComplete", autoComplete)
       .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
       .directive("customConfig", customConfig)
-      .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
+      .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
       .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
 });

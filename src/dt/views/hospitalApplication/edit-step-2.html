@@ -5,12 +5,12 @@
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
 
-  <div class="header-info relative mgb-l">
+  <div ng-if="$root.uiTabs.current.name != '医院信息管理'" class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-      <a tab-nav tab-name="首营客户管理" tab-href="#/hospitalApplication/query.html">
-         <em class="color-custom-orange">客户管理</em>
+      <a ng-click="$root.goTo('#/hospitalApplication/query.html')">
+        <em class="color-custom-orange">客户管理</em>
       </a>
-     <em>>医院资格申请</em>
+      <em>>医院资格申请</em>
     </p>
     <div class="pd-c-xxl pdt-l pdb-l">
       <!-- 标题 -->
@@ -19,6 +19,21 @@
       </div>
     </div>
   </div>
+  <div ng-if="$root.uiTabs.current.name == '医院信息管理'" class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+      <a ng-click="$root.goTo('#/hospitalManagement/query.html')">
+        <em class="color-custom-orange">医院信息管理</em>
+      </a>
+      <em>>医院资格申请</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">医院资格申请</h1>
+      </div>
+    </div>
+  </div>
+
 
   <!-- 主体内容 -->
     <div class="content-wrapper ">

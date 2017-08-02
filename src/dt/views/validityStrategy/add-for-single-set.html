@@ -13,7 +13,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="$root.watchFormChange('formData',this)"
+        callback="listObject.reloadTime=$root.utils.getNowTime();modal.closeAll();"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">设置单个商品效期预警天数</h1>
@@ -59,7 +59,6 @@
       <button type="submit"
               style="margin-left:300px;"
               class="pr-btn-create-glodbg new-left-side-button"
-              ng-click="$root.goTo('#/validityStrategy/single-strategy-set.html');modal.closeAll()"
               ng-disabled="!formData.guaranteePeriodAlarmDay">确定
       </button>
     </div>

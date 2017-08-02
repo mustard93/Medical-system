@@ -12,11 +12,10 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
    */
   function nearEffectPeriodController ($scope, modal, alertWarn, alertError, requestData, utils) {
 
-    // 公共请求地址
-    var pReqUrl = 'rest/authen/nearEffectPeriod/countByNearValiditType';
-
     // 获取近效期、的数量
     $scope.getNearEffectNum = function () {
+      var pReqUrl = 'rest/authen/nearEffectPeriod/countByNearValiditType';
+
       requestData(pReqUrl)
       .then(function (results) {
         if (results[1].code === 200) {
@@ -35,6 +34,7 @@ define('project/controllers-nearEffectPeriod', ['project/init'], function() {
       requestData(reqUrl)
       .then(function (results) {
         if (results[1].code === 200) {
+          $scope.getNearEffectNum();
           $scope.$parent.listObject.reloadTime = new Date().getTime();
         }
       })
