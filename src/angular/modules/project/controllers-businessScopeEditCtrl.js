@@ -60,6 +60,16 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
         }
       }
 
+      // 数组去重
+      function unique1(array){
+      var n = []; //一个新的临时数组
+      //遍历当前数组
+      for(var i = 0; i < array.length; i++){
+      if (n.indexOf(array[i]) == -1) n.push(array[i]);
+      }
+      return n;
+      }
+
   }
 
   angular.module('manageApp.project')
