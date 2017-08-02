@@ -54,7 +54,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-validityDistribution',
                                'project/controllers-nearEffectPeriod',
                                'project/controllers-entryExitTypeSetting',
-                               'project/controllers-businessScope'
+                               'project/controllers-businessScope',
+                               'project/controllers-productEnterprise'
 
 ], function() {
 
