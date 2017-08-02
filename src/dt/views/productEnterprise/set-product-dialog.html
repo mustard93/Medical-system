@@ -1,0 +1,119 @@
+<div class="first-medical-application"
+     ng-controller="productEnterpriseController"
+     ajax-url="rest/authen/productEnterprise/getOfEdit.json?id={{tr.id}}"
+     scope-data="formData"
+
+     alert-error>
+<div class="sale-return-order right-side pr-bg-black3" style="min-height: 950px">
+  <div class="sale-bg">
+    <!-- 头部信息 -->
+      <form class="form-horizontal"
+            id="product_editForm"
+            name="product_editForm"
+            form-validator
+            parameter-body
+            action="rest/authen/productEnterprise/save"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="listObject.reloadTime=$root.utils.getNowTime()">
+    <div class="relative ">
+      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增经营范围</div>
+      <div class="pr-panel-height select-bg" style="padding:15px 0;">
+        <div class="flex-column mgt relative ">
+            <h1 class="flex-item-3 pr-fw-700 text-right product-26">编号</h1>
+            <input type="text"
+                   style="width:238px;"
+                   class="ipt-new-s product-000"
+                   name="genericName"
+                   ng-model="formData.code" />
+        </div>
+          <div class="flex-column mgt relative ">
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26">企业名称</h1>
+              <input type="text"
+                     style="width:238px;"
+                     class="product-000 ipt-new-s"
+                     name="genericName"
+                     ng-model="formData.name" />
+          </div>
+          <div class="flex-column mgt relative">
+              <h1 class="flex-item-3 pr-fw-700 product-26 text-right">生产许可证</h1>
+              <input type="text"
+                     style="width:238px;"
+                     class="product-000 ipt-new-s"
+                     name="genericName"
+                     ng-model="formData.productLicense" />
+          </div>
+          <div class="flex-column mgt relative ">
+              <!--<h1 class="quali-pd-l pr-fw-700"></h1>-->
+              <span class="mgr" style="margin-left: 30px;">许可证有效期至
+                <span class="produc-icon-outside">
+                  <input type="text"
+                         style="color: white;z-index: 15;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         placeholder=""
+                         ng-readonly="true"
+                         ng-model="formData.productLicensePeriod" />
+                  <span class="date-icon"></span>
+                </span>
+            </span>
+          </div>
+          <div class="flex-column mgt relative ">
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26">GMP认证</h1>
+              <input type="text"
+                     style="width:238px;"
+                     class="product-000 ipt-new-s"
+                     name="genericName"
+                     ng-model="formData.gmpAuthentication" />
+          </div>
+          <div class="flex-column mgt relative">
+              <!--<h1 class="quali-pd-l pr-fw-700">GMP有效期至</h1>-->
+              <span class="mgr" style="margin-left: 37px;">GMP有效期至
+                <span class="produc-icon-outside">
+                  <input type="text"
+                         style="color: white;z-index: 15;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         placeholder=""
+                         ng-readonly="true"
+                         ng-model="formData.gmpAuthenPeriod" />
+                  <span class="date-icon"></span>
+                </span>
+            </span>
+          </div>
+          <div class="flex-column mgt relative ">
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26">企业注册地址</h1>
+              <input type="text"
+                     style="width:238px;"
+                     class="product-000 ipt-new-s"
+                     name="genericName"
+                     ng-model="formData.address" />
+          </div>
+      </div>
+
+      </div>
+        <!--&lt;!&ndash; 备注 &ndash;&gt;-->
+        <!--<div class="mgb-l pr-font-12 color-light-brown flex-column">-->
+            <!--<h1 class="quali-pd-l pr-fw-700">备注</h1>-->
+            <!--<div class="panel pr-fuzzy-boundary pr-panel-height mgb-l ">-->
+                <!--&lt;!&ndash;<input type="text" class="">&ndash;&gt;-->
+                <!--<textarea class="pr-textarea" maxlength="240" style="height:92px;min-width: 320px" placeholder="" ng-model="formData.note" onkeydown="if(window.event.keyCode==13) return true;"></textarea>-->
+            <!--</div>-->
+        <!--</div>-->
+      <!-- 功能按钮 -->
+      <div class="sales-btn-area-2nd relative" style="width: 457px">
+          <div class="btn-area full-width text-center">
+          <button type="submit"
+                  class="pr-btn-save-glodbg mgr-l"
+                  ng-disabled=""
+                  style="width:160px;">确定
+          </button>
+          </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
