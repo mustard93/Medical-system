@@ -2453,8 +2453,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?",
-            "listObject": "=?"
+            "ngDisabled": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
@@ -2476,7 +2475,8 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
-                $scope.listObject.name = value.data.name;
+
+              //  $scope.listObject.name = value.data.name;
               }, true);
             }
 
