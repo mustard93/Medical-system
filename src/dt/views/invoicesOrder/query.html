@@ -25,7 +25,7 @@
       <div ng-if="!status.isLoading">
         <div ng-if="tbodyList.length==0">
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-          <p class="text-center">什么也没有</p>
+          <p class="text-center">嘿，这里暂时什么都没有哦~</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
@@ -34,7 +34,7 @@
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative">
                 <div class="flex-column">
-                  <span class="flex-item-6 title-states text-bold pd-m"
+                  <span class="flex-item-6 title-states text-bold pd-v pd-c-m"
                   ng-class="{'color-green2':(tr.orderStatus=='已收货'),'color-3':(tr.orderStatus!='已收货')}">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
 
@@ -48,13 +48,13 @@
                     <span class="text-right">
                         <span ng-if="tr.orderStatus=='未提交'" >
                           <span ng-if="$root.hasAuthor('发货单修改')">
-                          <a tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <a tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                           <span class="edit-link-icon">&nbsp;</span></a>
                         </span>
                         <span ng-if="$root.hasAuthor('发货单删除')">
                           <a ng-if="tr.orderStatus=='未提交'  && tr.inputUserId==mainStatus.id"
                              href="javascript:;"
-                             class="btn-link pd-m rect-s"
+                             class="btn-link pd rect-s"
                              title="删除"
                              handle-this-click
                              dialog-title="确认删除 ?"
@@ -69,7 +69,7 @@
                         </span>
 
                         <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
-                          <a ng-if="tr.orderStatus!='未提交'" tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                          <a ng-if="tr.orderStatus!='未提交'" tab-nav tab-name="发货单"  tab-href="#/invoicesOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                           </a>
 
