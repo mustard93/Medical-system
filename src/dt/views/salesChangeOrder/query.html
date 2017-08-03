@@ -30,7 +30,7 @@
       <div ng-if="!status.isLoading">
         <div ng-if="tbodyList.length==0">
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-          <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+          <p class="text-center">嘿，这里暂时什么都没有哦~</p>
         </div>
 
         <ul ng-if="tbodyList.length" class="li-min-h">
@@ -39,13 +39,13 @@
               <div class="relative">
                 <div class="flex-column">
 
-                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m" >
+                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-v pd-c-m" >
                     <em ng-class="{'color-green2': tr.orderStatus=='已完成' }">
                         {{tr.orderStatus}}
                     </em>
                   </span>
 
-                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-m">
+                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-v pd-c-m">
                     <em >
                         {{tr.orderStatus}}
                     </em>
@@ -55,14 +55,14 @@
 
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
 
-                          <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                          <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
 
                           <span    >
                                 <a ng-if="tr.orderStatus=='未提交' || tr.orderStatus =='未通过' "
                                  href="javascript:;"
-                                 class="btn-link pd-m rect-s"
+                                 class="btn-link pd rect-s"
                                  title="删除"
                                  handle-this-click
                                  dialog-title="确认删除 ?"
@@ -82,7 +82,7 @@
                         <!--tr.orderStatus =='待审核' && (tr.orderStatus!='未通过')-->
                         <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'"
                            tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
-                           class="btn-link pd-m rect-s " title="查看详情">
+                           class="btn-link pd rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
 
@@ -91,7 +91,7 @@
                           <a ng-if="tr.orderStatus=='待审核'"
                              tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
                              title="立即审核"
-                             class="btn-link pd-m rect-s "
+                             class="btn-link pd rect-s "
                              >
                             <span class="examine-approve">&nbsp;</span>
                            </a>

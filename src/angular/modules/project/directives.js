@@ -1590,12 +1590,12 @@ function customTableToggleSort (modal,utils,requestData) {
         // 把当前样式进行改变.
         if (count%2) {
           $(this).children('i').removeClass('arrow-sort');
-          $(this).children('i').removeClass('sort-desc');
-          $(this).children('i').addClass('sort-asc');
-        }else {
-          $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
+        }else {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-desc');
+          $(this).children('i').addClass('sort-asc');
         }
 
       });
@@ -2453,8 +2453,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?",
-            "listObject": "=?"
+            "ngDisabled": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
@@ -2475,7 +2474,8 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
-                $scope.listObject.name = value.data.name;
+
+              //  $scope.listObject.name = value.data.name;
               }, true);
             }
 
@@ -3617,7 +3617,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
 
-          if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
+        if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;

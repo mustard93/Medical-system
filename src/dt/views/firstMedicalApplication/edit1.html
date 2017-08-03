@@ -4,7 +4,8 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');"
      alert-error>
-  <div class="header-info relative mgb-l">
+
+  <div ng-if="$root.uiTabs.current.name != '品种管理'" class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
       <a tab-nav
       tab-name='首营品种管理'
@@ -18,6 +19,22 @@
       <div class="mgb-l">
         <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营品种</h1>
         <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营品种</h1>
+      </div>
+    </div>
+  </div>
+  <div ng-if="$root.uiTabs.current.name == '品种管理'" class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+      <a tab-nav
+         tab-name='品种管理'
+         tab-href="#/medicalStock/query.html">
+        <em class="color-custom-orange">品种管理</em>
+      </a>
+      <em>>首营品种申请</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">首营品种申请</h1>
       </div>
     </div>
   </div>
@@ -67,6 +84,7 @@
                 <button type="button"
                         z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
                         class="btn-select fl-l"
+                        width="240px"
                         ng-model="formData.medicalAttribute"
                         id-key="id"
                         p-id-key="parentId">选择

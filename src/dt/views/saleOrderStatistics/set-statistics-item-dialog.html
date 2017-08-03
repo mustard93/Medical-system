@@ -9,13 +9,13 @@
             <span angucomplete-supplier
                   placeholder=""
                   title-field="name"
-                  search-fields="{{filterObject.customerName}}"
-                  list-object="listObject"
+                  search-fields="{{cacheObject.customerAddress.name}}"
                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
-                  ng-model="tmp_customer"
+                  ng-model="cacheObject.customerAddress"
                   ng-model-id="filterObject.customerId"
                   class="inline-block text-s" style="height:28px;">
             </span>
+            {{filterObject.customerName}}
         </div>
         <div class="flex-column mgt">
             <label class="flex-item-2 text-right control-label pdr-s">业务部门</label>
@@ -112,11 +112,10 @@
                     <span angucomplete-supplier
                           placeholder=""
                           title-field="name"
-                          list-object="listObject"
-                          search-fields="{{filterObject.medicalApprovedName}}"
+                          search-fields="{{cacheObject.medicalStock.name}}"
                           url="rest/authen/medicalStock/query"
-                          ng-model="tmp_medicalApprovedName"
-                          ng-model-id="filterObject.medicalApprovedId"
+                          ng-model="cacheObject.medicalStock"
+                          ng-model-id="filterObject.medicalApprovedName"
                           class="inline-block text-s" style="height:28px;">
                     </span>
                 </div>
