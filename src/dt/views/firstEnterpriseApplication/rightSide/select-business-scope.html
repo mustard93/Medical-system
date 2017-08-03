@@ -1,0 +1,48 @@
+<div class="modal-content right-side-new pr-bg-black4"
+  ajax-url="rest/authen/businessScope/query.json?pageSize=999"
+  scope-data="scopeData"
+  ng-controller="businessScopeEditCtrl"
+  callback="reCheck(dialogData.businessScope,scopeData);"
+  alert-error>
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择经营范围 </h1>
+    </div>
+    <div class="outside-div-new">
+      <table class="full-width another-table ">
+          <tr class="bb-line-gold">
+            <div class="pd-c-v-s order-list-search relative bb-line-gold" >
+              <div class="inline-block mycheck" style="width:122px;">
+                全选
+                <input type="checkbox" class="selectOne cur-pot" id='0' ng-click="selectAll(scopeData);">
+                <label style="border: 1px solid #84715A;background: #5C5246;top:5px;left:50px;" for="0"></label>
+              </div>
+              <input type="text"
+                     style="width:70%;"
+                     ng-model="q"
+                     class="ipt-side pdr-xxl text-right"
+                     placeholder="选择经营范围名称"
+                     ng-change="filterName(q);">
+              <i class="white" style="top:15px;right:25px;"></i>
+            </div>
+          </tr>
+        <tbody class="color-white text-n">
+          <tr ng-repeat="tr in scopeData">
+            <td class="select-td text-center mycheck" style="width:60px;" ng-if="tr.name">
+            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked">
+            <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
+            </td>
+            <td style="padding:9px 0px;" ng-if="tr.name">
+              {{tr.name}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <!-- submit -->
+      <button type="button" style="margin-left:300px;"
+      class="pr-btn-create-glodbg new-left-side-button"
+      ng-click="submitbusinessScope(scopeData);modal.closeAll()">确定</button>
+      <!-- submit -->
+    </div>
+</div>

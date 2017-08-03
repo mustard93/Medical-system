@@ -211,10 +211,10 @@ define('project/controllers-otherCustomerApplication', ['project/init'], functio
     // 选中相应药品类别，放入数组中传到后台
     $scope.choiceCommodityType=function(item){
       if(item.value){
-        if($scope.formData.commodityType === null){
-          $scope.formData.commodityType=[];
+        if($scope.formData.type === null){
+          $scope.formData.type=[];
         }
-      $scope.formData.commodityType.push(item.text);
+      $scope.formData.type.push(item.text);
 
       }
     };

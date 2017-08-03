@@ -16,21 +16,32 @@
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
+
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">首营企业申请</h1>
+           <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营企业</h1>
+           <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营企业</h1>
          </div>
        </div>
      </div
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div
+    <div ng-if="!mainStatus.pageParams.isEnter"
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
     {"arrowText":"申请原因","className":"visited"},
     {"arrowText":"添加资质证书","className":"active"}]'>
     </div>
+    <div ng-if="mainStatus.pageParams.isEnter"
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"visited"},
+    {"arrowText":"申请原因","className":"visited"},
+    {"arrowText":"添加资质证书","className":"active"},
+    {"arrowText":"录入已审核首营企业","className":"active"}]'>
+    </div>
+
     <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
       <form class="form-horizontal"
             id="firstEnterpriseApplication_editForm_step1"
@@ -52,8 +63,10 @@
             </span>
           </div>
           <div class="flex-item-6 text-right">
-              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.orderStatus}}</em>
+              制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+              制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+              制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+               状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
         <!-- 基本信息-附件信息 -->
@@ -74,15 +87,6 @@
 
         <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营企业申请","addFlag":false}'
         attachments-edit ng-model="formData" attachments-extend="attachmentsExtend" ></div>
-        <div class="color-black mgt-l">
-          <p>
-            <p class="pr-font-14">说明：</p>
-            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
-            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
-            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
-            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
-          </p>
-        </div>
     </div>
   </div>
 
@@ -105,16 +109,6 @@
           tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl ">
-          <!-- <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-             href="javascript:;"
-             class="color-red mgt"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="删除后将无法恢复,确认删除?"
-             dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
-             params='{"id":formData.id}'
-             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a> -->
              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
                 href="javascript:;"
                 class="pr-color-red mgr-l"

@@ -109,10 +109,10 @@ define('project/controllers-customerAddress', ['project/init'], function() {
     };
     $scope.choiceCommodityType=function(item){
       if(item.value){
-        if($scope.formData.commodityType==null){
-          $scope.formData.commodityType=[];
+        if($scope.formData.type==null){
+          $scope.formData.type=[];
         }
-      $scope.formData.commodityType.push(item.text);
+      $scope.formData.type.push(item.text);
 
       }
     }
