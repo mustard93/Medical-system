@@ -10,6 +10,17 @@ define('project/controllers-SelectedCommodity', ['project/init'], function() {
    * @param  {[type]}                  alertWarn       [description]
    */
   function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+    $scope.choiceCommodityType=function(item){
+      if(item.value){
+        if(!$scope.formData.type){
+          $scope.formData.type=[];
+        }
+      $scope.formData.type.push(item.text);
+
+      }
+    };
+
     $scope.$watch('!initFlag', function (newVal) {
       var scopeData= [];
 
@@ -17,10 +28,10 @@ define('project/controllers-SelectedCommodity', ['project/init'], function() {
 
         scopeData.push($scope.scopeData[item]);
 
-        if ($scope.formData.commodityType) {
-          for(j=0;j<$scope.formData.commodityType.length;j++){
+        if ($scope.formData. type) {
+          for(j=0;j<$scope.formData. type.length;j++){
 
-            if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
+            if($scope.formData. type[j]==$scope.scopeData[item].value){
             $scope.scopeData[item].value=true;
             }
           }

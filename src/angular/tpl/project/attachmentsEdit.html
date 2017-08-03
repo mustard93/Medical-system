@@ -1,38 +1,53 @@
 <div class="panel pr-panel pr-panel-height mgb">
-  <h1 class="pr-font-18 mgb">{{attachmentsExtend.title||"审核资料"}}</h1>
+  <h1 class="pr-font-14 mgb color-3 text-bold">{{attachmentsExtend.title||"审核资料"}}</h1>
 
   <div style="margin-bottom:50px;">
-    <table class="table table-striped">
+
+    <div class="mgt" style="border-top:2px solid #fff;margin-bottom:80px;">
+      <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
+        <a class="relative"
+        ng-click="addFlag=true;
+        addAttachment.canDeleteFlag=true;
+        addAttachment.handleCreate=true;
+        addAttachment.showFlag=true;
+        ngModel.push(addAttachment);
+        addAttachment={};"
+         href="javascript:;"><i></i><span class="text-s">增加{{attachmentsExtend.title}}</span></a>
+      </div>
+    </div>
+    <table class="table">
       <thead>
         <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
             <th class="w-60"></th>
             <th>序号</th>
-            <th>资料名称</th>
+            <th>类型</th>
+            <!-- <th>资料名称</th> -->
             <th>证书编号</th>
-            <th>有效日期</th>
-            <th>上传人</th>
-            <th>上传日期</th>
+            <th>有效期起</th>
+            <th>有效期至</th>
+            <!-- <th>上传人</th>
+            <th>上传日期</th> -->
             <th>附件</th>
             <th>备注</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel.attachments" ng-controller="deleteUploaderController" >
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line">
           <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" ng-disabled="item.isMust"/>
             <label for="{{$index + 1}}" ng-class="{'pr-bg-grey-white':(item.isMust)}" ></label>
           </td>
 
           <td ng-if="item.handleCreate">
-            <span class="delete-attachement-item cur-pot" ng-click="ngModel.attachments.splice($index,1);"></span>
+            <span class="delete-attachement-item cur-pot" ng-click="ngModel.splice($index,1);"></span>
           </td>
           <!-- 选择checkbox  -->
           <td>{{$index+1}}</td><!-- 序号  -->
-          <td ng-if="!item.handleCreate">{{item.name}}</td><!-- 资料名称  -->
+          <td ng-if="!item.handleCreate">{{item.licenseName}}</td><!-- 类型  -->
           <td ng-if="item.handleCreate">
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
-                   ng-model="item.name"
+                   ng-model="item.licenseName"
                    placeholder="">
           </td><!-- 资料名称  -->
           <td ng-if="item.isAdmin!=false">
@@ -60,27 +75,33 @@
                      datepicker
                      class="ipt-date pr-short-ipt ipt-new-s ipt-att color-6"
                      ng-readonly="true"
-                     placeholder=" 有效日期至"
-                     ng-model="item.guaranteePeriod"
+                     placeholder=" 有效日期起"
+                     ng-model="item.guaranteePeriodBeg"
                      ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
                      >
                     <span class="date-icon"></span>
             </div>
-            <!-- <div class="date-icon-outside" ng-disabled="!item.showFlag">
+          </td><!-- 有效日期起 -->
+          <td>
+            <div class="date-icon-outside">
               <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     class="ipt-date pr-short-ipt ipt-new-s ipt-att color-6"
                      ng-readonly="true"
-                     ng-model="item.guaranteePeriod"
-                     placeholder="有效日期至"
-                     ng-disabled="!item.showFlag"
-                    >
-              <span class="date-icon"></span>
-            </div> -->
-          </td><!-- 有效日期  -->
-          <td>{{item.uploadUserName || '—'}}</td><!-- 上传人  -->
-          <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td><!-- 上传日期  -->
+                     placeholder=" 有效日期至"
+                     ng-model="item.guaranteePeriodEnd"
+                     ng-disabled="!item.showFlag&&!item.handleCreate"
+                     style="width:148px;"
+                     >
+                    <span class="date-icon"></span>
+            </div>
+          </td><!-- 有效日期至 -->
+
+          <!-- <td>{{item.uploadUserName || '—'}}</td> -->
+          <!-- 上传人  -->
+          <!-- <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td> -->
+          <!-- 上传日期  -->
           <td ng-if="item.showFlag||item.handleCreate">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
@@ -126,24 +147,12 @@
           </td>
           <td>
             <div class="order-create-btn pos-l" style="margin-top: 120px;margin-left: 20px;">
-              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.attachments.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
+              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
             </div>
           </td>
         </tr>
       </tfoot>
     </table>
 
-    <div class="mgt" style="border-top:2px solid #e2e2e2;margin-bottom:130px;">
-      <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
-        <a class="relative"
-        ng-click="addFlag=true;
-        addAttachment.canDeleteFlag=true;
-        addAttachment.handleCreate=true;
-        addAttachment.showFlag=true;
-        ngModel.attachments.push(addAttachment);
-        addAttachment={};"
-         href="javascript:;"><i></i><span class="text-s">增加资质文件</span></a>
-      </div>
-    </div>
   </div>
 </div>

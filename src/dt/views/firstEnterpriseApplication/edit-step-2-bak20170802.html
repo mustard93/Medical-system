@@ -1,0 +1,148 @@
+<div class="first-medical-application hospital-application "
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');canSubmitMedical(formData.type);"
+     alert-error>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
+         <a
+         tab-nav
+         tab-name='首营企业管理'
+         tab-href="#/firstEnterpriseApplication/query.html">
+            <em class="color-custom-orange">首营管理</em>
+         </a>
+        <em>>首营企业申请</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">首营企业申请</h1>
+         </div>
+       </div>
+     </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper ">
+    <!-- 添加流程导航 -->
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"visited"},
+    {"arrowText":"申请原因","className":"active"},
+    {"arrowText":"添加资质证书","className":"unactive"}]'>
+    </div>
+    <div class="content-wrapper-main mgt">
+      <form class="form-horizontal"
+            id="firstEnterpriseApplication_editForm_step"
+            name="firstEnterpriseApplication_editForm_step"
+            form-validator
+            parameter-body
+            action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validateFlag=true"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html');watchFormChange('formData')">
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <div class="flex-item-6">
+            <span class="flex-item-12">
+              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+              <!-- 采购员：<span>
+                        <select class="select pr-select ipt-new-s" data-placeholder=" "
+                        chosen
+                        default-empty=""
+                        ng-model="formData.buyerId"
+                        select-source="rest/authen/user/queryForSelectOption">
+                        </select>
+                    </span> -->
+            </span>
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </div>
+        </div>
+        <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="pr-font-18 mgb">申请原因</h1>
+            <div class="">
+                <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+            </div>
+        </div>
+
+      <div class="color-black mgt-l">
+          <p>
+            <p class="pr-font-14">说明：</p>
+            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
+          </p>
+      </div>
+        <!-- 功能按钮 -->
+      <div class="handle-btn-area relative">
+        <div class="mgb text-right btn-area">
+        <span class="mgl">
+          <a   ng-if="changeFlag"  href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该申请单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})"
+             save-callback="submitForm('firstEnterpriseApplication_editForm_step','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">返回申请单列表
+          </a>
+          <a ng-if="!changeFlag"
+          tab-nav
+          tab-name='首营企业管理'
+          tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+        </span>
+        <span class="mgl">
+          <!-- <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red mgt"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
+             params='{"id":formData.id}'
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a> -->
+
+             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                href="javascript:;"
+                class="pr-color-red mgr-l"
+                handle-this-click
+                dialog-title="确认删除?"
+                dialog-content="删除后将无法恢复,确认删除?"
+                dialog-template="pr-dialog-confirm.html"
+                request-url="rest/authen/firstEnterpriseApplication/delete?id={{formData.id}}"
+                callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query-overflow.html','tabName':'首营企业管理'})">删除
+             </a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!changeFlag "
+                  ng-click="submitForm('firstEnterpriseApplication_editForm_step','save')">保存
+                  <!-- || firstMedicalEditForm.applyReason.$pristine -->
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit1.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                   ng-disabled="!firstEnterpriseApplication_editForm_step.$valid || canSubmit"
+                  ng-click="submitForm('firstEnterpriseApplication_editForm_step','submit');$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-3.html?id='+formData.id,'tabName':'首营企业管理'})">下一步
+          </button>
+
+          <!-- ng-disabled="!formData.note" -->
+        </span>
+      </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

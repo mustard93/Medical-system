@@ -825,7 +825,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      *用于编辑
      */
-    function editCtrl($scope, modal) {
+    function editCtrl($scope, modal,requestData,alertWarn) {
         modal.closeAll();
         $scope.submitAll = function (departments,departmentAuthoritys){
           var departmentNameAuthoritys=[];
@@ -837,6 +837,34 @@ define('main/controllers', ['main/init'], function () {
           }
         });
         $scope.formData.departmentNameAuthoritys=departmentNameAuthoritys;
+        }
+
+        // 侧边框提交添加联系人
+        $scope.submitAdress=function(type){
+          var _url = 'rest/authen/'+type+'/contact/save';
+          if (!$scope.formData.contacts) {
+            $scope.formData.contacts=[];
+          }
+          requestData(_url, $scope.addressData, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              var _data = results[1].data;
+              // 判断是新增的还是编辑的。
+              if ($scope.formData.contacts.length) {
+                for (var i = 0; i < $scope.formData.contacts.length; i++) {
+                  if ($scope.formData.contacts[i].id==_data.id) {
+                    // 如果相等，说明是编辑
+                    $scope.formData.contacts.pop($scope.formData.contacts[i]);
+                  }
+                }
+              }
+              $scope.formData.contacts.push(_data);
+              modal.closeAll();
+            }
+          })
+          .catch(function (error) {
+            if (error) { alertWarn(error); }
+          });
         }
     }
 
@@ -903,7 +931,7 @@ define('main/controllers', ['main/init'], function () {
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
     .controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
     .controller('sideNav',  ["$scope",sideNav])
-    .controller('editCtrl',  ["$scope","modal",editCtrl])
+    .controller('editCtrl',  ["$scope","modal","requestData","alertWarn",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
     .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController])
     .controller('customTableDataController', ['$scope', 'utils', 'requestData', customTableDataController]);

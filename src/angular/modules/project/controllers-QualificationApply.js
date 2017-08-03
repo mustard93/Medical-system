@@ -258,10 +258,10 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
     // 选中相应药品类别，放入数组中传到后台
     $scope.choiceCommodityType=function(item){
       if(item.value){
-        if($scope.formData.commodityType === null){
-          $scope.formData.commodityType=[];
+        if($scope.formData.type === null){
+          $scope.formData.type=[];
         }
-      $scope.formData.commodityType.push(item.text);
+      $scope.formData.type.push(item.text);
 
       }
     };
@@ -390,6 +390,45 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
               $scope.formData.othersPackingAttribute.push(otherPobject);
           }
       };
+
+      // 经营方式查询调用的方法,根据传入的q查询。
+      $scope.filterName=function(q){
+        if (q) {
+
+          var url='rest/authen/businessScope/query?pageSize=999&q='+q;
+          var data= {};
+          requestData(url,data, 'get')
+            .then(function (results) {
+              $scope.scopeData= results[1].data;
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+        }
+      };
+
+      // 选择经营方式以后，调用的方法。
+      $scope.submitbusinessScope=function(_data){
+        var _businessScope={};
+        if (_data) {
+          for (var i = 0; i < _data.length; i++) {
+            if (_data[i].checked) {
+              _businessScope.name=_data[i].name;
+              _businessScope.id=_data[i].id;
+              $scope.businessScope.push(_businessScope);
+            }
+          }
+        }
+      }
+
+      // 设置联系人默认地址,传入联系人jason对象,把默认设置还原到没有默认的时候。
+      $scope.setDefault=function(_data){
+        if (_data.length) {
+          for (var i = 0; i < _data.length; i++) {
+            _data[i].isDefault=false;
+          }
+        }
+      }
 
   }
 
