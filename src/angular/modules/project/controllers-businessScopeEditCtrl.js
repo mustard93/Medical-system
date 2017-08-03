@@ -31,10 +31,16 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
       // 之前选中的选项，再次选的时候。自动勾选上。
       $scope.reCheck=function(businessScope,scopeData){
         if (businessScope) {
-          console.log(businessScope);
-          console.log(scopeData);
+          for (var i = 0; i < businessScope.length; i++) {
+            for (var j = 0; j < scopeData.length; j++) {
+              if (businessScope[i].code==scopeData[j].code) {
+                scopeData[j].checked=true;
+              }
+            }
+          }
         }
       }
+
       // 全选调用的方法，把所有的都传入，然后一一选中，放入businessScope中。
       $scope.selectAll=function(scopeData){
         if (scopeData) {
@@ -46,28 +52,29 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
       }
 
       // 选择经营方式以后，调用的方法。
-      $scope.submitbusinessScope=function(_data){
-
+      $scope.submitbusinessScope=function(_data,businessScope){
+        var _businessScopeArr=[];
         if (_data) {
           for (var i = 0; i < _data.length; i++) {
             if (_data[i].checked) {
               var _businessScope={};
               _businessScope.name=_data[i].name;
               _businessScope.code=_data[i].code;
-              $scope.formData.businessScope.push(_businessScope);
+              // 如果没值，说明是第一次选择。就直接push
+              _businessScopeArr.push(_businessScope)
+
+                if (businessScope.length) {
+                  for (var j = 0; j < businessScope.length; j++) {
+                      // 判断是否是没有选过的项，如果不是，就不push进去。
+                    if (businessScope[j].code==_businessScope.code) {
+                      $scope.formData.businessScope.pop(_businessScope);
+                    }
+                  }
+                }
             }
           }
+          $scope.formData.businessScope=_businessScopeArr;
         }
-      }
-
-      // 数组去重
-      function unique1(array){
-      var n = []; //一个新的临时数组
-      //遍历当前数组
-      for(var i = 0; i < array.length; i++){
-      if (n.indexOf(array[i]) == -1) n.push(array[i]);
-      }
-      return n;
       }
 
   }
