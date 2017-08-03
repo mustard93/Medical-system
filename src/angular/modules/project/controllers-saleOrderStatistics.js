@@ -36,6 +36,7 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
 
     // 初始化过滤字符串对象
     $scope.filterObject = {};
+
     // 加入默认值（年、月）  queryGroupEnum
     $scope.$watchCollection('tbodyList', function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
@@ -181,7 +182,7 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
     // 以便在再次打开时将上次选择的医院名称赋值在选择框内
     $scope.$watchCollection('listObject', function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
-        $scope.filterObject.customerName = $scope.listObject.name;
+       $scope.filterObject.customerName = $scope.listObject.name;
       }
     });
 
@@ -225,6 +226,15 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       if (item === 'departmentName') { $scope.listParams1['departmentId'] = keyData['departmentId']; }
       if (item === 'inputUserName') { $scope.listParams1['inputUserId'] = keyData['inputUserId']; }
     });
+
+    // 循环用户筛选条件查询
+    if ($scope.filterObject) {
+      for (var key in $scope.filterObject) {
+        if ($scope.filterObject.hasOwnProperty(key) && $scope.filterObject[key]) {
+          $scope.listParams1[key] = $scope.filterObject[key];
+        }
+      }
+    }
 
   }
 

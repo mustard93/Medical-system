@@ -5,32 +5,31 @@
                 search-mode="noCaseSensitive"
                 search-param="q">
 
-        <div class="medical-stock child-project-management receive-item" ng-controller="nearEffectPeriodController" ng-init="getNearEffectNum()">
+        <div class="medical-stock child-project-management receive-item" ng-controller="licenseController" ng-init="getNearEffectNum()">
             <page-main-header-component list-params="listParams"
                                         style="min-height:130px;"
                                         crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"证照档案","link":"","style":""}]'
                                         component-title="证照档案-企业">
             </page-main-header-component>
-
         <div class="mgl-xl status-num-list-new" style="top:-56px;">
         <span status-style-toggle-new
-              class="rect-status mgl-s "
+              class="rect-status mgl-s pr-color rect-status-active-new"
               ng-click="$root.goTo('#/licenseEnterprise/qualificationcertificate.html')">资质证照
         </span>
             <span status-style-toggle-new
-                  class="rect-status pr-color rect-status-active-new"
+                  class="rect-status "
                   ng-click="$root.goTo('#/licenseEnterprise/electronicArchives.html')">电子档案
         </span>
         </div>
         <!--主内容区域-->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="margin-top: -40px;">
             <!-- 新建按钮 -->
             <div class="sales-statistics">
                 <div class="inline-block relative mgb-l">
                     <a modal-right="550"
                        modal-scope="this"
-                       modal-url="views/licenseEnterprise/set-licenseFile-dialog2.html">
-                        <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s ">新建电子档案</span>
+                       modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
+                       <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s ">新建资质证照</span>
                     </a>
                 </div>
             </div>
@@ -54,7 +53,7 @@
                             ng-repeat="tr in tbodyList track by $index"
                             class="relative"
                             table-item-multiple-btn>
-                            <td>1
+                            <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
                                 <div class="table-item-multiple-btn">
                                     <div class="inline-block handle-btn del-details-btn relative delete-icon">
                                         <div class="del-confirm-area text-center" n>
@@ -63,23 +62,25 @@
                                                 <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
                                                 <a href="javascript:;"
                                                    class="pr-btn-best-small pr-btn-bg-gold"
-                                                   ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/electronicArchives/query.html', 'parameterType')">确认
+                                                   ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/qualificationcertificate/query.html', 'parameterType')">确认
                                                 </a>
                                             </p>
                                         </div>
                                     </div>
+
                                     <!--修改-->
-                                    <span>
-                                <div class="sales-statistics">
-                                    <div class="inline-block relative mgb-l">
-                                        <a modal-right="480"
-                                           modal-scope="this"
-                                           modal-url="views/licenseEnterprise/set-licenseFile-dialog2.html">
-                                            <div class="inline-block handle-btn edit-icon entry-ab"> </div>
-                                        </a>
+                                <span>
+                                    <div class="sales-statistics">
+                                        <div class="inline-block relative mgb-l">
+                                            <a modal-right="480"
+                                               modal-scope="this"
+                                               modal-data="'data':'{{tr.id}}'"
+                                               modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
+                                                <div class="inline-block handle-btn edit-icon entry-ab"> </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                               <div class="sales-statistics">
+                                      <div class="sales-statistics">
                                     <div class="inline-block relative mgb-l">
                                         <a modal-right="720"
                                            modal-scope="this"
@@ -88,7 +89,7 @@
                                         </a>
                                     </div>
                                 </div>
-                              </span>
+                                  </span>
                                     <!--<div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">-->
                                         <!--<div class="handle-area-show handle-area text-center">-->
                                             <!--<a href="javascript:;"-->

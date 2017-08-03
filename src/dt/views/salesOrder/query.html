@@ -26,7 +26,7 @@
       <div ng-if="!status.isLoading">
         <div ng-if="tbodyList.length==0">
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-          <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+          <p class="text-center">嘿，这里暂时什么都没有哦~</p>
         </div>
         <ul ng-if="tbodyList.length">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
@@ -34,7 +34,7 @@
                  ng-init="bottomButtonList= $root.queryItemCardButtonList.getQuery_salesOrder(tr);">
               <div class="relative">
                 <div class="flex-column">
-                  <span class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
+                  <span class="flex-item-6 title-states text-bold color-3 pd-v pd-c-m">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
 
 
@@ -45,14 +45,14 @@
 
                     <!--<span query-item-card-button-list="bottomButtonList"></span>-->
 
-                     <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='处理中' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'"
+                     <a class="btn-link pd rect-s" title="查看详情" ng-if="tr.orderStatus=='处理中' ||tr.orderStatus=='待确认' || tr.orderStatus=='已处理'"
                         tab-nav tab-name="购需单"  tab-href="#/salesOrder/get.html?id={{tr.id}}">
                       <span class="watch-detail-icon">&nbsp;</span>
                     </a>
 
 
                       <span  ng-if="tr.orderStatus!='待确认' && tr.orderStatus!='已处理' && $root.hasAuthor('购需单修改')">
-                      <a tab-nav tab-name="购需单"  tab-href="#/salesOrder/edit2.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <a tab-nav tab-name="购需单"  tab-href="#/salesOrder/edit2.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
 
 
@@ -60,7 +60,7 @@
                     <span ng-if="$root.hasAuthor('购需单删除')">
                       <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id "
                          href="javascript:;"
-                         class="btn-link pd-m rect-s"
+                         class="btn-link pd rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"
