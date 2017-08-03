@@ -24,43 +24,136 @@
 </head>
 <body>
 
-<div class="goods-info">
-    1111
+<div class="bg"></div>
+
+<div class="goods-title">
+    <h1>中国医疗器械贵州有限公司物流中心</h1>
+    <h2>血糖仪质量信息</h2>
 </div>
 
-<div class="goods-list">
-    <div class="title">销售去向</div>
+
+
+<div class="goods-info">
+
+    <div class="goods-info-item">
+        <p class="lables">剂型／分类</p>
+        <p class="val">第一类</p>
+    </div>
+    <div class="goods-info-item">
+        <p class="lables">规格／型号</p>
+        <p class="val">H062／1台</p>
+    </div>
+    <div class="goods-info-item">
+        <p class="lables">批号</p>
+        <p class="val">YZB／苏1547-2014</p>
+    </div>
+    <div class="goods-info-item">
+        <p class="lables">灭菌批号</p>
+        <p class="val">--</p>
+    </div>
+    <div class="goods-info-item">
+        <p class="lables">生产日期</p>
+        <p class="val">2022-10-21</p>
+    </div>
+    <div class="goods-info-item">
+        <p class="lables">有效期至</p>
+        <p class="val">2022-10-21</p>
+    </div>
+    <div class="goods-info-item" style="width: 100%">
+        <p class="lables">产品注册证号／备案凭证编号／批准文号</p>
+        <p class="val">苏械注准201560283</p>
+    </div>
+
+</div>
+
+<div class="goods-list clear">
+
     <ul>
         <li style="border: 0;">
-            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
-            <p><span class="lables">采购数量：</span>10</p>
-            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+            <div class="year">2017</div>
+            <div class="left">
+                <p class="date">03.21</p>
+                <div class="point"></div>
+            </div>
+
+            <div class="right">
+                <div class="title">销售去向</div>
+                <p><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></p>
+                <p><span class="lables">采购数量：</span>10</p>
+                <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
+            </div>
         </li>
-
-
-
-
 
     </ul>
-    <div class="title">供应来源</div>
-    <ul>
-        <li>
-            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
-            <p><span class="lables">采购数量：</span>10</p>
-            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
-        </li>
-        <li>
-            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
-            <p><span class="lables">采购数量：</span>10</p>
-            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
-        </li>
-        <li>
-            <p><span class="lables">供应商：</span>江苏鱼跃医疗有限公司</p>
-            <p><span class="lables">采购数量：</span>10</p>
-            <p><span class="lables">收货时间：</span>2017-07-05   14:57</p>
-        </li>
-    </ul>
+
 </div>
 
+<script>
+
+    window.onload=function () {
+
+//        getUrlParam(name)
+
+
+        if(window.localStorage){
+
+        }else{
+
+        }
+
+        ajax('data/tsconfig.json','get',successCallback,errorCallback);
+    };
+
+
+    function successCallback(data) {
+        console.log("data",data);
+        setVal('id',JSON.stringify(data));
+        console.log('getData',JSON.parse(getVal('id')));
+    }
+
+
+    function errorCallback() {
+        alert('获取数据错误！');
+    }
+
+    function ajax(url,method,successCallback,errorCallback) {
+
+        if (window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }else {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                successCallback(xmlhttp.responseText);
+            }
+            if (xmlhttp.readyState==4 && xmlhttp.status!=200){
+                errorCallback(xmlhttp.responseText);
+            }
+        };
+        xmlhttp.open(method.toUpperCase(),url,true);
+        xmlhttp.send();
+    }
+
+    //获取URL参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+
+    function setVal(key,val) {
+        window.localStorage.setItem(key,val);
+    }
+
+    function  getVal(key) {
+        return window.localStorage.getItem(key);
+    }
+
+
+
+</script>
 </body>
 </html>
