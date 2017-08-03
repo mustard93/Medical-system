@@ -1,4 +1,4 @@
-<div class="modal-content pr-modal-content" ng-controller="editCtrl">
+<div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl">
   <form class="add-customerAddress-form form-horizontal"
         name="customerAddress_contact_editForm"
         ng-init="addressData=dialogData.contact;"
@@ -6,15 +6,19 @@
         action="rest/authen/firstEnterpriseApplication/contact/save"
         alert-error
         scope-data="addressData"
-        callback="$root.reloadTime=$root.utils.getNowTime();modifiedCallBack(addressData.id);$root.modal.closeAll();"
+        callback="$root.modal.closeAll();"
         form-validator>
+        <div class="bb-line-gold pr-bg-black2 min-h-l">
+            <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">新增联系人</h1>
+        </div>
     <div class="modal-body">
       <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label text-left">联系人</label>
+          <label class="col-lg-2 col-sm-2 control-label text-left">姓名：</label>
           <div class="col-lg-10 col-sm-10">
               <input type="text"
-                     class="form-control"
-                     placeholder="请填写联系人姓名"
+                     class="ipt pr-bg-black6 color-white"
+                     style="width:274px;"
+                     placeholder=""
                      ng-model="addressData.name"
                      name="name"
                      ng-pattern="/^.{1,10}$/"
@@ -23,10 +27,28 @@
                      placement="top"/>
           </div>
       </div>
+
       <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">手机</label>
+          <label class="col-lg-2 col-sm-2 control-label text-left">职务：</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写联系手机号码"  ng-model="addressData.tel"
+              <input type="text"
+                     class="ipt pr-bg-black6 color-white"
+                     style="width:274px;"
+                     placeholder=""
+                     ng-model="addressData.professionPosition"
+                     name="professionPosition"/>
+          </div>
+      </div>
+      <div class="form-group mgb">
+          <label class="col-lg-2 col-sm-2 control-label">电话：</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="ipt pr-bg-black6 color-white" style="width:274px;" placeholder=""  ng-model="addressData.telephone"/>
+          </div>
+      </div>
+      <div class="form-group mgb">
+          <label class="col-lg-2 col-sm-2 control-label">手机：</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="ipt pr-bg-black6 color-white" style="width:274px;" placeholder=""  ng-model="addressData.tel"
               maxlength="11"
                name="tel"
               ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
@@ -36,51 +58,9 @@
           </div>
       </div>
       <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">省/市/区</label>
+          <label class="col-lg-2 col-sm-2 control-label">电子邮箱：</label>
           <div class="col-lg-10 col-sm-10">
-            <input class="form-control"
-                   ng-init="province_city_area=addressData.prov+' '+addressData.city+' '+addressData.area"
-                   select-address p="addressData.prov" c="addressData.city" a="addressData.area" d="d" ng-model="province_city_area" placeholder="请选择省/市/区" type="text"
-                   required/>
-          </div>
-      </div>
-      <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">详细地址</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text"
-                     class="form-control"
-                     placeholder="详细收货地址"
-                     ng-model="addressData.address"
-                     name="address"
-                     ng-pattern="/^.{1,50}$/"
-                     data-content="详细地址信息过长"
-                     invalid-popover="{{customerAddress_contact_editForm.address.$invalid}}"
-                     placement="top"/>
-          </div>
-      </div>
-      <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">邮编</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写邮编"  ng-model="addressData.zipCode"/>
-          </div>
-      </div>
-      <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">座机号码</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写座机号码"  ng-model="addressData.telephone"/>
-          </div>
-      </div>
-      <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">传真号码</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写传真号码"  ng-model="addressData.fax" />
-          </div>
-      </div>
-      <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label">电子邮箱</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写电子邮箱" name="email"  ng-model="addressData.email"
-
+              <input type="text" class="ipt pr-bg-black6 color-white" style="width:274px;" placeholder="" name="email"  ng-model="addressData.email"
                name="email"
               ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ "
               data-content="请填写正确的电子邮箱"
@@ -90,15 +70,45 @@
       </div>
 
       <div class="form-group mgb">
-          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <label class="col-lg-2 col-sm-2 control-label">省/市/区：</label>
           <div class="col-lg-10 col-sm-10">
-            <input type="button"
-                   class="btn pr-btn-create-glodbg"
-                   value="提交"
-                   ng-click="submitAdress('firstEnterpriseApplication');"
-                   ng-disabled="!addressData.name || !addressData.tel || !addressData.address || !province_city_area">
+            <input class="ipt pr-bg-black6 color-white"
+                    style="width:274px;"
+                   ng-init="province_city_area=addressData.prov+' '+addressData.city+' '+addressData.area"
+                   select-address p="addressData.prov" c="addressData.city" a="addressData.area" d="d" ng-model="province_city_area" placeholder="" type="text"
+                   required/>
           </div>
       </div>
+      <div class="form-group mgb">
+          <label class="col-lg-2 col-sm-2 control-label">详细地址：</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text"
+                     class="ipt pr-bg-black6 color-white"
+                     style="width:274px;"
+                     placeholder=""
+                     ng-model="addressData.address"
+                     name="address"
+                     ng-pattern="/^.{1,50}$/"
+                     data-content="详细地址信息过长"
+                     invalid-popover="{{customerAddress_contact_editForm.address.$invalid}}"
+                     placement="top"/>
+          </div>
+      </div>
+      <div class="form-group mgb">
+          <label class="col-lg-2 col-sm-2 control-label">备注：</label>
+          <div class="col-lg-10 col-sm-10">
+            <textarea class="pr-bg-black6 color-white" style="border:none;" name="note" rows="3" cols="43" ng-model="addressData.note">
+
+            </textarea>
+          </div>
+      </div>
+    </div>
+
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+        <button type="button" style="margin-left:250px;"
+          class="pr-btn-create-glodbg new-left-side-button"
+          ng-click="submitAdress('firstEnterpriseApplication');"
+          ng-disabled="!addressData.name || !addressData.tel || !addressData.address || !province_city_area">确定</button>
     </div>
   </form>
 </div>
