@@ -2,7 +2,7 @@
     ng-controller="QualificationApplyCtrl"
     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
     scope-data="formData"
-    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];"
+    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];formData.enterFlag=mainStatus.pageParams.isEnter;"
     alert-error>
 
     <div  ng-if="$root.uiTabs.current.name != '供应商管理'"  class="header-info relative mgb-l">
@@ -18,8 +18,8 @@
         <div class="pd-c-xxl pdt-l pdb-l">
             <!-- 标题 -->
             <div class="mgb-l">
-              <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营企业</h1>
-              <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营企业</h1>
+              <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
+              <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
             </div>
         </div>
     </div>
@@ -44,11 +44,11 @@
     <!-- 主体内容 -->
     <div class="content-wrapper">
         <!-- 添加流程导航 -->
-    <div ng-if="!mainStatus.pageParams.isEnter"  step-flow-arrow-show
+    <div ng-if="!formData.enterFlag"  step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
 
-    <div ng-if="mainStatus.pageParams.isEnter" step-flow-arrow-show
+    <div ng-if="formData.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"},{"arrowText":"录入已审核的首营企业","className":"unactive"}]'>
     </div>
 
@@ -247,8 +247,8 @@
                 <div class="pr-bg-white">
                   <div class="address-div color-black relative flex-column"
                        ng-repeat="tr in formData.contacts">
-                    <span class="text-left flex-item-1">{{tr.name}}</span>
-                    <span class="text-left flex-item-1">职务（暂时写死）</span>
+                    <span class="text-left flex-item-1" style="text-indent:13px;">{{tr.name}}</span>
+                    <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
                     <span class="text-left flex-item-1">{{tr.telephone}}</span>
                     <span class="text-left flex-item-1">{{tr.tel}}</span>
                     <span class="text-left flex-item-2">{{tr.email}}</span>
@@ -257,7 +257,7 @@
                       <a ng-if="tr.isDefault!=true" class="mgl-m set-defualt-text" ng-click="setDefault(formData.contacts);tr.isDefault=true;">设为默认</a>
                       <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
                     </span>
-                    <span class="text-left flex-item-2">备注（暂时写死）</span>
+                    <span class="text-left flex-item-2">{{tr.note}}</span>
                     <span class="pos-abs posr">
                       <a ng-if="returnAddressObj.defaultContactId!==tr.id"
                          handle-this-click
