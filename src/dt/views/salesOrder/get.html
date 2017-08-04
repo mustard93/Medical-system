@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="initFlag=true;formData={};showData.id=showData.id;"
+     callback="initFlag=true"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -25,15 +25,6 @@
   </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper">
-    <!-- <div class="pr-panel pr-panel-height mgb pd-n" style="background-color:rgba(248,248,248,1);">
-
-      <div class="inline-block customer-name relative pr-bg-white">
-        <p class="mgb-s">客户名</p>
-        <p class="text-n color-black" style="padding-right:182px;">
-          {{showData.customerName || '暂无'}}
-        </p>
-      </div>
-    </div> -->
     <div class="">
       <div class="inline-block mgr">
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:84px;">
@@ -45,7 +36,6 @@
         </div>
       </div>
     </div>
-    <!-- <p class="mgb-l text-n color-3 text-bold">{{showData.customerName}}</p> -->
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb-m">
@@ -54,48 +44,17 @@
           <span class="mgr-m color-9">单据日期：<span class="color-6">{{showData.orderDate | date:'yyyy-MM-dd'}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
-          <!--<span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>-->
-          <!--<span class="mgr-l">系统编号：<em class="color-3">{{showData.orderNo || "暂无"}}</em></span>-->
           <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-
         </div>
       </div>
-
       <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
-        <div>
-          <span class="mgr-l color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span>
-        </div>
-        <div  ng-if="showData.orderSource=='线上订单'||showData.orderSource=='手工自建'">
-        <span class="mgr-l color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span>
+        <div><span class="mgr-l color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span></div>
+        <div ng-if="showData.orderSource=='线上订单'||showData.orderSource=='手工自建'"><span class="mgr-l color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span></div>
+        <div><span class="mgr-l color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span></div>
+        <div><span class="mgr-l color-9">业务人员：<span class="color-6">{{showData.saleUser.n || "暂无"}}</span></span></div>
+        <div><span class="mgr-l color-9">要求到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span></div>
+        <div class="flex-item-8 text-right"></div>
       </div>
-
-        <!--<div class="flex-item-2">-->
-          <!--<span class="mgr-m color-9">来源部门：<span class="color-6">采购部 {{showData.orderNo}}</span></span>-->
-        <!--</div>-->
-        <div>
-          <span class="mgr-l color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span>
-        </div>
-        <div>
-          <span class="mgr-l color-9">业务人员：<span class="color-6">{{showData.saleUser.n || "暂无"}}</span></span>
-        </div>
-        <div>
-          <span class="mgr-l color-9">要求到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
-        </div>
-        <div class="flex-item-8 text-right">
-
-          <!-- <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-          <span class="mgr-xl color-9">状态：
-            <a ng-if="initFlag"
-               href="javascript:;"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{showData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
-          </span> -->
-        </div>
-      </div>
-
-
       <!-- 未处理药械清单 -->
       <div class="confirm-order bb-line">
         <table ng-if="showData.orderSource=='手工自建'" class="table pr-table pr-new-table">
@@ -111,8 +70,8 @@
               <th class="text-center">价税合计</th>
             </tr>
           </thead>
-          <tbody ng-if="showData.iOrderMedicalNos.length>0">
-            <tr ng-repeat="item in showData.iOrderMedicalNos">
+          <tbody ng-if="showData.orderMedicalNos.length>0">
+            <tr ng-repeat="item in showData.orderMedicalNos track by $index">
               <td class="text-center">{{item.code}}</td>
               <td>
                 <span
@@ -142,7 +101,7 @@
             <tr>
               <th class="text-center">序号</th>
               <th class="text-center">商品编号</th>
-              <th class="text-left">商品全名</th>
+              <th class="text-left">商品通用名</th>
               <th class="text-center">商品规格</th>
               <th class="text-center">基本单位</th>
               <th class="text-center">计划采购数量</th>
@@ -155,7 +114,20 @@
             <tr ng-repeat="item in showData.orderMedicalNos">
               <td class="text-center">{{$index+1}}</td>
               <td class="text-center">{{item.code}}</td>
-              <td class="text-left">{{item.name}}</td>
+              <td class="text-left">
+                <span
+                     class="color-orange cur-pot lend-order-goods-info"
+                     ng-init="showInfoArea=false"
+                     ng-mouseenter="showInfoArea=true"
+                     ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                  <show-info-modal ng-show="showInfoArea"
+                                   get-data-type="local"
+                                   template-url="tpl/showInfoModalLendOrder"
+                                   info-object="{{item}}"
+                                   info-title="商品信息">
+                  </show-info-modal>
+                </span>
+              </td>
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-center">{{item.quantity}}</td>
@@ -181,57 +153,27 @@
         <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
       </p>
     </div>
-
-
-    <!-- 收货方信息 -->
-    <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">
-      <header class="text-n color-3 text-bold">收货方信息
-        <span class="tools pull-right">
-          <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-        </span>
-      </header>
-      <div class="panel-body" style="display:none;padding:15px 0;">
-        <p class="">
-          {{showData.customerContacts.name}}&nbsp;&nbsp;{{showData.customerContacts.tel}}&nbsp;&nbsp;{{showData.customerContacts.prov}}&nbsp;&nbsp;{{showData.customerContacts.city}}&nbsp;&nbsp;{{showData.customerContacts.area}}&nbsp;&nbsp;{{showData.customerContacts.address}}
-        </p>
-      </div>
-    </div> -->
-    <!-- 发货方信息 -->
-    <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-      <header class="text-n color-3 text-bold">发货方信息
-        <span class="tools pull-right">
-          <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-        </span>
-      </header>
-      <div class="panel-body" style="display:none;padding:15px 0;">
-        <p class="">
-          {{showData.invoicesContacts.name}}&nbsp;&nbsp;{{showData.invoicesContacts.tel}}&nbsp;&nbsp;{{showData.invoicesContacts.prov}}&nbsp;&nbsp;{{showData.invoicesContacts.city}}&nbsp;&nbsp;{{showData.invoicesContacts.area}}&nbsp;&nbsp;{{showData.invoicesContacts.address}}
-        </p>
-      </div>
-    </div> -->
     <!-- 备注 -->
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
       <h1 class="text-bold color-3">备注</h1>
       <p>{{showData.note}}</p>
     </div>
     <!-- 已生成销售单部分 -->
-    <table-list ng-if="showData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{showData.id}}">
-      <h1  class="pdb-m color-3 text-n text-bold">已生成销售单部分</h1>
-      <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height clearfix" style="padding-bottom: 0;">
+    <div ng-if="showData.id" ajax-url="rest/authen/confirmOrder/getListByRelId.json?relId={{showData.id}}" scope-data="iTbodyList">
+      <h1 class="pdb-m color-3 text-n text-bold">已生成销售单部分</h1>
+      <div ng-repeat="iShowData in iTbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height clearfix pdb-0-important">
         <header class="text-n color-3 flex-column mgb-m">
-          <span class="flex-item-10">
+          <span class="flex-item-6">
             <div class=" color-9 text-s">
-              <!--<span class="mgr-l">系统编号：<em class="color-6">{{showData.orderNo}}</em></span>-->
-              <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
-              <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-6">{{iShowData.inputUser.n}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-6">{{iShowData.approver.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">制单时间：<em class="text-normal color-6">{{iShowData.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
             </div>
           </span>
-          <span class="tools pull-right flex-item-1">
+          <span class="tools pull-right text-right flex-item-6">
             <div class=" color-9 text-s mgt-s inline-block">
-
-              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+              <span ng-if="iShowData.orderStatus!='已作废'">状态：<em class="color-6">{{iShowData.orderStatus}}</em></span>
+              <span ng-if="iShowData.orderStatus=='已作废'">状态：<em class="color-red">{{iShowData.orderStatus}}</em></span>
             </div>
             <a ng-href="javascript:;" class="fa fa-chevron-down" toggle-panel toggle-checked="true" style="float:right"></a>
           </span>
@@ -245,65 +187,43 @@
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">数量</th>
-                <!-- <th class="text-center w-110">批号要求</th> -->
                 <th class="text-center">生产批号</th>
                 <th class="text-center">灭菌批号</th>
                 <th class="text-center">报价</th>
-                <!-- <th class="text-center">税率</th>
-                <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th> -->
                 <th class="text-center">含税单价</th>
-                <!-- <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th> -->
-                <!-- <th class="text-center">税额</th> -->
                 <th class="text-center">价税合计</th>
               </tr>
             </thead>
-            <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
-              <tr ng-repeat="item in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                <td class="text-center">{{item.code}}</td>
+            <tbody ng-if="iTbodyList.length" class="bg-white">
+              <tr ng-repeat="iItem in iShowData.orderMedicalNos track by $index">
+                <td class="text-center">{{iItem.code}}</td>
                 <td>
-                <span
-                        class="color-orange cur-pot lend-order-goods-info"
+                  <span class="color-orange cur-pot lend-order-goods-info"
                         ng-init="showInfoArea=false"
                         ng-mouseenter="showInfoArea=true"
-                        ng-mouseleave="showInfoArea=false">{{item.approvedName}}
-                  <show-info-modal ng-show="showInfoArea"
-                                   get-data-type="local"
-                                   template-url="tpl/showInfoModalLendOrder"
-                                   info-object="{{item}}"
-                                   info-title="商品信息">
-                  </show-info-modal>
-                </span>
+                        ng-mouseleave="showInfoArea=false">{{iItem.approvedName}}
+                    <show-info-modal ng-show="showInfoArea"
+                                     get-data-type="local"
+                                     template-url="tpl/showInfoModalLendOrder"
+                                     info-object="{{iItem}}"
+                                     info-title="商品信息">
+                    </show-info-modal>
+                  </span>
                 </td>
-                <td class="text-center">{{item.specificationAndModelType}}</td>
-                <td class="text-center">{{item.unit}}</td>
-                <td class="text-right">{{item.quantity}}</td>
-                <!-- <td class="text-center">{{item.batchRequirement}}</td> -->
-                <td class="text-center">{{item.productionBatch}}</td>
-                <td class="text-center">{{item.sterilizationBatchNumber}}</td>
-                <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                <!-- <td class="text-right">{{item.tax}}%</td>
-                <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                <td class="text-right">{{item.discountRate}}%</td> -->
-                <td class="text-right">￥{{item.duty_price | number:2}}</td>
-                <!-- <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.duty_price, item.discountRate, item.tax) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td> -->
-                <!-- <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item.duty_price, item.discountRate, item.tax, item.quantity) | number:2}}</td> -->
-                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.duty_price, item.discountRate, item.quantity) | number:2}}</td>
-
-
-                <!--<td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>-->
-                <!--<td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>-->
-                <!--<td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>-->
-                <!--<td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>-->
-                <!--<td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>-->
+                <td class="text-center">{{iItem.specificationAndModelType}}</td>
+                <td class="text-center">{{iItem.unit}}</td>
+                <td class="text-right">{{iItem.quantity}}</td>
+                <td class="text-center">{{iItem.productionBatch}}</td>
+                <td class="text-center">{{iItem.sterilizationBatchNumber}}</td>
+                <td class="text-right">￥{{iItem.strike_price | number:2}}</td>
+                <td class="text-right">￥{{iItem.duty_price | number:2}}</td>
+                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(iItem.duty_price, iItem.discountRate, iItem.quantity) | number:2}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    <table-list>
+    </div>
   </div>
   <!-- 流程图 -->
   <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
@@ -342,4 +262,3 @@
     </div>
   </div>
 </div>
-<!-- ajax-url="rest/authen/salesOrder/confirmPurchasePlanOrder.json?id={{showData.id}}" -->

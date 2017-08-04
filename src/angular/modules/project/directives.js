@@ -98,6 +98,7 @@ define('project/directives', ['project/init'], function () {
     附件文件显示
     attachmentsExtend={"edit":true}
     edit：是否可编辑
+    资质证照
   */
   function attachmentsItemShow() {
     return {
@@ -111,9 +112,29 @@ define('project/directives', ['project/init'], function () {
     };
   }
   /**
+    附件文件显示
+    eAttachmentsExtend={"edit":true}
+    edit：是否可编辑
+    电子档案
+  */
+  function eAttachmentsItemShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          eAttachmentsItemExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/eAttachmentsItemShow.html'
+    };
+  }
+
+
+  /**
     附件列表-只读显示
     attachmentsExtend={"title":"审核资料"}
     title：显示标题
+    资质证照
   */
   function attachmentsShow() {
     return {
@@ -127,11 +148,30 @@ define('project/directives', ['project/init'], function () {
     };
   }
   /**
+    附件列表-只读显示
+    attachmentsExtend={"title":"审核资料"}
+    title：显示标题
+    电子档案
+  */
+  function eAttachmentsShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          eAttachmentsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/eAttachmentsShow.html'
+    };
+  }
+
+  /**
     附件列表-编辑
     attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}
     title：显示标题
     usege：上传附件用途说明
     addFlag：是否允许添加额外附件
+    资质证照
   */
   function attachmentsEdit() {
     return {
@@ -142,6 +182,25 @@ define('project/directives', ['project/init'], function () {
       },
       replace: true,
       templateUrl:  Config.tplPath +'tpl/project/attachmentsEdit.html'
+    };
+  }
+  /**
+    附件列表-编辑
+    attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}
+    title：显示标题
+    usege：上传附件用途说明
+    addFlag：是否允许添加额外附件
+    电子档案
+  */
+  function eAttachmentsEdit() {
+    return {
+      restrict: 'EA',
+      scope: {
+          eAttachmentsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/eAttachmentsEdit.html'
     };
   }
 
@@ -1590,12 +1649,12 @@ function customTableToggleSort (modal,utils,requestData) {
         // 把当前样式进行改变.
         if (count%2) {
           $(this).children('i').removeClass('arrow-sort');
-          $(this).children('i').removeClass('sort-desc');
-          $(this).children('i').addClass('sort-asc');
-        }else {
-          $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
+        }else {
+          $(this).children('i').removeClass('arrow-sort');
+          $(this).children('i').removeClass('sort-desc');
+          $(this).children('i').addClass('sort-asc');
         }
 
       });
@@ -2453,8 +2512,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?",
-            "listObject": "=?"
+            "ngDisabled": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
@@ -2475,7 +2533,8 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
-                $scope.listObject.name = value.data.name;
+
+              //  $scope.listObject.name = value.data.name;
               }, true);
             }
 
@@ -3263,6 +3322,9 @@ function addressManageComponent (requestData, utils) {
   };
 }
 
+
+
+
 /**
  * [expressManageComponent 物流信息组件]
  * @param  {[type]} requestData [注入项]
@@ -3614,7 +3676,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
 
-          if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
+        if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
@@ -3842,9 +3904,12 @@ angular.module('manageApp.project')
   .directive("htmlEdit", [ htmlEdit]) //html-edit
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
-  .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
-  .directive("attachmentsShow", [attachmentsShow])//附件只读显示
-  .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
+  .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示（资质证照）
+  .directive("eAttachmentsItemShow", [eAttachmentsItemShow])//附件文件显示（电子档案）
+  .directive("attachmentsShow", [attachmentsShow])//附件只读显示（资质证照）
+  .directive("eAttachmentsShow", [eAttachmentsShow])//附件只读显示（电子档案）
+  .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑（资质证照）
+  .directive("eAttachmentsEdit", [eAttachmentsEdit])//附件上传编辑（电子档案）
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
   .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面卡片式菜单
   .directive("queryItemTableButtonList", [queryItemTableButtonList])//查询页面table菜单

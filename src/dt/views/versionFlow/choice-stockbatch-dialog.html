@@ -115,13 +115,14 @@
             >
                 <td class="text-center">
                     <!--{{test}}-->
-                    <!---->
-                    <label class="radio radio-new">
+                    <!--ng-disabled 有bug，偶尔出现先 true后false情况下，ng-disabled=false，时，disabled 还是 存在，导致不能执行ng-click选择批号的问题。在span上增加ng-click-->
+                    <label class="radio radio-new"
+                      ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id,listObject);"
+                    >
                         <input type="radio"
                                name="medicals"
                                class="default-radio"
                                ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"
-                               ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id); modal.closeAll()"
                                ><i></i>
                     </label>
                 </td>

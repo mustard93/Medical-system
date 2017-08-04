@@ -2,9 +2,10 @@
     ng-controller="QualificationApplyCtrl"
     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
     scope-data="formData"
-    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];"
+    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];formData.enterFlag=mainStatus.pageParams.isEnter;"
     alert-error>
-    <div class="header-info relative mgb-l">
+
+    <div  ng-if="$root.uiTabs.current.name != '供应商管理'"  class="header-info relative mgb-l">
         <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
             <a
             tab-nav
@@ -17,8 +18,25 @@
         <div class="pd-c-xxl pdt-l pdb-l">
             <!-- 标题 -->
             <div class="mgb-l">
-              <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营企业</h1>
-              <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营企业</h1>
+              <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
+              <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
+            </div>
+        </div>
+    </div>
+    <div  ng-if="$root.uiTabs.current.name == '供应商管理'"  class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+            <a
+                    tab-nav
+                    tab-name='供应商管理'
+                    tab-href="#/supplier/query.html">
+                <em class="color-custom-orange">供应商管理</em>
+            </a>
+            <em>>首营企业申请</em>
+        </p>
+        <div class="pd-c-xxl pdt-l pdb-l">
+            <!-- 标题 -->
+            <div class="mgb-l">
+                <h1 class="color-black pr-font-20">首营企业申请</h1>
             </div>
         </div>
     </div>
@@ -26,11 +44,11 @@
     <!-- 主体内容 -->
     <div class="content-wrapper">
         <!-- 添加流程导航 -->
-    <div ng-if="!mainStatus.pageParams.isEnter"  step-flow-arrow-show
+    <div ng-if="!formData.enterFlag"  step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
 
-    <div ng-if="mainStatus.pageParams.isEnter" step-flow-arrow-show
+    <div ng-if="formData.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"},{"arrowText":"录入已审核的首营企业","className":"unactive"}]'>
     </div>
 
@@ -96,7 +114,7 @@
                         <div class="flex-item-10 text-left">
                           <input type="text"
                                  class="ipt ipt-new"
-                                 ng-model="formData.legalUser"
+                                 ng-model="formData.legalUser.n"
                             >
                         </div>
                     </div>
@@ -145,7 +163,7 @@
                     <div class="flex-column mgt">
                         <label class="flex-item-2 text-right control-label">分管业务人员：</label>
                         <div class="flex-item-10 text-left">
-                            <input type="text" class="ipt-new" name="name" ng-model="formData.branchUser" />
+                            <input type="text" class="ipt-new" name="name" ng-model="formData.branchUser.n" />
                         </div>
                     </div>
 
@@ -202,7 +220,7 @@
                     </div>
 
                     <div class="color-href cur-pot mgl-m inline-block"
-                          modal-right="500"
+                          modal-right="470"
                           modal-scope="this"
                           modal-data='{"businessScope":{{formData.businessScope}}}'
                           modal-url="views/firstEnterpriseApplication/rightSide/select-business-scope.html">
@@ -211,60 +229,63 @@
                   </div>
                 </div>
                 </div>
-                <div class=" bt-dashed-line mgb">
-                    <h1 class=" mgt mgb-m color-black text-bold text-n">联系人</h1>
-                    <div>
-                      <div class="consignee-info relative">
-                        <div class="address-div color-black relative"
-                             ng-class="{'addressComponent-active-bg':returnAddressObj.defaultContactId==tr.id}"
-                             ng-repeat="tr in returnAddressObj.contacts">
-                          <label ng-if="returnAddressObj.contacts.length>1" class="radio">
-                            <input type="radio"
-                                   class="default-radio"
-                                   name="{{scopeDataPrefix}}"
-                                   ng-checked="chkDefaultChoise(tr)"
-                                   ng-click="choiseOtherItem(tr,requestDataId)"><i></i>
-                          </label>
-                          <span class="pdb mgr-s">{{tr.name}}</span>
-                          <span class="text-s mgr-s">{{tr.tel}}</span>
-                          <span class="text-s mgr-s">{{tr.prov}}&nbsp;{{tr.city}}&nbsp;{{tr.area}}</span>
-                          <span class="address-span" title="{{tr.address}}">{{tr.address}}
-                            <a ng-if="returnAddressObj.defaultContactId!=tr.id" class="mgl-m set-defualt-text" ng-click="setThisAddressToDefault(tr.id);$root.reloadTime=$root.utils.getNowTime();">设为默认</a>
-                            <i class="consignee-default-label mgl-m" ng-if="returnAddressObj.defaultContactId==tr.id">默认</i>
-                          </span>
-                          <span class="pos-abs posr">
-                            <a ng-if="returnAddressObj.defaultContactId!==tr.id"
-                               handle-this-click
-                               dialog-title="确认删除?"
-                               dialog-content="确认删除?"
-                               dialog-template="pr-dialog-submit.html"
-                               callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
-                               emitted="reloadAddressList"
-                               params='{"contactId":"{{tr.id}}","customerAddressId":"{{returnAddressObj.id}}","type":"{{createAddressType}}"}'
-                               request-url="{{delThisAddressRequesturl}}">删除
-                            </a>
-                            <a class="mgl" href="javacript:;"
-                               modal-right="600"
-                               modal-data='{{getCurrentIndexAddress($index)}}'
-                               modal-scope="this"
-                               modal-url="{{modifyModalUrl}}">修改
-                            </a>
-                          </span>
-                        </div>
-                        <div class="pd-c-l mgt mgb">
-                        <span  class="cur-pot color-href"
-                                modal-right="600"
-                                modal-data='{{returnCreateNewAddressObj()}}'
-                                modal-scope="this"
-                                modal-url="views/firstEnterpriseApplication/rightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
-                        </span>
-                      </div>
-                      </div>
-                    </div>
-
-                </div>
             </div>
-            <!-- <div class="color-black mgt-l" style="min-height:150px;">
+            <div class="mgb mgt-l">
+              <div class="pd-c-v-l pr-bg-white ">
+                  <h1 class="color-black text-bold text-n">联系人</h1>
+              </div>
+              <div class="">
+                <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+                  <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
+                  <span class="pd-s text-left flex-item-1">职务</span>
+                  <span class="pd-s text-left flex-item-1">电话</span>
+                  <span class="pd-s text-left flex-item-1">手机</span>
+                  <span class="pd-s text-left flex-item-2">电子邮箱</span>
+                  <span class="pd-s text-left flex-item-4">联系地址</span>
+                  <span class="pd-s text-left flex-item-2">备注</span>
+                </div>
+                <div class="pr-bg-white">
+                  <div class="address-div color-black relative flex-column"
+                       ng-repeat="tr in formData.contacts">
+                    <span class="text-left flex-item-1" style="text-indent:13px;">{{tr.name}}</span>
+                    <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
+                    <span class="text-left flex-item-1">{{tr.telephone}}</span>
+                    <span class="text-left flex-item-1">{{tr.tel}}</span>
+                    <span class="text-left flex-item-2">{{tr.email}}</span>
+                    <span class="address-span text-left flex-item-4" title="{{tr.address}}">
+                      <em class="mgr">{{tr.prov}}</em><em class="mgr">{{tr.city}}</em><em class="mgr">{{tr.area}}</em><em class="mgr">{{tr.address}}</em>
+                      <a ng-if="tr.isDefault!=true" class="mgl-m set-defualt-text" ng-click="setDefault(formData.contacts);tr.isDefault=true;">设为默认</a>
+                      <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
+                    </span>
+                    <span class="text-left flex-item-2">{{tr.note}}</span>
+                    <span class="pos-abs posr">
+                      <a ng-if="returnAddressObj.defaultContactId!==tr.id"
+                         handle-this-click
+                         dialog-title="确认删除?"
+                         dialog-content="确认删除?"
+                         dialog-template="pr-dialog-submit.html"
+                         callback="formData.contacts.splice($index,1);$root.modal.closeAll();">删除
+                      </a>
+                      <a class="mgl" href="javacript:;"
+                         modal-right="456"
+                         modal-data='{"contact":{{tr}}}'
+                         modal-scope="this"
+                         modal-url="views/firstEnterpriseApplication/rightSide/add-contact.html">修改
+                      </a>
+                    </span>
+                  </div>
+                  <div class="pd-c-v-l mgb">
+                  <span  class="cur-pot color-href"
+                          modal-right="456"
+                          modal-data='{}'
+                          modal-scope="this"
+                          modal-url="views/firstEnterpriseApplication/rightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
+                  </span>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-black mgt-l" style="min-height:150px;">
                 <p>
                     <p class="pr-font-14">说明：</p>
                     <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
@@ -272,7 +293,7 @@
                     <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
                     <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
                 </p>
-            </div> -->
+            </div>
             <!-- 功能按钮 -->
             <div class="handle-btn-area relative">
                 <div class="mgb text-right btn-area">
