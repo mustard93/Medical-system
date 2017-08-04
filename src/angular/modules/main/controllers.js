@@ -11,7 +11,7 @@ define('main/controllers', ['main/init'], function () {
   function tabCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
-        console.log("tabCtrl",$scope.mainStatus);
+        // console.log("tabCtrl",$scope.mainStatus);
         modal.close();
   }
     /**

@@ -15,22 +15,28 @@
             callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="relative ">
       <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>
-      <div class="pr-panel-height select-bg" style="padding:15px 0;"
-           ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType"
-           scope-data="licenseData">
-            <label class="flex-item-2 text-right pdr-s mgl-s">证照类型</label>
-            <div class="mgl-s text-left"
-                 angucomplete-supplier
-                 placeholder=""
-                 title-field="value"
-                 search-fields="{{licenseData.value}}"
-                 url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType&isFilterDefault=true"
-                 ng-model="tmp_customer"
-                 ng-model-id="filterObject.value"
-                 class="inline-block text-s" style="height:28px;">
-                </div>{{tmp_customer}}
-            </div>
-        </div>
+      <div class="pr-panel-height select-bg" style="padding:15px 0;">
+        <label class="flex-item-2 text-right pdr-s mgl-s">证照类型</label>
+        <select class="ipt ipt-new-select color-3"
+                data-placeholder=" "
+                default-empty="全部"
+                chosen
+                style="width:220px"
+                ng-model="formData.logisticsCenterId"
+                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">
+        </select>
+          <!-- <div class="mgl-s text-left"
+               angucomplete-supplier
+               placeholder=""
+               title-field="value"
+               search-fields="{{licenseData.value}}"
+               url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType"
+               ng-model="tmp_customer"
+               ng-model-id="filterObject.value"
+               class="inline-block text-s" style="height:28px;">
+          </div> -->
+      </div>
+    </div>
 
 
 
