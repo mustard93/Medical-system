@@ -193,7 +193,7 @@
 </div>
 <!-- 资质证照 -->
 <div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
-  <h1 class="pr-font-18 mgb">
+  <h1 class="pr-font-14 color-3 text-blod mgb">
     资质证照
   </h1>
   <p>
@@ -205,7 +205,7 @@
   </div>
   <!-- 电子档案 -->
 <div ng-if="!showData.eAttachments.length" class="panel pr-panel pr-panel-height mgb">
-  <h1 class="pr-font-18 mgb">
+  <h1 class="pr-font-14 color-3 text-blod mgb">
     电子档案
   </h1>
   <p>
@@ -227,15 +227,21 @@
             tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
           </span>
         <span ng-if="showData.didateFilter.buttons.length>0" custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
-          </span>
+        </span>
     </div>
 </div>
 <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
     <div class="mgb text-right btn-area">
-        <span class="mgl"><a
+        <span class="mgl" ng-if="!showData.enterFlag"><a
           tab-nav
           tab-name='首营企业管理'
           tab-href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+
+        <span class="mgl" ng-if="showData.enterFlag"><a
+          tab-nav
+          tab-name='首营企业管理'
+          tab-href="#/firstEnterpriseApplication/edit-step-4.html?id={{showData.id}}">返回修改</a></span>
+
         <span class="mgl">
               <a ng-if="showData.id && showData.proposerName==mainStatus.name"
                  href="javascript:;"

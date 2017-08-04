@@ -1,0 +1,84 @@
+<div class="panel pr-panel pr-panel-height mgb">
+  <h1 class="pr-font-14 mgb color-3 text-bold">{{auditContactsExtend.title||"审核人"}}</h1>
+
+  <div style="margin-bottom:50px;">
+
+    <div class="mgt" style="border-top:2px solid #fff;margin-bottom:80px;">
+      <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
+        <a class="relative"
+        ng-click="addFlag=true;
+        auditContacts.canDeleteFlag=true;
+        auditContacts.handleCreate=true;
+        auditContacts.showFlag=true;
+        ngModel.push(auditContacts);
+        auditContacts={};"
+         href="javascript:;"><i></i><span class="text-s">增加审核人</span></a>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
+            <th class="w-60"></th>
+            <th>序号</th>
+            <th>审核人</th>
+            <th>部门</th>
+            <th>审核时间</th>
+            <th>补充说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line"
+          ajax-if-eval="userData.id"
+          ajax-url="rest/authen/userAndOrganization/getByUserId?userId={{userData.id}}"
+          scope-data="departmentData"
+          alert-error
+          callback="item.departmentName=departmentData.departmentName;item.name=userData.title;">
+          <td>
+            <span class="delete-attachement-item cur-pot" ng-click="ngModel.splice($index,1);"></span>
+          </td>
+          <!-- 选择checkbox  -->
+          <td>{{$index+1}}</td><!-- 序号  -->
+          <td class="inline-block mgr-s relative">
+            <span
+                   angucomplete
+                   placeholder=""
+                   title-field="name"
+                   url="rest/authen/user/query"
+                   class="span-input"
+                   search-str="{{item.name}}"
+                   ng-model="userData">
+            </span>
+            {{item.name}}
+            <i class="receive-item-icon" style="top:15px;right:15px;"></i>
+          </td><!-- 审核人  -->
+          <td >{{item.departmentName}}</td><!-- 部门  -->
+          <!-- 证书编号  -->
+          <td>
+            <div class="date-icon-outside">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt ipt-new-s ipt-att color-6"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="item.createAt"
+                     style="width:148px;"
+                     >
+                    <span class="date-icon"></span>
+            </div>
+          </td><!-- 审核时间 -->
+          <td>
+            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-model="item.note"></textarea>
+          </td><!-- 备注  -->
+
+        </tr>
+      </tbody>
+    </table>
+    <div ng-if="!ngModel.length">
+      <div class="empty-div clearfix">
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</div>

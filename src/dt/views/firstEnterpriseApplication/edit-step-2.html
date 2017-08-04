@@ -17,15 +17,15 @@
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 ng-if="!mainStatus.pageParams.isEnter" class="color-black pr-font-20">新建首营企业</h1>
-           <h1 ng-if="mainStatus.pageParams.isEnter" class="color-black pr-font-20">录入已审核的首营企业</h1>
+           <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
+           <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
          </div>
        </div>
      </div>
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div ng-if="!mainStatus.pageParams.isEnter"
+    <div ng-if="!formData.enterFlag"
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
@@ -33,7 +33,7 @@
     {"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
 
-    <div ng-if="mainStatus.pageParams.isEnter"
+    <div ng-if="formData.enterFlag"
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
@@ -123,7 +123,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                  ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit1.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
+                  ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit1.html?id='+formData.id+'&enterFlag=true','tabName':'首营企业管理'})">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
