@@ -113,7 +113,7 @@ define('project/directives', ['project/init'], function () {
   }
   /**
     附件文件显示
-    eAttachmentsExtend={"edit":true}
+    attachmentsExtend={"edit":true}
     edit：是否可编辑
     电子档案
   */
@@ -128,6 +128,7 @@ define('project/directives', ['project/init'], function () {
       templateUrl:  Config.tplPath +'tpl/project/eAttachmentsItemShow.html'
     };
   }
+
 
 
   /**
@@ -185,6 +186,44 @@ define('project/directives', ['project/init'], function () {
     };
   }
   /**
+    录入审核人-编辑
+    auditContactsExtend={"title":"首营企业审核人","usege":"首营企业申请","addFlag":true}
+    title：显示标题
+    usege：上传附件用途说明
+    addFlag：是否允许添加额外附件
+  */
+  function auditContactsEdit() {
+    return {
+      restrict: 'EA',
+      scope: {
+          auditContactsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/auditContactsEdit.html'
+    };
+  }
+
+  /**录入审核人显示
+    录入审核人-只读显示
+    auditContactsExtend={"title":"审核资料"}
+    title：显示标题
+    资质证照
+  */
+  function auditContactsShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          auditContactsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/auditContactsShow.html'
+    };
+  }
+
+
+  /**
     附件列表-编辑
     attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}
     title：显示标题
@@ -203,6 +242,34 @@ define('project/directives', ['project/init'], function () {
       templateUrl:  Config.tplPath +'tpl/project/eAttachmentsEdit.html'
     };
   }
+
+
+    /**
+      添加联系人模板-编辑
+    */
+    function addContactsEdit() {
+      return {
+        restrict: 'EA',
+        scope: {
+            ngModel: "="
+        },
+        replace: true,
+        templateUrl:  Config.tplPath +'tpl/project/addContactsEdit.html'
+      };
+    }
+    /**
+      添加联系人模板-显示
+    */
+    function addContactsShow() {
+      return {
+        restrict: 'EA',
+        scope: {
+            ngModel: "="
+        },
+        replace: true,
+        templateUrl:  Config.tplPath +'tpl/project/addContactsShow.html'
+      };
+    }
 
 /**
   药械订单列表
@@ -3959,6 +4026,10 @@ angular.module('manageApp.project')
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示（资质证照）
   .directive("eAttachmentsShow", [eAttachmentsShow])//附件只读显示（电子档案）
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑（资质证照）
+  .directive("addContactsEdit", [addContactsEdit])//首营模块，增加联系人（编辑）
+  .directive("addContactsShow", [addContactsShow])//首营模块，增加联系人（显示）
+  .directive("auditContactsEdit", [auditContactsEdit])//首营模块，录入审核人模块编辑。
+  .directive("auditContactsShow", [auditContactsShow])//首营模块，录入审核人模块显示。
   .directive("eAttachmentsEdit", [eAttachmentsEdit])//附件上传编辑（电子档案）
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
   .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面卡片式菜单

@@ -18,28 +18,21 @@
          <!-- 标题 -->
 
          <div class="mgb-l">
-           <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
-           <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
+           <h1 class="color-black pr-font-20">录入已审核的首营企业</h1>
          </div>
        </div>
      </div
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div ng-if="!formData.enterFlag"
+
+    <div
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
     {"arrowText":"申请原因","className":"visited"},
-    {"arrowText":"添加资质证书","className":"active"}]'>
-    </div>
-    <div ng-if="formData.enterFlag"
-    step-flow-arrow-show
-    step-flow-arrow-json=
-  '[{"arrowText":"基本信息","className":"visited"},
-    {"arrowText":"申请原因","className":"visited"},
-    {"arrowText":"添加资质证书","className":"active"},
-    {"arrowText":"录入已审核首营企业","className":"unactive"}]'>
+    {"arrowText":"添加资质证书","className":"visited"},
+    {"arrowText":"录入已审核首营企业","className":"active"}]'>
     </div>
 
     <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
@@ -48,7 +41,7 @@
             name="firstEnterpriseApplication_editForm_step1"
             form-validator
             parameter-body
-            action="rest/authen/firstEnterpriseApplication/saveAttachments?validateFlag=true"
+            action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validateFlag=true"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -69,13 +62,12 @@
                状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
-        <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营企业申请","addFlag":false}'
-        attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+        <!-- 录入审核人 -->
 
-        <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
-        e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
+        <div ng-init='auditContactsExtend={"title":"首营企业审核人","usege":"首营企业申请","addFlag":false}'
+        audit-contacts-edit ng-model="formData.auditContacts" audit-contacts-extend="auditContactsExtend" >
+      </div>
+
     </div>
 
     <div class="color-black mgt-l" style="min-height:150px;">
@@ -125,17 +117,11 @@
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-2.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
+          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-3.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
         </span>
-
-        <span class="mgl" ng-if="formData.enterFlag">
+        <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-          ng-click="formData.validFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','save');
-          $root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-4.html?id='+formData.id,'tabName':'首营企业管理'})">下一步</button>
-        </span>
-        <span class="mgl" ng-if="!formData.enterFlag">
-          <button class="pr-btn-save-glodbg mgt"
-                  ng-click="formData.attachmentsValidFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','submit')">预览申请单
+                  ng-click="formData.attachmentsValidFlag=true;formData.finishFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','submit')">预览申请单
           </button>
         </span>
       </div>

@@ -291,6 +291,17 @@ define('project/controllers-customerAddress', ['project/init'], function() {
       addDataItem.planQuantity;
       return true;
     };
+
+    // 设置联系人默认地址,传入联系人jason对象,把默认设置还原到没有默认的时候。
+    $scope.setDefault=function(_data){
+      if (_data.length) {
+        for (var i = 0; i < _data.length; i++) {
+          _data[i].isDefault=false;
+        }
+      }
+    }
+
+
   }
 
   angular.module('manageApp.project')

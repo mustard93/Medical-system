@@ -2,9 +2,8 @@
     ng-controller="QualificationApplyCtrl"
     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
     scope-data="formData"
-    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];formData.enterFlag=mainStatus.pageParams.isEnter;"
+    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];formData.enterFlag={{mainStatus.pageParams.enterFlag || false}}"
     alert-error>
-
     <div  ng-if="$root.uiTabs.current.name != '供应商管理'"  class="header-info relative mgb-l">
         <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
             <a
@@ -230,6 +229,10 @@
                 </div>
                 </div>
             </div>
+            <!-- 增加联系人 -->
+            <!-- {{formData.contacts}} -->
+            <!-- <div add-contacts-edit ng-model="formData.contacts"></div> -->
+
             <div class="mgb mgt-l">
               <div class="pd-c-v-l pr-bg-white ">
                   <h1 class="color-black text-bold text-n">联系人</h1>

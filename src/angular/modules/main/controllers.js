@@ -859,6 +859,7 @@ define('main/controllers', ['main/init'], function () {
                 }
               }
               $scope.formData.contacts.push(_data);
+              console.log($scope.formData.contacts);
               modal.closeAll();
             }
           })
