@@ -403,6 +403,22 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
      };
   }
 
+  /**
+   * [arrivalBarcodePrintDialogController 来货通知单模块中条码打印弹出层控制器]
+   * @method arrivalBarcodePrintDialogController
+   * @param  {[type]}                            $scope      [description]
+   * @param  {[type]}                            modal       [description]
+   * @param  {[type]}                            alertOk     [description]
+   * @param  {[type]}                            alertWarn   [description]
+   * @param  {[type]}                            alertError  [description]
+   * @param  {[type]}                            requestData [description]
+   * @return {[type]}                                        [description]
+   */
+  function arrivalBarcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData) {
+    
+  }
+
   angular.module('manageApp.project')
-  .controller('arrivalNoticeOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", arrivalNoticeOrderEditCtrl]);
+  .controller('arrivalNoticeOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", arrivalNoticeOrderEditCtrl])
+  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', arrivalBarcodePrintDialogController]);
 });
