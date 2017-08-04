@@ -6,7 +6,7 @@
      alert-error
      ng-init="formData.validFlag=false">
 
-  <div class="header-info relative mgb-l">
+  <div ng-if="$root.uiTabs.current.name != '批发/零售商管理'" class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
       <a tab-nav tab-name="批发/零售商资格申请" tab-href="#/otherCustomerApplication/query.html">
          <em class="color-custom-orange">客户管理</em>
@@ -20,6 +20,22 @@
       </div>
     </div>
   </div>
+
+  <div ng-if="$root.uiTabs.current.name == '批发/零售商管理'" class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+      <a tab-nav tab-name="批发/零售商资格申请" tab-href="#/otherCustomerManagement/query.html">
+        <em class="color-custom-orange">批发/零售商管理</em>
+      </a>
+      <em>>批发/零售商资格申请</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">批发/零售商资格申请</h1>
+      </div>
+    </div>
+  </div>
+
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
@@ -82,6 +98,7 @@
                   type="button"
                   z-tree-select="rest/authen/customerAttribute/query.json"
                   class="btn-select btn-other fl-l"
+                  width="240px"
                   ng-model="formData.customerAttribute"
                   id-key="id"
                   p-id-key="parentId"

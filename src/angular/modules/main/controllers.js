@@ -853,13 +853,13 @@ define('main/controllers', ['main/init'], function () {
               if ($scope.formData.contacts.length) {
                 for (var i = 0; i < $scope.formData.contacts.length; i++) {
                   if ($scope.formData.contacts[i].id==_data.id) {
+                    // 如果相等，说明是编辑
                     $scope.formData.contacts.pop($scope.formData.contacts[i]);
                   }
                 }
               }
               $scope.formData.contacts.push(_data);
               modal.closeAll();
-              console.log(_data);
             }
           })
           .catch(function (error) {

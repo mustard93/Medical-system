@@ -43,7 +43,7 @@ is-show-type-filter=false
       <div ng-if="!status.isLoading">
         <div ng-if="tbodyList.length==0">
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-          <p class="text-center">什么也没有</p>
+          <p class="text-center">嘿，这里暂时什么都没有哦~</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
@@ -52,18 +52,18 @@ is-show-type-filter=false
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative">
                 <div class="flex-column">
-                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m" >{{tr.orderStatus}}</span>
-                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-m" >{{tr.orderStatus}}</span>
+                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-v pd-c-m" >{{tr.orderStatus}}</span>
+                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-v pd-c-m" >{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
 
-                     <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus!='未提交' && tr.orderStatus!='未通过'"
+                     <a class="btn-link pd rect-s" title="查看详情" ng-if="tr.orderStatus!='未提交' && tr.orderStatus!='未通过'"
                         tab-nav tab-name="借出单"  tab-href="#/lendOrder/get.html?id={{tr.id}}">
                       <span class="watch-detail-icon">&nbsp;</span>
                     </a>
 
 
                       <span  ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过' && $root.hasAuthor('借出单修改')">
-                        <a tab-nav tab-name="借出单"  tab-href="#/lendOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                        <a tab-nav tab-name="借出单"  tab-href="#/lendOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
 
 
@@ -71,7 +71,7 @@ is-show-type-filter=false
                     <span ng-if="$root.hasAuthor('借出单删除')">
                       <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id "
                          href="javascript:;"
-                         class="btn-link pd-m rect-s"
+                         class="btn-link pd rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"

@@ -1,5 +1,5 @@
 <div class="panel pr-panel pr-panel-height mgb">
-  <h1 class="pr-font-14 mgb color-3 text-bold">{{attachmentsExtend.title||"审核资料"}}</h1>
+  <h1 class="pr-font-14 color-3 text-bold mgb">{{eAttachmentsExtend.title||"审核资料"}}</h1>
 
   <div style="margin-bottom:50px;">
 
@@ -7,22 +7,22 @@
       <div class="order-create-btn pos-l" style="margin-left: 20px;margin-top: 20px;">
         <a class="relative"
         ng-click="addFlag=true;
-        addAttachment.canDeleteFlag=true;
-        addAttachment.handleCreate=true;
-        addAttachment.showFlag=true;
-        ngModel.push(addAttachment);
-        addAttachment={};"
-         href="javascript:;"><i></i><span class="text-s">增加{{attachmentsExtend.title}}</span></a>
+        eAttachment.canDeleteFlag=true;
+        eAttachment.handleCreate=true;
+        eAttachment.showFlag=true;
+        ngModel.push(eAttachment);
+        eAttachment={};"
+         href="javascript:;"><i></i><span class="text-s">增加{{eAttachmentsExtend.title}}</span></a>
       </div>
     </div>
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
             <th class="w-60"></th>
             <th>序号</th>
             <th>类型</th>
             <!-- <th>资料名称</th> -->
-            <th>证书编号</th>
+            <th>档案编号</th>
             <th>有效期起</th>
             <th>有效期至</th>
             <!-- <th>上传人</th>
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line">
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" >
           <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" ng-disabled="item.isMust"/>
             <label for="{{$index + 1}}" ng-class="{'pr-bg-grey-white':(item.isMust)}" ></label>
@@ -96,12 +96,8 @@
                      >
                     <span class="date-icon"></span>
             </div>
-          </td><!-- 有效日期至 -->
+          </td><!-- 有效日期  -->
 
-          <!-- <td>{{item.uploadUserName || '—'}}</td> -->
-          <!-- 上传人  -->
-          <!-- <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td> -->
-          <!-- 上传日期  -->
           <td ng-if="item.showFlag||item.handleCreate">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
@@ -117,7 +113,7 @@
       </tbody>
 
       <!-- 添加资料 -->
-      <tfoot ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
+      <tfoot ng-if="eAttachmentsExtend.addFlag" ng-init="eAttachment={}">
         <tr>
           <td colspan="7">
             <h1 class="pr-font-16">添加附件</h1>
@@ -125,9 +121,9 @@
         </tr>
         <tr class="relative bb-line">
           <td>&nbsp;</td>
-          <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
-          <td>  {{addAttachment.uploadUserName}}</td>
-          <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
+          <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="eAttachment.name"></td>
+          <td>  {{eAttachment.uploadUserName}}</td>
+          <td>{{eAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
           <td>
             <div class="date-icon-outside">
               <input type="text"
@@ -140,14 +136,14 @@
             </div>
           </td>
           <td>
-            <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="addAttachment"></div>
+            <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="eAttachment"></div>
           </td>
           <td>
-            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>
+            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="eAttachment.note"></textarea>
           </td>
           <td>
             <div class="order-create-btn pos-l" style="margin-top: 120px;margin-left: 20px;">
-              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
+              <a class="relative" ng-click="eAttachment.canDeleteFlag=true;ngModel.push(eAttachment);eAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
             </div>
           </td>
         </tr>

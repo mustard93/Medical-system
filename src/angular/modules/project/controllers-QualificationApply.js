@@ -391,7 +391,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
           }
       };
 
-      // 经营方式查询调用的方法
+      // 经营方式查询调用的方法,根据传入的q查询。
       $scope.filterName=function(q){
         if (q) {
 

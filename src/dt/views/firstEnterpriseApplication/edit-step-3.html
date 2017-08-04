@@ -69,27 +69,28 @@
                状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
-        <!-- 基本信息-附件信息 -->
-        <button type="button"class="pr-btn-save-glodbg mgr mgt mgb-l">
-          <a
-             href="javascript:;"
-             class="color-white"
-             title="还原"
-             handle-this-click
-             dialog-title="确认还原 ?"
-             dialog-content="还原后，将会清空所填信息。您确认还原附件吗?"
-             dialog-template="pr-dialog-confirm.html"
-             callback="refreshAttachements('firstEnterpriseApplication');"
-             emitted="reloadList">
-             还原
-           </a>
-        </button>
+        <!-- 添加资质证照 -->
+        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营企业申请","addFlag":false}'
+        attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
-        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营企业申请","addFlag":false}'
-        attachments-edit ng-model="formData" attachments-extend="attachmentsExtend" ></div>
+        <!-- 添加电子档案 -->
+        <!-- <div ng-init='attachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
+        attachments-edit ng-model="formData.eAttachments" attachments-extend="attachmentsExtend" ></div> -->
+
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
+        e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
+    </div>
+
+    <div class="color-black mgt-l" style="min-height:150px;">
+        <p>
+            <p class="pr-font-14">说明：</p>
+            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
+        </p>
     </div>
   </div>
-
 
       <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
