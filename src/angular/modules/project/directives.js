@@ -2546,7 +2546,57 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
         }
     };
 }
+    /**
+     * 自动补全-证照类型
+     */
 
+    function angucompleteLicense($parse, requestData, $sce, $timeout) {
+        return {
+            restrict: 'EA',
+            scope: {
+                "placeholder": "@",
+                "selectedItem": "=?",
+                "url": "@",
+                "titleField": "@",
+                "descriptionField": "@",
+                "ngModelId": "=?",//绑定返回对象id
+                "ngModel": "=",
+                "searchFields": "@",
+                "matchClass": "@",
+                "ngDisabled": "=?"
+            },
+            require: "?^ngModel",
+            templateUrl: Config.tplPath + 'tpl/project/autocomplete-license.html',
+            link: function($scope, elem, $attrs, ngModel) {
+                $scope.lastSearchTerm = null;
+                $scope.currentIndex = null;
+                $scope.justChanged = false;
+                $scope.searchTimer = null;
+                $scope.hideTimer = null;
+                $scope.searching = false;
+                $scope.pause = 300;
+                $scope.minLength = 1;
+                $scope.searchStr = $scope.searchFields;
+                // console.log($scope.searchStr);
+                //绑定返回对象的某个属性值。
+                if($attrs.ngModelId){
+                    $scope.$watch("ngModel", function(value) {
+                        if(!value)return;
+                        $scope.ngModelId=value.id;
+                        $scope.searchStr=value.data.name;
+
+                        //  $scope.listObject.name = value.data.name;
+                    }, true);
+                }
+
+                require(['project/angucomplete'], function(angucomplete) {
+                    $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+                });//angucomplete
+
+            }
+        };
+    }
 /**
  * 自动补全-药械
  */
