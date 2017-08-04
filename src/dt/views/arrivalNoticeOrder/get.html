@@ -1,4 +1,5 @@
 <div class="create-new-order arrivalNotaice-order"
+     ng-controller="arrivalNoticeOrderEditCtrl"
      ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="scopeData"
      callback="initFlag=true;formData.note=scopeData.note;formData.id=scopeData.id;"
@@ -53,15 +54,6 @@
             </div>
           </div>
         </div>
-        <!-- <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
-            <div class="inline-block customer-name"></div>
-            <div class="inline-block">
-              <p class="mgb-s">客户名</p>
-              <p class="text-m color-3 autocut-default" title="{{scopeData.customerName}}" style="width:300px;">{{scopeData.customerName || '暂无'}}</p>
-            </div>
-          </div>
-        </div> -->
         <div class="inline-block" ng-if="scopeData.orderBusinessType=='直发采购'">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
              <div class="inline-block logistics-center "></div>
@@ -100,9 +92,6 @@
             </span>
           </div>
           <div class="flex-item-6 text-right">
-            <!-- <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n ||'暂无'}}</em></span> -->
-            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
-             <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span> -->
             <a ng-if="initFlag"
                modal-center="1000px"
                modal-data='{"businessKey":"{{scopeData.relId}}"}'
@@ -116,10 +105,8 @@
         <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.salesDepartmentName ||'暂无'}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n ||'暂无'}}</em></span>
-          <!-- <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr ||'暂无'}}</em></span> -->
           <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType ||'暂无'}}</em></span>
           <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd' ||'暂无'}} </em></span>
-          <!-- <span class="mgr-l">目标客户：<em class="color-3">{{scopeData.intentionalCustomer || '暂无'}}</em></span> -->
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -147,7 +134,6 @@
                 <tr ng-repeat="tr in scopeData.orderMedicalNos"
                     salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="arrivalNoticeOrderEditCtrl"
                     medical-stock-mouse-over
                     mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'>
                   <td class="text-center">
@@ -231,7 +217,6 @@
           <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
           <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
           <span class="mgr-l">汇率：<em class="color-3">1.00</em></span>
-          <!-- <span class="mgr-l">付款状态：<em class="color-3">{{scopeData.purchasePayOrderStatus}}</em></span> -->
         </div>
       </div>
 
@@ -244,9 +229,6 @@
           <span class="mgr">承运公司：
               <em class="color-3">{{scopeData.payAndDelivery.kuaidiType}}</em>
           </span>
-          <!-- <span class="mgr">预入仓库：
-            <em class="color-3">{{scopeData.warehouseName}}</em>
-          </span> -->
         </div>
       </div>
       <!-- 发货方信息 -->
@@ -262,20 +244,6 @@
           </p>
         </div>
       </div>
-      <!-- 收货方信息 -->
-      <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <header class="text-n color-3 text-bold">收货方信息
-          <span class="tools pull-right">
-            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-          </span>
-        </header>
-        <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
-          <p class="">收货人信息：
-            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
-          </p>
-        </div>
-      </div> -->
 
       <!-- 备注 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
@@ -302,7 +270,13 @@
            save-callback="submitForm('arrivalNoticeOrder_editForm','exit')">返回来货通知单列表
         </a>
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html?id={{scopeData.relId}}" >返回来货通知单列表</a>
-        </span>
+
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                modal-right="560"
+                modal-scope="this"
+                modal-data='{"data":{{scopeData}}}'
+                modal-url="views/arrivalNoticeOrder/barcode-print-dialog.html">打印条码</button>
 
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list

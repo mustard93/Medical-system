@@ -1,0 +1,98 @@
+<div class="sale-return-order right-side pr-bg-black3 relative arrivalNotaice-order-dialog" ng-controller="arrivalBarcodePrintDialogController">
+  <div class="sale-bg">
+      <div class="pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm pr-bg-black2">条码打印预览</div>
+      <div class="pr-panel-height select-bg">
+        <!-- 打印份数 -->
+        <div class="bb-line-gold pd-c-l pdt pdb">
+          <span class="color-white">每个包装打印</span>
+          <span>
+            <input type="number"
+                   class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-50"
+                   ng-value="1"
+                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+          </span>
+          <span class="color-white">份</span>
+        </div>
+        <!-- 所有药品的条码列表 -->
+        <div class="scroll-out-div">
+          <div class="pr-bg-black1 mgb-xl pdb-l" ng-repeat="medicalItem in dialogData.data.orderMedicalNos track by $index">
+            <!-- 药品信息 -->
+            <div class="bb-dashed-gold pd-c-l">
+              <div class="flex-column pd-v-l">
+                <div class="flex-item-6">
+                  <span>商品通用名：</span><span class="color-white">{{medicalItem.name}}</span>
+                </div>
+                <div class="flex-item-6 text-right">
+                  <span>商品编号：</span><span class="color-white">{{medicalItem.code}}</span>
+                </div>
+              </div>
+              <div class="flex-column pdb-l">
+                <div class="flex-item-6">
+                  <span>数量：</span><span class="color-white">4900片 = 43件 + 12盒</span>
+                </div>
+                <div class="flex-item-6 text-right">
+                  <span>批号：</span><span class="color-white">{{medicalItem.productionBatch}}</span>
+                </div>
+              </div>
+            </div>
+            <!-- 药品条码列表 -->
+            <div class="pd-c-l">
+              <!-- 条码图形显示 -->
+              <div class="mgt-l mgb-l" style="min-height:58px;background-color:#fff;width:100%;"></div>
+              <!-- 此商品单位条码信息 -->
+              <div class="flex-column">
+                <div class="flex-item-6">
+                  <span class="mgr-xl">
+                    <input type="number"
+                           class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                    <em class="color-white"> 件</em>
+                  </span>
+                  <span class="color-9">说明：1件 = 112片</span>
+                </div>
+                <div class="flex-item-6 text-right line-alignment">打印：43*2 = 86份</div>
+              </div>
+            </div>
+            <div class="pd-c-l">
+              <!-- 条码图形显示 -->
+              <div class="mgt-l mgb-l" style="min-height:58px;background-color:#fff;width:100%;"></div>
+              <!-- 此商品单位条码信息 -->
+              <div class="flex-column">
+                <div class="flex-item-6">
+                  <span class="mgr-xl">
+                    <input type="number"
+                           class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                    <em class="color-white"> 盒</em>
+                  </span>
+                  <span class="color-9">说明：1盒 = 7片</span>
+                </div>
+                <div class="flex-item-6 text-right line-alignment">打印：43*2 = 86份</div>
+              </div>
+            </div>
+            <div class="pd-c-l">
+              <!-- 条码图形显示 -->
+              <div class="mgt-l mgb-l" style="min-height:58px;background-color:#fff;width:100%;"></div>
+              <!-- 此商品单位条码信息 -->
+              <div class="flex-column">
+                <div class="flex-item-6">
+                  <span class="mgr-xl">
+                    <input type="number"
+                           class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                    <em class="color-white"> 片</em>
+                  </span>
+                  <span class="color-9">说明：1件 = 112片</span>
+                </div>
+                <div class="flex-item-6 text-right line-alignment">打印：43*2 = 86份</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center print-btn pr-bg-black1">
+        <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+        <button type="button" class="pr-btn-save-glodbg">打印</button>
+      </div>
+  </div>
+</div>
