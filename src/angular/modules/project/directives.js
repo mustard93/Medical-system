@@ -243,6 +243,34 @@ define('project/directives', ['project/init'], function () {
     };
   }
 
+
+    /**
+      添加联系人模板-编辑
+    */
+    function addContactsEdit() {
+      return {
+        restrict: 'EA',
+        scope: {
+            ngModel: "="
+        },
+        replace: true,
+        templateUrl:  Config.tplPath +'tpl/project/addContactsEdit.html'
+      };
+    }
+    /**
+      添加联系人模板-显示
+    */
+    function addContactsShow() {
+      return {
+        restrict: 'EA',
+        scope: {
+            ngModel: "="
+        },
+        replace: true,
+        templateUrl:  Config.tplPath +'tpl/project/addContactsShow.html'
+      };
+    }
+
 /**
   药械订单列表
 */
@@ -3998,6 +4026,8 @@ angular.module('manageApp.project')
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示（资质证照）
   .directive("eAttachmentsShow", [eAttachmentsShow])//附件只读显示（电子档案）
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑（资质证照）
+  .directive("addContactsEdit", [addContactsEdit])//首营模块，增加联系人（编辑）
+  .directive("addContactsShow", [addContactsShow])//首营模块，增加联系人（显示）
   .directive("auditContactsEdit", [auditContactsEdit])//首营模块，录入审核人模块编辑。
   .directive("auditContactsShow", [auditContactsShow])//首营模块，录入审核人模块显示。
   .directive("eAttachmentsEdit", [eAttachmentsEdit])//附件上传编辑（电子档案）

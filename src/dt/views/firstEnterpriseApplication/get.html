@@ -4,7 +4,18 @@
      scope-data="showData"
      callback='initFlag=true;'
      alert-error>
-
+     <form class="form-horizontal"
+           id="firstEnterpriseApplication_editForm_step"
+           name="firstEnterpriseApplication_editForm_step"
+           form-validator
+           parameter-body
+           action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validateFlag=true"
+           alert-error
+           alert-ok
+           scope-error-msg="errorMsg"
+           scope-data="showData"
+           novalidate="true"
+           callback="$root.utils.refreshHref();">
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
         <a
@@ -217,6 +228,7 @@
   </div>
 </div>
 
+<!-- 底部按钮 -->
 <div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
     <div class="mgb text-right btn-area">
         <span class="mgl mgt">
@@ -253,7 +265,7 @@
                  params='{"id":showData.id}'
                  request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
             </span>
-        <span class="mgl">
+        <span class="mgl" ng-if="!showData.enterFlag">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
                       ajax-url-submit="rest/authen/firstEnterpriseApplication/startProcessInstance"
@@ -262,7 +274,14 @@
                       scope-data="showData"
                       callback="$root.utils.refreshHref()">提交
               </button>
-            </span>
+      </span>
+        <span class="mgl" ng-if="showData.enterFlag">
+              <button class="pr-btn-save-glodbg mgt"
+                      type="submit">提交{{showData.finishFlag}}
+              </button>
+      </span>
+
     </div>
 </div>
+</form>
 </div>
