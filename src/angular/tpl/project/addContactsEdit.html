@@ -1,0 +1,55 @@
+<div class="mgb mgt-l">
+  <div class="pd-c-v-l pr-bg-white ">
+      <h1 class="color-black text-bold text-n">联系人</h1>
+  </div>
+  <div class="">
+    <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+      <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
+      <span class="pd-s text-left flex-item-1">职务</span>
+      <span class="pd-s text-left flex-item-1">电话</span>
+      <span class="pd-s text-left flex-item-1">手机</span>
+      <span class="pd-s text-left flex-item-2">电子邮箱</span>
+      <span class="pd-s text-left flex-item-4">联系地址</span>
+      <span class="pd-s text-left flex-item-2">备注</span>
+    </div>
+    <div class="pr-bg-white">
+      <div class="address-div color-black relative flex-column"
+           ng-repeat="tr in ngModel">
+        <span class="text-left flex-item-1" style="text-indent:13px;">{{tr.name}}</span>
+        <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
+        <span class="text-left flex-item-1">{{tr.telephone}}</span>
+        <span class="text-left flex-item-1">{{tr.tel}}</span>
+        <span class="text-left flex-item-2">{{tr.email}}</span>
+        <span class="address-span text-left flex-item-4" title="{{tr.address}}">
+          <em class="mgr">{{tr.prov}}</em><em class="mgr">{{tr.city}}</em><em class="mgr">{{tr.area}}</em><em class="mgr">{{tr.address}}</em>
+          <a ng-if="tr.isDefault!=true" class="mgl-m set-defualt-text" ng-click="setDefault(ngModel);tr.isDefault=true;">设为默认</a>
+          <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
+        </span>
+        <span class="text-left flex-item-2">{{tr.note}}</span>
+        <span class="pos-abs posr">
+          <a ng-if="returnAddressObj.defaultContactId!==tr.id"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="ngModel.splice($index,1);$root.modal.closeAll();">删除
+          </a>
+          <a class="mgl" href="javacript:;"
+             modal-right="456"
+             modal-data='{"contact":{{tr}}}'
+             modal-scope="this"
+             modal-url="views/firstEnterpriseApplication/rightSide/add-contact.html">修改
+          </a>
+        </span>
+      </div>
+      <div class="pd-c-v-l mgb">
+      <span  class="cur-pot color-href"
+              modal-right="456"
+              modal-data='{}'
+              modal-scope="this"
+              modal-url="views/firstEnterpriseApplication/rightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
+      </span>
+    </div>
+    </div>
+  </div>
+</div>
