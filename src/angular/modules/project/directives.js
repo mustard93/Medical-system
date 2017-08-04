@@ -111,6 +111,23 @@ define('project/directives', ['project/init'], function () {
       templateUrl:  Config.tplPath +'tpl/project/attachmentsItemShow.html'
     };
   }
+  /**
+    附件文件显示
+    attachmentsExtend={"edit":true}
+    edit：是否可编辑
+    电子档案
+  */
+  function eAttachmentsItemShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          eAttachmentsItemExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/eAttachmentsItemShow.html'
+    };
+  }
 
 
 
@@ -3977,6 +3994,7 @@ angular.module('manageApp.project')
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示（资质证照）
+  .directive("eAttachmentsItemShow", [eAttachmentsItemShow])//附件文件显示（电子档案）
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示（资质证照）
   .directive("eAttachmentsShow", [eAttachmentsShow])//附件只读显示（电子档案）
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑（资质证照）
