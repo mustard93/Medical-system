@@ -1,99 +1,97 @@
-<div class="sale-return-order right-side pr-bg-black3">
-  <div class="sale-bg">
-    <!-- 头部信息 -->
-      <form class="form-horizontal"
-            id="businessScope_editForm1"
-            name="businessScope_editForm1"
-            form-validator
-            parameter-body
-            action="rest/authen/license/save"
-            alert-error
-            alert-ok
-            scope-error-msg="errorMsg"
-            scope-data="formData"
-            novalidate="true"
-            callback="listObject.reloadTime=$root.utils.getNowTime()">
-    <div class="relative ">
-      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm" >新增电子档案</div>
-      <div class="pr-panel-height select-bg" style="padding:15px 0;">
-        <div class="flex-column mgt relative ">
-            <label class="flex-item-2 text-right pdr-s">档案类型</label>
-            <span class="mgl-s"
-                  angucomplete-supplier
-                  placeholder=""
-                  title-field="name"
-                  search-fields="{{formData.customerName}}"
-                  url="rest/authen/customerAddress/query.json?isFilterDefault=true"
-                  ng-model="tmp_customer"
-                  ng-model-id="filterObject.customerId"
-                  class="inline-block text-s" style="height:28px;">
-            </span>
-        </div>
-        <div class="flex-column mgt">
-            <label class="flex-item-2 text-right pdr-s mgl-s">是否预警</label>
-            <div class="mgl-s text-left">
-                <select class="ipt pr-short-ipt ipt-new-s "
-                        chosen
-                        default-empty="全部"
-                        ng-model="filterObject.salesDepartmentId"
-                        select-source="rest/authen/department/queryForSelectOption">
-                </select>
-            </div>
-        </div>
-        <div class="flex-column mgt">
-            <label class="flex-item-2 text-right pdr-s">证照过期控制</label>
-            <div class="mgl-s text-left">
-                <select class="ipt pr-short-ipt ipt-new-s "
-                        data-placeholder=" "
-                        chosen
-                        default-empty="全部"
-                        ng-model="filterObject.saleUserId"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{addDataObj.salesDepartmentId}}&isReturnNullOfNoCondition=true"
-                >
-                </select>
-            </div>
-        </div>
+<div class="sale-return-order right-side pr-bg-black3"
+     ajax-url="rest/authen/qualificationCertificate/save.json?id={{tr.id}}"
+     scope-data="formData"
+     alert-error>
 
-      </div>
-      <div class="mgb-l pd-c-l pr-font-12 color-light-brown flex-column pr-fw-700">关联企业类型
-          <div class="form-ctrl license-file-300 mgl-s"
-               ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SaleOrderStatisticsGroupEnum"
-               scope-data="departments"
-               alert-error>
-              <fieldset>
-                  <label class="quali-selection relative"  ng-repeat="item in departments track by $index" title="{{item.value}}">
-                      <input type="checkbox"
-                             value="{{item.id}}"
-                             ng-checked="judgeHasThisItem(tbodyList,item.value)"
-                             ng-click="handleGroupChoised($event,item.value)"
-                             class="click-reverse-selection3 mgl-m quali-position">{{item.value}}
-                  </label>
-              </fieldset>
-          </div>
-          <!--<p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>-->
-          <!--<p ng-if="yearMonthGroupFlag" class="color-red pdl-xl">不能对月进行单独分组查询，必须带年分组查询!</p>-->
-      </div>
-        <!-- 备注 -->
-        <div class="mgb-l pr-font-12 color-light-brown flex-column">
-            <h1 class="quali-pd-l pr-fw-700">备注</h1>
-            <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l ">
-                <!--<input type="text" class="">-->
-                <textarea class="pr-textarea" maxlength="240" style="height:92px;min-width: 320px" placeholder="" ng-model="formData.note" onkeydown="if(window.event.keyCode==13) return true;"></textarea>
+    <div class="sale-bg">
+        <!-- 头部信息 -->
+        <form class="form-horizontal"
+              id="licenseEnterprise_from"
+              name="licenseEnterprise_from"
+              form-validator
+              parameter-body
+              action="rest/authen/qualificationCertificate/save.json?licenseType=公司&licenseSonType=资质证照"
+              alert-error
+              alert-ok
+              scope-error-msg="errorMsg"
+              scope-data="formData"
+              novalidate="true"
+              callback="listObject.reloadTime=$root.utils.getNowTime()">
+            <div class="relative">
+                <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>{{dialogData}}
+                <div class="pr-panel-height select-bg" style="padding:15px 0;">
+                    <label class="flex-item-2 text-right pdr-m mgl-s">证照类型</label>
+                    <select class="ipt ipt-new-select color-3"
+                            data-placeholder=" "
+                            default-empty="全部"
+                            chosen
+                            style="width:220px"
+                            ng-model="formData.licenseTypeName"
+                            select-source="rest/authen/qualificationCertificate/queryForSelectOption?licenseType=商品&licenseSonType=电子档案">
+                    </select>
+                </div>
             </div>
-        </div>
-      <!-- 功能按钮 -->
-      <div class="sales-btn-area-2nd relative">
-          <div class="btn-area full-width text-center">
+            <div class="flex-column mgt mgb-l">
+                <label class="flex-item-2 text-right pdr-s mgl-s">是否预警</label>
+                <div class="mgl-s text-left">
+                    <select class="ipt pr-short-ipt ipt-new-s "
+                            chosen
+                            default-empty="-请选择-"
+                            ng-model="formData.isWarning"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BooleanType">
+                    </select>
+                </div>
+            </div>
+            <div class="flex-column mgt">
+                <label class="flex-item-2 text-right pdr-s mgl-s">证照过期控制</label>
+                <div class="mgl-s text-left">
+                    <select class="ipt pr-short-ipt ipt-new-s "
+                            data-placeholder=" "
+                            chosen
+                            default-empty="-请选择-"
+                            ng-model="formData.controllType"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=License_ControllType"
+                    >
+                    </select>
+                </div>
+            </div>
 
-          <button type="button"
-                  ng-click="handleTypeChange()"
-                  class="pr-btn-save-glodbg mgr-l"
-                  ng-disabled="groupFlag || yearMonthGroupFlag"
-                  style="width:160px;">确定
-          </button>
-          </div>
-      </div>
+            <div class="mgb-l pd-c-l pr-font-12 color-light-brown flex-column pr-fw-700 mgt-m">关联商品性质
+                <div class="form-ctrl license-file-300 mgl-s"
+                     ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType"
+                     scope-data="departments"
+                     alert-error>
+                    <label class="quali-selection relative"  ng-repeat="item in departments track by $index" ng-controller="licenseController">
+                        <input type="checkbox"
+                               id="{{$index + 1}}1" ng-model="item.value"
+                               ng-click="licenseCommodityType(item);"
+                               class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
+                    </label>
+
+
+                </div>
+                <!--<p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>-->
+                <!--<p ng-if="yearMonthGroupFlag" class="color-red pdl-xl">不能对月进行单独分组查询，必须带年分组查询!</p>-->
+            </div>
+            <!-- 备注 -->
+            <div class="mgb-l pr-font-12 color-light-brown flex-column">
+                <h1 class="quali-pd-l pr-fw-700">备注</h1>
+                <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l ">
+                    <!--<input type="text" class="">-->
+                    <textarea class="pr-textarea" maxlength="240" style="height:92px;min-width: 320px;" placeholder="" ng-model="formData.remark" onkeydown="if(window.event.keyCode==13) return true;"></textarea>
+                </div>
+            </div>
+            <!-- 功能按钮 -->
+            <div class="sales-btn-area-2nd relative">
+                <div class="btn-area full-width text-center">
+                    <button type="submit"
+                            class="pr-btn-save-glodbg mgr-l"
+                            ng-disabled=""
+                            style="width:160px;">确定
+                    </button>
+                </div>
+            </div>
+
+        </form>
     </div>
-      </form>
-  </div>
 </div>
