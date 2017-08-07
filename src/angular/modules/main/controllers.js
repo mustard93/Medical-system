@@ -868,6 +868,9 @@ define('main/controllers', ['main/init'], function () {
         }
     }
 
+
+
+
     /**
      *  个人中心控制器
      */
