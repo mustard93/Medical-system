@@ -206,15 +206,15 @@
         return temp;
 
     };
-
+    var orderMedicalNoUuid= null;
 
     window.onload=function () {
 
-        var orderId=getUrlParam('orderId') || '59845f55ecca32c24c654ccc';
+        var orderId=getUrlParam('orderId') || '5987fc721b40efc71163194e';
 
         var orderType= getUrlParam('orderType') || '发货单';
 
-        var orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || 'b289665d47364f1a8dd1438f1c031081';
+        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || '8fc0eb5033f0465cb55e316817c44034';
 
 
         if(!orderId || !orderType || !orderMedicalNoUuid){
@@ -231,17 +231,16 @@
         },100);
     };
 
-
+    //渲染时间轴列表
     function successCallback(data) {
         data = JSON.parse(data);
-
 
         var data= formatData(data);
 
         $('goods-list').innerHTML= ceateHtml(data);
     }
 
-    
+    //初始化商品信息
     function initGoodsInfo(_data) {
 
         var tempdata = JSON.parse(_data);
@@ -312,13 +311,14 @@
         $('goods-info').innerHTML=html;
 
     }
-    
-    
 
+    //ajax 请求失败回调
     function errorCallback() {
         alert('获取数据错误！');
     }
 
+
+    //ajax方法
     function ajax(url,method,successCallback,errorCallback) {
 
         if (window.XMLHttpRequest){
@@ -339,6 +339,8 @@
         xmlhttp.send();
     }
 
+
+
     //获取URL参数
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
@@ -346,15 +348,7 @@
         if (r != null) return unescape(r[2]); return null; //返回参数值
     }
 
-
-    function setVal(key,val) {
-        window.localStorage.setItem(key,val);
-    }
-
-    function  getVal(key) {
-        return window.localStorage.getItem(key);
-    }
-
+    //创建HTML内容
     function  ceateHtml(arr) {
         var html='';
         for(var i=0; i< arr.length; i++){
@@ -387,8 +381,8 @@
                         <div class="title">${item.type}</div>
                         <div class="item2"><div class="lables">客户名称：</div> <div class="val">${item2.supplierNameOrCustomerName}</div></div>
                         <div class="item2"><div class="lables">采购数量：</div><div class="val">${item2.quantity}</div></div>
-                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${formatDate(item2.inoutDate)}</div></div>
-                        <div class="item2"><div class="lables">出库时间：</div><div class="val">${formatDate(item2.receiveDate)}</div></div>
+                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${formatDate(item2.receiveDate)}</div></div>
+                        <div class="item2"><div class="lables">出库时间：</div><div class="val">${formatDate(item2.inoutDate)}</div></div>
                     </div>
                 </li>`;
 
@@ -401,15 +395,12 @@
                         </div>
                         <div class="right">
                         <div class="title">${item.type}</div>
-                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">${item2.supplierName}</div></div>
-                        <div class="item2"><div class="lables">采购数量：</div><div class="val">${item2.quantity}</div></div>
-                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${item2.instockDate}</div></div>
+                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">${item2.supplierNameOrCustomerName}</div></div>
+                        <div class="item2"><div class="lables">采购数量：</div><div class="val">${item2.usedQuantity[orderMedicalNoUuid]}</div></div>
+                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${formatDate(item2.inoutDate)}</div></div>
                     </div>
                 </li>`;
                 }
-
-
-
             }
 
         }
@@ -418,66 +409,12 @@
 
     }
 
-    function cereatHtml2(arr,index) {
-        var prevObj=prev(arr,index);
-        var nextObj= next(arr,index);
-        var nowObj= arr[index];
-        var pointClass=null;
-
-        var subHtml='';
-
-
-        var showDate=true;
-
-        if(index==0){
-            pointClass = 'point'
-        }else{
-
-            if(nowObj.year != prevObj.year){
-               //不同年-显示年
-                pointClass = 'point2'
-            }else{
-                //同一年 判断下面
-                if(nextObj){
-                    //1.判断当前时间时候和下一对象时间一致 如果一致 代表 是同一天，否者认为是不同天
-                    if(nowObj.time == nextObj.time || nowObj.time == prevObj.time){
-                        pointClass= 'point3'
-                        showDate=false;
-                    }else{
-                        pointClass= 'point2'
-                    }
-                }else{
-                    //没有下一个节点
-                    pointClass= 'point2'
-                }
-            }
-        }
-
-        console.log("point-class",pointClass);
-
-       var showDateStyle= showDate ? 'visible':'hidden';
-
-                var html='<li>';
-
-                    html +=    '<div class="left">';
-                    html +=      '<div class="year" >'+getYear(nowObj.time)+'</div>'
-                    html +=      '<p class="date" style="visibility: '+showDateStyle+'">'+getDate(nowObj.time)+'</p>'
-                    html +=    '<div class="'+pointClass+'"></div>'
-                    html +='</div>'
-                    html +='<div class="right">'
-                    html +=    '<div class="title">销售</div>';
-                    html +=    '<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>';
-                    html +=    '<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>';
-                    html +=    '<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>';
-                    html += '</div>';
-                    html +='</li>';
-        return html;
-    }
-
+    //构造时间轴数据
     function  formatData(_data) {
 
         if(_data.code != 200){
             alert(_data.msg);
+            return;
         }
 
         var data= _data.data;
@@ -485,65 +422,65 @@
         var dateList=[];
         var resultList=[];
 
-
         for(var i=0; i<data.length;i++){
             dateList.push({
-                date: new Date(data[i].inoutDate).Format('yyyy-MM.dd'),
+                date: formatDate(data[i].inoutDate,'yyyy-MM.dd'),
                 type:data[i].medicalReviewType
             });
         }
 
-        //去重复
-        dateList = dateList.unique();
+        console.log("before",dateList);
 
+        //去重复
+        dateList = arrayUnique(dateList);
+        console.log("after",dateList);
         //创建list;
         for(var i=0; i<dateList.length; i++){
             var temp=  {
                 "time":dateList[i].date,
-                "year":getYear(dateList[i].date),
-                "date":getDate(dateList[i].date),
+                "year":getYear( formatDate(dateList[i].date,'yyyy-MM.dd')),
+                "date":getDate(formatDate(dateList[i].date,'yyyy-MM.dd')),
                 "type":dateList[i].type,
                 "value":[]
             };
             resultList.push(temp);
         }
 
-
-        for(var j=0; j<data.length; j++){
-
-            var _obj = _findIndex(resultList,'time',new Date(data[j].inoutDate).Format('yyyy-MM.dd'));
-
-            console.log("_obj",_obj);
-
-            if(_obj.object.time == new Date(data[j].inoutDate).Format('yyyy-MM.dd')){
-                resultList[_obj.index].value.push(data[j]);
-            }
-
-        }
-
-
-        return resultList;
-
-
-        function _findIndex(list,attr,attrVal) {
-            var index=-1;
-            var object=null;
-            for(var i=0; i<list.length;i++){
-                if(list[i][attr] == attrVal){
-                    index=i;
-                    object=list[i];
-                    break;
+        //为list 添加数据
+        for(var i=0; i<resultList.length; i++){
+            for(var j=0; j<data.length; j++){
+                if(resultList[i].time == formatDate(data[j].inoutDate,'yyyy-MM.dd') && resultList[i].type == data[j].medicalReviewType){
+                    resultList[i].value.push(data[j]);
                 }
             }
-            return {
-                index:index,
-                object:object
-            };
         }
+        return resultList;
     }
 
 
+
+
+
+
+
+
+
+
+    //数组去重
+    function arrayUnique(arr){//去除数组中重复对象
+        var unique = {};
+        arr.forEach(function(a){ unique[ JSON.stringify(a) ] = 1 });
+        arr= Object.keys(unique).map(function(u){return JSON.parse(u) });
+        return arr
+    }
+
+
+
     function formatDate(date,formatStr) {
+
+        if(!date){
+            return "";
+        }
 
         if(!formatStr){
             var formatStr='yyyy-MM-dd hh:mm:ss'
@@ -575,6 +512,91 @@
             return arr[index*1+1];
         }
     }
+
+
+    function cereatHtml2(arr,index) {
+        var prevObj=prev(arr,index);
+        var nextObj= next(arr,index);
+        var nowObj= arr[index];
+        var pointClass=null;
+
+        var subHtml='';
+
+
+        var showDate=true;
+
+        if(index==0){
+            pointClass = 'point'
+        }else{
+
+            if(nowObj.year != prevObj.year){
+                //不同年-显示年
+                pointClass = 'point2'
+            }else{
+                //同一年 判断下面
+                if(nextObj){
+                    //1.判断当前时间时候和下一对象时间一致 如果一致 代表 是同一天，否者认为是不同天
+                    if(nowObj.time == nextObj.time || nowObj.time == prevObj.time){
+                        pointClass= 'point3'
+                        showDate=false;
+                    }else{
+                        pointClass= 'point2'
+                    }
+                }else{
+                    //没有下一个节点
+                    pointClass= 'point2'
+                }
+            }
+        }
+
+        console.log("point-class",pointClass);
+
+        var showDateStyle= showDate ? 'visible':'hidden';
+
+        var html='<li>';
+
+        html +=    '<div class="left">';
+        html +=      '<div class="year" >'+getYear(nowObj.time)+'</div>'
+        html +=      '<p class="date" style="visibility: '+showDateStyle+'">'+getDate(nowObj.time)+'</p>'
+        html +=    '<div class="'+pointClass+'"></div>'
+        html +='</div>'
+        html +='<div class="right">'
+        html +=    '<div class="title">销售</div>';
+        html +=    '<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>';
+        html +=    '<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>';
+        html +=    '<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>';
+        html += '</div>';
+        html +='</li>';
+        return html;
+    }
+
+    function findIndex(list,attr,attrVal) {
+        var index=-1;
+        var object=null;
+        for(var i=0; i<list.length;i++){
+            if(list[i][attr] == attrVal){
+                index=i;
+                object=list[i];
+                break;
+            }
+        }
+        return {
+            index:index,
+            object:object
+        };
+    }
+
+    function setVal(key,val) {
+        window.localStorage.setItem(key,val);
+    }
+
+    function  getVal(key) {
+        return window.localStorage.getItem(key);
+    }
+
+
+
+
 </script>
 </body>
 </html>
