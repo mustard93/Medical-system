@@ -226,7 +226,22 @@
       <div ng-if="showData.eAttachments.length" ng-init='eAttachmentsExtend={"title":"电子档案"}'
       e-attachments-show ng-model="showData.eAttachments" e-attachments-extend="eAttachmentsExtend">
       </div>
+      <!-- 审核人 -->
+    <div ng-if="!showData.eAttachments.length" class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-14 color-3 text-blod mgb">
+        审核人
+      </h1>
+      <p>
+        暂无录入审核人
+      </p>
     </div>
+      <div ng-if="showData.auditContacts.length" ng-init='auditContactsExtend={"title":"审核人"}'
+      audit-contacts--show ng-model="showData.auditContacts" audit-contacts--extend="auditContactsExtend">
+      </div>
+
+    </div>
+
+
 
 <!-- 底部按钮 -->
 <div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
@@ -247,11 +262,6 @@
           tab-nav
           tab-name='首营企业管理'
           tab-href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-
-        <span class="mgl" ng-if="showData.enterFlag"><a
-          tab-nav
-          tab-name='首营企业管理'
-          tab-href="#/firstEnterpriseApplication/edit-step-4.html?id={{showData.id}}">返回修改</a></span>
 
         <span class="mgl">
               <a ng-if="showData.id && showData.proposerName==mainStatus.name"
@@ -275,12 +285,6 @@
                       callback="$root.utils.refreshHref()">提交
               </button>
       </span>
-        <span class="mgl" ng-if="showData.enterFlag" ng-init='showData.finishFlag=true;'>
-              <button class="pr-btn-save-glodbg mgt"
-                      type="submit">提交
-              </button>
-      </span>
-
     </div>
 </div>
 </form>
