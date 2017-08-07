@@ -12,25 +12,58 @@ define('project/controllers-license', ['project/init'], function() {
    */
   function licenseController ($scope, modal, alertWarn, alertError, requestData, utils) {
 
-      $scope.submitForm = function(fromId, type) {
+      $scope.submitForm = function (fromId, type) {
           $scope.submitForm_type = type;
 
           if ($scope.submitForm_type == 'submit-medical') {
 
-              requestData('rest/authen/license/save', $scope.formData, 'POST', 'parameterBody')
+              requestData('rest/authen/qualificationCertificate/save', $scope.formData, 'POST', 'parameterBody')
                   .then(function (results) {
                       if (results[1].code === 200) {
                           alertOk('操作成功');
                       }
                   })
                   .catch(function (error) {
-                      if (error) { alertWarn(error); }
+                      if (error) {
+                          alertWarn(error);
+                      }
                   });
 
           }
           $('#' + fromId).trigger('submit');
       };
 
+      $scope.licenseCommodityType=function(item){
+          if(item.value){
+              if(!$scope.formData.enterpriseType){
+                  $scope.formData.enterpriseType=[];
+              }
+              $scope.formData.enterpriseType.push(item.text);
+
+          }
+      };
+
+      $scope.$watch('!initFlag', function (newVal) {
+          var scopeData= [];
+
+          for(var item in $scope.departments){
+
+              scopeData.push($scope.departments[item]);
+
+              if ($scope.formData.enterpriseType) {
+                  for(j=0;j<$scope.formData.enterpriseType.length;j++){
+
+                      if($scope.formData.enterpriseType[j]==$scope.departments[item].value){
+                          $scope.departments[item].value=true;
+                      }
+                  }
+              }
+          }
+      });
+
+      $scope.watchFormChange = function(watchName){
+          watchFormChange(watchName,$scope);
+      };
   }
 
 

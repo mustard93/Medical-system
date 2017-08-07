@@ -24,6 +24,22 @@ define('project/controllers-deleteUploader', ['project/init'], function() {
 
       }
     };
+    // 
+    // $scope.$watch('userData.id',function(newVal,oldVal){
+    //   if (newVal&&newVal!==oldVal) {
+    //
+    //     var url='rest/authen/userAndOrganization/getByUserId?userId='+$scope.userData.id;
+    //     requestData(url,{},'get')
+    //       .then(function (results) {
+    //         var _data=results[1].data;
+    //         $scope.ngModel[$index]
+    //         console.log(_data);
+    //       })
+    //       .catch(function (error) {
+    //         alertError(error || '出错');
+    //       });
+    //   }
+    // })
   }
 
   angular.module('manageApp.project')

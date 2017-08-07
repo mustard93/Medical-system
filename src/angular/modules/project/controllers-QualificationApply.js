@@ -55,10 +55,12 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              attachments[0].isAdmin=true;
          }
        }
-      //  默认选择生产企业
-      // if (initType) {
-      //   $scope.formData.type='生产企业';
-      // }
+
+      //  判断区分是新建还是录入
+      if ($scope.mainStatus.pageParams.enterFlag=='false') {
+        $scope.formData.enterFlag=false;
+      }
+
      });
 
      $scope.$watch('formData.medicalAttribute.code',function(newVal){
