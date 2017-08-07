@@ -2,7 +2,7 @@
   <h1 class="pr-font-14 color-3 text-blod mgb">{{eAttachmentsExtend.title||"审核资料"}}</h1>
   <table class="table">
     <thead>
-      <tr>
+      <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
         <th>序号</th>
         <th>类型</th>
         <!-- <th>资料名称</th> -->
@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="item in ngModel" class="bb-dashed-line">
+      <tr ng-repeat="item in ngModel" ng-class="{'bb-dashed-line':(ngModel.length>1&&$index+1!=ngModel.length)}">
         <td>{{$index + 1}}</td>
         <td>{{item.licenseName}}</td>
         <td>{{item.certificateNumber}}</td>
@@ -30,7 +30,7 @@
     </tbody>
   </table>
   <div ng-if="!ngModel.length">
-    <div class="empty-div clearfix">
+    <div class="empty-div clearfix" >
       <div>&nbsp;</div>
       <div>&nbsp;</div>
       <div>&nbsp;</div>

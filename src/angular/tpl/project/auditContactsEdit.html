@@ -27,12 +27,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line"
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" ng-class="{'bb-dashed-line':(ngModel.length>1&&$index+1!=ngModel.length)}"
           ajax-if-eval="userData.id"
           ajax-url="rest/authen/userAndOrganization/getByUserId?userId={{userData.id}}"
           scope-data="departmentData"
           alert-error
-          callback="item.departmentName=departmentData.departmentName;item.name=userData.title;">
+          callback="item.departmentName=departmentData.departmentName;item.name=userData.title;item.id=userId">
           <td>
             <span class="delete-attachement-item cur-pot" ng-click="ngModel.splice($index,1);"></span>
           </td>
@@ -52,6 +52,7 @@
             <i class="receive-item-icon" style="top:15px;right:15px;"></i>
           </td><!-- 审核人  -->
           <td >{{item.departmentName}}</td><!-- 部门  -->
+          <td style="display:none;">{{item.id}}</td><!-- 审核人的id传给后台  -->
           <!-- 证书编号  -->
           <td>
             <div class="date-icon-outside">
@@ -74,7 +75,7 @@
       </tbody>
     </table>
     <div ng-if="!ngModel.length">
-      <div class="empty-div clearfix">
+      <div class="empty-div clearfix" >
         <div>&nbsp;</div>
         <div>&nbsp;</div>
         <div>&nbsp;</div>

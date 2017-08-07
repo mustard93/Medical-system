@@ -11,20 +11,20 @@
 
   <div class="right-side-container color-white text-n">
     <ul>
-      <li class="pr-indent-20" ng-repeat="item in scopeData track by $index">
+      <li class="pr-indent-20 up-li" ng-repeat="item in scopeData track by $index">
         <span>
-          <label class="radio radio-new ng-scope">
+          <label class="up-radio radio radio-new ng-scope">
             <input type="radio"
                    class="default-radio"
                    name="customer"
                    ng-checked=""
                    ng-click="choiseThisItem(item,dialogData.id);modal.closeAll()"
                    ng-disabled="!item.value"><i></i>
+                   <span ng-if="item.value!='null'" class="mgl-s" style="width:120px;display:inline-block;">{{item.value | currency:'￥'}}</span>
+                   <span ng-if="item.value=='null'" class="mgl-s" style="width:120px;display:inline-block;">—</span>
+                   <span class="mgl-s">{{item.text}}</span>
           </label>
         </span>
-        <span ng-if="item.value!='null'" class="mgl-s" style="width:120px;display:inline-block;">{{item.value | currency:'￥'}}</span>
-        <span ng-if="item.value=='null'" class="mgl-s" style="width:120px;display:inline-block;">—</span>
-        <span class="mgl-s">{{item.text}}</span>
       </li>
     </ul>
   </div>
