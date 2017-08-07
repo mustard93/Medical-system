@@ -68,7 +68,7 @@
             </div>
             <!-- 审批 -->
 
-            <div ng-if="showData.orderStatus!='未提交'" class="first-medical-nav-new">
+            <div ng-if="showData.orderStatus!='未提交'&&!showData.enterFlag" class="first-medical-nav-new">
                 <div ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
                                 'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}"
                      ng-repeat="item in scopeData">
@@ -117,7 +117,7 @@
               </div>
                 <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">分类：</span>
-                    <span class="flex-item-10 text-left">  {{showData.supplierAttribute.name}}</span>
+                    <span class="flex-item-10 text-left">  {{showData.customerAttribute.name}}</span>
                 </div>
 
                 <div class="flex-column mgt">
