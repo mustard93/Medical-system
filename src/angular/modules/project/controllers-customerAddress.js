@@ -63,18 +63,6 @@ define('project/controllers-customerAddress', ['project/init'], function() {
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
 
-       if ($scope.submitForm_type == 'submit-hospital') {
-         requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
-         .then(function (results) {
-           if (results[1].code === 200) {
-             $scope.formData.validFlag = true;
-             $scope.goTo({tabHref:'#/hospitalManagement/get.html?id='+$scope.formData.id,tabName:'医院信息管理'});
-           }
-         })
-         .catch(function (error) {
-
-         });
-       }
        if ($scope.submitForm_type == 'submit-supplier') {
          requestData('rest/authen/supplier/save', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
@@ -87,12 +75,12 @@ define('project/controllers-customerAddress', ['project/init'], function() {
 
          });
        }
-       if ($scope.submitForm_type == 'submit-otherCustomer') {
+       if ($scope.submitForm_type == 'submit-customerAddress') {
          requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
            if (results[1].code === 200) {
              $scope.formData.validFlag = false;
-             $scope.goTo({tabHref:'#/otherCustomerManagement/get.html?id='+$scope.formData.id,tabName:'批发/零售商管理'});
+             $scope.goTo({tabHref:'#/customerAddressManage/get.html?id='+$scope.formData.id,tabName:'客户管理'});
            }
          })
          .catch(function (error) {
@@ -113,7 +101,9 @@ define('project/controllers-customerAddress', ['project/init'], function() {
           $scope.formData.type=[];
         }
       $scope.formData.type.push(item.text);
-      }
+    }else {
+      $scope.formData.type.pop(item.text);
+    }
     }
     //判断当前审核意见是否可见
     $scope.showAuditOpinion = function (returnArr, pipeKey) {

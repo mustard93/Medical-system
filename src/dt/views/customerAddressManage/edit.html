@@ -1,36 +1,30 @@
-<div class="first-medical-application first-enterprise-application"
-     ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+<div class="first-medical-application"
+     ng-controller="customerAddressCtrl"
+     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
-     alert-error
-     ng-init="formData.validFlag=false">
+     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
+     alert-error>
+
      <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
-         <a
-         tab-nav
-         tab-name='首营客户管理'
-         tab-href="#/firstCustomerAddressApplication/query.html">
-            <em class="color-custom-orange">首营管理</em>
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">客户中心 >
+         <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">
+            <em class="color-custom-orange">客户管理</em>
          </a>
-        <em>>首营客户申请</em>
+        <em>>客户管理编辑</em>
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">首营客户申请</h1>
+           <h1 class="color-black pr-font-20">客户管理-编辑</h1>
          </div>
        </div>
      </div>
   <!-- 主体内容 -->
   <div class="content-wrapper ">
-    <div step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
-    </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstCustomerAddressApplication_editForm"
-            name="firstCustomerAddressApplication_editForm"
+            id="customerAddress_editForm"
+            name="customerAddress_editForm"
             form-validator
             parameter-body
             action="rest/authen/firstCustomerAddressApplication/saveBaseInfo"
@@ -39,22 +33,25 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstCustomerAddressApplication/query.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/customerAddress/get.html','客户管理');watchFormChange('formData')">
             <!-- 单号 -->
             <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
               <div class="flex-item-6">
                 <span class="flex-item-12">
-                  单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+                  单据编号：<em class="color-6 mgr-s">{{formData.relOrderNo || '暂无'}}</em>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
-                  制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
-                  制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
-                  制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
-                   状态：  <em class="color-black">{{formData.orderStatus}}</em>
+                  制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
+                  制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
+                  制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                  状态：<em class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
               </div>
+
             </div>
         <!-- 基本信息 -->
+
+
         <div class="panel pr-panel pr-panel-height mgb" >
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <div class="flex-column mgt">
@@ -205,6 +202,8 @@
             </div>
             </div>
         </div>
+
+
         <div class="mgb mgt-l">
           <div class="pd-c-v-l pr-bg-white ">
               <h1 class="color-black text-bold text-n">联系人</h1>
@@ -261,64 +260,65 @@
           </div>
         </div>
 
-        <div class="panel pr-panel pr-panel-height mgb">
-            <h1 class="pr-font-18 mgb">申请原因</h1>
-            <div class="">
-                <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
-            </div>
-        </div>
+
+          <div class="panel pr-panel pr-panel-height mgb">
+              <h1 class="pr-font-18 mgb">申请原因</h1>
+              <div class="">
+                  <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+              </div>
+          </div>
+
+
         <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营客户申请","addFlag":false}'
+        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营企业申请","addFlag":false}'
         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营客户申请","addFlag":false}'
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
         e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
 
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
-            <span class="mgl" >
+            <span class="mgl">
               <a ng-if="changeFlag"  href="javascript:;"
                  handle-this-click
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户管理'})"
-                 save-callback="submitSaveCallBack('firstCustomerAddressApplication')">返回申请单列表</a>
-              <a ng-if="!changeFlag"
-              tab-nav
-              tab-name='首营客户管理'
-              tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
+                 nosave-callback="goTo({tabHref:'#/customerAddress/query.html',tabName:'客户管理'})"
+                 save-callback="submitForm('customerAddress_editForm','exit');
+                 $root.goTo({tabHref:'#/customerAddress/query.html',tabName:'客户管理'})">返回申请单列表</a>
+              <a ng-if="!changeFlag" tab-nav tab-name="客户管理" tab-href="#/views/customerAddressManage/query.html">返回申请单列表</a>
             </span>
+            <span bottom-button-list="bottomButtonList">  </span>
+            <span class="mgl" >
+              <a tab-nav tab-name="客户管理" tab-href="#/views/customerAddressManage/edit.html?id={{formData.id}}"></a>
+              <button ng-if="changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-disabled="!customerAddress_editForm.$valid"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/customerAddress/save",
+                             "goUrl":"",
+                             "urlType":"submit-customerAddress"
+                            }'
+                tpl-url="tpl/pr-dialog-content-reason.html"
+                 >保存</button>
 
-              </span>
-              <span class="mgl">
-                     <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-                        href="javascript:;"
-                        class="pr-color-red mgr-l"
-                        handle-this-click
-                        dialog-title="确认删除?"
-                        dialog-content="删除后将无法恢复,确认删除?"
-                        dialog-template="pr-dialog-confirm.html"
-                        request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
-                        callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
-                     </a>
-                </span>
-
-
-            <span class="mgl">
-              <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag "
-                      ng-click="submitForm(firstCustomerAddressApplication_editForm','save')">保存</button>
-            </span>
-            <span class="mgl" ng-if="formData.orderStatus=='未提交'">
-              <button class="pr-btn-save-glodbg mgt"
-                      type="button"
-                      ng-disabled="!firstCustomerAddressApplication_editForm.$valid ||!formData.supplierAttribute.name || !formData.type.length"
-                      ng-click="formData.attachmentsValidFlag=true;submitForm('firstCustomerAddressApplication_editForm','submit-customerAddress')">提交
-              </button>
-            </span>
+              <button ng-if="!changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-disabled="!customerAddress_editForm.$valid || !changeFlag || !formData.type.length"
+                ng-click="submitForm('customerAddress_editForm','save')"
+                 >保存</button>
+          </span>
           </div>
         </div>
       </form>
