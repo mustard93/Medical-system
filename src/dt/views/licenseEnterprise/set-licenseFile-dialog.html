@@ -1,5 +1,5 @@
 <div class="sale-return-order right-side pr-bg-black3"
-     ajax-url="rest/authen/qualificationCertificate/save.json?id={{tr.id}}"
+     ajax-url="rest/authen/qualificationCertificate/getOfEdit.json?id={{tr.id}}"
      scope-data="formData"
      alert-error>
 
@@ -18,18 +18,28 @@
             novalidate="true"
             callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="relative">
-      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>{{dialogData}}
-      <div class="pr-panel-height select-bg" style="padding:15px 0;">
-        <label class="flex-item-2 text-right pdr-m mgl-s">证照类型</label>
-        <select class="ipt ipt-new-select color-3"
-                data-placeholder=" "
-                default-empty="全部"
-                chosen
-                style="width:220px"
-                ng-model="formData.licenseTypeName"
-                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">
-        </select>
+      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>
+      <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.systemPreset!='否' && formData.systemPreset">
+          <h1 class="flex-item-2 text-right pdr-s mgl-s pr-fw-700 mgr-s" style="line-height: 20px;">证照类型</h1>
+          <div class="color-white"
+                 style="width:250px;"
+                 ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">{{formData.licenseTypeName}}
+          </div>
       </div>
+
+
+        <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.systemPreset!='是'">
+            <label class="flex-item-2 text-right pdr-s mgl-s">证照类型</label>
+            <select class="ipt ipt-new-select color-3"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    chosen
+                    style="width:220px"
+                    ng-model="formData.licenseTypeName"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">
+            </select>
+        </div>
+
     </div>
     <div class="flex-column mgt mgb-l">
         <label class="flex-item-2 text-right pdr-s mgl-s">是否预警</label>
@@ -63,7 +73,8 @@
                alert-error>
                   <label class="quali-selection relative"  ng-repeat="item in departments track by $index" ng-controller="licenseController">
                       <input type="checkbox"
-                             id="{{$index + 1}}1" ng-model="item.value"
+                             id="{{$index + 1}}"
+                             ng-checked="licenseHasThisItem(item.value)"
                              ng-click="licenseCommodityType(item);"
                              class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
                   </label>

@@ -43,6 +43,25 @@ define('project/controllers-license', ['project/init'], function() {
           }
       };
 
+
+      $scope.licenseHasThisItem = function (item) {
+          // 获取groupKey
+          console.log(item)
+
+          var _groupKey = tbodyList[0]['groupKey'];
+          var _groupKeyArray = _groupKey.split('-');
+          // 循环遍历当前数组值并与groupDataList进行比对，将得出的值push进groupList中
+          angular.forEach(_groupKeyArray, function (data, index) {
+              for(var key in groupDataList) {
+                  if (groupDataList.hasOwnProperty(key) && (data === key)) {
+                      $scope.groupList.push(groupDataList[key]);
+                  }
+              }
+          });
+      }
+
+
+
       $scope.$watch('!initFlag', function (newVal) {
           var scopeData= [];
 
