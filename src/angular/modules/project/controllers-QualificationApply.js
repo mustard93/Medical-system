@@ -264,7 +264,8 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
           $scope.formData.type=[];
         }
       $scope.formData.type.push(item.text);
-
+      }else {
+        $scope.formData.type.pop(item.text);
       }
     };
 

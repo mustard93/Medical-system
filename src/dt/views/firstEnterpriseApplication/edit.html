@@ -68,6 +68,7 @@
                         <label for="{{$index + 1}}1"></label>
                         <em class="color-black">{{item.text}}</em>
                     </div>
+                    <span ng-if="!formData.type.length" class="color-red relative" style="top:-13px;">(必选)</span>
                 </div>
             </div>
             <div class="" style="min-height:200px;">
@@ -314,7 +315,7 @@
             <span class="mgl" ng-if="formData.orderStatus=='未提交'">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="!firstEnterpriseApplication_editForm.$valid ||!formData.supplierAttribute.name"
+                      ng-disabled="!firstEnterpriseApplication_editForm.$valid ||!formData.supplierAttribute.name || !formData.type.length"
                       ng-click="formData.attachmentsValidFlag=true;submitForm('firstEnterpriseApplication_editForm','submit-enterprise')">提交
               </button>
             </span>

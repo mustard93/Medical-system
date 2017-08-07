@@ -113,7 +113,6 @@ define('project/controllers-customerAddress', ['project/init'], function() {
           $scope.formData.type=[];
         }
       $scope.formData.type.push(item.text);
-
       }
     }
     //判断当前审核意见是否可见

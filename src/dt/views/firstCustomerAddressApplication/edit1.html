@@ -93,6 +93,7 @@
                             <label for="{{$index + 1}}1"></label>
                             <em class="color-black">{{item.text}}</em>
                         </div>
+                        <span ng-if="!formData.type.length" class="color-red relative" style="top:-13px;">(必选)</span>
                     </div>
                 </div>
                 <div class="" style="min-height:200px;">
@@ -325,7 +326,7 @@
                     </span>
                     <span class="mgl">
                       <button class="pr-btn-save-glodbg mgt"
-                              ng-disabled="firstCustomerAddressApplication_editForm1.$invalid || !formData.customerAttribute.name"
+                              ng-disabled="firstCustomerAddressApplication_editForm1.$invalid || !formData.customerAttribute.name || !formData.type.length"
                               ng-click="submitForm('firstCustomerAddressApplication_editForm1','submit')">下一步
                       </button>
                     </span>
