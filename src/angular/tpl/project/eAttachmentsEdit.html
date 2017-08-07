@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line">
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" ng-class="{'bb-dashed-line':(ngModel.length>1&&$index+1!=ngModel.length)}">
           <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" ng-disabled="item.isMust"/>
             <label for="{{$index + 1}}" ng-class="{'pr-bg-grey-white':(item.isMust)}" ></label>

@@ -27,7 +27,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" class="bb-dashed-line"
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" ng-class="{'bb-dashed-line':(ngModel.length>1&&$index+1!=ngModel.length)}"
           ajax-if-eval="userData.id"
           ajax-url="rest/authen/userAndOrganization/getByUserId?userId={{userData.id}}"
           scope-data="departmentData"
