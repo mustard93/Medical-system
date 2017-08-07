@@ -1,0 +1,291 @@
+<div class="first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/firstCustomerAddressApplication/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback='initFlag=true;'
+     alert-error>
+     <form class="form-horizontal"
+           id="firstCustomerAddressApplication_editForm_step"
+           name="firstCustomerAddressApplication_editForm_step"
+           form-validator
+           parameter-body
+           action="rest/authen/firstCustomerAddressApplication/saveBaseInfo?validFlag=true"
+           alert-error
+           alert-ok
+           scope-error-msg="errorMsg"
+           scope-data="showData"
+           novalidate="true"
+           callback="$root.utils.refreshHref();">
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
+        <a
+        tab-nav
+        tab-name='首营客户管理'
+        tab-href="#/firstCustomerAddressApplication/query.html">
+            <em class="color-custom-orange">首营管理</em>
+        </a>
+        <em>>首营客户详情</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb-l">
+            <h1 class="color-black pr-font-20">首营客户详情</h1>
+        </div>
+      </div>
+      <div ng-if="showData.orderStatus=='已冻结'"
+           class="pr-panel pr-panel-height mgb"
+           ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+           scope-data="versionFlowList"
+           alert-error>
+      </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+        <div class="content-wrapper-main mgt">
+            <div class=" mgb" ajax-if-eval="initFlag" ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}" scope-data="scopeData">
+                <div ng-repeat="item in scopeData"
+                     ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
+                                'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}"
+                     class="pr-panel pr-panel-height mgb" ng-show="item.key">
+                    <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
+                    <p class="inline-block color-3"><em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em></p>
+                </div>
+            <!-- 单号 -->
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+                <div class="flex-item-6">
+                    <span class="flex-item-3">
+                      单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
+                    </span>
+
+                </div>
+                <div class="flex-item-6 text-right">
+                    制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
+                    制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
+                    制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                     状态：  <em class="color-black">{{showData.orderStatus}}</em>
+                </div>
+            </div>
+            <!-- 审批 -->
+
+            <div ng-if="showData.orderStatus!='未提交'" class="first-medical-nav-new">
+                <div ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
+                                'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}"
+                     ng-repeat="item in scopeData">
+                  <div ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
+                                  'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}">
+                  </div>
+                  <span class="mgr-xl flex-column">
+                    <em class="color-9 flex-item-4 text-right">{{item.event.extendShowName || '暂无'}}：</em>
+                    <em class="flex-item-8 text-left">{{item.event.conditionType }}</em>
+                  </span>
+                  <span class="mgr-xl flex-column">
+                    <em class="color-9 flex-item-4 text-right">审核人：</em>
+                    <em class="flex-item-8 text-left">{{item.inputUser || '暂无'}}</em>
+                  </span>
+                  <span class="mgr-xl flex-column">
+                    <em class="color-9 flex-item-4 text-right">审核时间：</em>
+                    <em class="flex-item-8 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
+                  </span>
+                  <div
+                  ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
+                  'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}" ></div>
+                </div>
+                <div>
+                    <!-- <div></div><div></div> -->
+                </div>
+            </div>
+        </div>
+<!-- 基本信息 -->
+    <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+        <div class="">
+            <div class="bb-dashed-line pd-v-m">
+              <div class="flex-column">
+                  <span class="flex-item-2 text-right">性质：</span>
+                  <span class="flex-item-10 text-left" style="float:left;">
+                      <em class="mgr-s" ng-repeat="item in showData.type">{{item}}</em>
+                    </span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">名称：</span>
+                  <span class="flex-item-10 text-left">{{showData.name}}</span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">法定代表人：</span>
+                  <span class="flex-item-10 text-left">{{showData.legalUser.n}}</span>
+              </div>
+                <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">分类：</span>
+                    <span class="flex-item-10 text-left">  {{showData.supplierAttribute.name}}</span>
+                </div>
+
+                <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">编号：</span>
+                    <span class="flex-item-10 text-left">{{showData.code}}</span>
+                </div>
+                <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">分管部门：</span>
+                    <span class="flex-item-10 text-left">{{showData.branchDepartmentName}}</span>
+                </div>
+                <div class="flex-column mgt">
+                    <span class="flex-item-2 text-right">分管业务人员：</span>
+                    <span class="flex-item-10 text-left">{{showData.branchUser.n}}</span>
+                </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">开户银行：</span>
+                  <span class="flex-item-10 text-left">
+                      {{showData.accountBank}}
+                    </span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">开户账号：</span>
+                  <span class="flex-item-10 text-left">
+                      {{showData.accountNumber}}
+                    </span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">开户名称：</span>
+                  <span class="flex-item-10 text-left">
+                      {{showData.accountName}}
+                    </span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">付款方式：</span>
+                  <span class="flex-item-10 text-left">
+                      {{showData.payType}}
+                    </span>
+              </div>
+              <div class="flex-column mgt">
+                  <span class="flex-item-2 text-right">经营范围：</span>
+                  <span class="flex-item-10 text-left" style="float:left;">
+                      <em class="mgr-s" ng-repeat="bus in showData.businessScope">{{bus.name}}</em>
+                    </span>
+              </div>
+            </div>
+            <div class="pr-panel-height mgt">
+              <h1 class="mgb-m color-black text-bold text-n">联系人</h1>
+              <div class="">
+                <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+                  <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
+                  <span class="pd-s text-left flex-item-1">职务</span>
+                  <span class="pd-s text-left flex-item-1">电话</span>
+                  <span class="pd-s text-left flex-item-1">手机</span>
+                  <span class="pd-s text-left flex-item-2">电子邮箱</span>
+                  <span class="pd-s text-left flex-item-4">联系地址</span>
+                  <span class="pd-s text-left flex-item-2">备注</span>
+                </div>
+                <div class="">
+                  <div class="pd-c-v-s color-black relative flex-column address-div"
+                       ng-repeat="tr in showData.contacts">
+                    <span class="text-left flex-item-1" >{{tr.name}}</span>
+                    <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
+                    <span class="text-left flex-item-1">{{tr.telephone}}</span>
+                    <span class="text-left flex-item-1">{{tr.tel}}</span>
+                    <span class="text-left flex-item-2">{{tr.email}}</span>
+                    <span class="address-span text-left flex-item-4" title="{{tr.address}}">
+                      <em class="mgr">{{tr.prov}}</em><em class="mgr">{{tr.city}}</em><em class="mgr">{{tr.area}}</em><em class="mgr">{{tr.address}}</em>
+                      <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
+                    </span>
+                    <span class="text-left flex-item-2">{{tr.note}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <!-- 申请原因 -->
+    <div class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-18 mgb">申请原因</h1>
+      <span>{{showData.applyReason}}</span>
+    </div>
+    <!-- 资质证照 -->
+    <div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-14 color-3 text-blod mgb">
+        资质证照
+      </h1>
+      <p>
+        暂无资质证照
+      </p>
+    </div>
+      <div ng-if="showData.attachments.length" ng-init='attachmentsExtend={"title":"资质证照"}'
+      attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend">
+      </div>
+      <!-- 电子档案 -->
+    <div ng-if="!showData.eAttachments.length" class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-14 color-3 text-blod mgb">
+        电子档案
+      </h1>
+      <p>
+        暂无电子档案
+      </p>
+    </div>
+      <div ng-if="showData.eAttachments.length" ng-init='eAttachmentsExtend={"title":"电子档案"}'
+      e-attachments-show ng-model="showData.eAttachments" e-attachments-extend="eAttachmentsExtend">
+      </div>
+      <!-- 审核人 -->
+    <div ng-if="!showData.eAttachments.length" class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-14 color-3 text-blod mgb">
+        审核人
+      </h1>
+      <p>
+        暂无录入审核人
+      </p>
+    </div>
+      <div ng-if="showData.auditContacts.length" ng-init='auditContactsExtend={"title":"审核人"}'
+      audit-contacts--show ng-model="showData.auditContacts" audit-contacts--extend="auditContactsExtend">
+      </div>
+
+    </div>
+
+
+
+<!-- 底部按钮 -->
+<div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+    <div class="mgb text-right btn-area">
+        <span class="mgl mgt">
+            <a
+            tab-nav
+            tab-name='首营客户管理'
+            tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
+          </span>
+        <span ng-if="showData.didateFilter.buttons.length>0" custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+        </span>
+    </div>
+</div>
+<div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
+    <div class="mgb text-right btn-area">
+        <span class="mgl" ng-if="!showData.enterFlag"><a
+          tab-nav
+          tab-name='首营客户管理'
+          tab-href="#/firstCustomerAddressApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+
+        <span class="mgl">
+              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户'})"
+                 params='{"id":showData.id}'
+                 request-url="rest/authen/firstCustomerAddressApplication/delete">删除</a>
+            </span>
+        <span class="mgl" ng-if="!showData.enterFlag">
+              <button class="pr-btn-save-glodbg mgt"
+                      type="button"
+                      ajax-url-submit="rest/authen/firstCustomerAddressApplication/startProcessInstance"
+                      params='{"businessKey":showData.id}'
+                      alert-error
+                      scope-data="showData"
+                      callback="$root.utils.refreshHref()">提交
+              </button>
+      </span>
+    </div>
+</div>
+</form>
+</div>

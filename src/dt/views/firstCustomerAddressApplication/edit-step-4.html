@@ -1,0 +1,132 @@
+<div class="first-medical-application hospital-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
+         <a
+         tab-nav
+         tab-name='首营客户管理'
+         tab-href="#/firstCustomerAddressApplication/query.html">
+            <em class="color-custom-orange">首营管理</em>
+         </a>
+        <em>>首营客户申请</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">录入已审核的首营客户</h1>
+         </div>
+       </div>
+     </div
+  <!-- 主体内容 -->
+  <div class="content-wrapper ">
+    <!-- 添加流程导航 -->
+
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"visited"},
+    {"arrowText":"申请原因","className":"visited"},
+    {"arrowText":"添加资质证书","className":"visited"},
+    {"arrowText":"录入已审核首营客户","className":"active"}]'>
+    </div>
+
+    <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
+      <form class="form-horizontal"
+            id="firstCustomerAddressApplication_editForm_step1"
+            name="firstCustomerAddressApplication_editForm_step1"
+            form-validator
+            parameter-body
+            action="rest/authen/firstCustomerAddressApplication/saveBaseInfo?validateFlag=true"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter('#/firstCustomerAddressApplication/get.html');watchFormChange('formData')">
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <div class="flex-item-6">
+            <span class="flex-item-12">
+              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+            </span>
+          </div>
+          <div class="flex-item-6 text-right">
+              制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+              制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+              制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+               状态：  <em class="color-black">{{formData.orderStatus}}</em>
+          </div>
+        </div>
+        <!-- 录入审核人 -->
+
+        <div ng-init='auditContactsExtend={"title":"首营客户审核人","usege":"首营客户申请","addFlag":false}'
+        audit-contacts-edit ng-model="formData.auditContacts" audit-contacts-extend="auditContactsExtend" >
+      </div>
+
+    </div>
+
+    <div class="color-black mgt-l" style="min-height:150px;">
+        <p>
+            <p class="pr-font-14">说明：</p>
+            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
+        </p>
+    </div>
+  </div>
+
+      <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+      <div class="mgb text-right btn-area">
+        <span class="mgl">
+          <a   ng-if="changeFlag"  href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该申请单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户'})"
+             save-callback="submitForm('firstCustomerAddressApplication_editForm_step1','save');$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户'})">返回申请单列表
+          </a>
+          <a ng-if="!changeFlag"
+          tab-nav
+          tab-name='首营客户管理'
+          tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
+        </span>
+        <span class="mgl ">
+             <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                href="javascript:;"
+                class="pr-color-red mgr-l"
+                handle-this-click
+                dialog-title="确认删除?"
+                dialog-content="删除后将无法恢复,确认删除?"
+                dialog-template="pr-dialog-confirm.html"
+                request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
+                callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
+             </a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!changeFlag"
+                  ng-click="submitForm('firstCustomerAddressApplication_editForm_step1','save')">保存
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/edit-step-3.html?id='+formData.id,'tabName':'首营客户管理'})">上一步</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-click="formData.attachmentsValidFlag=true;formData.finishFlag=true;submitForm('firstCustomerAddressApplication_editForm_step1','submit')">预览申请单
+          </button>
+        </span>
+      </div>
+
+    </div>
+    </form>
+
+</div>
