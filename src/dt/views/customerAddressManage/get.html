@@ -1,0 +1,264 @@
+<table-list list-data="rest/authen/customerAddress/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <div class="first-medical-application" ng-controller="customerAddressCtrl">
+      <div class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs pd-c-xxl">客户中心 >
+          <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">
+             <em class="color-custom-orange">客户管理</em>
+          </a>
+         <em>>客户管理-详情</em>
+        </p>
+        <div class="pd-c-xxl pdt-l pdb-l">
+          <!-- 标题 -->
+          <div class="mgb-l">
+            <h1 class="color-black pr-font-20">客户管理-详情</h1>
+          </div>
+        </div>
+      </div>
+      <!-- 主体内容 -->
+      <div class="content-wrapper "
+      ajax-url="rest/authen/customerAddress/get.json?id={{mainStatus.pageParams.id}}"
+      scope-data="showData"
+      callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);">
+        <div class="content-wrapper-main mgt">
+        <div class="pr-panel pr-panel-height mgb"
+        ng-if="showData.operationFlowSet.message"
+        ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
+        'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='正常'}">
+        <em>原因:</em>
+         <p class="inline-block">
+        <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
+         <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
+         </p>
+        </div>
+        <!-- 状态 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+            <div class="flex-item-6">
+                <span class="flex-item-3">
+                  单据编号：<em class="color-6">{{showData.relOrderNo || '暂无'}}</em>
+                </span>
+
+            </div>
+            <div class="flex-item-6 text-right">
+                制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
+                制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
+                制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                状态：
+                <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus  =='已冻结', 'color-black':showData.businessApplication.businessStatus =='正常',
+                'color-red':showData.businessApplication.businessStatus  =='已终止'}">
+                <em >{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+              </em>
+            </div>
+        </div>          <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+            <div class="">
+                <div class="bb-dashed-line pd-v-m">
+                  <div class="flex-column">
+                      <span class="flex-item-2 text-right">性质：</span>
+                      <span class="flex-item-10 text-left" style="float:left;">
+                          <em class="mgr-s" ng-repeat="item in showData.type">{{item}}</em>
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">名称：</span>
+                      <span class="flex-item-10 text-left">{{showData.name}}</span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">法定代表人：</span>
+                      <span class="flex-item-10 text-left">{{showData.legalUser.n}}</span>
+                  </div>
+                    <div class="flex-column mgt">
+                        <span class="flex-item-2 text-right">分类：</span>
+                        <span class="flex-item-10 text-left">  {{showData.customerAttribute.name}}</span>
+                    </div>
+
+                    <div class="flex-column mgt">
+                        <span class="flex-item-2 text-right">编号：</span>
+                        <span class="flex-item-10 text-left">{{showData.code}}</span>
+                    </div>
+                    <div class="flex-column mgt">
+                        <span class="flex-item-2 text-right">分管部门：</span>
+                        <span class="flex-item-10 text-left">{{showData.branchDepartmentName}}</span>
+                    </div>
+                    <div class="flex-column mgt">
+                        <span class="flex-item-2 text-right">分管业务人员：</span>
+                        <span class="flex-item-10 text-left">{{showData.branchUser.n}}</span>
+                    </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">开户银行：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.accountBank}}
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">开户账号：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.accountNumber}}
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">开户名称：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.accountName}}
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">付款方式：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.payType}}
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">经营范围：</span>
+                      <span class="flex-item-10 text-left" style="float:left;">
+                          <em class="mgr-s" ng-repeat="bus in showData.businessScope">{{bus.name}}</em>
+                        </span>
+                  </div>
+                </div>
+                <div class="panel pr-panel pr-panel-height">
+                  <h1 class="mgb-m color-black text-bold text-n">联系人</h1>
+                  <div class="">
+                    <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+                      <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
+                      <span class="pd-s text-left flex-item-1">职务</span>
+                      <span class="pd-s text-left flex-item-1">电话</span>
+                      <span class="pd-s text-left flex-item-1">手机</span>
+                      <span class="pd-s text-left flex-item-2">电子邮箱</span>
+                      <span class="pd-s text-left flex-item-4">联系地址</span>
+                      <span class="pd-s text-left flex-item-2">备注</span>
+                    </div>
+                    <div class="">
+                      <div class="pd-c-v-s color-black relative flex-column address-div"
+                           ng-repeat="tr in showData.contacts">
+                        <span class="text-left flex-item-1" >{{tr.name}}</span>
+                        <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
+                        <span class="text-left flex-item-1">{{tr.telephone}}</span>
+                        <span class="text-left flex-item-1">{{tr.tel}}</span>
+                        <span class="text-left flex-item-2">{{tr.email}}</span>
+                        <span class="address-span text-left flex-item-4" title="{{tr.address}}">
+                          <em class="mgr">{{tr.prov}}</em><em class="mgr">{{tr.city}}</em><em class="mgr">{{tr.area}}</em><em class="mgr">{{tr.address}}</em>
+                          <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
+                        </span>
+                        <span class="text-left flex-item-2">{{tr.note}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <!-- 申请原因 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <span>{{showData.applyReason}}</span>
+        </div>
+
+        <!-- 资质证照 -->
+
+          <div  ng-init='attachmentsExtend={"title":"资质证照"}'
+          attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend">
+          </div>
+          <!-- 电子档案 -->
+
+        <div  ng-init='eAttachmentsExtend={"title":"电子档案"}'
+        e-attachments-show ng-model="showData.eAttachments" e-attachments-extend="eAttachmentsExtend">
+        </div>
+      </div>
+      <div class="handle-btn-area">
+        <div class="btn-area" >
+          <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block">
+                  <span class="mgl">
+                    <a ng-if="changeFlag"  href="javascript:;"
+                       handle-this-click
+                       dialog-title="确认返回?"
+                       dialog-content="该申请单存在未保存数据，是否保存?"
+                       dialog-template="pr-dialog-return.html"
+                       nosave-callback="goTo({tabHref:'#/customerAddressManage/query.html',tabName:'客户管理'})"
+                       save-callback="submitForm('customerAddress_editForm','exit');
+                       $root.goTo({tabHref:'#/customerAddressManage/query.html',tabName:'客户管理'})">返回申请单列表</a>
+                    <a ng-if="!changeFlag" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">返回申请单列表</a>
+                  </span>
+                  <span bottom-button-list="bottomButtonList">  </span>
+                  <span class="mgl" ng-if="$root.hasAuthor('客户管理删除')">
+                    <a ng-if="showData.id"
+                       href="javascript:;"
+                       class="color-red mgt"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo({tabHref:'#/customerAddressManage/query.html',tabName:'客户管理'})"
+                       params='{"id":showData.id}'
+                       request-url="rest/authen/customerAddress/delete">删除</a>
+                  </span>
+                  <span>
+                    <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
+                      <button class="btn-freeze mgl-l pr-bg-orange"
+                              type="button"
+                              ng-if="$root.hasAuthor('客户管理冻结')"
+                              modal-center="340"
+                              modal-scope="this"
+                              modal-data='{"title":"确认",
+                                           "content":"冻结后，将无法对该客户销售。确认冻结？",
+                                           "btnConfirm":"确定",
+                                           "btnCancel":"取消",
+                                           "url":"rest/authen/customerAddress/updateStatus",
+                                           "goUrl":"",
+                                           "id":"{{showData.id}}",
+                                           "status":"已冻结"
+                                          }'
+                              tpl-url="tpl/pr-dialog-submit-message.html">冻结
+                      </button>
+                    </span>
+                    <span ng-if="showData.businessApplication.businessStatus=='已冻结'">
+                      <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
+                              type="button"
+                              ng-if="$root.hasAuthor('客户管理解冻')"
+                              modal-center="340"
+                              modal-scope="this"
+                              modal-data='{"title":"确认解冻?",
+                                           "content":"解冻后，该信息将恢复，确认解冻?",
+                                           "btnConfirm":"确定",
+                                           "btnCancel":"取消",
+                                           "url":"rest/authen/customerAddress/updateStatus",
+                                           "goUrl":"",
+                                           "id":"{{showData.id}}",
+                                           "status":"正常"
+                                          }'
+                              tpl-url="tpl/pr-dialog-submit-message.html">解冻
+                      </button>
+                    </span>
+                    <span class="line-hei-36" ng-if="showData.businessApplication.businessStatus!='已终止'">
+                      <button class="btn-reject mgl mgt color-white text-center"
+                              type="button"
+                              ng-if="$root.hasAuthor('客户管理终止')"
+                              handle-this-click
+                              dialog-title="确认终止?"
+                              dialog-content="终止后，该信息将被取消，确定终止?"
+                              dialog-template="pr-dialog-submit.html"
+                              request-url="rest/authen/customerAddress/updateStatus"
+                              params='{"id":showData.id,"status":"已终止"}'
+                              alert-error
+                              callback="$root.utils.refreshHref()"
+                              >终止
+                      </button>
+                    </span>
+              </span>
+
+              <a ng-if="!showData.businessApplication.businessStatus" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">返回申请单列表</a>
+              <span>
+                <button type="button" name="button"  class="pr-btn-save-glodbg mgl mgt">
+                  <a class="color-white" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/edit.html?id={{showData.id}}">编辑</a>
+                </button>
+              </span>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+</table-list>
