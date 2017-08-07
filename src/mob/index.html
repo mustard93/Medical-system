@@ -216,19 +216,19 @@
 
         var orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || 'b289665d47364f1a8dd1438f1c031081';
 
+
+        if(!orderId || !orderType || !orderMedicalNoUuid){
+            alert("获取参数失败！");
+            return;
+        }
+
+
         ajax(baseUrl+'rest/medicalReviewRecord/getOrderMedicalNo?orderId='+orderId+'&orderType='+orderType+'&orderMedicalNoUuid='+orderMedicalNoUuid,'get',initGoodsInfo
 ,errorCallback);
 
         setTimeout(function () {
             ajax(baseUrl+'rest/medicalReviewRecord/query?orderMedicalNoUuid='+orderMedicalNoUuid,'get',successCallback,errorCallback);
         },100);
-
-        //if(orderMedicalNoUuid){
-
-        //}else{
-//            alert('获取参数错误！');
-        //}
-
     };
 
 
