@@ -11,14 +11,17 @@ define('project/controllers-SelectedCommodity', ['project/init'], function() {
    */
   function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+    // 选中相应药品类别，放入数组中传到后台
     $scope.choiceCommodityType=function(item){
+      console.log(item.value);
       if(item.value){
-        if(!$scope.formData.type){
+        if($scope.formData.type === null){
           $scope.formData.type=[];
         }
       $scope.formData.type.push(item.text);
-
-      }
+    }else {
+      $scope.formData.type.pop(item.text);
+    }
     };
 
     $scope.$watch('!initFlag', function (newVal) {

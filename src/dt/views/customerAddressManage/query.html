@@ -1,20 +1,20 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="medicalStockCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="rest/authen/supplier/query.json"
+     <table-list list-data="rest/authen/customerAddress/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
 
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"供应商管理","link":"","style":""}]'
-                                component-title="供应商管理"
-                                is-show-create-btn="新建首营企业申请"
-                                is-show-enter-btn="录入已审核首营企业"
-                                enter-new-url="#/firstEnterpriseApplication/edit1.html?enterFlag=true"
-                                create-btn-author="首营企业管理新增"
-                                create-new-url="#/firstEnterpriseApplication/edit1.html?enterFlag=false"
+                                crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"客户管理","link":"","style":""}]'
+                                component-title="客户管理"
+                                is-show-create-btn="新建首营客户申请"
+                                is-show-enter-btn="录入已审核首营客户"
+                                enter-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=true"
+                                create-btn-author="首营客户管理新增"
+                                create-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=false"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
@@ -36,7 +36,7 @@
                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
                 </select>
               </div>
-              <div class="inline-block">制单日期:
+              <div class="inline-block">单据日期:
                 <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
                     <input type="text"
                            datepicker
@@ -83,7 +83,7 @@
 
 
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="供应商编号/供应商名称" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="客户编号/客户名称" ng-model="listParams.q">
                   <i class=""></i>
                 </div>
                 <div class="inline-block mgl-m">
@@ -98,9 +98,9 @@
                 <tr>
                   <th class="w-80">状态</th>
                   <th>序号</th>
-                  <th>供应商编号</th>
-                  <th>供应商名称</th>
-                  <th>制单日期</th>
+                  <th>客户编号</th>
+                  <th>客户名称</th>
+                  <th>单据日期</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,7 +120,7 @@
                       </span>
                     </span>
                     <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-show="$root.hasAuthor('供应商管理删除')">
+                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" >
 
                           <div class="del-confirm-area text-center">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
@@ -128,18 +128,18 @@
                               <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
                               <a href="javascript:;"
                                 class="pr-btn-best-small pr-btn-bg-gold"
-                                ng-click="handleDelDetails(tr.id, 'rest/authen/supplier/delete', '#/supplier/query.html', 'parameterType')">确认
+                                ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/customerAddressManage/query.html', 'parameterType')">确认
                               </a>
                             </p>
                           </div>
                       </div>
-                      <span ng-if="$root.hasAuthor('供应商管理修改')">
-                        <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo({tabHref:'#/supplier/edit.html?id='+tr.id,tabName:'供应商管理'})"></div>
+                      <span >
+                        <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo({tabHref:'#/customerAddressManage/edit.html?id='+tr.id,tabName:'客户管理'})"></div>
                       </span>
                       <div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
 
-                          <span ng-if="$root.hasAuthor('供应商管理冻结')">
+                          <span >
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
                              href="javascript:;"
                              modal-center="350"
@@ -148,7 +148,7 @@
                                           "content":"冻结后，将无法对该客户销售。确认冻结？",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/supplier/updateStatus",
+                                          "url":"rest/authen/customerAddress/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
                                           "status":"已冻结"
@@ -156,7 +156,7 @@
                              tpl-url="tpl/pr-dialog-submit-message.html">冻结
                           </a>
                           </span>
-                          <span ng-if="$root.hasAuthor('供应商管理解冻')">
+                          <span >
                           <a ng-if="tr.businessApplication.businessStatus=='已冻结'"
                              href="javascript:;"
                              modal-center="350"
@@ -165,7 +165,7 @@
                                           "content":"解冻后，该信息将恢复，确认解冻?",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/supplier/updateStatus",
+                                          "url":"rest/authen/customerAddress/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
                                           "status":"正常"
@@ -173,13 +173,13 @@
                              tpl-url="tpl/pr-dialog-submit-message.html">解冻
                           </a>
                           </span>
-                          <span ng-if="$root.hasAuthor('供应商管理终止')" style="display: block;">
+                          <span style="display: block;">
                           <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认终止?"
                              dialog-content="终止后，该信息将被取消，确定终止?"
                              dialog-template="pr-dialog-submit.html"
-                             request-url="rest/authen/supplier/updateStatus"
+                             request-url="rest/authen/customerAddress/updateStatus"
                              params='{"id":tr.id,"status":"已终止"}'
                              alert-error
                              callback="$root.utils.refreshHref()">终止
@@ -217,7 +217,7 @@
                   <td>{{tr.code}}</td>
                   <td class="text-left color-orange">
                     <div class="autocut color-orange" title="{{tr.name}}">
-                      <a tab-nav tab-name="供应商管理" tab-href="#/supplier/get.html?id={{tr.id}}">
+                      <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/get.html?id={{tr.id}}">
                           {{tr.name}}
                       </a>
                     </div>

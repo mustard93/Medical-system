@@ -1,22 +1,22 @@
 <div class="first-medical-application first-enterprise-application">
-  <table-list list-data="rest/authen/firstEnterpriseApplication/query.json"
+  <table-list list-data="rest/authen/firstCustomerAddressApplication/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
   <!-- 主内容头部 -->
   <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"首营管理","link":"","style":""}]'
-                              component-title="首营企业管理"
-                              is-show-create-btn="新建首营企业申请"
-                              is-show-enter-btn="录入已审核首营企业"
-                              enter-new-url="#/firstEnterpriseApplication/edit1.html?enterFlag=true"
-                              create-btn-author="首营企业管理新增"
-                              create-new-url="#/firstEnterpriseApplication/edit1.html?enterFlag=false"
-                              get-status-num-url="rest/authen/firstEnterpriseApplication/countByOrderStatus.json"
+                              component-title="首营客户管理"
+                              is-show-create-btn="新建首营客户申请"
+                              is-show-enter-btn="录入已审核首营客户"
+                              enter-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=true"
+                              create-btn-author="首营客户管理新增"
+                              create-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=false"
+                              get-status-num-url="rest/authen/firstCustomerAddressApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
                               is-show-key-filter=true
-                              search-placeholder-info="企业名 / 单据编号"
+                              search-placeholder-info="客户名 / 单据编号"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
   <!-- 主内容区域 -->
@@ -41,12 +41,12 @@
                   </span>
 
                   <span class="flex-item-6 text-right">
-                    <span ng-if="$root.hasAuthor('首营企业管理修改')">
+                    <span ng-if="$root.hasAuthor('首营客户管理修改')">
                     <a
-                       ng-if="$root.hasAuthor('首营企业管理修改')&&tr.orderStatus=='未提交'"
+                       ng-if="$root.hasAuthor('首营客户管理修改')&&tr.orderStatus=='未提交'"
                        tab-nav
-                       tab-name='首营企业管理'
-                       tab-href="#/firstEnterpriseApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                       tab-name='首营客户管理'
+                       tab-href="#/firstCustomerAddressApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                      <span class="edit-link-icon">&nbsp;</span>
 
                    </a>
@@ -54,21 +54,21 @@
 
                     <a ng-if="tr.orderStatus=='待审核'||tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                       tab-nav
-                      tab-name='首营企业管理'
-                      tab-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
+                      tab-name='首营客户管理'
+                      tab-href="#/firstCustomerAddressApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                        <span class="watch-detail-icon">&nbsp;</span>
                      </a>
 
-                     <span ng-if="$root.hasAuthor('首营企业管理审批')">
+                     <span ng-if="$root.hasAuthor('首营客户管理审批')">
                         <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                         tab-nav
-                        tab-name='首营企业管理'
-                        tab-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
+                        tab-name='首营客户管理'
+                        tab-href="#/firstCustomerAddressApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
                           <span class="examine-approve">&nbsp;</span>
                         </a>
                      </span>
 
-                     <span ng-if="$root.hasAuthor('首营企业管理删除')">
+                     <span ng-if="$root.hasAuthor('首营客户管理删除')">
                       <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
                           href="javascript:;"
                           class="btn-link pd-m rect-s "
@@ -76,10 +76,10 @@
                           dialog-title="确认删除?"
                           dialog-content="删除后将无法恢复,确认删除?"
                           dialog-template="pr-dialog-submit.html"
-                          callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                          callback="$root.goTo('#/firstCustomerAddressApplication/query.html')"
                           params='{"id":tr.id}'
                           title="删除"
-                          request-url="rest/authen/firstEnterpriseApplication/delete">
+                          request-url="rest/authen/firstCustomerAddressApplication/delete">
                         <span class="delete-link-icon">&nbsp;</span>
                         </a>
                       </span>
@@ -95,21 +95,15 @@
                     <span class="flex-item-6 text-right pr-indent-10"><strong class="color-black text-normal">{{tr.orderNo}}</strong></span>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 text-left">录单日期</span>
+                    <span class="flex-item-6 text-left">单据日期</span>
                     <span class="flex-item-6 text-right">
                         <strong class="color-black text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
                     </span>
                   </div>
-                  <!-- <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 text-left">填报部门</span>
-                    <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.departmentName}}</strong>
-                    </span>
-                  </div> -->
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
                     <span class="flex-item-6 text-left">分类</span>
                     <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.supplierAttribute.name}}</strong>
+                        <strong class="color-black text-normal">{{tr.customerAttribute.name}}</strong>
                     </span>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
@@ -118,43 +112,6 @@
                         <strong class="color-black text-normal">{{tr.code}}</strong>
                     </span>
                   </div>
-                  <!-- <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 text-left">采购员</span>
-                    <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                      <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
-                      style="position:relative;height:25px;">{{tr.buyer.n}}</strong>
-                      <span class="purchaseorder-buyer-info" style="top:244px;">
-                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.buyer.p}}</em></i>
-                        <i class="block pdb-s text-normal">
-                          <em class="fa fa-comment-o mgl"></em>
-                          <em class="inline-block pdl pdr pdt">
-                            <a href="javascript:;"
-                               modal-center="490"
-                               modal-data='{"toUser":{"n":"{{tr.buyer.n}}"},"userIds":["{{tr.buyer.id}}"]}'
-                               modal-url="views/notice/sendToUser.html">发送消息
-                            </a>
-                          </em>
-                        </i>
-                      </span>
-                    </span>
-                  </div> -->
-                  <!-- <div class="flex-column qurey text-s color-9 mgb bt-line"
-                    >
-                    <p ng-if="tr.orderStatus!='已作废'"
-                    title="{{tr.note}}"
-                    class="text-ellips-s">
-                      <span >备注：</span><span class="color-6">{{tr.note}}</span>
-                    </p>
-                    <p ng-if="tr.orderStatus=='已作废'"
-                    title="{{tr.operationFlowSet[1].key}}{{tr.operationFlowSet[1].message}}"
-                    class="text-ellips-s">
-                      <span>原因：</span>
-                      <span class="color-red">
-                        {{tr.operationFlowSet[1].key || '暂无'}}
-                        {{tr.operationFlowSet[1].message}}
-                      </span>
-                    </p>
-                  </div> -->
               </div>
             </div>
             </div>

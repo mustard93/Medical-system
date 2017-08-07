@@ -1,6 +1,6 @@
 <div class="first-medical-application hospital-application"
      ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
@@ -8,53 +8,46 @@
        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
          <a
          tab-nav
-         tab-name='首营企业管理'
-         tab-href="#/firstEnterpriseApplication/query.html">
+         tab-name='首营客户管理'
+         tab-href="#/firstCustomerAddressApplication/query.html">
             <em class="color-custom-orange">首营管理</em>
          </a>
-        <em>>首营企业申请</em>
+        <em>>首营客户申请</em>
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
 
          <div class="mgb-l">
-           <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
-           <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
+           <h1 class="color-black pr-font-20">录入已审核的首营客户</h1>
          </div>
        </div>
      </div
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div ng-if="!formData.enterFlag"
+
+    <div
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
     {"arrowText":"申请原因","className":"visited"},
-    {"arrowText":"添加资质证书","className":"active"}]'>
-    </div>
-    <div ng-if="formData.enterFlag"
-    step-flow-arrow-show
-    step-flow-arrow-json=
-  '[{"arrowText":"基本信息","className":"visited"},
-    {"arrowText":"申请原因","className":"visited"},
-    {"arrowText":"添加资质证书","className":"active"},
-    {"arrowText":"录入已审核首营企业","className":"unactive"}]'>
+    {"arrowText":"添加资质证书","className":"visited"},
+    {"arrowText":"录入已审核首营客户","className":"active"}]'>
     </div>
 
     <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
       <form class="form-horizontal"
-            id="firstEnterpriseApplication_editForm_step1"
-            name="firstEnterpriseApplication_editForm_step1"
+            id="firstCustomerAddressApplication_editForm_step1"
+            name="firstCustomerAddressApplication_editForm_step1"
             form-validator
             parameter-body
-            action="rest/authen/firstEnterpriseApplication/saveAttachments?validFlag=true"
+            action="rest/authen/firstCustomerAddressApplication/saveBaseInfo?validateFlag=true"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstEnterpriseApplication/get.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/firstCustomerAddressApplication/get.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
@@ -69,13 +62,12 @@
                状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
-        <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营企业申请","addFlag":false}'
-        attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+        <!-- 录入审核人 -->
 
-        <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
-        e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
+        <div ng-init='auditContactsExtend={"title":"首营客户审核人","usege":"首营客户申请","addFlag":false}'
+        audit-contacts-edit ng-model="formData.auditContacts" audit-contacts-extend="auditContactsExtend" >
+      </div>
+
     </div>
 
     <div class="color-black mgt-l" style="min-height:150px;">
@@ -98,13 +90,13 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
-             save-callback="submitForm('firstEnterpriseApplication_editForm_step1','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})">返回申请单列表
+             nosave-callback="goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户'})"
+             save-callback="submitForm('firstCustomerAddressApplication_editForm_step1','save');$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户'})">返回申请单列表
           </a>
           <a ng-if="!changeFlag"
           tab-nav
-          tab-name='首营企业管理'
-          tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+          tab-name='首营客户管理'
+          tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl ">
              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -114,28 +106,22 @@
                 dialog-title="确认删除?"
                 dialog-content="删除后将无法恢复,确认删除?"
                 dialog-template="pr-dialog-confirm.html"
-                request-url="rest/authen/firstEnterpriseApplication/delete?id={{formData.id}}"
-                callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query-overflow.html','tabName':'首营企业管理'})">删除
+                request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
+                callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
              </a>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag"
-                  ng-click="submitForm('firstEnterpriseApplication_editForm_step1','save')">保存
+                  ng-click="submitForm('firstCustomerAddressApplication_editForm_step1','save')">保存
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-2.html?id='+formData.id,'tabName':'首营企业管理'})">上一步</button>
+          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/edit-step-3.html?id='+formData.id,'tabName':'首营客户管理'})">上一步</button>
         </span>
-
-        <span class="mgl" ng-if="formData.enterFlag">
+        <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-          ng-click="formData.validFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','save');
-          $root.goTo({'tabHref':'#/firstEnterpriseApplication/edit-step-4.html?id='+formData.id,'tabName':'首营企业管理'})">下一步</button>
-        </span>
-        <span class="mgl" ng-if="!formData.enterFlag">
-          <button class="pr-btn-save-glodbg mgt"
-                  ng-click="formData.attachmentsValidFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','submit')">预览申请单
+                  ng-click="formData.attachmentsValidFlag=true;formData.finishFlag=true;submitForm('firstCustomerAddressApplication_editForm_step1','submit')">预览申请单
           </button>
         </span>
       </div>

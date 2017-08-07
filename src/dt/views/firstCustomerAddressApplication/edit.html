@@ -1,6 +1,6 @@
 <div class="first-medical-application first-enterprise-application"
      ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');"
      alert-error
@@ -9,16 +9,16 @@
        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
          <a
          tab-nav
-         tab-name='首营企业管理'
-         tab-href="#/firstEnterpriseApplication/query.html">
+         tab-name='首营客户管理'
+         tab-href="#/firstCustomerAddressApplication/query.html">
             <em class="color-custom-orange">首营管理</em>
          </a>
-        <em>>首营企业申请</em>
+        <em>>首营客户申请</em>
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">首营企业申请</h1>
+           <h1 class="color-black pr-font-20">首营客户申请</h1>
          </div>
        </div>
      </div>
@@ -29,17 +29,17 @@
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstEnterpriseApplication_editForm"
-            name="firstEnterpriseApplication_editForm"
+            id="firstCustomerAddressApplication_editForm"
+            name="firstCustomerAddressApplication_editForm"
             form-validator
             parameter-body
-            action="rest/authen/firstEnterpriseApplication/saveBaseInfo"
+            action="rest/authen/firstCustomerAddressApplication/saveBaseInfo"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstEnterpriseApplication/query.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/firstCustomerAddressApplication/query.html');watchFormChange('formData')">
             <!-- 单号 -->
             <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
               <div class="flex-item-6">
@@ -96,17 +96,17 @@
                 <div class="flex-column mgt">
                   <label class="flex-item-2 text-right control-label">分类：</label>
                   <div class="flex-item-10 color-3 text-left ">
-                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
+                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">{{formData.customerAttribute.name}}</div>
                     <span style="display:none;">{{formData.attributeId}}</span>
                     <button type="button"
-                            z-tree-select="rest/authen/supplierAttribute/query.json"
+                            z-tree-select="rest/authen/customerAttribute/query.json"
                             width="240px"
                             class="btn-select btn-enter-price-select fl-l"
-                            ng-model="formData.supplierAttribute"
+                            ng-model="formData.customerAttribute"
                             id-key="id"
                             p-id-key="parentId">选择
                     </button>
-                    <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
+                    <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
                   </div>
                 </div>
                 <div class="flex-column mgt">
@@ -243,7 +243,7 @@
                   </a>
                   <a class="mgl" href="javacript:;"
                      modal-right="456"
-                     modal-data='{"contact":{{tr}},"contactType":"firstEnterpriseApplication"}'
+                     modal-data='{"contact":{{tr}},"contactType":"firstCustomerAddressApplication"}'
                      modal-scope="this"
                      modal-url="views/public/firstRightSide/add-contact.html">修改
                   </a>
@@ -252,7 +252,7 @@
               <div class="pd-c-v-l mgb">
               <span  class="cur-pot color-href"
                       modal-right="456"
-                      modal-data='{"contactType":"firstEnterpriseApplication"}'
+                      modal-data='{"contactType":"firstCustomerAddressApplication"}'
                       modal-scope="this"
                       modal-url="views/public/firstRightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
               </span>
@@ -268,11 +268,11 @@
             </div>
         </div>
         <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营企业申请","addFlag":false}'
+        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营客户申请","addFlag":false}'
         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营企业申请","addFlag":false}'
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营客户申请","addFlag":false}'
         e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
 
         <!-- 功能按钮 -->
@@ -284,12 +284,12 @@
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})"
-                 save-callback="submitSaveCallBack('firstEnterpriseApplication')">返回申请单列表</a>
+                 nosave-callback="goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户管理'})"
+                 save-callback="submitSaveCallBack('firstCustomerAddressApplication')">返回申请单列表</a>
               <a ng-if="!changeFlag"
               tab-nav
-              tab-name='首营企业管理'
-              tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+              tab-name='首营客户管理'
+              tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
             </span>
 
               </span>
@@ -301,8 +301,8 @@
                         dialog-title="确认删除?"
                         dialog-content="删除后将无法恢复,确认删除?"
                         dialog-template="pr-dialog-confirm.html"
-                        request-url="rest/authen/firstEnterpriseApplication/delete?id={{formData.id}}"
-                        callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query-overflow.html','tabName':'首营企业管理'})">删除
+                        request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
+                        callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
                      </a>
                 </span>
 
@@ -310,13 +310,13 @@
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag "
-                      ng-click="submitForm(firstEnterpriseApplication_editForm','save')">保存</button>
+                      ng-click="submitForm(firstCustomerAddressApplication_editForm','save')">保存</button>
             </span>
             <span class="mgl" ng-if="formData.orderStatus=='未提交'">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="!firstEnterpriseApplication_editForm.$valid ||!formData.supplierAttribute.name || !formData.type.length"
-                      ng-click="formData.attachmentsValidFlag=true;submitForm('firstEnterpriseApplication_editForm','submit-enterprise')">提交
+                      ng-disabled="!firstCustomerAddressApplication_editForm.$valid ||!formData.customerAttribute.name || !formData.type.length"
+                      ng-click="formData.attachmentsValidFlag=true;submitForm('firstCustomerAddressApplication_editForm','submit-customerAddress')">提交
               </button>
             </span>
           </div>
