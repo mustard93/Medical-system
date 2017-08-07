@@ -1,0 +1,347 @@
+<div class="first-medical-application"
+    ng-controller="QualificationApplyCtrl"
+    ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+    scope-data="formData"
+    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];"
+    alert-error>
+    <div  ng-if="$root.uiTabs.current.name != '客户管理'"  class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
+            <a
+            tab-nav
+            tab-name='首营客户管理'
+            tab-href="#/firstCustomerAddressApplication/query.html">
+                <em class="color-custom-orange">首营管理</em>
+            </a>
+            <em>>首营客户申请</em>
+        </p>
+        <div class="pd-c-xxl pdt-l pdb-l">
+            <!-- 标题 -->
+            <div class="mgb-l">
+              <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营客户</h1>
+              <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营客户</h1>
+            </div>
+        </div>
+    </div>
+    <div  ng-if="$root.uiTabs.current.name == '供应商管理'"  class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs pd-c-xxl">基础设置 >
+            <a
+                    tab-nav
+                    tab-name='供应商管理'
+                    tab-href="#/supplier/query.html">
+                <em class="color-custom-orange">供应商管理</em>
+            </a>
+            <em>>首营客户申请</em>
+        </p>
+        <div class="pd-c-xxl pdt-l pdb-l">
+            <!-- 标题 -->
+            <div class="mgb-l">
+                <h1 class="color-black pr-font-20">首营客户申请</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+        <!-- 添加流程导航 -->
+    <div ng-if="!formData.enterFlag"  step-flow-arrow-show
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+    </div>
+
+    <div ng-if="formData.enterFlag" step-flow-arrow-show
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"},{"arrowText":"录入已审核的首营客户","className":"unactive"}]'>
+    </div>
+
+    <div class="content-wrapper-main mgt">
+        <form class="form-horizontal"
+              id="firstCustomerAddressApplication_editForm1"
+              name="firstCustomerAddressApplication_editForm1"
+              form-validator
+              parameter-body
+              action="rest/authen/firstCustomerAddressApplication/saveBaseInfo"
+              alert-error
+              alert-ok
+              scope-error-msg="errorMsg"
+              scope-data="formData"
+              novalidate="true"
+              callback="submitFormAfter('#/firstCustomerAddressApplication/edit-step-2.html','首营客户管理');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
+            <!-- 单号 -->
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+                <div class="flex-item-6">
+                    <span class="flex-item-12">
+              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+
+                    </span>
+                </div>
+                <div class="flex-item-6 text-right">
+                    制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+                    制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+                    制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                     状态：  <em class="color-black">{{formData.orderStatus}}</em>
+                </div>
+            </div>
+            <!-- 基本信息 -->
+            <div class="panel pr-panel pr-panel-height mgb" >
+                <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+                <div class="flex-column mgt">
+                    <label class="flex-item-2 text-right control-label">性质：</label>
+                    <div class="flex-item-8" style="float:left;"
+                     ng-if="initFlag"
+                     ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SupplierType" scope-data="scopeData"
+                     callback="initFlag=false;">
+                        <div class="mycheck-new" style="margin-top:-3px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
+                            <input class="relative" type="checkbox" id="{{$index + 1}}1" ng-model="item.value" ng-click="choiceCommodityType(item);" />
+                            <label for="{{$index + 1}}1"></label>
+                            <em class="color-black">{{item.text}}</em>
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="min-height:200px;">
+                    <div class="flex-column mgt">
+                        <label class="flex-item-2 text-right control-label">名称：</label>
+                        <div class="flex-item-10 text-left">
+                          <input type="text"
+                                 class="ipt ipt-new"
+                                 name="enterpriseName"
+                                 ng-model="formData.name"
+                                 required
+                            >
+                              <span ng-if="!formData.name" class="color-red">（必填）</span>
+                        </div>
+                    </div>
+                    <div class="flex-column mgt">
+                        <label class="flex-item-2 text-right control-label">法定代表人：</label>
+                        <div class="flex-item-10 text-left">
+                          <input type="text"
+                                 class="ipt ipt-new"
+                                 ng-model="formData.legalUser.n"
+                            >
+                        </div>
+                    </div>
+                    <div class="flex-column mgt">
+                      <label class="flex-item-2 text-right control-label">分类：</label>
+                      <div class="flex-item-10 color-3 text-left ">
+                        <div class="autocut z-tree-div inline-block fl-l" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
+                        <span style="display:none;">{{formData.attributeId}}</span>
+                        <button type="button"
+                                z-tree-select="rest/authen/supplierAttribute/query.json"
+                                width="240px"
+                                class="btn-select btn-enter-price-select fl-l"
+                                ng-model="formData.supplierAttribute"
+                                id-key="id"
+                                p-id-key="parentId">选择
+                        </button>
+                        <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
+                      </div>
+                    </div>
+                    <div class="flex-column mgt">
+                        <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
+                        <div class="flex-item-10 text-left">
+                          <input type="text"
+                                 class="ipt-new "
+                                 name="code"
+                                 style="width:115px; text-align: center;"
+                                 ng-disabled="true"
+                                 ng-model="formData.attributeCode"/>
+                                 <span class="border-2"></span>
+                                  <!-- -->
+                          <input type="text"
+                                 class="ipt-new"
+                                 name="code"
+                                 style="width:197px;"
+                                 ng-model="formData.serialCode"
+                                 required/>
+                                 <span ng-if="!formData.serialCode" class="color-red">（必填）</span>
+                       </div>
+                    </div>
+                    <div class="flex-column mgt">
+                        <label class="flex-item-2 text-right control-label">分管部门：</label>
+                        <div class="flex-item-10 text-left">
+                            <input type="text" class="ipt-new" name="name" ng-model="formData.branchDepartmentName" />
+                        </div>
+                    </div>
+                    <div class="flex-column mgt">
+                        <label class="flex-item-2 text-right control-label">分管业务人员：</label>
+                        <div class="flex-item-10 text-left">
+                            <input type="text" class="ipt-new" name="name" ng-model="formData.branchUser.n" />
+                        </div>
+                    </div>
+
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户银行：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountBank" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户账号：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountNumber" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">开户户名：</label>
+                  <div class="flex-item-10 text-left">
+                    <input type="text"
+                           style="width:334px;"
+                           class="ipt-new ipt-new-s"
+                           name="genericName"
+                           ng-model="formData.accountName" />
+                  </div>
+                </div>
+                <div class="mgt flex-column">
+                  <label class="flex-item-2 text-right">付款方式：</label>
+                  <div class="flex-item-10 text-left">
+                    <select class="select pr-select ipt-new-s" data-placeholder=" "
+                    chosen
+                    style="width:334px;"
+                    default-empty=""
+                    ng-model="formData.payType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayType">
+                    </select>
+                  </div>
+                </div>
+                <div class="mgt flex-column mgt mgb">
+                  <label class="flex-item-2 text-right">经营范围：</label>
+                  <div class="flex-item-8  text-left ">
+                    <div ng-if="formData.businessScope.length" class="inline-block">
+                      <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope">
+                        <em class="color-3 ">{{item.name}}</em>
+                        <i class="fa fa-times-circle color-red cur-pot " ng-click="formData.businessScope.splice($index,1);"></i>
+                      </span>
+                    </div>
+
+                    <div class="color-href cur-pot mgl-m inline-block"
+                          modal-right="470"
+                          modal-scope="this"
+                          modal-data='{"businessScope":{{formData.businessScope}}}'
+                          modal-url="views/firstCustomerAddressApplication/rightSide/select-business-scope.html">
+                    选择
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+            <!-- 增加联系人 -->
+            <!-- {{formData.contacts}} -->
+            <!-- <div add-contacts-edit ng-model="formData.contacts"></div> -->
+
+            <div class="mgb mgt-l">
+              <div class="pd-c-v-l pr-bg-white ">
+                  <h1 class="color-black text-bold text-n">联系人</h1>
+              </div>
+              <div class="">
+                <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+                  <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
+                  <span class="pd-s text-left flex-item-1">职务</span>
+                  <span class="pd-s text-left flex-item-1">电话</span>
+                  <span class="pd-s text-left flex-item-1">手机</span>
+                  <span class="pd-s text-left flex-item-2">电子邮箱</span>
+                  <span class="pd-s text-left flex-item-4">联系地址</span>
+                  <span class="pd-s text-left flex-item-2">备注</span>
+                </div>
+                <div class="pr-bg-white">
+                  <div class="address-div color-black relative flex-column"
+                       ng-repeat="tr in formData.contacts">
+                    <span class="text-left flex-item-1" style="text-indent:13px;">{{tr.name}}</span>
+                    <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
+                    <span class="text-left flex-item-1">{{tr.telephone}}</span>
+                    <span class="text-left flex-item-1">{{tr.tel}}</span>
+                    <span class="text-left flex-item-2">{{tr.email}}</span>
+                    <span class="address-span text-left flex-item-4" title="{{tr.address}}">
+                      <em class="mgr">{{tr.prov}}</em><em class="mgr">{{tr.city}}</em><em class="mgr">{{tr.area}}</em><em class="mgr">{{tr.address}}</em>
+                      <a ng-if="tr.isDefault!=true" class="mgl-m set-defualt-text" ng-click="setDefault(formData.contacts);tr.isDefault=true;">设为默认</a>
+                      <i class="consignee-default-label mgl-m" ng-if="tr.isDefault==true">默认</i>
+                    </span>
+                    <span class="text-left flex-item-2">{{tr.note}}</span>
+                    <span class="pos-abs posr">
+                      <a ng-if="returnAddressObj.defaultContactId!==tr.id"
+                         class="set-delete-text"
+                         handle-this-click
+                         dialog-title="确认删除?"
+                         dialog-content="确认删除?"
+                         dialog-template="pr-dialog-submit.html"
+                         callback="formData.contacts.splice($index,1);$root.modal.closeAll();">删除
+                      </a>
+                      <a class="mgl set-edit-text" href="javacript:;"
+                         modal-right="456"
+                         modal-data='{"contact":{{tr}}}'
+                         modal-scope="this"
+                         modal-url="views/firstCustomerAddressApplication/rightSide/add-contact.html">修改
+                      </a>
+                    </span>
+                  </div>
+                  <div class="pd-c-v-l mgb">
+                  <span  class="cur-pot color-href"
+                          modal-right="456"
+                          modal-data='{}'
+                          modal-scope="this"
+                          modal-url="views/firstCustomerAddressApplication/rightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
+                  </span>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-black mgt-l" style="min-height:150px;">
+                <p>
+                    <p class="pr-font-14">说明：</p>
+                    <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+                    <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+                    <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+                    <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
+                </p>
+            </div>
+            <!-- 功能按钮 -->
+            <div class="handle-btn-area relative">
+                <div class="mgb text-right btn-area">
+                    <span class="mgl">
+                      <a ng-if="changeFlag"  href="javascript:;"
+                         handle-this-click
+                         dialog-title="确认返回?"
+                         dialog-content="该申请单存在未保存数据，是否保存?"
+                         dialog-template="pr-dialog-return.html"
+                         nosave-callback="goTo('#/firstCustomerAddressApplication/query.html')"
+                         save-callback="submitSaveCallBack('firstCustomerAddressApplication')">返回申请单列表
+                      </a>
+                      <a ng-if="!changeFlag"
+                      tab-nav
+                      tab-name='首营客户管理'
+                      tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
+                    </span>
+                    <span class="mgl">
+                        <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                           href="javascript:;"
+                           class="pr-color-red mgr-l"
+                           handle-this-click
+                           dialog-title="确认删除?"
+                           dialog-content="删除后将无法恢复,确认删除?"
+                           dialog-template="pr-dialog-confirm.html"
+                           request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
+                           callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
+                        </a>
+                    </span>
+                    <span class="mgl">
+                      <button class="pr-btn-save-glodbg mgt"
+                              ng-disabled="!changeFlag || firstCustomerAddressApplication_editForm1.$invalid"
+                              ng-click="submitForm('firstCustomerAddressApplication_editForm1','save')">保存</button>
+                    </span>
+                    <span class="mgl">
+                      <button class="pr-btn-save-glodbg mgt"
+                              ng-disabled="firstCustomerAddressApplication_editForm1.$invalid || !formData.supplierAttribute.name"
+                              ng-click="submitForm('firstCustomerAddressApplication_editForm1','submit')">下一步
+                      </button>
+                    </span>
+                </div>
+            </div>
+            </form>
+    </div>
+
+    </div>
+    </div>
