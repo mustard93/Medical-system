@@ -1,8 +1,8 @@
-<div class="sale-return-order right-side pr-bg-black3 relative arrivalNotaice-order-dialog"
-     ng-controller="arrivalBarcodePrintDialogController"
+<div class="sale-return-order right-side pr-bg-black3 relative invoicesOrder-order-dialog"
+     ng-controller="invoicesOrderQrcodePrintDialogController"
      ng-init="scopeData={num:1}">
   <div class="sale-bg">
-      <div class="pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm pr-bg-black2">条码打印预览</div>
+      <div class="pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm pr-bg-black2">二维码打印预览</div>
       <div class="pr-panel-height select-bg">
         <!-- 打印份数 -->
         <div class="bb-line-gold pd-c-l pdt pdb">
@@ -41,23 +41,32 @@
                 </div>
               </div>
             </div>
-            <!-- 药品条码列表 -->
-            <div class="pd-c-l" ng-repeat="uItem in mItem.converResults track by $index">
-              <!-- 条码图形显示 -->
-              <div class="mgt-l mgb-l barcode-show"><img ng-src="{{uItem.barcode}}"></div>
-              <!-- 此商品单位条码信息 -->
-              <div class="flex-column">
-                <div class="flex-item-6">
-                  <span class="mgr-xl">
-                    <input type="number"
-                           class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80 text-right"
-                           ng-model="uItem.unitQuantity"
-                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                    <em class="color-white"> {{uItem.unit}}</em>
-                  </span>
-                  <span class="color-9" ng-if="($index+1)!==converResults.length">说明：1{{uItem.unit}} = {{uItem.ratio}}{{uItem.baseUnit}}</span>
+            <!-- 药品二维码码列表 -->
+            <div class="pd-c-l flex-column pdt-l">
+              <!-- 二维码展示 -->
+              <div class="flex-item-5 qrcode-show">
+                <img ng-src="{{mItem.qrcode}}">
+                <div class="color-3 text-center">
+                  <p>{{mItem.name}}</p>
+                  <p class="color-9">客户：{{medicalDataList.customerName}}</p>
                 </div>
-                <div class="flex-item-6 text-right line-alignment">打印：{{uItem.unitQuantity}}*{{scopeData.num}} = {{uItem.unitQuantity*scopeData.num}}份</div>
+              </div>
+              <!-- 商品信息 -->
+              <div class="flex-item-7 pdl-l">
+                <div ng-repeat="uItem in mItem.converResults track by $index" class="mgb-l">
+                  <div class="pdb-m" ng-class="{'bb-dashed-gold':($index+1)!=mItem.converResults.length}">
+                    <div class="flex-column">
+                      <span class="flex-item-6">
+                        <input type="number"
+                               class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80 text-right"
+                               ng-model="uItem.unitQuantity"
+                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"> <em class="color-white">{{uItem.unit}}</em>
+                      </span>
+                      <span class="flex-item-6 text-right">打印：{{uItem.unitQuantity}}*{{scopeData.num}}={{uItem.unitQuantity*scopeData.num}} 份</span>
+                    </div>
+                    <div class="mgt color-9">说明：1{{uItem.unit}} = {{uItem.ratio}}{{uItem.baseUnit}}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -1,16 +1,16 @@
 <div class="sale-return-order right-side pr-bg-black3"
-     ajax-url="rest/authen/qualificationCertificate/save.json?id={{tr.id}}"
+     ajax-url="rest/authen/qualificationCertificate/getOfEdit?id={{tr.id}}"
      scope-data="formData"
      alert-error>
 
     <div class="sale-bg">
         <!-- 头部信息 -->
         <form class="form-horizontal"
-              id="licenseEnterprise_from"
-              name="licenseEnterprise_from"
+              id="licenseCommodity_from"
+              name="licenseCommodity_from"
               form-validator
               parameter-body
-              action="rest/authen/qualificationCertificate/save.json?licenseType=公司&licenseSonType=资质证照"
+              action="rest/authen/qualificationCertificate/save.json?licenseType=商品&licenseSonType=资质证照"
               alert-error
               alert-ok
               scope-error-msg="errorMsg"
@@ -18,8 +18,16 @@
               novalidate="true"
               callback="listObject.reloadTime=$root.utils.getNowTime()">
             <div class="relative">
-                <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>{{dialogData}}
-                <div class="pr-panel-height select-bg" style="padding:15px 0;">
+                <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>
+
+                <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.systemPreset!='否' && formData.systemPreset">
+                    <h1 class="flex-item-2 text-right pdr-s mgl-s pr-fw-700 mgr-s" style="line-height: 20px;">证照类型</h1>
+                    <div class="color-white"
+                         style="width:250px;"
+                         ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">{{formData.licenseTypeName}}
+                    </div>
+                </div>
+                <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.systemPreset!='是'">
                     <label class="flex-item-2 text-right pdr-m mgl-s">证照类型</label>
                     <select class="ipt ipt-new-select color-3"
                             data-placeholder=" "
@@ -27,7 +35,7 @@
                             chosen
                             style="width:220px"
                             ng-model="formData.licenseTypeName"
-                            select-source="rest/authen/qualificationCertificate/queryForSelectOption?licenseType=商品&licenseSonType=资质证照">
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">
                     </select>
                 </div>
             </div>
