@@ -172,36 +172,16 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
              alertError(error || '出错');
          });
        }
-       if ($scope.submitForm_type == 'submit-hospital') {
-         requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+       if ($scope.submitForm_type == 'submit-customerAddress') {
+         requestData('rest/authen/firstCustomerAddressApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
            if (results[1].code === 200) {
-             var url='rest/authen/hospitalApplication/startProcessInstance';
-             var data= {businessKey:$scope.formData.id};
-             requestData(url,data, 'POST')
-              .then(function (results) {
-                if (results[1].code === 200) {
-                $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
-               }
-              })
-              .catch(function (error) {
-                alertError(error || '出错');
-              });
-           }
-         })
-         .catch(function (error) {
-         });
-       }
-       if ($scope.submitForm_type == 'submit-otherCustomer') {
-         requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
-         .then(function (results) {
-           if (results[1].code === 200) {
-             var url='rest/authen/otherCustomerApplication/startProcessInstance';
+             var url='rest/authen/firstCustomerAddressApplication/startProcessInstance';
              var data= {businessKey:results[1].data.id};
              requestData(url,data, 'POST')
               .then(function (results) {
                 if (results[1].code === 200) {
-                $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                $scope.goTo('#/firstCustomerAddressApplication/get.html?id='+$scope.formData.id);
               }
               })
               .catch(function (error) {

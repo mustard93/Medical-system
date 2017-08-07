@@ -11,10 +11,10 @@
       <table class="full-width another-table ">
           <tr class="bb-line-gold">
             <div class="pd-c-v-s order-list-search relative bb-line-gold" >
-              <div class="inline-block mycheck" style="width:115px;">
+              <div class="inline-block mycheck" style="width:115px; visibility:hidden; ">
                 全选
-                <input type="checkbox" class="selectOne cur-pot" id='businessScope_0' ng-click="selectAll(scopeData);" ng-model="scopeData.checked">
-                <label style="border: 1px solid #84715A;background: #5C5246;top:5px;left:50px;" for="businessScope_0"></label>
+                <input type="checkbox" class="selectOne cur-pot" id='businessScope2_0' ng-click="selectAll(scopeData);" ng-model="scopeData.checked">
+                <label style="border: 1px solid #84715A;background: #5C5246;top:5px;left:50px;" for="businessScope2_0"></label>
               </div>
               <input type="text"
                      style="width:70%;"
@@ -27,16 +27,18 @@
           </tr>
         <tbody class="color-white text-n">
           <tr ng-repeat="tr in scopeData">
-            <td class="select-td text-center mycheck" style="width:60px;" ng-if="tr.name">
-                <input type="checkbox" class="selectOne cur-pot" id='businessScope_{{$index+1}}' ng-model="tr.checked">
-                <label style="border: 1px solid #84715A;background: #5C5246;" for="businessScope_{{$index+1}}"></label>
-            </td>
-            <td style="padding:9px 0px;" ng-if="tr.name">
-              {{tr.name}}
-            </td>
+              <td class="select-td text-center" style="width:60px;" ng-if="tr.name">
+                  <label class="radio-inline radio radio-new mgl-s">
+                      <input type="radio" class="default-radio" name="type" value="{{tr}}" ng-model="formData.guaranteePeriodUnit"><i style="top:-12px;"></i>
+                  </label>
+              </td>
+              <td style="padding:9px 0px;" ng-if="tr.name">
+                  {{tr.name}}
+              </td>
           </tr>
         </tbody>
       </table>
+
     </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
       <!-- submit -->

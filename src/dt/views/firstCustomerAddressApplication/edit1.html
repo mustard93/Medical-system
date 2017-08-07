@@ -2,7 +2,7 @@
     ng-controller="QualificationApplyCtrl"
     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
     scope-data="formData"
-    callback="initFlag=true;watchFormChange('formData');formData.businessScope=[];"
+    callback="initFlag=true;watchFormChange('formData');"
     alert-error>
     <div  ng-if="$root.uiTabs.current.name != '客户管理'"  class="header-info relative mgb-l">
         <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
@@ -308,7 +308,7 @@
                       tab-href="#/firstCustomerAddressApplication/query.html">返回申请单列表</a>
                     </span>
                     <span class="mgl">
-                        <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                        <a ng-if="formData.id"
                            href="javascript:;"
                            class="pr-color-red mgr-l"
                            handle-this-click
@@ -316,7 +316,7 @@
                            dialog-content="删除后将无法恢复,确认删除?"
                            dialog-template="pr-dialog-confirm.html"
                            request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
-                           callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
+                           callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户管理'})">删除
                         </a>
                     </span>
                     <span class="mgl">

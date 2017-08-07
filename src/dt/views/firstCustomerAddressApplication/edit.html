@@ -294,7 +294,7 @@
 
               </span>
               <span class="mgl">
-                     <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                     <a ng-if="formData.id "
                         href="javascript:;"
                         class="pr-color-red mgr-l"
                         handle-this-click
@@ -302,7 +302,7 @@
                         dialog-content="删除后将无法恢复,确认删除?"
                         dialog-template="pr-dialog-confirm.html"
                         request-url="rest/authen/firstCustomerAddressApplication/delete?id={{formData.id}}"
-                        callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query-overflow.html','tabName':'首营客户管理'})">删除
+                        callback="$root.goTo({'tabHref':'#/firstCustomerAddressApplication/query.html','tabName':'首营客户管理'})">删除
                      </a>
                 </span>
 
@@ -315,7 +315,7 @@
             <span class="mgl" ng-if="formData.orderStatus=='未提交'">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ng-disabled="!firstCustomerAddressApplication_editForm.$valid ||!formData.supplierAttribute.name || !formData.type.length"
+                      ng-disabled="!firstCustomerAddressApplication_editForm.$valid ||!formData.customerAttribute.name || !formData.type.length"
                       ng-click="formData.attachmentsValidFlag=true;submitForm('firstCustomerAddressApplication_editForm','submit-customerAddress')">提交
               </button>
             </span>
