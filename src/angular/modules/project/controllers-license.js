@@ -44,20 +44,39 @@ define('project/controllers-license', ['project/init'], function() {
       };
 
 
-      $scope.licenseHasThisItem = function (item) {
-          // 获取groupKey
-          console.log(item)
+      $scope.licenseHasThisItem = function (item,formData) {
 
-          var _groupKey = tbodyList[0]['groupKey'];
-          var _groupKeyArray = _groupKey.split('-');
-          // 循环遍历当前数组值并与groupDataList进行比对，将得出的值push进groupList中
-          angular.forEach(_groupKeyArray, function (data, index) {
-              for(var key in groupDataList) {
-                  if (groupDataList.hasOwnProperty(key) && (data === key)) {
-                      $scope.groupList.push(groupDataList[key]);
-                  }
-              }
+          // 获取groupKey
+          // console.log(item)
+          // console.log(formData)
+
+          if (Object.prototype.toString.call(formData) !== '[object Array]') {
+              throw new TypeError('参数formData类型校验错误');
+          }
+
+          // console.log(item)
+
+          angular.forEach(formData, function (data, index) {
+            if (data === item) {
+                return true;
+            } else {
+                return false;
+            }
           });
+
+          // $scope.judgeHasThisItem = function (tbodyList, value) {
+          //     return tbodyList[0]['groupHeaderKey'].split('-').indexOf(value) > -1 ? true : false;
+          // }
+          // var _groupKey = tbodyList[0]['groupKey'];
+          // var _groupKeyArray = _groupKey.split('-');
+          // // 循环遍历当前数组值并与groupDataList进行比对，将得出的值push进groupList中
+          // angular.forEach(_groupKeyArray, function (data, index) {
+          //     for(var key in groupDataList) {
+          //         if (groupDataList.hasOwnProperty(key) && (data === key)) {
+          //             $scope.groupList.push(groupDataList[key]);
+          //         }
+          //     }
+          // });
       }
 
 
