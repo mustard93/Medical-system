@@ -172,7 +172,9 @@
             <div class="mgt flex-column">
               <label class="flex-item-2 text-right">付款方式：</label>
               <div class="flex-item-10 text-left">
-                <select class="select pr-select ipt-new-s" data-placeholder=" "
+                <select
+                ng-if="initFlag"
+                class="select pr-select ipt-new-s" data-placeholder=" "
                 chosen
                 style="width:334px;"
                 default-empty=""
@@ -235,12 +237,13 @@
                 <span class="pos-abs posr">
                   <a ng-if="returnAddressObj.defaultContactId!==tr.id"
                      handle-this-click
+                     class="set-delete-text"
                      dialog-title="确认删除?"
                      dialog-content="确认删除?"
                      dialog-template="pr-dialog-submit.html"
                      callback="formData.contacts.splice($index,1);$root.modal.closeAll();">删除
                   </a>
-                  <a class="mgl" href="javacript:;"
+                  <a class="mgl set-edit-text" href="javacript:;"
                      modal-right="456"
                      modal-data='{"contact":{{tr}},"contactType":"firstCustomerAddressApplication"}'
                      modal-scope="this"
