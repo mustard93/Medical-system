@@ -148,7 +148,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
        }
       //  首营企业第三步走第四步的情况下
        if ($scope.submitForm_type == 'save-enterprise') {
-         requestData('rest/authen/firstEnterpriseApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+         requestData('rest/authen/firstEnterpriseApplication/saveAttachments', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
             if (results[1].code === 200){
                  $scope.goTo('#/firstEnterpriseApplication/edit-step-4.html?id='+$scope.formData.id);
@@ -159,7 +159,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
        }
        //  首营客户第三步走第四步的情况下
        if ($scope.submitForm_type == 'save-customer') {
-         requestData('rest/authen/firstCustomerAddressApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+         requestData('rest/authen/firstCustomerAddressApplication/saveAttachments', $scope.formData, 'POST', 'parameterBody')
          .then(function (results) {
            if (results[1].code === 200){
              $scope.goTo('#/firstCustomerAddressApplication/edit-step-4.html?id='+$scope.formData.id);
