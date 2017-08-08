@@ -14,6 +14,7 @@
                                 is-show-enter-btn="录入已审核首营客户"
                                 enter-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=true"
                                 create-btn-author="首营客户管理新增"
+                                create-btn-author="客户管理录入已审核"
                                 create-new-url="#/firstCustomerAddressApplication/edit1.html?enterFlag=false"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -122,7 +123,7 @@
                     <div class="table-item-multiple-btn">
                       <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" >
 
-                          <div class="del-confirm-area text-center">
+                          <div class="del-confirm-area text-center" ng-if="$root.hasAuthor('客户管理删除')">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                             <p class="pd-v-s">
                               <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
@@ -133,7 +134,7 @@
                             </p>
                           </div>
                       </div>
-                      <span >
+                      <span ng-if="$root.hasAuthor('客户管理修改')">
                         <div class="inline-block handle-btn edit-icon" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo({tabHref:'#/customerAddressManage/edit.html?id='+tr.id,tabName:'客户管理'})"></div>
                       </span>
                       <div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">
