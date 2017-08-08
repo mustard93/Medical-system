@@ -8,7 +8,7 @@
                             component-title="销售换货单"
                             get-status-num-url="rest/authen/salesChangeOrder/countByOrderStatus"
                             is-show-create-btn="新建销售换货单"
-                            create-btn-author=""
+                            create-btn-author="销售换货单新增"
                             create-new-url="#/salesChangeOrder/edit.html"
                             status-group-data='[["未提交","待审核","换货中","已完成"],["未通过","已作废"]]'
                             is-show-key-filter=true
@@ -53,13 +53,13 @@
 
                   <span class="flex-item-6 text-right">
 
-                    <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
+                    <span ng-if="$root.hasAuthor('销售换货单修改')">
 
-                          <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"  tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
-
-                          <span    >
+                    </span>
+                          <span ng-if="$root.hasAuthor('销售换货单删除')">
                                 <a ng-if="tr.orderStatus=='未提交' || tr.orderStatus =='未通过' "
                                  href="javascript:;"
                                  class="btn-link pd rect-s"
@@ -73,29 +73,29 @@
                                     <span class="delete-link-icon">&nbsp;</span>
                               </a>
                          </span>
-                    </span>
+
 
                     <!---->
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                         <!---->
 
                         <!--tr.orderStatus =='待审核' && (tr.orderStatus!='未通过')-->
-                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'"
+                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'||tr.orderStatus=='待审核'"
                            tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
                            class="btn-link pd rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
 
                         <!--ng-if="$root.hasAuthor('归还单审批')"-->
-                        <span>
-                          <a ng-if="tr.orderStatus=='待审核'"
-                             tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
-                             title="立即审核"
-                             class="btn-link pd rect-s "
-                             >
-                            <span class="examine-approve">&nbsp;</span>
-                           </a>
-                        </span>
+                        <!--<span>-->
+                          <!--<a ng-if="tr.orderStatus=='待审核'"-->
+                             <!--tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"-->
+                             <!--title="立即审核"-->
+                             <!--class="btn-link pd rect-s "-->
+                             <!--&gt;-->
+                            <!--<span class="examine-approve">&nbsp;</span>-->
+                           <!--</a>-->
+                        <!--</span>-->
                   </span>
 
                 </div>

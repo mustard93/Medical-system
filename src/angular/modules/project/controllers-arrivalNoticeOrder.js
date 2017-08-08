@@ -1,6 +1,6 @@
 define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
   /**
-   * [arrivalNoticeOrderEditCtrl 来货通知单控制器]
+   * [arrivalNoticeOrderEditCtrl 控制器]
    * @method arrivalNoticeOrderEditCtrl
    * @param  {[type]}                   $scope          [description]
    * @param  {[type]}                   modal           [description]
@@ -414,7 +414,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
    * @param  {[type]}                            requestData [description]
    * @return {[type]}                                        [description]
    */
-  function arrivalBarcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData) {
+  function arrivalBarcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     // 获取单据中药品列表
     $scope.medicalDataList = angular.copy($scope.dialogData.data);
 
@@ -449,6 +449,15 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       return tmpArr;
 
     }
+
+    // 检测用户是否安装打印插件
+    $scope.loadCLodop = function () {
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPrintPlusin = true;
+        }
+      }, 1000);
+    };
 
     var _barCodeReqUrl = 'rest/authen/invoiceBarCode/get.json';
 
@@ -509,10 +518,31 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-    console.log($scope.medicalDataList);
+    function printBeforePrint(content,taskName) {
+
+      angular.forEach($scope.medicalDataList, function (item, index) {
+        console.log(item);
+      });
+
+      // for (var i = 0; i < $scope.medicalDataList.length; i++) {
+      //   var divHtml="<div>"+dataList.html+"</div>"
+      //   LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,divHtml);
+      //   LODOP.NEWPAGE();
+      // }
+
+    }
+
+      $scope.barCodePrintPreview = function () {
+        if (LODOP) {
+          
+        }
+        // printBeforePrint(content,taskName);
+        // LODOP.preview();
+      }
+
   }
 
   angular.module('manageApp.project')
   .controller('arrivalNoticeOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", arrivalNoticeOrderEditCtrl])
-  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', arrivalBarcodePrintDialogController]);
+  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', arrivalBarcodePrintDialogController]);
 });
