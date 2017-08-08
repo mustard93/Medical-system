@@ -83,14 +83,37 @@
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
             <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
 
+          <!--&lt;!&ndash;性质&ndash;&gt;-->
+          <!--<div class="flex-column mgt pdb-l bb-dashed-line">-->
+            <!--<label class="flex-item-2   text-right control-label">性质：</label>-->
+            <!--<div class="flex-item-10 color-3 text-left ">-->
+              <!--<label for="" style=" margin-right: 20px;"><input ng-model="formData.medicalType" type="radio" name="medicalType" value="医疗器械"> 医疗器械 </label>-->
+              <!--<label for="" style="vertical-align:middle;"><input ng-model="formData.medicalType" type="radio" name="medicalType" value="药品"> 药品 </label>-->
+            <!--</div>-->
+          <!--</div>-->
+
+
           <!--性质-->
-          <div class="flex-column mgt pdb-l bb-dashed-line">
-            <label class="flex-item-2   text-right control-label">性质：</label>
-            <div class="flex-item-10 color-3 text-left ">
-              <label for="" style=" margin-right: 20px;"><input ng-model="" type="radio" name="a" value="医疗器械"> 医疗器械 </label>
-              <label for="" style="vertical-align:middle;"><input ng-model="" type="radio" name="a" value="药品"> 药品 </label>
+          <div class="flex-column mgt">
+            <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
+            <div class="flex-item-10 text-left">
+              <div class="inline-block">
+                <div class="inline-block " style="position:relative;top:-5px;">
+                  <label class="radio-inline radio radio-new mgl-s">
+                    <input type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    <em class="inline-block" style=" color:#666;margin-left:-10px;">医疗器械</em>
+                  </label>
+                </div>
+                <div class="inline-block " style="position:relative;top:-5px;">
+                  <label class="radio-inline radio radio-new mgl-s">
+                    <input type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    <em class="inline-block" style=" color:#666;margin-left:-10px;">药品</em>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
+
 
 
           <div class=" pd-v-m">
@@ -100,7 +123,7 @@
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new"
-                       name="genericName"
+                       name="approvedName"
                        required
                        ng-model="formData.approvedName" />
                        <span ng-if="!formData.approvedName" class="color-red">（必填）</span>
@@ -126,10 +149,10 @@
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new"
-                       name="name"
+                       name="englishName"
                        required
-                       ng-model="formData.name" />
-                <span ng-if="!formData.name" class="color-red">（必填）</span>
+                       ng-model="formData.englishName" />
+                <span ng-if="!formData.englishName" class="color-red">（必填）</span>
               </div>
             </div>
 
@@ -211,7 +234,7 @@
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new-s ipt-new"
-                       name="specification"
+                       name="packingSpecification"
                        ng-model="formData.packingSpecification" />
               </div>
             </div>
@@ -235,7 +258,7 @@
               <div class="flex-item-10 text-left">
                 <input type="number"
                        class="ipt-new-s ipt-new"
-                       name="unit"
+                       name="guaranteePeriod"
                        style="width:60px"
                        ng-model="formData.guaranteePeriod" />
                 <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
@@ -254,6 +277,7 @@
               <label class="flex-item-2 text-right control-label pdr-s">预警天数：</label>
               <div class="flex-item-10 text-left">
                 <input type="number"
+                       name="guaranteePeriodAlarmDay"
                        class="ipt-new ipt-new-s text-right"
                        ng-model="formData.guaranteePeriodAlarmDay"/>
               </div>
@@ -325,18 +349,18 @@
             <div class="flex-column mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">经营范围：</label>
               <div class="flex-item-10 color-3 text-left ">
-                <input type="number"
-                       class="ipt-new ipt-new-s text-right"
+                <input type="text"
+                       class="ipt-new ipt-new-s"
                        style="float: left; margin-right: 10px;"
-                       ng-model="formData.guaranteePeriodAlarmDay"/>
-                <span style="display:none;">{{formData.attributeId}}</span>
-
+                       ng-model="formData.businessScope.organizationName"/>
                 <div class="flex-item-8  text-left ">
-                  <!-- ngIf: formData.businessScope.length -->
-
-                  <div class="color-href cur-pot mgl-m inline-block ng-isolate-scope" modal-right="470" modal-scope="this" modal-data="{&quot;businessScope&quot;:[]}" modal-url="views/public/firstRightSide/select-business-scope-radio.html">
-                    选择
-                  </div>
+                <div class="color-href cur-pot mgl-m inline-block ng-isolate-scope"
+                     modal-right="470"
+                     modal-scope="this"
+                     modal-data='{"businessScope":"{{formData.businessScope}}"}'
+                     modal-url="views/public/firstRightSide/select-business-scope-radio.html">
+                  选择
+                </div>
                 </div>
 
 
@@ -348,9 +372,9 @@
             <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
               <div class="flex-item-10 text-left">
-                <input type="number"
+                <input type="quality"
                        class="ipt-new ipt-new-s text-right"
-                       ng-model="formData.guaranteePeriodAlarmDay"/>
+                       ng-model="formData.quality"/>
               </div>
             </div>
 
@@ -362,8 +386,7 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
 
-
-                <a href="" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <a ng-click="getBarcode()" class="color-orange" style="margin-left: 10px;">重新生成</a>
               </div>
             </div>
 
@@ -372,9 +395,10 @@
             <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">品牌：</label>
               <div class="flex-item-10 text-left">
-                <input type="number"
+                <input type="text"
+                       name="brand"
                        class="ipt-new ipt-new-s text-right"
-                       ng-model="formData.guaranteePeriodAlarmDay"/>
+                       ng-model="formData.brand"/>
               </div>
             </div>
 
@@ -382,9 +406,10 @@
             <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
               <div class="flex-item-10 text-left">
-                <input type="number"
+                <input type="text"
+                       name="productionPlace"
                        class="ipt-new ipt-new-s text-right"
-                       ng-model="formData.guaranteePeriodAlarmDay"/>
+                       ng-model="formData.productionPlace"/>
               </div>
             </div>
 
@@ -395,7 +420,7 @@
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                         chosen
                         default-empty="无"
-                        ng-model="formData.dosageForms"
+                        ng-model="formData.medicalClass"
                         select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                 </select>
               </div>
@@ -453,48 +478,68 @@
             </div>
 
             <!--生产企业-->
-            <div class="pd-v-m bt-dashed-line">
+            <div  class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">生产企业：</label>
+                <label class="flex-item-2 text-right control-label pdr-s">生产企业名称：</label>
                 <div class="flex-item-10 text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="produceEnterprise"
-                         ng-model="formData.manufacturer" />
+                  <!--<input type="text"-->
+                         <!--class="ipt-new"-->
+                         <!--name="productEnterprise"-->
+                         <!--ng-model="formData.productEnterprise" />-->
+
+                  <div ng-if="initFlag" style="position: relative;">
+                          <span
+                                angucomplete=""
+                                placeholder="生产企业名称"
+                                title-field="name"
+                                description-field="formData.productEnterprise.name"
+                                search-fields=""
+                                search-str-class="ipt"
+                                url="rest/authen/productEnterprise/query"
+                                class="inline-block"
+                                ng-model="formData.productEnterprise">
+                          </span>
+                    <span class="date-icon" style="top: 6px;right: 15px;"></span>
+                  </div>
+
                 </div>
               </div>
 
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">生产许可证号：</label>
                 <div class="flex-item-3 text-left">
-                 <span>（99）2900080020009</span>
+                 <span>{{formData.productEnterprise.productLicense}}</span>
                 </div>
                 <label class="flex-item-2 text-right control-label pdr-s">许可证有效期至：</label>
                 <div class="flex-item-3 text-left">
-                  <span>（99）2900080020009</span>
+                  <span>{{formData.productEnterprise.productLicensePeriod | date : 'yyyy-MM-dd'}}</span>
                 </div>
               </div>
 
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">GMP认证：</label>
                 <div class="flex-item-3 text-left">
-                  <span>（99）2900080020009</span>
+                  <span>{{formData.productEnterprise.gmpAuthentication}}</span>
                 </div>
                 <label class="flex-item-2 text-right control-label pdr-s">GMP有效期至：</label>
                 <div class="flex-item-3 text-left">
-                  <span>（99）2900080020009</span>
+                  <span>{{formData.productEnterprise.gmpAuthenPeriod | date : 'yyyy-MM-dd'}}</span>
                 </div>
               </div>
 
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">企业注册地址：</label>
                 <div class="flex-item-10 text-left">
-                  <span>（99）2900080020009</span>
+                  <span>{{formData.productEnterprise.address}}</span>
                 </div>
               </div>
 
               <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
+                <label
+                        modal-right="456"
+                        modal-scope="this"
+                        modal-url="views/productEnterprise/set-product-dialog.html"
+                        class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
               </div>
 
 
@@ -562,6 +607,7 @@
             </div>
 
             <div class="pd-v-m bt-dashed-line">
+              <!--是否基药-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
                 <div class="flex-item-10 text-left">
@@ -572,6 +618,7 @@
                 </div>
               </div>
 
+              <!--牌价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">牌价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -589,6 +636,7 @@
                 </div>
               </div>
 
+              <!--零售价-->
               <div class="flex-column mgt">
 
                 <label class="flex-item-2 text-right control-label pdr-s">零售价：￥</label>
@@ -606,6 +654,7 @@
                 </div>
               </div>
 
+              <!--批发价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">批发价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -622,6 +671,7 @@
                 </div>
               </div>
 
+              <!--最高售价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最高售价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -638,6 +688,7 @@
                 </div>
               </div>
 
+              <!--最低售价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最低售价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -654,6 +705,7 @@
                 </div>
               </div>
 
+              <!--采购价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">采购价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -670,6 +722,7 @@
                 </div>
               </div>
 
+              <!--最高采购价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最高采购价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -686,6 +739,7 @@
                 </div>
               </div>
 
+              <!--最低采购价-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最低采购价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -702,6 +756,7 @@
                 </div>
               </div>
 
+              <!--税率-->
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
                 <div class="flex-item-10 text-left">
@@ -869,10 +924,10 @@
           </div>
           </div>
 
-          <!---->
+          <!--供应商-->
           <div class="pr-bg-white mgb-m">
                 <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
-                  <a href="javascript:;" ng-click="addMedicalUnit();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
+                  <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
                 </div>
 
                 <table class="table pr-table pr-new-table">
@@ -888,34 +943,34 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-center">1</td>
+                    <tr ng-repeat="supplier in formData.suppliers track by $index">
+                      <td class="text-center">{{$index+1}}</td>
                       <td class="text-left">
                         <div style="position: relative;">
                           <span angucomplete=""
                                 placeholder="供应商名称"
-                                title-field="orderNo"
+                                title-field="name"
                                 description-field="supplier.name"
-                                search-fields="" search-str-class="ipt"
-                                url="rest/authen/arrivalNoticeOrder/query?orderStatus=已完成&amp;orderBusinessType=普通采购"
-                                class="inline-block ng-pristine ng-untouched ng-valid ng-isolate-scope ng-empty" n
-                                g-model="selectedData">
-
+                                search-fields=""
+                                search-str-class="ipt"
+                                url="rest/authen/supplier/query"
+                                class="inline-block ng-pristine ng-untouched ng-valid ng-isolate-scope ng-empty"
+                                ng-model="item">
                           </span>
                           <span class="date-icon" style="top: 6px;right: 15px;"></span>
                         </div>
                       </td>
-                      <td class="text-left">8236352398459</td>
-                      <td class="text-left"></td>
-                      <td class="text-left"></td>
-                      <td class="text-center"></td>
-                      <td class="text-center"></td>
+                      <td class="text-left">{{item}}</td>
+                      <td class="text-left">{{item.productLicensePeriod | date:'yyyy-MM-dd'}}</td>
+                      <td class="text-left">{{item.contacts[0]}}</td>
+                      <td class="text-center">{{item.contacts}}</td>
+                      <td class="text-center">{{item.contacts[0].telephone}}</td>
                     </tr>
 
                   </tbody>
                 </table>
 
-                <div class="pr-bg-white ng-scope">
+                <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
                   <div class="empty-table clearfix">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>

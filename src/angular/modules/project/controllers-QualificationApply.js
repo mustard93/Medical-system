@@ -447,6 +447,51 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
         }
       }
 
+      //-----------------首营品种-----------------
+
+      //选择经营范围-单选
+      $scope.submitbusinessScopeForRadio=function(_data){
+          console.log("_data",_data);
+
+
+          if(!$scope.formData.businessScope){
+              $scope.formData.businessScope={};
+          }
+
+          console.log("_data",typeof  _data);
+
+          _data = JSON.parse(_data);
+          console.log("_data2",typeof  _data);
+          $scope.formData.businessScope= _data;
+
+
+          console.log("$scope.formData.businessScop",$scope.formData.businessScope)
+      };
+
+      //添加供应商
+      $scope.addSupplier=function(){
+          $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
+          $scope.formData.suppliers.push({});
+      };
+
+
+      //监听生产企业
+      $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
+          if(!$scope.formData.productEnterprise){
+              $scope.formData.productEnterprise={};
+          }
+
+          if($scope.formData.productEnterprise.data){
+              $scope.formData.productEnterprise=$scope.formData.productEnterprise.data;
+          }
+      });
+
+
+
+
+
+
+
   }
 
   angular.module('manageApp.project')
