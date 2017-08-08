@@ -236,7 +236,7 @@
         data = JSON.parse(data);
 
         var data= formatData(data);
-
+//        alert(ceateHtml(data));
         $('goods-list').innerHTML= ceateHtml(data);
     }
 
@@ -433,8 +433,10 @@
         for(var i=0; i<dateList.length; i++){
             var temp=  {
                 "time":dateList[i].date,
-                "year":getYear( formatDate(dateList[i].date,'yyyy-MM.dd')),
-                "date":getDate(formatDate(dateList[i].date,'yyyy-MM.dd')),
+                    "year":getYear( formatDate(dateList[i].date,'yyyy-MM.dd')),
+                    "date":getDate(formatDate(dateList[i].date,'yyyy-MM.dd')),
+//                "year":getYear( formatDate(dateList[i].date,'yyyy-MM.dd')),
+//                "date":getDate(formatDate(dateList[i].date,'yyyy-MM.dd')),
                 "type":dateList[i].type,
                 "value":[]
             };
@@ -467,6 +469,20 @@
         arr.forEach(function(a){ unique[ JSON.stringify(a) ] = 1 });
         arr= Object.keys(unique).map(function(u){return JSON.parse(u) });
         return arr
+    }
+
+
+    function formatDate2(date) {
+
+        if(!date){
+            return "";
+        }
+
+        if(!formatStr){
+            var formatStr='yyyy-MM-dd hh:mm:ss'
+        }
+
+        return new Date(date).Format(formatStr)+"";
     }
 
 
