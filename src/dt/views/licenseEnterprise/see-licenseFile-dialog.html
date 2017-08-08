@@ -1,6 +1,6 @@
 <div class="sale-return-order right-side pr-bg-black3" ng-controller="editCtrl">
     <form class="add-customerAddress-form form-horizontal"
-          ajax-url="rest/authen/qualificationCertificate/queryOperationDetail?id={{tr.id}}"
+          ajax-url="rest/authen/versionFlow/query?businessKey={{tr.id}}"
           scope-data="showData"
           alert-error>
     <div class="sale-bg">
@@ -21,10 +21,10 @@
                    <tr ng-repeat="tr in showData track by $index"
                        class="relative color-white"
                        table-item-multiple-btn>
-                       <td class="flex-item-2 mgl-l">{{tr.operationFlowSet.inputUser}}</td>
-                       <td class="flex-item-2">{{tr.operationFlowSet.createAt | date : 'yyyy-MM-dd'}}</td>
-                       <td class="flex-item-5">{{tr.operationFlowSet.message}}</td>
-                       <td class="flex-item-2">{{tr.operationFlowSet.status}}</td>
+                       <td class="flex-item-2 mgl-l">{{tr.inputUser.n}}</td>
+                       <td class="flex-item-2">{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
+                       <td class="flex-item-5">{{tr.key}}</td>
+                       <td class="flex-item-2">{{tr.message}}</td>
                    </tr>
                    </tbody>
                </table>
