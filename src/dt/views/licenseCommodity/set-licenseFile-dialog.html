@@ -1,6 +1,7 @@
 <div class="sale-return-order right-side pr-bg-black3"
      ajax-url="rest/authen/qualificationCertificate/getOfEdit?id={{tr.id}}"
      scope-data="formData"
+     callback="initFlag=true"
      alert-error>
 
     <div class="sale-bg">
@@ -71,7 +72,9 @@
                      alert-error>
                     <label class="quali-selection relative"  ng-repeat="item in departments track by $index" ng-controller="licenseController">
                         <input type="checkbox"
-                               id="{{$index + 1}}1" ng-model="item.value"
+                               id="{{$index + 1}}1"
+                               ng-if="initFlag"
+                               ng-checked="{{formData.enterpriseType.indexOf(item.text)>-1?true:false}}"
                                ng-click="licenseCommodityType(item);"
                                class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
                     </label>
@@ -92,11 +95,28 @@
             <!-- 功能按钮 -->
             <div class="sales-btn-area-2nd relative">
                 <div class="btn-area full-width text-center">
-                    <button type="submit"
+                    <button ng-if="!formData.id"
+                            type="submit"
                             class="pr-btn-save-glodbg mgr-l"
                             ng-disabled=""
                             style="width:160px;">确定
                     </button>
+                    <button  href="javascript:;" ng-if="formData.id"
+                             class="pr-btn-save-glodbg mgt"
+                             type="button"
+                             modal-center="350"
+                             modal-scope="this"
+                             modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/qualificationCertificate/save.json?licenseType=商品&licenseSonType=资质证照",
+                             "goUrl":""
+                            }'
+                             tpl-url="tpl/pr-dialog-content-licenseCommodity.html"
+                             style="width:160px;"
+                    >确认</button>
                 </div>
             </div>
 

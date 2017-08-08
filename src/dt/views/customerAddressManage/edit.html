@@ -42,9 +42,9 @@
                 </span>
               </div>
               <div class="flex-item-6 text-right">
-                  制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
-                  制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
-                  制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                  制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+                  制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+                  制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
                   状态：<em class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
               </div>
 
@@ -295,7 +295,7 @@
             <span class="mgl" >
               <a tab-nav tab-name="客户管理" tab-href="#/views/customerAddressManage/edit.html?id={{formData.id}}"></a>
               <button ng-if="changeFlag" href="javascript:;"
-                class="pr-btn-save-glodbg mgt"
+                class="pr-btn-save-glodbg"
                 type="button"
                 ng-disabled="!customerAddress_editForm.$valid"
                 modal-center="350"
@@ -313,7 +313,7 @@
                  >保存</button>
 
               <button ng-if="!changeFlag" href="javascript:;"
-                class="pr-btn-save-glodbg mgt"
+                class="pr-btn-save-glodbg"
                 type="button"
                 ng-disabled="!customerAddress_editForm.$valid || !changeFlag || !formData.type.length"
                 ng-click="submitForm('customerAddress_editForm','save')"
