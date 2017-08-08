@@ -52,7 +52,7 @@
             </select>
           </td><!-- 类型  -->
           <!-- 资料名称  -->
-          <td ng-if="item.isAdmin!=false">
+          <td >
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
                    ng-model="item.certificateNumber"
@@ -63,13 +63,13 @@
                    popover-options='{"content":"该字段保存后将不能修改", "placement":"bottom", "trigger":"manual"}'
                    ng-disabled="!item.showFlag&&!item.handleCreate">
           </td>
-          <td ng-if="item.isAdmin==false">
+          <!-- <td ng-if="item.isAdmin==false">
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
                    ng-model="item.certificateNumber"
                    placeholder=""
                    ng-disabled="!item.isAdmin&&!item.handleCreate">
-          </td>
+          </td> -->
           <!-- 证书编号  -->
           <td>
             <div class="date-icon-outside">
@@ -79,7 +79,6 @@
                      ng-readonly="true"
                      placeholder=" 有效日期起"
                      ng-model="item.guaranteePeriodBeg"
-                     ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
                      >
                     <span class="date-icon"></span>
@@ -93,16 +92,18 @@
                      ng-readonly="true"
                      placeholder=" 有效日期至"
                      ng-model="item.guaranteePeriodEnd"
-                     ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
+                     invalid-popover
+                     popover-show="item.guaranteePeriodEnd<item.guaranteePeriodBeg"
+                     popover-options='{"content":"有效日期至不应小于有效日期起", "placement":"top", "trigger":"manual"}'
                      >
                     <span class="date-icon"></span>
             </div>
           </td><!-- 有效日期至 -->
 
-          <!-- <td>{{item.uploadUserName || '—'}}</td> -->
+          <td style="display:none;">{{item.uploadUserName || '—'}}</td>
           <!-- 上传人  -->
-          <!-- <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td> -->
+          <td style="display:none;">{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td>
           <!-- 上传日期  -->
           <td ng-if="item.showFlag||item.handleCreate">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>

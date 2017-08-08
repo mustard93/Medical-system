@@ -156,11 +156,14 @@
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
-         <!--<div  ajax-if-eval="formData.supplier.id"-->
-               <!--ajax-url="rest/authen/qualificationCertificate/identity?id={{formData.supplier.id}}"-->
-               <!--scope-data="supplier"-->
-               <!--callback="formData.supplier=supplier;chkSupplierInfo(supplier);getHistoryFirstPrice(supplier);"-->
-               <!--alert-error>-->
+         <!--<div class="inline-block"-->
+              <!--ajax-if-eval="formData.data1.id"-->
+              <!--ajax-url="rest/authen/qualificationCertificate/identity?id={{formData.data1.id}}"-->
+              <!--scope-data="supplier"-->
+              <!--callback="formData.data1=data1;flashAddDataCallbackFn(data1)"-->
+              <!--alert-error>-->
+           <!--<div>-->
+
            <div ng-if="formData.orderBusinessType!='直发采购'"
                 flash-add-medical
                 ng-model="data1"
@@ -170,7 +173,6 @@
                 is-disabled-this="{{formData.supplier.id}}"
                 frozen-goods-disabled=true>
            </div>
-           {{data1}}
 
            <!-- 列表 -->
            <div class="bt-line">
@@ -521,23 +523,11 @@
            </span>
          </header>
          <div class="panel-body" style="display:none;padding:15px 0;">
-           <p class="">
-           {{formData.supplier.contact.name}}&nbsp;&nbsp;{{formData.supplier.contact.tel}}&nbsp;&nbsp;{{formData.supplier.contact.prov}}&nbsp;&nbsp;{{formData.supplier.contact.city}}&nbsp;&nbsp;{{formData.supplier.contact.area}}&nbsp;&nbsp;{{formData.supplier.contact.address}}
+           <p class="" ng-repeat="cont in formData.supplier.contacts">
+           <em ng-if="cont.isDefault">{{cont.name}}&nbsp;&nbsp;{{cont.tel}}&nbsp;&nbsp;{{cont.prov}}&nbsp;&nbsp;{{cont.city}}&nbsp;&nbsp;{{cont.area}}&nbsp;&nbsp;{{cont.address}}</em>
            </p>
          </div>
        </div>
-       <!-- <div ng-if="formData.orderBusinessType=='直发采购'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-         <header class="text-n color-3 text-bold">收货方信息
-           <span class="tools pull-right">
-             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-           </span>
-         </header>
-         <div class="panel-body" style="display:none;padding:15px 0;">
-           <p class="">
-           {{formData.customerContacts.name}}&nbsp;&nbsp;{{formData.customerContacts.tel}}&nbsp;&nbsp;{{formData.customerContacts.prov}}&nbsp;&nbsp;{{formData.customerContacts.city}}&nbsp;&nbsp;{{formData.customerContacts.area}}&nbsp;&nbsp;{{formData.customerContacts.address}}
-           </p>
-         </div>
-       </div> -->
        <address-manage-component ng-if="formData.orderBusinessType=='直发采购'"
                                  compnent-title="收货方信息"
                                  request-url="rest/authen/customerAddress/get.json"

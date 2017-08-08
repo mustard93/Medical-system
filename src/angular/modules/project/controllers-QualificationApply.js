@@ -146,6 +146,40 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
          .catch(function (error) {
          });
        }
+      //  首营企业第三步走第四步的情况下
+       if ($scope.submitForm_type == 'save-enterprise') {
+         requestData('rest/authen/firstEnterpriseApplication/saveAttachments', $scope.formData, 'POST', 'parameterBody')
+         .then(function (results) {
+            if (results[1].code === 200){
+                 $scope.goTo('#/firstEnterpriseApplication/edit-step-4.html?id='+$scope.formData.id);
+            }
+         })
+         .catch(function (error) {
+         });
+       }
+      //  首营品种第三步走第四步的情况下
+       if ($scope.submitForm_type == 'save-medical') {
+         requestData('rest/authen/firstMedicalApplication/saveAttachments', $scope.formData, 'POST', 'parameterBody')
+         .then(function (results) {
+            if (results[1].code === 200){
+                 $scope.goTo('#/firstMedicalApplication/edit-step-4.html?id='+$scope.formData.id);
+            }
+         })
+         .catch(function (error) {
+         });
+       }
+       //  首营客户第三步走第四步的情况下
+       if ($scope.submitForm_type == 'save-customer') {
+         requestData('rest/authen/firstCustomerAddressApplication/saveAttachments', $scope.formData, 'POST', 'parameterBody')
+         .then(function (results) {
+           if (results[1].code === 200){
+             $scope.goTo('#/firstCustomerAddressApplication/edit-step-4.html?id='+$scope.formData.id);
+           }
+
+         })
+         .catch(function (error) {
+         });
+       }
        if ($scope.submitForm_type == 'submit-medical') {
          $scope.formData.validFlag = true;
          requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')

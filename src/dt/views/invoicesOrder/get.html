@@ -200,21 +200,28 @@
 
         <!--送达确认-->
 
-         <!--<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">-->
-          <!--<div class="text-n color-3 text-bold">送达确认-->
-              <!--<span class="text-center color-9 pr-font-12 pr-label mgl-l" >暂无送达确认信息...</span>-->
-                <!--<div class="woutstock-order-express">-->
-                  <!--<ul class="clearfix mgl-xxl">-->
-                    <!--<li class="express-list">-->
-                      <!--<a href="javascript:(0)" class=""> </a>-->
-                      <!--<div class="pr-label color-3">确认人:</div>-->
-                      <!--<div class="pr-label color-3">确认时间:</div>-->
-                    <!--</li>-->
-                  <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <div class="text-n color-3 text-bold">送达确认
+              <p ng-if="!scopeData.attachments.length" class="text-left color-9 pr-label text-s" >暂无送达确认信息...</p>
+                <div class="woutstock-order-express" >
+                  <ul class="clearfix">
+                    <li class="express-list" style="width:200px;height:auto;" ng-repeat="att in scopeData.attachments">
+                      <p class="mgt relative">
+                        <img title="{{att.fileName}}"
+                             alt="{{att.fileName}}"
+                             ng-src="{{att.attachmentUrl}}"
+                             style="width:142px;height:96px;"/>
+                        <a href="javascript:void(0); " class="show-big-img" style="display:inline-block;height:96px;width:142px;margin-top:-15px;margin-left:-30px;" ng-src="{{att.attachmentUrl}}"  modal-img-show>
+                        </a>
+                      </p>
+                      <div class="text-left color-6 pr-label text-s mgt">确认人：<em class="color-3">{{att.uploadUserName}}</em></div>
+                      <div class="text-left color-6 pr-label text-s mgt">确认时间：<em class="color-3">{{att.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm'}}</em></div>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+          </div>
+
       </div>
         <!-- 发货方信息 -->
         <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">

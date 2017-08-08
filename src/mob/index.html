@@ -210,12 +210,12 @@
 
     window.onload=function () {
 
-        var orderId=getUrlParam('orderId') || '5987fc721b40efc71163194e';
+        var orderId=getUrlParam('orderId');
 
-        var orderType= getUrlParam('orderType') || '发货单';
+        var orderType= getUrlParam('orderType');
 
-        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || '8fc0eb5033f0465cb55e316817c44034';
-
+        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid');
+//        alert("orderId:"+orderId+",orderType:"+orderType+",orderMedicalNoUuid:"+orderMedicalNoUuid);
 
         if(!orderId || !orderType || !orderMedicalNoUuid){
             alert("获取参数失败！");
@@ -236,7 +236,7 @@
         data = JSON.parse(data);
 
         var data= formatData(data);
-
+//        alert(ceateHtml(data));
         $('goods-list').innerHTML= ceateHtml(data);
     }
 
@@ -244,12 +244,8 @@
     function initGoodsInfo(_data) {
 
         var tempdata = JSON.parse(_data);
-
-
-        console.log("tempdata",tempdata);
-
         if(tempdata.code !=200){
-            alert("获取数据失败！");
+            alert(tempdata.msg);
             return;
         }
 
@@ -313,7 +309,7 @@
     }
 
     //ajax 请求失败回调
-    function errorCallback() {
+    function errorCallback(data) {
         alert('获取数据错误！');
     }
 
@@ -340,12 +336,11 @@
     }
 
 
-
     //获取URL参数
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
+        if (r != null) return decodeURI(r[2]); return null; //返回参数值
     }
 
     //创建HTML内容
@@ -436,10 +431,11 @@
         console.log("after",dateList);
         //创建list;
         for(var i=0; i<dateList.length; i++){
+
             var temp=  {
                 "time":dateList[i].date,
-                "year":getYear( formatDate(dateList[i].date,'yyyy-MM.dd')),
-                "date":getDate(formatDate(dateList[i].date,'yyyy-MM.dd')),
+                "year":getYear(dateList[i].date),
+                "date":getDate(dateList[i].date),
                 "type":dateList[i].type,
                 "value":[]
             };
@@ -472,6 +468,20 @@
         arr.forEach(function(a){ unique[ JSON.stringify(a) ] = 1 });
         arr= Object.keys(unique).map(function(u){return JSON.parse(u) });
         return arr
+    }
+
+
+    function formatDate2(date) {
+
+        if(!date){
+            return "";
+        }
+
+        if(!formatStr){
+            var formatStr='yyyy-MM-dd hh:mm:ss'
+        }
+
+        return new Date(date).Format(formatStr)+"";
     }
 
 

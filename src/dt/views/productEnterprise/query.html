@@ -17,7 +17,7 @@
             <div class="content-wrapper" style="min-height: 240px; padding-bottom: 80px;">
                 <!-- 新建按钮 -->
                 <div class="sales-statistics">
-                    <div class="inline-block relative mgb-l ">
+                    <div class="inline-block relative mgb-l " ng-if="$root.hasAuthor('生产企业管理新增')">
                         <a modal-right="456"
                            modal-scope="this"
 
@@ -53,7 +53,7 @@
                                 table-item-multiple-btn>
                                 <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
                                     <div class="table-item-multiple-btn">
-                                        <div class="inline-block handle-btn del-details-btn relative delete-icon">
+                                        <div class="inline-block handle-btn del-details-btn relative delete-icon" ng-if="$root.hasAuthor('生产企业管理删除')">
                                             <div class="del-confirm-area text-center">
                                                 <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                                                 <p class="pd-v-s">
@@ -66,14 +66,14 @@
                                             </div>
                                         </div>
                                         <!--修改-->
-                                        <span>
+                                        <span ng-if="$root.hasAuthor('生产企业管理修改')">
                                             <div class="sales-statistics">
                                                 <div class="inline-block relative mgb-l">
                                                     <a modal-right="456"
                                                        modal-scope="this"
                                                        modal-data="'data':'{{tr.id}}'"
                                                        modal-url="views/productEnterprise/set-product-dialog.html">
-                                                        <div class="inline-block handle-btn edit-icon entry-ab"> </div>
+                                                        <div class="inline-block handle-btn edit-icon entry-ab3"> </div>
                                                     </a>
                                                 </div>
                                             </div>

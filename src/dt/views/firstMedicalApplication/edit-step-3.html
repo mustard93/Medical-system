@@ -17,27 +17,37 @@
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">首营品种申请</h1>
+           <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营品种</h1>
+           <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营品种</h1>
          </div>
        </div>
      </div>
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div
+    <div ng-if="!formData.enterFlag"
     step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"visited"},
     {"arrowText":"申请原因","className":"visited"},
     {"arrowText":"添加审核资料","className":"active"}]'>
     </div>
+    <div ng-if="formData.enterFlag"
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"visited"},
+    {"arrowText":"申请原因","className":"visited"},
+    {"arrowText":"添加审核资料","className":"active"},
+    {"arrowText":"录入已审核首营品种","className":"unactive"}]'>
+    </div>
+
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
             id="firstMedicalApplication_editForm_step1"
             name="firstMedicalApplication_editForm_step1"
             form-validator
             parameter-body
-            action="rest/authen/firstMedicalApplication/saveAttachments?validateFlag=true"
+            action="rest/authen/firstMedicalApplication/saveAttachments?validFlag=true"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -50,28 +60,20 @@
             <span class="mgr-l">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.orderStatus}}</em>
+              制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+              制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+              制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+              状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
-        <!-- 基本信息 -->
-        <button type="button"class="pr-btn-save-glodbg mgr mgt mgb-l">
-          <a
-             href="javascript:;"
-             class="color-white"
-             title="还原"
-             handle-this-click
-             dialog-title="确认还原 ?"
-             dialog-content="还原后，将会清空所填信息。您确认还原附件吗?"
-             dialog-template="pr-dialog-confirm.html"
-             callback="refreshAttachements('firstMedicalApplication');"
-             emitted="reloadList">
-             还原
-           </a>
-        </button>
-        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营品种申请","addFlag":false}'
-         attachments-edit ng-model="formData" attachments-extend="attachmentsExtend" >
-       </div>
+
+        <!-- 添加资质证照 -->
+        <div ng-init='attachmentsExtend={"title":"资质证照","usege":"首营品种申请","addFlag":false}'
+        attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+
+        <!-- 添加电子档案 -->
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","usege":"首营品种申请","addFlag":false}'
+        e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
 
        <div class="color-black mgt-l" style="margin-bottom:100px;">
          <p>
@@ -118,7 +120,11 @@
           <span class="mgl">
             <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo({'tabHref':'#/firstMedicalApplication/edit-step-2.html?id='+formData.id,'tabName':'首营品种管理'})">上一步</button>
           </span>
-          <span class="mgl">
+          <span class="mgl" ng-if="formData.enterFlag">
+            <button class="pr-btn-save-glodbg mgt"
+            ng-click="formData.validFlag=true;formData.attachmentsValidFlag=true;submitForm('firstMedicalApplication_editForm_step1','save-medical');">下一步</button>
+          </span>
+          <span class="mgl" ng-if="!formData.enterFlag">
             <button class="pr-btn-save-glodbg mgt"
                     ng-click="formData.attachmentsValidFlag=true;submitForm('firstMedicalApplication_editForm_step1','submit')">预览申请单
             </button>

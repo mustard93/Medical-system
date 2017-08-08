@@ -44,11 +44,11 @@
     <div class="content-wrapper">
         <!-- 添加流程导航 -->
     <div ng-if="!formData.enterFlag"  step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"}]'>
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
 
     <div ng-if="formData.enterFlag" step-flow-arrow-show
-         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加资质证书","className":"unactive"},{"arrowText":"录入已审核的首营客户","className":"unactive"}]'>
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"},{"arrowText":"录入已审核的首营客户","className":"unactive"}]'>
     </div>
 
     <div class="content-wrapper-main mgt">
@@ -200,7 +200,9 @@
                 <div class="mgt flex-column">
                   <label class="flex-item-2 text-right">付款方式：</label>
                   <div class="flex-item-10 text-left">
-                    <select class="select pr-select ipt-new-s" data-placeholder=" "
+                    <select
+                    ng-if="initFlag"
+                    class="select pr-select ipt-new-s" data-placeholder=" "
                     chosen
                     style="width:334px;"
                     default-empty=""

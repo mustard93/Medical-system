@@ -15,14 +15,29 @@
         <div class="pd-c-xxl pdt-l pdb-l">
             <!-- 标题 -->
             <div class="mgb-l">
-                <h1 class="color-black pr-font-20">首营品种申请</h1>
+              <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营品种</h1>
+              <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营品种</h1>
             </div>
         </div>
     </div>
     <!-- 主体内容 -->
     <div class="content-wrapper ">
         <!-- 添加流程导航 -->
-        <div step-flow-arrow-show step-flow-arrow-json='[{"arrowText":"基本信息","className":"visited"},{"arrowText":"申请原因","className":"active"},{"arrowText":"添加审核资料","className":"unactive"}]'>
+        <div ng-if="!formData.enterFlag"
+        step-flow-arrow-show
+        step-flow-arrow-json=
+      '[{"arrowText":"基本信息","className":"visited"},
+        {"arrowText":"申请原因","className":"active"},
+        {"arrowText":"添加审核资料","className":"unactive"}]'>
+        </div>
+
+        <div ng-if="formData.enterFlag"
+        step-flow-arrow-show
+        step-flow-arrow-json=
+      '[{"arrowText":"基本信息","className":"visited"},
+        {"arrowText":"申请原因","className":"active"},
+        {"arrowText":"添加审核资料","className":"unactive"},
+        {"arrowText":"录入已审核的首营品种","className":"unactive"}]'>
         </div>
         <div class="content-wrapper-main mgt">
             <form class="form-horizontal"
@@ -30,7 +45,7 @@
                   name="firstMedicalApplication_editForm_step"
                   form-validator
                   parameter-body
-                  action="rest/authen/firstMedicalApplication/saveApplyReason?validateFlag=true"
+                  action="rest/authen/firstMedicalApplication/saveApplyReason?validFlag=true"
                   alert-error
                   alert-ok
                   scope-error-msg="errorMsg"
@@ -43,8 +58,10 @@
                         <span class="mgr-l">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
                     </div>
                     <div class="flex-item-6 text-right">
-                        录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em> 状态：
-                        <em class="color-black">{{formData.orderStatus}}</em>
+                        制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+                        制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+                        制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                        状态：  <em class="color-black">{{formData.orderStatus}}</em>
                     </div>
                 </div>
                 <!-- 基本信息 -->

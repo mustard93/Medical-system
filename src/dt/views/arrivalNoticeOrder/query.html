@@ -43,12 +43,11 @@
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                   </span>
-                  <span ng-if="tr.orderStatus=='未提交'" >
-                    <span>
-                    <a tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                  <span ng-if="$root.hasAuthor('来货通知单修改')">
+                    <a  ng-if="tr.orderStatus=='未提交'" tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                     <span class="edit-link-icon">&nbsp;</span></a>
                   </span>
-                  <span >
+                  <span ng-if="$root.hasAuthor('来货通知单删除')">
                     <a ng-if="tr.orderStatus=='未提交'"
                        href="javascript:;"
                        class="btn-link pd rect-s"

@@ -386,8 +386,8 @@
            </span>
          </header>
          <div class="panel-body" style="display:none;padding:15px 0;">
-           <p class="">
-           {{formData.supplier.contact.name}}&nbsp;&nbsp;{{formData.supplier.contact.tel}}&nbsp;&nbsp;{{formData.supplier.contact.prov}}&nbsp;&nbsp;{{formData.supplier.contact.city}}&nbsp;&nbsp;{{formData.supplier.contact.area}}&nbsp;&nbsp;{{formData.supplier.contact.address}}
+           <p class="" ng-repeat="cont in formData.supplier.contacts">
+           <em ng-if="cont.isDefault">{{cont.name}}&nbsp;&nbsp;{{cont.tel}}&nbsp;&nbsp;{{cont.prov}}&nbsp;&nbsp;{{cont.city}}&nbsp;&nbsp;{{cont.area}}&nbsp;&nbsp;{{cont.address}}</em>
            </p>
          </div>
        </div>
@@ -440,7 +440,7 @@
                   ng-click="submitForm('arrivalNoticeOrderForm','save')">保存
           </button>
         </span>
-        <span>
+        <span ng-if="$root.hasAuthor('来货通知单确认生成')">
           <button
                   class="pr-btn-create-glodbg mgt"
                   type="button"

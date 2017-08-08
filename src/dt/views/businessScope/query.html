@@ -28,7 +28,7 @@
                         </from>
 
                     </div>
-                    <div class="inline-block relative mgb-l">
+                    <div class="inline-block relative mgb-l" ng-if="$root.hasAuthor('经营范围管理新增')">
                         <a modal-right="550"
                            modal-scope="this"
                            modal-url="views/businessScope/set-dialog.html">
@@ -55,8 +55,8 @@
                                 table-item-multiple-btn>
                                 <td>{{(status.currentPage-1)*status.pageSize+($index+1)}}
                                     <div class="table-item-multiple-btn">
-                                        <div class="inline-block handle-btn del-details-btn relative delete-icon">
-                                            <div class="del-confirm-area text-center" n>
+                                        <div class="inline-block handle-btn del-details-btn relative delete-icon"  ng-if="$root.hasAuthor('经营范围管理删除')">
+                                            <div class="del-confirm-area text-center">
                                                 <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                                                 <p class="pd-v-s">
                                                     <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
@@ -68,14 +68,14 @@
                                             </div>
                                         </div>
                                         <!--修改-->
-                                        <span>
+                                        <span ng-if="$root.hasAuthor('经营范围管理修改')">
                                             <div class="sales-statistics">
                                                 <div class="inline-block relative mgb-l">
                                                     <a modal-right="480"
                                                        modal-scope="this"
                                                        modal-data="'data':'{{tr.id}}'"
                                                        modal-url="views/businessScope/set-dialog.html">
-                                                        <div class="inline-block handle-btn edit-icon entry-ab"> </div>
+                                                        <div class="inline-block handle-btn edit-icon entry-ab3"> </div>
                                                     </a>
                                                 </div>
                                             </div>

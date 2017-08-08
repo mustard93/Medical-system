@@ -1,6 +1,6 @@
 define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
   /**
-   * [arrivalNoticeOrderEditCtrl 来货通知单控制器]
+   * [arrivalNoticeOrderEditCtrl 控制器]
    * @method arrivalNoticeOrderEditCtrl
    * @param  {[type]}                   $scope          [description]
    * @param  {[type]}                   modal           [description]
