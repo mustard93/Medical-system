@@ -79,7 +79,6 @@
                      ng-readonly="true"
                      placeholder=" 有效日期起"
                      ng-model="item.guaranteePeriodBeg"
-                     ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
                      >
                     <span class="date-icon"></span>
@@ -93,8 +92,10 @@
                      ng-readonly="true"
                      placeholder=" 有效日期至"
                      ng-model="item.guaranteePeriodEnd"
-                     ng-disabled="!item.showFlag&&!item.handleCreate"
                      style="width:148px;"
+                     invalid-popover
+                     popover-show="item.guaranteePeriodEnd<item.guaranteePeriodBeg"
+                     popover-options='{"content":"有效日期至不应小于有效日期起", "placement":"top", "trigger":"manual"}'
                      >
                     <span class="date-icon"></span>
             </div>
