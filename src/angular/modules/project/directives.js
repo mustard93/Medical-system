@@ -3537,6 +3537,7 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       getUserListUrl: '@',
       getApplyUserListUrl: '@',
       createBtnAuthor:'@',
+      enterBtnAuthor:'@',
       getInventoryTypeUrl: '@',
       tabName:'@'
     },
@@ -3593,8 +3594,12 @@ function pageMainHeaderComponent ($rootScope,$sce) {
         scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
         // 扩展，首营模块多加一个入口，录入审核人入口菜单。
         scope.isShowEnterBtn = angular.isDefined(attrs.isShowEnterBtn) ? attrs.isShowEnterBtn : false;
+        //是否显示新增按钮
+        scope.enterBtnAuthor= angular.isDefined(attrs.enterBtnAuthor)  ?  attrs.enterBtnAuthor :  '';
 
-      // 是否显示部门过滤
+
+
+        // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
       // 是否显示制单人过滤
       scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
