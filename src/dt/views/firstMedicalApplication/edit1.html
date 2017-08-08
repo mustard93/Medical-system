@@ -247,6 +247,7 @@
                        class="ipt-new-s ipt-new"
                        name="unit"
                        ng-model="formData.unit"
+                       ng-change="formData.packingAttribute.name=formData.unit"
                        required />
                 <span ng-if="!formData.unit" class="color-red">（必填）</span>
               </div>
@@ -427,7 +428,7 @@
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                         chosen
                         default-empty="无"
-                        ng-model="formData.medicalClass"
+                        ng-model="formData.medicalClassId"
                         select-source="rest/authen/medicalClass/queryForSelectOption">
                 </select>
               </div>
@@ -791,7 +792,7 @@
 
 
           <!--新增商品辅助单位-->
-          <div ng-if="1==2">
+          <div>
               <h3 class="mgt-xl crumbs-circle color-black pr-indent-10 pd-v" style="border-radius: 0 ;margin-bottom: 20px;">商品单位信息</h3>
               <div class="pr-bg-white mgb-m">
             <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
@@ -825,8 +826,10 @@
                 <td class="text-center">基本单位</td>
                 <td class="text-center">
                   <input type="text"
+                         ng-init="formData.packingAttribute.name"
                          class="ipt pr-ipt-60 text-center"
                          ng-model="formData.packingAttribute.name"
+                         ng-change="formData.unit=formData.packingAttribute.name"
                          ng-change="changeUnit(formData.packingAttribute.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
                 </td>
                 <td class="text-center" ng-model="formData.packingAttribute.ratio">
