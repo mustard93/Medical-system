@@ -112,7 +112,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     // });
   }
 
-  function invoicesOrderQrcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData) {
+  function invoicesOrderQrcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     // 获取单据中药品列表
     $scope.medicalDataList = angular.copy($scope.dialogData.data);
 
@@ -148,6 +148,15 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
 
     }
 
+    // 检测用户是否安装打印插件
+    $scope.loadCLodop = function () {
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPlusin = true;
+        }
+      }, 1000);
+    };
+
     // 二维码请求地址
     var _qrCodeReqUrl = 'rest/authen/qRCode/get.json';
 
@@ -175,7 +184,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
                      [{
                        orderType: '发货单',
                        orderMedicalNoUuid: item.uuid,
-                       orderId: item.id
+                       orderId: $scope.medicalDataList.id
                      }],
                      'POST', 'params-body')
           .then(function (results) {
@@ -218,10 +227,9 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
       return _total;
     }
 
-    console.log($scope.medicalDataList);
   }
 
   angular.module('manageApp.project')
-  .controller('invoicesOrderCtrl', ['$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "$timeout", invoicesOrderCtrl])
-  .controller('invoicesOrderQrcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', invoicesOrderQrcodePrintDialogController]);
+  .controller('invoicesOrderCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$timeout', invoicesOrderCtrl])
+  .controller('invoicesOrderQrcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', invoicesOrderQrcodePrintDialogController]);
 });
