@@ -30,7 +30,7 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
 
       // 之前选中的选项，再次选的时候。自动勾选上。
       $scope.reCheck=function(businessScope,scopeData){
-        if (businessScope) {
+        if (businessScope.length&&scopeData.length) {
           // 对比之前选过的，和现在所有可以选的。如果已经选过，则标志上已选
           for (var i = 0; i < businessScope.length; i++) {
             for (var j = 0; j < scopeData.length; j++) {
@@ -41,6 +41,7 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
           }
 
           // 最后检查是否全部都被选中，如果是，则选中全选的框,只要有一个没有被选中，全选的框也是不勾选状态。
+
           if (scopeData.every(function(item){ return item.checked==true;})) {
             $scope.scopeData.checked=true;
           }else {
