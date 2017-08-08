@@ -450,17 +450,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
     }
 
-    // 条码请求地址
-    $scope.getThisBarcode = function (data) {
-      var _barCodeReqUrl = 'rest/authen/invoiceBarCode/get.json';
-      requestData(_barCodeReqUrl, data, 'POST', 'params-body')
-      .then(function (results) {
-        if (results[1].code === 200) {
-          return results[1].data[0];
-        }
-      })
-    }
-
     var _barCodeReqUrl = 'rest/authen/invoiceBarCode/get.json';
 
     // 对辅助单位进行排序并生成换算后的显示字符串
@@ -501,13 +490,24 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
               })
             })();
           }
+
+          // 构建显示换算单位字符串
+          item.converStr = item.quantity + item.unit + ' = ';
+          angular.forEach(item.converResults, function (data, index) {
+            if ((index + 1) !== item.converResults.length) {
+              item.converStr += data.unitQuantity + data.unit + ' + ';
+            } else {
+              item.converStr += data.unitQuantity + data.unit;
+            }
+
+          });
+
         });
       }
       catch(err) {
         throw new Error(err);
       }
     }
-
 
     console.log($scope.medicalDataList);
   }

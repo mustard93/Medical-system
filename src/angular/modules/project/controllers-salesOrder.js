@@ -119,17 +119,17 @@ define('project/controllers-salesOrder', ['project/init'], function() {
             $scope.formData.orderMedicalNos = [];
           }
           // 如果已添加
-          if ($scope.formData.orderMedicalNos.length !== 0) {
-            var _len = $scope.formData.orderMedicalNos.length;
-            // console.log(_len);
-            // 未使用forEach方法，因为IE不兼容
-            for (var i=0; i<_len; i++) {
-              if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                alertWarn('此药械已添加到列表');
-                return;
-              }
-            }
-          }
+          // if ($scope.formData.orderMedicalNos.length !== 0) {
+          //   var _len = $scope.formData.orderMedicalNos.length;
+          //   // console.log(_len);
+          //   // 未使用forEach方法，因为IE不兼容
+          //   for (var i=0; i<_len; i++) {
+          //     if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+          //       alertWarn('此药械已添加到列表');
+          //       return;
+          //     }
+          //   }
+          // }
           //添加到列表
           $scope.formData.orderMedicalNos.push(addDataItem);
 

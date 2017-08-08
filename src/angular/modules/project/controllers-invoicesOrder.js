@@ -208,6 +208,15 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
       }
     }
 
+    // 计算打印总计份数
+    $scope.calcuAllShare = function (num, data) {
+      var _total = 0;
+      angular.forEach(data, function (item, index) {
+        _total += num * item.unitQuantity;
+      });
+
+      return _total;
+    }
 
     console.log($scope.medicalDataList);
   }
