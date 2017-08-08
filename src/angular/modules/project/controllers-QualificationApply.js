@@ -146,6 +146,14 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
          .catch(function (error) {
          });
        }
+       if ($scope.submitForm_type == 'save-enterprise') {
+         requestData('rest/authen/firstEnterpriseApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+         .then(function (results) {
+           $scope.goTo('#/firstEnterpriseApplication/edit-step-4.html?id='+$scope.formData.id);
+         })
+         .catch(function (error) {
+         });
+       }
        if ($scope.submitForm_type == 'submit-medical') {
          $scope.formData.validFlag = true;
          requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
