@@ -2,7 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单')"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单');"
      alert-error>
   <form id="purchaseForm"
         name="purchaseForm"
@@ -286,7 +286,7 @@
                   ng-click="submitForm('purchaseForm','save')">保存
           </button>
         </span>
-        <span class="mgt">
+        <span class="mgt" ng-if="$root.hasAuthor('请购单生成采购单')">
           <button class="pr-btn-create-glodbg"
                   ng-disabled="!isGoNextStep || !purchaseForm.$valid"
                   ng-click="submitForm('purchaseForm','submit')"
@@ -305,5 +305,6 @@
     </div>
     <!-- 流程图 -->
     <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+    </div>
   </form>
 </div>
