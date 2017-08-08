@@ -349,15 +349,19 @@
             <div class="flex-column mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">经营范围：</label>
               <div class="flex-item-10 color-3 text-left ">
-                <input type="text"
-                       class="ipt-new ipt-new-s"
-                       style="float: left; margin-right: 10px;"
-                       ng-model="formData.businessScope.organizationName"/>
+                <!--<input type="text"-->
+                       <!--class="ipt-new ipt-new-s"-->
+                       <!--style="float: left; margin-right: 10px;"-->
+                       <!--ng-model="formData.businessScope.organizationName"/>-->
+
+                <span>{{formData.businessScope.organizationName}}</span>
+
                 <div class="flex-item-8  text-left ">
+                  <!--modal-data='{"businessScope":"{{formData.businessScope}}"}'-->
                 <div class="color-href cur-pot mgl-m inline-block ng-isolate-scope"
                      modal-right="470"
                      modal-scope="this"
-                     modal-data='{"businessScope":"{{formData.businessScope}}"}'
+
                      modal-url="views/public/firstRightSide/select-business-scope-radio.html">
                   选择
                 </div>
@@ -379,14 +383,17 @@
             </div>
 
             <!--条形码-->
-            <div class="flex-column mgt">
+            <div ng-if="formData.id" class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
-                <input type="text"
-                       class="ipt-new-s ipt-new"
-                       ng-model="formData.barcode"/>
 
-                <a ng-click="getBarcode()" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <span style="margin-right: 15px;">{{formData.barcode}}</span>
+
+                <!--<input type="text"-->
+                       <!--class="ipt-new-s ipt-new"-->
+                       <!--ng-model="formData.barcode"/>-->
+
+                <a ng-click="getBarcode(formData.id)" class="color-orange" style="margin-left: 10px;">重新生成</a>
               </div>
             </div>
 
@@ -421,7 +428,7 @@
                         chosen
                         default-empty="无"
                         ng-model="formData.medicalClass"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
+                        select-source="rest/authen/medicalClass/queryForSelectOption">
                 </select>
               </div>
             </div>
@@ -935,15 +942,15 @@
                   <tr>
                     <th class="text-center">序号</th>
                     <th style="text-align: left;width: 270px;">供应商名称</th>
-                    <th style="text-align: left">经营许可证号</th>
-                    <th style="text-align: left">许可证有效期至</th>
-                    <th style="text-align: left">联系人</th>
-                    <th style="text-align: left">电话</th>
-                    <th style="text-align: left">手机</th>
+                    <th style="text-align: left">法定代表人</th>
+                    <th style="text-align: left">分类</th>
+                    <th style="text-align: left">编号</th>
+                    <th style="text-align: left">分管部门</th>
+                    <th style="text-align: left">业务人员</th>
                   </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="supplier in formData.suppliers track by $index">
+                    <tr ng-repeat="supplier in formData.suppliers track by $index" ng-controller="subSupplierCtrl">
                       <td class="text-center">{{$index+1}}</td>
                       <td class="text-left">
                         <div style="position: relative;">
@@ -954,17 +961,18 @@
                                 search-fields=""
                                 search-str-class="ipt"
                                 url="rest/authen/supplier/query"
-                                class="inline-block ng-pristine ng-untouched ng-valid ng-isolate-scope ng-empty"
-                                ng-model="item">
+                                class="inline-block"
+                                ng-model="supplier"
+                          >
                           </span>
                           <span class="date-icon" style="top: 6px;right: 15px;"></span>
                         </div>
                       </td>
-                      <td class="text-left">{{item}}</td>
-                      <td class="text-left">{{item.productLicensePeriod | date:'yyyy-MM-dd'}}</td>
-                      <td class="text-left">{{item.contacts[0]}}</td>
-                      <td class="text-center">{{item.contacts}}</td>
-                      <td class="text-center">{{item.contacts[0].telephone}}</td>
+                      <td class="text-left">{{supplier. legalUser.n}}</td>
+                      <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
+                      <td class="text-left">{{supplier.code}}</td>
+                      <td class="text-left">{{supplier.branchDepartmentName}}</td>
+                      <td class="text-left">{{supplier.branchUser.n}}</td>
                     </tr>
 
                   </tbody>
