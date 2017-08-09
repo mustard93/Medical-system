@@ -186,8 +186,8 @@
                 <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
-                <td class="text-center" style="line-height:2.4">{{tr.strike_price}}</td><!-- 含税单价 -->
-                <td class="text-center" style="line-height:2.4">￥{{ tr.totalPrice || tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
+                <td class="text-center" style="line-height:2.4">{{tr.strike_price | currency:"￥"}}</td><!-- 含税单价 -->
+                <td class="text-center" style="line-height:2.4">{{ tr.totalPrice || tr.strike_price*tr.quantity | currency:"￥"}}</td><!-- 价税合计 -->
               </tr>
             </tbody>
           </table>
@@ -257,8 +257,8 @@
             <td class="text-center" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 计划数量 -->
             <td class="text-center" style="line-height:2.4">{{tr.finishQuantity}}</td><!-- 实际发货数量 -->
 
-            <td class="text-center" style="line-height:2.4">{{tr.strike_price}}</td><!-- 含税单价 -->
-            <td class="text-center" style="line-height:2.4">￥{{ tr.totalPrice || tr.strike_price*tr.quantity | number:2}}</td><!-- 价税合计 -->
+            <td class="text-center" style="line-height:2.4">{{tr.strike_price | currency:"￥"}}</td><!-- 含税单价 -->
+            <td class="text-center" style="line-height:2.4">{{ tr.totalPrice || tr.strike_price*tr.quantity | currency:"￥"}}</td><!-- 价税合计 -->
             <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
             <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--仓库-->
             <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->

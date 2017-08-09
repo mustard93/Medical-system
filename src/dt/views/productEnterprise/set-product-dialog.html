@@ -1,7 +1,7 @@
 <div class="first-medical-application"
      ng-controller="productEnterpriseController"
      ajax-url="rest/authen/productEnterprise/getOfEdit.json?id={{tr.id}}"
-     scope-data="productData"
+     scope-data="formData"
 
      alert-error>
 <div class="sale-return-order right-side pr-bg-black3" style="min-height: 950px">
@@ -16,38 +16,36 @@
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
-            scope-data="productData"
+            scope-data="formData"
             novalidate="true"
             callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="relative ">
       <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增生产企业</div>
+        {{scopeData}}
       <div class="pr-panel-height select-bg" style="padding:15px 0;">
         <div class="flex-column mgt-l relative ">
             <h1 class="flex-item-3 pr-fw-700 text-right product-26">编号</h1>
             <input type="text"
                    style="width:238px;"
                    class="ipt-new-s product-000"
-                   name="genericName"
                    required
-                   ng-model="productData.code" />
+                   ng-model="formData.code" />
         </div>
           <div class="flex-column mgt-l relative ">
               <h1 class="flex-item-3 pr-fw-700 text-right product-26">企业名称</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
-                     name="genericName"
                      required
-                     ng-model="productData.name" />
+                     ng-model="formData.name" />
           </div>
           <div class="flex-column mgt-l relative">
               <h1 class="flex-item-3 pr-fw-700 product-26 text-right">生产许可证</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
-                     name="genericName"
                      required
-                     ng-model="productData.productLicense" />
+                     ng-model="formData.productLicense" />
           </div>
           <div class="flex-column mgt-l relative ">
               <!--<h1 class="quali-pd-l pr-fw-700"></h1>-->
@@ -56,12 +54,11 @@
                   <input type="text"
                          style="color: white;z-index: 15;"
                          datepicker
-                         name="genericName"
                          required
                          class="ipt-date ipt color-3"
                          placeholder=""
                          ng-readonly="true"
-                         ng-model="productData.productLicensePeriod" />
+                         ng-model="formData.productLicensePeriod" />
                   <span class="date-icon"></span>
                 </span>
             </span>
@@ -71,9 +68,8 @@
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
-                     name="genericName"
                      required
-                     ng-model="productData.gmpAuthentication" />
+                     ng-model="formData.gmpAuthentication" />
           </div>
           <div class="flex-column mgt-l relative">
               <!--<h1 class="quali-pd-l pr-fw-700">GMP有效期至</h1>-->
@@ -82,12 +78,11 @@
                   <input type="text"
                          style="color: white;z-index: 15;"
                          datepicker
-                         name="genericName"
                          required
                          class="ipt-date ipt color-3"
                          placeholder=""
                          ng-readonly="true"
-                         ng-model="productData.gmpAuthenPeriod" />
+                         ng-model="formData.gmpAuthenPeriod" />
                   <span class="date-icon"></span>
                 </span>
             </span>
@@ -97,9 +92,8 @@
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
-                     name="genericName"
                      required
-                     ng-model="productData.address" />
+                     ng-model="formData.address" />
           </div>
       </div>
 
