@@ -518,11 +518,13 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-    // 打印预览
+    // 打印
     // @param printType 打印类型：preview为预览(默认)，print为直接打印
     $scope.barCodePrint = function (printType) {
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
+      } else {
+        LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
       }
 
       // 默认打印行为是预览，指定print为直接打印
@@ -535,12 +537,10 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
       angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
         for (var i = 0; i < item.converResults.length; i++) {
-          if (item.converResults[i].unitQuantity) {
+          if (item.converResults[i].unitQuantity !== 0) {
 
-            var printHtml = '';
-
-            for (var j = 0; j < item.converResults[i].unitQuantity.length; j++) {
-              printHtml += '<div style="padding:10px;">' +
+            for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
+              var printHtml = '<div style="padding:10px;">' +
                                 '<div style="margin-bottom:5px;">' +
                                     '<div style="margin-bottom:10px;text-align:center;"><img src="' + item.converResults[i].barcode + '"></div>' +
                                     '<div style="clear:both;">' +
@@ -558,16 +558,15 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
                                   '<div>生产企业：'+ $scope.medicalDataList.supplier.name +'</div>' +
                                 '</div>' +
                               '</div>';
+
+              LODOP.NewPage();
+              LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
+
             }
-
-            LODOP.NewPage();
-            LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
-            LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
-
           }
         }
       });
-
+      LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
       LODOP.SET_PRINT_COPIES($scope.scopeData.num);
 
       if (printType === 'preview') {
