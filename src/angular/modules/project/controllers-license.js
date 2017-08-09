@@ -39,8 +39,10 @@ define('project/controllers-license', ['project/init'], function() {
               if(!$scope.formData.enterpriseType){
                   $scope.formData.enterpriseType=[];
               }else {
-                  if($scope.formData.enterpriseType.indexOf(item.text)== -1){
+                  if($scope.formData.enterpriseType.indexOf(item.text) == -1){
                       $scope.formData.enterpriseType.push(item.text);
+                  }else {
+                      $scope.formData.enterpriseType.pop(item.text);
                   }
               }
 
@@ -48,17 +50,7 @@ define('project/controllers-license', ['project/init'], function() {
           }
       };
       //
-      // var output = [],
-      //     keys = [];
-      //
-      // angular.forEach(collection, function(item) {
-      //     var key = item[keyname];
-      //     if(keys.indexOf(key) === -1) {
-      //         keys.push(key);
-      //         output.push(item);
-      //     }
-      // });
-      //
+
       // return output;
 
       // $scope.$watch('!initFlag', function (newVal) {
