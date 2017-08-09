@@ -2,7 +2,7 @@
   ajax-url="rest/authen/businessScope/query.json?pageSize=999"
   scope-data="scopeData"
   ng-controller="businessScopeEditCtrl"
-  callback="reCheck(dialogData.businessScope,scopeData);"
+  callback=""
   alert-error>
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择经营范围 </h1>
@@ -29,7 +29,7 @@
           <tr ng-repeat="tr in scopeData">
               <td class="select-td text-center" style="width:60px;" ng-if="tr.name">
                   <label class="radio-inline radio radio-new mgl-s">
-                      <input type="radio" class="default-radio" name="type" value="{{tr}}" ng-model="formData.guaranteePeriodUnit"><i style="top:-12px;"></i>
+                      <input ng-checked="tr.id == dialogData.id" type="radio" class="default-radio" name="type" value="{{tr}}" ng-model="dialogData.businessScope"><i style="top:-12px;"></i>
                   </label>
               </td>
               <td style="padding:9px 0px;" ng-if="tr.name">
@@ -44,7 +44,7 @@
       <!-- submit -->
       <button type="button" style="margin-left:300px;"
       class="pr-btn-create-glodbg new-left-side-button"
-      ng-click="submitbusinessScope(scopeData,formData.businessScope);modal.closeAll()">确定</button>
+      ng-click="submitbusinessScopeForRadio(dialogData.businessScope);modal.closeAll()">确定</button>
       <!-- submit -->
     </div>
 </div>

@@ -1179,16 +1179,13 @@ function alertOk($rootScope, modal) {
 e
                  */
                 init:function(){
-                       console.log("OPrinter.init");
-                    //如果init和setPrint_paramByUICustomHtml 调用顺序不确定时，修复如果init和setPrint_paramByUICustomHtml 设置失败bug。
+                  //如果init和setPrint_paramByUICustomHtml 调用顺序不确定时，修复如果init和setPrint_paramByUICustomHtml 设置失败bug。
                   if(!this.print_param){//只初始化一次
                     this.print_param=$.extend({},this.print_param_defualt);
                   }
                   if (!LODOP) {
                     require(['LodopFuncs'], function(LodopFuncs1) {
-
                       LodopFuncs=LodopFuncs1;
-
                       //异步加载js
                       LodopFuncs1.loadCLodop();
                     });
@@ -1203,7 +1200,7 @@ e
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
 
-                     console.log("setPrint_paramByUICustomHtml",uICustomHtml);
+                  //  console.log("setPrint_paramByUICustomHtml",uICustomHtml);
                   if(!uICustomHtml)return;
                   var p=$.extend({},this.print_param_defualt);
                   for(var key in p){
@@ -1313,7 +1310,6 @@ e
                   LODOP.SET_PRINT_COPIES(num);   // 设置打印份数
                   LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);   // 设置可继续修改打印份数
                 }
-
               };//OPrinter
 
               return OPrinter;

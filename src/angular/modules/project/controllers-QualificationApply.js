@@ -447,8 +447,81 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
         }
       }
 
+      //-----------------首营品种-----------------
+
+      //获取条形码
+      $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
+
+          var data={
+              productEnterpriseCode:productEnterpriseCode,
+              medicalClassId:medicalClassId
+          };
+
+          var url='rest/authen/firstMedicalApplication/generateBarcode';
+          requestData(url,data, 'GET')
+              .then(function (results) {
+                  var _data = results[1];
+
+                  if (results[1].code === 200){
+                      console.log("data",_data);
+                      $scope.formData.barcode= results[1].data;
+                      return;
+                  }
+
+                  alertError(results[1].msg);
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+
+      };
+
+      //选择经营范围-单选
+      $scope.submitbusinessScopeForRadio=function(_data){
+          if(!$scope.formData.businessScope){
+              $scope.formData.businessScope={};
+          }
+          $scope.formData.businessScope= JSON.parse(_data);
+      };
+
+      //添加供应商
+      $scope.addSupplier=function(){
+          $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
+          $scope.formData.suppliers.push({});
+      };
+
+
+      //监听生产企业
+      $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
+          if(!$scope.formData.productEnterprise){
+              $scope.formData.productEnterprise={};
+          }
+          if($scope.formData.productEnterprise.data){
+              $scope.formData.productEnterprise=$scope.formData.productEnterprise.data;
+          }
+      });
+
+
+
   }
 
+
+  //监听器
+  function subSupplierCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn){
+
+      $scope.$watch('supplier',function (newVal,oldVal) {
+
+          if($scope.supplier.data){
+
+              $scope.supplier= $scope.supplier.data;
+          }
+      });
+
+  }
+
+
+
   angular.module('manageApp.project')
-  .controller('QualificationApplyCtrl', ['$scope',"watchFormChange",'requestData',"utils", "alertError", "alertWarn", QualificationApplyCtrl]);
+  .controller('QualificationApplyCtrl', ['$scope',"watchFormChange",'requestData',"utils", "alertError", "alertWarn", QualificationApplyCtrl])
+      .controller('subSupplierCtrl', ['$scope',"watchFormChange",'requestData',"utils", "alertError", "alertWarn", subSupplierCtrl]);
 });

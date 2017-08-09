@@ -112,7 +112,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     // });
   }
 
-  function invoicesOrderQrcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData) {
+  function invoicesOrderQrcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     // 获取单据中药品列表
     $scope.medicalDataList = angular.copy($scope.dialogData.data);
 
@@ -148,6 +148,15 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
 
     }
 
+    // 检测用户是否安装打印插件
+    $scope.loadCLodop = function () {
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPlusin = true;
+        }
+      }, 1000);
+    };
+
     // 二维码请求地址
     var _qrCodeReqUrl = 'rest/authen/qRCode/get.json';
 
@@ -155,9 +164,9 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          if (!item.othersPackingAttribute) {
-            throw new Error('该商品缺失辅助单位设置');
-          }
+          // if (!item.othersPackingAttribute) {
+          //   throw new Error('该商品缺失辅助单位设置');
+          // }
 
           // 降序排序，也就是包装最大的在前面
           item.othersPackingAttribute.sort(function (a, b) {
@@ -175,7 +184,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
                      [{
                        orderType: '发货单',
                        orderMedicalNoUuid: item.uuid,
-                       orderId: item.id
+                       orderId: $scope.medicalDataList.id
                      }],
                      'POST', 'params-body')
           .then(function (results) {
@@ -184,23 +193,6 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
             }
           });
 
-          // for (var i = 0; i < item.converResults.length; i++) {
-          //   (function() {
-          //     var temp = i;
-          //     requestData(_qrCodeReqUrl,
-          //                [{
-          //                  orderType: '发货单',
-          //                  orderMedicalNoUuid: item.uuid,
-          //                  orderId: item.id
-          //                }],
-          //                'POST', 'params-body')
-          //     .then(function (results) {
-          //       if (results[1].code === 200) {
-          //         item.converResults[temp].qrcode = results[1].data[0].qrCode;
-          //       }
-          //     })
-          //   })();
-          // }
         });
       }
       catch(err) {
@@ -218,10 +210,9 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
       return _total;
     }
 
-    console.log($scope.medicalDataList);
   }
 
   angular.module('manageApp.project')
-  .controller('invoicesOrderCtrl', ['$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "$timeout", invoicesOrderCtrl])
-  .controller('invoicesOrderQrcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', invoicesOrderQrcodePrintDialogController]);
+  .controller('invoicesOrderCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$timeout', invoicesOrderCtrl])
+  .controller('invoicesOrderQrcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', invoicesOrderQrcodePrintDialogController]);
 });

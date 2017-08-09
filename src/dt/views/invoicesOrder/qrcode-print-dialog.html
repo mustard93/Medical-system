@@ -1,8 +1,18 @@
 <div class="sale-return-order right-side pr-bg-black3 relative invoicesOrder-order-dialog"
      ng-controller="invoicesOrderQrcodePrintDialogController"
      ng-init="scopeData={num:1}">
-  <div class="sale-bg">
+
+  <script src="http://localhost:8000/CLodopfuncs.js?priority=1"></script>
+  <script src="http://localhost:8001/CLodopfuncs.js?priority=2"></script>
+
+  <div class="sale-bg" ng-init="loadCLodop();$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;">
       <div class="pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm pr-bg-black2">二维码打印预览</div>
+
+      <div id="installNoteDiv" class="mgb-xl pdl-xl mgt-xl" ng-if="notInstallPlusin">
+        <i class="fa fa-warning color-red mgr text-n"></i>
+        <font>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='http://113.10.155.131/CLodopPrint_Setup_for_Win32NT.zip' target='_self'>执行安装</a>,安装后请刷新页面。</font>
+      </div>
+
       <div class="pr-panel-height select-bg">
         <!-- 打印份数 -->
         <div class="bb-line-gold pd-c-l pdt pdb">
@@ -76,11 +86,11 @@
       <div class="text-center print-btn pr-bg-black1">
         <button type="button"
                 class="pr-btn-save-glodbg mgr-l"
-                ng-disabled="!scopeData.num">打印预览
+                ng-disabled="!scopeData.num || notInstallPlusin">打印预览
         </button>
         <button type="button"
                 class="pr-btn-save-glodbg"
-                ng-disabled="!scopeData.num">打印
+                ng-disabled="!scopeData.num || notInstallPlusin">打印
         </button>
       </div>
   </div>
