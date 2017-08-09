@@ -18,19 +18,25 @@
                 <!-- 新建按钮 -->
                 <div class="sales-statistics ">
                     <div class="business-heder">
-                        <from action=""
-                              ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessScopeLimit"
-                                scope-data="fromData">
-                            <h1 class="flex-item-1">经营范围控制策略:</h1>
-                            <label class="mgr" ng-repeat="item in fromData"><input type="radio" name="经营范围控制" value="{{item.value}}">{{item.value}}</label>
-                            <!--<label class="mgr"><input type="radio" name="1" value="仅提示">仅提示</label>-->
-                            <!--<label class="mgr"><input type="radio" name="1" value="限制交易">限制交易</label>-->
-                        </from>
+                        <div ajax-url="rest/authen/systemSetting/getByParameter?parameter=经营范围策略"
+                             scope-data="idData">
+                            <from action=""
+                                  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessScopeLimit"
+                                    scope-data="fromData">
+                                <h1 class="flex-item-1">经营范围控制策略:</h1>
+                                <label class="mgr" ng-repeat="item in fromData track by $index">
+                                    <input type="radio" name="经营范围控制" ng-click="businessReturnData(item.value,idData.id)"  ng-checked="idData.value==item.value?true:false" value="{{item.value}}">{{item.text}}
+                                </label>
+                                <!--<label class="mgr"><input type="radio" name="1" value="仅提示">仅提示</label>-->
+                                <!--<label class="mgr"><input type="radio" name="1" value="限制交易">限制交易</label>-->
+                            </from>
+                        </div>
 
                     </div>
                     <div class="inline-block relative mgb-l" ng-if="$root.hasAuthor('经营范围管理新增')">
                         <a modal-right="550"
                            modal-scope="this"
+
                            modal-url="views/businessScope/set-dialog.html">
                             <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s ">新建经营范围</span>
                         </a>
@@ -99,6 +105,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- 导航 -->
             <div class="clearfix pd-c-m" ng-if="tbodyList.length">
                 <div class="fr">

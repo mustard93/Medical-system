@@ -33,6 +33,28 @@ define('project/controllers-businessScope', ['project/init'], function() {
           $('#' + fromId).trigger('submit');
       };
 
+
+        $scope.businessReturnData = function(item, idData) {
+
+
+            var _url= 'rest/authen/systemSetting/save'
+                var data ={
+                    parameter:'经营范围策略',
+                    type:'经销商',
+                    value:item,
+                    id:idData
+                }
+            requestData(_url, data, 'POST')
+                .then(function (results) {
+
+
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+
+        }
+
  }
 
   angular.module('manageApp.project')
