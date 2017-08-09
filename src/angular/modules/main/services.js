@@ -1193,7 +1193,6 @@ e
                 },
 
                 chkOPrinter: function () {
-                  //console.log(LodopFuncs.chkSystemPlugin());
                   return window.getCLodop ? true : false;
                 },
 
