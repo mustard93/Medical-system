@@ -94,19 +94,19 @@
 
 
           <!--性质-->
-          <div class="flex-column mgt">
+          <div ng-if="initFlag" class="flex-column mgt">
             <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
-            <div class="flex-item-10 text-left">
+            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left">
               <div class="inline-block">
                 <div class="inline-block " style="position:relative;top:-5px;">
                   <label class="radio-inline radio radio-new mgl-s">
-                    <input type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
                     <em class="inline-block" style=" color:#666;margin-left:-10px;">医疗器械</em>
                   </label>
                 </div>
                 <div class="inline-block " style="position:relative;top:-5px;">
                   <label class="radio-inline radio radio-new mgl-s">
-                    <input type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
                     <em class="inline-block" style=" color:#666;margin-left:-10px;">药品</em>
                   </label>
                 </div>
@@ -384,18 +384,18 @@
               </div>
             </div>
 
-            <!--条形码-->
-            <div ng-if="formData.id" class="flex-column mgt">
+            <!--条形码   -->
+            <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
 
-                <span style="margin-right: 15px;">{{formData.barcode}}</span>
+                <!--<span style="margin-right: 15px;">{{formData.barcode}}</span>-->
 
-                <!--<input type="text"-->
-                       <!--class="ipt-new-s ipt-new"-->
-                       <!--ng-model="formData.barcode"/>-->
-
-                <a ng-click="getBarcode(formData.id)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <input type="text" ng-disabled="true"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
+                <!---->
+                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
               </div>
             </div>
 

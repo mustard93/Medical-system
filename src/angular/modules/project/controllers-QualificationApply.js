@@ -450,10 +450,11 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
       //-----------------首营品种-----------------
 
       //获取条形码
-      $scope.getBarcode=function (id) {
+      $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
 
           var data={
-              id:id
+              productEnterpriseCode:productEnterpriseCode,
+              medicalClassId:medicalClassId
           };
 
           var url='rest/authen/firstMedicalApplication/generateBarcode';
