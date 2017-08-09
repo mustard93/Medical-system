@@ -32,58 +32,52 @@ define('project/controllers-license', ['project/init'], function() {
           }
           $('#' + fromId).trigger('submit');
       };
-
+        //点击选中对象加入数组
       $scope.licenseCommodityType=function(item){
+          debugger;
           if(item.value){
               if(!$scope.formData.enterpriseType){
                   $scope.formData.enterpriseType=[];
+              }else {
+                  if($scope.formData.enterpriseType.indexOf(item.text)== -1){
+                      $scope.formData.enterpriseType.push(item.text);
+                  }
               }
-              $scope.formData.enterpriseType.push(item.text);
+
 
           }
       };
+      //
+      // var output = [],
+      //     keys = [];
+      //
+      // angular.forEach(collection, function(item) {
+      //     var key = item[keyname];
+      //     if(keys.indexOf(key) === -1) {
+      //         keys.push(key);
+      //         output.push(item);
+      //     }
+      // });
+      //
+      // return output;
 
-
-     // $scope.licenseHasThisItem = function (item,formData) {
-
-          // 获取groupKey
-          // console.log(item)
-          // console.log(formData)
-
-          // if (Object.prototype.toString.call(formData) !== '[object Array]') {
-          //     throw new TypeError('参数formData类型校验错误');
-          // }
-
-          // console.log(item)
-
-          // angular.forEach(formData, function (data, index) {
-          //   if (data === item) {
-          //       return true;
-          //   } else {
-          //       return false;
-          //   }
-          // });
-    //  }
-
-
-
-      $scope.$watch('!initFlag', function (newVal) {
-          var scopeData= [];
-
-          for(var item in $scope.departments){
-
-              scopeData.push($scope.departments[item]);
-
-              if ($scope.formData.enterpriseType) {
-                  for(j=0;j<$scope.formData.enterpriseType.length;j++){
-
-                      if($scope.formData.enterpriseType[j]==$scope.departments[item].value){
-                          $scope.departments[item].value=true;
-                      }
-                  }
-              }
-          }
-      });
+      // $scope.$watch('!initFlag', function (newVal) {
+      //     var scopeData= [];
+      //
+      //     for(var item in $scope.departments){
+      //
+      //         scopeData.push($scope.departments[item]);
+      //
+      //         if ($scope.formData.enterpriseType) {
+      //             for(j=0;j<$scope.formData.enterpriseType.length;j++){
+      //
+      //                 if($scope.formData.enterpriseType[j]==$scope.departments[item].value){
+      //                     $scope.departments[item].value=true;
+      //                 }
+      //             }
+      //         }
+      //     }
+      // });
 
       $scope.watchFormChange = function(watchName){
           watchFormChange(watchName,$scope);
