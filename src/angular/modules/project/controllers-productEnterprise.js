@@ -18,7 +18,6 @@ define('project/controllers-productEnterprise', ['project/init'], function() {
                     .then(function (results) {
                         if (results[1].code === 200) {
                             alertOk('操作成功');
-                            utils.goTo('rest/authen/productEnterprise/query')
                         }
                     })
                     .catch(function (error) {
