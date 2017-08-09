@@ -436,7 +436,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
             }
           }
         }
-      }
+      };
 
       // 设置联系人默认地址,传入联系人jason对象,把默认设置还原到没有默认的时候。
       $scope.setDefault=function(_data){
@@ -445,9 +445,43 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
             _data[i].isDefault=false;
           }
         }
-      }
+      };
 
       //-----------------首营品种-----------------
+
+      $scope.canNextStep2=function () {
+
+          var flag = true;
+          //如果存在经营范围就判断供应商范围；
+
+          //1.严格限制
+          //2.仅提示
+          //3.不控制
+          if($scope.formData.businessScope){
+              //如果等于 “严格限制”不允许提交
+              if($scope.formData.businessScope.limit == '严格限制'){
+                  angular.forEach($scope.formData.suppliers,function (item,index) {
+                      if(item.scopeNote){
+                          flag = false;
+                      }
+                  });
+              }
+          }
+          return flag;
+      };
+
+
+      $scope.checkBusinessScope=function (z) {
+          var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
+          requestData(url,$scope.formData, 'POST','parameterBody')
+              .then(function (results) {
+                  $scope.formData.suppliers= results[1].data.suppliers || [];
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
+
 
       //获取条形码
       $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
@@ -482,6 +516,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
               $scope.formData.businessScope={};
           }
           $scope.formData.businessScope= JSON.parse(_data);
+          $scope.checkBusinessScope();
       };
 
       //添加供应商
@@ -489,8 +524,6 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
           $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
           $scope.formData.suppliers.push({});
       };
-
-
       //监听生产企业
       $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
           if(!$scope.formData.productEnterprise){
@@ -502,21 +535,56 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
       });
 
 
-
   }
 
 
   //监听器
   function subSupplierCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn){
 
-      $scope.$watch('supplier',function (newVal,oldVal) {
+
+
+
+      console.log(" $scope.$index", $scope.$index);
+      $scope.$watch('suppliertmp',function (newVal,oldVal) {
+          console.log(" $scope.$index2", $scope.$index);
+
+          $scope.checkBusinessScope();
+
 
           if($scope.supplier.data){
 
-              $scope.supplier= $scope.supplier.data;
+              // utils.replaceObject($scope.supplier,$scope.supplier.data);
+              // //$scope.supplier= $scope.supplier.data;
+              //
+              // console.log($scope.formData.suppliers,$scope.supplier);
+
+
+
+
+
           }
       });
 
+
+      $scope.checkBusinessScope=function () {
+          console.log("监   听发送.......",$scope.formData);
+          var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
+          requestData(url,$scope.formData, 'POST','parameterBody')
+              .then(function (results) {
+
+
+                  $scope.formData.suppliers =angular.copy(results[1].data.suppliers) ;
+
+                  // $scope.$emit('changeSuppliers',results[1].data.suppliers);
+
+
+                  console.log("results[1].data.suppliers:" , angular.toJson($scope.formData.suppliers,true));
+
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
   }
 
 

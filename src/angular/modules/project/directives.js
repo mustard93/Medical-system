@@ -2576,6 +2576,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "titleField": "@",
             "descriptionField": "@",
             "ngModelId": "=?",//绑定返回对象id
+            "ngModelData": "=?",//绑定返回对象的业务对象
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
@@ -2595,11 +2596,13 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.searchStr = $scope.searchFields;
             // console.log($scope.searchStr);
             //绑定返回对象的某个属性值。
-            if($attrs.ngModelId){
+            if($attrs.ngModelId||$attrs.ngModelData){
               $scope.$watch("ngModel", function(value) {
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
+                $scope.ngModelData=value.data;
+
 
               //  $scope.listObject.name = value.data.name;
               }, true);
