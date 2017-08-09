@@ -583,26 +583,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
     }
 
-    // // 保存下一个单位的初始化值
-    // $scope.saveOriginData = function (nextUnitQuantity) {
-    //   if (!$scope.nextUnitQuantity) {
-    //     $scope.nextUnitQuantity = nextUnitQuantity;
-    //   }
-    // }
-
-    // ...
-    // $scope.chgThisUnitQuantity = function (originQuantity, unitQuantity, index, converResults) {
-    //   if (unitQuantity < originQuantity) {
-    //     // 获取当前单位减少的数量与比例的乘积（也就是在数量改变后使用基本单位计算的多余的商品数量）
-    //     var _temp = (originQuantity - unitQuantity) * converResults[index].ratio;
-    //         _temp = parseInt(_temp / converResults[index+1].ratio, 10);
-    //
-    //     converResults[index+1].unitQuantity = $scope.nextUnitQuantity + _temp;
-    //   } else {
-    //     converResults[index+1].unitQuantity = $scope.nextUnitQuantity;
-    //   }
-    // }
-
   }
 
   /**

@@ -27,7 +27,10 @@
         </div>
         <!-- 所有药品的条码列表 -->
         <div class="scroll-out-div">
-          <div class="pr-bg-black1 mgb-xl pdb-l" ng-repeat="mItem in medicalDataList.orderMedicalNos track by $index">
+          <div class="pr-bg-black1 mgb-xl pdb-l"
+               ng-repeat="mItem in medicalDataList.orderMedicalNos track by $index"
+               ng-controller="qrcodePrintDialogItemController"
+               ng-init="saveOriginData(mItem)">
             <!-- 药品信息 -->
             <div class="bb-dashed-gold pd-c-l">
               <div class="flex-column pd-v-l">
@@ -42,8 +45,11 @@
                 <div class="flex-item-6">
                   <span>数量：</span>
                   <span class="color-white">
-                    <span>{{mItem.quantity}}{{mItem.unit}} = </span>
-                    <span ng-repeat="uItem in mItem.converResults track by $index">{{uItem.unitQuantity}}{{uItem.unit}}<em ng-if="($index+1)!==mItem.converResults.length"> + </em></span>
+                    <!-- <span>{{mItem.quantity}}{{mItem.unit}} = </span> -->
+                    <!-- <span ng-repeat="uItem in mItem.converResults track by $index">{{uItem.unitQuantity}}{{uItem.unit}}<em ng-if="($index+1)!==mItem.converResults.length"> + </em></span> -->
+
+                    <span>{{mItem.converStr}}</span>
+
                   </span>
                 </div>
                 <div class="flex-item-6 text-right">
@@ -70,7 +76,9 @@
                         <input type="number"
                                class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80 text-right"
                                ng-model="uItem.unitQuantity"
-                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"> <em class="color-white">{{uItem.unit}}</em>
+                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                               ng-change="chgThisUnitQuantity(uItem.unitQuantity,mItem.converResults,$index)">
+                        <em class="color-white">{{uItem.unit}}</em>
                       </span>
                       <span class="flex-item-6 text-right">打印：{{uItem.unitQuantity}}*{{scopeData.num}}={{uItem.unitQuantity*scopeData.num}} 份</span>
                     </div>
