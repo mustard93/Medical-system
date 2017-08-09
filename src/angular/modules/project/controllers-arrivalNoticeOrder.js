@@ -465,9 +465,9 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          if (!item.othersPackingAttribute) {
-            throw new Error('该商品缺失辅助单位设置');
-          }
+          // if (!item.othersPackingAttribute) {
+          //   throw new Error('该商品缺失辅助单位设置');
+          // }
 
           // 降序排序，也就是包装最大的在前面
           item.othersPackingAttribute.sort(function (a, b) {
@@ -518,27 +518,66 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-    function printBeforePrint(content,taskName) {
+    // 打印预览
+    // @param printType 打印类型：preview为预览(默认)，print为直接打印
+    $scope.barCodePrint = function (printType) {
+      if (!LODOP) {
+        throw new Error('打印插件加载错误！');
+      }
 
-      angular.forEach($scope.medicalDataList, function (item, index) {
-        console.log(item);
+      // 默认打印行为是预览，指定print为直接打印
+      if (!printType) {
+        printType = 'preview';
+      }
+
+      // 设定纸张大小
+  		LODOP.SET_PRINT_PAGESIZE(1, 1000, 700, "");
+
+      angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+        for (var i = 0; i < item.converResults.length; i++) {
+          if (item.converResults[i].unitQuantity) {
+
+            var printHtml = '';
+
+            for (var j = 0; j < item.converResults[i].unitQuantity.length; j++) {
+              printHtml += '<div style="padding:10px;">' +
+                                '<div style="margin-bottom:5px;">' +
+                                    '<div style="margin-bottom:10px;text-align:center;"><img src="' + item.converResults[i].barcode + '"></div>' +
+                                    '<div style="clear:both;">' +
+                                      '<span style="float:left;">'+ item.name +'</span>' +
+                                      '<span style="float:right;">包装单位：'+ item.converResults[i].unit +'</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<p style="height:1px;border-top:1px dashed #ccc;margin-top:45px;"></p>' +
+                                '<div style="font-size:13px">' +
+                                  '<div style="margin-bottom:5px;">' +
+                                    '<span style="margin-right:30px;">规格/型号：'+ item.specificationAndModelType +'</span>' +
+                                    '<span>有效期至：'+ item.validTill +'</span>' +
+                                  '</div>' +
+                                  '<div style="margin-bottom:5px;">货主：'+ $scope.medicalDataList.intentionalCustomer +'</div>' +
+                                  '<div>生产企业：'+ $scope.medicalDataList.supplier.name +'</div>' +
+                                '</div>' +
+                              '</div>';
+            }
+
+            LODOP.NewPage();
+            LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
+            LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
+
+          }
+        }
       });
 
-      // for (var i = 0; i < $scope.medicalDataList.length; i++) {
-      //   var divHtml="<div>"+dataList.html+"</div>"
-      //   LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,divHtml);
-      //   LODOP.NEWPAGE();
-      // }
+      LODOP.SET_PRINT_COPIES($scope.scopeData.num);
+
+      if (printType === 'preview') {
+        LODOP.PREVIEW();
+      } else if (printType === 'print') {
+        LODOP.PRINT();
+      }
+
 
     }
-
-      $scope.barCodePrintPreview = function () {
-        if (LODOP) {
-          
-        }
-        // printBeforePrint(content,taskName);
-        // LODOP.preview();
-      }
 
   }
 

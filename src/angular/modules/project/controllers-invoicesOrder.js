@@ -164,9 +164,9 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          if (!item.othersPackingAttribute) {
-            throw new Error('该商品缺失辅助单位设置');
-          }
+          // if (!item.othersPackingAttribute) {
+          //   throw new Error('该商品缺失辅助单位设置');
+          // }
 
           // 降序排序，也就是包装最大的在前面
           item.othersPackingAttribute.sort(function (a, b) {
@@ -193,23 +193,6 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
             }
           });
 
-          // for (var i = 0; i < item.converResults.length; i++) {
-          //   (function() {
-          //     var temp = i;
-          //     requestData(_qrCodeReqUrl,
-          //                [{
-          //                  orderType: '发货单',
-          //                  orderMedicalNoUuid: item.uuid,
-          //                  orderId: item.id
-          //                }],
-          //                'POST', 'params-body')
-          //     .then(function (results) {
-          //       if (results[1].code === 200) {
-          //         item.converResults[temp].qrcode = results[1].data[0].qrCode;
-          //       }
-          //     })
-          //   })();
-          // }
         });
       }
       catch(err) {
