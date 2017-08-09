@@ -469,10 +469,14 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
           //   throw new Error('该商品缺失辅助单位设置');
           // }
 
-          // 降序排序，也就是包装最大的在前面
-          item.othersPackingAttribute.sort(function (a, b) {
-            return b['ratio'] - a['ratio'];
-          });
+          if (item.othersPackingAttribute) {
+            // 降序排序，也就是包装最大的在前面
+            item.othersPackingAttribute.sort(function (a, b) {
+              return b['ratio'] - a['ratio'];
+            });
+          } else {
+            item.othersPackingAttribute = [];
+          }
 
           item.othersPackingAttribute.push({
             ratio: 1,
