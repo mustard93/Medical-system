@@ -169,9 +169,14 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
           // }
 
           // 降序排序，也就是包装最大的在前面
-          item.othersPackingAttribute.sort(function (a, b) {
-            return b['ratio'] - a['ratio'];
-          });
+          if (item.othersPackingAttribute) {
+            // 降序排序，也就是包装最大的在前面
+            item.othersPackingAttribute.sort(function (a, b) {
+              return b['ratio'] - a['ratio'];
+            });
+          } else {
+            item.othersPackingAttribute = [];
+          }
 
           item.othersPackingAttribute.push({
             ratio: 1,
