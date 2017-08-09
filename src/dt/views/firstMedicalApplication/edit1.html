@@ -42,11 +42,11 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div  ng-if="!mainStatus.pageParams.isEnter" step-flow-arrow-show
+    <div  ng-if="!mainStatus.pageParams.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
 
-    <div  ng-if="mainStatus.pageParams.isEnter" step-flow-arrow-show
+    <div  ng-if="mainStatus.pageParams.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"},{"arrowText":"首营品种审核人","className":"unactive"}]'>
     </div>
 
@@ -81,18 +81,7 @@
 
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
-            <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
-
-          <!--&lt;!&ndash;性质&ndash;&gt;-->
-          <!--<div class="flex-column mgt pdb-l bb-dashed-line">-->
-            <!--<label class="flex-item-2   text-right control-label">性质：</label>-->
-            <!--<div class="flex-item-10 color-3 text-left ">-->
-              <!--<label for="" style=" margin-right: 20px;"><input ng-model="formData.medicalType" type="radio" name="medicalType" value="医疗器械"> 医疗器械 </label>-->
-              <!--<label for="" style="vertical-align:middle;"><input ng-model="formData.medicalType" type="radio" name="medicalType" value="药品"> 药品 </label>-->
-            <!--</div>-->
-          <!--</div>-->
-
-
+          <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
           <!--性质-->
           <div ng-if="initFlag" class="flex-column mgt">
             <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
@@ -113,8 +102,6 @@
               </div>
             </div>
           </div>
-
-
 
           <div class=" pd-v-m">
             <!--通用名-->
@@ -508,7 +495,7 @@
                                 class="inline-block"
                                 ng-model="formData.productEnterprise">
                           </span>
-                    <span class="date-icon" style="top: 4px;left: 215px;"></span>
+                    <span class="receive-item-icon" style="top: 4px;left: 215px;"></span>
                   </div>
 
                 </div>
@@ -969,7 +956,7 @@
                                 ng-model="supplier"
                           >
                           </span>
-                          <span class="date-icon" style="top: 6px;right: 15px;"></span>
+                          <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
                         </div>
                       </td>
                       <td class="text-left">{{supplier. legalUser.n}}</td>
