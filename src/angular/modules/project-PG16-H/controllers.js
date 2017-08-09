@@ -1279,7 +1279,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
         $scope.chkSupplierInfo = function (supplier) {
             // console.log(supplier);
-            if (!supplier.contact) {
+            if (!supplier.contacts) {
                 dialogConfirm('供应商地址信息不完整，请完善', function () {
                     window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
                 });

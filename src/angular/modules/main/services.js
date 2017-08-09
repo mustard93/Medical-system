@@ -1185,9 +1185,7 @@ e
                   }
                   if (!LODOP) {
                     require(['LodopFuncs'], function(LodopFuncs1) {
-
                       LodopFuncs=LodopFuncs1;
-
                       //异步加载js
                       LodopFuncs1.loadCLodop();
                     });
@@ -1311,13 +1309,7 @@ e
                   LODOP=this._printBeforePrint(content,taskName);
                   LODOP.SET_PRINT_COPIES(num);   // 设置打印份数
                   LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);   // 设置可继续修改打印份数
-                },
-
-                // 强制重新分页打印
-                newPage: function () {
-                  LODOP.NEWPAGE();
                 }
-
               };//OPrinter
 
               return OPrinter;
