@@ -80,20 +80,19 @@
       </div>
 
       <!-- 药械列表 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n" style="box-shadow:none;background:#f3f1ec;">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n bg-bor">
           <!-- 信息 -->
           <div ng-if="formData.orderSource!='线上订单'"
                flash-add-medical
                ng-model="data1"
-               class="pd-c-l pdt-m"
+               class="pd-c-l pdt-m pdd-b1 bg-white"
                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
                add-data-callback-fn="flashAddDataCallbackFn(data1)"
-               is-disabled-this="{{formData.customerId}}"
-               style="background:rgba(255,255,255,.9);padding-bottom:1px;">
+               is-disabled-this="{{formData.customerId}}">
           </div>
           <!-- 列表 -->
-          <div class="bt-dashed-line" style="margin-top:24px;border-top:1px solid #e2e2e2;">
-            <p class="pdb-m pdt-m pd-c-l " style="background:rgba(255,255,255,.9);">
+          <div class="bt-dashed-line bor-top">
+            <p class="pdb-m pdt-m pd-c-l bg-white">
               <!-- <span class="flex-item-6 color-9">单据编号：
                 <em class="color-3">{{formData.orderNo || '暂无'}}</em>
               </span> -->
@@ -117,7 +116,7 @@
               <span class="text-right color-9 fl-r">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               <!--<span class="fl-r mgr-l color-9">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span>-->
             </p>
-            <div style="background:rgba(255,255,255,.9);">
+            <div class="bg-white">
            <div class="bt-dashed-line">
                 <p class="pdb-m pdt-m pd-c-l ">
                   <span class="color-9">单据来源：
@@ -370,7 +369,7 @@
           </div>
         </div>
       <!-- 其他信息 -->
-      <div class="relative" style="background:rgba(255,255,255,.9);">
+      <div class="relative bg-white">
         <div class="bt-line flex-column">
           <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
             <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
@@ -419,7 +418,7 @@
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component> -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" style="border-top: 20px solid #f3f1ec;box-shadow:none;">
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l top-gap">
           <h1 class="text-bold color-3">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
@@ -432,7 +431,7 @@
         <h1 class="pdb text-n text-bold color-3">
             已生成销售单部分
         </h1>
-        <div style="padding-bottom:0;" ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pdd-b0">
           <header class="text-n color-3 flex-column">
             <span class="flex-item-11">
               <div class=" color-9 text-s">
@@ -499,7 +498,7 @@
               </tbody>
             </table>
             <div class="bt-line flex-column pr-bg-white">
-              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l " style="padding-bottom:0;">
+              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l pdd-b0">
                 <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
 
                 <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
