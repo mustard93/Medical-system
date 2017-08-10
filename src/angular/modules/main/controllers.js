@@ -864,6 +864,7 @@ define('main/controllers', ['main/init'], function () {
                     $scope.submitAdressData=false;
                   }
                 }
+                // 没有id，说明是新建，submitAdressData不用于判断是否可提交
                 else {
                   $scope.submitAdressData=true;
                 }
