@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="!formData.systemPreset">
-                    <label class="flex-item-2 text-right pdr-m mgl-s">证照类型</label>
+                    <label class="flex-item-2 text-right pdr-m mgl-s">档案类型</label>
                     <input type="text"
                            name="code"
                            class="license-text"
@@ -75,12 +75,12 @@
                      ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType"
                      scope-data="departments"
                      alert-error>
-                    <label class="quali-selection relative"  ng-repeat="item in departments track by $index" ng-controller="licenseController">
+                    <label class="quali-selection relative"  ng-repeat="item in departments track by $index">
                         <input type="checkbox"
-                               id="{{$index + 1}}1"
+                               id="{{licenseCommodity+$index + 1}}1"
                                ng-if="initFlag"
-                               ng-checked="{{formData.enterpriseType.indexOf(item.text)>-1?true:false}}"
-                               ng-click="licenseCommodityType(item);"
+                               value="{{item.value}}"
+                               checkbox-group="formData.enterpriseType"
                                class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
                     </label>
 

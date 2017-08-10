@@ -77,20 +77,18 @@
                ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetCompanyType"
                scope-data="departments"
                alert-error>
-                  <label class="quali-selection relative"  ng-repeat="item in departments track by $index" ng-controller="licenseController">
+                  <label class="quali-selection relative"  ng-repeat="item in departments track by $index" >
                       <input ng-if="initFlag" type="checkbox"
-                             id="{{$index + 1}}1"
-                             ng-checked="{{formData.enterpriseType.indexOf(item.text)>-1?true:false}}"
-                             ng-click="licenseCommodityType(item);"
+                             id="{{licenseEnterprise+$index + 1}}1"
+                             value="{{item.value}}"
+                             checkbox-group="formData.enterpriseType"
                              class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
                   </label>
-
-              <!--ng-checked="licenseHasThisItem(item.text,formData.enterpriseType)"-->
-
+              <!--ng-controller="licenseController"-->
+              <!--ng-click="licenseCommodityType(item);"-->
+              <!--ng-checked="{{formData.enterpriseType.indexOf(item.text)>-1?true:false}}"-->
 
           </div>
-          <!--<p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>-->
-          <!--<p ng-if="yearMonthGroupFlag" class="color-red pdl-xl">不能对月进行单独分组查询，必须带年分组查询!</p>-->
       </div>
         <!-- 备注 -->
         <div class="mgb-l pr-font-12 color-light-brown flex-column">
