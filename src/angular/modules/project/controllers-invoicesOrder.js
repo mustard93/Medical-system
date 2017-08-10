@@ -240,6 +240,9 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
         printType = 'preview';
       }
 
+      // 设定纸张大小
+  		// LODOP.SET_PRINT_PAGESIZE(1, 1000, 700, "");
+
       // 获取系统配置的纸张大小
       var getConfUrl = 'rest/authen/uiCustomHtml/getByKey.json?key=barcodePrint';
       requestData(getConfUrl)
@@ -249,6 +252,12 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
           h: parseInt(results[1].data.paper_height, 10)
         }
       });
+
+      // $scope.$watchCollection('printPageSize', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     LODOP.SET_PRINT_PAGESIZE(1, $scope.printPageSize.w * 10, $scope.printPageSize.h * 10, "");
+      //   }
+      // }
 
       $scope.$watchCollection('printPageSize', function (newVal, oldVal) {
         if (newVal && newVal !== oldVal) {
@@ -281,7 +290,8 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
             LODOP.PRINT();
           }
         }
-      }
+      });
+
     }
 
   }
