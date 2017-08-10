@@ -459,6 +459,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }, 1000);
     };
 
+    // 定义条码请求地址
     var _barCodeReqUrl = 'rest/authen/invoiceBarCode/get.json';
 
     // 对辅助单位进行排序并生成换算后的显示字符串
@@ -584,7 +585,42 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
   }
 
+  /**
+   * [barcodePrintDialogItemController 条码打印中每个商品的每个单位条码控制器]
+   * @method barcodePrintDialogItemController
+   * @param  {[type]}                         $scope      [description]
+   * @param  {[type]}                         modal       [description]
+   * @param  {[type]}                         alertOk     [description]
+   * @param  {[type]}                         alertWarn   [description]
+   * @param  {[type]}                         alertError  [description]
+   * @param  {[type]}                         requestData [description]
+   * @param  {[type]}                         OPrinter    [description]
+   * @param  {[type]}                         $timeout    [description]
+   * @return {[type]}                                     [description]
+   */
+  function barcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
+    // 记录原始值
+    $scope.saveOriginData = function (originData) {
+      $scope.originData = angular.copy(originData);
+    }
+
+    // 用户修改数量后的操作
+    $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
+      if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
+        converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
+        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
+        return;
+      } else {
+        var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
+            _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+
+        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+      }
+    }
+  }
+
   angular.module('manageApp.project')
   .controller('arrivalNoticeOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", arrivalNoticeOrderEditCtrl])
-  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', arrivalBarcodePrintDialogController]);
+  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', arrivalBarcodePrintDialogController])
+  .controller('barcodePrintDialogItemController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', barcodePrintDialogItemController]);
 });
