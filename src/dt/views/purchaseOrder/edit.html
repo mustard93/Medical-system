@@ -575,32 +575,30 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <span>
-          <a
+        <a
            ng-if="changeFlag"
-          href="javascript:;"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="有修改数据还未保存，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})"
-             save-callback="submitForm('purchaseForm_editForm','exit')">返回采购单列表
-          </a>
+           class="mgr-l"
+           href="javascript:;"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="有修改数据还未保存，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})"
+           save-callback="submitForm('purchaseForm_editForm','exit')">返回采购单列表
+        </a>
 
-          <a ng-if="!changeFlag" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/query.html" >返回采购单列表</a>
-        </span>
-        <span class="mgl mgt">
-          <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
-             href="javascript:;"
-             handle-this-click
-             class="pr-color-red"
-             dialog-title="确认删除 ?"
-             dialog-content="您确认删除这条采购单吗?"
-             dialog-template="pr-dialog-confirm.html"
-             request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
-             callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
-          </a>
-        </span>
+        <a ng-if="!changeFlag" class="mgr-l" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/query.html" >返回采购单列表</a>
+
+        <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
+           href="javascript:;"
+           handle-this-click
+           class="pr-color-red mgr"
+           dialog-title="确认删除 ?"
+           dialog-content="您确认删除这条采购单吗?"
+           dialog-template="pr-dialog-confirm.html"
+           request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
+           callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
+        </a>
 
         <!--<button ng-if="formData.orderNo"-->
                 <!--type="button"-->
@@ -611,78 +609,75 @@
                 <!--modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同-->
         <!--</button>-->
 
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('purchaseForm_editForm','print')">打印预览
+        </button>
+
         <button class="pr-btn-save-glodbg mgr-s"
                   type="button"
                   ng-click="submitForm('purchaseForm_editForm','save')"
                   ng-disabled="!changeFlag">保存
         </button>
 
-          <button type="button"
-                  class="pr-btn-save-glodbg mgr"
-                  ng-click="submitForm('purchaseForm_editForm','print')">打印预览
-          </button>
-        </span>
-        <span>
-          <button ng-if="!formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm_editForm','submit')"
-                  ng-disabled="purchaseForm_editForm.$invalid ||
-                               !formData.orderMedicalNos.length ||
-                               !formData.expectDate ||
-                               !formData.supplier.id ||
-                               !formData.orderCode">提交
-          </button>
+        <button ng-if="!formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('purchaseForm_editForm','submit')"
+                ng-disabled="purchaseForm_editForm.$invalid ||
+                             !formData.orderMedicalNos.length ||
+                             !formData.expectDate ||
+                             !formData.supplier.id ||
+                             !formData.orderCode">提交
+        </button>
 
-          <button ng-if="!formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm_editForm','submit')"
-                  ng-disabled="purchaseForm_editForm.$invalid ||
-                               !formData.orderMedicalNos.length ||
-                               !formData.expectDate ||
-                               !formData.supplier.id">提交
-          </button>
+        <button ng-if="!formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('purchaseForm_editForm','submit')"
+                ng-disabled="purchaseForm_editForm.$invalid ||
+                             !formData.orderMedicalNos.length ||
+                             !formData.expectDate ||
+                             !formData.supplier.id">提交
+        </button>
 
-          <button ng-if="formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm_editForm','submit')"
-                  ng-disabled="purchaseForm_editForm.$invalid ||
-                               !formData.orderMedicalNos.length ||
-                               !formData.expectDate ||
-                               !formData.supplier.id ||
-                               !formData.orderCode">提交
-          </button>
+        <button ng-if="formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('purchaseForm_editForm','submit')"
+                ng-disabled="purchaseForm_editForm.$invalid ||
+                             !formData.orderMedicalNos.length ||
+                             !formData.expectDate ||
+                             !formData.supplier.id ||
+                             !formData.orderCode">提交
+        </button>
 
-          <button ng-if="formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm_editForm','submit')"
-                  ng-disabled="purchaseForm_editForm.$invalid ||
-                               !formData.orderMedicalNos.length ||
-                               !formData.expectDate ||
-                               !formData.supplier.id">提交
-          </button>
-        </span>
+        <button ng-if="formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('purchaseForm_editForm','submit')"
+                ng-disabled="purchaseForm_editForm.$invalid ||
+                             !formData.orderMedicalNos.length ||
+                             !formData.expectDate ||
+                             !formData.supplier.id">提交
+        </button>
       </div>
-      <div class="total-div">
-        <p class="pr-font-18 mgb color-light-brown">总计：
-          <!-- <span class="pr-font-18 color-white">￥{{formData.totalPrice || '0.00' | number:2}}</span> -->
-          <span class="pr-font-18 color-white">￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}</span>
-        </p>
+      <div class="price-area relative fl-r mgr-l color-light-brown" style="font-size: 18px;">总计：
+        <em class="color-white">
+          ￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}
+        </em>
       </div>
     </div>
     </div>

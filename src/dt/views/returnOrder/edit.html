@@ -370,8 +370,8 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <span>
           <a ng-if="changeFlag"
+             class="mgr"
              href="javascript:;"
              handle-this-click
              dialog-title="确认返回?"
@@ -382,38 +382,33 @@
           </a>
 
           <a ng-if="!changeFlag"
+             class="mgr"
              tab-nav
              tab-name="归还单"
              tab-href="#/returnOrder/query.html"
           >返回归还单列表</a>
 
-        </span>
-        <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
              href="javascript:;"
              handle-this-click
-             class="pr-color-red"
+             class="pr-color-red mgr"
              dialog-title="确认删除 ?"
              dialog-content="您确认删除这条归还单吗?"
              dialog-template="pr-dialog-confirm.html"
              request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
              callback="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">删除
           </a>
-        </span>
         <!---->
-        <span class="mgl mgt">
-          <button class="pr-btn-save-glodbg mgr-l"
+          <button class="pr-btn-save-glodbg mgr"
                   type="button"
                   ng-disabled="!changeFlag"
                   ng-click="submitForm('returnOrder_editForm','save')"
               >保存
           </button>
-        </span>
 
-        <span>
           <!---->
           <button ng-if="numberingPolicy!='auto'"
-                  class="pr-btn-create-glodbg mgt"
+                  class="pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
@@ -424,9 +419,8 @@
                    >提交
           </button>
 
-
            <button ng-if="numberingPolicy=='auto'"
-                   class="pr-btn-create-glodbg mgt"
+                   class="pr-btn-create-glodbg"
                    type="button"
                    handle-this-click
                    dialog-title="确认提交?"
@@ -436,7 +430,6 @@
                    ng-disabled="!formData.orderMedicalNos.length || !checkCanSubmit()"
            >提交
           </button>
-        </span>
       </div>
     </div>
   </form>
