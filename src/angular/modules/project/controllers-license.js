@@ -34,7 +34,6 @@ define('project/controllers-license', ['project/init'], function() {
       };
         //点击选中对象加入数组
       $scope.licenseCommodityType=function(item){
-          debugger;
           if(item.value){
               if(!$scope.formData.enterpriseType){
                   $scope.formData.enterpriseType=[];

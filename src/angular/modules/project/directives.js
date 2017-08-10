@@ -2594,7 +2594,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.pause = 300;
             $scope.minLength = 1;
             $scope.searchStr = $scope.searchFields;
-            // console.log($scope.searchStr);
+
             //绑定返回对象的某个属性值。
             if($attrs.ngModelId||$attrs.ngModelData){
               $scope.$watch("ngModel", function(value) {
@@ -2603,15 +2603,12 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
                 $scope.searchStr=value.data.name;
                 $scope.ngModelData=value.data;
 
-
-              //  $scope.listObject.name = value.data.name;
               }, true);
             }
 
             require(['project/angucomplete'], function(angucomplete) {
-                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
-
-            });//angucomplete
+              $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+            });
 
         }
     };
@@ -2810,12 +2807,8 @@ function flashAddMedical(utils,$timeout) {
             }else{
                 $scope.isCustomerId = false;
             }
-            // console.log("isCustomerId>>>>>>>>>>>>>>>>>>>>",!$scope.isCustomerId);
+
           });
-
-          $scope.handleEnterForAdd = function () {
-
-          };
 
           //监听自动补全选中事件。
           $scope.angucompleteMedicalOnChange = function () {
