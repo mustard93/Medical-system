@@ -202,23 +202,22 @@
 
          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <div class="text-n color-3 text-bold">送达确认
-              <p ng-if="!scopeData.attachments.length" class="text-left color-9 pr-label text-s" >暂无送达确认信息...</p>
-                <div class="woutstock-order-express" >
-                  <ul class="clearfix">
-                    <li class="express-list" style="width:200px;height:auto;" ng-repeat="att in scopeData.attachments">
-                      <p class="mgt relative">
-                        <img title="{{att.fileName}}"
-                             alt="{{att.fileName}}"
-                             ng-src="{{att.attachmentUrl}}"
-                             style="width:142px;height:96px;"/>
-                        <a href="javascript:void(0); " class="show-big-img" style="display:inline-block;height:96px;width:142px;margin-top:-15px;margin-left:-30px;" ng-src="{{att.attachmentUrl}}"  modal-img-show>
-                        </a>
-                      </p>
-                      <div class="text-left color-6 pr-label text-s mgt">确认人：<em class="color-3">{{att.uploadUserName}}</em></div>
-                      <div class="text-left color-6 pr-label text-s mgt">确认时间：<em class="color-3">{{att.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm'}}</em></div>
-                    </li>
-                  </ul>
+              <span ng-if="!scopeData.confirmArrival" class="text-left color-9 pr-label text-s" style="padding-left:10px;" >暂无送达确认信息...</span>
+              <div class="woutstock-order-express" ng-if="scopeData.confirmArrival">
+                <div class="text-left color-6 pr-label text-s mgt">
+                  <span>确认人：<em class="color-black">{{scopeData.confirmArrival.inputUser.n}}</em></span>
+                  <span class="mgl-m">确认时间：<em class="color-black">{{scopeData.confirmArrival.updateAt || '—' | date : 'yyyy-MM-dd HH:mm'}}</em></span>
                 </div>
+                <ul class="clearfix">
+                  <li class="express-list" style="width:200px;height:auto;" ng-repeat="att in scopeData.confirmArrival.imgUrls track by $index">
+                    <p class="mgt relative">
+                      <img ng-src="{{att}}" style="width:142px;height:96px;"/>
+                      <a href="javascript:void(0); " class="img-big-a" ng-src="{{att}}" modal-img-show>查看大图</a>
+                      </a>
+                    </p>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
