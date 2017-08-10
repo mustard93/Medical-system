@@ -2499,9 +2499,16 @@ function modalImgShow(ngDialog,utils) {
                   console.log("url is null");
                   return;
                 }
-                url=url.split("@")[0];
-                  var modalData='{"url":"'+url+'"}';
-                  console.log(modalData);
+
+                // url=url.split("@")[0];
+                // var modalData='{"url":"'+url+'"}';
+                // console.log(modalData);
+
+                //现在以 '?' 分割
+                url=url.split("?")[0];
+                var modalData='{"url":"'+url+'"}';
+                console.log(modalData);
+
 
                 ngDialog.open({
                     template:  Config.tplPath +"tpl/show-original-image.html",
