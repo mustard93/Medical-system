@@ -1196,6 +1196,16 @@ e
                   return window.getCLodop ? true : false;
                 },
 
+                // 页面方法，检测是否注册，若没有注册则运行注册流程
+                regLicenses: function () {
+                  if (!LODOP) {
+                    LODOP = getOPrinter();
+                    this.LODOP = LODOP;
+                  } else {
+                    LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
+                  }
+                },
+
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
 

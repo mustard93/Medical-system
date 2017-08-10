@@ -1561,7 +1561,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
         template: _uiTabs4.default,
         link: function link(scope, element, attr) {
 
-            console.log("uiTabs", uiTabs);
+            // console.log("uiTabs", uiTabs);
 
             scope.tabs = uiTabs.tabs;
             scope.current = uiTabs.current;
