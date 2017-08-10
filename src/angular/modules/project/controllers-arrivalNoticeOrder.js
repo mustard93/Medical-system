@@ -528,59 +528,68 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     $scope.barCodePrint = function (printType) {
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
-      } else {
-        LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
       }
-
+      
       // 默认打印行为是预览，指定print为直接打印
       if (!printType) {
         printType = 'preview';
       }
 
-      // 设定纸张大小
-  		LODOP.SET_PRINT_PAGESIZE(1, 1000, 700, "");
+      // 获取系统配置的纸张大小
+      var getConfUrl = 'rest/authen/uiCustomHtml/getByKey.json?key=barcodePrint';
+      requestData(getConfUrl)
+      .then(function (results) {
+        $scope.printPageSize = {
+          w: parseInt(results[1].data.paper_width, 10),
+          h: parseInt(results[1].data.paper_height, 10)
+        }
+      });
 
-      angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-        for (var i = 0; i < item.converResults.length; i++) {
-          if (item.converResults[i].unitQuantity !== 0) {
+      $scope.$watchCollection('printPageSize', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          LODOP.SET_PRINT_PAGESIZE(1, $scope.printPageSize.w * 10, $scope.printPageSize.h * 10, "");
 
-            for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
-              var printHtml = '<div style="padding:10px;">' +
-                                '<div style="margin-bottom:5px;">' +
-                                    '<div style="margin-bottom:10px;text-align:center;"><img src="' + item.converResults[i].barcode + '"></div>' +
-                                    '<div style="clear:both;">' +
-                                      '<span style="float:left;">'+ item.name +'</span>' +
-                                      '<span style="float:right;">包装单位：'+ item.converResults[i].unit +'</span>' +
+          angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+            for (var i = 0; i < item.converResults.length; i++) {
+              if (item.converResults[i].unitQuantity !== 0) {
+
+                for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
+                  var printHtml = '<div style="padding:10px;">' +
+                                    '<div style="margin-bottom:5px;">' +
+                                        '<div style="margin-bottom:10px;text-align:center;"><img src="' + item.converResults[i].barcode + '"></div>' +
+                                        '<div style="clear:both;">' +
+                                          '<span style="float:left;">'+ item.name +'</span>' +
+                                          '<span style="float:right;">包装单位：'+ item.converResults[i].unit +'</span>' +
+                                        '</div>' +
                                     '</div>' +
-                                '</div>' +
-                                '<p style="height:1px;border-top:1px dashed #ccc;margin-top:45px;"></p>' +
-                                '<div style="font-size:13px">' +
-                                  '<div style="margin-bottom:5px;">' +
-                                    '<span style="margin-right:30px;">规格/型号：'+ item.specificationAndModelType +'</span>' +
-                                    '<span>有效期至：'+ item.validTill +'</span>' +
-                                  '</div>' +
-                                  '<div style="margin-bottom:5px;">货主：'+ $scope.medicalDataList.intentionalCustomer +'</div>' +
-                                  '<div>生产企业：'+ $scope.medicalDataList.supplier.name +'</div>' +
-                                '</div>' +
-                              '</div>';
+                                    '<p style="height:1px;border-top:1px dashed #ccc;margin-top:45px;"></p>' +
+                                    '<div style="font-size:13px">' +
+                                      '<div style="margin-bottom:5px;">' +
+                                        '<span style="margin-right:30px;">规格/型号：'+ item.specificationAndModelType +'</span>' +
+                                        '<span>有效期至：'+ item.validTill +'</span>' +
+                                      '</div>' +
+                                      '<div style="margin-bottom:5px;">货主：'+ $scope.medicalDataList.intentionalCustomer +'</div>' +
+                                      '<div>生产企业：'+ $scope.medicalDataList.supplier.name +'</div>' +
+                                    '</div>' +
+                                  '</div>';
 
-              LODOP.NewPage();
-              LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
+                  LODOP.NewPage();
+                  LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
 
+                }
+              }
             }
+          });
+          LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
+          LODOP.SET_PRINT_COPIES($scope.scopeData.num);
+
+          if (printType === 'preview') {
+            LODOP.PREVIEW();
+          } else if (printType === 'print') {
+            LODOP.PRINT();
           }
         }
       });
-      LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
-      LODOP.SET_PRINT_COPIES($scope.scopeData.num);
-
-      if (printType === 'preview') {
-        LODOP.PREVIEW();
-      } else if (printType === 'print') {
-        LODOP.PRINT();
-      }
-
-
     }
 
   }

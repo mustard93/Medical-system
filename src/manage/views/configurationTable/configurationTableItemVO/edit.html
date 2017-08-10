@@ -1,0 +1,54 @@
+<div class="modal-content" ng-controller="editCtrl"  ng-init="formData1=tr;formData1.type=formData1.type||'href'">
+
+
+    <div class="modal-body">
+
+      <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">参数名</label>
+            <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="参数名" ng-model="formData1.key"/>(*)
+
+            </div>
+
+      </div>
+      <div class="form-group">
+
+          <label class="col-lg-2 col-sm-2 control-label">值类型限制</label>
+          <div class="col-lg-10 col-sm-10">
+            <select  class="ipt pr-short-ipt"
+             data-placeholder="选择类型" chosen
+              ng-model="formData1.valueType" select-source="rest/baseData/queryForSelectOptionByType?type=ConfigurationTable.valueType">
+            </select>
+          </div>
+      </div>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">值</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="值" ng-model="formData1.value"/>
+          </div>
+
+      </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">备注</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="备注" ng-model="formData1.note"/>
+          </div>
+
+      </div>
+
+
+          <!--handleThisClick  -->
+
+          <div class="form-group">
+              <textarea-json ng-model="formData1"></textarea-json>
+          </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="button" class="btn pr-btn-create-glodbg" value="提交"   ng-click="$root.modal.close()">
+          </div>
+      </div>
+    </div>
+</div>
