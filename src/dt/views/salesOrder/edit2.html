@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');"
+     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');checkData();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -43,7 +43,7 @@
     <div class="content-wrapper">
       <div class="">
         <div class="inline-block mgr-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:84px;">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="height: 90px;">
             <div class="inline-block customer-name "></div>
             <div class="inline-block" ng-if="formData.orderSource!='线上订单'">
               <p class="mgb-s">客户名
@@ -62,7 +62,13 @@
                       class="inline-block text-s"
                       style="height:28px;">
                 </span>
+
               </p>
+              <em style="display:block" class="mgb-s color-red">
+                  <i ng-if="customerInfo.msg" class="warning-icon"></i>
+                  {{customerInfo.msg}}
+                  <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+              </em>
             </div>
             <div class="inline-block" ng-if="formData.orderSource=='线上订单'">
               <p class="mgb-s">客户名</p>
@@ -186,9 +192,14 @@
                                          template-url="tpl/showInfoModalLendOrder"
                                          info-object="{{tr}}"
                                          info-title="商品信息">
-                        </show-info-modal>
+                        </show-info-modal>.
                       </span>
                       <!-- {{tr.approvedName}} -->
+                      <p class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                        <i ng-if="tr.info.msg" class="warning-icon"></i>
+                        {{tr.info.msg}}
+                        <span ng-if="tr.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                      </p>
                     </td><!-- 商品全名 -->
                     <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -547,6 +558,11 @@
                   ng-click="submitForm('salesOrder_editForm1','save')">保存
           </button>
 
+        <div ng-if="!canNextStep(formData)" class="btn-tips">
+          单据存在不符合交易要求的因素，不能提交。
+          <div class="triangle-down"></div>
+        </div>
+
           <button type="button"
                   ng-click="submitForm('salesOrder_editForm1','submit')"
                   class="pr-btn-create-glodbg"
@@ -554,7 +570,7 @@
                                !formData.customerId ||
                                !salesOrder_editForm1.$valid ||
                                formData.contactsNull ||
-                               formData.onLineOrderStatus=='已关闭'">生成销售单
+                               formData.onLineOrderStatus=='已关闭' ||!canNextStep(formData)">生成销售单
           </button>
       </div>
     </div>

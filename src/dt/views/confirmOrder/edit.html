@@ -8,7 +8,8 @@
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getSaleUserId(mainStatus.pageParams.saleUserId);
                getCodeGenerationStrategy('销售单');
-               formData.orderBusinessType = formData.orderBusinessType ? formData.orderBusinessType : '普通销售';"
+               formData.orderBusinessType = formData.orderBusinessType ? formData.orderBusinessType : '普通销售';
+               checkData()"
      alert-error>
   <form id="confirmOrder_editForm"
         name="confirmOrder_editForm"
@@ -63,7 +64,7 @@
                </div>
              </div>
           </div>
-          <div class="inline-block panel pr-panel pr-fuzzy-boundary pr-panel-height mgl" style="padding:15px;min-height:88px;">
+          <div class="inline-block panel pr-panel pr-fuzzy-boundary pr-panel-height mgl" style="    height: 90px;">
             <div class="inline-block customer-name "></div>
             <div class="inline-block">
               <p class="mgb-s">客户名</p>
@@ -88,8 +89,15 @@
                   <em ng-if="formData.customer.businessApplication.businessStatus=='已冻结'"  class="color-4">
                     {{formData.customer.businessApplication.businessStatus}}
                   </em>
+
+                  <em style="display: block;" class="mgb-s color-red">
+                    <i ng-if="customerInfo.msg" class="warning-icon"></i>
+                    {{customerInfo.msg}}
+                    <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                  </em>
+
                 </div>
-                <!-- <em class="color-red">该企业有资质已过期，禁止交易</em> -->
+
               </div>
             </div>
           </div>
@@ -247,6 +255,13 @@
                       </span>
                     <!-- </br>
                       <em class="color-red">该商品有资质已过期，禁止交易</em> -->
+
+                      <em  style="display: block;" class="mgb-s color-red">
+                        <i ng-if="item.info.msg" class="warning-icon"></i>
+                        {{item.info.msg}}
+                        <span ng-if="item.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                      </em>
+
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -594,7 +609,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError"
+                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -607,7 +622,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError"
+                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -620,10 +635,13 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError"
+                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
-
+        <div ng-if="!canNextStep(formData)" class="btn-tips">
+          单据存在不符合交易要求的因素，不能提交。
+          <div class="triangle-down"></div>
+        </div>
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
@@ -632,7 +650,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError"
+                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 

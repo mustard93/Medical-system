@@ -12,6 +12,37 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
       modal.closeAll();
 
+      //初始化校验数据
+      $scope.checkData=function(){
+
+          //初始化显示数据
+          if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+
+              var ids=[];
+              angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                    ids.push(item.relId);
+              });
+
+              requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+
+                  if(result[1].code==200){
+
+                      var datas = result[1].data;
+
+                      angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                          item.info=datas[index];
+                      });
+                  }
+
+              });
+          }
+      };
+
+
+
+
+
+
       $scope.addDataItem = {};
 
       // 是否显示关闭按钮
@@ -44,13 +75,16 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
         // 当用户第一次选择客户时，检查该用户是否有证照过期
         if (newVal && oldVal !== newVal) {
-          // console.log($scope.formData.customerId);
+           console.log($scope.formData.customerId);
           if ($scope.formData.customerId) {
-            // var _reqUrl = 'rest/authen/qualificationCertificate/identityForCustomerAddress?id=' + $scope.ngModel.id;
-            var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
+            var _reqUrl = 'rest/authen/qualificationCertificate/identityForCustomerAddress?id=' +$scope.formData.customerId;
+            // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
             requestData(_reqUrl)
             .then(function (results) {
-              console.log(results);
+                if(results[1].code ==200){
+                    console.log(results[1].data);
+                    $scope.customerInfo= results[1].data;
+                }
             })
             .catch(function (error) {
               throw new Error(error);
@@ -139,7 +173,6 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
         var medical=flashAddData.data.data;
         var addDataItem = $.extend(true,{},medical);
-
         addDataItem.quantity=flashAddData.quantity;
         addDataItem.discountPrice='0';
         addDataItem.discountRate='100';
@@ -197,11 +230,20 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
           });
         }
 
+        //请求判断 是否过期
+        requestData('rest/authen/qualificationCertificate/identityForMedicalStock',{'id':addDataItem.relId},'GET').then(function (result) {
 
-        //添加到列表
-        $scope.formData.orderMedicalNos.push(addDataItem);
-        //计算价格
-        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+            if(result[1].code==200){
+                addDataItem.info=result[1].data;
+
+                //添加到列表
+                $scope.formData.orderMedicalNos.push(addDataItem);
+                //计算价格
+                $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+
+            }
+        });
+
         return true;
       };
 
@@ -328,6 +370,30 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
 
       };
+
+
+      //根据资质条件判断时候允许下一步或提交
+      $scope.canNextStep=function(){
+
+          var flag=true;
+
+          if($scope.customerInfo){
+              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                  flag=false;
+                  return flag;
+              }
+          }
+
+          angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+              if(medical.info){
+                  if(medical.info.controllType =='限制交易' && medical.info.msg){
+                      flag=false;
+                  }
+              }
+          });
+          return flag;
+      };
+
 
   }
 
