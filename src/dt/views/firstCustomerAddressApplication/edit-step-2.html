@@ -39,7 +39,7 @@
   '[{"arrowText":"基本信息","className":"visited"},
     {"arrowText":"申请原因","className":"active"},
     {"arrowText":"添加审核资料","className":"unactive"},
-    {"arrowText":"录入已审核的首营客户","className":"unactive"}]'>
+    {"arrowText":"首营客户审核人","className":"unactive"}]'>
     </div>
 
     <div class="content-wrapper-main mgt">
@@ -119,7 +119,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                   ng-disabled="!firstCustomerAddressApplication_editForm_step.$valid || canSubmit"
+                   ng-disabled="!firstCustomerAddressApplication_editForm_step.$valid || canSubmit ||!formData.applyReason"
                   ng-click="formData.validFlag=true;submitForm('firstCustomerAddressApplication_editForm_step','submit');
                   $root.goTo({'tabHref':'#/firstCustomerAddressApplication/edit-step-3.html?id='+formData.id,'tabName':'首营客户管理'})">下一步
           </button>
