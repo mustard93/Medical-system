@@ -28,7 +28,7 @@ define('project/controllers-license', ['project/init'], function() {
                   }else {
                       $scope.formData.enterpriseType.pop(item.text);
                   }
-              }
+               }
           }
       };
 
