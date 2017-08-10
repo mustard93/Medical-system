@@ -466,7 +466,7 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
     // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
     $scope.chkSupplierInfo = function (supplier) {
       // console.log(supplier);
-      if (!supplier.contacts.length) {
+      if (!supplier.contact) {
           dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建采购单!', function () {
             // window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
         });
