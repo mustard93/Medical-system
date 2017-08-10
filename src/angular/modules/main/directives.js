@@ -1745,6 +1745,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "classDescription": "@",
                 //"localData": "=?",
                 "ngModelId": "=?",//绑定返回对象id
+                "ngModelData": "=?",//绑定返回对象的业务对象
+                "calbakMethod":'&?',//扩展回调方法；
                 "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
@@ -1763,20 +1765,53 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.searching = false;
                 $scope.pause = 300;
                 $scope.minLength = 1;
-                $scope.searchStr = $scope.searchFields;
+                $scope.searchStr =  $scope.searchFields;
 
-                if($attrs.ngModelId){
-                  $scope.$watch("ngModel", function(value) {
-                    console.log("ngModelProperty.watch.ngModel",value);
-                    if(!value){
-                      $scope.ngModelId=null;
-                    }else{
+                //绑定返回对象的某个属性值。
+                if($attrs.ngModelId||$attrs.ngModelData){
+                    $scope.$watch("ngModel", function(value) {
+                        if(!value)return;
+
                         $scope.ngModelId=value.id;
-                    }
+
+                        $scope.searchStr=   value.data.name;
+
+                        $scope.ngModelData=value.data;
+
+                        // BUG ----- 执行会影响- （$scope.ngModelData=value.data）
+                        // if($scope.calbakMethod){
+                        //     console.log("calbakMethod。。。。。。。。。。");
+                        //     $scope.calbakMethod();
+                        // }
 
 
-                  }, true);
+                        setTimeout(function () {
+                            if($scope.calbakMethod){
+                                console.log("calbakMethod。。。。。。。。。。");
+                                $scope.calbakMethod();
+                            }
+                        },100);
+
+
+
+
+
+                        //  $scope.listObject.name = value.data.name;
+                    }, true);
                 }
+
+                // if($attrs.ngModelId){
+                //   $scope.$watch("ngModel", function(value) {
+                //     console.log("ngModelProperty.watch.ngModel",value);
+                //     if(!value){
+                //       $scope.ngModelId=null;
+                //     }else{
+                //         $scope.ngModelId=value.id;
+                //     }
+                //
+                //
+                //   }, true);
+                // }
 
               require(['project/angucomplete'], function(angucomplete) {
                     $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
