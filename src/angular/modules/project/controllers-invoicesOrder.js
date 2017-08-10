@@ -231,6 +231,8 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     $scope.qrCodePrint = function (printType) {
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
+      } else {
+        LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
       }
 
       // 默认打印行为是预览，指定print为直接打印
