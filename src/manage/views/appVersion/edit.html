@@ -44,12 +44,14 @@
             <p class="mgb">
               {{formData.fileName}}
             </p>
+            <!--限制为800M，800000 -->
             <button type="button"
                     class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                       ng-init="upFile={}"
                     uploader-one="rest/authen/fileUpload/upload2.json"
                     callback="formData.fileName=upFile.data.originalFileName"
                     usege="APK安装包上传"
+                    upload-size="800000"
                     up-file="upFile" ng-model="formData.loadUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
             </button>
           </div>
