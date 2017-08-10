@@ -140,7 +140,7 @@
                       <div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
 
-                          <span >
+                          <span ng-if="$root.hasAuthor('客户管理冻结')">
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
                              href="javascript:;"
                              modal-center="350"
@@ -157,7 +157,7 @@
                              tpl-url="tpl/pr-dialog-submit-message.html">冻结
                           </a>
                           </span>
-                          <span >
+                          <span ng-if="$root.hasAuthor('客户管理解冻')">
                           <a ng-if="tr.businessApplication.businessStatus=='已冻结'"
                              href="javascript:;"
                              modal-center="350"
@@ -174,7 +174,7 @@
                              tpl-url="tpl/pr-dialog-submit-message.html">解冻
                           </a>
                           </span>
-                          <span style="display: block;">
+                          <span style="display: block;" ng-if="$root.hasAuthor('客户管理终止')">
                           <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认终止?"
