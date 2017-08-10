@@ -13,8 +13,7 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
 
       // 经营方式查询调用的方法
       $scope.filterName=function(q){
-        if (q) {
-
+        
           var url='rest/authen/businessScope/query?pageSize=999&q='+q;
           var data= {};
           requestData(url,data, 'get')
@@ -24,7 +23,6 @@ define('project/controllers-businessScopeEditCtrl', ['project/init'], function()
             .catch(function (error) {
               alertError(error || '出错');
             });
-        }
       };
 
 

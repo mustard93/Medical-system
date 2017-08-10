@@ -844,6 +844,33 @@ define('main/controllers', ['main/init'], function () {
         $scope.formData.departmentNameAuthoritys=departmentNameAuthoritys;
         }
 
+        $scope.$watchCollection('addressData',function(newVal,oldVal){
+              if (newVal && newVal !== oldVal) {
+                // 如果判断存在id，说明不是新建，是编辑
+                if (newVal.id) {
+                  // 把对象的除了ID以外所有的值放入数组中，用于后续判断是否全部为空
+                  var addressDataArr=[];
+               　　for ( var i in newVal ){
+                       var value = newVal[ i ];
+                      //  去除某些字段不用加入该数组中去判断的属性值
+                       if (newVal[ i ]!==newVal.id&&newVal[ i ]!==newVal.isDefault&&newVal[i]!==newVal.weight) {
+                         addressDataArr.push( value );
+                       }
+              　　}
+                  // 判断只要有一个值不为空，则可以提交
+                  if (addressDataArr.some(function(item){return item;})) {
+                    $scope.submitAdressData=true;
+                  }else {
+                    $scope.submitAdressData=false;
+                  }
+                }
+                // 没有id，说明是新建，submitAdressData不用于判断是否可提交
+                else {
+                  $scope.submitAdressData=true;
+                }
+              }
+        })
+
         // 侧边框提交添加联系人
         $scope.submitAdress=function(type){
           var _url = 'rest/authen/'+type+'/contact/save';
