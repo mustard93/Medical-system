@@ -42,11 +42,11 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div  ng-if="!mainStatus.pageParams.enterFlag" step-flow-arrow-show
+    <div  ng-if="!formData.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
 
-    <div  ng-if="mainStatus.pageParams.enterFlag" step-flow-arrow-show
+    <div  ng-if="formData.enterFlag" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"},{"arrowText":"首营品种审核人","className":"unactive"}]'>
     </div>
 
@@ -73,8 +73,10 @@
 
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr-l">录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em></span>
-            <span>状态：<em class="color-black">{{formData.orderStatus}}</em></span>
+              制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+              制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+              制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+              状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
 

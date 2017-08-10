@@ -825,8 +825,13 @@ define('main/controllers', ['main/init'], function () {
     /**
      *用于编辑
      */
-    function editCtrl($scope, modal,requestData,alertWarn) {
+    function editCtrl($scope, modal,requestData,alertWarn,watchFormChange) {
         modal.closeAll();
+
+        $scope.watchFormChange=function(watchName){
+           watchFormChange(watchName,$scope);
+         };
+
         $scope.submitAll = function (departments,departmentAuthoritys){
           var departmentNameAuthoritys=[];
         angular.forEach(departments,function (item,index) {
@@ -934,7 +939,7 @@ define('main/controllers', ['main/init'], function () {
     .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
     .controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
     .controller('sideNav',  ["$scope",sideNav])
-    .controller('editCtrl',  ["$scope","modal","requestData","alertWarn",editCtrl])
+    .controller('editCtrl',  ["$scope","modal","requestData","alertWarn","watchFormChange",editCtrl])
     .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
     .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController])
     .controller('customTableDataController', ['$scope', 'utils', 'requestData', customTableDataController]);
