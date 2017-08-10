@@ -138,6 +138,12 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
     $scope.deleteMedcal=function (index) {
      $scope.formData.receiveOrderMedicalNos.splice(index,1);
      $scope.formData.orderMedicalNos.splice(index,1);
+
+        if($scope.formData.receiveOrderMedicalNos.length<1){
+            $scope.formData.relId='';
+            $scope.formData.relOrderNo='';
+            $scope.formData.relOrderCode='';
+        }
     };
 
   }
