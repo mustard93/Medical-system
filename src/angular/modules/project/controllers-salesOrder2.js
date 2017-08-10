@@ -12,7 +12,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
       modal.closeAll();
 
-
+      //初始化校验数据
       $scope.checkData=function(){
 
           //初始化显示数据
@@ -385,9 +385,10 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
           }
 
           angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-
-              if(medical.info.controllType =='限制交易' && medical.info.msg){
-                  flag=false;
+              if(medical.info){
+                  if(medical.info.controllType =='限制交易' && medical.info.msg){
+                      flag=false;
+                  }
               }
           });
           return flag;

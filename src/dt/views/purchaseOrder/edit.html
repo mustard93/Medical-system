@@ -2,7 +2,8 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单')"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);
+     getCodeGenerationStrategy('采购单');checkData();"
      alert-error>
   <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
 
@@ -15,7 +16,7 @@
      alert-ok
      scope-error-msg="errorMsg"
      scope-data="formData"
-     callback="submitFormAfter();watchFormChange('formData')"
+     callback="submitFormAfter();watchFormChange('formData');"
      onkeydown="if(window.event.keyCode==13) return false;"
      novalidate="novalidate">
 
@@ -95,6 +96,11 @@
                    </span>
                    <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
                      {{formData.supplier.businessApplication.businessStatus}}
+                   </em>
+                   <em style="display:block" class="mgb-s color-red">
+                     <i ng-if="customerInfo.msg" class="warning-icon"></i>
+                     {{customerInfo.msg}}
+                     <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
                    </em>
                  </div>
                </div>
@@ -318,7 +324,7 @@
                          </div>
                        </div>
                      </td><!-- 商品编号 -->
-                     <td class="text-left" >
+                     <td class="text-left" style="width: 300px;" >
                        <span
                             class="color-orange cur-pot lend-order-goods-info"
                             ng-init="showInfoArea=false"
@@ -331,6 +337,11 @@
                                           info-title="商品信息">
                          </show-info-modal>
                        </span>
+                       <em  style="display: block;" class="mgb-s color-red">
+                         <i ng-if="tr.info.msg" class="warning-icon"></i>
+                         {{tr.info.msg}}
+                         <span ng-if="tr.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                       </em>
                      </td><!-- 商品全名 -->
                      <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
                      <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -631,7 +642,7 @@
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
                              !formData.supplier.id ||
-                             !formData.orderCode">提交
+                             !formData.orderCode || !canNextStep(formData)">提交
         </button>
 
         <button ng-if="!formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg"
@@ -644,7 +655,7 @@
                 ng-disabled="purchaseForm_editForm.$invalid ||
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
-                             !formData.supplier.id">提交
+                             !formData.supplier.id || !canNextStep(formData)">提交
         </button>
 
         <button ng-if="formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg"
@@ -658,9 +669,12 @@
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
                              !formData.supplier.id ||
-                             !formData.orderCode">提交
+                             !formData.orderCode || !canNextStep(formData)">提交
         </button>
-
+        <div ng-if="!canNextStep(formData)" class="btn-tips">
+          单据存在不符合交易要求的因素，不能提交。
+          <div class="triangle-down"></div>
+        </div>
         <button ng-if="formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg"
                 type="button"
                 handle-this-click
@@ -671,7 +685,7 @@
                 ng-disabled="purchaseForm_editForm.$invalid ||
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
-                             !formData.supplier.id">提交
+                             !formData.supplier.id || !canNextStep(formData) ">提交
         </button>
       </div>
       <div class="price-area relative fl-r mgr-l color-light-brown" style="font-size: 18px;">总计：
