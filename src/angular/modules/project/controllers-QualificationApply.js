@@ -180,6 +180,19 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
          .catch(function (error) {
          });
        }
+      if ($scope.submitForm_type == 'save-medicalStock') {
+
+        requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.formData.validFlag = false;
+            $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
+          }
+        })
+        .catch(function (error) {
+          if (error) { alertWarn(error); }
+        });
+      }
        if ($scope.submitForm_type == 'submit-medical') {
          $scope.formData.validFlag = true;
          requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
@@ -410,8 +423,6 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
       // 经营方式查询调用的方法,根据传入的q查询。
       $scope.filterName=function(q){
-        if (q) {
-
           var url='rest/authen/businessScope/query?pageSize=999&q='+q;
           var data= {};
           requestData(url,data, 'get')
@@ -421,7 +432,6 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
             .catch(function (error) {
               alertError(error || '出错');
             });
-        }
       };
 
       // 选择经营方式以后，调用的方法。
