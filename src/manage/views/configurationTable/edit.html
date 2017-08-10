@@ -1,0 +1,119 @@
+
+<div class="modal-content" ng-controller="editCtrl"
+  ng-init="className_getOfEdit=false"
+  ajax-url="rest/authen/configurationTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+  scope-data="formData"
+  callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId;formData.items=formData.items||[]">
+    <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/configurationTable/save"
+        scope-data="formData"
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}配置表</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">机构</label>
+            <div class="col-lg-10 col-sm-10">
+              <select ng-if="initFlag"  class="select select-w"
+                      data-placeholder="选择机构"
+                      chosen
+                      ng-model="formData.organizationId"
+                      default-empty="全局"
+                      alert-error
+                      select-source="rest/index/distributor/queryForSelectOption.json">
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">配置表名</label>
+              <div class="col-lg-10 col-sm-10">
+                <select  class="ipt pr-short-ipt"
+                 data-placeholder="配置表名" chosen
+                  ng-model="formData.key" select-source="rest/baseData/queryForSelectOptionByType?type=ConfigurationTable.key">
+                </select>
+              </div>
+
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">描述</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.desc"/>
+              </div>
+          </div>
+          <button   ng-click="formData.items==null?formData.items=[]:formData.items.push({})"  type="button"
+            class="btn btn-default" > 添加参数  </button>
+
+          <table class="table table-hover table-striped">
+              <thead>
+                  <tr>
+
+                      <th>序号</th>
+                      <th>参数名</th>
+                      <th>值类型限制</th>
+                      <th>值</th>
+                      <th>备注</th>
+
+                      <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="tr in formData.items" ng-click="selectThis()">
+
+                      <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                      <td>{{$index + 1}}</td>
+                      <td>{{tr.key}}</td>
+                      <td>{{tr.valueType}}</td>
+                      <td>{{tr.value}}</td>
+                      <td>{{tr.note}}</td>
+
+                      <td>
+
+                        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/configurationTable/ConfigurationTableItemVO/edit.html">
+                            <i class="fa fa-edit"></i>
+                            编辑
+                        </button>
+
+                        <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index-1)"  type="button"
+                          class="btn btn-default" > 上移  </button>
+                        <button  ng-if="$index+1<formData.items.length"
+                         ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
+
+                         <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,0)"  type="button"
+                           class="btn btn-default" > 顶部  </button>
+
+                         <button ng-if="$index<formData.items.length-1"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,formData.items.length-1)"  type="button"
+                           class="btn btn-default" > 底部  </button>
+
+                      </td>
+
+                  </tr>
+              </tbody>
+          </table>
+
+
+  </div>
+
+            <textarea-json ng-model="formData"></textarea-json>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
+          </div>
+      </div>
+    </div>
+  </form>
+
+
+
+</div>
