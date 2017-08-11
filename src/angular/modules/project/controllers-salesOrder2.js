@@ -322,6 +322,8 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
 
 
+
+
           dialogConfirm("", function (formData) {
 
             console.log(formData);
@@ -332,10 +334,9 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
             //   'saleUserId': formData.saleUserId
             // };
 
-            showData.orderDate= formData.orderDate;
-            showData.salesDepartmentId=formData.salesDepartmentId;
-            showData.saleUserId=formData.saleUserId;
-
+              showData.orderDate= formData.orderDate;
+              showData.salesDepartmentId=formData.salesDepartmentId;
+              showData.saleUserId=formData.saleUserId;
 
             if (id) {
               var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
@@ -345,7 +346,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
                     //保存确认后的值
                     var _url2='rest/authen/salesOrder/save';
 
-                    requestData(_url2, showData, 'POST','parameterBody').then(function (results) {
+                    requestData(_url2, formData, 'POST','parameterBody').then(function (results) {
                         if (results[1].code === 200) {
                             utils.goTo({tabHref:'#/salesOrder/edit2.html?id='+id,tabName:'购需单'});
                         }
