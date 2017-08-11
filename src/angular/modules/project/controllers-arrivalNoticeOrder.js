@@ -466,10 +466,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          // if (!item.othersPackingAttribute) {
-          //   throw new Error('该商品缺失辅助单位设置');
-          // }
-
+          
           if (item.othersPackingAttribute) {
             // 降序排序，也就是包装最大的在前面
             item.othersPackingAttribute.sort(function (a, b) {
