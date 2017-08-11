@@ -319,23 +319,10 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
       // 详情页待确认订单处理
       $scope.confirmHospitalOrder = function (id,showData) {
-
-
-
           dialogConfirm("", function (formData) {
-
-            console.log(formData);
-
-            // var _obj = {
-            //   'orderDate': formData.orderDate,
-            //   'salesDepartmentId': formData.salesDepartmentId,
-            //   'saleUserId': formData.saleUserId
-            // };
-
             showData.orderDate= formData.orderDate;
             showData.salesDepartmentId=formData.salesDepartmentId;
             showData.saleUserId=formData.saleUserId;
-
 
             if (id) {
               var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
@@ -345,13 +332,16 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
                     //保存确认后的值
                     var _url2='rest/authen/salesOrder/save';
 
+                    // ...
+                    showData.orderStatus = '待处理';
+
                     requestData(_url2, showData, 'POST','parameterBody').then(function (results) {
                         if (results[1].code === 200) {
                             utils.goTo({tabHref:'#/salesOrder/edit2.html?id='+id,tabName:'购需单'});
                         }
                     }) .catch(function (err) {
                         if (err) {
-                            alertWarn(err);
+                            alertWarn(err); 
                         }
                     });
                 }

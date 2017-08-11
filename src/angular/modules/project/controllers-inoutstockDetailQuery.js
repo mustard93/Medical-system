@@ -82,11 +82,11 @@ define('project/controllers-inoutstockDetailQuery', ['project/init'], function()
       $scope.listObject2={};
       $scope.listObject2.method=$scope.queryItemClick;
 
-        console.log($scope.listObject2);
+        // console.log($scope.listObject2);
 
     }
 
-    
+
   function inoutstockDetailQuerySubCtrl($scope,utils) {
 
       //表格条目点击跳转方法，根据类型不同跳转页面不同
@@ -147,10 +147,10 @@ define('project/controllers-inoutstockDetailQuery', ['project/init'], function()
       $scope.listObject2={};
       $scope.listObject2.method=$scope.queryItemClick;
 
-      console.log($scope.listObject2);
+      // console.log($scope.listObject2);
 
-  }  
-    
+  }
+
   angular.module('manageApp.project')
   .controller('inoutstockDetailQueryCtrl', ['$scope',"utils", inoutstockDetailQueryCtrl])
       .controller('inoutstockDetailQuerySubCtrl', ['$scope',"utils", inoutstockDetailQuerySubCtrl]);

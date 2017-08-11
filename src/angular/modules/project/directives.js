@@ -2884,62 +2884,39 @@ function flashAddMedical(utils,$timeout) {
   用户自定义表结构显示。
 */
 function customTable() {
+  'use strict';
   return {
     restrict: 'EA',
     replace: true,
-    //  transclude: true,
     templateUrl:  Config.tplPath +'tpl/project/customTable.html',
-    // compile: function() {
-    //            return function (scope, element, attrs,$ctrl,transcludeFn) {
-    //                transcludeFn(scope, function(clone) {
-    //
-    //
-    //                  console.log(clone);
-    //
-    //                    var title= element.find('title');
-    //                    var time = clone.find('.time');
-    //                    var type = clone.find('.type');
-    //                    var text= clone.find('.content');
-    //
-    //                    title.append(time);
-    //                    element.append(type);
-    //                    element.append(text)
-    //                });
-    //            };
-    //        },
-          link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+    link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+      if ($attrs.checkboxShow) {
+          $scope._checkboxShow=$attrs.checkboxShow;
+      }
 
-            //
-            //   $transclude($scope,function(clone){
-            //     console.log(clone);
-            //     $element.append(clone);
-            // })
+      // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
+      if ($attrs.customTableUrl) {
+          $scope._customTableUrl=$attrs.customTableUrl;
+      }
 
-            if ($attrs.checkboxShow) {
-                $scope._checkboxShow=$attrs.checkboxShow;
-            }
-            // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
-            if ($attrs.customTableUrl) {
-                $scope._customTableUrl=$attrs.customTableUrl;
-            }
-            // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
-            if ($attrs.customTableRepeatData) {
-                $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
-            }
+      // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
+      if ($attrs.customTableRepeatData) {
+          $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
+      }
 
-            if ($attrs.customListParams) {
-                $scope._customListParams=$scope.$eval($attrs.customListParams);
-            }
+      if ($attrs.customListParams) {
+          $scope._customListParams=$scope.$eval($attrs.customListParams);
+      }
 
-            if ($attrs.customTable) {
-                $scope._customTableName=$attrs.customTable;
-                $scope._customKey=$attrs.customKey;
-            }
+      if ($attrs.customTable) {
+          $scope._customTableName=$attrs.customTable;
+          $scope._customKey=$attrs.customKey;
+      }
 
-            if ($attrs.customTrMenus) {
-                $scope._customTrMenus=$attrs.customTrMenus;
-            }
-          }
+      if ($attrs.customTrMenus) {
+          $scope._customTrMenus=$attrs.customTrMenus;
+      }
+    }
   };
 }
 
