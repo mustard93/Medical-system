@@ -1908,6 +1908,7 @@ function medicalStockMouseOver(utils,$compile){
       link: function ($scope, $element, $attrs) {
         // var btnArray=[];
         //按钮数量，用于计算弹出菜单的div宽度
+
         var btnCount=0;
         //弹出菜单的div(装两个按钮的div)
         var moveBtnDiv=null;
@@ -1966,7 +1967,70 @@ function medicalStockMouseOver(utils,$compile){
   };
 }
 
+    function medicalStockMouseOverSee(utils,$compile){
+        return{
+            restrict: 'A',
+            link: function ($scope, $element, $attrs) {
+                // var btnArray=[];
 
+                //按钮数量，用于计算弹出菜单的div宽度
+                var btnCount=0;
+                //弹出菜单的div(装两个按钮的div)
+                var moveBtnDivSee=null;
+                //按钮基础数据(mouse-over-buttons-json传入的相关参数，以Jason的数据格式传入)
+                // 把按钮基础数据转化为数组类型
+                var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJsonSee);
+                if(mouseOverButtons && mouseOverButtons.length>0){
+                    moveBtnDivSee=$("<div id='moveBtnDivSee'></div>");
+                    btnCount=mouseOverButtons.length;
+                }
+
+                for(var i=0;i<mouseOverButtons.length;i++){
+                    var bt=mouseOverButtons[i];
+                    if (bt.progress=='0') {
+                        return;
+                    }else{
+                        var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'>查看入库明细</span></a>";
+
+                        var btn1=$(tmp);
+                        // btn1.appendto(moveBtnDivSee);
+                        moveBtnDivSee.append(btn1);
+
+                    }
+                }
+
+
+                // 鼠标移入显示按钮
+                $($element).mouseenter(function(e){
+                    $element.addClass("bg-c");
+                    if(!moveBtnDivSee)return;
+                    //+document.body.scrollLeft+
+                    moveBtnDivSeeWidth=34*btnCount;
+                    var y =$element.offset().top -document.body.scrollTop;
+                    // var x= utils.getMainBodyWidth();
+                    var x= utils.getwindowWidth()-160-moveBtnDivSeeWidth-document.body.scrollLeft; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
+
+                    //
+                    moveBtnDivSee.css({
+                        "position": "fixed",
+                        "width":moveBtnDivSeeWidth,
+                        "height":$element.height(),
+                        "top": y,
+                        "left": x
+                    });
+
+                    $(this).append(moveBtnDivSee);
+                    $compile($(this).contents())($scope);
+
+                });//mouseenter
+                // 鼠标移出按钮消失
+                $($element).mouseleave(function(){
+                    $(this).removeClass("bg-c");
+                    moveBtnDivSee.remove();
+                });//mouseleave;
+            }//link
+        };
+    }
 // 医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
 /**
    *
@@ -4068,6 +4132,7 @@ angular.module('manageApp.project')
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
+    .directive("medicalStockMouseOverSee",["utils","$compile",medicalStockMouseOverSee])
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
     .directive("dtRightSide",["utils",dtRightSide])

@@ -134,9 +134,11 @@
                 <tr ng-repeat="tr in scopeData.orderMedicalNos"
                     salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    medical-stock-mouse-over
-                    mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'>
-                  <td class="text-center">
+                    medical-stock-mouse-over-see
+                    mouse-over-buttons-json-see='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left-see","progress":tr.progress}]'
+                  >
+
+                  <td class="text-center" >
                     <span class="circle-status relative"
                           ng-class="{'bg-pass-green':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
                       <span class="purchaseorder-buyer-info" style="right:-20px;top:-27px;">
@@ -146,6 +148,9 @@
                         </i>
                       </span>
                     </span>
+
+
+
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
                   <td class="text-left" >

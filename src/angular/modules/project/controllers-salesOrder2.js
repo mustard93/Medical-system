@@ -341,7 +341,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
                         }
                     }) .catch(function (err) {
                         if (err) {
-                            alertWarn(err); 
+                            alertWarn(err);
                         }
                     });
                 }

@@ -64,11 +64,14 @@
                 </span>
 
               </p>
-              <em style="display:block" class="mgb-s color-red">
-                  <i ng-if="customerInfo.msg" class="warning-icon"></i>
+
+              <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
+                  <i class="warning-icon"></i>
                   {{customerInfo.msg}}
-                  <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                  <span ng-if="formData.customerId" style="margin-left: 15px;">
+                    <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/get.html?id={{formData.customerId}}" class="color-orange">查看详情</a></span>
               </em>
+
             </div>
             <div class="inline-block" ng-if="formData.orderSource=='线上订单'">
               <p class="mgb-s">客户名</p>
@@ -192,14 +195,18 @@
                                          template-url="tpl/showInfoModalLendOrder"
                                          info-object="{{tr}}"
                                          info-title="商品信息">
-                        </show-info-modal>.
+                        </show-info-modal>
                       </span>
                       <!-- {{tr.approvedName}} -->
-                      <p class="mgb-s color-red" style="line-height: 26px; height:26px;">
-                        <i ng-if="tr.info.msg" class="warning-icon"></i>
+
+                      <p ng-if="tr.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                        <i class="warning-icon"></i>
                         {{tr.info.msg}}
-                        <span ng-if="tr.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                        <span style="margin-left: 15px;">
+                          <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>
+                        </span>
                       </p>
+
                     </td><!-- 商品全名 -->
                     <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -366,6 +373,7 @@
             </div>
           </div>
         </div>
+
       <!-- 其他信息 -->
       <div class="relative bg-white">
         <div class="bt-line flex-column">

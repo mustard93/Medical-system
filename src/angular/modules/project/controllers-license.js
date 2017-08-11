@@ -18,19 +18,19 @@ define('project/controllers-license', ['project/init'], function() {
       };
 
         //点击选中对象加入数组
-      $scope.licenseCommodityType=function(item){
-          if(item.value){
-              if(!$scope.formData.enterpriseType){
-                  $scope.formData.enterpriseType=[];
-              }else {
-                  if($scope.formData.enterpriseType.indexOf(item.text) == -1){
-                      $scope.formData.enterpriseType.push(item.text);
-                  }else {
-                      $scope.formData.enterpriseType.pop(item.text);
-                  }
-               }
-          }
-      };
+      // $scope.licenseCommodityType=function(item){
+      //     if(item.value){
+      //         if(!$scope.formData.enterpriseType){
+      //             $scope.formData.enterpriseType=[];
+      //         }else {
+      //             if($scope.formData.enterpriseType.indexOf(item.text) == -1){
+      //                 $scope.formData.enterpriseType.push(item.text);
+      //             }else {
+      //                 $scope.formData.enterpriseType.pop(item.text);
+      //             }
+      //          }
+      //     }
+      // };
 
   }
 
