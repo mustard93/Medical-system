@@ -594,6 +594,13 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       });
     }
 
+    // 监控打印份数的设置i，只能为两位正整数
+    $scope.$watch('scopeData.num', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        if (parseInt(newVal, 10) > 99) { $scope.scopeData.num = oldVal; }
+      }
+    })
+
   }
 
   /**
