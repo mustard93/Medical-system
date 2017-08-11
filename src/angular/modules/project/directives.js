@@ -1972,7 +1972,7 @@ function medicalStockMouseOver(utils,$compile){
             restrict: 'A',
             link: function ($scope, $element, $attrs) {
                 // var btnArray=[];
-                debugger
+
                 //按钮数量，用于计算弹出菜单的div宽度
                 var btnCount=0;
                 //弹出菜单的div(装两个按钮的div)
