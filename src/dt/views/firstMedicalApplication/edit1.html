@@ -250,7 +250,9 @@
                        class="ipt-new-s ipt-new"
                        name="guaranteePeriod"
                        style="width:60px"
-                       ng-model="formData.guaranteePeriod" />
+                       onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                       onkeyup="if(this.value == 0)this.value=''"
+                       ng-model="formData.guaranteePeriod"/>
                 <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
                   <div ng-repeat="date in DateUnit" class="inline-block " style="position:relative;top:-5px;">
                     <label class="radio-inline radio radio-new mgl-s">
@@ -374,8 +376,8 @@
               </div>
             </div>
 
-            <!--条形码   -->
-            <div class="flex-column mgt">
+            <!--条形码-器械自动生成 -->
+            <div  ng-if="formData.medicalType == '医疗器械'" class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
 
@@ -388,6 +390,17 @@
                 <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
               </div>
             </div>
+
+            <!--条形码-药品（手动输入）   -->
+            <div  ng-if="formData.medicalType == '药品'" class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
+              </div>
+            </div>
+
 
 
             <!--品牌-->
@@ -413,7 +426,7 @@
             </div>
 
             <!--国家器械分类-->
-            <div class="flex-column mgt">
+            <div ng-if="formData.medicalType == '医疗器械'" class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">国家器械分类：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
