@@ -932,8 +932,6 @@ define('main/controllers', ['main/init'], function () {
 
       // 切换用户机构
       $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
-        // console.log(customListParams);
-        console.log(sortItem.propertyKey);
         if(sortItem.canSort){
 
           if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
