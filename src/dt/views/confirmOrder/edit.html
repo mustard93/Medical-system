@@ -90,10 +90,11 @@
                     {{formData.customer.businessApplication.businessStatus}}
                   </em>
 
-                  <em style="display: block;" class="mgb-s color-red">
-                    <i ng-if="customerInfo.msg" class="warning-icon"></i>
+                  <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
+                    <i class="warning-icon"></i>
                     {{customerInfo.msg}}
-                    <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                    <span ng-if="formData.customerId" style="margin-left: 15px;">
+                    <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/get.html?id={{formData.customerId}}" class="color-orange">查看详情</a></span>
                   </em>
 
                 </div>
@@ -256,11 +257,13 @@
                     <!-- </br>
                       <em class="color-red">该商品有资质已过期，禁止交易</em> -->
 
-                      <em  style="display: block;" class="mgb-s color-red">
-                        <i ng-if="item.info.msg" class="warning-icon"></i>
+                      <p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                        <i class="warning-icon"></i>
                         {{item.info.msg}}
-                        <span ng-if="item.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
-                      </em>
+                        <span style="margin-left: 15px;">
+                          <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
+                        </span>
+                      </p>
 
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
