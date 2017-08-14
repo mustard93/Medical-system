@@ -1704,8 +1704,11 @@ function customTableToggleSort (modal,utils,requestData) {
         $(element).append('<i class="arrow-sort"></i>');
       }
 
+
+
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
+          console.log(sortItem);
         // 阻止冒泡
         e.stopPropagation();
         if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
