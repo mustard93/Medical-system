@@ -14,35 +14,35 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
    */
   function confirmOrderEditCtrl($scope, modal, alertWarn, requestData, alertOk, alertError, utils, dialogConfirm) {
 
-      //初始化校验数据
-      $scope.checkData=function(){
+    //初始化校验数据
+    $scope.checkData=function(){
 
-          //初始化显示数据
-          if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+        //初始化显示数据
+        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
 
-              var ids=[];
-              angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                  ids.push(item.relId);
-              });
+            var ids=[];
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                ids.push(item.relId);
+            });
 
-              requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+            requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
 
-                  if(result[1].code==200){
+                if(result[1].code==200){
 
-                      var datas = result[1].data;
+                    var datas = result[1].data;
 
-                      angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                          item.info=datas[index];
-                      });
-                  }
+                    angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                        item.info=datas[index];
+                    });
+                }
 
-              });
-          }
-      };
-
+            });
+        }
+    };
 
     $scope.logistics=true;
     $scope.isShowConfirmInfo = false;
+
     // 数量溢出标识符
     $scope.quantityOverloadFlag = [];
 
@@ -285,17 +285,19 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       //检查药品列表是否被全部选中
       var _choiseCount = 0;
       if (item.handleFlag) {      // 点击选中
-
         angular.forEach($scope.orderMedicalNos, function (data, index) {
           if (data.handleFlag === true) { _choiseCount++; }
         });
+
         if ($scope.orderMedicalNos.length == _choiseCount) {
           $scope.choiseStatus = true;
-
         }
       } else {      // 取消选中
         $scope.choiseStatus = false;
       }
+
+      // 重新计算总价
+      $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, $scope.formData.orderBusinessType);
     };
 
     $scope.handleChoiseAllEvent = function () {
@@ -518,7 +520,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
         var _total = 0;
         angular.forEach(orderMedicalNos, function (item, index) {
           // 如果订单类型为普通销售
-          if (orderBusinessType === '普通销售' && item.stockBatchs) {
+          if (orderBusinessType === '普通销售' && item.stockBatchs && item.handleFlag) {
             var _tmp = 0;
             for (var i = 0; i < item.stockBatchs.length; i++) {
               _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
@@ -526,7 +528,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
             _total += _tmp;
           }
           //如果订单类型是直运销售
-          if (orderBusinessType === '直运销售') {
+          if (orderBusinessType === '直运销售' && item.handleFlag) {
             _total += item.quantity * item.strike_price * (item.discountRate / 100);
           }
         });
@@ -650,7 +652,6 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       }
     }
 
-
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {
 
@@ -690,30 +691,30 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
 
     }
 
-      //根据资质条件判断时候允许下一步或提交
-      $scope.canNextStep=function(){
+    //根据资质条件判断时候允许下一步或提交
+    $scope.canNextStep=function(){
 
-          var flag=true;
+        var flag=true;
 
-          if($scope.customerInfo){
-              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-                  flag=false;
-                  return flag;
-              }
-          }
-
-          angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-
-            if(medical.info){
-
-
-              if(medical.info.controllType =='限制交易' && medical.info.msg){
-                  flag=false;
-              }
+        if($scope.customerInfo){
+            if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                flag=false;
+                return flag;
             }
-          });
-          return flag;
-      };
+        }
+
+        angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+
+          if(medical.info){
+
+
+            if(medical.info.controllType =='限制交易' && medical.info.msg){
+                flag=false;
+            }
+          }
+        });
+        return flag;
+    };
 
   }
 
