@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');submitFlag=false"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -121,6 +121,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!submitFlag"
                   ng-click="formData.attachmentsValidFlag=true;formData.finishFlag=true;submitForm('firstEnterpriseApplication_editForm_step1','submit')">预览申请单
           </button>
         </span>
