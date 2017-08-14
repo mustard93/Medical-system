@@ -1723,8 +1723,8 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').removeClass('sort-desc');
           $(this).children('i').addClass('sort-asc');
         }
-
       });
+
     }//end link
   };
 }
@@ -1922,6 +1922,7 @@ function medicalStockMouseOver(utils,$compile){
 
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
+            console.log(bt);
             if (bt.progress=='0') {
               return;
             }else{
@@ -1933,7 +1934,6 @@ function medicalStockMouseOver(utils,$compile){
 
             }
         }
-
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -1963,6 +1963,13 @@ function medicalStockMouseOver(utils,$compile){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
         });//mouseleave;
+
+        // // 监听页码变化，如果改变则重新执行方法，获取最新的当前页面上的数据。
+        // $scope.$watch('status.currentPage',function(newVal,oldVal){
+        //   if (newVal&&newVal!==oldVal) {
+        //
+        //   }
+        // })
       }//link
   };
 }
