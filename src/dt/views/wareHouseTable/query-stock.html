@@ -1,4 +1,4 @@
-<div ng-controller="pageCtrl" class="medical-stock pd-c-xxxl left-se-side-par " style="min-height:800px;">
+<div ng-controller="pageCtrl" class="medical-stock pd-c-xxxl left-se-side-par child-project-management " style="min-height:800px;">
   <div class="page-main-content left-se-side-par">
 
     <ng-include src="'views/wareHouseTable/left-second-side.html'" class="pos-abs left-se-side-par"></ng-include>
@@ -36,8 +36,8 @@
             <!-- <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative"></div> -->
 
             <!-- 主内容区域 -->
-            <div class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt outside-table-d" ><!--  -->
-              <table class="table pr-table pr-new-table pr-table-content  table-wid ">    <!-- table-wid -->
+            <div class="outside-table-d  pr-bg-white pr-fuzzy-boundary mgt" ><!--  -->
+              <table class="table pr-table pr-new-table pr-table-content table-wid ">    <!-- -->
                 <thead class="pr-bg-side">
                   <tr>
                     <th>商品编号</th>
@@ -74,7 +74,22 @@
                       "className":"circle-icon2 pos-abs pr-icon-arrow-left"},
                       {"title":"变动明细","url":"#/wareHouseTable/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&code="+tr.code+"&warehouseCode="+listParams.warehouseStocksCode+"&name="+tr.name,
                     "className":"circle-icon pos-abs pr-icon-bg11"}]'>
-                    <td>{{tr.code}}</td>
+                  <tr ng-if="tbodyList.length"
+                      ng-repeat="tr in tbodyList track by $index"
+                      class="relative"
+                      table-item-multiple-btn>
+                    <td>{{tr.code}}
+                      <!-- <div class="table-item-multiple-btn" style="padding:2px 20px;width:200px;margin-right:250px">
+                        <a tab-nav tab-name="库存查询" tab-href="#/wareHouseTable/getByCodeAndOrganization.html?relMedicalStockId={{tr.id}}&name={{tr.name}}"
+                        style='width:32px;height:32px;display:inline-block;margin-top:8px;'  title="库存明细">
+                          <span  class="circle-icon2 pos-abs pr-icon-arrow-left"></span>
+                        </a>
+                        <a tab-nav tab-name="库存查询" tab-href="#/wareHouseTable/getByCodeAndOrganization.html?relMedicalStockId={{tr.id}}&name={{tr.name}}"
+                        style='width:32px;height:32px;display:inline-block;margin-top:8px;' title="变动明细">
+                          <span class="circle-icon pos-abs pr-icon-bg11"></span>
+                        </a>
+                      </div> -->
+                    </td>
                     <td class="text-left ">
                       <div class="autocut" title="{{tr.name}}">
                         {{tr.name}}

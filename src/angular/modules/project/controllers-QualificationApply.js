@@ -76,6 +76,23 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
        $scope.formData.attributeId=$scope.formData.customerAttribute.id;
      });
 
+    //  判断是否有录入审核人，如果有，则判断必填字段审核人，填了菜允许提交
+     $scope.$watch('formData.auditContacts',function(newVal){
+       if ($scope.formData.enterFlag) {
+         for (var i = 0; i < $scope.formData.auditContacts.length; i++) {
+           var nameArr=[];
+           nameArr.push($scope.formData.auditContacts[i].name);
+           // 判断只要有一个值为空，则不可以提交
+           if (nameArr.some(function(flag){return flag;})) {
+             $scope.submitFlag=true;
+           }else {
+             $scope.submitFlag=false;
+           }
+
+         }
+       }
+     },true);
+
 
     $scope.changeStorageCondition=function(storageCondition){
        if (storageCondition=='冷冻') {
