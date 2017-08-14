@@ -11,26 +11,6 @@ define('project/controllers-productEnterprise', ['project/init'], function() {
      * @return {[type]}                                   [description]
      */
     function productEnterpriseController ($scope, modal, alertWarn, alertError, requestData, utils) {
-
-        $scope.submitForm = function(fromId) {
-                var _url="rest/authen/productEnterprise/save"
-                requestData(_url, $scope.formData, 'POST', 'parameterBody')
-                    .then(function (results) {
-                        if (results[1].code === 200) {
-                            alertOk('操作成功');
-                        }
-                    })
-                    .catch(function (error) {
-                        if (error) { alertWarn(error); }
-                    });
-
-
-            $('#' + fromId).trigger('submit');
-        };
-
-
-
-
     }
 
     angular.module('manageApp.project')
