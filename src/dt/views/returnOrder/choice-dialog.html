@@ -18,14 +18,21 @@
             margin: 0;
             padding: 0;
             border-bottom: #C7A77B solid 1px;
-            border-right: #C7A77B solid 1px;
             margin-top: -1px;
         }
 
-        .tab a.cur {
+        .tab a.cur-r {
             color: white;
             background: #443F3A;
             border-bottom: #443F3A solid 1px;
+            border-right: #C7A77B solid 1px;
+        }
+        .tab a.cur-lr {
+            color: white;
+            background: #443F3A;
+            border-bottom: #443F3A solid 1px;
+            border-right: #C7A77B solid 1px;
+            border-left:  #C7A77B solid 1px;
         }
 
         .goods-info {
@@ -107,14 +114,20 @@
         .angucomplete-holder .ipt{
             width: 100%;
         }
-
+        .tex-idx-42{
+          text-indent: 42px;
+        }
+        .top-left{
+          top:19px;
+          left: 377px;
+        }
     </style>
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
         <h1 ng-init="type='按商品查找'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
-            <a ng-click="type='按商品查找'; showLendOrder=false;scopeData=null;" ng-class="{'cur':type=='按商品查找'}">按商品查找</a>
-            <a ng-click="type='按借出单编号查找'; showLendOrder=true;scopeData=null;" ng-class="{'cur':type=='按借出单编号查找'}">按借出单编号查找</a>
+            <a ng-click="type='按商品查找'; showLendOrder=false;scopeData=null;" class="tex-idx-42" ng-class="{'cur-r':type=='按商品查找'}">按商品查找</a>
+            <a ng-click="type='按借出单编号查找'; showLendOrder=true;scopeData=null;" ng-class="{'cur-lr':type=='按借出单编号查找'}">按借出单编号查找</a>
         </h1>
     </div>
 
@@ -142,7 +155,7 @@
                                  add-data-callback-fn="flashAddDataCallbackFn">
 
                             </div>
-
+                            <i class="single-strategy-icon top-left"></i>
                         </div>
 
                     </div>
@@ -153,7 +166,7 @@
             <!-- 过滤条件 -->
             <div  class="pdt-s pdb-s pd-c-xl bb-line-gold" style="margin-top: -30px;">
 
-                <div class="inline-block" style="margin: 10px 0">
+                <div class="inline-block" style="margin: 10px 5px;">
                     <span class="color-12" style="font-size: 14px;">选择需要归还的借出单</span>
                 </div>
 
@@ -163,7 +176,7 @@
 
             <!-- 无借出单列表 -->
             <div  ng-show="!showBatchs" class="color-red text-n pdl-l pdt-m text-center">
-                <div ng-if="!tbodyList.length" class="empty-table clearfix" style="padding: 5px;">
+                <div ng-if="!tbodyList.length" class="empty-table-2 clearfix" style="padding: 5px;margin-left:5px;">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
@@ -465,7 +478,7 @@
                       class="inline-block"
                       ng-model="selectedData">
                 </span>
-
+                <i class="single-strategy-icon top-left" style="top:79px;left:372px;"></i>
             </div>
         </div>
 
@@ -474,7 +487,7 @@
                 <span class="color-12">在借出单中选择需要归还的商品</span>
             </div>
             <br/>
-            <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+            <div ng-if="!scopeData" class="empty-table-2 clearfix" style="background: #6e6a67;">
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
@@ -567,7 +580,7 @@
                     </table>
                 </div>
 
-                <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+                <div ng-if="!scopeData" class="empty-table-3 clearfix" style="background: #6e6a67;">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
