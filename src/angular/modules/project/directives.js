@@ -734,16 +734,6 @@ function togglePanel () {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
 
-      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
-      if ($attrs.toggleChecked) {
-
-        var toggleChecked=$attrs.toggleChecked;
-
-        if (toggleChecked=="true") {
-            $(element).parents(".panel").children(".panel-body").slideDown(200);
-        }
-      }
-
       $(element).on('click', function (e) {
         e.stopPropagation();
 
@@ -761,6 +751,18 @@ function togglePanel () {
         }
 
       });
+
+      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
+      if ($attrs.toggleChecked) {
+
+        var toggleChecked=$attrs.toggleChecked;
+
+        if (toggleChecked=="true") {
+            // $(element).parents(".panel").children(".panel-body").slideDown(200);
+            $(element).click();
+
+        }
+      }
 
     }
   };
@@ -1702,8 +1704,11 @@ function customTableToggleSort (modal,utils,requestData) {
         $(element).append('<i class="arrow-sort"></i>');
       }
 
+
+
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
+          console.log(sortItem);
         // 阻止冒泡
         e.stopPropagation();
         if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
@@ -2269,6 +2274,9 @@ function tableItemHandlebtnComponent (utils) {
       var _delBtn = $(element).find('div.table-item-handle-btn');
       // 操作删除层
       var _delArea = $(element).find('div.table-item-confirm-del-area');
+      //查看入库明细
+        var _
+
 
       //绑定点击显示操作删除层
       _delBtn.on('click', function () {
@@ -3018,6 +3026,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         $($element).mouseenter(function(e){
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          // 如果没有配置菜单，就直接返回，不执行下面的操作。
+          if (!bottomButtonList.length) {
+            return;
+          }
           var dataObj=$scope[$attrs.businessData];
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);

@@ -28,17 +28,6 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
         }
         return flag;
     };
-      $scope.confirmOrderCalculaTotal = function (orderMedicalNos) {
-          if (orderMedicalNos) {
-              var _total = 0;
-              angular.forEach(orderMedicalNos, function (item, index) {
-                  var _tmp = 0;
-                  _tmp += item.quantity * item.duty_price;
-                  _total += _tmp;
-              });
-              $scope.formData.totalPrice = _total;
-          }
-      };
 
     $scope.getGoodsBatchsCount=function (stockBatchs) {
         var count =0;

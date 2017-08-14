@@ -132,13 +132,12 @@
               </thead>
               <tbody>
                 <tr ng-repeat="tr in scopeData.orderMedicalNos"
-                    salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    medical-stock-mouse-over-see
-                    mouse-over-buttons-json-see='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left-see","progress":tr.progress}]'
-                  >
-
-                  <td class="text-center" >
+                    table-item-multiple-btn>
+                  <!--mouse-over-buttons-json-see='
+                  [{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,
+                  "className":"circle-icon2 pos-abs pr-icon-arrow-left-see","progress":tr.progress}]'-->
+                  <td class="text-center">
                     <span class="circle-status relative"
                           ng-class="{'bg-pass-green':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
                       <span class="purchaseorder-buyer-info" style="right:-20px;top:-27px;">
@@ -148,11 +147,18 @@
                         </i>
                       </span>
                     </span>
-
-
+                    <!--<div class="table-item-multiple-btn">-->
+                    <!--<div class="inline-block btn-receiveItem pr-bg-edit color-white"-->
+                    <!--modal-right="650"-->
+                    <!--modal-scope="this"-->
+                    <!--modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'-->
+                    <!--modal-url="views/checkUp/edit.html">开始验收...-->
+                    <!--</div>-->
+                    <!--</div>-->
 
                   </td><!-- 入库进度 -->
-                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                  <td class="text-center">{{tr.code}}
+                  </td><!-- 商品编号 -->
                   <td class="text-left" >
                     <span
                             class="color-orange cur-pot lend-order-goods-info"

@@ -174,8 +174,8 @@
                       ng-init="orderMedicalNoIds.push(tr.relId)"
                       ng-controller="SalesOrderDetailsController">
                     <td class="text-center">{{tr.code}}
-                      <div class="table-item-handle-btn">
-                        <div class="table-item-confirm-del-area bg-white" >
+                      <div class="table-item-handle-btn" ng-show="formData.orderSource != '线上订单'">
+                        <div class="table-item-confirm-del-area bg-white">
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
@@ -206,33 +206,29 @@
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>
                         </span>
                       </p>
-
                     </td><!-- 商品全名 -->
                     <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">
-                      <div class="order-goods-num">{{tr.quantity}}
-                      </div>
-                    </td><!-- 数量 -->
+                    <td class="text-center" ng-if="formData.orderSource=='线上订单'"><div class="order-goods-num">{{tr.quantity}}</div></td><!-- 数量 -->
                     <td class="text-center" ng-if="formData.orderSource!='线上订单'">
-                      <div class="order-goods-num">{{tr.quantity}}
-                        <!--<button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>-->
-                        <!--<span class="inline-block">-->
-                          <!--<input type="number"-->
-                                 <!--name="quantity{{$index}}"-->
-                                 <!--class="inline ipt pr-ipt-60 text-center"-->
-                                 <!--style="width:60px;"-->
-                                 <!--ng-model="tr.quantity"-->
-                                 <!--required-->
-                                 <!--ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"-->
-                                 <!--ng-pattern="/^\+?[1-9][0-9]{0,5}$/"-->
-                                 <!--invalid-popover-->
-                                 <!--valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"-->
-                                 <!--popover-show-->
-                                 <!--popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>-->
-                        <!--</span>-->
-                        <!--<button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>-->
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="number"
+                                 name="quantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center"
+                                 style="width:60px;"
+                                 ng-model="tr.quantity"
+                                 required
+                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
                     </td><!-- 数量 -->
 
