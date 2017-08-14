@@ -466,10 +466,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          // if (!item.othersPackingAttribute) {
-          //   throw new Error('该商品缺失辅助单位设置');
-          // }
-
+          
           if (item.othersPackingAttribute) {
             // 降序排序，也就是包装最大的在前面
             item.othersPackingAttribute.sort(function (a, b) {
@@ -568,7 +565,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
                                     '<div style="font-size:13px">' +
                                       '<div style="margin-bottom:5px;">' +
                                         '<span style="margin-right:30px;">规格/型号：'+ item.specificationAndModelType +'</span>' +
-                                        '<span>有效期至：'+ item.validTill +'</span>' +
+                                        '<span>有效期至：' + getDateFormat(item.validTill) + '</span>' +
                                       '</div>' +
                                       '<div style="margin-bottom:5px;">货主：'+ $scope.medicalDataList.intentionalCustomer +'</div>' +
                                       '<div>生产企业：'+ $scope.medicalDataList.supplier.name +'</div>' +
@@ -594,12 +591,21 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       });
     }
 
-    // 监控打印份数的设置i，只能为两位正整数
+    // 监控打印份数的设置i，只能为两位正整数  item.validTill
     $scope.$watch('scopeData.num', function (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
         if (parseInt(newVal, 10) > 99) { $scope.scopeData.num = oldVal; }
       }
     })
+
+    // 返回特定时间戳的日期
+    var getDateFormat = function (time) {
+      if (time) {
+        return new Date(time).getFullYear() + '-' + (new Date(time).getMonth() + 1) + '-' + new Date(time).getDay();
+      } else {
+        return '暂无';
+      }
+    }
 
   }
 
