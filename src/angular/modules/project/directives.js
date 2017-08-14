@@ -734,16 +734,6 @@ function togglePanel () {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
 
-      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
-      if ($attrs.toggleChecked) {
-
-        var toggleChecked=$attrs.toggleChecked;
-
-        if (toggleChecked=="true") {
-            $(element).parents(".panel").children(".panel-body").slideDown(200);
-        }
-      }
-
       $(element).on('click', function (e) {
         e.stopPropagation();
 
@@ -761,6 +751,18 @@ function togglePanel () {
         }
 
       });
+
+      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
+      if ($attrs.toggleChecked) {
+
+        var toggleChecked=$attrs.toggleChecked;
+
+        if (toggleChecked=="true") {
+            // $(element).parents(".panel").children(".panel-body").slideDown(200);
+            $(element).click();
+
+        }
+      }
 
     }
   };
@@ -1702,8 +1704,11 @@ function customTableToggleSort (modal,utils,requestData) {
         $(element).append('<i class="arrow-sort"></i>');
       }
 
+
+
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
+          console.log(sortItem);
         // 阻止冒泡
         e.stopPropagation();
         if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
@@ -1723,8 +1728,8 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').removeClass('sort-desc');
           $(this).children('i').addClass('sort-asc');
         }
-
       });
+
     }//end link
   };
 }
@@ -1922,6 +1927,7 @@ function medicalStockMouseOver(utils,$compile){
 
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
+            console.log(bt);
             if (bt.progress=='0') {
               return;
             }else{
@@ -1933,7 +1939,6 @@ function medicalStockMouseOver(utils,$compile){
 
             }
         }
-
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -1963,6 +1968,13 @@ function medicalStockMouseOver(utils,$compile){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
         });//mouseleave;
+
+        // // 监听页码变化，如果改变则重新执行方法，获取最新的当前页面上的数据。
+        // $scope.$watch('status.currentPage',function(newVal,oldVal){
+        //   if (newVal&&newVal!==oldVal) {
+        //
+        //   }
+        // })
       }//link
   };
 }
@@ -2262,6 +2274,9 @@ function tableItemHandlebtnComponent (utils) {
       var _delBtn = $(element).find('div.table-item-handle-btn');
       // 操作删除层
       var _delArea = $(element).find('div.table-item-confirm-del-area');
+      //查看入库明细
+        var _
+
 
       //绑定点击显示操作删除层
       _delBtn.on('click', function () {
@@ -3011,6 +3026,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         $($element).mouseenter(function(e){
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          // 如果没有配置菜单，就直接返回，不执行下面的操作。
+          if (!bottomButtonList.length) {
+            return;
+          }
           var dataObj=$scope[$attrs.businessData];
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
