@@ -1704,8 +1704,11 @@ function customTableToggleSort (modal,utils,requestData) {
         $(element).append('<i class="arrow-sort"></i>');
       }
 
+
+
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
+          console.log(sortItem);
         // 阻止冒泡
         e.stopPropagation();
         if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
@@ -3023,6 +3026,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         $($element).mouseenter(function(e){
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          // 如果没有配置菜单，就直接返回，不执行下面的操作。
+          if (!bottomButtonList.length) {
+            return;
+          }
           var dataObj=$scope[$attrs.businessData];
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
