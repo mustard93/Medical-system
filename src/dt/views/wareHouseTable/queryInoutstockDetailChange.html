@@ -53,14 +53,14 @@
               <div class="pd-c">
                            <!-- 搜索框 start-->
                            <div class="text-left " ng-init="queryDatePeriod='最近7天'">
-                               <select class="pr-select select-wd mgr-l vtc-mdd" ng-model="queryDatePeriod"
+                               <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
                                 date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
                                  <option value="最近7天">最近7天</option>
                                  <option  value="最近10天">最近10天</option>
                                  <option  value="最近一个月">最近一个月</option>
                                </select>
 
-                               <div class="date-icon-outside vtc-mdd" ng-if="!listParams.createAtBeg">
+                               <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
                                    <input type="text"
                                           datepicker
                                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -69,7 +69,7 @@
                                           ng-model="listParams.createAtBeg">
                                    <span class="date-icon"></span>
                                </div>
-                               <div class="date-icon-outside vtc-mdd" ng-if="listParams.createAtBeg">
+                               <div class="date-icon-outside" ng-if="listParams.createAtBeg">
                                    <input type="text"
                                           datepicker
                                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -78,8 +78,8 @@
                                           ng-model="listParams.createAtBeg">
                                    <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
                                </div>
-                               <span class="mgr vtc-bttom">至</span>
-                               <div class="date-icon-outside vtc-mdd" ng-if="!listParams.createAtEnd">
+                               <span class="mgr">至</span>
+                               <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
                                    <input type="text"
                                           datepicker
                                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -91,7 +91,7 @@
                                           popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
                                    <span class="date-icon"></span>
                                </div>
-                               <div class="date-icon-outside vtc-mdd" ng-if="listParams.createAtEnd">
+                               <div class="date-icon-outside" ng-if="listParams.createAtEnd">
                                    <input type="text"
                                           datepicker
                                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -176,6 +176,18 @@
                                  tab-nav
                                  tab-name='其他出库单'
                                  tab-href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+								 <a ng-if="tr.type=='借出出库单'"
+                                 tab-nav
+                                 tab-name='其他出库单'
+                                 tab-href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+								<a ng-if="tr.type=='归还入库单'"
+                                 tab-nav
+                                 tab-name='其他出库单'
+                                 tab-href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
                                </td>
