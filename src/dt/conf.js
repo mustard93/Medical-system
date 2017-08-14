@@ -92,6 +92,10 @@ var moduleMap=[
     },{
         moduleType:'productEnterprise',
         moduleName:'生成企业管理'
+    },
+    {
+        moduleType:'announcement',
+        moduleName:'生成企业管理'
     }
 ];
 
