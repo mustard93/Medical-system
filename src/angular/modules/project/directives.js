@@ -3020,6 +3020,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         $($element).mouseenter(function(e){
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          // 如果没有配置菜单，就直接返回，不执行下面的操作。
+          if (!bottomButtonList.length) {
+            return;
+          }
           var dataObj=$scope[$attrs.businessData];
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
