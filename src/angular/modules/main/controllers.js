@@ -931,22 +931,25 @@ define('main/controllers', ['main/init'], function () {
     function customTableDataController ($scope, utils, requestData) {
 
       // 切换用户机构
-      $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
+      $scope.refreshTable = function (sortRequestUrl,sortItem) {
         if(sortItem.canSort){
-
           if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
             sortItem.sortCriteria='desc';
           }else if (sortItem.sortCriteria=='desc') {
             sortItem.sortCriteria='asc';
           }
-          customListParams.sortBy=sortItem.propertyKey;
-          customListParams.sortWay=sortItem.sortCriteria;
+          // customListParams.sortBy=sortItem.propertyKey;
+          // customListParams.sortWay=sortItem.sortCriteria;
+
+          $scope.listParams.sortBy = sortItem.propertyKey;
+          $scope.listParams.sortWay = sortItem.sortCriteria;
+
           // 重新请求数据，然后刷新表格排序
           var _url = sortRequestUrl;
           requestData(sortRequestUrl, customListParams, 'get')
           .then(function (results) {
             if (results[1].code === 200) {
-                $scope.tbodyList=results[1].data;
+                $scope.tbodyList = angular.copy(results[1].data);
             }
           })
           .catch(function (error) {
