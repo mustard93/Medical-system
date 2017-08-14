@@ -1696,38 +1696,49 @@ function customTableToggleSort (modal,utils,requestData) {
       var sortItem=$scope.$eval($attrs.sortItem);
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
-
+      // 传入相关查询条件
+      var sortParamsWay=$scope.$eval($attrs.sortParamsWay);
       var count=1;
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
-      if (sortItem.canSort) {
-        $(element).append('<i class="arrow-sort"></i>');
+      if (!sortParamsWay) {
+        sortParamsWay='desc';
       }
-
-
 
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
-          console.log(sortItem);
         // 阻止冒泡
+        console.log(sortParamsWay);
         e.stopPropagation();
-        if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
-          $('.sort-custom-table').children('i').removeClass('sort-desc');
-          $('.sort-custom-table').children('i').removeClass('sort-asc');
-          $('.sort-custom-table').children('i').addClass('arrow-sort');
-          count++;
-        }
-
-        // 把当前样式进行改变.
-        if (count%2) {
+        if (sortParamsWay=='desc') {
           $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
-        }else {
+          sortParamsWay='asc';
+        }else if (sortParamsWay=='asc') {
           $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-desc');
           $(this).children('i').addClass('sort-asc');
+          sortParamsWay='desc';
         }
+
+      //   if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
+      //     $('.sort-custom-table').children('i').removeClass('sort-desc');
+      //     $('.sort-custom-table').children('i').removeClass('sort-asc');
+      //     $('.sort-custom-table').children('i').addClass('arrow-sort');
+      //     count++;
+      //   }
+      //
+      //   // 把当前样式进行改变.
+      //   if (count%2) {
+          // $(this).children('i').removeClass('arrow-sort');
+          // $(this).children('i').removeClass('sort-asc');
+          // $(this).children('i').addClass('sort-desc');
+      //   }else {
+          // $(this).children('i').removeClass('arrow-sort');
+          // $(this).children('i').removeClass('sort-desc');
+          // $(this).children('i').addClass('sort-asc');
+      //   }
       });
 
     }//end link

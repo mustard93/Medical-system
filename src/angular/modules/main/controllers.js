@@ -931,18 +931,18 @@ define('main/controllers', ['main/init'], function () {
     function customTableDataController ($scope, utils, requestData) {
 
       // 切换用户机构
-      $scope.refreshTable = function (sortRequestUrl,sortItem) {
+      $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
         if(sortItem.canSort){
-          if (!sortItem.sortCriteria||sortItem.sortCriteria=='asc') {
-            sortItem.sortCriteria='desc';
-          }else if (sortItem.sortCriteria=='desc') {
-            sortItem.sortCriteria='asc';
+          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
+            customListParams.sortWay='desc';
+          }else if (customListParams.sortWay=='desc') {
+            customListParams.sortWay='asc';
           }
           // customListParams.sortBy=sortItem.propertyKey;
-          // customListParams.sortWay=sortItem.sortCriteria;
+          // customListParams.customListParams.sortWay=customListParams.sortWay;
 
           $scope.listParams.sortBy = sortItem.propertyKey;
-          $scope.listParams.sortWay = sortItem.sortCriteria;
+          $scope.listParams.sortWay = customListParams.sortWay;
 
           // 重新请求数据，然后刷新表格排序
           var _url = sortRequestUrl;
