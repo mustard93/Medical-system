@@ -133,9 +133,10 @@
               <tbody>
                 <tr ng-repeat="tr in scopeData.orderMedicalNos"
                     ng-init="orderMedicalNoIds.push(tr.relId)"
+
                     >
-                  <!--table-item-multiple-btn-see-->
-                  <!--mouse-over-buttons-json-see='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,-->
+                  <!--table-item-multiple-btn-->
+                  <!--mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,-->
                   <!--"className":"circle-icon2 pos-abs pr-icon-arrow-left-see","progress":tr.progress}]'-->
                   <td class="text-center">
                     <span class="circle-status relative"
@@ -147,14 +148,13 @@
                         </i>
                       </span>
                     </span>
-                    <!--<div class="table-item-multiple-btn">-->
-                    <!--<div class="inline-block btn-receiveItem pr-bg-edit color-white"-->
-                    <!--modal-right="650"-->
-                    <!--modal-scope="this"-->
-                    <!--modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'-->
-                    <!--modal-url="views/checkUp/edit.html">开始验收...-->
-                    <!--</div>-->
-                    <!--</div>-->
+                    <div class="table-item-multiple-btn">
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                    modal-scope="this"
+                    modal-data='{"id":"{{tr.id}}"}'
+                    modal-url="#/purchaseInstockOrder/get.html?sourceOrderNo={{scopeData.orderNo}}">查看入库明细
+                    </div>
+                    </div>
 
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}
