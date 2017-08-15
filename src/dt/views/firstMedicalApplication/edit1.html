@@ -460,7 +460,7 @@
                         chosen
                         default-empty="无"
                         ng-model="formData.u8ChargeType"
-                        select-source=rest/baseData/queryForSelectOptionByType?type=U8计价方式">
+                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计价方式">
                 </select>
               </div>
             </div>
@@ -526,7 +526,7 @@
                          <!--ng-model="formData.productEnterprise" />-->
 
                   <div ng-if="initFlag" style="position: relative;">
-                          <span
+                          <span ng-if="!formData.productEnterprise.name"
                                 angucomplete=""
                                 placeholder="生产企业名称"
                                 title-field="name"
@@ -537,7 +537,14 @@
                                 class="inline-block"
                                 ng-model="formData.productEnterprise">
                           </span>
-                    <span class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                          <input ng-if="formData.productEnterprise.name"
+                                placeholder="生产企业名称"
+                                class="inline-block ipt"
+                                ng-model="formData.productEnterprise.name"
+                                >
+                          </input>
+                    <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                    <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
                   </div>
 
                 </div>
