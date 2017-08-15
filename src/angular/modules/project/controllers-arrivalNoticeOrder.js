@@ -414,7 +414,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
    * @param  {[type]}                            requestData [description]
    * @return {[type]}                                        [description]
    */
-  function arrivalBarcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
+  function arrivalBarcodePrintDialogController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout,$compile) {
     // 获取单据中药品列表
     $scope.medicalDataList = angular.copy($scope.dialogData.data);
 
@@ -520,9 +520,102 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
+
     // 打印
     // @param printType 打印类型：preview为预览(默认)，print为直接打印
     $scope.barCodePrint = function (printType) {
+      if (!LODOP) {
+        throw new Error('打印插件加载错误！');
+      } else {
+        LODOP.SET_LICENSES("四川盘谷智慧医疗科技有限公司","160CB03308929656138B8125A87D070B","","");
+      }
+
+      // 默认打印行为是预览，指定print为直接打印
+      if (!printType) {
+        printType = 'preview';
+      }
+
+      // 获取系统配置的纸张大小
+      var getConfUrl = 'rest/authen/uiCustomHtml/getByKey.json?key=barcodePrint';
+      requestData(getConfUrl)
+      .then(function (results) {
+        // 定义从系统获取的纸张大小
+        // $scope.uiCustomHtml = results[0];
+        var uiCustomHtml= results[0];
+        // 设定纸张大小
+        LODOP.SET_PRINT_PAGESIZE(uiCustomHtml.print_orient, uiCustomHtml.paper_width, uiCustomHtml.paper_height, "");
+        var firstPage=true;
+        // 遍历数据设置每张打印
+        angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+          for (var i = 0; i < item.converResults.length; i++) {
+            if (item.converResults[i].unitQuantity !== 0) {
+              for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
+                // var printScope = new Scope();
+              var printScope = $scope.$new(true);
+                printScope.medicalItem=item;//药械信息
+                printScope.converResult=item.converResults[i];//条码信息
+                printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
+                printScope.intentionalCustomer=$scope.medicalDataList.intentionalCustomer;//货主信息
+
+
+                var tmpHtml=uiCustomHtml.html;
+                tmpHtml=tmpHtml.replace(/\{\{medicalItem.name\}\}/g, printScope.medicalItem.name||"");
+                tmpHtml=tmpHtml.replace(/\{\{medicalItem.specificationAndModelType\}\}/g,   printScope.medicalItem.specificationAndModelType||"");
+                tmpHtml=tmpHtml.replace(/\{\{medicalItem.validTill\}\}/g,   getDateFormat(printScope.medicalItem.validTill)||"");
+
+
+                tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g,   printScope.converResult.barcode||"");
+                tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unit||"");
+
+                tmpHtml=tmpHtml.replace(/\{\{intentionalCustomer.intentionalCustomer\}\}/g,   printScope.intentionalCustomer||"");
+                tmpHtml=tmpHtml.replace(/\{\{supplier.name\}\}/g,   printScope.supplier.name||"");
+
+                // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
+                // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
+
+
+                var printHtml =tmpHtml;
+
+              //   var compileFn = $compile(uiCustomHtml.html);
+              // // 传入scope，得到编译好的dom对象(已封装为jqlite对象)
+              // // 也可以用$scope.$new()创建继承的作用域
+              // var complieDom = compileFn(printScope);
+              // var printHtml =complieDom[0].outerHTML;
+              //
+              //
+              //
+              // $("#barCodePrint_divid").append(complieDom);
+              //   console.log("barCodePrint_divid",$("#barCodePrint_divid").html());
+
+                if(firstPage){
+                  firstPage=false;
+                }else{
+                    LODOP.NewPage();
+                }
+
+                console.log("printHtml",printHtml);
+                LODOP.ADD_PRINT_HTM(uiCustomHtml.html_top,uiCustomHtml.html_left,uiCustomHtml.html_width,uiCustomHtml.html_height, printHtml);
+
+              }//end for
+            }// end   if
+          }//end for
+        });
+        LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
+        LODOP.SET_PRINT_COPIES($scope.scopeData.num);
+
+        if (printType === 'preview') {
+          LODOP.PREVIEW();
+        } else if (printType === 'print') {
+          LODOP.PRINT();
+        }
+
+      });
+
+    }//barCodePrint
+
+    // 打印(不在使用)
+    // @param printType 打印类型：preview为预览(默认)，print为直接打印
+    $scope.barCodePrint_bak = function (printType) {
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
       } else {
@@ -635,7 +728,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       //     }
       //   }
       // });
-    }
+    }//barCodePrint_bak
 
     // 监控打印份数的设置i，只能为两位正整数  item.validTill
     $scope.$watch('scopeData.num', function (newVal, oldVal) {
@@ -691,6 +784,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
   angular.module('manageApp.project')
   .controller('arrivalNoticeOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", arrivalNoticeOrderEditCtrl])
-  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', arrivalBarcodePrintDialogController])
+  .controller('arrivalBarcodePrintDialogController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout','$compile', arrivalBarcodePrintDialogController])
   .controller('barcodePrintDialogItemController', ['$scope', 'modal', 'alertOk', 'alertWarn', 'alertError', 'requestData', 'OPrinter', '$timeout', barcodePrintDialogItemController]);
 });
