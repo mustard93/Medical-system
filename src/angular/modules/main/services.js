@@ -430,6 +430,8 @@ function alertOk($rootScope, modal) {
       //工具类
       function utils ($timeout,$rootScope) {
 
+
+
         // 递归获取：data.data.data 获取子属性值
         function getObjectValByKeyArr(obj,keyArr,index){
           if (!keyArr) { return null; }
@@ -448,6 +450,20 @@ function alertOk($rootScope, modal) {
         }
 
         var utilsObj = {
+
+
+            //判断是否为图片
+              isImage:function(fileName){
+                  if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(fileName)) {
+                      return false;
+                  }
+                  return true;
+              },
+
+          //获取当前时间戳
+            getTimestamp:function () {
+                return new Date().getTime();
+            },
 
             //获取一个唯一ID
              getUUID:function() {
@@ -954,7 +970,7 @@ function alertOk($rootScope, modal) {
               if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
                 //img.png@100h
                 var _suffix = fileName.split('.')[1];
-                   _suffix = fileName.split('@')[0];//解决缩略图情况
+                   _suffix = fileName.split('?')[0];//解决缩略图情况
                   return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
                 // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
                 //   return false;

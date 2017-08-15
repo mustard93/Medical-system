@@ -57,7 +57,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-businessScopeEditCtrl',
                                'project/controllers-businessScope',
                                'project/controllers-productEnterprise',
-                               'project/controllers-license'
+                               'project/controllers-license',
+                               'project/controllers-announcement'
 
 ], function() {
 
