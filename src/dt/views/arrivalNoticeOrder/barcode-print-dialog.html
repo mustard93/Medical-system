@@ -28,7 +28,10 @@
         <!-- 所有药品的条码列表 -->
         <div class="scroll-out-div">
           <div class="" ng-repeat="item in barCodeDataList track by $index">
-            <div class="pr-bg-black1 mgb-xl pdb-l" ng-repeat="mItem in item.barCodeVos track by $index">
+            <div class="pr-bg-black1 mgb-xl pdb-l"
+                 ng-repeat="mItem in item.barCodeVos track by $index"
+                 ng-controller="barcodePrintDialogItemController"
+                 ng-init="saveOriginData(mItem.stockBatch)">
               <div class="bb-dashed-gold pd-c-l">
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
@@ -51,7 +54,7 @@
                 </div>
               </div>
 
-              <div class="pd-c-l" ng-repeat="uItem in mItem.stockBatch track by $index" ng-controller="barcodePrintDialogItemController" ng-init="saveOriginData(mItem.stockBatch)">
+              <div class="pd-c-l" ng-repeat="uItem in mItem.stockBatch track by $index" >
                 <div class="mgt-l mgb-l barcode-show"><img ng-src="{{uItem.barcode}}"></div>
                 <div class="flex-column">
                   <div class="flex-item-6">

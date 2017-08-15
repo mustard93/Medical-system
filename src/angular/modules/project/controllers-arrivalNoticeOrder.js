@@ -476,21 +476,12 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
           });
         });
 
-        // requestData(_barCodeReqUrl, _data, 'POST', 'params-body')
-        // .then(function (results) {
-        //   if (results[1].code === 200) {
-        //     $scope.barCodeDataList = results[1].data;
-        //     console.dir($scope.barCodeDataList);
-        //   }
-        // })  // http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json
-
-        requestData('http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json')
+        requestData(_barCodeReqUrl, _data, 'POST', 'params-body')
         .then(function (results) {
           if (results[1].code === 200) {
             $scope.barCodeDataList = results[1].data;
-            console.dir($scope.barCodeDataList);
           }
-        })
+        })  // http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json
 
       }
       catch(err) {
@@ -584,59 +575,61 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
         LODOP.SET_PRINT_PAGESIZE(uiCustomHtml.print_orient, uiCustomHtml.paper_width, uiCustomHtml.paper_height, "");
         var firstPage=true;
         // 遍历数据设置每张打印
-        angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-          for (var i = 0; i < item.converResults.length; i++) {
-            if (item.converResults[i].unitQuantity !== 0) {
-              for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
-                // var printScope = new Scope();
-                var printScope = $scope.$new(true);
-                printScope.medicalItem=item;//药械信息
-                printScope.converResult=item.converResults[i];//条码信息
-                printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
-                printScope.intentionalCustomer=$scope.medicalDataList.intentionalCustomer;//货主信息
+        angular.forEach($scope.barCodeDataList, function (item, index) {
+          angular.forEach(item.barCodeVos, function (item2, index) {
+            for (var i = 0; i < item2.stockBatch.length; i++) {
+              if (item2.stockBatch[i].unitNumber !== 0) {
+                for (var j = 0; j < item2.stockBatch[i].unitNumber; j++) {
+                  // var printScope = new Scope();
+                  var printScope = $scope.$new(true);
+                  printScope.medicalItem=item;//药械信息
+                  printScope.converResult=item2.stockBatch[i];//条码信息
+                  printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
+                  printScope.intentionalCustomer=$scope.medicalDataList.intentionalCustomer;//货主信息
 
 
-                var tmpHtml=uiCustomHtml.html;
-                tmpHtml=tmpHtml.replace(/\{\{medicalItem.name\}\}/g, printScope.medicalItem.name||"");
-                tmpHtml=tmpHtml.replace(/\{\{medicalItem.specificationAndModelType\}\}/g,   printScope.medicalItem.specificationAndModelType||"");
-                tmpHtml=tmpHtml.replace(/\{\{medicalItem.validTill\}\}/g,   getDateFormat(printScope.medicalItem.validTill)||"");
+                  var tmpHtml=uiCustomHtml.html;
+                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.name\}\}/g, printScope.medicalItem.productName||"");
+                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.specificationAndModelType\}\}/g,   printScope.medicalItem.specificationAndModelType||"");
+                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.validTill\}\}/g,   getDateFormat(printScope.medicalItem.validTill)||"");
 
 
-                tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g,   printScope.converResult.barcode||"");
-                tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unit||"");
+                  tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g,   printScope.converResult.barcode||"");
+                  tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unit||"");
 
-                tmpHtml=tmpHtml.replace(/\{\{intentionalCustomer.intentionalCustomer\}\}/g,   printScope.intentionalCustomer||"");
-                tmpHtml=tmpHtml.replace(/\{\{supplier.name\}\}/g,   printScope.supplier.name||"");
+                  tmpHtml=tmpHtml.replace(/\{\{intentionalCustomer.intentionalCustomer\}\}/g,   printScope.intentionalCustomer||"");
+                  tmpHtml=tmpHtml.replace(/\{\{supplier.name\}\}/g,   printScope.supplier.name||"");
 
-                // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
-                // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
+                  // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
+                  // tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g, converResult.barcode);
 
 
-                var printHtml =tmpHtml;
+                  var printHtml =tmpHtml;
 
-                //   var compileFn = $compile(uiCustomHtml.html);
-                // // 传入scope，得到编译好的dom对象(已封装为jqlite对象)
-                // // 也可以用$scope.$new()创建继承的作用域
-                // var complieDom = compileFn(printScope);
-                // var printHtml =complieDom[0].outerHTML;
-                //
-                //
-                //
-                // $("#barCodePrint_divid").append(complieDom);
-                //   console.log("barCodePrint_divid",$("#barCodePrint_divid").html());
+                  //   var compileFn = $compile(uiCustomHtml.html);
+                  // // 传入scope，得到编译好的dom对象(已封装为jqlite对象)
+                  // // 也可以用$scope.$new()创建继承的作用域
+                  // var complieDom = compileFn(printScope);
+                  // var printHtml =complieDom[0].outerHTML;
+                  //
+                  //
+                  //
+                  // $("#barCodePrint_divid").append(complieDom);
+                  //   console.log("barCodePrint_divid",$("#barCodePrint_divid").html());
 
-                if(firstPage){
-                  firstPage=false;
-                }else{
-                  LODOP.NewPage();
-                }
+                  if(firstPage){
+                    firstPage=false;
+                  }else{
+                    LODOP.NewPage();
+                  }
 
-                console.log("printHtml",printHtml);
-                LODOP.ADD_PRINT_HTM(uiCustomHtml.html_top,uiCustomHtml.html_left,uiCustomHtml.html_width,uiCustomHtml.html_height, printHtml);
+                  console.log("printHtml",printHtml);
+                  LODOP.ADD_PRINT_HTM(uiCustomHtml.html_top,uiCustomHtml.html_left,uiCustomHtml.html_width,uiCustomHtml.html_height, printHtml);
 
-              }//end for
-            }// end   if
-          }//end for
+                }//end for
+              }// end   if
+            }//end for
+          });
         });
         LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
         LODOP.SET_PRINT_COPIES($scope.scopeData.num);
@@ -784,6 +777,8 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
+
+
   }
 
   /**
@@ -800,40 +795,23 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
    * @return {[type]}                                     [description]
    */
   function barcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
+    $scope.originData = [];
+
     // 记录原始值
     $scope.saveOriginData = function (originData) {
-      $scope.originData = angular.copy(originData);
+      angular.copy(originData, $scope.originData);
     }
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitNumber, index) {
-      // 将已改变的数据对象拷贝一份到临时对象
-      // $scope.originData = angular.copy($scope.mItem.stockBatch);
 
-      if (unitNumber > $scope.originData[index].unitNumber) {
+      var _temp = ($scope.originData[index].unitNumber - unitNumber) * $scope.originData[index].ratios;
+          _temp = parseInt(_temp / $scope.originData[index+1].ratios, 10);
 
-      } else {
-        var _temp = ($scope.originData[index].unitNumber - unitNumber) * $scope.originData[index].ratios;
-            _temp = parseInt(_temp / $scope.originData[index+1].ratios, 10);
-
-        $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber + _temp;
-      }
+      $scope.mItem.stockBatch[index+1].unitNumber = $scope.mItem.stockBatch[index+1].unitNumber + _temp;
+      angular.copy($scope.mItem.stockBatch, $scope.originData);
     }
 
-
-
-    // $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
-    //   if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
-    //     converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
-    //     converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
-    //     return;
-    //   } else {
-    //     var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
-    //         _temp = parseInt(_temp / converResults[index+1].ratio, 10);
-    //
-    //     converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
-    //   }
-    // }
   }
 
   angular.module('manageApp.project')
