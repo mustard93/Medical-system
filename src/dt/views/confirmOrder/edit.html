@@ -242,11 +242,10 @@
                       </div>
                     </td><!-- 商品编号 -->
                     <td class="text-left" >
-                      <span
-                           class="color-orange cur-pot lend-order-goods-info"
-                           ng-init="showInfoArea=false"
-                           ng-mouseenter="showInfoArea=true"
-                           ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                      <span class="color-orange cur-pot lend-order-goods-info"
+                            ng-init="showInfoArea=false"
+                            ng-mouseenter="showInfoArea=true"
+                            ng-mouseleave="showInfoArea=false">{{item.approvedName}}
                         <show-info-modal ng-show="showInfoArea"
                                          get-data-type="local"
                                          template-url="tpl/showInfoModalLendOrder"
@@ -254,9 +253,6 @@
                                          info-title="商品信息">
                         </show-info-modal>
                       </span>
-                    <!-- </br>
-                      <em class="color-red">该商品有资质已过期，禁止交易</em> -->
-
                       <p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
                         <i class="warning-icon"></i>
                         {{item.info.msg}}
@@ -264,7 +260,6 @@
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
                         </span>
                       </p>
-
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -306,7 +301,6 @@
                                class="in_ipt"
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
-
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
                         <input type="hidden" ng-model="batch.id">
