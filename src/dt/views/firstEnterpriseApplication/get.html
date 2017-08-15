@@ -1,7 +1,7 @@
 <div class="first-medical-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
-     scope-data="showData"
+     scope-data="formData"
      callback='initFlag=true;'
      alert-error>
      <form class="form-horizontal"
@@ -13,7 +13,7 @@
            alert-error
            alert-ok
            scope-error-msg="errorMsg"
-           scope-data="showData"
+           scope-data="formData"
            novalidate="true"
            callback="$root.utils.refreshHref();">
     <div class="header-info relative mgb-l">
@@ -32,9 +32,9 @@
             <h1 class="color-black pr-font-20">首营企业详情</h1>
         </div>
       </div>
-      <div ng-if="showData.orderStatus=='已冻结'"
+      <div ng-if="formData.orderStatus=='已冻结'"
            class="pr-panel pr-panel-height mgb"
-           ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+           ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{formData.id}}"
            scope-data="versionFlowList"
            alert-error>
       </div>
@@ -43,7 +43,7 @@
     <!-- 主体内容 -->
     <div class="content-wrapper">
         <div class="content-wrapper-main mgt">
-            <div class=" mgb" ajax-if-eval="initFlag" ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}" scope-data="scopeData">
+            <div class=" mgb" ajax-if-eval="initFlag" ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{formData.id}}" scope-data="scopeData">
                 <div ng-repeat="item in scopeData"
                      ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
                                 'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}"
@@ -55,20 +55,20 @@
             <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
                 <div class="flex-item-6">
                     <span class="flex-item-3">
-                      单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
+                      单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
                     </span>
 
                 </div>
                 <div class="flex-item-6 text-right">
-                    制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
-                    制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
-                    制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
-                     状态：  <em class="color-black">{{showData.orderStatus}}</em>
+                    制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+                    制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+                    制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+                     状态：  <em class="color-black">{{formData.orderStatus}}</em>
                 </div>
             </div>
             <!-- 审批 -->
 
-            <div ng-if="showData.orderStatus!='未提交'&&!showData.enterFlag" class="first-medical-nav-new">
+            <div ng-if="formData.orderStatus!='未提交'&&!formData.enterFlag" class="first-medical-nav-new">
                 <div ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
                                 'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}"
                      ng-repeat="item in scopeData">
@@ -104,63 +104,63 @@
               <div class="flex-column">
                   <span class="flex-item-2 text-right">性质：</span>
                   <span class="flex-item-10 text-left" style="float:left;">
-                      <em class="mgr-s" ng-repeat="item in showData.type">{{item}}</em>
+                      <em class="mgr-s" ng-repeat="item in formData.type">{{item}}</em>
                     </span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">名称：</span>
-                  <span class="flex-item-10 text-left">{{showData.name}}</span>
+                  <span class="flex-item-10 text-left">{{formData.name}}</span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">法定代表人：</span>
-                  <span class="flex-item-10 text-left">{{showData.legalUser.n}}</span>
+                  <span class="flex-item-10 text-left">{{formData.legalUser.n}}</span>
               </div>
                 <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">分类：</span>
-                    <span class="flex-item-10 text-left">  {{showData.supplierAttribute.name}}</span>
+                    <span class="flex-item-10 text-left">  {{formData.supplierAttribute.name}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">编号：</span>
-                    <span class="flex-item-10 text-left">{{showData.code}}</span>
+                    <span class="flex-item-10 text-left">{{formData.code}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">分管部门：</span>
-                    <span class="flex-item-10 text-left">{{showData.branchDepartmentName}}</span>
+                    <span class="flex-item-10 text-left">{{formData.branchDepartmentName}}</span>
                 </div>
                 <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">分管业务人员：</span>
-                    <span class="flex-item-10 text-left">{{showData.branchUser.n}}</span>
+                    <span class="flex-item-10 text-left">{{formData.branchUser.n}}</span>
                 </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">开户银行：</span>
                   <span class="flex-item-10 text-left">
-                      {{showData.accountBank}}
+                      {{formData.accountBank}}
                     </span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">开户账号：</span>
                   <span class="flex-item-10 text-left">
-                      {{showData.accountNumber}}
+                      {{formData.accountNumber}}
                     </span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">开户名称：</span>
                   <span class="flex-item-10 text-left">
-                      {{showData.accountName}}
+                      {{formData.accountName}}
                     </span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">付款方式：</span>
                   <span class="flex-item-10 text-left">
-                      {{showData.payType}}
+                      {{formData.payType}}
                     </span>
               </div>
               <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">经营范围：</span>
                   <span class="flex-item-10 text-left" style="float:left;">
-                      <em class="mgr-s" ng-repeat="bus in showData.businessScope">{{bus.name}}</em>
+                      <em class="mgr-s" ng-repeat="bus in formData.businessScope">{{bus.name}}</em>
                     </span>
               </div>
             </div>
@@ -178,7 +178,7 @@
                 </div>
                 <div class="">
                   <div class="pd-c-v-s color-black relative flex-column address-div"
-                       ng-repeat="tr in showData.contacts">
+                       ng-repeat="tr in formData.contacts">
                     <span class="text-left flex-item-1" >{{tr.name}}</span>
                     <span class="text-left flex-item-1">{{tr.professionPosition}}</span>
                     <span class="text-left flex-item-1">{{tr.telephone}}</span>
@@ -191,7 +191,7 @@
                     <span class="text-left flex-item-2">{{tr.note}}</span>
                   </div>
                 </div>
-                <div ng-if="!showData.contacts.length">
+                <div ng-if="!formData.contacts.length">
                   <div class="empty-div clearfix">
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
@@ -208,10 +208,10 @@
     <!-- 申请原因 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <h1 class="pr-font-18 mgb">申请原因</h1>
-      <span>{{showData.applyReason}}</span>
+      <span>{{formData.applyReason}}</span>
     </div>
     <!-- 资质证照 -->
-    <!-- <div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
+    <!-- <div ng-if="!formData.attachments.length" class="panel pr-panel pr-panel-height mgb">
       <h1 class="pr-font-14 color-3 text-blod mgb">
         资质证照
       </h1>
@@ -220,16 +220,16 @@
       </p>
     </div> -->
       <div  ng-init='attachmentsExtend={"title":"资质证照"}'
-      attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend">
+      attachments-show ng-model="formData.attachments" attachments-extend="attachmentsExtend">
       </div>
 
       <div ng-init='eAttachmentsExtend={"title":"电子档案"}'
-      e-attachments-show ng-model="showData.eAttachments" e-attachments-extend="eAttachmentsExtend">
+      e-attachments-show ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend">
       </div>
       <!-- 审核人 -->
 
-      <div ng-if="showData.enterFlag" ng-init='auditContactsExtend={"title":"审核人"}'
-      audit-contacts--show ng-model="showData.auditContacts" audit-contacts--extend="auditContactsExtend">
+      <div ng-if="formData.enterFlag" ng-init='auditContactsExtend={"title":"审核人"}'
+      audit-contacts--show ng-model="formData.auditContacts" audit-contacts--extend="auditContactsExtend">
       </div>
 
     </div>
@@ -237,7 +237,7 @@
 
 
 <!-- 底部按钮 -->
-<div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+<div ng-if="formData.orderStatus!='未提交'" class="handle-btn-area relative">
     <div class="mgb text-right btn-area">
         <span class="mgl mgt">
             <a
@@ -245,19 +245,27 @@
             tab-name='首营企业管理'
             tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
           </span>
-        <span ng-if="showData.didateFilter.buttons.length>0" custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+        <span ng-if="formData.didateFilter.buttons.length>0" custom-menu-list custom-menu-arr="{{formData.didateFilter.buttons}}" class="mgt">
         </span>
     </div>
 </div>
-<div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
+<div ng-if="formData.orderStatus=='未提交'" class="handle-btn-area relative">
     <div class="mgb text-right btn-area">
-        <span class="mgl" ng-if="!showData.enterFlag"><a
+        <span class="mgl" ng-if="!formData.enterFlag">
+          <a
           tab-nav
           tab-name='首营企业管理'
-          tab-href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+          tab-href="#/firstEnterpriseApplication/edit-step-3.html?id={{formData.id}}">返回修改</a>
+        </span>
+        <span class="mgl" ng-if="formData.enterFlag">
+          <a
+          tab-nav
+          tab-name='首营企业管理'
+          tab-href="#/firstEnterpriseApplication/edit-step-4.html?id={{formData.id}}">返回修改</a>
+        </span>
 
         <span class="mgl">
-              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
                  href="javascript:;"
                  class="color-red mgt"
                  handle-this-click
@@ -265,19 +273,27 @@
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
                  callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业'})"
-                 params='{"id":showData.id}'
+                 params='{"id":formData.id}'
                  request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
             </span>
-        <span class="mgl" ng-if="!showData.enterFlag">
-              <button class="pr-btn-save-glodbg mgt"
+        <span class="mgl" >
+              <button ng-if="!formData.enterFlag"
+                      class="pr-btn-save-glodbg mgt"
                       type="button"
                       ajax-url-submit="rest/authen/firstEnterpriseApplication/startProcessInstance"
-                      params='{"businessKey":showData.id}'
+                      params='{"businessKey":formData.id}'
                       alert-error
-                      scope-data="showData"
+                      scope-data="formData"
                       callback="$root.utils.refreshHref()">提交
               </button>
-      </span>
+
+              <button ng-if="formData.enterFlag"
+                      class="pr-btn-save-glodbg mgt"
+                      ng-click="formData.finishFlag=true;submitForm('firstEnterpriseApplication_editForm_step','submit')">提交
+              </button>
+
+        </span>
+
     </div>
 </div>
 </form>
