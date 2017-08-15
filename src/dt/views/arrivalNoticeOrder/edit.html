@@ -442,16 +442,23 @@
           </button>
         </span>
         <span ng-if="$root.hasAuthor('来货通知单确认生成')" >
-          <button
-                  class="pr-btn-create-glodbg mgt"
+          <button ng-if="numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
                   ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode"
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('arrivalNoticeOrderForm','submit')"
-                  >确定生成
+                  callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
+          </button>
+          <button ng-if="numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId"
+                  handle-this-click
+                  dialog-title="确认生成?"
+                  dialog-content="生成后，将无法修改。确认生成?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
           </button>
         </span>
       </div>
