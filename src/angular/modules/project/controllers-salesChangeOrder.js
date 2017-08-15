@@ -65,6 +65,17 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
             $scope.goTo({tabName:'销售换货单',tabHref:'#/salesChangeOrder/edit.html?id='+$scope.formData.id});
             return;
         }
+        if($scope.submitForm_type == 'exit'){
+          requestData('rest/authen/salesChangeOrder/save', $scope.formData, 'POST', 'parameterBody')
+          .then(function (results) {
+             if (results[1].code === 200){
+                  $scope.goTo('#/salesChangeOrder/query.html');
+             }
+          })
+          .catch(function (error) {
+                  alertError(error || '出错');
+              });
+        }
 
         if ($scope.submitForm_type == 'submit') {
             var _url='rest/authen/salesChangeOrder/startProcessInstance';
