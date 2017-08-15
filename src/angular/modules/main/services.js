@@ -1274,13 +1274,13 @@ e
                     // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                     //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
 
+                    // 如果只有一个table，默认表示是支持分页，就用ADD_PRINT_TABLE，否则用ADD_PRINT_HTM解决只用ADD_PRINT_TABLE会导致有多个table时只显示第一个查找到的table的内容的bug。
+                  if ($('#Print_Div_id').find('table').length==1) {
                     // 为满足分页打印而加的。
-  
                     LODOP.ADD_PRINT_TABLE(p.html_top,p.html_left,p.html_width,p.html_height,content);
-
-                    // LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
-
-
+                  }else {
+                    LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
+                  }
                     // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
 
                     return LODOP;
