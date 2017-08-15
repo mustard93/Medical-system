@@ -4,7 +4,7 @@
 define('project/controllers', ['project/init',
                                'project/controllers-imTaobao',
                                'project/controllers-salesOrder',
-                               'project/controllers-salesOrder2',
+                               'project/controllers-needToPurchase',
                                'project/controllers-lossOverOrder',
                                'project/controllers-freezeThawOrder',
                                'project/controllers-confirmOrder',
@@ -311,7 +311,7 @@ define('project/controllers', ['project/init',
           //   $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
           //    // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           // }
-      
+
           if (index === i) {
             $scope.formData.orderMedicalNos[i].stockBatchs.push(_tmp);
           }
