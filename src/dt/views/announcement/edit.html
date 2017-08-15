@@ -71,7 +71,6 @@
                                type="text/plain"
                                style="width: 720px;
                                height:200px;"
-                               ng-model="formData.orderCode"
                                umeditor="$parent.umeditor"
                                ng-model="formData.htmlContent">
                       </script>
@@ -81,19 +80,21 @@
                     <p style="margin-left: 65px;line-height: 40px;color: #C7A77B;">添加附件（支持doc docx xls txt rar pdf jpg png格式文件）</p>
                     <div class="file-list">
                         <ul>
-                            <li class="add-file-btn">
+                            <li class="add-file-btn"
+                              ng-init="upFile={}"
+                              uploader-one="rest/authen/fileUpload/upload2"
+                              callback="file={}; file=upFile.data;
+                              formData.uploadFiles.push(file);file={}; upFile={};"
+                              up-file="upFile"
+                              >
                               <div>+</div>
                             </li>
 
-                            <li class="file-item">
-                                <div class="close-btn"></div>
-                                <img src="" alt="">
-                                <p>adkj.jpg</p>
-                            </li>
-                            <li class="file-item">
-                                <div class="close-btn"></div>
-                                <div class="icon-file"></div>
-                                <p>adkj.jpg</p>
+                            <li ng-repeat="item in formData.uploadFiles track by $index" class="file-item">
+                                <div class="close-btn" ng-click="formData.uploadFiles.splice($index,1);"></div>
+                                <a ng-if="$root.utils.isPicture(item.key);"><img src="{{item.key}}" alt=""></a>
+                                <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}"><div class="icon-file"></div></a>
+                                <p>{{item.originalFileName}}</p>
                             </li>
                         </ul>
 
@@ -157,13 +158,13 @@
            nosave-callback="goTo({tabName:'通知公告',tabHref:'#/allocateOrder/query.html'})"
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag"
+        <a class="mgr-l"
         tab-nav
         tab-name='通知公告'
         tab-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回通知公告列表</a>
         <!--ng-if="$root.hasAuthor('通知公告删除')&&formData.id"-->
       <span>
-        <a ng-if="formData.inputUserId==mainStatus.id"
+        <a ng-if="formData.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
@@ -183,9 +184,9 @@
 
         <button
                 type="button"
-                ng-disabled=""
+                ng-disabled="!announcement_editForm.$valid"
                 class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('announcement_editForm','submit-allocate')">提交发布
+                ng-click="submitForm('announcement_editForm','submit')">提交发布
         </button>
 
       </div>
