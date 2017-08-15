@@ -1720,24 +1720,6 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').addClass('sort-asc');
           sortParamsWay='desc';
         }
-
-      //   if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
-      //     $('.sort-custom-table').children('i').removeClass('sort-desc');
-      //     $('.sort-custom-table').children('i').removeClass('sort-asc');
-      //     $('.sort-custom-table').children('i').addClass('arrow-sort');
-      //     count++;
-      //   }
-      //
-      //   // 把当前样式进行改变.
-      //   if (count%2) {
-          // $(this).children('i').removeClass('arrow-sort');
-          // $(this).children('i').removeClass('sort-asc');
-          // $(this).children('i').addClass('sort-desc');
-      //   }else {
-          // $(this).children('i').removeClass('arrow-sort');
-          // $(this).children('i').removeClass('sort-desc');
-          // $(this).children('i').addClass('sort-asc');
-      //   }
       });
 
     }//end link
