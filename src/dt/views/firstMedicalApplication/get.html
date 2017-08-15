@@ -1,9 +1,21 @@
 <div class="first-medical-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
-     scope-data="showData"
+     scope-data="formData"
      callback='initFlag=true;'
      alert-error>
+     <form class="form-horizontal"
+           id="firstMedicalApplication_editForm_step"
+           name="firstMedicalApplication_editForm_step"
+           form-validator
+           parameter-body
+           action="rest/authen/firstMedicalApplication/saveBaseInfo?validFlag=true"
+           alert-error
+           alert-ok
+           scope-error-msg="errorMsg"
+           scope-data="formData"
+           novalidate="true"
+           callback="$root.utils.refreshHref();">
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
          <a tab-nav
@@ -19,9 +31,9 @@
            <h1 class="color-black pr-font-20">首营品种详情</h1>
          </div>
        </div>
-       <div ng-if="showData.orderStatus=='已冻结'"
+       <div ng-if="formData.orderStatus=='已冻结'"
         class="pr-panel pr-panel-height mgb"
-        ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+        ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{formData.id}}"
         scope-data="versionFlowList"
         alert-error
         >
@@ -33,7 +45,7 @@
     <div class="content-wrapper-main mgt">
       <div class="mgb"
            ajax-if-eval="initFlag"
-           ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
+           ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{formData.id}}"
            scope-data="scopeData">
         <div ng-repeat="item in scopeData"
              ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
@@ -45,18 +57,18 @@
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
-            <div class="inline-block mgr-l">单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em></div>
+            <div class="inline-block mgr-l">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></div>
 
           </div>
           <div class="flex-item-6 text-right">
-              制单部门：<em class="color-black mgr-s">{{showData.departmentName || '暂无'}}</em>
-              制单人：<em class="color-black mgr-s">{{showData.inputUser.n || '暂无'}}</em>
-              制单时间：<em class="color-black mgr-s">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
-              状态：  <em class="color-black">{{showData.orderStatus}}</em>
+              制单部门：<em class="color-black mgr-s">{{formData.departmentName || '暂无'}}</em>
+              制单人：<em class="color-black mgr-s">{{formData.inputUser.n || '暂无'}}</em>
+              制单时间：<em class="color-black mgr-s">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</em>
+              状态：  <em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
         <!-- 审批 -->
-        <div ng-if="showData.orderStatus!='未提交'&&!showData.enterFlag" class="first-medical-nav-new">
+        <div ng-if="formData.orderStatus!='未提交'&&!formData.enterFlag" class="first-medical-nav-new">
           <div ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
                           'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
                ng-repeat="item in scopeData">
@@ -92,110 +104,110 @@
               <div class="bb-dashed-line pd-v-m">
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">性质：</span>
-                <span class="flex-item-10 text-left">{{showData.medicalType}}</span>
+                <span class="flex-item-10 text-left">{{formData.medicalType}}</span>
               </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">通用名：</span>
-                  <span class="flex-item-10 text-left">{{showData.approvedName}}</span>
+                  <span class="flex-item-10 text-left">{{formData.approvedName}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">商品名称：</span>
-                  <span class="flex-item-10 text-left">{{showData.name}}</span>
+                  <span class="flex-item-10 text-left">{{formData.name}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">英文名称：</span>
-                  <span class="flex-item-10 text-left">{{showData.englishName}}</span>
+                  <span class="flex-item-10 text-left">{{formData.englishName}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">商品分类：</span>
-                  <span class="flex-item-10 text-left">{{showData.medicalAttribute.name}}</span>
+                  <span class="flex-item-10 text-left">{{formData.medicalAttribute.name}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">编号：</span>
-                  <span class="flex-item-10 text-left">{{showData.code}}</span>
+                  <span class="flex-item-10 text-left">{{formData.code}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">剂型／分类：</span>
-                  <span class="flex-item-10 text-left">{{showData.dosageForms}}</span>
+                  <span class="flex-item-10 text-left">{{formData.dosageForms}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">规格／型号：</span>
-                  <span class="flex-item-10 text-left">{{showData.specificationAndModelType}}</span>
+                  <span class="flex-item-10 text-left">{{formData.specificationAndModelType}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">装箱规格：</span>
-                  <span class="flex-item-10 text-left">{{showData.packingSpecification}}</span>
+                  <span class="flex-item-10 text-left">{{formData.packingSpecification}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">有效期：</span>
-                  <span class="flex-item-10 text-left">{{showData.guaranteePeriod}}{{showData.guaranteePeriodUnit}}</span>
+                  <span class="flex-item-10 text-left">{{formData.guaranteePeriod}}{{formData.guaranteePeriodUnit}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">预警天数：</span>
-                  <span class="flex-item-10 text-left">{{showData.guaranteePeriodAlarmDay}}</span>
+                  <span class="flex-item-10 text-left">{{formData.guaranteePeriodAlarmDay}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">储存条件：</span>
-                  <span class="flex-item-10 text-left">{{showData.storageCondition}}</span>
+                  <span class="flex-item-10 text-left">{{formData.storageCondition}}</span>
                 </div>
-                <div class="" ng-if="showData.storageCondition=='冷藏'||showData.storageCondition=='冷冻'">
+                <div class="" ng-if="formData.storageCondition=='冷藏'||formData.storageCondition=='冷冻'">
                   <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">温度上限：</span>
-                    <span class="flex-item-10 text-left">{{showData.topTemperature}}</span>
+                    <span class="flex-item-10 text-left">{{formData.topTemperature}}</span>
                   </div>
                   <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">温度下限：</span>
-                    <span class="flex-item-10 text-left">{{showData.lowTemperature}}</span>
+                    <span class="flex-item-10 text-left">{{formData.lowTemperature}}</span>
                   </div>
                   <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">湿度上限：</span>
-                    <span class="flex-item-10 text-left">{{showData.topHumidity}}</span>
+                    <span class="flex-item-10 text-left">{{formData.topHumidity}}</span>
                   </div>
                   <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">湿度下限：</span>
-                    <span class="flex-item-10 text-left">{{showData.lowHumidity}}</span>
+                    <span class="flex-item-10 text-left">{{formData.lowHumidity}}</span>
                   </div>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">经营范围：</span>
-                  <span class="flex-item-10 text-left">{{showData.businessScope.name}}</span>
+                  <span class="flex-item-10 text-left">{{formData.businessScope.name}}</span>
                 </div>
               </div>
               <div class="bb-dashed-line pd-v-m">
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">质量标准：</span>
-                  <span class="flex-item-10 text-left">{{showData.quality}}</span>
+                  <span class="flex-item-10 text-left">{{formData.quality}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">条形码：</span>
-                  <span class="flex-item-10 text-left">{{showData.barcode}}</span>
+                  <span class="flex-item-10 text-left">{{formData.barcode}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">品牌：</span>
-                  <span class="flex-item-10 text-left">{{showData.brand}}</span>
+                  <span class="flex-item-10 text-left">{{formData.brand}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">产地：</span>
-                  <span class="flex-item-10 text-left">{{showData.productionPlace}}</span>
+                  <span class="flex-item-10 text-left">{{formData.productionPlace}}</span>
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">国家器械分类：</span>
-                  <span class="flex-item-10 text-left">{{showData.medicalClassName}}</span>
+                  <span class="flex-item-10 text-left">{{formData.medicalClassName}}</span>
                 </div>
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">U8计量单位名称：</span>
-                  <span class="flex-item-10 text-left">{{showData.u8UnitName}}</span>
+                  <span class="flex-item-10 text-left">{{formData.u8UnitName}}</span>
                 </div>
 
 
                 <div class="flex-column mgt">
                   <span class="flex-item-2 text-right">U8计价方式名称：</span>
-                  <span class="flex-item-10 text-left">{{showData.u8ChargeTypeName}}</span>
+                  <span class="flex-item-10 text-left">{{formData.u8ChargeTypeName}}</span>
                 </div>
 
 
@@ -206,35 +218,35 @@
                 <div  class="pd-v-m ">
                   <div class="flex-column mgt">
                     <span class="flex-item-2 text-right">生产企业名称：</span>
-                    <span class="flex-item-10 text-left">{{showData.productEnterprise.name}}</span>
+                    <span class="flex-item-10 text-left">{{formData.productEnterprise.name}}</span>
                   </div>
 
                   <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label pdr-s">生产许可证号：</label>
                     <div class="flex-item-3 text-left">
-                     <span>{{showData.productEnterprise.productLicense}}</span>
+                     <span>{{formData.productEnterprise.productLicense}}</span>
                     </div>
                     <label class="flex-item-2 text-right control-label pdr-s">许可证有效期至：</label>
                     <div class="flex-item-3 text-left">
-                      <span>{{showData.productEnterprise.productLicensePeriod | date : 'yyyy-MM-dd'}}</span>
+                      <span>{{formData.productEnterprise.productLicensePeriod | date : 'yyyy-MM-dd'}}</span>
                     </div>
                   </div>
 
                   <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label pdr-s">GMP认证：</label>
                     <div class="flex-item-3 text-left">
-                      <span>{{showData.productEnterprise.gmpAuthentication}}</span>
+                      <span>{{formData.productEnterprise.gmpAuthentication}}</span>
                     </div>
                     <label class="flex-item-2 text-right control-label pdr-s">GMP有效期至：</label>
                     <div class="flex-item-3 text-left">
-                      <span>{{showData.productEnterprise.gmpAuthenPeriod | date : 'yyyy-MM-dd'}}</span>
+                      <span>{{formData.productEnterprise.gmpAuthenPeriod | date : 'yyyy-MM-dd'}}</span>
                     </div>
                   </div>
 
                   <div class="flex-column mgt">
                     <label class="flex-item-2 text-right control-label pdr-s">企业注册地址：</label>
                     <div class="flex-item-10 text-left">
-                      <span>{{showData.productEnterprise.address}}</span>
+                      <span>{{formData.productEnterprise.address}}</span>
                     </div>
                   </div>
 
@@ -244,45 +256,45 @@
 
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">是否基药：</span>
-                <span class="flex-item-10 text-left">{{showData.isBasicMedicine}}</span>
+                <span class="flex-item-10 text-left">{{formData.isBasicMedicine}}</span>
               </div>
 
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">牌价：</span>
-                <span class="flex-item-10 text-left">{{showData.quoteprice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.quoteprice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">零售价：</span>
-                <span class="flex-item-10 text-left">{{showData.retailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.retailPrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">批发价：</span>
-                <span class="flex-item-10 text-left">{{showData.tradePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.tradePrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">最高售价：</span>
-                <span class="flex-item-10 text-left">{{showData.maxRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.maxRetailPrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">最低售价：</span>
-                <span class="flex-item-10 text-left">{{showData.minRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.minRetailPrice | currency:'￥'}}</span>
               </div>
 
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.purchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.purchasePrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">最高采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.maxPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.maxPurchasePrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">最低采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.minPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">{{formData.minPurchasePrice | currency:'￥'}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">税率：</span>
-                <span class="flex-item-10 text-left">{{showData.tax}}%</span>
+                <span class="flex-item-10 text-left">{{formData.tax}}%</span>
               </div>
               <!-- <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">采购员：</span>
@@ -291,16 +303,16 @@
                     <span class=" purchaseorder-buyer-info-outside">
                       <strong run-popovers
                               class="color-custom-orange cur-pot text-normal pr-color"
-                              style="height:25px;">{{showData.buyer.n}}
+                              style="height:25px;">{{formData.buyer.n}}
                       </strong>
                       <span class="purchaseorder-buyer-info" style="top:22px;right:-70px;">
-                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
+                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{formData.buyer.p}}</em></i>
                         <i class="block pdb-s text-normal">
                           <em class="fa fa-comment-o mgl"></em>
                           <em class="inline-block pdl pdr pdt">
                             <a href="javascript:;"
                                modal-center="490"
-                               modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
+                               modal-data='{"toUser":{"n":"{{formData.buyer.n}}"},"userIds":["{{formData.buyer.id}}}"]}'
                                modal-url="views/notice/sendToUser.html">发送消息
                             </a>
                           </em>
@@ -313,7 +325,7 @@
 
               <!-- <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">效期预警天数：</span>
-                <span class="flex-item-10 text-left">{{showData.guaranteePeriodAlarmDay}}</span>
+                <span class="flex-item-10 text-left">{{formData.guaranteePeriodAlarmDay}}</span>
               </div> -->
           </div>
         </div>
@@ -334,7 +346,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <tr  ng-repeat="supplier in showData.suppliers track by $index" >
+                  <tr  ng-repeat="supplier in formData.suppliers track by $index" >
                     <td class="text-center">{{$index+1}}
                     </td>
                     <td class="text-left">
@@ -352,7 +364,7 @@
                 </tbody>
               </table>
 
-              <div ng-if="!showData.suppliers.length" class="pr-bg-white ng-scope">
+              <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
                 <div class="empty-table clearfix">
                   <div>&nbsp;</div>
                   <div>&nbsp;</div>
@@ -365,43 +377,51 @@
         <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">申请原因</h1>
-          <span>{{showData.applyReason}}</span>
+          <span>{{formData.applyReason}}</span>
         </div>
         <div  ng-init='attachmentsExtend={"title":"资质证照"}'
-        attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend">
+        attachments-show ng-model="formData.attachments" attachments-extend="attachmentsExtend">
         </div>
 
         <div ng-init='eAttachmentsExtend={"title":"电子档案"}'
-        e-attachments-show ng-model="showData.eAttachments" e-attachments-extend="eAttachmentsExtend">
+        e-attachments-show ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend">
         </div>
         <!-- 审核人 -->
 
-        <div ng-if="showData.enterFlag" ng-init='auditContactsExtend={"title":"审核人"}'
-        audit-contacts--show ng-model="showData.auditContacts" audit-contacts--extend="auditContactsExtend">
+        <div ng-if="formData.enterFlag" ng-init='auditContactsExtend={"title":"审核人"}'
+        audit-contacts--show ng-model="formData.auditContacts" audit-contacts--extend="auditContactsExtend">
         </div>
 
       </div>
 
-      <div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+      <div ng-if="formData.orderStatus!='未提交'" class="handle-btn-area relative">
         <div  class="mgb text-right btn-area">
           <span class="mgl mgt">
             <a tab-nav
             tab-name='首营品种管理'
             tab-href="#/firstMedicalApplication/query.html">返回申请单列表</a>
           </span>
-          <span ng-if="showData.didateFilter.buttons.length>0"
+          <span ng-if="formData.didateFilter.buttons.length>0"
                 custom-menu-list
-                custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+                custom-menu-arr="{{formData.didateFilter.buttons}}" class="mgt">
           </span>
         </div>
       </div>
-      <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
+      <div ng-if="formData.orderStatus=='未提交'" class="handle-btn-area relative">
         <div  class="mgb text-right btn-area">
-            <span class="mgl" ><a tab-nav
+            <span class="mgl" >
+            <a ng-if="!formData.enterFlag"
+            tab-nav
             tab-name='首营品种管理'
-            tab-href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}" >返回修改</a></span>
+            tab-href="#/firstMedicalApplication/edit-step-3.html?id={{formData.id}}" >返回修改</a>
+
+            <a ng-if="formData.enterFlag"
+            tab-nav
+            tab-name='首营品种管理'
+            tab-href="#/firstMedicalApplication/edit-step-4.html?id={{formData.id}}" >返回修改</a>
+          </span>
             <span class="mgl">
-              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
                  href="javascript:;"
                  class="color-red mgt"
                  handle-this-click
@@ -409,19 +429,25 @@
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
                  callback="$root.goTo('#/firstMedicalApplication/query.html')"
-                 params='{"id":showData.id}'
+                 params='{"id":formData.id}'
                  request-url="rest/authen/firstMedicalApplication/delete">删除</a>
             </span>
             <span class="mgl">
-              <button class="pr-btn-save-glodbg mgt"
+              <button ng-if="!formData.enterFlag"
+                      class="pr-btn-save-glodbg mgt"
                       type="button"
                       ajax-url-submit="rest/authen/firstMedicalApplication/startProcessInstance"
-                      params='{"businessKey":showData.id}'
+                      params='{"businessKey":formData.id}'
                       alert-error
-                      scope-data="showData"
+                      scope-data="formData"
                       callback="$root.utils.refreshHref()">提交
+              </button>
+              <button ng-if="formData.enterFlag"
+                      class="pr-btn-save-glodbg mgt"
+                      ng-click="formData.finishFlag=true;submitForm('firstMedicalApplication_editForm_step','submit')">提交
               </button>
             </span>
         </div>
     </div>
+  </form>
 </div>
