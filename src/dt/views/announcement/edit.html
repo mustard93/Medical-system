@@ -1,0 +1,195 @@
+<div class="allocate-order salesOrder-edit confirm-edit"
+     ng-controller="announcementCtrl"
+     ajax-url="rest/authen/announcement/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="formData"
+     callback="initFlag=true;$root.watchFormChange('formData',this);"
+     alert-error>
+
+  <form id="announcement_editForm"
+        name="announcement_editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/announcement/save"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="true">
+        <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
+
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">通知消息公告  >
+        <a
+        tab-nav
+        tab-name='通知公告'
+        tab-href="#/announcement/query.html"><em class="color-custom-orange">通知公告</em></a>
+        <em> > 新建通知公告</em>
+      </p>
+
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">新建通知公告</h1>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+
+      <!-- 药械列表 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+
+          <!-- 列表 -->
+          <div class="" style="padding: 40px 0;">
+
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <div class="flex-item-1  text-right">
+              </div>
+              <div class="flex-item-6 text-left">
+                <span class="mgr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标题：
+                    <input type="text" name="title" style="width: 720px;" class="ipt" ng-model="formData.title" />
+                    <em class="color-red" ng-if="!formData.title">（必填）</em>
+                  </span>
+              </div>
+            </div>
+
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <div class="flex-item-1  text-right">
+              </div>
+              <div class="flex-item-6 text-left">
+
+                <span class="mgr">公告详情：
+                    <div style="position: relative;width: 720px; height:250px; overflow:hidden;    display: inline-block; border-bottom: #ccc solid 1px; margin-left: 65px; margin-top: -20px;">
+                      <script  class=""
+                               ng-if="initFlag"
+                               id="announcement_editor"
+                               type="text/plain"
+                               style="width: 720px;
+                               height:200px;"
+                               umeditor="$parent.umeditor"
+                               ng-model="formData.htmlContent">
+                      </script>
+                    </div>      
+
+                    <em class="color-red" ng-if="!formData.htmlContent">（必填）</em>
+                    <p style="margin-left: 65px;line-height: 40px;color: #C7A77B;">添加附件（支持doc docx xls txt rar pdf jpg png格式文件）</p>
+                    <div class="file-list">
+                        <ul>
+                            <li class="add-file-btn"
+                              ng-init="upFile={}"
+                              uploader-one="rest/authen/fileUpload/upload2"
+                              callback="file={}; file=upFile.data;
+                              formData.uploadFiles.push(file);file={}; upFile={};"
+                              up-file="upFile"
+                              >
+                              <div>+</div>
+                            </li>
+
+                            <li ng-repeat="item in formData.uploadFiles track by $index" class="file-item">
+                                <div class="close-btn" ng-click="formData.uploadFiles.splice($index,1);"></div>
+                                <a ng-if="$root.utils.isPicture(item.key);"><img src="{{item.key}}" alt=""></a>
+                                <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}"><div class="icon-file"></div></a>
+                                <p>{{item.originalFileName}}</p>
+                            </li>
+                        </ul>
+
+                    </div>
+                  </span>
+              </div>
+            </div>
+
+
+
+
+
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <div class="flex-item-1  text-right">
+              </div>
+              <div class="flex-item-6 text-left">
+               <span class="mgr">发布部门：
+                  <select class="ipt pr-short-ipt color-3"
+                          data-placeholder=" "
+                          chosen
+                          no-first-select-source="true"
+                          ng-model="formData.salesDepartmentId"
+                          style="width: 180px"
+                          select-source="rest/authen/department/queryForSelectOption">
+                  </select>
+                </span>
+              </div>
+            </div>
+
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <div class="flex-item-1  text-right">
+              </div>
+              <div class="flex-item-6 text-left">
+               <span class="mgr">发 布 人 ：
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:180px;"
+                        data-placeholder=" "
+                        chosen
+                        no-first-select-source="true"
+                        ng-model="formData.saleUserId"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                </select>
+              </span>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该通知公告存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo({tabName:'通知公告',tabHref:'#/allocateOrder/query.html'})"
+        </a>
+
+        <a class="mgr-l"
+        tab-nav
+        tab-name='通知公告'
+        tab-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回通知公告列表</a>
+        <!--ng-if="$root.hasAuthor('通知公告删除')&&formData.id"-->
+      <span>
+        <a ng-if="formData.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条购通知公告吗?"
+           dialog-template="pr-dialog-confirm.html"
+           request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
+           callback="$root.goTo('#/allocateOrder/query.html')">删除
+        </a>
+        </span>
+
+        <button type="button"
+                class="pr-btn-save-glodbg mgr mgt"
+                ng-disabled="!changeFlag "
+                ng-click="submitForm('announcement_editForm','save');">保存
+        </button>
+
+        <button
+                type="button"
+                ng-disabled="!announcement_editForm.$valid"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('announcement_editForm','submit')">提交发布
+        </button>
+
+      </div>
+    </div>
+  </form>
+</div>
