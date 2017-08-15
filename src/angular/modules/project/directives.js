@@ -1708,7 +1708,6 @@ function customTableToggleSort (modal,utils,requestData) {
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
         // 阻止冒泡
-        console.log(sortParamsWay);
         e.stopPropagation();
         if (sortParamsWay=='desc') {
           $(this).children('i').removeClass('arrow-sort');
@@ -1721,24 +1720,6 @@ function customTableToggleSort (modal,utils,requestData) {
           $(this).children('i').addClass('sort-asc');
           sortParamsWay='desc';
         }
-
-      //   if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
-      //     $('.sort-custom-table').children('i').removeClass('sort-desc');
-      //     $('.sort-custom-table').children('i').removeClass('sort-asc');
-      //     $('.sort-custom-table').children('i').addClass('arrow-sort');
-      //     count++;
-      //   }
-      //
-      //   // 把当前样式进行改变.
-      //   if (count%2) {
-          // $(this).children('i').removeClass('arrow-sort');
-          // $(this).children('i').removeClass('sort-asc');
-          // $(this).children('i').addClass('sort-desc');
-      //   }else {
-          // $(this).children('i').removeClass('arrow-sort');
-          // $(this).children('i').removeClass('sort-desc');
-          // $(this).children('i').addClass('sort-asc');
-      //   }
       });
 
     }//end link
@@ -1942,7 +1923,7 @@ function medicalStockMouseOver(utils,$compile){
             if (bt.progress=='0') {
               return;
             }else{
-              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name=库存查询 tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
 
               var btn1=$(tmp);
               // btn1.appendto(moveBtnDiv);
@@ -3976,6 +3957,167 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     }
   };
 }
+
+
+    function tableItemMultipleBtnTop (utils, requestData, alertError) {
+        'use strict';
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function (scope, element, attrs) {
+
+                $(element).css({
+                    position: 'relative'
+                });
+
+
+                // 操作按钮组
+                var _handleBtnGroup = $(element).find('div.table-item-multiple-btn-top');
+                // 删除按钮
+                var _delBtn = $(element).find('div.del-details-btn');
+                // 其他操作按钮
+                var _handleBtn = $(element).find('div.other-handle-btn');
+                // 取消删除按钮
+                var _cancelDel=$(element).find('.hide-this-area');
+
+
+
+                // 绑定点击显示操作删除层
+                _delBtn.on('click', function () {
+                    $('.del-confirm-area').show();
+                });
+
+                // 绑定点击显示其他操作层
+                _handleBtn.on('click', function () {
+
+                    // 解决bug：1013 品种管理中 选择一个商品的菜单默认显示不完整，需要用户手动下拉展开菜单。用户使用不方便。$('.content-wrapper-main')以该容器的高度来作为判断依据，而不是document。
+                    var _offsetTop = $(element).offset().top-$('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
+                    $(this).find('.handle-area-show').show(0,function () {
+                        var handleAreaHeight=$(this).height();
+                        //如果显示不下 就向上显示菜单
+                        // console.log($('.content-wrapper-main'));
+                        if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
+                            $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
+                        }else{
+                            $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
+                        }
+                    });
+
+                });
+
+                // 绑定取消按钮事件
+                $(element).find('.hide-this-area').on('click', function (e) {
+                    e.stopPropagation();
+                    $(element).find('div.del-confirm-area').hide();
+                });
+
+                element.hover(function () {
+
+
+
+                    //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
+                    var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
+
+                    if(el.hasClass('outside-table-d')){
+
+                        // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
+                        var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+                        // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
+                        var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
+                    }else {
+                        // 没有横向滚动条的情况下
+                        // 向左的偏移量=当前元素的宽度-本身按钮的宽度
+                        var leftShift=$(element).width()-_handleBtnGroup.width();
+                        // 计算当前tr距离顶部的高度
+                        var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
+                    }
+
+
+
+
+
+                    // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
+
+                    _handleBtnGroup.css({'position':'fixed','top':_offsetTop+31,'left':leftShift+124}).show();
+
+                }, function () {
+                    _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
+
+                    $('.del-confirm-area').hide();
+                    $('.handle-area-show').removeClass('handle-area-up').removeClass('handle-area-down').hide();
+                });
+
+                // 执行删除操作
+                // 扩展删除方法，使id值支持单值和数组两种方式
+                // 增加第4个参数dataType，若不传入则表示单个id值传入，若设置且值为array,则将传入的id字符串包装成数组
+                scope.handleDelDetails = function (id, requestUrl, callbackUrl, parameterType, dataType) {
+                    // 如果dataType参数为空,传入单个值
+                    try {
+                        if (id && requestUrl && callbackUrl) {
+                            // 定义数据对象
+                            var _data = null;
+
+                            // 定义发送数据
+                            if (!dataType || dataType !== 'array') {
+                                _data = {
+                                    'id': id
+                                }
+                            } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+                                _data = id.split(',');
+                            }
+                            //提交数据类型，默认为json, 如果传值就用表单key-value
+                            var _parameterType = null;
+                            if(!parameterType){
+                                _parameterType ='parameter-body';
+                            }
+
+                            // 发送请求
+                            requestData(requestUrl, _data, 'POST', _parameterType)
+                                .then(function (results) {
+                                    if (results[1].code == 200) {
+                                        utils.goTo(callbackUrl);
+                                    }
+                                })
+                                .catch(function (error) {
+                                    if (error) { alertError(error); }
+                                });
+                        }
+                    }
+                    catch (err) {
+                        if (err) { throw new Error(err); }
+                    }
+
+
+
+                    // if (!dataType || dataType !== 'array') {
+                    //   if (id && requestUrl && callbackUrl) {
+                    //     var _url = requestUrl + '?id=' + id;
+                    //     requestData(_url, {}, 'POST')
+                    //     .then(function (results) {
+                    //       if (results[1].code == 200) {
+                    //         utils.goTo(callbackUrl);
+                    //       }
+                    //     })
+                    //     .catch(function (error) {
+                    //       if (error) { alertError(error); }
+                    //     });
+                    //   }
+                    // } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+                    //   var _dataArr = id.split(',');
+                    //   requestData(_url, _dataArr, 'POST')
+                    //   .then(function (results) {
+                    //     utils.goTo(callbackUrl);
+                    //   })
+                    //   .catch(function (error) {
+                    //     if (error) { alertEorr(error || '出错'); }
+                    //   });
+                    // }
+
+                };
+
+            }
+        };
+    }
 function changeImg () {
   'use strict';
   return {
@@ -4098,7 +4240,8 @@ function  dtRightSide(utils) {
 
 angular.module('manageApp.project')
 
-  .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
+    .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
+    .directive("tableItemMultipleBtnTop", ['utils', 'requestData', 'alertError', tableItemMultipleBtnTop])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", ['$rootScope','$sce',pageMainHeaderComponent])
   .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])

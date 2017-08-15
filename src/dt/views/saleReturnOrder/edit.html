@@ -38,18 +38,6 @@
           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
         </p>
       </div>
-      <div class="pos-rel-tl order-create-btn mgb-m">
-        <a ng-if="initFlag"
-           modal-right="1000"
-           modal-open-auto="{{!formData.orderMedicalNos.length}}"
-           modal-scope="this"
-           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
-           modal-url="views/saleReturnOrder/edit-right-side.html">
-          <i></i>
-          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
-          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
-        </a>
-      </div>
       <!-- <div ng-if="formData.orderMedicalNos.length" class="pr-panel pr-panel-height pd-n mgb">
         <div class="inline-block br-line customer-name relative">
           <p class="mgb-s">客户名</p>
@@ -71,12 +59,12 @@
         </div>
       </div> -->
       <div ng-if="formData.orderMedicalNos.length"  class="">
-        <div class="inline-block">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+        <div class="inline-block mgr">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px; min-width:100px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block">
                <p class="mgb-s">业务类型</p>
-               <p class="text-m color-3 autocut-default" title="{{formData.orderBusinessType}}" style="width:90px;">{{formData.orderBusinessType || '暂无'}}</p>
+               <p class="text-m color-3 autocut-default" title="{{formData.orderBusinessType}}">{{formData.orderBusinessType || '暂无'}}</p>
                <!-- <p class="text-m color-3">
                    <select class="ipt pr-short-ipt color-3" style="width:90px;"
                            data-placeholder=" "
@@ -89,22 +77,22 @@
              </div>
            </div>
         </div>
-        <div class="inline-block mgr-l mgl-l">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+        <div class="inline-block mgr">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
             <div class="inline-block customer-name"></div>
             <div class="inline-block">
               <p class="mgb-s">客户名</p>
-              <p class="text-m color-3 autocut-default" title="{{formData.customerName}}" style="width:300px;">{{formData.customerName || '暂无'}}</p>
+              <p class="text-m color-3 autocut-default" title="{{formData.customerName}}">{{formData.customerName || '暂无'}}</p>
             </div>
           </div>
         </div>
         <div class="inline-block">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block">
                <p class="mgb-s">物流中心</p>
                <p class="text-m color-3">
-                 <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                 <select ng-if="initFlag" class="ipt ipt-new-select color-3"
                          data-placeholder=" "
                          chosen
                          ng-model="formData.logisticsCenterId"
@@ -116,6 +104,20 @@
            </div>
         </div>
       </div>
+
+      <div class="pos-rel-tl order-create-btn mgb-m">
+        <a ng-if="initFlag"
+           modal-right="1000"
+           modal-open-auto="{{!formData.orderMedicalNos.length}}"
+           modal-scope="this"
+           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+           modal-url="views/saleReturnOrder/edit-right-side.html">
+          <i></i>
+          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
+          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
+        </a>
+      </div>
+
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel clearfix" ng-if="!formData.orderMedicalNos.length">
             <div>&nbsp;</div>
@@ -132,7 +134,7 @@
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span class="inline-block relative">
+              <span class="inline-block relative mar-r15">
                 <span>单据日期：</span>
                 <span class="date-icon-outside">
                   <input ng-if="initFlag" type="text"
@@ -155,7 +157,7 @@
           </div>
 
           <div class="flex-column color-9 pdt-m pdb-m pd-c-l" ng-init="formData.saleUserId=formData.saleUser.id">
-            <span class="mgr">业务部门：
+            <span>业务部门：
               <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                       placeholder=" "
                       chosen
@@ -165,7 +167,7 @@
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
-            <span class="mgr">业务人员：
+            <span>业务人员：
               <select ng-if="initFlag"
                       class="ipt pr-short-ipt color-3" style="width:90px;"
                       data-placeholder=" "
@@ -207,7 +209,7 @@
                   >
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
-                    <div class="table-item-confirm-del-area">
+                    <div class="table-item-confirm-del-area" style="height:100px;">
                       <p class="bb-line color-red pd-v">确认删除本条数据?</p>
                       <p class="pdt">
                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
@@ -284,8 +286,8 @@
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-center">￥{{item.strike_price}}</td><!-- 报价 -->
-                <td class="text-center">￥{{item.strike_price*item.quantity | number: 2}}</td><!-- 报价 -->
+                <td class="text-center">{{item.strike_price | currency:"￥"}}</td><!-- 报价 -->
+                <td class="text-center">{{item.strike_price*item.quantity | currency: "￥"}}</td><!-- 报价 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
               </tr>
             </tbody>
@@ -309,9 +311,9 @@
       <!-- 其他信息 -->
       <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
         <!-- 备注 -->
-        <div class='mgb'>
-          <h1>备注</h1>
-          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        <div>
+          <h1 class="font-size-14 color-3">备注</h1>
+          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" ng-if="formData.note"></textarea>
         </div>
       </div>
 

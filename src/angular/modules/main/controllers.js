@@ -846,8 +846,6 @@ define('main/controllers', ['main/init'], function () {
 
         $scope.$watchCollection('addressData',function(newVal,oldVal){
               if (newVal && newVal !== oldVal) {
-                // 如果判断存在id，说明不是新建，是编辑
-                if (newVal.id) {
                   // 把对象的除了ID以外所有的值放入数组中，用于后续判断是否全部为空
                   var addressDataArr=[];
                　　for ( var i in newVal ){
@@ -863,11 +861,6 @@ define('main/controllers', ['main/init'], function () {
                   }else {
                     $scope.submitAdressData=false;
                   }
-                }
-                // 没有id，说明是新建，submitAdressData不用于判断是否可提交
-                else {
-                  $scope.submitAdressData=true;
-                }
               }
         })
 
@@ -930,10 +923,11 @@ define('main/controllers', ['main/init'], function () {
     // 自定义表格
     function customTableDataController ($scope, utils, requestData) {
 
-      // 切换用户机构
+      // 点击重新排序
       $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
+
         if(sortItem.canSort){
-          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
+          if (!customListParams.sortWay||customListParams.sortWay=='asc'||$scope.listParams.sortBy!==sortItem.propertyKey) {
             customListParams.sortWay='desc';
           }else if (customListParams.sortWay=='desc') {
             customListParams.sortWay='asc';
@@ -954,13 +948,9 @@ define('main/controllers', ['main/init'], function () {
           })
           .catch(function (error) {
           });
+
         }
       };
-
-      // 点击分页请求数据也要带上筛选条件
-      $scope.reGetListData=function(){
-
-      }
     }
 
     angular.module('manageApp.main')
