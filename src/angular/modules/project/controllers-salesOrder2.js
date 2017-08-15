@@ -1,4 +1,4 @@
-define('project/controllers-salesOrder2', ['project/init'], function() {
+define('project/controllers-needToPurchase', ['project/init'], function() {
   /**
    * [salesOrderEditCtrl 购需单控制器2]
    * @method salesOrderEditCtrl
@@ -8,7 +8,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
    */
-  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
+  function needToPurchaseEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
       modal.closeAll();
 
@@ -388,5 +388,5 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
   }
 
   angular.module('manageApp.project')
-  .controller('salesOrderEditCtrl2', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", salesOrderEditCtrl2]);
+  .controller('needToPurchaseEditCtrl', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", needToPurchaseEditCtrl]);
 });

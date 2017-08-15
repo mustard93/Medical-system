@@ -364,7 +364,20 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
+                <a ng-if="formData.id"
+                class="color-orange"
+                style="margin-left: 10px;"
+                handle-this-click
+                dialog-title="确认生成?"
+                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
+                dialog-template="pr-dialog-submit.html"
+                http-method="GET"
+                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
+                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
+                request-url="rest/authen/firstMedicalApplication/generateBarcode">
+                重新生成
+                </a>
               </div>
             </div>
 

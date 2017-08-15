@@ -1,0 +1,330 @@
+<div class="first-medical-application"
+     ajax-url="rest/authen/announcement/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback='initFlag=true;'
+     alert-error>
+
+
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">通知消息公告  >
+        <a
+            tab-nav
+            tab-name='通知公告'
+            tab-href="#/announcement/query.html"><em class="color-custom-orange">通知公告</em></a>
+        <em> > 通知公告详情</em>
+      </p>
+
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">通知公告详情</h1>
+        </div>
+      </div>
+    </div>
+
+  <!-- 主体内容 -->
+  <div class="content-wrapper">
+    <div class="content-wrapper-main mgt">
+
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="mgb-m mgt color-black text-bold text-n text-center color-red" style="font-size: 18px;">
+          {{showData.title}}
+        </h1>
+        <p class="text-center" style="font-size: 12px;color: #999;line-height: 17px;">
+          <span>发布部门：<em style="color:#151515;">{{showData.salesDepartmentName}}</em></span>
+          <span style="margin: 0 20px;">发布人：<em style="color:#151515;">{{showData.inputUser.n}}</em></span>
+          <span>发布时间：<em style="color:#151515;">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss' || '暂无'}}</em></span>
+
+        </p>
+
+        <div class="announcement-content" ng-bind-html="showData.htmlContent | to_trusted"></div>
+
+      </div>
+    </div>
+
+    <!-- 附件 -->
+    <div class="panel pr-panel pr-panel-height mgb">
+      <h1 class="pr-font-18 mgb" style="color: #333333;  font-size: 14px;">附件</h1>
+       <div class="announcement-file">
+         <ul class="file-list">
+
+           <li ng-repeat="item in showData.uploadFiles track by $index" class="file-item">
+             <div class="close-btn" ng-click="showData.uploadFiles.splice($index,1);"></div>
+             <a ng-if="$root.utils.isPicture(item.key);"><img src="{{item.key}}" alt=""></a>
+             <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}"><div class="icon-file"></div></a>
+             <p>{{item.originalFileName}}</p>
+           </li>
+
+           <!--<li ng-repeat="file in showData.uploadFiles track by $index" class="file-item">-->
+             <!--<div class="close-btn"></div>-->
+             <!--<img src="" alt="">-->
+             <!--<p>adkj.jpg</p>-->
+           <!--</li>-->
+
+           <!--<li class="file-item">-->
+             <!--<div class="close-btn"></div>-->
+             <!--<div class="icon-file"></div>-->
+             <!--<p>adkj.jpg</p>-->
+           <!--</li>-->
+         </ul>
+       </div>
+    </div>
+
+    <!-- 已查阅 -->
+    <div ng-if="1==2" class="panel pr-panel pr-panel-height mgb" style="width: 50%; height: 300px;  font-size: 14px; float: left">
+      <h1 class="pr-font-18 mgb" style="color: #333333; font-size: 14px;">已查阅<em style="color: #C7A77B;">（4）</em></h1>
+      <div class=" announcement-read-log">
+      <table class="table pr-table pr-new-table pr-table-content">
+        <thead class="pr-bg-side">
+        <tbody>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+        <tr>
+
+          <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+          <td >
+            阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 阅读时间-->
+          <td >
+            终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+          </td><!-- 终端 -->
+
+        </tr>
+
+
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- 已查阅 -->
+    <div ng-if="1==2"  class="panel pr-panel pr-panel-height mgb announcement-read-log" style="width: 50%;  height: 300px;  font-size: 14px; float: right">
+      <h1 class="pr-font-18 mgb" style="color: #333333; font-size: 14px;">未查阅<em style="color: #C7A77B;">（4）</em></h1>
+      <div class=" announcement-read-log">
+        <table class="table pr-table pr-new-table pr-table-content">
+          <thead class="pr-bg-side">
+          <tbody>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+          <tr>
+
+            <td class="text-left">姓名{{tr.saleUser.n}}</td><!-- 姓名 -->
+            <td >
+              阅读时间{{tr.publishAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 阅读时间-->
+            <td >
+              终端{{tr.createAt | date : 'yyyy-MM-dd'}}
+            </td><!-- 终端 -->
+
+          </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</div>

@@ -430,6 +430,8 @@ function alertOk($rootScope, modal) {
       //工具类
       function utils ($timeout,$rootScope) {
 
+
+
         // 递归获取：data.data.data 获取子属性值
         function getObjectValByKeyArr(obj,keyArr,index){
           if (!keyArr) { return null; }
@@ -448,6 +450,20 @@ function alertOk($rootScope, modal) {
         }
 
         var utilsObj = {
+
+
+            //判断是否为图片
+              isImage:function(fileName){
+                  if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(fileName)) {
+                      return false;
+                  }
+                  return true;
+              },
+
+          //获取当前时间戳
+            getTimestamp:function () {
+                return new Date().getTime();
+            },
 
             //获取一个唯一ID
              getUUID:function() {
@@ -954,7 +970,7 @@ function alertOk($rootScope, modal) {
               if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
                 //img.png@100h
                 var _suffix = fileName.split('.')[1];
-                   _suffix = fileName.split('@')[0];//解决缩略图情况
+                   _suffix = fileName.split('?')[0];//解决缩略图情况
                   return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
                 // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
                 //   return false;
@@ -1229,7 +1245,6 @@ e
                   this.print_param.html_left=intLeft;
                   this.print_param.html_width=intWidth;
                   this.print_param.html_height=intHeight;
-
                 },
 
                 _PrintDivId:null,
@@ -1241,12 +1256,14 @@ e
                 //设置打印的内容innerHTML
                 setPrintHtmlContent:function(content){
                   this._PrintHtml=content;
+
                 },
                 //返回要打印的内容
                 getPrintHtmlContent:function(content){
                     if(this._PrintDivId)this._PrintHtml= document.getElementById(this._PrintDivId).innerHTML;
                     return this._PrintHtml;
                 },
+
 
                 //打印前的准备工作。设置打印参数，及打印内容
                 _printBeforePrint:function(content,taskName){
@@ -1273,10 +1290,14 @@ e
                     // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                     //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
 
-
+                    // 如果只有一个table，默认表示是支持分页，就用ADD_PRINT_TABLE，否则用ADD_PRINT_HTM解决只用ADD_PRINT_TABLE会导致有多个table时只显示第一个查找到的table的内容的bug。
+                  if ($('#Print_Div_id').find('table').length==1) {
+                    // 为满足分页打印而加的。
+                    LODOP.ADD_PRINT_TABLE(p.html_top,p.html_left,p.html_width,p.html_height,content);
+                  }else {
                     LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
+                  }
                     // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
-                     console.log("_printBeforePrint",p);
 
                     return LODOP;
                 },

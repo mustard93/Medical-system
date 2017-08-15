@@ -2650,11 +2650,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       };
 
       // 监控listParams.storeRoomId值的变化，当用户选择全部时，刷新重新获取所有数据
-      $scope.$watch('listParams.storeRoomId', function (newVal, oldVal) {
-        if (oldVal && !newVal) {
-          utils.refreshHref();
-        }
-      });
+      
+      // 2017年8月15日18:54:05  处理 bug 358 医院web端，上架列表，如果切换库房从其中一个库房到全部，右边商品的搜索条件会被重置为空，应该保留
+      // 屏蔽该代码
+      // $scope.$watch('listParams.storeRoomId', function (newVal, oldVal) {
+      //   if (oldVal && !newVal) {
+      //     utils.refreshHref();
+      //   }
+      // });
+
+
     }
 
     function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {

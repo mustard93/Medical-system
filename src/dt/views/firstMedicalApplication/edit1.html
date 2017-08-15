@@ -139,9 +139,8 @@
                 <input type="text"
                        class="ipt-new"
                        name="englishName"
-                       required
                        ng-model="formData.englishName" />
-                <span ng-if="!formData.englishName" class="color-red">（必填）</span>
+                <!-- <span ng-if="!formData.englishName" class="color-red">（必填）</span> -->
               </div>
             </div>
 
@@ -371,7 +370,7 @@
               <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
               <div class="flex-item-10 text-left">
                 <input type="quality"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.quality"/>
               </div>
             </div>
@@ -387,7 +386,20 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
+                <a ng-if="formData.id"
+                class="color-orange"
+                style="margin-left: 10px;"
+                handle-this-click
+                dialog-title="确认生成?"
+                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
+                dialog-template="pr-dialog-submit.html"
+                http-method="GET"
+                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
+                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
+                request-url="rest/authen/firstMedicalApplication/generateBarcode">
+                重新生成
+                </a>
               </div>
             </div>
 
@@ -409,7 +421,7 @@
               <div class="flex-item-10 text-left">
                 <input type="text"
                        name="brand"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.brand"/>
               </div>
             </div>
@@ -417,10 +429,10 @@
             <!--产地-->
             <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
-              <div class="flex-item-10 text-left">
+              <div class="flex-item-10">
                 <input type="text"
                        name="productionPlace"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.productionPlace"/>
               </div>
             </div>
@@ -1007,7 +1019,7 @@
                       </td>
                       <td class="text-left">
                         <div style="position: relative;" ng-init="suppliertmp=supplier">
-                          <span angucomplete=""
+                          <span class="temporary" angucomplete=""
                                 placeholder="供应商名称"
                                 title-field="name"
                                 description-field="suppliertmp.name"
