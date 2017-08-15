@@ -1229,7 +1229,6 @@ e
                   this.print_param.html_left=intLeft;
                   this.print_param.html_width=intWidth;
                   this.print_param.html_height=intHeight;
-
                 },
 
                 _PrintDivId:null,
@@ -1241,12 +1240,14 @@ e
                 //设置打印的内容innerHTML
                 setPrintHtmlContent:function(content){
                   this._PrintHtml=content;
+
                 },
                 //返回要打印的内容
                 getPrintHtmlContent:function(content){
                     if(this._PrintDivId)this._PrintHtml= document.getElementById(this._PrintDivId).innerHTML;
                     return this._PrintHtml;
                 },
+
 
                 //打印前的准备工作。设置打印参数，及打印内容
                 _printBeforePrint:function(content,taskName){
@@ -1273,10 +1274,14 @@ e
                     // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                     //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
 
+                    // 为满足分页打印而加的。
+  
+                    LODOP.ADD_PRINT_TABLE(p.html_top,p.html_left,p.html_width,p.html_height,content);
 
-                    LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
+                    // LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
+
+
                     // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
-                     console.log("_printBeforePrint",p);
 
                     return LODOP;
                 },
