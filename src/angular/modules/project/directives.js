@@ -1708,7 +1708,6 @@ function customTableToggleSort (modal,utils,requestData) {
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
         // 阻止冒泡
-        console.log(sortParamsWay);
         e.stopPropagation();
         if (sortParamsWay=='desc') {
           $(this).children('i').removeClass('arrow-sort');

@@ -930,10 +930,11 @@ define('main/controllers', ['main/init'], function () {
     // 自定义表格
     function customTableDataController ($scope, utils, requestData) {
 
-      // 切换用户机构
+      // 点击重新排序
       $scope.refreshTable = function (sortRequestUrl,sortItem,customListParams) {
+
         if(sortItem.canSort){
-          if (!customListParams.sortWay||customListParams.sortWay=='asc') {
+          if (!customListParams.sortWay||customListParams.sortWay=='asc'||$scope.listParams.sortBy!==sortItem.propertyKey) {
             customListParams.sortWay='desc';
           }else if (customListParams.sortWay=='desc') {
             customListParams.sortWay='asc';
@@ -954,13 +955,9 @@ define('main/controllers', ['main/init'], function () {
           })
           .catch(function (error) {
           });
+
         }
       };
-
-      // 点击分页请求数据也要带上筛选条件
-      $scope.reGetListData=function(){
-
-      }
     }
 
     angular.module('manageApp.main')
