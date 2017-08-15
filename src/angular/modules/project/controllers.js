@@ -268,7 +268,7 @@ define('project/controllers', ['project/init',
     };
 
     // 用户选择生产批号
-    $scope.choseBatch = function (obj,choisedList,id) {
+    $scope.choseBatch = function (obj,choisedList,id,i) {
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -297,18 +297,6 @@ define('project/controllers', ['project/init',
         });
       }
 
-      // if ($scope.formData.orderMedicalNos) {
-      //   angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-      //     if (data.stockBatchs) {
-      //       for (var i = 0; i < data.stockBatchs.length; i++) {
-      //         if (data.stockBatchs[i].batchNumber)
-      //         { _total += parseInt(data.stockBatchs[i].quantity, 10);
-      //         }
-      //       }
-      //     }
-      //   });
-      // }
-
       // 如果当前批次数量大于或等于计划采购数量
       if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.quantity) {
         // 将计划采购数量赋值给临时对象
@@ -318,9 +306,13 @@ define('project/controllers', ['project/init',
       // 根据药品id将批次存入当前药品formData数据中
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          if (data.relId == id) {
-            $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
-             // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+          // if (data.relId == id) {
+          //   $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
+          //    // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+          // }
+      
+          if (index === i) {
+            $scope.formData.orderMedicalNos[i].stockBatchs.push(_tmp);
           }
         });
       }
@@ -334,7 +326,7 @@ define('project/controllers', ['project/init',
     };
 
     $scope.$on('chosedBatch',function (e,data) {
-        $scope.choseBatch(data.obj,data.choisedList,data.id);
+        $scope.choseBatch(data.obj,data.choisedList,data.id, data.index);
         modal.close();
     });
 
@@ -366,7 +358,8 @@ define('project/controllers', ['project/init',
           var obj ={
               'obj':obj,
               'choisedList':choisedList,
-              'id':id
+              'id':id,
+              'index': listObject['index']
           };
 
           $scope.$emit('chosedBatch',obj);
