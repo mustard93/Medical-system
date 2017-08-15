@@ -133,7 +133,7 @@
               <tbody>
                 <tr ng-repeat="tr in scopeData.orderMedicalNos"
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-
+                    table-item-multiple-btn-top
                     >
                   <!--table-item-multiple-btn-->
                   <!--mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,-->
@@ -148,16 +148,14 @@
                         </i>
                       </span>
                     </span>
-                    <div class="table-item-multiple-btn">
-                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                    modal-scope="this"
-                    modal-data='{"id":"{{tr.id}}"}'
-                    modal-url="#/purchaseInstockOrder/get.html?sourceOrderNo={{scopeData.orderNo}}">查看入库明细
-                    </div>
-                    </div>
 
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}
+                    <div class="table-item-multiple-btn-top" style="display: none">
+
+                      <a class="inline-block btn-receiveItem pr-bg-edit color-white"
+                              tab-name="采购入库单" tab-nav tab-href="#/purchaseInstockOrder/get.html?sourceOrderNo={{scopeData.orderNo}}">查看入库明细</a>
+                    </div>
                   </td><!-- 商品编号 -->
                   <td class="text-left" >
                     <span
