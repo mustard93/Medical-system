@@ -1923,7 +1923,7 @@ function medicalStockMouseOver(utils,$compile){
             if (bt.progress=='0') {
               return;
             }else{
-              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name=库存查询 tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
 
               var btn1=$(tmp);
               // btn1.appendto(moveBtnDiv);
@@ -4038,7 +4038,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
                     // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
 
-                    _handleBtnGroup.css({'position':'fixed','top':_offsetTop+26,'left':leftShift+124}).show();
+                    _handleBtnGroup.css({'position':'fixed','top':_offsetTop+31,'left':leftShift+124}).show();
 
                 }, function () {
                     _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
