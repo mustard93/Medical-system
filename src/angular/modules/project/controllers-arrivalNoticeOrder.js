@@ -465,61 +465,99 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     // 对辅助单位进行排序并生成换算后的显示字符串
     if ($scope.medicalDataList.orderMedicalNos) {
       try {
+        var _data = [];
         angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-
-          if (item.othersPackingAttribute) {
-            // 降序排序，也就是包装最大的在前面
-            item.othersPackingAttribute.sort(function (a, b) {
-              return b['ratio'] - a['ratio'];
-            });
-          } else {
-            item.othersPackingAttribute = [];
-          }
-
-          item.othersPackingAttribute.push({
-            ratio: 1,
-            name: item.packingAttribute.name
+          _data.push({
+            invoiceId: $scope.medicalDataList.id,
+            barcode:item.barcode,
+            quantity: item.quantity,
+            productionBatch: item.productionBatch !== '默认批号' ? item.productionBatch : null,
+            validTill: item.validTill
           });
-
-          item.converResults = $scope.getConverResults(item.quantity, item.othersPackingAttribute, item.packingAttribute.name);
-
-          for (var i = 0; i < item.converResults.length; i++) {
-            (function() {
-              var temp = i;
-              requestData(_barCodeReqUrl,
-                         [{
-                           barcode:item.barcode,
-                           quantity: item.converResults[temp].ratio,
-                           productionBatch: item.productionBatch !== '默认批号' ? item.productionBatch : null,
-                           validTill: item.validTill
-                         }],
-                         'POST', 'params-body')
-              .then(function (results) {
-                if (results[1].code === 200) {
-                  item.converResults[temp].barcode = results[1].data[0].barcode;
-                }
-              })
-            })();
-          }
-
-          // 构建显示换算单位字符串
-          item.converStr = item.quantity + item.unit + ' = ';
-          angular.forEach(item.converResults, function (data, index) {
-            if ((index + 1) !== item.converResults.length) {
-              item.converStr += data.unitQuantity + data.unit + ' + ';
-            } else {
-              item.converStr += data.unitQuantity + data.unit;
-            }
-
-          });
-
         });
+
+        // requestData(_barCodeReqUrl, _data, 'POST', 'params-body')
+        // .then(function (results) {
+        //   if (results[1].code === 200) {
+        //     $scope.barCodeDataList = results[1].data;
+        //     console.dir($scope.barCodeDataList);
+        //   }
+        // })  // http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json
+
+        requestData('http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.barCodeDataList = results[1].data;
+            console.dir($scope.barCodeDataList);
+          }
+        })
+
       }
       catch(err) {
         throw new Error(err);
       }
     }
 
+
+
+
+    // if ($scope.medicalDataList.orderMedicalNos) {
+    //   try {
+    //     angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+    //
+    //       if (item.othersPackingAttribute) {
+    //         // 降序排序，也就是包装最大的在前面
+    //         item.othersPackingAttribute.sort(function (a, b) {
+    //           return b['ratio'] - a['ratio'];
+    //         });
+    //       } else {
+    //         item.othersPackingAttribute = [];
+    //       }
+    //
+    //       item.othersPackingAttribute.push({
+    //         ratio: 1,
+    //         name: item.packingAttribute.name
+    //       });
+    //
+    //       item.converResults = $scope.getConverResults(item.quantity, item.othersPackingAttribute, item.packingAttribute.name);
+    //
+    //       for (var i = 0; i < item.converResults.length; i++) {
+    //         (function() {
+    //           var temp = i;
+    //           requestData(_barCodeReqUrl,
+    //                      [{
+    //                        id: $scope.medicalDataList.id,
+    //                        barcode:item.barcode,
+    //                        quantity: item.converResults[temp].ratio,
+    //                        productionBatch: item.productionBatch !== '默认批号' ? item.productionBatch : null,
+    //                        validTill: item.validTill
+    //                      }],
+    //                      'POST', 'params-body')
+    //           .then(function (results) {
+    //             if (results[1].code === 200) {
+    //               item.converResults[temp].barcode = results[1].data[0].barcode;
+    //             }
+    //           })
+    //         })();
+    //       }
+    //
+    //       // 构建显示换算单位字符串
+    //       item.converStr = item.quantity + item.unit + ' = ';
+    //       angular.forEach(item.converResults, function (data, index) {
+    //         if ((index + 1) !== item.converResults.length) {
+    //           item.converStr += data.unitQuantity + data.unit + ' + ';
+    //         } else {
+    //           item.converStr += data.unitQuantity + data.unit;
+    //         }
+    //
+    //       });
+    //
+    //     });
+    //   }
+    //   catch(err) {
+    //     throw new Error(err);
+    //   }
+    // }
 
     // 打印
     // @param printType 打印类型：preview为预览(默认)，print为直接打印
@@ -551,7 +589,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
             if (item.converResults[i].unitQuantity !== 0) {
               for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
                 // var printScope = new Scope();
-              var printScope = $scope.$new(true);
+                var printScope = $scope.$new(true);
                 printScope.medicalItem=item;//药械信息
                 printScope.converResult=item.converResults[i];//条码信息
                 printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
@@ -576,21 +614,21 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
                 var printHtml =tmpHtml;
 
-              //   var compileFn = $compile(uiCustomHtml.html);
-              // // 传入scope，得到编译好的dom对象(已封装为jqlite对象)
-              // // 也可以用$scope.$new()创建继承的作用域
-              // var complieDom = compileFn(printScope);
-              // var printHtml =complieDom[0].outerHTML;
-              //
-              //
-              //
-              // $("#barCodePrint_divid").append(complieDom);
-              //   console.log("barCodePrint_divid",$("#barCodePrint_divid").html());
+                //   var compileFn = $compile(uiCustomHtml.html);
+                // // 传入scope，得到编译好的dom对象(已封装为jqlite对象)
+                // // 也可以用$scope.$new()创建继承的作用域
+                // var complieDom = compileFn(printScope);
+                // var printHtml =complieDom[0].outerHTML;
+                //
+                //
+                //
+                // $("#barCodePrint_divid").append(complieDom);
+                //   console.log("barCodePrint_divid",$("#barCodePrint_divid").html());
 
                 if(firstPage){
                   firstPage=false;
                 }else{
-                    LODOP.NewPage();
+                  LODOP.NewPage();
                 }
 
                 console.log("printHtml",printHtml);
@@ -768,18 +806,34 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     }
 
     // 用户修改数量后的操作
-    $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
-      if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
-        converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
-        return;
-      } else {
-        var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
-            _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+    $scope.chgThisUnitQuantity = function (unitNumber, index) {
+      // 将已改变的数据对象拷贝一份到临时对象
+      // $scope.originData = angular.copy($scope.mItem.stockBatch);
 
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+      if (unitNumber > $scope.originData[index].unitNumber) {
+
+      } else {
+        var _temp = ($scope.originData[index].unitNumber - unitNumber) * $scope.originData[index].ratios;
+            _temp = parseInt(_temp / $scope.originData[index+1].ratios, 10);
+
+        $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber + _temp;
       }
     }
+
+
+
+    // $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
+    //   if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
+    //     converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
+    //     converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
+    //     return;
+    //   } else {
+    //     var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
+    //         _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+    //
+    //     converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+    //   }
+    // }
   }
 
   angular.module('manageApp.project')
