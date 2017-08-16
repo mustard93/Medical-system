@@ -3830,40 +3830,11 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       });
 
       element.hover(function () {
+        // //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
+        // var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
 
-         //  var thisHeight= -1*($(this).height()-_handleBtnGroup.height());
-         //
-         //  var thisWidth=$(this).width();
-         //
-         //  var  offsetTop= $(this).offset().top;
-         //
-         //  var offsetLeft= $(this).offset().left;
-         //
-         // var documentWidth=$(document).width();
-         //
-         //  console.log("offsetTop",offsetTop,"offsetLeft",offsetLeft,"_handleBtnGroup.width():",_handleBtnGroup.width())
-         //
-         //  _handleBtnGroup.css({
-         //      left:(thisWidth -  _handleBtnGroup.width())+'px',
-         //      top:offsetTop+'px'
-         //  }).show();
-         //
-         //  return;
-
-        // 解决屏幕变小后按钮消失的bug。
-
-        // 兼容有横向滚动条的表格宽度。
-
-          // $(element).parent('table').parent('div')
-
-           // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
-          //  需要判断当前table 的父节点div 是否包含 outside-table-d；
-
-
-        //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
-        var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
-
-        if(el.hasClass('outside-table-d')){
+        // 不用兼容处理，直接查找，一样可以实现不全局查找。
+          if($(element).parents('table').parent('div').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
@@ -3876,13 +3847,6 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           // 计算当前tr距离顶部的高度
           var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
         }
-
-
-
-
-
-        // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
-
         _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
 
       }, function () {
