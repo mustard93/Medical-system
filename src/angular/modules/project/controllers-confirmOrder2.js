@@ -54,7 +54,7 @@ define('project/controllers-confirmOrder2', ['project/init'], function() {
         requestData(_url, data, 'POST')
           .then(function (results) {
             var _data = results[1];
-           //  alertOk(_data.message || '操作成功');
+              //  alertOk(_data.message || '操作成功');
             $scope.goTo({tabHref:'#/confirmOrder/get.html?id='+$scope.formData.id,tabName:'销售单'});
 
           })
@@ -88,6 +88,8 @@ define('project/controllers-confirmOrder2', ['project/init'], function() {
 
       $('#' + fromId).trigger('submit');
     };
+
+
 
     // 全选与全不选
     $scope.isChoiseAll = function (choiseStatus) {
