@@ -1,6 +1,6 @@
 define('project/controllers-announcement', ['project/init'], function() {
   /**
-   * [salesOrderEditCtrl 购需单控制器2]
+   * [salesOrderEditCtrl 消息通知]
    * @method salesOrderEditCtrl
    * @param  {[type]}           $scope          [description]
    * @param  {[type]}           modal           [description]
