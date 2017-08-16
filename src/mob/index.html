@@ -169,7 +169,7 @@
     </ul>
 </div>
 <div style="height: 1rem"></div>
-
+<script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=2.5.2"></script>
 <script src="conf.js"></script>
 <script>
 
@@ -214,12 +214,16 @@
 
     window.onload=function () {
 
-        var orderId=getUrlParam('orderId');
+//        var orderId=getUrlParam('orderId') || "599138d65bac7c30665c09d5";
+//        var orderType= getUrlParam('orderType') || "发货单";
+//        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || "b3bac02cbbbb47679913e315eb45e286";
 
-        var orderType= getUrlParam('orderType');
 
-        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid');
-//        alert("orderId:"+orderId+",orderType:"+orderType+",orderMedicalNoUuid:"+orderMedicalNoUuid);
+        var orderId=getUrlParam('orderId') || "599138d65bac7c30665c09d5";
+        var orderType= getUrlParam('orderType') || "发货单";
+        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || "b3bac02cbbbb47679913e315eb45e286";
+
+
 
         if(!orderId || !orderType || !orderMedicalNoUuid){
             alert("获取参数失败！");
@@ -248,69 +252,47 @@
     function initGoodsInfo(_data) {
 
         var tempdata = JSON.parse(_data);
-        if(tempdata.code !=200){
+        if (tempdata.code != 200) {
             alert(tempdata.msg);
             return;
         }
 
         var data = tempdata.data;
 
-        console.log(">>>>>>>>>>>>>>>>",data[0]);
+        console.log(">>>>>>>>>>>>>>>>", data[0]);
 
+        var goodsTitle = '\n                <h1>' + data.logisticsCenterName + '</h1>\n                <h2>' + data.OrderMedicalNo.name + '质量信息</h2>\n        ';
 
-        var goodsTitle=`
-                <h1>${data.logisticsCenterName}</h1>
-                <h2>${data.OrderMedicalNo.name}质量信息</h2>
-        `;
+        $('goods-title').innerHTML = goodsTitle;
+        var html = '\n            <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">剂型／分类</p>\n                <p class="val">' + (data.OrderMedicalNo.dosageForms || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">规格／型号</p>\n                <p class="val">' + (data.OrderMedicalNo.specificationAndModelType || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">批号</p>\n                <p class="val">' + (data.OrderMedicalNo.productionBatch || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">灭菌批号</p>\n                <p class="val">' + (data.OrderMedicalNo.sterilizationBatchNumber || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">生产日期</p>\n                <p class="val">' + (formatDate(data.OrderMedicalNo.productionDate, 'yyyy-MM-dd') || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">有效期至</p>\n                <p class="val">' + (formatDate(data.OrderMedicalNo.validTill, 'yyyy-MM-dd') || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item" style="width: 100%">\n                <p class="lables">生产企业</p>\n                <p class="val">' + (data.OrderMedicalNo.productEnterpriseName || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item" style="width: 100%">\n                <p class="lables">产品注册证号／备案凭证编号／批准文号</p>\n                <p class="val">' + (data.OrderMedicalNo.medicalRegistryCode || '暂无') + '</p>\n            </div>\n        </div>';
 
-        $('goods-title').innerHTML=goodsTitle;
-        var html=`
-            <div class="item">
-            <div class="goods-info-item">
-                <p class="lables">剂型／分类</p>
-                <p class="val">${data.OrderMedicalNo.dosageForms  || '暂无'}</p>
-            </div>
-            <div class="goods-info-item">
-                <p class="lables">规格／型号</p>
-                <p class="val">${data.OrderMedicalNo.specificationAndModelType  || '暂无'}</p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="goods-info-item">
-                <p class="lables">批号</p>
-                <p class="val">${data.OrderMedicalNo.productionBatch  || '暂无'}</p>
-            </div>
-            <div class="goods-info-item">
-                <p class="lables">灭菌批号</p>
-                <p class="val">${data.OrderMedicalNo.sterilizationBatchNumber  || '暂无'}</p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="goods-info-item">
-                <p class="lables">生产日期</p>
-                <p class="val">${ formatDate(data.OrderMedicalNo.productionDate,'yyyy-MM-dd')  || '暂无'}</p>
-            </div>
-            <div class="goods-info-item">
-                <p class="lables">有效期至</p>
-                <p class="val">${ formatDate(data.OrderMedicalNo.validTill,'yyyy-MM-dd')  || '暂无'}</p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="goods-info-item" style="width: 100%">
-                <p class="lables">生产企业</p>
-                <p class="val">${data.OrderMedicalNo.productEnterpriseName  || data.OrderMedicalNo.productEnterprise.name  || '暂无'}</p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="goods-info-item" style="width: 100%">
-                <p class="lables">产品注册证号／备案凭证编号／批准文号</p>
-                <p class="val">${data.OrderMedicalNo.medicalRegistryCode || '暂无' }</p>
-            </div>
-        </div>`;
-
-        $('goods-info').innerHTML=html;
-
+        $('goods-info').innerHTML = html;
     }
+
+    //创建HTML内容
+    function ceateHtml(arr) {
+        var html = '';
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+            var values = item.value;
+            if (values.length > 1) {
+                html += '<li class="">\n                    <div class="left">\n                        <div class="year">' + item.year + '</div>\n                        <div class="date">' + item.date + '</div>\n                        <div class="point2"></div>\n                    </div>\n                    <div class="right">\n                        <div class="title" style="visibility: hidden">' + item.type + '</div>\n                    </div>\n                </li>';
+            }
+            var className = values.length > 1 ? 'point3' : 'point2';
+            for (var j = 0; j < values.length; j++) {
+                var item2 = values[j];
+
+                if (i == 0) {
+                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">客户名称：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.quantity + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.receiveDate) + '</div></div>\n                        <div class="item2"><div class="lables">出库时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
+                } else {
+                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.usedQuantity[orderMedicalNoUuid] + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
+                }
+            }
+        }
+
+        return html;
+    }
+
 
     //ajax 请求失败回调
     function errorCallback(data) {
@@ -347,66 +329,7 @@
         if (r != null) return decodeURI(r[2]); return null; //返回参数值
     }
 
-    //创建HTML内容
-    function  ceateHtml(arr) {
-        var html='';
-        for(var i=0; i< arr.length; i++){
-            var item=arr[i];
-            var values= item.value;
-            if(values.length>1){
-                html+=`<li class="">
-                    <div class="left">
-                        <div class="year">${item.year}</div>
-                        <div class="date">${item.date}</div>
-                        <div class="point2"></div>
-                    </div>
-                    <div class="right">
-                        <div class="title" style="visibility: hidden">${item.type}</div>
-                    </div>
-                </li>`;
-            }
-            var className = values.length > 1 ?  'point3' :'point2';
-            for (var j=0 ; j<values.length; j++){
-                var item2= values[j];
 
-                if(i==0){
-                    html+=`<li>
-                    <div class="left">
-                        <div class="year ${values.length > 1 ? 'hide':''}">${item.year}</div>
-                        <div class="date ${values.length > 1 ? 'hide':''}">${item.date}</div>
-                        <div class="${className}"></div>
-                        </div>
-                        <div class="right">
-                        <div class="title">${item.type}</div>
-                        <div class="item2"><div class="lables">客户名称：</div> <div class="val">${item2.supplierNameOrCustomerName}</div></div>
-                        <div class="item2"><div class="lables">采购数量：</div><div class="val">${item2.quantity}</div></div>
-                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${formatDate(item2.receiveDate)}</div></div>
-                        <div class="item2"><div class="lables">出库时间：</div><div class="val">${formatDate(item2.inoutDate)}</div></div>
-                    </div>
-                </li>`;
-
-                }else{
-                    html+=`<li>
-                    <div class="left">
-                        <div class="year ${values.length > 1 ? 'hide':''}">${item.year}</div>
-                        <div class="date ${values.length > 1 ? 'hide':''}">${item.date}</div>
-                        <div class="${className}"></div>
-                        </div>
-                        <div class="right">
-                        <div class="title">${item.type}</div>
-                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">${item2.supplierNameOrCustomerName}</div></div>
-                        <div class="item2"><div class="lables">采购数量：</div><div class="val">${item2.usedQuantity[orderMedicalNoUuid]}</div></div>
-                        <div class="item2"><div class="lables">收货时间：</div><div class="val">${formatDate(item2.inoutDate)}</div></div>
-                    </div>
-                </li>`;
-                }
-            }
-
-        }
-
-        return html;
-
-    }
 
     //构造时间轴数据
     function  formatData(_data) {
