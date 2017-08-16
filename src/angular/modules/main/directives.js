@@ -4353,6 +4353,56 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     /**
      * 加入项目
      */
+
+
+    /**
+     * tab导航
+     * 使用方式 :
+     * tab-nav
+     * tab-name: string
+     * tab-href: string
+     * @param $rootScope
+     * @returns {{scope: {tabName: string, tabHref: string}, restrict: string, link: link}}
+     */
+    function  a2($rootScope){
+        return {
+            name:'a2',
+            scope:{
+                url:'@',
+                tabName:'@?',
+                hoverClass:'@?'
+            },
+            restrict: 'E',
+            transclude: true,
+            template:'<span><ng-transclude></ng-transclude></span>',
+            link: function ($scope, element, attrs) {
+
+                if(attrs.className){
+                    element.addClass(attrs.className);
+                }
+
+                element.css('cursor','pointer');
+
+                element.bind('mouseover',function (e) {
+                    element.addClass(attrs.hoverClass);
+                });
+
+                element.bind('mouseout',function (e) {
+                    element.removeClass(attrs.hoverClass);
+                });
+
+                element.bind('click',function(e){
+                    if(attrs.tabName){
+                        $rootScope.goTo({tabName:attrs.tabName,tabHref:attrs.url});
+                    }else{
+                        $rootScope.goTo(attrs.url)
+                    }
+                });
+            }
+        };
+    }
+
+
     angular.module('manageApp.main')
     .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
@@ -4393,4 +4443,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
       .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
+      .directive("a2",['$rootScope',a2])
 });
