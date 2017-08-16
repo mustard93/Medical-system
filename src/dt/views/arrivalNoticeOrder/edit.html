@@ -217,8 +217,11 @@
                      <!-- 请购数量 -->
                      <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left button-left-ccc" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
-                         ng-disabled="tr.quantity<=1">-</button>
+                         <button
+                                 type="button" class="inline-block left button-left-ccc"
+                                 ng-class="{'disabled':(!tr.quantity)}"
+                                 ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
+                                ng-disabled="!tr.quantity">-</button>
                          <span class="inline-block">
                            <input type="number"
                                   min="1"
@@ -240,7 +243,7 @@
                      </td><!-- 数量 -->
                      <td class="text-center" ng-if="!formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                          <span class="inline-block">
                            <input type="number"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
