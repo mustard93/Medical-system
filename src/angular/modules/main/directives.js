@@ -456,7 +456,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       console.log("submitFormValidator.fromId="+fromId);
                       //fromId 主要是兼容以前使用表单id方式提交的用法。
                       if(fromId&&$('#' + fromId).length>0){
-                          $scope.submitFormValidator(fromId);
+                          $('#' + fromId).trigger('submit');
                       }else{
                           $element.trigger('submit');
                       }
