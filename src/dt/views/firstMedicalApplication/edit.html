@@ -364,7 +364,20 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
+                <a ng-if="formData.id"
+                class="color-orange"
+                style="margin-left: 10px;"
+                handle-this-click
+                dialog-title="确认生成?"
+                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
+                dialog-template="pr-dialog-submit.html"
+                http-method="GET"
+                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
+                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
+                request-url="rest/authen/firstMedicalApplication/generateBarcode">
+                重新生成
+                </a>
               </div>
             </div>
 
@@ -465,20 +478,27 @@
                          <!--name="productEnterprise"-->
                          <!--ng-model="formData.productEnterprise" />-->
 
-                  <div ng-if="initFlag" style="position: relative;">
-                          <span
-                                angucomplete=""
-                                placeholder="生产企业名称"
-                                title-field="name"
-                                description-field="formData.productEnterprise.name"
-                                search-fields="{{formData.productEnterprise.name}}"
-                                search-str-class="ipt"
-                                url="rest/authen/productEnterprise/query"
-                                class="inline-block"
-                                ng-model="formData.productEnterprise">
-                          </span>
-                    <span class="receive-item-icon" style="top: 4px;left: 215px;"></span>
-                  </div>
+                         <div ng-if="initFlag" style="position: relative;">
+                                 <span ng-if="!formData.productEnterprise.name"
+                                       angucomplete=""
+                                       placeholder="生产企业名称"
+                                       title-field="name"
+                                       description-field="formData.productEnterprise.name"
+                                       search-fields="{{formData.productEnterprise.name}}"
+                                       search-str-class="ipt"
+                                       url="rest/authen/productEnterprise/query"
+                                       class="inline-block"
+                                       ng-model="formData.productEnterprise">
+                                 </span>
+                                 <input ng-if="formData.productEnterprise.name"
+                                       placeholder="生产企业名称"
+                                       class="inline-block ipt"
+                                       ng-model="formData.productEnterprise.name"
+                                       >
+                                 </input>
+                           <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                           <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
+                         </div>
 
                 </div>
               </div>

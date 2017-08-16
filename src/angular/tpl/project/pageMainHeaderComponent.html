@@ -1,8 +1,8 @@
 <div class="page-main-header-component content-wrapper-heading pdb-m mgb-l relative clearfix">
   <!-- 面包屑导航 -->
-  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl" ng-bind-html="crumbsCode"></div>
+  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl crumbs-" ng-bind-html="crumbsCode"></div>
   <!-- 页头主内容区 -->
-  <div class="pd-c-xxxxxl clearfix">
+  <div class="pd-c-xxxxxl clearfix mar-top-56">
     <!-- 页头主内容上部 -->
     <div class="flex-column mgb-m">
       <div class="flex-item-4 pos-rel-tl inline-block fl-l">
@@ -43,7 +43,7 @@
           <a ng-if="isShowCreateBtn"
              tab-nav tab-href="{{createNewUrl}}"
              tab-name="{{tabName || componentTitle ||isShowCreateBtn}}"
-             ng-href="{{$root.useTab ?  'javascript:;' : createNewUrl}}">
+             ng-href="{{$root.useTab ?  '#' : createNewUrl}}">
               <i></i><span class="text-s">{{isShowCreateBtn}}</span>
           </a>
         </div>
@@ -53,7 +53,7 @@
           <a ng-if="isShowEnterBtn"
              tab-nav tab-href="{{enterNewUrl}}"
              tab-name="{{tabName || componentTitle ||isShowEnterBtn}}"
-             ng-href="{{$root.useTab ?  'javascript:;' : enterNewUrl}}">
+             ng-href="{{$root.useTab ?  '#' : enterNewUrl}}">
               <i></i><span class="text-s">{{isShowEnterBtn}}</span>
           </a>
         </div>
@@ -180,7 +180,7 @@
         <!-- 日期过滤 -->
         <div class="inline-block" ng-if="isShowDateFilter" style="position:relative;top:0px;">
           <span class="color-9 mgl-m" ng-if="_showDateName">{{_showDateName}}</span>
-          <span class="color-9 mgl-m" ng-if="!_showDateName">制单日期：</span>
+          <span class="color-9 mgl-m" ng-if="!_showDateName">单据日期：</span>
           <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
               <input type="text"
                      datepicker

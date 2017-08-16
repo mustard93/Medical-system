@@ -139,9 +139,8 @@
                 <input type="text"
                        class="ipt-new"
                        name="englishName"
-                       required
                        ng-model="formData.englishName" />
-                <span ng-if="!formData.englishName" class="color-red">（必填）</span>
+                <!-- <span ng-if="!formData.englishName" class="color-red">（必填）</span> -->
               </div>
             </div>
 
@@ -250,7 +249,9 @@
                        class="ipt-new-s ipt-new"
                        name="guaranteePeriod"
                        style="width:60px"
-                       ng-model="formData.guaranteePeriod" />
+                       onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                       onkeyup="if(this.value == 0)this.value=''"
+                       ng-model="formData.guaranteePeriod"/>
                 <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
                   <div ng-repeat="date in DateUnit" class="inline-block " style="position:relative;top:-5px;">
                     <label class="radio-inline radio radio-new mgl-s">
@@ -369,13 +370,13 @@
               <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
               <div class="flex-item-10 text-left">
                 <input type="quality"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.quality"/>
               </div>
             </div>
 
-            <!--条形码   -->
-            <div class="flex-column mgt">
+            <!--条形码-器械自动生成 -->
+            <div  ng-if="formData.medicalType == '医疗器械'" class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
 
@@ -385,9 +386,33 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
+                <a ng-if="formData.id"
+                class="color-orange"
+                style="margin-left: 10px;"
+                handle-this-click
+                dialog-title="确认生成?"
+                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
+                dialog-template="pr-dialog-submit.html"
+                http-method="GET"
+                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
+                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
+                request-url="rest/authen/firstMedicalApplication/generateBarcode">
+                重新生成
+                </a>
               </div>
             </div>
+
+            <!--条形码-药品（手动输入）   -->
+            <div  ng-if="formData.medicalType == '药品'" class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
+              </div>
+            </div>
+
 
 
             <!--品牌-->
@@ -396,7 +421,7 @@
               <div class="flex-item-10 text-left">
                 <input type="text"
                        name="brand"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.brand"/>
               </div>
             </div>
@@ -404,16 +429,16 @@
             <!--产地-->
             <div class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
-              <div class="flex-item-10 text-left">
+              <div class="flex-item-10">
                 <input type="text"
                        name="productionPlace"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.productionPlace"/>
               </div>
             </div>
 
             <!--国家器械分类-->
-            <div class="flex-column mgt">
+            <div ng-if="formData.medicalType == '医疗器械'" class="flex-column mgt">
               <label class="flex-item-2 text-right control-label pdr-s">国家器械分类：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
@@ -425,6 +450,32 @@
               </div>
             </div>
 
+            <!--U8计量单位-->
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">U8计量单位：</label>
+              <div class="flex-item-10 text-left">
+                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.u8Unit"
+                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计量单位">
+                </select>
+              </div>
+            </div>
+
+
+            <!--U8计价方式-->
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">U8计价方式：</label>
+              <div class="flex-item-10 text-left">
+                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.u8ChargeType"
+                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计价方式">
+                </select>
+              </div>
+            </div>
 
               <!--<div class="flex-column mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">剂型/管理类别：</label>-->
@@ -487,7 +538,7 @@
                          <!--ng-model="formData.productEnterprise" />-->
 
                   <div ng-if="initFlag" style="position: relative;">
-                          <span
+                          <span ng-if="!formData.productEnterprise.name"
                                 angucomplete=""
                                 placeholder="生产企业名称"
                                 title-field="name"
@@ -498,7 +549,14 @@
                                 class="inline-block"
                                 ng-model="formData.productEnterprise">
                           </span>
-                    <span class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                          <input ng-if="formData.productEnterprise.name"
+                                placeholder="生产企业名称"
+                                class="inline-block ipt"
+                                ng-model="formData.productEnterprise.name"
+                                >
+                          </input>
+                    <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                    <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
                   </div>
 
                 </div>
@@ -534,9 +592,11 @@
               </div>
 
               <div class="flex-column mgt">
+                <!---->
                 <label
                         modal-right="456"
-                        modal-scope="this"
+                        modal-scope="none"
+                        modal-data="{}"
                         modal-url="views/productEnterprise/set-product-dialog.html"
                         class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
               </div>
@@ -959,7 +1019,7 @@
                       </td>
                       <td class="text-left">
                         <div style="position: relative;" ng-init="suppliertmp=supplier">
-                          <span angucomplete=""
+                          <span class="temporary" angucomplete=""
                                 placeholder="供应商名称"
                                 title-field="name"
                                 description-field="suppliertmp.name"

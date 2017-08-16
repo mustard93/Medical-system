@@ -266,6 +266,7 @@
                         <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
+                                 min="1"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -319,6 +320,7 @@
                                         "id":"{{item.relId}}",
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                         "quantity":{{item.quantity}},
+                                        "index":{{$index}},
                                         "choisedBatchList":{{item.stockBatchs}}
                                       }'
                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">
@@ -435,6 +437,7 @@
                         <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
+                                 min="1"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -588,7 +591,7 @@
 
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-          <h1 class="text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3 font-size-14">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
 

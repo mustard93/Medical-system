@@ -20,17 +20,17 @@
             callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="relative">
       <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增资质证照</div>
-      <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.systemPreset">
+      <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.id">
           <h1 class="flex-item-2 text-right pdr-s mgl-s pr-fw-700 mgr-s" style="line-height: 20px;">证照类型</h1>
           <div class="color-white"
-                 style="width:250px;"
+               style="width:100%;"
                  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">{{formData.licenseTypeName}}
           </div>
       </div>
 
 
-        <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="!formData.systemPreset">
-            <label class="flex-item-2 text-right pdr-s mgl-s">证照类型</label>
+        <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="!formData.id">
+            <label class="flex-item-2 text-right pdr-s mgl-s mgt-s">证照类型</label>
             <input type="text"
                    name="code"
                    class="license-text"
@@ -99,7 +99,7 @@
             </div>
         </div>
       <!-- 功能按钮 -->
-      <div class="sales-btn-area-2nd relative">
+      <div class="sales-btn-area-2nd relative" ng-controller="licenseController">
           <div class="btn-area full-width text-center">
           <button ng-if="!formData.id"
                   type="submit"

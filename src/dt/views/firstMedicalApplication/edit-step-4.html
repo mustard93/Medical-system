@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');submitFlag=false"
      alert-error>
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
@@ -119,7 +119,8 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                  ng-click="formData.attachmentsValidFlag=true;formData.finishFlag=true;submitForm('firstMedicalApplication_editForm_step1','submit')">预览申请单
+                  ng-disabled="!submitFlag"
+                  ng-click="formData.attachmentsValidFlag=true;submitForm('firstMedicalApplication_editForm_step1','submit')">预览申请单
           </button>
         </span>
       </div>

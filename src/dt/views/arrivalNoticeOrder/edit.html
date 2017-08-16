@@ -221,6 +221,7 @@
                          ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
                            <input type="number"
+                                  min="1"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
                                   name="quantity{{$index}}"
@@ -232,7 +233,7 @@
                                   invalid-popover="{{!arrivalNoticeOrderForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity || tr.quantity==0}}"
                                   popover-show
                                   is-focus="true"
-                                  popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
+                                  popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"top", "trigger":"manual"}'>
                          </span>
                          <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
                        </div>
@@ -253,7 +254,7 @@
                                   invalid-popover
                                   valid-value="{{!arrivalNoticeOrderForm['quantity'+$index].$valid}}"
                                   popover-show
-                                  popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'>
+                                  popover-options='{"content":"数量不正确", "placement":"top", "trigger":"manual"}'>
                          </span>
                          <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
@@ -335,7 +336,7 @@
        <!-- 其他信息 -->
        <div class="relative">
          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" >
-           <h1 class="text-bold color-3">付款</h1>
+           <h1 class="text-bold color-3 font-size-14">付款</h1>
            <div class="mgt-l">
              <span class="mgr">付款条件：
                <select class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -359,7 +360,7 @@
          </div>
         <!-- 付款 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-          <h1 class="text-bold color-3">运输/仓储</h1>
+          <h1 class="text-bold color-3 font-size-14">运输/仓储</h1>
           <div class="mgt-l">
             <span class="mgr">运输方式：
               <select
@@ -393,7 +394,7 @@
        </div>
          <!-- 备注 -->
          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-           <h1 class="text-bold color-3">备注</h1>
+           <h1 class="text-bold color-3 font-size-14">备注</h1>
            <textarea class="pr-textarea mgt"  maxlength="240"   style="height:92px;" placeholder="备注信息" ng-model="formData.note" cols="5" wrap="hard"></textarea>
 
          </div>
@@ -440,17 +441,24 @@
                   ng-click="submitForm('arrivalNoticeOrderForm','save')">保存
           </button>
         </span>
-        <span ng-if="$root.hasAuthor('来货通知单确认生成')"        >
-          <button
-                  class="pr-btn-create-glodbg mgt"
+        <span ng-if="$root.hasAuthor('来货通知单确认生成')" >
+          <button ng-if="numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode"
+                  handle-this-click
+                  dialog-title="确认生成?"
+                  dialog-content="生成后，将无法修改。确认生成?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
+          </button>
+          <button ng-if="numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
                   ng-disabled="isDisabledNextStep || !formData.salesDepartmentId"
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('arrivalNoticeOrderForm','submit')"
-                  >确定生成
+                  callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
           </button>
         </span>
       </div>

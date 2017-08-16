@@ -1,4 +1,4 @@
-define('project/controllers-salesOrder2', ['project/init'], function() {
+define('project/controllers-needToPurchase', ['project/init'], function() {
   /**
    * [salesOrderEditCtrl 购需单控制器2]
    * @method salesOrderEditCtrl
@@ -8,7 +8,7 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
    */
-  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
+  function needToPurchaseEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
       modal.closeAll();
 
@@ -319,23 +319,10 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
 
       // 详情页待确认订单处理
       $scope.confirmHospitalOrder = function (id,showData) {
-
-
-
           dialogConfirm("", function (formData) {
-
-            console.log(formData);
-
-            // var _obj = {
-            //   'orderDate': formData.orderDate,
-            //   'salesDepartmentId': formData.salesDepartmentId,
-            //   'saleUserId': formData.saleUserId
-            // };
-
             showData.orderDate= formData.orderDate;
             showData.salesDepartmentId=formData.salesDepartmentId;
             showData.saleUserId=formData.saleUserId;
-
 
             if (id) {
               var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
@@ -344,6 +331,9 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
                 if (results[1].code === 200) {
                     //保存确认后的值
                     var _url2='rest/authen/salesOrder/save';
+
+                    // ...
+                    showData.orderStatus = '待处理';
 
                     requestData(_url2, showData, 'POST','parameterBody').then(function (results) {
                         if (results[1].code === 200) {
@@ -398,5 +388,5 @@ define('project/controllers-salesOrder2', ['project/init'], function() {
   }
 
   angular.module('manageApp.project')
-  .controller('salesOrderEditCtrl2', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", salesOrderEditCtrl2]);
+  .controller('needToPurchaseEditCtrl', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", needToPurchaseEditCtrl]);
 });

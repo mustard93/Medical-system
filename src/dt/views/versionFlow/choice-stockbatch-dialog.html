@@ -1,14 +1,13 @@
-    <div class="modal-content right-side-new pr-bg-black4 more-stock"
-         ng-controller="editStockbatchNumberCtrl"
-         ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
-         scope-data="stockBatchList"
-         callback="dialogData.choisedBatchsIdList= getChoisedBatchsId(dialogData.choisedBatchList)"
-         alert-error>
+<div class="modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="editStockbatchNumberCtrl"
+     ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
+     scope-data="stockBatchList"
+     callback="dialogData.choisedBatchsIdList= getChoisedBatchsId(dialogData.choisedBatchList)"
+     alert-error>
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 -
-            {{dialogData.medicalName}}</h1>
+        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
     </div>
     <!-- 过滤条件 -->
     <div class="bb-line-gold pdt-s pdb-s pd-c-xl" style="margin: 10px 0; padding-bottom: 15px;">
@@ -75,26 +74,17 @@
                 <i class=""></i>
             </div>
         </div>
-    </div >
+    </div>
 
-
-
-    <!--  -->
     <div style="height: 85%; overflow-y: scroll;">
+      <table-list list-data="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&isOnlyAvailable=true&warehouseType=正常库"
+                  list-params="listParams"
+                  search-mode="noCaseSensitive"
+                  list-object="dialogData"
+                  search-param="q">
 
-        <!--list-object="curOrder"-->
-
-        <table-list
-            list-data="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&isOnlyAvailable=true&warehouseType=正常库"
-            list-params="listParams"
-            search-mode="noCaseSensitive"
-            list-object="dialogData"
-            search-param="q">
-
-
-
-        <table  class="full-width another-table" >
-            <thead>
+        <table class="full-width another-table" >
+          <thead>
             <tr class="bb-line-gold">
                 <th style="width: 80px;">&nbsp;</th>
                 <th>生产批号</th>
@@ -103,27 +93,21 @@
                 <th>仓库</th>
                 <th>可用量</th>
             </tr>
-            </thead>
-            <tbody class="bg-white">
-
-            <!---->
-
+          </thead>
+          <tbody class="bg-white">
             <tr ng-if="tbodyList.length" ng-repeat="item1 in tbodyList" class="pr-bg-black3 trHover-bg"
                 ng-controller="choseBatchCtrl"
-                ng-class="{'pr-bg-grey3':listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}"
-
-            >
+                ng-class="{'pr-bg-grey3':listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}">
                 <td class="text-center">
                     <!--{{test}}-->
                     <!--ng-disabled 有bug，偶尔出现先 true后false情况下，ng-disabled=false，时，disabled 还是 存在，导致不能执行ng-click选择批号的问题。在span上增加ng-click-->
                     <label class="radio radio-new"
-                      ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id,listObject);"
-                    >
-                        <input type="radio"
+                      ng-click="choiceThis(item1,listObject.choisedBatchList,listObject.id,listObject);">
+                        <!-- <input type="radio"
                                name="medicals"
                                class="default-radio"
-                               ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"
-                               ><i></i>
+                               ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"><i></i> -->
+                        <input type="radio" name="medicals" class="default-radio"><i></i>
                     </label>
                 </td>
                 <td class="text-left color-white" style="height:50px;"> {{item1.productionBatch}}</td>
@@ -132,20 +116,19 @@
                 <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
                 <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
             </tr>
-            </tbody>
+          </tbody>
         </table>
-            <!-- 无数据 -->
-            <div ng-if="!tbodyList.length" class="color-red text-n pdl-l pdt-m">暂无满足此筛选条件的结果。</div>
-            <!-- 数据遍历 -->
-            <div style="clear: both;">
-                <!-- 导航 -->
-                <div class="clearfix"ng-if="tbodyList.length">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
+        <!-- 无数据 -->
+        <div ng-if="!tbodyList.length" class="color-red text-n pdl-l pdt-m">暂无满足此筛选条件的结果。</div>
+        <!-- 数据遍历 -->
+        <div style="clear: both;">
+            <!-- 导航 -->
+            <div class="clearfix"ng-if="tbodyList.length">
+                <div class="fr">
+                    <pagination status="status"></pagination>
                 </div>
             </div>
-
-        </table-list>
+        </div>
+      </table-list>
     </div>
 </div>

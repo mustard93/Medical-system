@@ -734,16 +734,6 @@ function togglePanel () {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
 
-      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
-      if ($attrs.toggleChecked) {
-
-        var toggleChecked=$attrs.toggleChecked;
-
-        if (toggleChecked=="true") {
-            $(element).parents(".panel").children(".panel-body").slideDown(200);
-        }
-      }
-
       $(element).on('click', function (e) {
         e.stopPropagation();
 
@@ -761,6 +751,18 @@ function togglePanel () {
         }
 
       });
+
+      // 扩展用于盘点模块：按货位盘点，已选的货位，打开侧边框后会打开相应货位的panel
+      if ($attrs.toggleChecked) {
+
+        var toggleChecked=$attrs.toggleChecked;
+
+        if (toggleChecked=="true") {
+            // $(element).parents(".panel").children(".panel-body").slideDown(200);
+            $(element).click();
+
+        }
+      }
 
     }
   };
@@ -1694,37 +1696,32 @@ function customTableToggleSort (modal,utils,requestData) {
       var sortItem=$scope.$eval($attrs.sortItem);
       // 请求重新排序接口
       var sortRequestUrl=$attrs.sortRequestUrl;
-
+      // 传入相关查询条件
+      var sortParamsWay=$scope.$eval($attrs.sortParamsWay);
       var count=1;
       // 把需要排序的标题加上排序箭头
       // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
-      if (sortItem.canSort) {
-        $(element).append('<i class="arrow-sort"></i>');
+      if (!sortParamsWay) {
+        sortParamsWay='desc';
       }
 
         // 当点击一个标题字段时，触发方法
       element.on('click',function(e){
         // 阻止冒泡
         e.stopPropagation();
-        if ($('.sort-custom-table').children('i').hasClass('sort-desc')||$('.sort-custom-table').children('i').hasClass('sort-asc')) {
-          $('.sort-custom-table').children('i').removeClass('sort-desc');
-          $('.sort-custom-table').children('i').removeClass('sort-asc');
-          $('.sort-custom-table').children('i').addClass('arrow-sort');
-          count++;
-        }
-
-        // 把当前样式进行改变.
-        if (count%2) {
+        if (sortParamsWay=='desc') {
           $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-asc');
           $(this).children('i').addClass('sort-desc');
-        }else {
+          sortParamsWay='asc';
+        }else if (sortParamsWay=='asc') {
           $(this).children('i').removeClass('arrow-sort');
           $(this).children('i').removeClass('sort-desc');
           $(this).children('i').addClass('sort-asc');
+          sortParamsWay='desc';
         }
-
       });
+
     }//end link
   };
 }
@@ -1908,6 +1905,7 @@ function medicalStockMouseOver(utils,$compile){
       link: function ($scope, $element, $attrs) {
         // var btnArray=[];
         //按钮数量，用于计算弹出菜单的div宽度
+
         var btnCount=0;
         //弹出菜单的div(装两个按钮的div)
         var moveBtnDiv=null;
@@ -1921,10 +1919,11 @@ function medicalStockMouseOver(utils,$compile){
 
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
+            console.log(bt);
             if (bt.progress=='0') {
               return;
             }else{
-              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name=库存查询 tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
 
               var btn1=$(tmp);
               // btn1.appendto(moveBtnDiv);
@@ -1932,7 +1931,6 @@ function medicalStockMouseOver(utils,$compile){
 
             }
         }
-
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -1962,11 +1960,81 @@ function medicalStockMouseOver(utils,$compile){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
         });//mouseleave;
+
+        // // 监听页码变化，如果改变则重新执行方法，获取最新的当前页面上的数据。
+        // $scope.$watch('status.currentPage',function(newVal,oldVal){
+        //   if (newVal&&newVal!==oldVal) {
+        //
+        //   }
+        // })
       }//link
   };
 }
 
+    function medicalStockMouseOverSee(utils,$compile){
+        return{
+            restrict: 'A',
+            link: function ($scope, $element, $attrs) {
+                // var btnArray=[];
 
+                //按钮数量，用于计算弹出菜单的div宽度
+                var btnCount=0;
+                //弹出菜单的div(装两个按钮的div)
+                var moveBtnDivSee=null;
+                //按钮基础数据(mouse-over-buttons-json传入的相关参数，以Jason的数据格式传入)
+                // 把按钮基础数据转化为数组类型
+                var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJsonSee);
+                if(mouseOverButtons && mouseOverButtons.length>0){
+                    moveBtnDivSee=$("<div id='moveBtnDivSee'></div>");
+                    btnCount=mouseOverButtons.length;
+                }
+
+                for(var i=0;i<mouseOverButtons.length;i++){
+                    var bt=mouseOverButtons[i];
+                    if (bt.progress=='0') {
+                        return;
+                    }else{
+                        var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' tab-nav tab-name='"+bt.title+"' tab-href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'>查看入库明细</span></a>";
+
+                        var btn1=$(tmp);
+                        // btn1.appendto(moveBtnDivSee);
+                        moveBtnDivSee.append(btn1);
+
+                    }
+                }
+
+
+                // 鼠标移入显示按钮
+                $($element).mouseenter(function(e){
+                    $element.addClass("bg-c");
+                    if(!moveBtnDivSee)return;
+                    //+document.body.scrollLeft+
+                    moveBtnDivSeeWidth=34*btnCount;
+                    var y =$element.offset().top -document.body.scrollTop;
+                    // var x= utils.getMainBodyWidth();
+                    var x= utils.getwindowWidth()-160-moveBtnDivSeeWidth-document.body.scrollLeft; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
+
+                    //
+                    moveBtnDivSee.css({
+                        "position": "fixed",
+                        "width":moveBtnDivSeeWidth,
+                        "height":$element.height(),
+                        "top": y,
+                        "left": x
+                    });
+
+                    $(this).append(moveBtnDivSee);
+                    $compile($(this).contents())($scope);
+
+                });//mouseenter
+                // 鼠标移出按钮消失
+                $($element).mouseleave(function(){
+                    $(this).removeClass("bg-c");
+                    moveBtnDivSee.remove();
+                });//mouseleave;
+            }//link
+        };
+    }
 // 医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
 /**
    *
@@ -2198,6 +2266,9 @@ function tableItemHandlebtnComponent (utils) {
       var _delBtn = $(element).find('div.table-item-handle-btn');
       // 操作删除层
       var _delArea = $(element).find('div.table-item-confirm-del-area');
+      //查看入库明细
+        var _
+
 
       //绑定点击显示操作删除层
       _delBtn.on('click', function () {
@@ -2613,6 +2684,12 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
               }, true);
             }
 
+            // console.log($attrs.searchFields);
+
+            $attrs.$observe($attrs.searchFields, function (value) {
+              console.log(value);
+            })
+
             require(['project/angucomplete'], function(angucomplete) {
               $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
             });
@@ -2884,62 +2961,39 @@ function flashAddMedical(utils,$timeout) {
   用户自定义表结构显示。
 */
 function customTable() {
+  'use strict';
   return {
     restrict: 'EA',
     replace: true,
-    //  transclude: true,
     templateUrl:  Config.tplPath +'tpl/project/customTable.html',
-    // compile: function() {
-    //            return function (scope, element, attrs,$ctrl,transcludeFn) {
-    //                transcludeFn(scope, function(clone) {
-    //
-    //
-    //                  console.log(clone);
-    //
-    //                    var title= element.find('title');
-    //                    var time = clone.find('.time');
-    //                    var type = clone.find('.type');
-    //                    var text= clone.find('.content');
-    //
-    //                    title.append(time);
-    //                    element.append(type);
-    //                    element.append(text)
-    //                });
-    //            };
-    //        },
-          link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+    link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+      if ($attrs.checkboxShow) {
+          $scope._checkboxShow=$attrs.checkboxShow;
+      }
 
-            //
-            //   $transclude($scope,function(clone){
-            //     console.log(clone);
-            //     $element.append(clone);
-            // })
+      // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
+      if ($attrs.customTableUrl) {
+          $scope._customTableUrl=$attrs.customTableUrl;
+      }
 
-            if ($attrs.checkboxShow) {
-                $scope._checkboxShow=$attrs.checkboxShow;
-            }
-            // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
-            if ($attrs.customTableUrl) {
-                $scope._customTableUrl=$attrs.customTableUrl;
-            }
-            // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
-            if ($attrs.customTableRepeatData) {
-                $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
-            }
+      // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
+      if ($attrs.customTableRepeatData) {
+          $scope._customTableRepeatData=$scope.$eval($attrs.customTableRepeatData);
+      }
 
-            if ($attrs.customListParams) {
-                $scope._customListParams=$scope.$eval($attrs.customListParams);
-            }
+      if ($attrs.customListParams) {
+          $scope._customListParams=$scope.$eval($attrs.customListParams);
+      }
 
-            if ($attrs.customTable) {
-                $scope._customTableName=$attrs.customTable;
-                $scope._customKey=$attrs.customKey;
-            }
+      if ($attrs.customTable) {
+          $scope._customTableName=$attrs.customTable;
+          $scope._customKey=$attrs.customKey;
+      }
 
-            if ($attrs.customTrMenus) {
-                $scope._customTrMenus=$attrs.customTrMenus;
-            }
-          }
+      if ($attrs.customTrMenus) {
+          $scope._customTrMenus=$attrs.customTrMenus;
+      }
+    }
   };
 }
 
@@ -2970,6 +3024,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         $($element).mouseenter(function(e){
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          // 如果没有配置菜单，就直接返回，不执行下面的操作。
+          if (!bottomButtonList.length) {
+            return;
+          }
           var dataObj=$scope[$attrs.businessData];
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
@@ -3801,7 +3859,11 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
            // 修改之前的条件、 if ($('div.outside-table-d').hasClass('outside-table-d')) {
           //  需要判断当前table 的父节点div 是否包含 outside-table-d；
 
-        if($(element).parent('table').parent('.outside-table-d').hasClass('outside-table-d')){
+
+        //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
+        var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
+
+        if(el.hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
           var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
@@ -3814,6 +3876,10 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           // 计算当前tr距离顶部的高度
           var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
         }
+
+
+
+
 
         // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
 
@@ -3897,6 +3963,167 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     }
   };
 }
+
+
+    function tableItemMultipleBtnTop (utils, requestData, alertError) {
+        'use strict';
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function (scope, element, attrs) {
+
+                $(element).css({
+                    position: 'relative'
+                });
+
+
+                // 操作按钮组
+                var _handleBtnGroup = $(element).find('div.table-item-multiple-btn-top');
+                // 删除按钮
+                var _delBtn = $(element).find('div.del-details-btn');
+                // 其他操作按钮
+                var _handleBtn = $(element).find('div.other-handle-btn');
+                // 取消删除按钮
+                var _cancelDel=$(element).find('.hide-this-area');
+
+
+
+                // 绑定点击显示操作删除层
+                _delBtn.on('click', function () {
+                    $('.del-confirm-area').show();
+                });
+
+                // 绑定点击显示其他操作层
+                _handleBtn.on('click', function () {
+
+                    // 解决bug：1013 品种管理中 选择一个商品的菜单默认显示不完整，需要用户手动下拉展开菜单。用户使用不方便。$('.content-wrapper-main')以该容器的高度来作为判断依据，而不是document。
+                    var _offsetTop = $(element).offset().top-$('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
+                    $(this).find('.handle-area-show').show(0,function () {
+                        var handleAreaHeight=$(this).height();
+                        //如果显示不下 就向上显示菜单
+                        // console.log($('.content-wrapper-main'));
+                        if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
+                            $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
+                        }else{
+                            $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
+                        }
+                    });
+
+                });
+
+                // 绑定取消按钮事件
+                $(element).find('.hide-this-area').on('click', function (e) {
+                    e.stopPropagation();
+                    $(element).find('div.del-confirm-area').hide();
+                });
+
+                element.hover(function () {
+
+
+
+                    //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
+                    var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
+
+                    if(el.hasClass('outside-table-d')){
+
+                        // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
+                        var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+                        // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
+                        var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
+                    }else {
+                        // 没有横向滚动条的情况下
+                        // 向左的偏移量=当前元素的宽度-本身按钮的宽度
+                        var leftShift=$(element).width()-_handleBtnGroup.width();
+                        // 计算当前tr距离顶部的高度
+                        var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
+                    }
+
+
+
+
+
+                    // _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':145+'rem'}).show();
+
+                    _handleBtnGroup.css({'position':'fixed','top':_offsetTop+31,'left':leftShift+124}).show();
+
+                }, function () {
+                    _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
+
+                    $('.del-confirm-area').hide();
+                    $('.handle-area-show').removeClass('handle-area-up').removeClass('handle-area-down').hide();
+                });
+
+                // 执行删除操作
+                // 扩展删除方法，使id值支持单值和数组两种方式
+                // 增加第4个参数dataType，若不传入则表示单个id值传入，若设置且值为array,则将传入的id字符串包装成数组
+                scope.handleDelDetails = function (id, requestUrl, callbackUrl, parameterType, dataType) {
+                    // 如果dataType参数为空,传入单个值
+                    try {
+                        if (id && requestUrl && callbackUrl) {
+                            // 定义数据对象
+                            var _data = null;
+
+                            // 定义发送数据
+                            if (!dataType || dataType !== 'array') {
+                                _data = {
+                                    'id': id
+                                }
+                            } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+                                _data = id.split(',');
+                            }
+                            //提交数据类型，默认为json, 如果传值就用表单key-value
+                            var _parameterType = null;
+                            if(!parameterType){
+                                _parameterType ='parameter-body';
+                            }
+
+                            // 发送请求
+                            requestData(requestUrl, _data, 'POST', _parameterType)
+                                .then(function (results) {
+                                    if (results[1].code == 200) {
+                                        utils.goTo(callbackUrl);
+                                    }
+                                })
+                                .catch(function (error) {
+                                    if (error) { alertError(error); }
+                                });
+                        }
+                    }
+                    catch (err) {
+                        if (err) { throw new Error(err); }
+                    }
+
+
+
+                    // if (!dataType || dataType !== 'array') {
+                    //   if (id && requestUrl && callbackUrl) {
+                    //     var _url = requestUrl + '?id=' + id;
+                    //     requestData(_url, {}, 'POST')
+                    //     .then(function (results) {
+                    //       if (results[1].code == 200) {
+                    //         utils.goTo(callbackUrl);
+                    //       }
+                    //     })
+                    //     .catch(function (error) {
+                    //       if (error) { alertError(error); }
+                    //     });
+                    //   }
+                    // } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+                    //   var _dataArr = id.split(',');
+                    //   requestData(_url, _dataArr, 'POST')
+                    //   .then(function (results) {
+                    //     utils.goTo(callbackUrl);
+                    //   })
+                    //   .catch(function (error) {
+                    //     if (error) { alertEorr(error || '出错'); }
+                    //   });
+                    // }
+
+                };
+
+            }
+        };
+    }
 function changeImg () {
   'use strict';
   return {
@@ -4019,7 +4246,8 @@ function  dtRightSide(utils) {
 
 angular.module('manageApp.project')
 
-  .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
+    .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
+    .directive("tableItemMultipleBtnTop", ['utils', 'requestData', 'alertError', tableItemMultipleBtnTop])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", ['$rootScope','$sce',pageMainHeaderComponent])
   .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
@@ -4091,6 +4319,7 @@ angular.module('manageApp.project')
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
+    .directive("medicalStockMouseOverSee",["utils","$compile",medicalStockMouseOverSee])
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
     .directive("dtRightSide",["utils",dtRightSide])

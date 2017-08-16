@@ -1,5 +1,5 @@
 <div class="salesOrder-edit"
-     ng-controller="salesOrderEditCtrl2"
+     ng-controller="needToPurchaseEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');checkData();"
@@ -64,11 +64,14 @@
                 </span>
 
               </p>
-              <em style="display:block" class="mgb-s color-red">
-                  <i ng-if="customerInfo.msg" class="warning-icon"></i>
+
+              <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
+                  <i class="warning-icon"></i>
                   {{customerInfo.msg}}
-                  <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                  <span ng-if="formData.customerId" style="margin-left: 15px;">
+                    <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/get.html?id={{formData.customerId}}" class="color-orange">查看详情</a></span>
               </em>
+
             </div>
             <div class="inline-block" ng-if="formData.orderSource=='线上订单'">
               <p class="mgb-s">客户名</p>
@@ -171,8 +174,8 @@
                       ng-init="orderMedicalNoIds.push(tr.relId)"
                       ng-controller="SalesOrderDetailsController">
                     <td class="text-center">{{tr.code}}
-                      <div class="table-item-handle-btn">
-                        <div class="table-item-confirm-del-area bg-white" >
+                      <div class="table-item-handle-btn" ng-show="formData.orderSource != '线上订单'">
+                        <div class="table-item-confirm-del-area bg-white">
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
@@ -192,40 +195,40 @@
                                          template-url="tpl/showInfoModalLendOrder"
                                          info-object="{{tr}}"
                                          info-title="商品信息">
-                        </show-info-modal>.
+                        </show-info-modal>
                       </span>
                       <!-- {{tr.approvedName}} -->
-                      <p class="mgb-s color-red" style="line-height: 26px; height:26px;">
-                        <i ng-if="tr.info.msg" class="warning-icon"></i>
+
+                      <p ng-if="tr.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                        <i class="warning-icon"></i>
                         {{tr.info.msg}}
-                        <span ng-if="tr.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                        <span style="margin-left: 15px;">
+                          <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>
+                        </span>
                       </p>
                     </td><!-- 商品全名 -->
                     <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">
-                      <div class="order-goods-num">{{tr.quantity}}
-                      </div>
-                    </td><!-- 数量 -->
+                    <td class="text-center" ng-if="formData.orderSource=='线上订单'"><div class="order-goods-num">{{tr.quantity}}</div></td><!-- 数量 -->
                     <td class="text-center" ng-if="formData.orderSource!='线上订单'">
-                      <div class="order-goods-num">{{tr.quantity}}
-                        <!--<button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>-->
-                        <!--<span class="inline-block">-->
-                          <!--<input type="number"-->
-                                 <!--name="quantity{{$index}}"-->
-                                 <!--class="inline ipt pr-ipt-60 text-center"-->
-                                 <!--style="width:60px;"-->
-                                 <!--ng-model="tr.quantity"-->
-                                 <!--required-->
-                                 <!--ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"-->
-                                 <!--ng-pattern="/^\+?[1-9][0-9]{0,5}$/"-->
-                                 <!--invalid-popover-->
-                                 <!--valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"-->
-                                 <!--popover-show-->
-                                 <!--popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>-->
-                        <!--</span>-->
-                        <!--<button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>-->
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="number"
+                                 name="quantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center"
+                                 style="width:60px;"
+                                 ng-model="tr.quantity"
+                                 required
+                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
                     </td><!-- 数量 -->
 
@@ -366,6 +369,7 @@
             </div>
           </div>
         </div>
+
       <!-- 其他信息 -->
       <div class="relative bg-white">
         <div class="bt-line flex-column">
@@ -417,7 +421,7 @@
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component> -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l top-gap">
-          <h1 class="text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3 font-size-14">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
       </div>

@@ -114,6 +114,17 @@
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
               <span ng-if="numberingPolicy=='auto'" class="mgr">单据日期：<em class="color-3">{{formData.orderDate || '暂无' | date : 'yyyy-MM-dd'}}</em></span>
+              <span class="inline-block relative mgr-l" ng-if="numberingPolicy!='auto'">
+                   <span>单据日期：</span>
+                   <input ng-if="initFlag" type="text"
+                          datepicker
+                          class="ipt color-3"
+                          style="width:120px;"
+                          ng-readonly="true"
+                          placeholder=""
+                          ng-model="formData.orderDate" />
+                         <span class="date-icon"></span>
+                 </span>
               <span class="mgr-l">审核人：<em class="color-3">{{'暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
@@ -180,7 +191,7 @@
                   table-item-handlebtn-component>
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
-                    <div class="table-item-confirm-del-area bg-white">
+                    <div class="table-item-confirm-del-area bg-white" style="height:100px;">
                       <p class="bb-line color-red pd-v">确认删除本条数据?</p>
                       <p class="pdt">
                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
@@ -212,6 +223,7 @@
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1; item.totalTaxPrice = item.quantity * item.strike_price;" ng-disabled="item.quantity==1">-</button>
                     <span class="inline-block">
                       <input type="number"
+                             min="1"
                              class="ipt pr-ipt-60 text-right"
                              style="width:60px;"
                              name="quantity{{$index}}"
@@ -258,8 +270,8 @@
       </div>
       <!-- 其他信息 -->
       <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
-        <div class='mgb'>
-            <h1>备注</h1>
+        <div>
+            <h1 class="color-3 font-size-14" style="font-weight:bold;">备注</h1>
             <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
           </div>
       </div>

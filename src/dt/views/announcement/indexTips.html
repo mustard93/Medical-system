@@ -1,0 +1,39 @@
+<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb"style="margin-right: 40px;"
+    ng-init="timestamp = 1000"
+    ajax-url="rest/authen/announcement/queryOfPublish?pageNo=1&pageSize=5&timestamp={{timestamp}}"
+    scope-data="msgList">
+
+    <header class="text-n color-3 text-bold">通知公告
+      <center style="margin-top: -20px; height: 22px; ">
+      <sapn ng-if="msgList.length"  class="color-orange" style="font-weight: normal; font-size: 12px;" >
+            {{msgList[0].title}}
+       </sapn>
+      </center>
+        <span ng-init="showMore=false;" class="tools pull-right" style="margin-top: -25px;">
+            <a ng-click="showMore=!showMore;" href="javascript:;" class="fa fa-chevron-down" toggle-panel=""></a>
+        </span>
+        <span ng-if="showMore" class="tools pull-right" style="margin-top: -25px;">
+            <a ng-click="timestamp=1*timestamp+1" href="javascript:;" class="fa fa-refresh"></a>
+        </span>
+        <span ng-if="showMore" class="tools pull-right" style="margin-top: -25px;">
+            <a tab-nav tab-name="通知公告" tab-href="#/announcement/query.html" class="fa color-orange">更多...</a>
+        </span>
+    </header>
+    <div class="panel-body" style="padding: 15px 0px 0px; display: none;"
+    >
+        <!--msgList::{{msgList}}-->
+
+        <ul class="index-msg-list">
+            <li ng-repeat="item in msgList track by $index">
+                <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" style="color: #333333;">
+                <p class="flex-column">
+                        <span class="flex-item-9 text-left color-orange ">{{item.title}}<em ng-if="$index<3" class="color-red">NEW</em></span>
+                        <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="flex-item-1 text-right ng-binding">{{item.salesDepartmentName}}</span>
+                </p>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>

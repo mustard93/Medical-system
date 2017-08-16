@@ -49,7 +49,7 @@
         <div class="inline-block mgr">
           <div class="inline-block">
              <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:89px;">
-               <div class="inline-block logistics-center"></div>
+               <div class="inline-block business-type logistics-center"></div>
                <div class="inline-block">
                  <p class="mgb-s">业务类型</p>
                  <p class="text-m color-3">
@@ -90,10 +90,11 @@
                     {{formData.customer.businessApplication.businessStatus}}
                   </em>
 
-                  <em style="display: block;" class="mgb-s color-red">
-                    <i ng-if="customerInfo.msg" class="warning-icon"></i>
+                  <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
+                    <i class="warning-icon"></i>
                     {{customerInfo.msg}}
-                    <span ng-if="customerInfo.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
+                    <span ng-if="formData.customerId" style="margin-left: 15px;">
+                    <a tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/get.html?id={{formData.customerId}}" class="color-orange">查看详情</a></span>
                   </em>
 
                 </div>
@@ -241,11 +242,10 @@
                       </div>
                     </td><!-- 商品编号 -->
                     <td class="text-left" >
-                      <span
-                           class="color-orange cur-pot lend-order-goods-info"
-                           ng-init="showInfoArea=false"
-                           ng-mouseenter="showInfoArea=true"
-                           ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                      <span class="color-orange cur-pot lend-order-goods-info"
+                            ng-init="showInfoArea=false"
+                            ng-mouseenter="showInfoArea=true"
+                            ng-mouseleave="showInfoArea=false">{{item.approvedName}}
                         <show-info-modal ng-show="showInfoArea"
                                          get-data-type="local"
                                          template-url="tpl/showInfoModalLendOrder"
@@ -253,15 +253,13 @@
                                          info-title="商品信息">
                         </show-info-modal>
                       </span>
-                    <!-- </br>
-                      <em class="color-red">该商品有资质已过期，禁止交易</em> -->
-
-                      <em  style="display: block;" class="mgb-s color-red">
-                        <i ng-if="item.info.msg" class="warning-icon"></i>
+                      <p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                        <i class="warning-icon"></i>
                         {{item.info.msg}}
-                        <span ng-if="item.info.msg" style="margin-left: 15px;"><a ng-click="$root.goTo('')" class="color-orange">查看详情</a></span>
-                      </em>
-
+                        <span style="margin-left: 15px;">
+                          <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
+                        </span>
+                      </p>
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -271,6 +269,7 @@
                         <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
+                                 min="1"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -302,7 +301,6 @@
                                class="in_ipt"
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
-
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
                         <input type="hidden" ng-model="batch.id">
@@ -321,7 +319,8 @@
                                         "id":"{{item.relId}}",
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                         "quantity":{{item.quantity}},
-                                        "choisedBatchList":{{item.stockBatchs}}
+                                        "choisedBatchList":{{item.stockBatchs}},
+                                        "index": {{$index}}
                                       }'
                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                         </i>
@@ -354,7 +353,8 @@
                     </td><!-- 报价 -->
                     <td class="text-center">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!-- 价税合计 -->
                     <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
-                      <div style="margin-top:12px;margin-bottom:12px;">{{item.validTill| date : 'yyyy-MM-dd'}}</div>
+                      <!-- <div style="margin-top:12px;margin-bottom:12px;">{{item.validTill | date : 'yyyy-MM-dd'}}</div> -->
+                      <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
                   </tr>
                 </tbody>
@@ -380,7 +380,7 @@
       <!-- 其他信息 -->
       <div class="relative">
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" >
-          <h1 class="text-bold color-3">付款</h1>
+          <h1 class="text-bold color-3 font-size-14">付款信息</h1>
           <div class="mgt-l">
             <span class="mgr">付款条件：
               <select class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -445,7 +445,7 @@
 
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-          <h1 class="text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3 font-size-14">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" onkeydown="if(window.event.keyCode==13) return true;"></textarea>
         </div>
 
@@ -609,7 +609,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -622,7 +622,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -635,7 +635,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
@@ -650,32 +650,14 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
       </div>
 
-      <div ng-if="formData.orderBusinessType=='普通销售'"
-           class="price-area relative fl-r mgr-l"
-           style="font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
-
-      </div>
-
-      <div ng-if="formData.orderBusinessType=='直发销售'"
-           class="price-area relative fl-r mgr-l"
-           style="font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
-      </div>
+      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>
+      <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>
     </div>
   </form>
 </div>
