@@ -225,7 +225,7 @@ define('project/controllers-salesOrder', ['project/init'], function() {
         if ($scope.submitForm_type == 'submit') {
           $scope.formData.validFlag = true;
         }
-        $('#' + fromId).trigger('submit');
+        $scope.submitFormValidator(fromId);
 
         // addDataItem_opt.submitUrl='';
         // $scope.formData.orderMedicalNos.push($scope.addDataItem);

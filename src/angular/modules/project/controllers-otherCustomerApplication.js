@@ -182,7 +182,7 @@ define('project/controllers-otherCustomerApplication', ['project/init'], functio
        if ($scope.submitForm_type == 'submit') {
          $scope.formData.validFlag = true;
        }
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
     };
 
     $scope.submitFormAfter = function (_url) {

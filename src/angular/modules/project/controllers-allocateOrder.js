@@ -108,7 +108,7 @@ define('project/controllers-allocateOrder', ['project/init'], function() {
         $scope.formData.validFlag = true;
       }
 
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
     };
 
     // 全选与全不选
