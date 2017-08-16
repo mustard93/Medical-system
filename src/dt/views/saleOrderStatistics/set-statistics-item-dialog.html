@@ -7,7 +7,7 @@
         <div class="flex-column mgt relative " >
             <label class="flex-item-2 text-right control-label pdr-s">客户</label>
             <span angucomplete-supplier
-
+                  ng-if="!cacheObject.customerAddress.title"
                   placeholder=""
                   title-field="name"
                   search-fields="{{cacheObject.customerAddress.name}}"
@@ -17,8 +17,18 @@
                   class="inline-block text-s" style="height:28px;">
             </span>
 
-
-
+            <span ng-if="cacheObject.customerAddress.title"
+                   angucomplete-supplier
+                   placeholder=""
+                  class="inline-block text-s"
+                   title-field="name"
+                   search-fields="{{cacheObject.customerAddress.name}}"
+                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
+                   ng-model="cacheObject.customerAddress"
+                   ng-model-id="filterObject.customerId"
+            >
+            </span>
+            <span ng-if="cacheObject.customerAddress.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.customerAddress={};"></span>
             {{filterObject.customerName}}
         </div>
         <div class="flex-column mgt">
@@ -113,6 +123,7 @@
                 <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
                 <div class="flex-item-10 text-left">
                     <span angucomplete-supplier
+                          ng-if="!cacheObject.medicalStock.title"
                           placeholder=""
                           title-field="name"
                           search-fields="{{cacheObject.medicalStock.name}}"
@@ -121,6 +132,17 @@
                           ng-model-id="filterObject.medicalApprovedName"
                           class="inline-block text-s" style="height:28px;">
                     </span>
+                    <span angucomplete-supplier
+                          ng-if="cacheObject.medicalStock.title"
+                          placeholder=""
+                          title-field="name"
+                          search-fields="{{cacheObject.medicalStock.name}}"
+                          url="rest/authen/medicalStock/query"
+                          ng-model="cacheObject.medicalStock"
+                          ng-model-id="filterObject.medicalApprovedName"
+                          class="inline-block text-s" style="height:28px;">
+                    </span>
+                    <span ng-if="cacheObject.medicalStock.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.medicalStock={};"></span>
                 </div>
             </div>
         <!--商品编码-->
