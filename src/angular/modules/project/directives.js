@@ -2684,6 +2684,12 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
               }, true);
             }
 
+            // console.log($attrs.searchFields);
+
+            $attrs.$observe($attrs.searchFields, function (value) {
+              console.log(value);
+            })
+
             require(['project/angucomplete'], function(angucomplete) {
               $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
             });

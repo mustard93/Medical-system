@@ -353,7 +353,8 @@
                     </td><!-- 报价 -->
                     <td class="text-center">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!-- 价税合计 -->
                     <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
-                      <div style="margin-top:12px;margin-bottom:12px;">{{item.validTill | date : 'yyyy-MM-dd'}}</div>
+                      <!-- <div style="margin-top:12px;margin-bottom:12px;">{{item.validTill | date : 'yyyy-MM-dd'}}</div> -->
+                      <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
                   </tr>
                 </tbody>
@@ -608,7 +609,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -621,7 +622,7 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000  || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
@@ -634,7 +635,7 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
@@ -649,32 +650,14 @@
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             formData.totalPrice>100000 || quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
                 ng-click="submitForm('confirmOrder_editForm','submit')">提交
         </button>
 
       </div>
 
-      <div ng-if="formData.orderBusinessType=='普通销售'"
-           class="price-area relative fl-r mgr-l"
-           style="font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
-
-      </div>
-
-      <div ng-if="formData.orderBusinessType=='直发销售'"
-           class="price-area relative fl-r mgr-l"
-           style="font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-        </em>
-      </div>
+      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>
+      <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>
     </div>
   </form>
 </div>
