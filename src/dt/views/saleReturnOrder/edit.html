@@ -238,12 +238,12 @@
                 <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
                 <td class="text-center">
                   <div class="order-goods-num">
-                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>
+                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-class="{'disabled':(!item.quantity)}" ng-disabled="!item.quantity">-</button>
                     <span class="inline-block" >
                       <input type="number"
                              min="1"
                              style="width:60px;"
-                             class="ipt pr-ipt-60 text-right"
+                             class="ipt pr-ipt-60 text-center"
                              name="quantity{{$index}}"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos);"
                              ng-model="item.quantity"
