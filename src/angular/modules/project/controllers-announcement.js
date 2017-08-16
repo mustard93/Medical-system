@@ -1,4 +1,4 @@
-define('project/controllers-salesOrder2', ['project/init'], function() {
+define('project/controllers-announcement', ['project/init'], function() {
   /**
    * [salesOrderEditCtrl 购需单控制器2]
    * @method salesOrderEditCtrl
