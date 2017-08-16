@@ -447,6 +447,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       $element.trigger('submit');
                   }
 
+
+                  /**
+                    推荐调用：提交表兼容模式，支持传人表单id，用于多个表单情况。
+                    author liumingquan  date:2017-08-11
+                  */
+                  $scope.submitFormValidator=function(fromId){
+                      console.log("submitFormValidator.fromId="+fromId);
+                      //fromId 主要是兼容以前使用表单id方式提交的用法。
+                      if(fromId&&$('#' + fromId).length>0){
+                          $('#' + fromId).trigger('submit');
+                      }else{
+                          $element.trigger('submit');
+                      }
+                  }
+
                   // 保存  type:save-草稿,submit-提交订单。
                   function goToFN(key,obj) {
                     if(!key||!obj)return;
@@ -1783,9 +1798,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 if($attrs.ngModelId||$attrs.ngModelData){
                     $scope.$watch("ngModel", function(value) {
                         if(!value)return;
-                            if(!$scope.ngModelId){
-                                $scope.ngModelId=[];
-                            }
+
                         $scope.ngModelId=value.id;
 
                         $scope.searchStr=   value.data.name;
@@ -3983,9 +3996,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
           var _test = $(document).height() - $(element).offset().top;
 
-
-
           if (_test < 500) {
+
             console.log(_test);
           }
 
@@ -3997,6 +4009,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
 
+          // 初始运行一次该方法。
+          resetInfoModel();
+
+          // 重新移入当前元素后，还要重新设置显示
+          element.parents('td').hover(function () {
+            // 调用一次判断显示模态框位置的方法。
+            resetInfoModel();
+          });
+
+          // 此方法解决有关有滚动条时，商品通用名移入显示模态框遮挡问题。
+          function resetInfoModel(){
+            // 获取当前弹出层元素的高度值和宽度以及当前元素距离顶部距离
+            var _eleHeight = angular.element(element).height();
+
+            // 当前弹出层元素的父元素距离body底部和右边的距离以及该父元素本身的宽度和高度
+            var _eleBottom =$(element).parents('table').parent('div').offset().top+$(element).parents('table').parent('div').height()-$(element).parents('td').offset().top;
+
+            var _top=$(element).parents('table').parent('div').offset().top-$(element).parents('td').offset().top;
+            var _left=$(element).parents('table').parent('div').offset().left-$(element).parents('td').offset().left;
+            console.log(_eleBottom);
+            // 如果父元素table的父元素div有outside-table-d这个类，说明会出现滚动条，则就要控制模态框显示的形式
+            if ($(element).parents('table').parent('div').hasClass('outside-table-d')) {
+              console.log(_top);
+              console.log(_left);
+              // 如果显示不下，就要向上显示
+              if (_eleBottom < _eleHeight) {
+                $(element).parents('table').css({'min-height':angular.element(element).height()+10});
+                $(element).css({'top':_top,'left':_left});
+                $(element).find('div.arrow-icon').css({'top': '90%'});
+              }
+
+            }
+          }
 
         }
       };
