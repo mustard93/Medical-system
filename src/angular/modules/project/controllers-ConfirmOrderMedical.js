@@ -49,6 +49,28 @@ define('project/controllers-ConfirmOrderMedical', ['project/init'], function() {
       }
     };
 
+    // 总价计算方法
+    $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+          // 如果订单类型为普通销售
+          if (orderBusinessType === '普通销售' && item.stockBatchs && item.handleFlag) {
+            var _tmp = 0;
+            for (var i = 0; i < item.stockBatchs.length; i++) {
+              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
+            }
+            _total += _tmp;
+          }
+          //如果订单类型是直运销售
+          if (orderBusinessType === '直运销售' && item.handleFlag) {
+            _total += item.quantity * item.strike_price * (item.discountRate / 100);
+          }
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
   }
 
   angular.module('manageApp.project')
