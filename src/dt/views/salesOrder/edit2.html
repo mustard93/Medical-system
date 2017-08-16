@@ -213,7 +213,7 @@
                     <td class="text-center" ng-if="formData.orderSource=='线上订单'"><div class="order-goods-num">{{tr.quantity}}</div></td><!-- 数量 -->
                     <td class="text-center" ng-if="formData.orderSource!='线上订单'">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                         <span class="inline-block">
                           <input type="number"
                                  name="quantity{{$index}}"

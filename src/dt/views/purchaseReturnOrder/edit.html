@@ -220,11 +220,11 @@
                 <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
                 <td class="text-center">
                   <div class="order-goods-num">
-                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1; item.totalTaxPrice = item.quantity * item.strike_price;" ng-disabled="item.quantity==1">-</button>
+                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1; item.totalTaxPrice = item.quantity * item.strike_price;" ng-class="{'disabled':(!item.quantity)}" ng-disabled="!item.quantity">-</button>
                     <span class="inline-block">
                       <input type="number"
                              min="1"
-                             class="ipt pr-ipt-60 text-right"
+                             class="ipt pr-ipt-60 text-center"
                              style="width:60px;"
                              name="quantity{{$index}}"
                              ng-init=" item.totalTaxPrice = item.quantity * item.strike_price;"

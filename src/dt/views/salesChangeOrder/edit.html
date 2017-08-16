@@ -261,7 +261,7 @@
                  <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
                  <td class="text-center" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
-                     <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1; updateMedcalInfo($index,tr);" ng-disabled="tr.quantity==1">-</button>
+                     <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1; updateMedcalInfo($index,tr);" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                      <span class="inline-block">
                           <input type="number"
                                  min="1"
