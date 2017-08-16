@@ -71,7 +71,7 @@ define('project/controllers-confirmOrder2', ['project/init'], function() {
     //   if ($scope.submitForm_type == 'save') {
     //     $scope.formData.validFlag = false;
     //   }
-    //   $('#' + fromId).trigger('submit');
+    //   $scope.submitFormValidator(fromId);
     // };
     $scope.submitForm = function(fromId, type) {
 
@@ -86,7 +86,7 @@ define('project/controllers-confirmOrder2', ['project/init'], function() {
         $scope.formData.validFlag = true;
       }
 
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
     };
 
 

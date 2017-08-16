@@ -159,7 +159,7 @@ define('project/controllers-lendOrder', ['project/init'], function() {
 
            }
 
-           $('#' + fromId).trigger('submit');
+           $scope.submitFormValidator(fromId);
        };
 
 

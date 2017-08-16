@@ -45,7 +45,7 @@ define('project/controllers-announcement', ['project/init'], function() {
            $scope.formData.validFlag = false;
           }
 
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
 
       };
 

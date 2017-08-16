@@ -30,7 +30,7 @@ define('project/controllers-businessScope', ['project/init'], function() {
               $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
 
           }
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
 

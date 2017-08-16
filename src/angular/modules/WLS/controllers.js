@@ -174,7 +174,7 @@ define('WLS/controllers', ['WLS/init'], function() {
         // 保存 type:save-草稿,submit-提交订单。
         $scope.submitForm = function(fromId, type) {
             console.log(">>>>>>>>>>>>>>",$scope.goodsOwner);
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
 

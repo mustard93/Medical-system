@@ -190,7 +190,7 @@ define('project/controllers-requestPurchaseOrder', ['project/init'], function() 
          $scope.formData.validFlag = true;
        }
 
-       $('#' + fromId).trigger('submit');
+       $scope.submitFormValidator(fromId);
      };
 
     $scope.watchFormChange=function(watchName){
