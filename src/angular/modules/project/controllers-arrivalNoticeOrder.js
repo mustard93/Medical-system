@@ -95,44 +95,46 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       $scope.reloadTime=new Date().getTime();
       modal.closeAll();
     };
+    //计算日期
+    function   DateAdd(interval,number,date,add)  {//如果add为true则加否则减
+        switch(interval) {
+              case   "年"   :   {
+                      if(add) date.setFullYear(date.getFullYear()+number);
+                      else date.setFullYear(date.getFullYear()-number);
+                      return   date;
+                      break;
+              }
+              case   "月"   :   {
+                      if(add) date.setMonth(date.getMonth()+number);
+                      else date.setMonth(date.getMonth()-number);
+                      return   date;
+                      break;
+              }
+              case   "日"   :   {
+                      if(add) date.setDate(date.getDate()+number);
+                      else date.setDate(date.getDate()-number);
+                      return   date;
+                      break;
+              }
+              default   :   {
+                      date.setDate(d.getDate()+number);
+                      return   date;
+                      break;
+              }
+        }
 
+    }
     //生产日期
     $scope.yieldTime = function(tr){
-      console.info(tr);
-      function   DateAdd(interval,number,date)  {
-	        switch(interval) {
-                case   "年"   :   {
-                        date.setFullYear(date.getFullYear()+number);
-                        return   date;
-                        break;
-                }
-                case   "月"   :   {
-                        date.setMonth(date.getMonth()+number);
-                        return   date;
-                        break;
-                }
-                case   "日"   :   {
-                        date.setDate(date.getDate()+number);
-                        return   date;
-                        break;
-                }
-                default   :   {
-                        date.setDate(d.getDate()+number);
-                        return   date;
-                        break;
-                }
-	        }
-
-      }
       var IsNewDate = new Date(Number(tr.productionDate));
-      console.info(tr.productionDate);
-      console.info(IsNewDate);
-      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate);
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
       tr.validTill = new Date(isLose).getTime();
     }
     //失效日期
     $scope.loseTime = function(tr){
-      // tr.productionDate = 1500898071681;
+      var IsNewDate = new Date(Number(tr.validTill));
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+      tr.productionDate = new Date(isLose).getTime();
     }
 
     /**
