@@ -107,7 +107,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
         $scope.formData.validFlag = true;
     }
 
-    $('#' + fromId).trigger('submit');
+    $scope.submitFormValidator(fromId);
     };
 
     // 重置 借出单 信息

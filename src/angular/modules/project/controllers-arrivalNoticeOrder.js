@@ -96,6 +96,45 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       modal.closeAll();
     };
 
+    //生产日期
+    $scope.yieldTime = function(tr){
+      console.info(tr);
+      function   DateAdd(interval,number,date)  {
+	        switch(interval) {
+                case   "年"   :   {
+                        date.setFullYear(date.getFullYear()+number);
+                        return   date;
+                        break;
+                }
+                case   "月"   :   {
+                        date.setMonth(date.getMonth()+number);
+                        return   date;
+                        break;
+                }
+                case   "日"   :   {
+                        date.setDate(date.getDate()+number);
+                        return   date;
+                        break;
+                }
+                default   :   {
+                        date.setDate(d.getDate()+number);
+                        return   date;
+                        break;
+                }
+	        }
+
+      }
+      var IsNewDate = new Date(Number(tr.productionDate));
+      console.info(tr.productionDate);
+      console.info(IsNewDate);
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate);
+      tr.validTill = new Date(isLose).getTime();
+    }
+    //失效日期
+    $scope.loseTime = function(tr){
+      // tr.productionDate = 1500898071681;
+    }
+
     /**
     * 医院地址加载后，回调方法
     */
@@ -295,7 +334,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
        if ($scope.submitForm_type == 'submit') {
          $scope.formData.validFlag = true;
        }
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
 
       // addDataItem_opt.submitUrl='';
       // $scope.formData.orderMedicalNos.push($scope.addDataItem);

@@ -154,7 +154,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
           }
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
 
@@ -436,7 +436,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
 
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.submitFormAfter = function (_url) {
@@ -1159,7 +1159,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             //废弃使用id方式，提交表单。改成  $scope.submitFormValidator(fromId);//
-            // $('#' + fromId).trigger('submit');
+            // $scope.submitFormValidator(fromId);
             $scope.submitFormValidator(fromId);
 
             // addDataItem_opt.submitUrl='';
@@ -1637,7 +1637,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                  if ($scope.submitForm_type == 'submit') {
                    $scope.formData.validFlag = true;
                  }
-                $('#' + fromId).trigger('submit');
+                $scope.submitFormValidator(fromId);
               };
 
         // 请求列表数据
@@ -2080,7 +2080,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if ($scope.submitForm_type == 'submit') {
                 $scope.formData.validFlag = true;
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
 
             // addDataItem_opt.submitUrl='';
             // $scope.formData.orderMedicalNos.push($scope.addDataItem);
@@ -2399,7 +2399,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if ($scope.submitForm_type == 'submit') {
                 $scope.formData.validFlag = true;
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         // 取消订单
@@ -2993,7 +2993,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.caifenQuantity = function(tr, num) {
@@ -3235,7 +3235,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                   });
           }
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
       $scope.submitFormAfter = function (_url) {
@@ -3591,7 +3591,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -4113,7 +4113,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
     }

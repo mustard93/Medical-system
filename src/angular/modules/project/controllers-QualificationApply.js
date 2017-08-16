@@ -248,7 +248,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
 
 
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
     };
 
     $scope.submitFormAfter = function (_url) {
