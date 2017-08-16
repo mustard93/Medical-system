@@ -154,7 +154,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
           }
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
 
@@ -436,7 +436,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
 
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.submitFormAfter = function (_url) {
@@ -1157,7 +1157,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if ($scope.submitForm_type == 'submit') {
                 $scope.formData.validFlag = true;
             }
-            $('#' + fromId).trigger('submit');
+
+            //废弃使用id方式，提交表单。改成  $scope.submitFormValidator(fromId);//
+            // $scope.submitFormValidator(fromId);
+            $scope.submitFormValidator(fromId);
 
             // addDataItem_opt.submitUrl='';
             // $scope.formData.orderMedicalNos.push($scope.addDataItem);
@@ -1634,7 +1637,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                  if ($scope.submitForm_type == 'submit') {
                    $scope.formData.validFlag = true;
                  }
-                $('#' + fromId).trigger('submit');
+                $scope.submitFormValidator(fromId);
               };
 
         // 请求列表数据
@@ -2077,7 +2080,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if ($scope.submitForm_type == 'submit') {
                 $scope.formData.validFlag = true;
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
 
             // addDataItem_opt.submitUrl='';
             // $scope.formData.orderMedicalNos.push($scope.addDataItem);
@@ -2396,7 +2399,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if ($scope.submitForm_type == 'submit') {
                 $scope.formData.validFlag = true;
             }
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         // 取消订单
@@ -2650,7 +2653,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       };
 
       // 监控listParams.storeRoomId值的变化，当用户选择全部时，刷新重新获取所有数据
-      
+
       // 2017年8月15日18:54:05  处理 bug 358 医院web端，上架列表，如果切换库房从其中一个库房到全部，右边商品的搜索条件会被重置为空，应该保留
       // 屏蔽该代码
       // $scope.$watch('listParams.storeRoomId', function (newVal, oldVal) {
@@ -2990,7 +2993,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.caifenQuantity = function(tr, num) {
@@ -3232,7 +3235,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                   });
           }
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
       $scope.submitFormAfter = function (_url) {
@@ -3588,7 +3591,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
         $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -4110,7 +4113,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.validFlag = true;
             }
 
-            $('#' + fromId).trigger('submit');
+            $scope.submitFormValidator(fromId);
         };
 
     }

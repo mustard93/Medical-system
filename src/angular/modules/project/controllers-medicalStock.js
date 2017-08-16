@@ -84,7 +84,7 @@ define('project/controllers-medicalStock', ['project/init'], function() {
         $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
 
        }
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
     };
     $scope.submitFormAfter = function (_url) {
       if ($scope.submitForm_type === 'submit') {

@@ -447,6 +447,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       $element.trigger('submit');
                   }
 
+
+                  /**
+                    推荐调用：提交表兼容模式，支持传人表单id，用于多个表单情况。
+                    author liumingquan  date:2017-08-11
+                  */
+                  $scope.submitFormValidator=function(fromId){
+                      console.log("submitFormValidator.fromId="+fromId);
+                      //fromId 主要是兼容以前使用表单id方式提交的用法。
+                      if(fromId&&$('#' + fromId).length>0){
+                          $('#' + fromId).trigger('submit');
+                      }else{
+                          $element.trigger('submit');
+                      }
+                  }
+
                   // 保存  type:save-草稿,submit-提交订单。
                   function goToFN(key,obj) {
                     if(!key||!obj)return;
@@ -1783,9 +1798,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 if($attrs.ngModelId||$attrs.ngModelData){
                     $scope.$watch("ngModel", function(value) {
                         if(!value)return;
-                            if(!$scope.ngModelId){
-                                $scope.ngModelId=[];
-                            }
+
                         $scope.ngModelId=value.id;
 
                         $scope.searchStr=   value.data.name;

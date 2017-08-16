@@ -95,6 +95,47 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       $scope.reloadTime=new Date().getTime();
       modal.closeAll();
     };
+    //计算日期
+    function   DateAdd(interval,number,date,add)  {//如果add为true则加否则减
+        switch(interval) {
+              case   "年"   :   {
+                      if(add) date.setFullYear(date.getFullYear()+number);
+                      else date.setFullYear(date.getFullYear()-number);
+                      return   date;
+                      break;
+              }
+              case   "月"   :   {
+                      if(add) date.setMonth(date.getMonth()+number);
+                      else date.setMonth(date.getMonth()-number);
+                      return   date;
+                      break;
+              }
+              case   "日"   :   {
+                      if(add) date.setDate(date.getDate()+number);
+                      else date.setDate(date.getDate()-number);
+                      return   date;
+                      break;
+              }
+              default   :   {
+                      date.setDate(d.getDate()+number);
+                      return   date;
+                      break;
+              }
+        }
+
+    }
+    //生产日期
+    $scope.yieldTime = function(tr){
+      var IsNewDate = new Date(Number(tr.productionDate));
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
+      tr.validTill = new Date(isLose).getTime();
+    }
+    //失效日期
+    $scope.loseTime = function(tr){
+      var IsNewDate = new Date(Number(tr.validTill));
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+      tr.productionDate = new Date(isLose).getTime();
+    }
 
     /**
     * 医院地址加载后，回调方法
@@ -295,7 +336,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
        if ($scope.submitForm_type == 'submit') {
          $scope.formData.validFlag = true;
        }
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
 
       // addDataItem_opt.submitUrl='';
       // $scope.formData.orderMedicalNos.push($scope.addDataItem);

@@ -4,9 +4,10 @@
     <div class="relative " style="height:calc(100% - 56px);overflow:auto;">
       <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm">查询</div>
       <div class="pr-panel-height sale-boder-btm select-bg" style="padding:15px 0;">
-        <div class="flex-column mgt relative ">
+        <div class="flex-column mgt relative " >
             <label class="flex-item-2 text-right control-label pdr-s">客户</label>
             <span angucomplete-supplier
+                  ng-if="!cacheObject.customerAddress.title"
                   placeholder=""
                   title-field="name"
                   search-fields="{{cacheObject.customerAddress.name}}"
@@ -15,6 +16,19 @@
                   ng-model-id="filterObject.customerId"
                   class="inline-block text-s" style="height:28px;">
             </span>
+
+            <span ng-if="cacheObject.customerAddress.title"
+                   angucomplete-supplier
+                   placeholder=""
+                  class="inline-block text-s"
+                   title-field="name"
+                   search-fields="{{cacheObject.customerAddress.name}}"
+                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
+                   ng-model="cacheObject.customerAddress"
+                   ng-model-id="filterObject.customerId"
+            >
+            </span>
+            <span ng-if="cacheObject.customerAddress.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.customerAddress={};"></span>
             {{filterObject.customerName}}
         </div>
         <div class="flex-column mgt">
@@ -32,7 +46,6 @@
             <label class="flex-item-2 text-right control-label pdr-s">业务人员</label>
             <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s "
-                        data-placeholder=" "
                         chosen
                         default-empty="全部"
                         ng-model="filterObject.saleUserId"
@@ -110,6 +123,7 @@
                 <label class="flex-item-2 text-right control-label pdr-s">商品通用名</label>
                 <div class="flex-item-10 text-left">
                     <span angucomplete-supplier
+                          ng-if="!cacheObject.medicalStock.title"
                           placeholder=""
                           title-field="name"
                           search-fields="{{cacheObject.medicalStock.name}}"
@@ -118,6 +132,17 @@
                           ng-model-id="filterObject.medicalApprovedName"
                           class="inline-block text-s" style="height:28px;">
                     </span>
+                    <span angucomplete-supplier
+                          ng-if="cacheObject.medicalStock.title"
+                          placeholder=""
+                          title-field="name"
+                          search-fields="{{cacheObject.medicalStock.name}}"
+                          url="rest/authen/medicalStock/query"
+                          ng-model="cacheObject.medicalStock"
+                          ng-model-id="filterObject.medicalApprovedName"
+                          class="inline-block text-s" style="height:28px;">
+                    </span>
+                    <span ng-if="cacheObject.medicalStock.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.medicalStock={};"></span>
                 </div>
             </div>
         <!--商品编码-->

@@ -79,7 +79,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
 
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
-      $('#' + fromId).trigger('submit');
+      $scope.submitFormValidator(fromId);
 
     };
 

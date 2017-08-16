@@ -14,7 +14,7 @@ define('project/controllers-license', ['project/init'], function() {
 
       $scope.submitForm = function (fromId) {
 
-          $('#' + fromId).trigger('submit');
+          $scope.submitFormValidator(fromId);
       };
 
         //点击选中对象加入数组

@@ -79,7 +79,7 @@ define('project/controllers-hospitalPurchaseContents', ['project/init'], functio
          $scope.formData.validFlag = true;
        }
 
-       $('#' + fromId).trigger('submit');
+       $scope.submitFormValidator(fromId);
     };
 
     $scope.submitFormAfter = function () {
