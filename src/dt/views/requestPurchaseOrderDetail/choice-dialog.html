@@ -1,6 +1,6 @@
 
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
-     ng-controller="salesChangeOrderDialogCtrl"
+     ng-controller="requestPurchaseOrderDetailDialogCtrl"
      ajax-url=""
      scope-data="stockBatchList"
      ng-init="listParams={};"
@@ -149,6 +149,82 @@
                 <div>&nbsp;</div>
             </div>
 
+            <div style="margin: 15px  0;">
+                <!-- 要求到货日期 -->
+                <div class="inline-block relative">
+                    <span class="color-9 mgl-m">要求到货日期：</span>
+                    <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                               ng-readonly="true"
+                               ng-model="listParams.createAtBeg"
+                               placeholder=""
+                               style="z-index: 15"
+                               ng-change="handleSearchFilter(listParams,dialogData.id)">
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+                               style="z-index: 15"
+                               ng-model="listParams.createAtBeg">
+                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
+                    </div>
+                    <span class="color-9">至</span>
+                    <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                               ng-readonly="true"
+                               ng-model="listParams.createAtEnd"
+                               placeholder=""
+                               style="z-index: 15"
+                               ng-change="handleSearchFilter(listParams,dialogData.id)">
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.createAtEnd"/>
+                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
+                    </div>
+                </div>
+
+                <!-- 请购单编号 -->
+                <div class="inline-block">
+                    <span class="color-9">请购单编号: </span>
+                    <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
+                        <input type="text"
+                               class="ipt pdr-xxl relative"
+                               placeholder="商品通用名"
+                               ng-model="listParams.q"
+                               style="background: #fff"
+                               ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
+                        <i class="" style=""></i>
+                    </div>
+                </div>
+
+                <!-- 关键字过滤 -->
+                <div class="inline-block" style="float: right; margin-right: 15px;">
+                    <span class="color-9"></span>
+                    <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
+                        <input type="text"
+                               class="ipt pdr-xxl relative"
+                               placeholder="商品通用名"
+                               ng-model="listParams.q"
+                               style="background: #fff"
+                               ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
+                        <i class="" style=""></i>
+                    </div>
+                </div>
+
+            </div>
 
             <!-- 商品列表 -->
             <div ng-if="scopeData" class="pr-panel pd-n pr-panel-height ng-scope">
@@ -211,7 +287,7 @@
                         <td class="text-center">{{item.specificationAndModelType}}</td> <!--规格／型号-->
                         <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td> <!--要求到货日期-->
                         <td class="text-center">{{item.quantity}}</td><!--待采购量-->
-                        <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!--目标客户-->
+                        <td class="text-right">{{item.strike_price}}</td><!--目标客户-->
 
                     </tr>
                     </tbody>
