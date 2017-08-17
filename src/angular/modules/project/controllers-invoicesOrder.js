@@ -308,9 +308,11 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
    * @return {[type]}                                     [description]
    */
   function qrcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
+    $scope.originData = [];
+
     // 记录原始值
     $scope.saveOriginData = function (originData) {
-      $scope.originData = angular.copy(originData);
+      angular.copy(originData, $scope.originData);
     }
 
     // 用户修改数量后的操作
@@ -324,6 +326,7 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
             _temp = parseInt(_temp / converResults[index+1].ratio, 10);
 
         converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+        angular.copy(converResults, $scope.originData.converResults);
       }
     }
   }
