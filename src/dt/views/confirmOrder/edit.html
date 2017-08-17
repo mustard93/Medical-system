@@ -143,7 +143,7 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
-                  <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <input type="text" name="orderNo" class="ipt pr-new-short-ipt" ng-model="formData.orderCode" />
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
                 </span>
                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
@@ -570,18 +570,32 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html?id={{formData.relId}}" >返回销售单</a>
-        <span ng-if="$root.hasAuthor('销售单删除')&&formData.id">
-          <a ng-if="formData.orderStatus=='未提交' &&formData.inputUserId==mainStatus.id&&formData.id"
-             href="javascript:;"
-             class="pr-color-red mgr"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条销售单吗?"
-             dialog-template="pr-dialog-confirm.html"
-             request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
-             callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除
-          </a>
-         </span>
+
+        <!--<span ng-if="$root.hasAuthor('销售单删除')&&formData.id">-->
+          <!--<a ng-if="formData.orderStatus=='未提交' &&formData.inputUserId==mainStatus.id&&formData.id"-->
+             <!--href="javascript:;"-->
+             <!--class="pr-color-red mgr"-->
+             <!--handle-this-click-->
+             <!--dialog-title="确认删除?"-->
+             <!--dialog-content="您确认删除这条销售单吗?"-->
+             <!--dialog-template="pr-dialog-confirm.html"-->
+             <!--request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"-->
+             <!--callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除-->
+          <!--</a>-->
+         <!--</span>-->
+
+
+        <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
+           href="javascript:;"
+           class="pr-color-red mgr-l"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条销售单吗?"
+           dialog-template="pr-dialog-confirm.html"
+           request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
+           callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除
+        </a>
+
 
 
         <!-- <button type="button"
