@@ -9,7 +9,7 @@
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
-    <table-list list-data="rest/authen/announcement/query"
+    <table-list list-data="rest/authen/announcement/queryOfPublish"
                 list-params="listParams"
                 search-mode="noCaseSensitive"
                 search-param="q">
@@ -45,7 +45,7 @@
                         <li ng-repeat="item in tbodyList track by $index" style="border-bottom: 1px dashed #E9E9E8;">
                             <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" style="color: #333333;">
                                 <p class="flex-column">
-                                    <span class="flex-item-9 text-left color-orange ">{{item.title}}<em ng-if="$index<3" class="color-red">NEW</em></span>
+                                    <span class="flex-item-9 text-left color-orange ">{{item.title}}</span>
                                     <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
                                     <span class="flex-item-1 text-right ng-binding">{{item.salesDepartmentName}}</span>
                                 </p>
@@ -97,4 +97,5 @@
         </div>
 </div>
 
-</table-list>
+    </table-list>
+</div>
