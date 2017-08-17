@@ -31,7 +31,7 @@
             <div class="pr-bg-black1 mgb-xl pdb-l"
                  ng-repeat="mItem in item.barCodeVos track by $index"
                  ng-controller="barcodePrintDialogItemController"
-                 ng-init="saveOriginData(mItem.stockBatch)">
+                 ng-init="saveOriginData(mItem.stockBatch);getConverString(mItem)">
               <div class="bb-dashed-gold pd-c-l">
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
@@ -43,10 +43,8 @@
                 </div>
                 <div class="flex-column pdb-l">
                   <div class="flex-item-6">
-                    <span>数量：{{mItem.batchNumber}}</span>
-                    <span class="color-white">
-                      <span></span>
-                    </span>
+                    <span>数量：{{mItem.batchNumber}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}} = </span>
+                    <span class="color-white">{{converedStr}}</span>
                   </div>
                   <div class="flex-item-6 text-right">
                     <span>批号：</span><span class="color-white">{{mItem.stockBatchCode}}</span>

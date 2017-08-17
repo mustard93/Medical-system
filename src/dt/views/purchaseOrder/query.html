@@ -5,13 +5,8 @@
                             is-show-create-btn="新建采购单"
                             create-btn-author="采购单新增"
                             create-new-url="#/purchaseOrder/edit.html"
-
-                            is-show-enter-btn="请购单合并生成采购单"
-                            enter-new-url="#/requestPurchaseOrderDetail/edit.html"
-                            create-btn-author="请购单合并生成采购单"
+                            create-btn-author="新建采购单"
                             enter-btn-author=""
-
-
                             get-status-num-url="rest/authen/purchaseOrder/countByOrderStatus.json"
                             status-group-data='[["未提交-true","待审核-true","待采购-true","采购中-true","已完成-true"], ["未通过-true"], ["已作废-true"]]'
                             is-show-type-filter=true
@@ -76,7 +71,9 @@
                       <a ng-if="tr.orderStatus||'待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
-                      <a ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='待审核'&&tr.generated" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s" title="生成来货通知单">
+                      <a ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='待审核'&&tr.generated"
+                      tab-nav tab-name="采购单"  
+                      tab-href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s" title="生成来货通知单">
                       <span class="create-arrive-icon">&nbsp;</span>
                       </a>
                       <!--<span ng-if="$root.hasAuthor('采购单审批')">-->

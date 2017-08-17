@@ -532,9 +532,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-
-
-
     // if ($scope.medicalDataList.orderMedicalNos) {
     //   try {
     //     angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
@@ -820,8 +817,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-
-
   }
 
   /**
@@ -840,6 +835,9 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
   function barcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     $scope.originData = [];
 
+    // 换算后的单位显示字符串
+    $scope.converedStr = '';
+
     // 记录原始值
     $scope.saveOriginData = function (originData) {
       angular.copy(originData, $scope.originData);
@@ -854,6 +852,22 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       $scope.mItem.stockBatch[index+1].unitNumber = $scope.mItem.stockBatch[index+1].unitNumber + _temp;
       angular.copy($scope.mItem.stockBatch, $scope.originData);
     }
+
+    // 生成当前批次商品的初始化换算单位字符串
+    $scope.getConverString = function (mItem) {
+      if (Object.prototype.toString.call(mItem) !== '[object Object]') {
+        throw new TypeError('返回的数据类型错误!');
+      }
+
+      angular.forEach(mItem.stockBatch, function (data, index) {
+        if ((index + 1) !== mItem.stockBatch.length) {
+          $scope.converedStr += data.unitNumber + data.unitName + ' + ';
+        } else {
+          $scope.converedStr += data.unitNumber + data.unitName;
+        }
+      });
+    }
+
 
   }
 
