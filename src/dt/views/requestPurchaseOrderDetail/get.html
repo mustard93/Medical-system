@@ -1,0 +1,328 @@
+<div class="create-new-order purchaseOrder-edit"
+      ng-controller="purchaseOrderEditCtrl"
+      ajax-url="rest/authen/purchaseOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
+      scope-data="scopeData"
+      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      alert-error>
+
+  <form id="purchaseOrder_editForm"
+        name="purchaseOrder_editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/purchaseOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+    <!-- 头部信息 -->
+    <div class="content-wrapper-heading mgb-l relative clearfix">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+        <a tab-nav tab-name="采购单" tab-href="#/purchaseOrder/query.html">
+           <em class="color-custom-orange">采购单</em>
+        </a>
+       <em>>采购单详情</em>
+      </p>
+      <!-- 标题 -->
+      <div class="pd-c-xxl pdt-l pdb-l clearfix">
+        <div class="pos-rel-tl inline-block fl-l">
+          <h1 class="pr-font-20 color-black">采购单详情</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div  ng-if="scopeData.operationFlowSet.key||scopeData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pass"
+        ng-class="{'pr-bg-pink1':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'),'pr-bg-pass':(scopeData.orderStatus=='待采购')}">
+      <em ng-class="{'color-red':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'),'color-pass':(scopeData.orderStatus=='待采购')}">原因:</em>
+       <p class="inline-block " ng-class="{'color-red':(scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废')},'color-pass':(scopeData.orderStatus=='待采购')}">
+      <em class="color-pass">{{scopeData.operationFlowSet.key}}</em>
+       <em >{{scopeData.operationFlowSet.message}}</em>
+       </p>
+      </div>
+      <!-- <div class="pr-panel pr-panel-height mgb pd-n">
+        <div class="inline-block br-line supplier-name relative">
+          <p class="mgb-s">供应商</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{scopeData.supplier.name || '暂无'}}
+          </p>
+        </div>
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black autocut-default" title="{{scopeData.logisticsCenterName}}" style="padding-right:182px;width:1200px;">
+            {{scopeData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div> -->
+      <div class="">
+        <div class="inline-block mgr">
+          <div class="inline-block">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+               <div class="inline-block logistics-center "></div>
+               <div class="inline-block">
+                 <p class="mgb-s">业务类型</p>
+                 <p class="text-m color-3 autocut-default" title="{{scopeData.orderBusinessType}}" >{{scopeData.orderBusinessType || '暂无'}}</p>
+               </div>
+             </div>
+          </div>
+        </div>
+        <div class="inline-block mgr">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+            <div class="inline-block supplier-name"></div>
+            <div class="inline-block">
+              <p class="mgb-s">供应商</p>
+              <p class="text-m color-3 autocut-default" title="{{scopeData.supplier.name}}">{{scopeData.supplier.name || '暂无'}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div ng-if="scopeData.orderBusinessType=='直发采购'" class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block customer-name"></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名</p>
+              <p class="text-m color-3 autocut-default" title="{{scopeData.customerName}}" style="width:300px;">{{scopeData.customerName || '暂无'}}</p>
+            </div>
+          </div>
+        </div> -->
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+             <div class="inline-block logistics-center "></div>
+             <div class="inline-block">
+               <p class="mgb-s">预入物流中心</p>
+               <p class="text-m color-3 autocut-default" title="{{scopeData.logisticsCenterName}}">{{scopeData.logisticsCenterName ||'暂无'}}</p>
+             </div>
+           </div>
+        </div>
+        <div class="inline-block mgl">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+             <div class="inline-block logistics-center "></div>
+             <div class="inline-block">
+               <p class="mgb-s">目标客户</p>
+               <p class="text-m color-3 autocut-default" title="{{scopeData.intentionalCustomer}}">{{scopeData.intentionalCustomer ||'暂无'}}</p>
+             </div>
+           </div>
+        </div>
+      </div>
+
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr ">
+              <em class="fl-l">单据编号：</em>
+              <em title="{{scopeData.orderCode}}" class="color-3  autocut inline-block fl-l" style="width:80px;">{{scopeData.orderCode || '暂无'}}</em>
+            </span>
+            <span class="mgr ">
+              <em class="fl-l">单据日期：</em>
+              <em title="{{scopeData.orderCode}}" class="color-3  autocut inline-block fl-l" style="width:80px;">{{scopeData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em>
+            </span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n||'暂无'}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span> -->
+            <!-- <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span> -->
+            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+              <a ng-if="initFlag"
+                 modal-center="1000px"
+                 modal-data='{"businessKey":"{{scopeData.id}}"}'
+                 modal-scope="this"
+                 modal-url="views/workflowTask/getOfDialog.html">
+                <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
+              </a>
+          </div>
+        </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
+          <!-- <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr}}</em></span> -->
+          <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType}}</em></span>
+          <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+          <span class="mgr-l">合同号：<em class="color-3">{{scopeData.contractNo || '暂无'}}</em></span>
+          <span class="mgr-l">预入仓库：<em class="color-3">{{scopeData.warehouseName || '暂无'}}</em></span>
+        </div>
+        <!-- 商品列表 -->
+        <div class="">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n ">
+              <thead>
+              <tr>
+               <th class="text-center">商品编号</th>
+               <th class="text-left">商品通用名</th>
+               <th class="text-center">剂型/分类</th>
+               <th class="text-center">规格/型号</th>
+               <th class="text-center">单位</th>
+               <th class="text-center">计划数量</th>
+               <th class="text-center">已完成数量</th>
+               <th class="text-center">未完成数量</th>
+               <th class="text-center" >预入仓库</th>
+               <th class="text-center">含税单价</th>
+               <th class="text-center">价税合计</th>
+             </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="tr in scopeData.orderMedicalNos"
+                    salesorder-edit-show-delbtn
+                    ng-init="orderMedicalNoIds.push(tr.relId)"
+                    ng-controller="purchaseOrderEditCtrl">
+                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                  <td class="text-left" >
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{tr}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
+                  <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                  <td class="text-right">{{tr.quantity || '0'}}</td><!-- 计划数量 -->
+                  <td class="text-right">{{tr.finishQuantity || '0'}}</td><!-- 已完成数量 -->
+                  <td class="text-right">{{tr.unFinishQuantity || '0'}}</td><!-- 未完成数量 -->
+                  <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
+                  <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 含税单价 -->
+                  <td class="text-right">￥{{tr.totalPrice || '0' | number:2 }}</td><!-- 价税合计 -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bt-line flex-column">
+            <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <span class="mgr mgl">制单部门：
+                <em class="color-3">{{scopeData.departmentName || '暂无'}}</em>
+              </span>
+
+              <span class="mgr mgl">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
+
+              <span class="mgr mgl">制单时间：<em class="color-3">{{scopeData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+    <!-- 其他信息 -->
+    <div class="relative">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3 font-size-14">付款</h1>
+        <div class="mgt-l">
+          <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
+          <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
+          <span class="mgr-l">汇率：<em class="color-3">1.00</em></span>
+          <!-- <span class="mgr-l">付款状态：<em class="color-3">{{scopeData.purchasePayOrderStatus}}</em></span> -->
+        </div>
+      </div>
+
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3 font-size-14">运输/仓储</h1>
+        <div class="mgt-l">
+          <span class="mgr">运输方式：
+            <em class="color-3">{{scopeData.payAndDelivery.transportType}}</em>
+          </span>
+          <span class="mgr">承运公司：
+              <em class="color-3">{{scopeData.payAndDelivery.kuaidiType}}</em>
+          </span>
+          <!-- <span class="mgr">预入仓库：
+            <em class="color-3">{{scopeData.warehouseName}}</em>
+          </span> -->
+        </div>
+      </div>
+      <!-- 发货方信息 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 text-bold">发货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+
+          <p class="" >
+          <em >{{scopeData.supplier.contact.name}}&nbsp;&nbsp;{{scopeData.supplier.contact.tel}}&nbsp;&nbsp;{{scopeData.supplier.contact.prov}}&nbsp;&nbsp;{{scopeData.supplier.contact.city}}&nbsp;&nbsp;{{scopeData.supplier.contact.area}}&nbsp;&nbsp;{{scopeData.supplier.contact.address}}</em>
+          </p>
+        </div>
+      </div>
+      <!-- 收货方信息 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 text-bold">收货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+          <p class="">
+          {{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}&nbsp;&nbsp;{{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}
+          </p>
+        </div>
+      </div>
+
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <h1 class="text-bold color-3 font-size-14">备注</h1>
+        <p>{{scopeData.note}}</p>
+      </div>
+
+      </div>
+    </div>
+
+    <!-- 流程图 -->
+    <business-flow-show business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show>
+
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该采购单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})"
+           save-callback="submitForm('purchaseOrder_editForm','exit')">返回采购单列表
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/query.html?id={{scopeData.relId}}" >返回采购单列表</a>
+
+        <button type="button" class="pr-btn-save-glodbg mgr-s" ng-if="scopeData.orderStatus!='未提交'&&scopeData.orderStatus!='待审核'">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
+        </button>
+
+        <!--<button ng-if="scopeData.orderStatus!='未提交'&&scopeData.orderStatus!='待审核'"-->
+                <!--type="button"-->
+                <!--class="pr-btn-save-glodbg mgr"-->
+                <!--modal-center="400"-->
+                <!--modal-data='{"id":"{{scopeData.id}}"}'-->
+                <!--modal-scope="this"-->
+                <!--modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同-->
+        <!--</button>-->
+
+        <button ng-if="!scopeData.purchaseVoucherId&&scopeData.orderStatus!='未提交'&&scopeData.orderStatus!='待审核'" class="pr-btn-save-glodbg mgr-s"
+                type="button"
+                ng-click="createPurVoBtnClick(scopeData.id)">生成采购凭证
+        </button>
+        <button ng-if="scopeData.generated&&scopeData.orderStatus!='未提交'&&scopeData.orderStatus!='待审核'" class="pr-btn-save-glodbg"
+                type="button">
+                <a class="color-white" tab-nav tab-name="来货通知单"  tab-href="#/arrivalNoticeOrder/edit.html?purchaseId={{scopeData.id}}">生成来货通知单</a>
+        </button>
+
+        <button ng-if="scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+                type="button"
+                disabled="disabled">已生成采购凭证
+        </button>
+
+        <span ng-if="scopeData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{scopeData.didateFilter.buttons}}">
+        </span>
+      </div>
+      <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
+      </div>
+    </div>
+  </form>
+</div>
