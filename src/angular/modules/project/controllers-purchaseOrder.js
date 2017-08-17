@@ -13,55 +13,55 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
    */
   function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
 
-      //初始化校验数据
-      $scope.checkData=function(){
-           console.log("checkData");
-          //初始化显示数据
-          if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+    //初始化校验数据
+    $scope.checkData=function(){
+         console.log("checkData");
+        //初始化显示数据
+        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
 
-              var ids=[];
-              angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                  ids.push(item.relId);
-              });
+            var ids=[];
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                ids.push(item.relId);
+            });
 
-              requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+            requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
 
-                  if(result[1].code==200){
+                if(result[1].code==200){
 
-                      var datas = result[1].data;
+                    var datas = result[1].data;
 
-                      angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                          item.info=datas[index];
-                      });
-                  }
+                    angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                        item.info=datas[index];
+                    });
+                }
 
-              });
-          }
-      };
+            });
+        }
+    };
 
-      // 监控用户变化，清空之前选择药械列表
-      $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 
-          // 当用户第一次选择客户时，检查该用户是否有证照过期
-          if (newVal && oldVal !== newVal) {
-              console.log($scope.formData.customerId);
-              if ($scope.formData.customerId) {
-                  var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
-                  // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
-                  requestData(_reqUrl)
-                      .then(function (results) {
-                          if(results[1].code ==200){
-                              console.log(results[1].data);
-                              $scope.customerInfo= results[1].data;
-                          }
-                      })
-                      .catch(function (error) {
-                          throw new Error(error);
-                      });
-              }
-          }
+        // 当用户第一次选择客户时，检查该用户是否有证照过期
+        if (newVal && oldVal !== newVal) {
+            console.log($scope.formData.customerId);
+            if ($scope.formData.customerId) {
+                var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
+                // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
+                requestData(_reqUrl)
+                    .then(function (results) {
+                        if(results[1].code ==200){
+                            console.log(results[1].data);
+                            $scope.customerInfo= results[1].data;
+                        }
+                    })
+                    .catch(function (error) {
+                        throw new Error(error);
+                    });
+            }
+        }
 
-      });
+    });
 
     // 先声明一个ids数组，用于存放药品id，以备后续查询历史价格时使用。
     $scope.ids=[];
@@ -614,29 +614,29 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
       }
     }
 
-      //根据资质条件判断时候允许下一步或提交
-      $scope.canNextStep=function(){
+    //根据资质条件判断时候允许下一步或提交
+    $scope.canNextStep=function(){
 
-          var flag=true;
+        var flag=true;
 
-          if($scope.customerInfo){
-              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-                  flag=false;
-                  return flag;
-              }
-          }
+        if($scope.customerInfo){
+            if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                flag=false;
+                return flag;
+            }
+        }
 
-          angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-              if(medical.info){
-                  if(medical.info.controllType =='限制交易' && medical.info.msg){
-                      flag=false;
-                  }
-              }
-          });
-          return flag;
-      };
+        angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+            if(medical.info){
+                if(medical.info.controllType =='限制交易' && medical.info.msg){
+                    flag=false;
+                }
+            }
+        });
+        return flag;
+    };
 
-   }//end salesOrderEditCtrl
+   }
 
   angular.module('manageApp.project')
   .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert",  purchaseOrderEditCtrl]);
