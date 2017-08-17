@@ -58,7 +58,8 @@ define('project/controllers', ['project/init',
                                'project/controllers-businessScope',
                                'project/controllers-productEnterprise',
                                'project/controllers-license',
-                               'project/controllers-announcement'
+                               'project/controllers-announcement',
+                               'project/controllers-requestPurchaseOrderDetail'
 
 ], function() {
 

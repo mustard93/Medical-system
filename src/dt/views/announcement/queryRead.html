@@ -1,243 +1,101 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.shelvesUpStatus=mainStatus.pageParams.shelvesUpStatus;"
      ng-controller="announcementCtrl">
-  <page-main-header-component list-params="listParams"
-                              style="min-height:130px;"
-                              crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'
-                              component-title="通知公告"
-                              is-show-create-btn="新建通知公告"
-                              create-new-url="#/announcement/edit.html"
-                              get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
-  </page-main-header-component>
+    <page-main-header-component list-params="listParams"
+                                style="min-height:130px;"
+                                crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'
+                                component-title="通知公告"
 
-     <table-list list-data="rest/authen/announcement/query"
-                 list-params="listParams"
-                 search-mode="noCaseSensitive"
-                 search-param="q">
-  <div class="medical-stock child-project-management receive-item" ng-controller="announcementCtrl">
-    <!-- 主内容头部 -->
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
 
-    <!-- 主内容区域 -->
+    <table-list list-data="rest/authen/announcement/queryOfPublish"
+                list-params="listParams"
+                search-mode="noCaseSensitive"
+                search-param="q">
+        <div class="medical-stock child-project-management receive-item" ng-controller="announcementCtrl">
+            <!-- 主内容头部 -->
 
-    <div class="content-wrapper" style="margin:0px 45px;">
-      <div class="content-wrapper-main pr-fuzzy-boundary">
-        <div class="flex-column color-9 pd-c-l pdb-m bg-white ">
-          <!-- 批量删除按钮 -->
-          <div class="flex-item-8" style=" margin-top: 30px;">
+            <!-- 主内容区域 -->
 
-            <!--<a ng-if="!choisedMedicalList.length"-->
-                    <!--href="javascript:void(0)"-->
-                    <!--class="batch-receive-btn"-->
-                    <!--ng-disabled="!choisedMedicalList.length">批量删除-->
-              <!--<em class="bulk-receipt-btn-disabled-icon"></em>-->
-            <!--</a>-->
+            <div class="content-wrapper" style="margin:0px 45px;">
+                <div class="content-wrapper-main pr-fuzzy-boundary">
+                    <div class="flex-column color-9 pd-c-l pdb-m bg-white ">
+                        <!-- 批量删除按钮 -->
+                        <div class="flex-item-8" style=" margin-top: 30px;"></div>
+                        <div class="flex-item-4 text-right mgt-xl">
+                            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                                <input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">
+                                <i class=""></i>
+                            </div>
+                            <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                                <a href="" class="color-light-brown" >重置搜索条件</a>
+                            </div>
+                            <div ng-if="1==2" class="inline-block mgl-m" style="font-size: 14px; color: rgba(0,0,0,0.15)">
+                                |&nbsp;&nbsp;&nbsp;&nbsp;<a href=""  class="color-orange">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="" class="color-orange">打印</a>
+                            </div>
 
-            <!--<a ng-if="choisedMedicalList.length"-->
-               <!--href="javascript:void(0)"-->
-               <!--class="batch-receive-btn"-->
-               <!--handle-this-click-->
-               <!--dialog-title="确认提示?"-->
-               <!--dialog-content="确认批量删除?"-->
-               <!--dialog-content-color="#FF3939"-->
-               <!--dialog-template="pr-dialog-confirm.html"-->
-               <!--callback="handleBatchReceive()">批量删除-->
-              <!--<em class="bulk-receipt-btn-icon"></em>-->
-            <!--</a>-->
-
-
-          </div>
-          <div class="flex-item-4 text-right mgt-xl">
-              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                <input type="text" class="ipt pdr-xxl" placeholder="商品名称/商品编码" ng-model="listParams.q">
-                <i class=""></i>
-              </div>
-              <div class="inline-block mgl-m" ng-click="listParams.q=''">
-                <i class="fa fa-refresh mgr-s color-light-brown"></i>
-                <a href="" class="color-light-brown" >重置搜索条件</a>
-              </div>
-            <div ng-if="1==2" class="inline-block mgl-m" style="font-size: 14px; color: rgba(0,0,0,0.15)">
-              |&nbsp;&nbsp;&nbsp;&nbsp;<a href=""  class="color-orange">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="" class="color-orange">打印</a>
-            </div>
-
-          </div>
-        </div>
-        
-
-        <div class="pr-bg-white pr-fuzzy-boundary">
-          <table class="table pr-table pr-new-table pr-table-content">
-            <!--choiced：：{{choiced}}-->
-            <thead class="pr-bg-side">
-              <tr>
-                <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
-                  序号
-                  <!--<input type="checkbox" class="selectAll cur-pot" id='announcement_1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(tbodyList,isChoiseAll);">-->
-                  <!--<label for="announcement_1"></label>-->
-                </th>
-                <th class="w-80">状态</th>
-                <th class="w-220">标题</th>
-                <th>发布部门</th>
-                <th>发布人</th>
-                <th>发布时间</th>
-                <th>创建时间</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-if="tbodyList.length"
-                  ng-repeat="tr in tbodyList track by $index"
-                  class=""
-                  table-item-multiple-btn>
-                <td ng-if="!listParams.shelvesUpStatus" class="select-td text-center mycheck">
-
-                  {{$index+1}}
-                  <!--<input type="checkbox" class="selectOne cur-pot" id='announcement_{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">-->
-                  <!--<label for="announcement_{{$index+2}}"></label>-->
-
-
-                </td>
-                <td class="">
-
-                  <span ng-if="tr.announcementStatus=='待发布'" class="circle-status"
-                        ng-class="{'pr-bg-grey4':tr.announcementStatus=='待发布'}">
-                    <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
-                      <i class="block pd-c-s text-normal" style="line-height:1.8">
-                        <em class="inline-block">{{tr.announcementStatus}}</em>
-                      </i>
-                    </span>
-                  </span>
-
-                  <span ng-if="tr.announcementStatus=='已发布'" class="circle-status"
-                        ng-class="{'pr-bg-green':tr.announcementStatus=='已发布'}">
-                    <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
-                      <i class="block pd-c-s text-normal" style="line-height:1.8">
-                        <em class="inline-block">{{tr.announcementStatus}}</em>
-                      </i>
-                    </span>
-                  </span>
-
-
-
-
-                  <div class="table-item-multiple-btn"  >
-                    <!---->
-                    <div class="inline-block handle-btn del-details-btn relative delete-icon" ng-show="$root.hasAuthor('证照档案企业删除') &&tr.systemPreset != '是'">
-                      <div class="del-confirm-area text-center" ng-show="tr.systemPreset != '是'">
-                        <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
-                        <p class="pd-v-s">
-                          <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
-                          <a href="javascript:;"
-                             class="pr-btn-best-small pr-btn-bg-gold"
-                             ng-click="handleDelDetails(tr.id, 'rest/authen/announcement/delete', '#/announcement/query.html', 'parameterType')">确认
-                          </a>
-                        </p>
-                      </div>
+                        </div>
                     </div>
 
-                    <!--修改-->
-                    <div class="inline-block relative mgb-l">
-                      <a ng-if="tr.announcementStatus=='待发布'" tab-nav tab-name="通知公告" tab-href="#/announcement/edit.html?id={{tr.id}}">
-                        <div class="inline-block handle-btn edit-icon entry-ab"> </div>
-                      </a>
-                      <a ng-if="tr.announcementStatus!='待发布'" tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{tr.id}}">
-                        <div class="inline-block handle-btn edit-icon entry-ab"> </div>
-                      </a>
 
+                <div class="pr-bg-white pr-fuzzy-boundary">
+                    <ol class="index-msg-list" style="margin: 0 10px;">
+                        <li ng-repeat="item in tbodyList track by $index" style="border-bottom: 1px dashed #E9E9E8;">
+                            <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" style="color: #333333;">
+                                <p class="flex-column">
+                                    <span class="flex-item-9 text-left color-orange ">{{item.title}}</span>
+                                    <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <span class="flex-item-1 text-right ng-binding">{{item.salesDepartmentName}}</span>
+                                </p>
+                            </a>
+                        </li>
 
+                    </ol>
+                </div>
+                <div class="pr-bg-white" ng-if="!tbodyList.length">
+                    <div class="empty-table clearfix">
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
                     </div>
-
-                    <!--发布-->
-                    <div ng-if="tr.announcementStatus=='待发布'" class="inline-block relative mgb-l">
-                      <a
-                         class="color-orange"
-                         handle-this-click
-                         dialog-title="确认发布?"
-                         dialog-content="请确认是否发布?"
-                         dialog-template="pr-dialog-submit.html"
-                         params='{"id":"{{tr.id}}"}'
-                         callback="$root.goTo('#/announcement/query.html')"
-                         request-url="rest/authen/announcement/publish">
-                        <div class="inline-block handle-btn send-icon entry-ab-2"> </div>
-                      </a>
+                </div>
+                <div class="flex-column bg-white">
+                    <div class="flex-item-6">
+                        <!-- 批量删除按钮 -->
+                        <div style="display: none" ng-if="!listParams.shelvesUpStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+                            <a ng-if="!choisedMedicalList.length"
+                               href="javascript:void(0)"
+                               class="batch-receive-btn"
+                               ng-disabled="!choisedMedicalList.length">批量删除
+                                <em class="bulk-receipt-btn-disabled-icon"></em>
+                            </a>
+                            <a ng-if="choisedMedicalList.length"
+                               href="javascript:void(0)"
+                               class="batch-receive-btn"
+                               handle-this-click
+                               dialog-title="确认提示?"
+                               dialog-content="批量删除的条目实收数量都为配送数量。确认批量删除?"
+                               dialog-content-color="#FF3939"
+                               dialog-template="pr-dialog-confirm.html"
+                               callback="handleBatchReceive()">批量删除
+                                <em class="bulk-receipt-btn-icon"></em>
+                            </a>
+                        </div>
                     </div>
-                  </div>
-
-                  <!--modal-data="'data':'{{tr.id}}'"-->
-                  <!--<div class="inline-block handle-btn other-handle-btn relative more-icon" href="javascript:;">-->
-                  <!--<div class="handle-area-show handle-area text-center">-->
-                  <!--<a href="javascript:;"-->
-                  <!--modal-right="800"-->
-                  <!--modal-scope="this"-->
-                  <!--modal-data='{  "type":"modalRight",-->
-                  <!--"modalWidth":"800",-->
-                  <!--"aclass":"color-orange add-return-order mgl-s",-->
-                  <!--"requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",-->
-                  <!--"httpMethod":"GET",-->
-                  <!--"ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",-->
-                  <!--"showName":"查看操作记录"}'-->
-                  <!--modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录-->
-                  <!--</a>-->
-                  <!--</div>-->
-                  <!--</div>-->
-        </div>
-
-
-
-
-                </td><!-- 状态 -->
-                <td class="text-left"><a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{tr.id}}" class="color-orange">{{tr.title}}</a></td><!-- 标题 -->
-                <td class="text-center" >{{tr.salesDepartmentName}}</td><!-- 发布部门 -->
-                <td class="text-center">{{tr.inputUser.n}}</td><!-- 发布人 -->
-                <td >
-                    {{tr.publishAt | date : 'yyyy-MM-dd' }}
-                </td><!-- 发布时间-->
-                <td >
-                    {{tr.createAt | date : 'yyyy-MM-dd'}}
-                </td><!-- 创建时间 -->
-
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pr-bg-white" ng-if="!tbodyList.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-          </div>
-        </div>
-        <div class="flex-column bg-white">
-          <div class="flex-item-6">
-            <!-- 批量删除按钮 -->
-            <div style="display: none" ng-if="!listParams.shelvesUpStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
-              <a ng-if="!choisedMedicalList.length"
-                 href="javascript:void(0)"
-                 class="batch-receive-btn"
-                 ng-disabled="!choisedMedicalList.length">批量删除
-                <em class="bulk-receipt-btn-disabled-icon"></em>
-              </a>
-              <a ng-if="choisedMedicalList.length"
-                 href="javascript:void(0)"
-                 class="batch-receive-btn"
-                 handle-this-click
-                 dialog-title="确认提示?"
-                 dialog-content="批量删除的条目实收数量都为配送数量。确认批量删除?"
-                 dialog-content-color="#FF3939"
-                 dialog-template="pr-dialog-confirm.html"
-                 callback="handleBatchReceive()">批量删除
-                <em class="bulk-receipt-btn-icon"></em>
-              </a>
-            </div>
-          </div>
-          <div class="flex-item-6">
-            <!-- 导航 -->
-            <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
-                <div class="fr">
-                    <pagination status="status"></pagination>
+                    <div class="flex-item-6">
+                        <!-- 导航 -->
+                        <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                            <div class="fr">
+                                <pagination status="status"></pagination>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
+</div>
 
-</table-list>
+    </table-list>
+</div>
