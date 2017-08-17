@@ -24,14 +24,15 @@
            <table-list list-data="rest/authen/medicalStock/query.json"
                        list-params="listParams"
                        search-mode="noCaseSensitive"
-                       search-param="q">
+                       search-param="q"
+           >
             <div class="order-list-search text-left  pos-rel-tr inline-block ">
-
-
               <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品全名/注册证号" ng-model="listParams.q">
               <i class=""></i>
             </div>
-
+             <div class="warecheckbox">
+               <input type="checkbox" ng-model="listParams.medicalAttributeId" >只显示库存不为0{{listParams}}
+             </div>
              <!-- 主内容头部 -->
             <!-- <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative"></div> -->
 
@@ -74,6 +75,7 @@
                       "className":"circle-icon2 pos-abs pr-icon-arrow-left"},
                       {"title":"变动明细","url":"#/wareHouseTable/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&code="+tr.code+"&warehouseCode="+listParams.warehouseStocksCode+"&name="+tr.name,
                     "className":"circle-icon pos-abs pr-icon-bg11"}]'>
+
                   <!-- <tr ng-if="tbodyList.length"
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
