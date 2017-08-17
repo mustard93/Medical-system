@@ -423,8 +423,9 @@
 
           <a ng-if="!changeFlag" tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html" >返回来货通知单列表</a>
         </span>
+
         <span class="mgl mgt" ng-if="$root.hasAuthor('来货通知单删除')">
-          <a ng-if="formData.inputUserId==mainStatus.id"
+          <a ng-if="formData.orderStatus=='未提交' && formData.id"
              href="javascript:;"
              handle-this-click
              class="pr-color-red"
@@ -435,6 +436,7 @@
              callback="goTo({tabHref:'#/arrivalNoticeOrder/query.html',tabName:'来货通知单'})">删除
           </a>
         </span>
+
 
         <span class="mgr mgl mgt">
           <button ng-disabled="!changeFlag" class="pr-btn-save-glodbg mgr-l"

@@ -607,17 +607,19 @@
         </a>
 
         <a ng-if="!changeFlag" class="mgr-l" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/query.html" >返回采购单列表</a>
-
-        <a ng-if="formData.inputUserId==mainStatus.id&&formData.id"
-           href="javascript:;"
-           handle-this-click
-           class="pr-color-red mgr"
-           dialog-title="确认删除 ?"
-           dialog-content="您确认删除这条采购单吗?"
-           dialog-template="pr-dialog-confirm.html"
-           request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
-           callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
+        <span ng-if="$root.hasAuthor('采购单删除')">
+            <a ng-if="formData.orderStatus=='未提交'&&formData.id"
+               href="javascript:;"
+               handle-this-click
+               class="pr-color-red mgr"
+               dialog-title="确认删除 ?"
+               dialog-content="您确认删除这条采购单吗?"
+               dialog-template="pr-dialog-confirm.html"
+               request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
+               callback="goTo({tabHref:'#/purchaseOrder/query.html',tabName:'采购单'})">删除
         </a>
+        </span>
+
 
         <!--<button ng-if="formData.orderNo"-->
                 <!--type="button"-->

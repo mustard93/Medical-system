@@ -347,6 +347,20 @@
 
       <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html?id={{scopeData.relId}}" >返回销售换货单列表</a>
 
+
+
+      <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='处理中' && scopeData.orderStatus!='已处理'"
+              style="background: #FF1212;"
+              type="button"
+              handle-this-click
+              dialog-title="确认撤单?"
+              dialog-content="您确认撤销这条销售换货单吗?"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/salesChangeOrder/delete?id={{formData.id}}"
+              callback="goTo({tabHref:'#/salesChangeOrder/query.html',tabName:'销售换货单'})">强制撤单
+      </button>
+
+
       <!--<button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">-->
         <!--<a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=returnOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>-->
       <!--</button>-->
