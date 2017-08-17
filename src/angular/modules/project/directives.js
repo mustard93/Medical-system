@@ -2052,8 +2052,10 @@ function stepFlowArrowShow(utils){
     scope:{},
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
+
       // 定义一个类，用于css对样式的控制
       $($element).addClass('first-medical-nav');
+
       //箭头数量，用于计算箭头的个数。
       var arrowCount=0;
       //(step-flow-arrow-json传入的相关参数，以Jason的数据格式传入)
@@ -2063,8 +2065,10 @@ function stepFlowArrowShow(utils){
 
       var lossWidht=4; //丢弃宽度（兼容计算精度造成的折行显示, by venray 2017年6月16日 16:04:10）;
 
-
       window.setTimeout(function () {
+        // 获取得到一个页面开了几个首营模块有关流程箭头显示的窗口，即有多少次调用这个指令。
+        var len=$(document.body).find('div.step-flow-arrow').length;
+        console.log(len);
           // 当每个箭头创建好之后，定义每个的宽度
           var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount;
 
@@ -2086,6 +2090,7 @@ function stepFlowArrowShow(utils){
                       }
                   }
               }
+
               // 箭头创建完成之后，设置宽度
               $('.first-medical-nav>div').css({"width":divWidth-lossWidht});
               // 开始箭头的形状定义
