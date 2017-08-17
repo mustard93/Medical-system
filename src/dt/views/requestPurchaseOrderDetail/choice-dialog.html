@@ -1,0 +1,237 @@
+
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="salesChangeOrderDialogCtrl"
+     ajax-url=""
+     scope-data="stockBatchList"
+     ng-init="listParams={};"
+     style="position: relative"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
+>
+
+    <style>
+
+        .tab a {
+            display: block;
+            width: 150px;
+            float: left;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border-bottom: #C7A77B solid 1px;
+            border-right: #C7A77B solid 1px;
+            margin-top: -1px;
+        }
+
+        .tab a.cur {
+            color: white;
+            background: #443F3A;
+            border-bottom: #443F3A solid 1px;
+        }
+
+        .goods-info {
+            margin: 15px 20px;
+        }
+
+        .goods-info .color-6 {
+            font-size: 12px;
+            color: #999999;
+            line-height: 16px;
+            width: 40%;
+            display: inline-block;
+
+        }
+
+        .goods-info .color-6 i {
+            color: white;
+            font-style: normal;
+
+        }
+
+        .line-dotted {
+            height: 2px;
+            margin: 10px 0;
+            width: auto;
+            border-bottom: dashed rgba(255, 255, 255, 0.26) 1px;
+        }
+
+        .order-list {
+            width: 100%;
+            margin: 15px;
+            height: 570px;
+            overflow: auto;
+            padding-bottom: 50px;
+        }
+
+        .order-list ul.li-min-h li {
+            width: 33%;
+            float: left;
+            cursor: pointer;
+            padding-top: 5px;
+        }
+
+        .order-list li .mgb-xxl:hover,.order-list li .mgb-xxl.on {
+            -webkit-box-shadow: 0 0 10px #ff8c00;
+            -moz-box-shadow: 0 0 10px #ff8c00;
+            box-shadow: 0 0 10px #ff8c00;
+        }
+
+        .order-list li .pr-bg-grey2 {
+            background: #ddd;
+        }
+
+
+        .choiced {
+            width: 25px;
+            height: 25px;
+            /*line-height: 25px;*/
+            /*background: #C7A77B;*/
+            /*color: #fff;*/
+            /*border-radius: 50%;*/
+            /*text-align: center;*/
+            /*font-size: 20px;*/
+            position: absolute;
+            left: 10px;
+        }
+
+
+        /* 重写样式- 药械闪加*/
+        p.mgb{
+            display: none;
+        }
+       input.pr-w-100{
+            width: 390px!important;
+        }
+        .angucomplete-dropdown{
+            width: 390px!important;
+        }
+        .angucomplete-holder .ipt{
+            width: 100%;
+        }
+
+    </style>
+
+    <!-- 标题 -->
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+        <h1 ng-init="type='按商品查找'" class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">
+            参照发货单
+        </h1>
+    </div>
+
+
+    <div
+         ajax-url="rest/authen/lendOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
+         scope-data="scopeData"
+         callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id); selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'id');">
+
+        <!-- 按单号查找 -->
+        <div class="pdt-s pdb-s pd-c-xl">
+            <div class="inline-block relative" style="margin: 20px 0 20px -10px;color: #fff;">
+
+                <span angucomplete placeholder="请先输入目标客户"
+                      style="width: 390px; "
+                      title-field="name"
+                      search-str-class="ipt ipt-bg-black"
+                      url="rest/authen/customerAddress/query.json?isFilterDefault=true"
+                      class="inline-block"
+                      ng-model="scopeData">
+                </span>
+                <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+            </div>
+        </div>
+
+        <!--客戶和物流信息-->
+
+            <p class="bb-line-gold" style="line-height: 40px; text-indent: 20px;">选择需要合并生成采购单的请购条目</p>
+
+            <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+            </div>
+
+
+            <!-- 商品列表 -->
+            <div ng-if="scopeData" class="pr-panel pd-n pr-panel-height ng-scope">
+                <table class="table pr-table pr-new-table mgb-n">
+                    <thead>
+                    <tr>
+                        <th class="w-60 text-center mycheck">
+                            <input type="checkbox" class="selectAll cur-pot" id='1'
+                                   ng-model="isChoiseAll2"
+                                   ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.data.orderMedicalNos);"
+                            >
+                            <label for="1" style="top: 10px;"></label>
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">请购单编号</th>
+                        <th class="text-center">商品通用名</th>
+                        <th class="text-center">剂型/分类</th>
+                        <th class="text-center">规格/型号</th>
+                        <th class="text-center">要求到货日期</th>
+                        <th class="text-center">待采购量</th>
+                        <th class="text-center">目标客户</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in scopeData.data.orderMedicalNos">
+
+                        <td class="select-td text-center mycheck">
+
+                            <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.data.id) || item.disabled"-->
+
+                            <input type="checkbox"
+                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
+                                       item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"
+                                   ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"
+                                   class="selectOne cur-pot" id='{{$index+2}}'
+                                   ng-model="item.handleFlag"
+                                   ng-click="handleItemClickEvent(item,scopeData.data.orderMedicalNos,'id');">
+                            <label for="{{$index+2}}"></label>
+
+
+                        </td>
+
+                        <td class="text-center">{{item.code}}</td>
+                        <td class="text-center">{{item.orderCode}}</td>
+                        <td>
+                            <span
+                                    class="color-orange cur-pot lend-order-goods-info"
+                                    ng-init="showInfoArea=false"
+                                    ng-mouseenter="showInfoArea=true"
+                                    ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                              <show-info-modal ng-show="showInfoArea"
+                                               get-data-type="local"
+                                               template-url="tpl/showInfoModalLendOrder"
+                                               info-object="{{item}}"
+                                               info-title="商品信息">
+                              </show-info-modal>
+                            </span>
+                        </td>
+                        <td class="text-left">{{item.dosageForms}}</td><!-- 剂型分类 -->
+                        <td class="text-center">{{item.specificationAndModelType}}</td> <!--规格／型号-->
+                        <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td> <!--要求到货日期-->
+                        <td class="text-center">{{item.quantity}}</td><!--待采购量-->
+                        <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!--目标客户-->
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
+            </div>
+
+
+            <div class="footer-button-area" style="position:fixed;bottom:0px;">
+                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
+                        class="pr-btn-create-glodbg new-left-side-button"
+                        ng-click="addOrderDataToList(dialogData.relId,scopeData.data);modal.close()">确定</button>
+            </div>
+        </div>
+
+    </div>
+
+

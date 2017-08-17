@@ -96,6 +96,10 @@ var moduleMap=[
     },
     {
         moduleType:'announcement',
+        moduleName:'通知公告'
+    } ,
+    {
+        moduleType:'requestPurchaseOrderDetail',
         moduleName:'生成企业管理'
     }
 ];
