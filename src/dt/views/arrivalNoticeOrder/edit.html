@@ -445,7 +445,7 @@
         <span ng-if="$root.hasAuthor('来货通知单确认生成')" >
           <button ng-if="numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode "
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
@@ -454,7 +454,7 @@
           </button>
           <button ng-if="numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId "
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
@@ -462,12 +462,13 @@
                   callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
           </button>
         </span>
-      </div>
+      </div>{{formData.orderMedicalNos.quantity}}
       <div class="total-div">
         <p class="pr-font-18 mgb color-light-brown">总计：
           <span class="pr-font-18 color-white">￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}</span>
         </p>
       </div>
     </div>
+     </div>
 </form>
 </div>
