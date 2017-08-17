@@ -617,6 +617,11 @@
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              !confirmOrder_editForm.$valid ||
@@ -624,34 +629,41 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
           单据存在不符合交易要求的因素，不能提交。
@@ -660,13 +672,17 @@
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
       </div>
