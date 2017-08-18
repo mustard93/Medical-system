@@ -626,9 +626,8 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
                   printScope.converResult=item2.stockBatch[i];//条码信息
                   printScope.validTill=item2.validTill;//有效期
                   printScope.specificationAndModelType=item2.specificationAndModelType;//型号规格
-                  printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
-                  printScope.intentionalCustomer=$scope.medicalDataList.intentionalCustomer;//货主信息
-
+                  printScope.supplier=item2.productEnterprise;//供应商信息
+                  printScope.intentionalCustomer=$scope.mainStatus.additional.HabbitOrganizationName;//货主信息
 
                   var tmpHtml=uiCustomHtml.html;
                   tmpHtml=tmpHtml.replace(/\{\{medicalItem.name\}\}/g, printScope.medicalItem.productName||"");
