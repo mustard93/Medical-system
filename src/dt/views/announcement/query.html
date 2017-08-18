@@ -6,6 +6,7 @@
                               crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'
                               component-title="通知公告"
                               is-show-create-btn="新建通知公告"
+                              create-btn-author="通知公告新增"
                               create-new-url="#/announcement/edit.html"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
@@ -113,7 +114,7 @@
 
                   <div class="table-item-multiple-btn"  >
                     <!--删除-->
-                    <div class="inline-block handle-btn del-details-btn relative delete-icon">
+                    <div class="inline-block handle-btn del-details-btn relative delete-icon" ng-show="$root.hasAuthor('通知公告删除')">
                       <div class="del-confirm-area text-center">
                         <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                         <p class="pd-v-s">
@@ -127,7 +128,7 @@
                     </div>
 
                     <!--修改-->
-                    <div class="inline-block relative mgb-l">
+                    <div class="inline-block relative mgb-l" ng-show="$root.hasAuthor('通知公告修改')">
 
                       <a tab-nav tab-name="通知公告" tab-href="#/announcement/edit.html?id={{tr.id}}">
                         <div class="inline-block handle-btn edit-icon entry-ab"> </div>
