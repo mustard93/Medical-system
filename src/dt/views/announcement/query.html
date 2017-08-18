@@ -6,6 +6,7 @@
                               crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'
                               component-title="通知公告"
                               is-show-create-btn="新建通知公告"
+                              create-btn-author="通知公告新增"
                               create-new-url="#/announcement/edit.html"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
@@ -47,7 +48,7 @@
             </div>
             <div class="flex-item-4 text-right mgt-xl">
               <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                <input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">
+                <input type="text" class="ipt pdr-xxl" placeholder="标题" ng-model="listParams.q">
                 <i class=""></i>
               </div>
               <div class="inline-block mgl-m" ng-click="listParams.q=''">
@@ -88,12 +89,10 @@
                   {{$index+1}}
                   <!--<input type="checkbox" class="selectOne cur-pot" id='announcement_{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">-->
                   <!--<label for="announcement_{{$index+2}}"></label>-->
-
-
                 </td>
                 <td class="">
 
-                      <span ng-if="tr.announcementStatus=='待发布'" class="circle-status"
+                  <span ng-if="tr.announcementStatus=='待发布'" class="circle-status"
                             ng-class="{'pr-bg-grey4':tr.announcementStatus=='待发布'}">
                         <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
                           <i class="block pd-c-s text-normal" style="line-height:1.8">
@@ -113,7 +112,7 @@
 
                   <div class="table-item-multiple-btn"  >
                     <!--删除-->
-                    <div class="inline-block handle-btn del-details-btn relative delete-icon">
+                    <div class="inline-block handle-btn del-details-btn relative delete-icon" ng-show="$root.hasAuthor('通知公告删除')">
                       <div class="del-confirm-area text-center">
                         <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                         <p class="pd-v-s">
@@ -127,7 +126,7 @@
                     </div>
 
                     <!--修改-->
-                    <div class="inline-block relative mgb-l">
+                    <div class="inline-block relative mgb-l" ng-show="$root.hasAuthor('通知公告修改')">
 
                       <a tab-nav tab-name="通知公告" tab-href="#/announcement/edit.html?id={{tr.id}}">
                         <div class="inline-block handle-btn edit-icon entry-ab"> </div>
@@ -158,12 +157,8 @@
                 <td class="text-left"><a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{tr.id}}" class="color-orange">{{tr.title}}</a></td><!-- 标题 -->
                 <td class="text-center" >{{tr.salesDepartmentName}}</td><!-- 发布部门 -->
                 <td class="text-center">{{tr.inputUser.n}}</td><!-- 发布人 -->
-                <td >
-                  {{tr.publishAt | date : 'yyyy-MM-dd HH:mm:ss'}}
-                </td><!-- 发布时间-->
-                <td >
-                  {{tr.createAt | date : 'yyyy-MM-dd HH:mm:ss'}}
-                </td><!-- 创建时间 -->
+                <td >{{tr.publishAt | date : 'yyyy-MM-dd HH:mm:ss'}}</td><!-- 发布时间-->
+                <td >{{tr.createAt | date : 'yyyy-MM-dd HH:mm:ss'}} </td><!-- 创建时间 -->
 
               </tr>
               </tbody>
