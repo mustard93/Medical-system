@@ -3587,6 +3587,7 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       listParams: '=?',             // 请求查询的参数对象
       crumbsNav: '@',               // 面包屑导航
       componentTitle: '@',          // 头部标题
+      componentOtherTitle: '@',          // 头部标题,处理特殊情况下，如首营品种和品种管理新建开同一窗口的问题。
       createNewUrl: '@',            // 新建URL
       enterNewUrl: '@',            // 其他URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
