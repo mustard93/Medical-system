@@ -176,7 +176,18 @@
     </div>
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
+
       <div class="btn-area">
+
+        <div class="price-area relative fl-l mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
+          <em class="color-white"
+              invalid-popover
+              popover-show="formData.totalPrice>100000"
+              popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+          </em>
+
+        </div>
+
           <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售退货单" tab-href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
           <span ng-if="formData.didateFilter.buttons.length>0"
                 custom-menu-list
