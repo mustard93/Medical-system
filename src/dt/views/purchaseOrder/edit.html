@@ -2,23 +2,20 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);
-     getCodeGenerationStrategy('采购单');checkData();"
+     callback="initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);"
      alert-error>
-  <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
-
+identityForMedicalStocksMap={{identityForMedicalStocksMap}}
 <form id="purchaseForm_editForm"
-     name="purchaseForm_editForm"
-     form-validator
-     parameter-body
-     action="rest/authen/purchaseOrder/save.json"
-     alert-error
-     alert-ok
-     scope-error-msg="errorMsg"
-     scope-data="formData"
-     callback="submitFormAfter();watchFormChange('formData');"
-     onkeydown="if(window.event.keyCode==13) return false;"
-     novalidate="novalidate">
+      name="purchaseForm_editForm"
+      form-validator
+      parameter-body
+      action="rest/authen/purchaseOrder/save.json"
+      alert-error
+      alert-ok
+      scope-error-msg="errorMsg"
+      scope-data="formData"
+      callback="submitFormAfter();$root.watchFormChange('formData',this)"
+      novalidate="true">
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
@@ -165,24 +162,16 @@
 
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
-           <!-- 信息 -->
-         <!--<div class="inline-block"-->
-              <!--ajax-if-eval="formData.data1.id"-->
-              <!--ajax-url="rest/authen/qualificationCertificate/identity?id={{formData.data1.id}}"-->
-              <!--scope-data="supplier"-->
-              <!--callback="formData.data1=data1;flashAddDataCallbackFn(data1)"-->
-              <!--alert-error>-->
-           <!--<div>-->
-
-           <div ng-if="formData.orderBusinessType!='直发采购'"
-                flash-add-medical
-                ng-model="data1"
-                class="pd-c-l pdt-m"
-                ajax-url="rest/authen/medicalStock/query?flag=true"
-                add-data-callback-fn="flashAddDataCallbackFn(data1)"
-                is-disabled-this="{{formData.supplier.id}}"
-                frozen-goods-disabled=true>
-           </div>
+         <!-- 信息 -->
+         <div ng-if="formData.orderBusinessType!='直发采购'"
+              flash-add-medical
+              ng-model="data1"
+              class="pd-c-l pdt-m"
+              ajax-url="rest/authen/medicalStock/query?flag=true"
+              add-data-callback-fn="flashAddDataCallbackFn(data1)"
+              is-disabled-this="{{formData.supplier.id}}"
+              frozen-goods-disabled=true>
+         </div>
 
            <!-- 列表 -->
            <div class="bt-line">
@@ -341,9 +330,9 @@
                                           info-title="商品信息">
                          </show-info-modal>
                        </span>
-                       <p ng-if="tr.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                       <p ng-if="identityForMedicalStocksMap[tr.relId].msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
                          <i class="warning-icon"></i>
-                         {{tr.info.msg}}
+                         {{identityForMedicalStocksMap[tr.relId].msg}}
                          <span style="margin-left: 15px;">
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>
                         </span>
