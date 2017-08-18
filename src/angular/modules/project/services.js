@@ -1226,13 +1226,21 @@ define('project/services', ['project/init'], function() {
         return tmpObj;
     }
 
+    // 经销商模块中新建单据时校验各条目的有效性
+    function checkDataCorrectness () {
+      return function (url) {
+        
+      }
+    }
+
     angular.module('manageApp.project')
-        .factory('customMenuUtils', ["utils", customMenuUtils])
-        .factory('saleOrderUtils', ["utils", saleOrderUtils])
-        .factory('purchaseOrderUtils', ["utils", purchaseOrderUtils])
-        .factory('invoiceOrderUtils', ["utils", invoiceOrderUtils])
-        .factory('requestPurchaseOrderUtils', ["utils", requestPurchaseOrderUtils])
-        .factory('bottomButtonList', ["$rootScope", bottomButtonList])
-        .factory('queryItemCardButtonList', ["$rootScope", queryItemCardButtonList])
-        .factory('proMessageTips', [proMessageTips]);
+    .factory('customMenuUtils', ["utils", customMenuUtils])
+    .factory('saleOrderUtils', ["utils", saleOrderUtils])
+    .factory('purchaseOrderUtils', ["utils", purchaseOrderUtils])
+    .factory('invoiceOrderUtils', ["utils", invoiceOrderUtils])
+    .factory('requestPurchaseOrderUtils', ["utils", requestPurchaseOrderUtils])
+    .factory('bottomButtonList', ["$rootScope", bottomButtonList])
+    .factory('queryItemCardButtonList', ["$rootScope", queryItemCardButtonList])
+    .factory('proMessageTips', [proMessageTips])
+    .service('checkDataCorrectness', [checkDataCorrectness]);
 });
