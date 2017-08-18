@@ -291,14 +291,14 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
-        <a ng-if="formData.orderStatus=='未提交' && formData.inputUserId==mainStatus.id&&formData.id"
+        <a ng-if="scopeData.orderStatus=='未提交' && scopeData.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
            dialog-content="您确认删除这条发货单吗?"
            dialog-template="pr-dialog-confirm.html"
-           request-url="rest/authen/invoicesOrder/delete?id={{formData.id}}"
+           request-url="rest/authen/invoicesOrder/delete?id={{scopeData.id}}"
            call-back="$root.goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})">删除
         </a>
 

@@ -3,21 +3,21 @@
     ajax-url="rest/authen/announcement/queryOfPublish?pageNo=1&pageSize=5&timestamp={{timestamp}}"
     scope-data="msgList">
 
-    <header class="text-n color-3 text-bold">
+    <header class="text-n color-3 text-bold" ng-init="showMore=false;">
       通知公告
-      <center style="margin-top: -20px; height: 22px; ">
-      <sapn ng-if="msgList.length"  class="color-orange" style="font-weight: normal; font-size: 12px;" >
+      <center style="margin-top: -20px; height: 22px;">
+      <sapn ng-if="msgList.length && !showMore"  class="color-orange" style="font-weight: normal; font-size: 12px;" >
             {{msgList[0].title}}
        </sapn>
       </center>
-        <span ng-init="showMore=false;" class="tools pull-right" style="margin-top: -25px;">
+        <span class="tools pull-right" style="margin-top: -25px;">
             <a ng-click="showMore=!showMore;" href="javascript:;" class="fa fa-chevron-down" toggle-panel=""></a>
         </span>
         <span ng-if="showMore" class="tools pull-right" style="margin-top: -25px;">
             <a ng-click="timestamp=1*timestamp+1" href="javascript:;" class="fa fa-refresh"></a>
         </span>
         <span ng-if="showMore" class="tools pull-right" style="margin-top: -25px;">
-            <a tab-nav tab-name="通知公告" tab-href="#/announcement/query.html" class="fa color-orange">更多...</a>
+            <a tab-nav tab-name="通知公告" tab-href="#/announcement/queryRead.html" class="fa color-orange">更多...</a>
         </span>
     </header>
     <div class="panel-body" style="padding: 15px 0px 0px; display: none;"
