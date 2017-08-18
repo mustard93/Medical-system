@@ -1,3 +1,8 @@
+<style media="screen">
+  .angucomplete-holder{
+    height: 100%;
+  }
+</style>
 <div class="" ng-controller="medicalFlashCheckEditCtrl">
   <!-- 头部信息 -->
   <div class="header-info relative">
@@ -32,7 +37,7 @@
           <input type="text"
             ng-disabled="!medicalData.id"
             class="inline-block mgb"
-            style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;"
+            style="border: 1px solid rgba(0,0,0,.2);width:250px;height:36px;padding-left:10px;"
             placeholder=""
             ng-model="medicalData.productionBatch"
             />
@@ -64,69 +69,69 @@
             </div>
         </div>
         <!-- 显示商品信息 -->
-        <div class="pd-c-v-s flex-item-12 flex-column "  ng-if="scopeData&&medicalData.type=='商品'">
+        <div class="pd-c-v-s flex-item-12 flex-column padd-t0 "  ng-if="scopeData&&medicalData.type=='商品'">
           <!-- 第一行 -->
-          <div class="inline-block flex-item-4 text-s text-left">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>商品通用名称</p><p class="color-3 mgt-s">{{scopeData.approvedName}}</p>
           </div>
-          <div class="inline-block flex-item-4 text-s text-left">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>商品编号</p><p class="color-3 mgt-s">{{scopeData.code}}</p>
           </div>
-          <div class="inline-block flex-item-4 text-s text-left">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>产品注册证号／备案凭证编号／批准文号</p><p class="color-3 mgt-s">{{scopeData.medicalRegistryCode}}</p>
           </div>
           <!-- 第二行 -->
-          <div class="inline-block flex-item-4 text-s text-left mgt">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>剂型／分类</p><p class="color-3 mgt-s">{{scopeData.dosageForms}}</p>
           </div>
-          <div class="inline-block flex-item-4 text-s text-left mgt">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>规格／型号</p><p class="color-3 mgt-s">{{scopeData.specificationAndModelType}}</p>
           </div>
-          <div class="inline-block flex-item-4 text-s text-left mgt">
+          <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>生产企业</p><p class="color-3 mgt-s">{{scopeData.manufacturer}}</p>
           </div>
         </div>
         <!-- 进销价格 -->
-        <div class="pd-c-v-s flex-item-12" ng-if="scopeData && medicalData.type=='价格'">
+        <div class="pd-c-v-s flex-item-12 padd-t0" ng-if="scopeData && medicalData.type=='价格'">
           <!-- 第一行 -->
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>牌价</p><p class="color-3 mgt-s">{{scopeData.quoteprice | currency:'￥'   }}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>批发价</p><p class="color-3 mgt-s">{{scopeData.tradePrice  | currency:'￥'  }}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax}}%</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>&nbsp;</p><p class="color-3 mgt-s">&nbsp;</p>
           </div>
           <!-- 第二行 -->
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>参考采购价</p><p class="color-3 mgt-s">{{scopeData.purchasePrice  | currency:'￥'}}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最新采购价</p>
             <p ng-if="scopeData.newPurchasePrice" class="color-3 mgt-s">{{scopeData.newPurchasePrice  | currency:'￥' }}</p>
             <p ng-if="!scopeData.newPurchasePrice" class="color-3 mgt-s">—</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最高采购价</p><p class="color-3 mgt-s">{{scopeData.maxPurchasePrice | currency:'￥'}}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最低采购价</p><p class="color-3 mgt-s">{{scopeData.minPurchasePrice   | currency:'￥'}}</p>
           </div>
           <!-- 第三行 -->
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>参考销售价</p><p class="color-3 mgt-s">{{scopeData.retailPrice   | currency:'￥'}}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 mgt-s">{{scopeData.newSalePrice   | currency:'￥'}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最高销售价</p><p class="color-3 mgt-s">{{scopeData.maxRetailPrice   | currency:'￥'}}</p>
           </div>
-          <div class="inline-block flex-item-3 text-s text-left">
+          <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最低销售价</p><p class="color-3 mgt-s">{{scopeData.minRetailPrice   | currency:'￥'}}</p>
           </div>
         </div>

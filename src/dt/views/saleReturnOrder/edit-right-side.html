@@ -1,4 +1,4 @@
-<div class="sale-return-order right-side pr-bg-black3"
+<div class="sale-return-order right-side pr-bgc6"
      ng-controller="returnOrderAddController"
      ajax-If-eval="selectedData.id||formData.relId"
      ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
@@ -9,8 +9,8 @@
     <!-- 头部信息 -->
     <div class="relative">
       <!-- 标题 -->
-      <div class="mgb-l pd-c-l pdt pdb color-white pr-font-14 bg-page-header-2nd">
-        参照发货单
+      <div class="bb-line-gold pr-bg-black2 min-h-l" style="margin-bottom:20px;">
+        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">参照发货单</h1>
       </div>
       <div class="mgb-m pd-c-l" ng-show="!dialogData.pageParamsId">
         <span angucomplete placeholder="发货单号"
@@ -26,36 +26,36 @@
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pr-bg-black4">
+    <div>
       <div class="">
-        <div class="empty-panel empty-panel-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
+        <div class="empty-panel empty-panel-new clearfix" ng-if="!addDataObj.orderMedicalNos.length" style="background:rgba(54,48,44,0.3);">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
         </div>
-        <div class="pr-bg-black4"  ng-if="addDataObj.orderMedicalNos.length">
+        <div ng-if="addDataObj.orderMedicalNos.length">
           <div class="mgb">
-            <div class="inline-block logistics-center relative br-line mgl-l" style="width:214px;background: rgba(47,42,38,4.2);">
+            <div class="inline-block logistics-center relative br-line mgl-l" style="width:214px;background:rgba(54,48,44,0.3);">
               <p class="mgb-s mgl-xl color-white">业务类型</p>
               <p class="text-n color-black mgl-xl autocut-default color-white" title="{{addDataObj.orderBusinessType}}" style="padding-right:182px; width:100px;">
                 {{addDataObj.orderBusinessType || '暂无'}}
               </p>
             </div>
-            <div class="inline-block br-line customer-name relative mgl-l" style="width:214px;background: rgba(47,42,38,4.2);">
+            <div class="inline-block br-line customer-name relative mgl-l" style="width:214px;background: rgba(54,48,44,0.3);">
               <p class="mgb-s mgl-xl color-white">客户名</p>
               <p class="text-n color-black mgl-xl autocut-default color-white" title="{{addDataObj.customerName}}" style="width:100px;">
                 {{addDataObj.customerName}}
               </p>
             </div>
-            <div class="inline-block logistics-center relative mgl-l" style="width:214px;background: rgba(47,42,38,4.2);">
+            <div class="inline-block logistics-center relative mgl-l" style="width:214px;background: rgba(54,48,44,0.3);">
               <p class="mgb-s mgl-xl color-white">物流中心</p>
               <p class="text-n color-black mgl-xl autocut-default color-white" title="{{addDataObj.logisticsCenterName}}" style="padding-right:182px; width:100px;">
                 {{addDataObj.logisticsCenterName || '暂无'}}
               </p>
             </div>
           </div>
-          <p class="flex-column color-9 pd mgt  bb-dashed-line-new" style="background: rgba(47,42,38,4.2);">
-            <span class="flex-item-2 color-9">
+          <p class="flex-column color-9 pd mgt  bb-dashed-line-new" style="background: rgba(54,48,44,0.3);">
+            <span class="mar-r20 color-9 mgl">
               单据编号：<em class="color-white">{{addDataObj.orderCode || '暂无'}}</em>
             </span>
             <span class="flex-item-2 color-9">
@@ -65,7 +65,7 @@
               <em class="color-white" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
             </span>
           </p>
-          <p class="flex-column color-9 pd" style="background: rgba(47,42,38,4.2);">
+          <p class="flex-column color-9 pd" style="background: rgba(54,48,44,0.3);">
             <span class="flex-item-12">
               <em class="mgl color-9">业务部门：</em><em class="color-white">{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl color-9">业务人员：</em><em class="color-white">{{addDataObj.saleUser.n|| '暂无'}}</em>
@@ -147,13 +147,13 @@
               </tbody>
             </table>
         </div>
-        <div class="empty-table empty-table-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
+        <div class="empty-table empty-table-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length" style="background:rgba(54,48,44,0.3);">
               <div>&nbsp;</div>
               <div>&nbsp;</div>
               <div>&nbsp;</div>
           </div>
 
-          <div class="bt-line flex-column" style="background: rgba(47,42,38,4.2);" ng-if="addDataObj.orderMedicalNos.length">
+          <div class="bt-line flex-column" style="background: rgba(54,48,44,0.3);" ng-if="addDataObj.orderMedicalNos.length">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
               <span class="mgr mgl color-white">制单部门：
                 <em class="color-white">{{addDataObj.departmentName || '暂无'}}</em>
@@ -169,7 +169,7 @@
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area-2nd relative">
-      <div class="btn-area full-width text-center">
+      <div class="btn-area full-width text-center" style="margin-top:6px;">
         <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
         <button ng-disabled="!choisedMedicalList.length>0"
                 ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList,addDataObj);confirmOrderCalculaTotal(addDataObj.orderMedicalNos);"
