@@ -637,7 +637,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
 
                   tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g,   printScope.converResult.barcode||"");
-                  tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unit||"");
+                  tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unitName||"");
 
                   tmpHtml=tmpHtml.replace(/\{\{intentionalCustomer.intentionalCustomer\}\}/g,   printScope.intentionalCustomer||"");
                   tmpHtml=tmpHtml.replace(/\{\{supplier.name\}\}/g,   printScope.supplier.name||"");
