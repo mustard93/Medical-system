@@ -74,7 +74,7 @@
             <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
           </div> -->
           <!-- <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.StoreRoom" custom-tr-menus="spd_StoreRoom_query" style="width:100%;"></div> -->
-          <div class="pr-bg-white pr-fuzzy-boundary">
+          <div class="pr-bg-white pr-fuzzy-boundary outside-table-d relative">
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
@@ -98,8 +98,10 @@
                   <td class="select-td text-center mycheck" style="width:60px;">
                     <input type="checkbox" class="selectOne cur-pot" id="{{$index + 2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                     <label for="{{$index + 2}}"></label>
+                  </td>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
                     <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
+                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;">
                         <div class="del-confirm-area text-center">
                           <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                           <p class="pd-v-s">
@@ -111,7 +113,7 @@
                           </p>
                         </div>
                       </div>
-                      <div class="inline-block handle-btn"
+                      <div class="inline-block handle-btn edit-icon"
                            modal-right="450"
                            modal-scope="this"
                            modal-url="views/storeRoom/edit-region.html">
@@ -129,8 +131,8 @@
                            modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">
                       </div>
                     </div>
+
                   </td>
-                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                   <td class="text-center">{{tr.storeRoomName}}</td>
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.name}}</td>
