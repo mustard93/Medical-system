@@ -8,106 +8,6 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
    */
-  function requestPurchaseOrderDetailDialogCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
-
-      modal.closeAll();
-
-      // 监视表单内子项目变化
-      $scope.watchFormChange=function(watchName){
-        watchFormChange(watchName,$scope);
-      };
-      // 保存  type:save-草稿,submit-提交订单。
-      $scope.submitFormAfter = function() {
-        $scope.formData.validFlag = false;
-
-        if ($scope.submitForm_type == 'submit') {
-            requestData('rest/authen/announcement/publish',{id:$scope.formData.id},'POST').then(function (results) {
-                if (results[1].code === 200) {
-                    utils.goTo('#/announcement/query.html');
-                }
-            }).catch(function (error) {
-                throw new Error(error || '出错');
-            });
-        }
-
-        if ($scope.submitForm_type == 'save') {
-        }
-      };
-
-      // 2保存 type:save-草稿,submit-提交订单。
-      $scope.submitForm = function(fromId, type) {
-        $scope.submitForm_type = type;
-        if ($scope.submitForm_type == 'submit') {
-          $scope.formData.validFlag = true;
-        }
-
-          if ($scope.submitForm_type == 'save') {
-           $scope.formData.validFlag = false;
-          }
-
-          $scope.submitFormValidator(fromId);
-
-      };
-
-
-
-      //监控选择的发货单变化
-      $scope.$watch('scopeData',function (newVal,oldVal){
-          if(newVal){
-
-              console.log("newVal");
-              $scope.listParams.customerId= newVal.id;
-
-          }
-      });
-
-
-
-
-      // 处理全选与全不选
-      $scope.choiced=[];
-      $scope.handleChoiseAllEvent = function (medicalsObj,handleFlag) {
-          if (medicalsObj && angular.isArray(medicalsObj)) {
-              if ($scope.isChoiseAll) {   // 全选被选中
-                  angular.forEach(medicalsObj, function (data, index) {
-                      data.handleFlag = true;
-                      $scope.choiced.push(data.id);
-                  });
-              } else {    //取消了全部选中
-                  angular.forEach(medicalsObj, function (data, index) {
-                      data.handleFlag = false;
-                      $scope.choiced=[];
-                  });
-              }
-          }
-      };
-
-      $scope.handleItemClickEvent = function (tr) {
-          var _dataSource = $scope.tbodyList;
-          if (!$scope.choiced) {
-              $scope.choiced = [];
-          }
-
-          if (tr.handleFlag) {
-              $scope.choiced.push(tr.id);
-              if ($scope.choiced.length === _dataSource.length) {
-                  $scope.isChoiseAll = true;
-              }
-          } else {
-              angular.forEach($scope.choiced, function (data, index) {
-                  if (data.id === tr.id) {
-                      $scope.choiced.splice(index, 1);
-                  }
-              });
-              $scope.isChoiseAll = false;
-          }
-      };
-
-
-
-
-
-  }
 
 
    function requestPurchaseOrderDetailCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
@@ -492,48 +392,6 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             // $('#addDataItem_relId_chosen').trigger('click');
         };
 
-        $scope.submitFormAfter = function() {
-
-            $scope.formData.validFlag = false;
-
-            if ($scope.submitForm_type == 'exit') {
-                $scope.goTo('#/purchaseOrder/query.html');
-                return;
-            }else if ($scope.submitForm_type == 'print') {
-                var url="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id="+$scope.formData.id;
-                win1=window.open(url);
-
-                if(!win1||!win1.location){
-                    alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
-                }
-                return;
-            }
-
-            if ($scope.submitForm_type == 'submit') {
-                var _url='rest/authen/purchaseOrder/startProcessInstance';
-                var data= {businessKey:$scope.formData.id};
-                requestData(_url,data, 'POST')
-                    .then(function (results) {
-                        var _data = results[1];
-                        $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
-                    })
-                    .catch(function (error) {
-                        alertError(error || '出错');
-                    });
-            }
-        };
-
-        $scope.submitForm = function(fromId, type) {
-            $scope.submitForm_type = type;
-            if ($scope.submitForm_type == 'submit') {
-                $scope.formData.validFlag = true;
-            }
-            $scope.submitFormValidator(fromId);
-
-            // addDataItem_opt.submitUrl='';
-            // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-            // $scope.addDataItem={};
-        };
 
         $scope.cancelForm = function(fromId, url) {
             alertWarn('cancelForm');
@@ -637,16 +495,17 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         };
         // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
-        $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
-            if (newVal && newVal!==oldVal) {
-                for (var i = 0; i < newVal.length; i++) {
-                    $scope.ids.push(newVal[i].relId);
-                }
-                // 去重一次
-                $scope.ids=unique1($scope.ids);
-                console.log($scope.ids);
-            }
-        })
+
+        // $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
+        //     if (newVal && newVal!==oldVal) {
+        //         for (var i = 0; i < newVal.length; i++) {
+        //             $scope.ids.push(newVal[i].relId);
+        //         }
+        //
+        //         $scope.ids=unique1($scope.ids);
+        //         console.log($scope.ids);
+        //     }
+        // })
 
         // 数组去重
         function unique1(array){
@@ -705,6 +564,8 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             return _total.toFixed(2);
         };
 
+
+        //设置预入库房
         $scope.changeWarehouse = function (warehouseId,orderMedicalNos){
             if (orderMedicalNos) {
                 angular.forEach(orderMedicalNos, function (data, index) {
@@ -713,30 +574,192 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         }
 
-        //根据资质条件判断时候允许下一步或提交
-        $scope.canNextStep=function(){
 
-            var flag=true;
 
-            if($scope.customerInfo){
-                if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-                    flag=false;
-                    return flag;
-                }
+      //提交表单回调方法
+      $scope.submitFormAfter = function() {
+
+          $scope.formData.validFlag = false;
+
+          if ($scope.submitForm_type == 'exit') {
+              $scope.goTo('#/purchaseOrder/query.html');
+              return;
+          }else if ($scope.submitForm_type == 'print') {
+              var url="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id="+$scope.formData.id;
+              win1=window.open(url);
+
+              if(!win1||!win1.location){
+                  alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+              }
+              return;
+          }
+
+          if ($scope.submitForm_type == 'submit') {
+              var _url='rest/authen/purchaseOrder/startProcessInstance';
+              var data= {businessKey:$scope.formData.id};
+              requestData(_url,data, 'POST')
+                  .then(function (results) {
+                      var _data = results[1];
+                      $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
+      };
+
+
+      //提交表单
+      $scope.submitForm = function(fromId, type) {
+          $scope.submitForm_type = type;
+          if ($scope.submitForm_type == 'submit') {
+              $scope.formData.validFlag = true;
+              $scope.formData.isMerge=true;
+          }
+          if ($scope.submitForm_type == 'save') {
+              $scope.formData.validFlag = false;
+              $scope.formData.isMerge=true;
+          }
+
+          $scope.submitFormValidator(fromId);
+
+          // addDataItem_opt.submitUrl='';
+          // $scope.formData.orderMedicalNos.push($scope.addDataItem);
+          // $scope.addDataItem={};
+      };
+
+
+      //选择事件
+      $scope.$on("selctedMed",function (e,data) {
+
+          //构造数据
+          var datas=[];
+
+          angular.forEach(data,function (item,index) {
+
+              var obj=item.orderMedicalNo;
+
+              datas.push(obj);
+          });
+
+
+          $scope.formData.orderMedicalNos=datas;
+          e.stopPropagation();
+          modal.close();
+      })
+
+      $scope.canNextStep=function () {
+
+          return true;
+      }
+
+    }//
+
+    function requestPurchaseOrderDetailDialogCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
+
+        modal.closeAll();
+
+        // 监视表单内子项目变化
+        $scope.watchFormChange=function(watchName){
+            watchFormChange(watchName,$scope);
+        };
+        // 保存  type:save-草稿,submit-提交订单。
+        $scope.submitFormAfter = function() {
+            $scope.formData.validFlag = false;
+
+            if ($scope.submitForm_type == 'submit') {
+                requestData('rest/authen/announcement/publish',{id:$scope.formData.id},'POST').then(function (results) {
+                    if (results[1].code === 200) {
+                        utils.goTo('#/announcement/query.html');
+                    }
+                }).catch(function (error) {
+                    throw new Error(error || '出错');
+                });
             }
 
-            angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-                if(medical.info){
-                    if(medical.info.controllType =='限制交易' && medical.info.msg){
-                        flag=false;
-                    }
-                }
-            });
-            return flag;
+            if ($scope.submitForm_type == 'save') {
+            }
         };
 
-    }//end salesOrderEditCtrl
+        // 2保存 type:save-草稿,submit-提交订单。
+        $scope.submitForm = function(fromId, type) {
+            $scope.submitForm_type = type;
+            if ($scope.submitForm_type == 'submit') {
+                $scope.formData.validFlag = true;
+            }
 
+            if ($scope.submitForm_type == 'save') {
+                $scope.formData.validFlag = false;
+            }
+
+            $scope.submitFormValidator(fromId);
+
+        };
+
+
+
+        //监控选择的发货单变化
+        $scope.$watch('scopeData',function (newVal,oldVal){
+            if(newVal){
+                console.log("newVal");
+                $scope.listParams.customerId= newVal.id;
+            }
+        });
+
+
+        $scope.addOrderDataToList=function () {
+            console.log("$scope.choiced",$scope.choiced);
+            $scope.$emit('selctedMed',$scope.choiced);
+        };
+
+
+
+
+
+        // 处理全选与全不选222
+        $scope.choiced=[];
+        $scope.handleChoiseAllEvent = function (medicalsObj,handleFlag) {
+            if (medicalsObj && angular.isArray(medicalsObj)) {
+                if (handleFlag) {   // 全选被选中
+                    angular.forEach(medicalsObj, function (data, index) {
+                        data.handleFlag = true;
+                        $scope.choiced.push(data);
+                    });
+                } else {    //取消了全部选中
+                    angular.forEach(medicalsObj, function (data, index) {
+                        data.handleFlag = false;
+                        $scope.choiced=[];
+                    });
+                }
+            }
+        };
+
+        $scope.handleItemClickEvent = function (tr) {
+            var _dataSource = $scope.tbodyList;
+            if (!$scope.choiced) {
+                $scope.choiced = [];
+            }
+
+            if (tr.handleFlag) {
+                $scope.choiced.push(tr);
+                if ($scope.choiced.length === _dataSource.length) {
+                    $scope.isChoiseAll = true;
+                }
+            } else {
+                angular.forEach($scope.choiced, function (data, index) {
+                    if (data === tr) {
+                        $scope.choiced.splice(index, 1);
+                    }
+                });
+                $scope.isChoiseAll = false;
+            }
+        };
+
+
+
+
+
+    }
 
 
     angular.module('manageApp.project')
