@@ -359,17 +359,11 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
-      if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
-        converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
-        return;
-      } else {
-        var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
-            _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+      var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
+          _temp = parseInt(_temp / converResults[index+1].ratio, 10);
 
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
-        angular.copy(converResults, $scope.originData.converResults);
-      }
+      converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+      angular.copy(converResults, $scope.originData.converResults);
     }
   }
 
