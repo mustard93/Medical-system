@@ -5,6 +5,10 @@
   canvas{
     padding: 0 5px;
   }
+  .ngdialog-content{
+    max-height: 100%;
+    overflow: auto;
+  }
 </style>
 <div ng-controller="invoicesOrderCtrl"
      ng-init="outstockOrderForm={};initFlag=false;"
@@ -97,7 +101,7 @@
             <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
             <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo}}</em></span> -->
             <a ng-if="initFlag"
-            modal-center="1000px"
+            modal-center="auto"
             modal-data='{"businessKey":"{{scopeData.relId}}"}'
             modal-scope="this"
             modal-url="views/workflowTask/getOfDialog.html"
