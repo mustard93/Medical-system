@@ -220,7 +220,7 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       // 循环查找对应的分组条件，将其ID写入参数对象中
       if (item === 'customerName') { $scope.listParams1['customerId'] = keyData['customerId']; }
       if (item === 'medicalAttributeName') { $scope.listParams1['medicalAttributeId'] = keyData['medicalAttributeId']; }
-      if (item === 'medicalApprovedName') { $scope.listParams1['orderMedicalNoId'] = keyData['orderMedicalNoId']; }
+      if (item === 'medicalApprovedName') { $scope.listParams1['medicalApprovedName'] = keyData['orderMedicalNoId']; }
       if (item === 'salesDepartmentName') { $scope.listParams1['salesDepartmentId'] = keyData['salesDepartmentId']; }
       if (item === 'saleUserName') { $scope.listParams1['saleUserId'] = keyData['saleUserId']; }
       if (item === 'departmentName') { $scope.listParams1['departmentId'] = keyData['departmentId']; }
