@@ -54,7 +54,10 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       //监控选择的发货单变化
       $scope.$watch('scopeData',function (newVal,oldVal){
           if(newVal){
-             console.log("。。。。。。。。。newVal。。。。。。。");
+
+              console.log("newVal");
+              $scope.listParams.customerId= newVal.id;
+
           }
       });
 
