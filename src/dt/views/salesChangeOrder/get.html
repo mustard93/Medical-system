@@ -349,14 +349,14 @@
 
 
 
-      <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='处理中' && scopeData.orderStatus!='已处理'"
+      <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='换货中'"
               style="background: #FF1212;"
               type="button"
               handle-this-click
               dialog-title="确认撤单?"
               dialog-content="您确认撤销这条销售换货单吗?"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/salesChangeOrder/delete?id={{formData.id}}"
+              request-url="rest/authen/salesChangeOrder/forcedCancellation?id={{scopeData.id}}"
               callback="goTo({tabHref:'#/salesChangeOrder/query.html',tabName:'销售换货单'})">强制撤单
       </button>
 

@@ -195,14 +195,14 @@
           <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="采购退货单" tab-href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
 
 
-        <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='处理中' && scopeData.orderStatus!='已处理'"
+        <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="formData.orderStatus=='处理中' && formData.orderStatus!='已处理'"
                 style="background: #FF1212;"
                 type="button"
                 handle-this-click
                 dialog-title="确认撤单?"
                 dialog-content="您确认撤销这条采购退货单吗?"
                 dialog-template="pr-dialog-submit.html"
-                request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
+                request-url="rest/authen/purchaseReturnOrder/forcedCancellation?id={{formData.id}}"
                 callback="goTo({tabHref:'#/purchaseReturnOrder/query.html',tabName:'采购退货单'})">强制撤单
         </button>
 

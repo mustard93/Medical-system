@@ -13,55 +13,57 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
    */
   function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
 
-      //初始化校验数据
-      $scope.checkData=function(){
-           console.log("checkData");
-          //初始化显示数据
-          if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+    //初始化校验数据
+    $scope.checkData=function(){
 
-              var ids=[];
-              angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                  ids.push(item.relId);
-              });
+      $scope.identityForMedicalStocksMap={};
+        //初始化显示数据
+        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
 
-              requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+            var ids=[];
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                ids.push(item.relId);
+            });
 
-                  if(result[1].code==200){
+            requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
 
-                      var datas = result[1].data;
+                if(result[1].code==200){
 
-                      angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                          item.info=datas[index];
-                      });
-                  }
+                    var datas = result[1].data;
 
-              });
-          }
-      };
+                    angular.forEach(datas,function (item,index) {
+                      $scope.identityForMedicalStocksMap[item.medicalStockId]=item;
+                        // item.info=datas[index];
+                    });
+                }
 
-      // 监控用户变化，清空之前选择药械列表
-      $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
+            });
+        }
+    };
 
-          // 当用户第一次选择客户时，检查该用户是否有证照过期
-          if (newVal && oldVal !== newVal) {
-              console.log($scope.formData.customerId);
-              if ($scope.formData.customerId) {
-                  var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
-                  // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
-                  requestData(_reqUrl)
-                      .then(function (results) {
-                          if(results[1].code ==200){
-                              console.log(results[1].data);
-                              $scope.customerInfo= results[1].data;
-                          }
-                      })
-                      .catch(function (error) {
-                          throw new Error(error);
-                      });
-              }
-          }
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 
-      });
+        // 当用户第一次选择客户时，检查该用户是否有证照过期
+        if (newVal && oldVal !== newVal) {
+            console.log($scope.formData.customerId);
+            if ($scope.formData.customerId) {
+                var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
+                // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
+                requestData(_reqUrl)
+                    .then(function (results) {
+                        if(results[1].code ==200){
+                            console.log(results[1].data);
+                            $scope.customerInfo= results[1].data;
+                        }
+                    })
+                    .catch(function (error) {
+                        throw new Error(error);
+                    });
+            }
+        }
+
+    });
 
     // 先声明一个ids数组，用于存放药品id，以备后续查询历史价格时使用。
     $scope.ids=[];
@@ -395,6 +397,8 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
 
     $scope.submitFormAfter = function() {
 
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
       $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
@@ -414,22 +418,23 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
           var _url='rest/authen/purchaseOrder/startProcessInstance';
           var data= {businessKey:$scope.formData.id};
           requestData(_url,data, 'POST')
-            .then(function (results) {
-              var _data = results[1];
-              $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
-            })
-            .catch(function (error) {
-              alertError(error || '出错');
-            });
-          }
-        };
+          .then(function (results) {
+            var _data = results[1];
+            $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+        }
+      };
 
     $scope.submitForm = function(fromId, type) {
       $scope.submitForm_type = type;
       if ($scope.submitForm_type == 'submit') {
         $scope.formData.validFlag = true;
       }
-     $scope.submitFormValidator(fromId);
+
+      $scope.submitFormValidator(fromId);
 
      // addDataItem_opt.submitUrl='';
      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
@@ -551,46 +556,46 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
 
     // 数组去重
     function unique1(array){
-    var n = []; //一个新的临时数组
-    //遍历当前数组
-    for(var i = 0; i < array.length; i++){
-    if (n.indexOf(array[i]) == -1) n.push(array[i]);
-    }
-    return n;
+      var n = []; //一个新的临时数组
+      //遍历当前数组
+      for(var i = 0; i < array.length; i++){
+      if (n.indexOf(array[i]) == -1) n.push(array[i]);
+      }
+      return n;
     }
 
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
     $scope.getHistoryFirstPrice=function(supplier){
 
-    if (!$scope.ids.length) {
-      for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
-        $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+      if (!$scope.ids.length) {
+        for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+          $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+        }
       }
-    }
-    console.log($scope.ids.length);
-      if (supplier.id&&$scope.ids.length&&supplier.contact) {
-        var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
-        _data={};
-        requestData(_url,_data, 'get')
-          .then(function (results) {
-            var _data = results[1].data;
-            console.log(_data);
-            // 把相应的历史价格赋值叨叨相应的商品上
-            for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
-              console.log($scope.formData.orderMedicalNos[i]);
+      console.log($scope.ids.length);
+        if (supplier.id&&$scope.ids.length&&supplier.contact) {
+          var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
+          _data={};
+          requestData(_url,_data, 'get')
+            .then(function (results) {
+              var _data = results[1].data;
+              console.log(_data);
+              // 把相应的历史价格赋值叨叨相应的商品上
+              for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+                console.log($scope.formData.orderMedicalNos[i]);
 
-              if ($scope.formData.orderMedicalNos[i].id!=null) {
-                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
-              }else {
-                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+                if ($scope.formData.orderMedicalNos[i].id!=null) {
+                  $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
+                }else {
+                  $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+                }
+
               }
-
-            }
-          })
-          .catch(function (error) {
-            alertError(error || '出错');
-          });
-      }
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+        }
     }
 
     // 总价金额计算方法
@@ -614,29 +619,29 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
       }
     }
 
-      //根据资质条件判断时候允许下一步或提交
-      $scope.canNextStep=function(){
+    //根据资质条件判断时候允许下一步或提交
+    $scope.canNextStep=function(){
 
-          var flag=true;
+        var flag=true;
 
-          if($scope.customerInfo){
-              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-                  flag=false;
-                  return flag;
-              }
-          }
+        if($scope.customerInfo){
+            if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                flag=false;
+                return flag;
+            }
+        }
 
-          angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-              if(medical.info){
-                  if(medical.info.controllType =='限制交易' && medical.info.msg){
-                      flag=false;
-                  }
-              }
-          });
-          return flag;
-      };
+        angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+            if(medical.info){
+                if(medical.info.controllType =='限制交易' && medical.info.msg){
+                    flag=false;
+                }
+            }
+        });
+        return flag;
+    };
 
-   }//end salesOrderEditCtrl
+   }
 
   angular.module('manageApp.project')
   .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert",  purchaseOrderEditCtrl]);
