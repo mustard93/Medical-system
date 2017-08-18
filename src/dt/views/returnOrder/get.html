@@ -226,10 +226,19 @@
          save-callback="submitForm('returnOrder_editForm1','exit')">返回归还单列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-click="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})"
+      <a class="mgr-l" ng-if="!changeFlag" ng-click="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">返回归还单列表</a>
 
+      <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='入库中'"
+              style="background: #FF1212;"
+              type="button"
+              handle-this-click
+              dialog-title="确认撤单?"
+              dialog-content="您确认撤销这条归还单吗?"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/returnOrder/delete?id={{formData.id}}"
+              callback="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">强制撤单
+      </button>
 
-      >返回归还单列表</a>
       <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
         <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=returnOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
       </button>

@@ -291,7 +291,8 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="发货单" tab-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
-        <a ng-if="formData.orderStatus=='未提交' && formData.inputUserId==mainStatus.id&&formData.id"
+      <span ng-if="$root.hasAuthor('发货单删除')">
+        <a ng-if="formData.orderStatus=='未提交' &&formData.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
@@ -301,6 +302,7 @@
            request-url="rest/authen/invoicesOrder/delete?id={{formData.id}}"
            call-back="$root.goTo({tabHref:'#/invoicesOrder/query.html',tabName:'发货单'})">删除
         </a>
+        </span>
 
         <!-- <button type="button"
                 class="pr-btn-save-glodbg mgr"
