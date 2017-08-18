@@ -4024,10 +4024,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           // // 此方法解决有关有滚动条时，商品通用名移入显示模态框遮挡问题。
           function resetInfoModel(){
             if ($(element).parents('div').hasClass('outside-table-d')) {
+              // 向左的偏移量=当前出现名称的span距离左边的距离+自身出现名称的宽度+20的偏移量
               var _leftShif=$(element).parent('span').offset().left+$(element).parent('span').width()+20;
+              // 向右的偏移量=当前元素距离顶部的距离-滚动条的高度
               var _topShif=$(element).parent('span').offset().top-$(document).scrollTop();
-              console.log(_leftShif);
-              console.log(_topShif);
               $(element).css({'position':'fixed','top':_topShif,'left':_leftShif});
             }
           }
