@@ -593,6 +593,9 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     // 打印
     // @param printType 打印类型：preview为预览(默认)，print为直接打印
     $scope.barCodePrint = function (printType) {
+
+
+
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
       } else {
@@ -811,11 +814,16 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
 
     // 返回特定时间戳的日期
     var getDateFormat = function (time) {
-      if (time) {
-        return new Date(time).getFullYear() + '-' + (new Date(time).getMonth() + 1) + '-' + new Date(time).getDay();
-      } else {
-        return '暂无';
-      }
+       if(!time)  return '暂无';
+        var moment = require('moment');
+        m = moment(time).format('YYYY-MM-DD');
+        return m;
+      //   天数解析不准确bug
+      // if (time) {
+      //   return new Date(time).getFullYear() + '-' + (new Date(time).getMonth() + 1) + '-' + new Date(time).getDay();
+      // } else {
+      //   return '暂无';
+      // }
     }
 
   }
