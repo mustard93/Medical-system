@@ -632,6 +632,8 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       //选择事件
       $scope.$on("selctedMed",function (e,data) {
 
+          $scope.formData.customerId=data[0].customerId;
+          $scope.formData.customerName=data[0].customerName;
           //构造数据
           var datas=[];
 
@@ -641,6 +643,8 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
 
               datas.push(obj);
           });
+
+
 
 
           $scope.formData.orderMedicalNos=datas;
