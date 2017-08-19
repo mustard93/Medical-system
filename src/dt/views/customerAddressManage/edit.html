@@ -27,7 +27,7 @@
             name="customerAddress_editForm"
             form-validator
             parameter-body
-            action="rest/authen/firstCustomerAddressApplication/saveBaseInfo"
+            action="rest/authen/customerAddress/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -295,10 +295,9 @@
                  dialog-title="确认返回?"
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo({tabHref:'#/customerAddress/query.html',tabName:'客户管理'})"
-                 save-callback="submitForm('customerAddress_editForm','exit');
-                 $root.goTo({tabHref:'#/customerAddress/query.html',tabName:'客户管理'})">返回客户管理列表</a>
-              <a ng-if="!changeFlag" tab-nav tab-name="客户管理" tab-href="#/views/customerAddressManage/query.html">返回客户管理列表</a>
+                 nosave-callback="goTo({tabHref:'#/customerAddressManage/query.html',tabName:'客户管理'})"
+                 save-callback="submitSaveCallBack('customerAddress','customerAddressManage')">返回客户管理列表</a>
+              <a ng-if="!changeFlag" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">返回客户管理列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
             <span class="mgl" >

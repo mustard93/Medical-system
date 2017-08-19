@@ -258,8 +258,13 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
     };
 
-    $scope.submitSaveCallBack=function(type){
-        requestData('rest/authen/'+type+'/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+    $scope.submitSaveCallBack=function(type,saveType){
+      if (saveType) {
+        var url='rest/authen/'+type+'/'+saveType;
+      }else {
+          var url='rest/authen/'+type+'/saveBaseInfo';
+      }
+        requestData(url, $scope.formData, 'POST', 'parameterBody')
             .then(function (results) {
                 if (results[1].code === 200) {
                   $scope.formData.validFlag = true;
@@ -541,7 +546,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
           .then(function (results) {
              if (results[1].code === 200){
                $scope.formData.productEnterprise=results[1].data;
-               
+
              }
           })
           .catch(function (error) {
