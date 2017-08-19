@@ -290,6 +290,23 @@ define('project/controllers-customerAddress', ['project/init'], function() {
       }
     }
 
+    $scope.submitSaveCallBack=function(type,UrlType){
+      // 特殊处理有关客户管理模块，模块名与调用接口模块名不一致的问题。
+        if (!UrlType) {
+          UrlType=type;
+        }
+        requestData('rest/authen/'+type+'/save', $scope.formData, 'POST', 'parameterBody')
+            .then(function (results) {
+                if (results[1].code === 200) {
+                  $scope.formData.validFlag = true;
+                  $scope.goTo('#/'+UrlType+'/query.html?id='+$scope.formData.id);
+                }
+            })
+            .catch(function (error) {
+              alertError('出错！')
+            });
+
+    }
 
   }
 
