@@ -119,21 +119,22 @@
 
 
     <div
-         ajax-url="rest/authen/lendOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
+         ajax-url="rest/authen/invoicesOrder/get?id={{selectedData.id||dialogData.relId}}"
          scope-data="scopeData"
-         callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id); selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'id');">
+         callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id);">
 
-        <!-- 按单号查找 -->
-        <div class="pdt-s pdb-s pd-c-xl">
+        <!-- 按单号查找  ng-show="!dialogData.relId"-->
+        <div class="pdt-s pdb-s pd-c-xl"  ng-show="!dialogData.relId">
             <div class="inline-block relative" style="margin: 20px 0 20px -10px;">
 
                 <span angucomplete placeholder="发货单号"
                       style="width: 390px"
                       title-field="orderCode"
+                      search-fields=""
                       search-str-class="ipt ipt-bg-black"
                       url="rest/authen/invoicesOrder/query?orderStatus=已发货,已收货&orderBusinessType=普通销售"
                       class="inline-block"
-                      ng-model="scopeData">
+                      ng-model="selectedData">
                 </span>
                 <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
             </div>
@@ -151,7 +152,7 @@
                         <div class="inline-block customer-name "></div>
                         <div class="inline-block">
                             <p class="mgb-s" style="margin-left: 10px; color: #B5B5B5;">客户名</p>
-                            <p class="mgb-s" style="margin-left: 10px;font-size: 14px;color: #FFFFFF;">{{scopeData.data.logisticsCenterName || "暂无"}}</p>
+                            <p class="mgb-s" style="margin-left: 10px;font-size: 14px;color: #FFFFFF;">{{scopeData.logisticsCenterName || "暂无"}}</p>
                         </div>
                     </div>
                 </div>
@@ -165,7 +166,7 @@
                         <div class="inline-block logistics-center"></div>
                         <div class="inline-block">
                             <p class="mgb-s" style="margin-left: 10px; color: #B5B5B5;">物流中心</p>
-                            <p class="mgb-s" style="margin-left: 10px;font-size: 14px;color: #FFFFFF;">{{scopeData.data.logisticsCenterName || "暂无"}}</p>
+                            <p class="mgb-s" style="margin-left: 10px;font-size: 14px;color: #FFFFFF;">{{scopeData.logisticsCenterName || "暂无"}}</p>
                         </div>
                     </div>
                 </div>
@@ -185,20 +186,20 @@
                 <!-- 单据信息 -->
                 <div class="flex-column color-9 pd-c-l pdt-m pdb-m" style="border: 1px dashed rgba(0,0,0,0.10);">
                     <div class="flex-item-6">
-                        <span class="mgr">单据编号：<em class="color-ca">{{scopeData.data.orderCode}}</em></span>
-                        <span class="mgr">单据日期：<em class="color-ca">{{scopeData.data.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+                        <span class="mgr">单据编号：<em class="color-ca">{{scopeData.orderCode}}</em></span>
+                        <span class="mgr">单据日期：<em class="color-ca">{{scopeData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em></span>
                     </div>
                     <div class="flex-item-6 text-right">
-                       <span class="mgr">状态：<em class="color-ca">{{scopeData.data.orderStatus}}</em></span>
+                       <span class="mgr">状态：<em class="color-ca">{{scopeData.orderStatus}}</em></span>
                     </div>
                 </div>
 
                 <!-- 类别选择 -->
                 <div class="pd-c-l pdt-m pdb-m color-9">
-                    <span class="mgr-l">业务部门：<em class="color-ca">{{scopeData.data.salesDepartmentName}}</em></span>
-                    <span class="mgr-l">业务人员：<em class="color-ca">{{scopeData.data.saleUser.n}}</em></span>
-                    <span class="mgr-l">销售类型：<em class="color-ca">{{scopeData.data.salesType}}</em></span>
-                    <span class="mgr-l">预发货日期：<em class="color-ca">{{scopeData.data.expectDate | date:'yyyy-MM-dd'}}</em></span>
+                    <span class="mgr-l">业务部门：<em class="color-ca">{{scopeData.salesDepartmentName}}</em></span>
+                    <span class="mgr-l">业务人员：<em class="color-ca">{{scopeData.saleUser.n}}</em></span>
+                    <span class="mgr-l">销售类型：<em class="color-ca">{{scopeData.salesType}}</em></span>
+                    <span class="mgr-l">预发货日期：<em class="color-ca">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
                 </div>
 
             </div>
@@ -212,7 +213,7 @@
                             <input type="checkbox" class="selectAll cur-pot" id='salasChangeOrderDialog_1'
 
                                    ng-model="isChoiseAll2"
-                                   ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.data.orderMedicalNos);"
+                                   ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
                             >
                             <label for="salasChangeOrderDialog_1" style="top: 10px;"></label>
                         </th>
@@ -233,19 +234,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="item in scopeData.data.orderMedicalNos">
+                    <tr ng-repeat="item in scopeData.orderMedicalNos">
 
                         <td class="select-td text-center mycheck">
 
-                            <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.data.id) || item.disabled"-->
+                            <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"-->
 
                             <input type="checkbox"
-                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
+                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
                                        item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"
                                    ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"
                                    class="selectOne cur-pot" id='salasChangeOrderDialog_{{$index+2}}'
                                    ng-model="item.handleFlag"
-                                   ng-click="handleItemClickEvent(item,scopeData.data.orderMedicalNos,'id');">
+                                   ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'id');">
                             <label for="salasChangeOrderDialog_{{$index+2}}"></label>
 
 
@@ -292,19 +293,19 @@
             <div ng-if="scopeData" class="bt-line flex-column" style="background: rgba(47,42,38,4.2);" >
                 <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
                   <span class="mgr-l color-9">制单部门：
-                    <em class="color-ca">{{scopeData.data.departmentName || '暂无'}}</em>
+                    <em class="color-ca">{{scopeData.departmentName || '暂无'}}</em>
                   </span>
 
-                    <span class="mgr-l color-9">制单人：<em class="color-orange">{{scopeData.data.inputUser.n || '暂无'}}</em></span>
+                    <span class="mgr-l color-9">制单人：<em class="color-orange">{{scopeData.inputUser.n || '暂无'}}</em></span>
 
-                    <span class="mgr-l color-9">制单时间：<em class="color-ca">{{scopeData.data.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+                    <span class="mgr-l color-9">制单时间：<em class="color-ca">{{scopeData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
                 </p>
             </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
                 <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
                         class="pr-btn-create-glodbg new-left-side-button"
-                        ng-click="addOrderDataToList(dialogData.relId,scopeData.data);modal.close()">确定</button>
+                        ng-click="addOrderDataToList(dialogData.relId,scopeData);modal.close()">确定</button>
             </div>
         </div>
 

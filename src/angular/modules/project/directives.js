@@ -3483,6 +3483,10 @@ function addressManageComponent (requestData, utils) {
         if ($scope.formData.id) {
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';    // 获取当前选中的地址信息
 
+          //修复null报错bug。
+          if(!$scope.formData[_moduleName]){
+            $scope.formData[_moduleName]={};
+          }
           // 如果当前修改的地址条目是选中的地址
           if ($scope.formData[_moduleName]['id'] === id) {    // 重新请求修改后的地址信息
             var _requestDataId = $scope.requestDataId ? $scope.requestDataId : '';
