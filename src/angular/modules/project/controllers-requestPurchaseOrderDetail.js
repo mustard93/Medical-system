@@ -715,6 +715,14 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         });
 
+        $scope.$watch('listParams.customerId',function (newVal,oldVal){
+            if(newVal){
+                console.log("newVal");
+                $scope.listParams.customerId= newVal;
+            }
+        });
+
+
 
         $scope.addOrderDataToList=function () {
             console.log("$scope.choiced",$scope.choiced);

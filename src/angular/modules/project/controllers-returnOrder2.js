@@ -51,6 +51,10 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
     };
 
 
+      $scope.$watch("submitForm_type",function(newValue,oldValue, scope){
+          console.log("submitForm_type",newValue);
+      },true);
+
 
     // 回调  保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
@@ -58,10 +62,7 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
         if($scope.submitForm_type == 'save'){
 
 
-            $scope.goTo({
-                tabName:'归还单',
-                tabHref:'#/returnOrder/edit.html?id='+$scope.formData.id
-            });
+            $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
             return;
         }
 
@@ -71,10 +72,12 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
             requestData(_url,data, 'POST')
                 .then(function (results) {
                     var _data = results[1];
-                    $scope.goTo({
-                        tabName:'归还单',
-                        tabHref: '#/returnOrder/get.html?id='+$scope.formData.id
-                    });
+                    // $scope.goTo({
+                    //     tabName:'归还单',
+                    //     tabHref: '#/returnOrder/get.html?id='+$scope.formData.id
+                    // });
+
+                    $scope.goTo('#/returnOrder/get.html?id='+$scope.formData.id);
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
