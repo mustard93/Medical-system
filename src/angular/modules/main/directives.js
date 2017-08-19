@@ -3860,15 +3860,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
+
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
-
-
                var display =$element.css('display');
-               if(display == 'none'){
-                 //加载数据
-                 getData();
-               }
+
+               //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
+              //  if(display == 'none'){
+              //    //加载数据
+              //    getData();
+              //  }
+
+                  getData();
                var cityObj = $element;
                var cityOffset = $element.offset();
                //显示div
@@ -3902,6 +3905,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       getData({});
                   });
               }
+
 
               function getData(params) {
                  //满足条件才异步请求
@@ -4008,40 +4012,25 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             // 详细信息
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
-          // 
-          // // 初始运行一次该方法。
-          // resetInfoModel();
-          //
+          // 最初运行此方法，判断是否有横向滚动条出现，如果有，则改变模态框显示的方式
+          resetInfoModel();
+
           // // 重新移入当前元素后，还要重新设置显示
-          // element.parents('td').hover(function () {
-          //   // 调用一次判断显示模态框位置的方法。
-          //   resetInfoModel();
-          // });
+          element.parents('td').hover(function () {
+            // 调用一次判断显示模态框位置的方法。
+            resetInfoModel();
+          });
           //
           // // 此方法解决有关有滚动条时，商品通用名移入显示模态框遮挡问题。
-          // function resetInfoModel(){
-          //   // 获取当前弹出层元素的高度值和宽度以及当前元素距离顶部距离
-          //   var _eleHeight = angular.element(element).height();
-          //
-          //   // 当前弹出层元素的父元素距离body底部和右边的距离以及该父元素本身的宽度和高度
-          //   var _eleBottom =$(element).parents('table').parent('div').offset().top+$(element).parents('table').parent('div').height()-$(element).parents('td').offset().top;
-          //
-          //   var _bottom=$(element).parents('table').parent('div').offset().top-$(element).parents('td').offset().top-10;
-          //   var _left=$(element).parents('td').offset().left+$(element).parents('td').width()-$(element).parents('table').parent('div').offset().left;
-          //   console.log(_eleBottom);
-          //   // 如果父元素table的父元素div有outside-table-d这个类，说明会出现滚动条，则就要控制模态框显示的形式
-          //   if ($(element).parents('table').parent('div').hasClass('outside-table-d')) {
-          //     console.log(_bottom);
-          //     console.log(_left);
-          //     // 如果显示不下，就要向上显示
-          //     if (_eleBottom < _eleHeight) {
-          //       $(element).parents('table').css({'min-height':angular.element(element).height()+10});
-          //       $(element).css({'bottom':_bottom,'left':_left});
-          //       $(element).find('div.arrow-icon').css({'top': '90%'});
-          //     }
-          //   }
-          // }
-
+          function resetInfoModel(){
+            if ($(element).parents('div').hasClass('outside-table-d')) {
+              // 向左的偏移量=当前出现名称的span距离左边的距离+自身出现名称的宽度+20的偏移量
+              var _leftShif=$(element).parent('span').offset().left+$(element).parent('span').width()+20;
+              // 向右的偏移量=当前元素距离顶部的距离-滚动条的高度
+              var _topShif=$(element).parent('span').offset().top-$(document).scrollTop();
+              $(element).css({'position':'fixed','top':_topShif,'left':_leftShif});
+            }
+          }
         }
       };
     }

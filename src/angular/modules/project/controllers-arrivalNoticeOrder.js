@@ -415,10 +415,12 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
            $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity ) ? true : false;
            // ..
 
-           $scope.isDisabledNextStep = (data.quantity== 0 || data.quantity > data.planQuantity ) ? true : false;
+           $scope.isDisabledNextStep = (!data.quantity || data.quantity > data.planQuantity ) ? true : false;
            // 把每一条判断后的true或者是false放入数组中
 
            isDisabledNextStepList.push($scope.isDisabledNextStep);
+
+
          });
          // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
          if (isDisabledNextStepList.some(function(item){ return item == true;}))
@@ -622,18 +624,19 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
                   var printScope = $scope.$new(true);
                   printScope.medicalItem=item;//药械信息
                   printScope.converResult=item2.stockBatch[i];//条码信息
-                  printScope.supplier=$scope.medicalDataList.supplier;//供应商信息
-                  printScope.intentionalCustomer=$scope.medicalDataList.intentionalCustomer;//货主信息
-
+                  printScope.validTill=item2.validTill;//有效期
+                  printScope.specificationAndModelType=item2.specificationAndModelType;//型号规格
+                  printScope.supplier=item2.stockBatch[i].productEnterprise;//供应商信息
+                  printScope.intentionalCustomer=$scope.mainStatus.additional.HabbitOrganizationName;//货主信息
 
                   var tmpHtml=uiCustomHtml.html;
                   tmpHtml=tmpHtml.replace(/\{\{medicalItem.name\}\}/g, printScope.medicalItem.productName||"");
-                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.specificationAndModelType\}\}/g,   printScope.medicalItem.specificationAndModelType||"");
-                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.validTill\}\}/g,   getDateFormat(printScope.medicalItem.validTill)||"");
+                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.specificationAndModelType\}\}/g,   printScope.specificationAndModelType||"");
+                  tmpHtml=tmpHtml.replace(/\{\{medicalItem.validTill\}\}/g,   getDateFormat(printScope.validTill)||"");
 
 
                   tmpHtml=tmpHtml.replace(/\{\{converResult.barcode\}\}/g,   printScope.converResult.barcode||"");
-                  tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unit||"");
+                  tmpHtml=tmpHtml.replace(/\{\{converResult.unit\}\}/g,   printScope.converResult.unitName||"");
 
                   tmpHtml=tmpHtml.replace(/\{\{intentionalCustomer.intentionalCustomer\}\}/g,   printScope.intentionalCustomer||"");
                   tmpHtml=tmpHtml.replace(/\{\{supplier.name\}\}/g,   printScope.supplier.name||"");

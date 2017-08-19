@@ -1,4 +1,4 @@
-<div class="confirm-order-edit"
+<div class="confirm-order-edit del-bgc"
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -25,11 +25,11 @@
         novalidate="true">
         <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
     <!-- 头部信息 -->
-    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xl">销售中心 > <em class="color-custom-orange">销售单</em> > <em>编辑销售单</em></p>
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix padd-botom5">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xl mar-botom0">销售中心 > <em class="color-custom-orange">销售单</em> > <em>编辑销售单</em></p>
       <!-- 标题 -->
-      <div class="pd-c-xl">
-        <div class="pos-rel-tl inline-block fl-l">
+      <div class="pd-c-xl head-style">
+        <div class="pos-rel-tl inline-block fl-l head-style-title">
           <h1 class="pr-font-20 color-black">编辑销售单</h1>
         </div>
       </div>
@@ -183,11 +183,11 @@
                 <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
                 <th class="text-center">{{thData.unit || '单位'}}</th>
                 <th class="text-center">{{thData.quantity || '商品数量'}}</th>
-                <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
-                <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
+                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
+                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
                 <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
                 <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
-                <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
+                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
                 </tr>
               </thead>
               <tbody >
@@ -197,15 +197,6 @@
                   <label for="{{'saleOrder_'+$index+2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}
-                    <!-- <div class="table-item-handle-btn">
-                      <div class="table-item-confirm-del-area bg-white" >
-                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                        <p class="pdt-s">
-                          <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                          <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
-                        </p>
-                      </div>
-                    </div> -->
                   </td><!-- 商品编号 -->
                   <td class="text-left" >
                     <span
@@ -225,10 +216,10 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
-                  <td class="text-center" ng-if="formData.orderBusinessType=='普通销售'">
+                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-if="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                          class="ipt-div relative"
-                         style="width:180px;margin-bottom:10px;"
+                         style="width:180px;margin-top:10px;margin-left:10px;"
                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                       <div class="inline-block text-ellips-s"
                            style="width:118px;height:100%;"
@@ -242,7 +233,7 @@
                       <input type="hidden" ng-model="batch.id">
                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
-                    <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative">
+                    <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative"  style="width:180px;margin-top:10px;margin-left:10px;">
                       <i class="addImg"
                          modal-right="50%"
                          modal-scope="this"
@@ -258,11 +249,13 @@
                       </i>
                     </div>
                     <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
-                  </td><!-- 生产批号/数量 -->
-                  <td class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
+                  </td>
+
+                  <!-- 生产批号/数量 -->
+                  <td class="text-center pd-n" ng-if="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
-                  <td class="text-center" style="white-space: nowrap;"
+                  <td class="text-center relative relative" style="white-space: nowrap;"
                       ng-if="initFlag"
                       ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
                       scope-data="strikePrice"
@@ -277,7 +270,7 @@
                            invalid-popover
                            valid-value="{{!confirmOrder_editForm_salesOrder['strike_price'+$index].$valid}}"
                            popover-show
-                           popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                           popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "position":"absolute" ,"placement":"top", "trigger":"manual"}' />
                           <p class="color-orange pr-indent-35">
                             <a modal-right="577"
                                modal-scope="this"
@@ -287,7 +280,7 @@
                           </p>
                   </td><!-- 报价 -->
                   <td class="text-center">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
-                  <td ng-if="formData.orderBusinessType=='普通销售'" class="text-center pd-n" >
+                  <td ng-if="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>
                 </tr>
@@ -412,7 +405,7 @@
         </button>
 
       </div>
-      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div ng-if="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
             popover-show="formData.totalPrice>100000"

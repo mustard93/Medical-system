@@ -25,7 +25,7 @@
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <div
-    step-flow-arrow-show
+    class="step-flow-arrow" step-flow-arrow-show
     step-flow-arrow-json=
   '[{"arrowText":"基本信息","className":"active"},
     {"arrowText":"申请原因","className":"unactive"},
@@ -118,9 +118,7 @@
                 <input type="text"
                        class="ipt-new"
                        name="englishName"
-                       required
                        ng-model="formData.englishName" />
-                <span ng-if="!formData.englishName" class="color-red">（必填）</span>
               </div>
             </div>
 
@@ -364,20 +362,8 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
-                <a ng-if="formData.id"
-                class="color-orange"
-                style="margin-left: 10px;"
-                handle-this-click
-                dialog-title="确认生成?"
-                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
-                dialog-template="pr-dialog-submit.html"
-                http-method="GET"
-                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
-                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
-                request-url="rest/authen/firstMedicalApplication/generateBarcode">
-                重新生成
-                </a>
+                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+
               </div>
             </div>
 
@@ -536,8 +522,9 @@
                 <label
                         modal-right="456"
                         modal-scope="this"
-                        modal-url="views/productEnterprise/set-product-dialog.html"
-                        class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
+                        modal-data="{}"
+                        modal-url="views/firstMedicalApplication/set-product-dialog.html"
+                        class="flex-item-2 text-right control-label pdr-s color-orange cur-pot" style="font-weight: normal">+新增生产企业</label>
               </div>
 
 

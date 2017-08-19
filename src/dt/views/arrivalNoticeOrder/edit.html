@@ -381,7 +381,7 @@
           </div>
         </div>
        <!-- 发货方信息 -->
-       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
          <header class="text-n color-3 text-bold">发货方信息
            <span class="tools pull-right">
              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
@@ -439,7 +439,7 @@
 
 
         <span class="mgr mgl mgt">
-          <button ng-disabled="!changeFlag" class="pr-btn-save-glodbg mgr-l"
+          <button ng-disabled="!changeFlag" class="pr-btn-save-glodbg"
                   type="button"
                   ng-click="submitForm('arrivalNoticeOrderForm','save')">保存
           </button>
@@ -447,7 +447,7 @@
         <span ng-if="$root.hasAuthor('来货通知单确认生成')" >
           <button ng-if="numberingPolicy!='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId || !formData.orderCode "
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
@@ -456,7 +456,7 @@
           </button>
           <button ng-if="numberingPolicy=='auto'" class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId"
+                  ng-disabled="isDisabledNextStep || !formData.salesDepartmentId "
                   handle-this-click
                   dialog-title="确认生成?"
                   dialog-content="生成后，将无法修改。确认生成?"
@@ -464,12 +464,13 @@
                   callback="submitForm('arrivalNoticeOrderForm','submit')">确定生成
           </button>
         </span>
-      </div>
+      </div>{{formData.orderMedicalNos.quantity}}
       <div class="total-div">
         <p class="pr-font-18 mgb color-light-brown">总计：
           <span class="pr-font-18 color-white">￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}</span>
         </p>
       </div>
     </div>
+     </div>
 </form>
 </div>
