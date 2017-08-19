@@ -628,19 +628,25 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
           // $scope.addDataItem={};
       };
 
+      //清除客户信息
+      $scope.clearCustomer=function () {
+          if($scope.formData.orderMedicalNos.length==0){
+              $scope.formData.customerId='';
+              $scope.formData.customerName='';
+          }
+      };
 
       //选择事件
       $scope.$on("selctedMed",function (e,data) {
 
+          //设置客户名称
           $scope.formData.customerId=data[0].customerId;
           $scope.formData.customerName=data[0].customerName;
           //构造数据
           var datas=[];
 
           angular.forEach(data,function (item,index) {
-
               var obj=item.orderMedicalNo;
-
               datas.push(obj);
           });
 
@@ -653,7 +659,6 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       })
 
       $scope.canNextStep=function () {
-
           return true;
       }
 
