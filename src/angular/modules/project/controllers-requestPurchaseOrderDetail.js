@@ -612,13 +612,13 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       //提交表单
       $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
+          $scope.formData.isMerge=true;
+
           if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
-              $scope.formData.isMerge=true;
           }
           if ($scope.submitForm_type == 'save') {
               $scope.formData.validFlag = false;
-              $scope.formData.isMerge=true;
           }
 
           $scope.submitFormValidator(fromId);
