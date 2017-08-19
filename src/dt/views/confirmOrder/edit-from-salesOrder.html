@@ -183,11 +183,11 @@
                 <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
                 <th class="text-center">{{thData.unit || '单位'}}</th>
                 <th class="text-center">{{thData.quantity || '商品数量'}}</th>
-                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
-                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
                 <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
                 <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
-                <th ng-if="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
                 </tr>
               </thead>
               <tbody >
@@ -216,7 +216,7 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
-                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-if="formData.orderBusinessType!='直发销售'">
+                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-show="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                          class="ipt-div relative"
                          style="width:180px;margin-top:10px;margin-left:10px;"
@@ -252,7 +252,7 @@
                   </td>
 
                   <!-- 生产批号/数量 -->
-                  <td class="text-center pd-n" ng-if="formData.orderBusinessType!='直发销售'">
+                  <td class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
                   <td class="text-center relative relative" style="white-space: nowrap;"
@@ -280,7 +280,7 @@
                           </p>
                   </td><!-- 报价 -->
                   <td class="text-center">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
-                  <td ng-if="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
+                  <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>
                 </tr>
@@ -405,7 +405,7 @@
         </button>
 
       </div>
-      <div ng-if="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
             popover-show="formData.totalPrice>100000"
