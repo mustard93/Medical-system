@@ -619,29 +619,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
 
-              //单个同步
-                $scope.syncThis = function(_url, _param) {
-                    var _tr = this.tr;
-                    dialogConfirm('确定同步?', function() {
-                        requestData(_url, {
-                                type: _param
-                            }, 'GET')
-                            .then(function() {
-                                $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
-                                if ($scope.tbodyList.length === 0) {
-                                    $scope.$broadcast("reloadList");
-                                }
-                            })
-                            .catch(function(error) {
-                                alertError(error || '同步错误');
-                            });
-                    });
-                };
+              
                 //单个操作
-                $scope.dothing = function(_url, _param,tip) {
+                $scope.dothing = function(_url, _param,tip,method) {
+                	if(!method)method='POST';
                     var _tr = this.tr;
                     dialogConfirm(tip, function() {
-                        requestData(_url, _param, 'POST')
+                        requestData(_url, _param, method)
                             .then(function() {
                                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
                                 if ($scope.tbodyList.length !== 0) {
