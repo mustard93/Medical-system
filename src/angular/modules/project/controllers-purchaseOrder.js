@@ -15,8 +15,6 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
 
     //初始化校验数据
     $scope.checkData=function(){
-<<<<<<< HEAD
-
       $scope.identityForMedicalStocksMap={};
         //初始化显示数据
         if($scope.formData.id && $scope.formData.orderMedicalNos.length){
@@ -41,33 +39,6 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
             });
         }
     };
-
-=======
-         console.log("checkData");
-        //初始化显示数据
-        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
-
-            var ids=[];
-            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                ids.push(item.relId);
-            });
-
-            requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
-
-                if(result[1].code==200){
-
-                    var datas = result[1].data;
-
-                    angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                        item.info=datas[index];
-                    });
-                }
-
-            });
-        }
-    };
-
->>>>>>> V1.01.02.7.02_Alpha
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 

@@ -348,66 +348,9 @@
                      <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
                      <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                      <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-<<<<<<< HEAD
-
                      <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
                      <td class="text-center">
-=======
-                     <!-- <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td> -->
-                     <!-- 请购数量 -->
-                     <td class="text-center relative" ng-if="formData.relId" style="white-space: nowrap;">
-                       <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
-                                 ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
-                         <span class="inline-block">
-                           <input type="text"
-                                  min="1"
-                                  class="inline ipt pr-ipt-60 text-center item-quantity"
-                                  style="width:60px;"
-                                  name="quantity{{$index}}"
-                                  ng-model="tr.quantity"
-                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
-                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                  required
-                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                  invalid-popover="{{!purchaseForm_editForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
-                                  popover-show
-                                  is-focus="true"
-                                  popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
-                         </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
-                       </div>
-                       <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
-                         待采购数量：{{tr.planQuantity-tr.quantity}}
-                       </p>
-                     </td><!-- 数量 -->
-                     <td class="text-center relative" ng-if="!formData.relId" style="white-space: nowrap;">
-                       <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
-                         <span class="inline-block">
-                           <input type="number"
-                                  min="1"
-                                  class="inline ipt pr-ipt-60 text-center item-quantity"
-                                  style="width:60px;"
-                                  name="quantity{{$index}}"
-                                  ng-model="tr.quantity"
-                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                  required
-                                  ng-pattern="/^[0-9]{1,10}?$/"
-                                  invalid-popover
-                                  valid-value="{{!purchaseForm_editForm['quantity'+$index].$valid}}"
-                                  popover-show
-                                  popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'>
-                         </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
-                       </div>
-                       <p class="text-right color-red pdr-s mgt-s p-request-purchase" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
-                         待采购数量：{{tr.planQuantity-tr.quantity}}
-                       </p>
-                     </td><!-- 数量 -->
-                     <td class="text-center" ng-if="formData.orderBusinessType!='直发采购'">
->>>>>>> V1.01.02.7.02_Alpha
+
                        <select ng-if="initFlag" class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
@@ -415,23 +358,9 @@
                                scope-data="warehouseList">
                          <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                        </select>
-<<<<<<< HEAD
                      </td><!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-=======
-                     </td>
-                     <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
-                       <select ng-if="initFlag" class="pr-select pd-s"
-                               style="width:115px;"
-                               ng-model="tr.warehouseId"
-                               ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
-                               scope-data="warehouseList">
-                         <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
-                       </select>
-                     </td>
-                     <!-- 预入仓库 -->
-                     <td class="text-center relative" style="white-space:nowrap;line-height:2.4">￥
->>>>>>> V1.01.02.7.02_Alpha
+
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
