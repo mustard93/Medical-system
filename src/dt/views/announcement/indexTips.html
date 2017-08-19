@@ -4,10 +4,12 @@
     scope-data="msgList">
     <header class="text-n color-3 text-bold" ng-init="showMore=false;">
       通知公告
-      <center style="margin-top: -20px; height: 22px;">
-      <sapn ng-if="msgList.length && !showMore"  class="color-orange" style="font-weight: normal; font-size: 12px;" >
-            {{msgList[0].title}}
-       </sapn>
+      <center style="margin: 0 auto; margin-top: -20px; height: 22px; max-width: 1000px;">
+          <div ng-if="msgList.length && !showMore"  class="text-center text-ellips-s color-orange" style="font-weight: normal; font-size: 12px;" >
+              <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{msgList[0].id}}">
+                 {{msgList[0].title}}
+              </a>
+          </div>
       </center>
         <span class="tools pull-right" style="margin-top: -25px;">
             <a ng-click="showMore=!showMore;" href="javascript:;" class="fa fa-chevron-down" toggle-panel=""></a>
@@ -28,16 +30,19 @@
 
         <ul class="index-msg-list" style="height: 280px; overflow-y: scroll;">
             <li ng-repeat="item in msgList track by $index">
-                <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" style="color: #333333;">
-                <p class="flex-column">
-                        <span class="flex-item-9 text-left color-orange" style="overflow: hidden;">
-                            {{item.title}}
+
+                <div class="flex-column">
+                        <span class="flex-item-9 text-left" style="overflow: hidden;">
+
+                            <div class="text-ellips-s  color-orange">
+                                <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" class="color-orange" style="color: #333333;">{{item.title}}</a>
+                            </div>
                             <!--<em ng-if="$index<3" class="color-red">NEW</em>-->
                         </span>
                         <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
                         <span class="flex-item-1 text-left">{{item.salesDepartmentName}}</span>
-                </p>
-                </a>
+                </div>
+
             </li>
 
         </ul>
