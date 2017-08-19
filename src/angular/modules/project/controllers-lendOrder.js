@@ -165,7 +165,10 @@ define('project/controllers-lendOrder', ['project/init'], function() {
 
        //生成归还单
        $scope.cereatReturnOrder=function (id) {
-           $scope.goTo('#/returnOrder/edit.html?lendOrderId='+id);
+           $scope.goTo({
+               tabName:'归还单',
+               tabHref:'#/returnOrder/edit.html?lendOrderId='+id
+           });
        };
 
        // 全选与全不选

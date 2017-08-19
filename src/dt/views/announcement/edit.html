@@ -110,9 +110,9 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <div class="flex-item-1  text-right">
               </div>
-              <div class="flex-item-6 text-left">
+              <div ng-if="initFlag" class="flex-item-6 text-left">
                <span class="mgr">发布部门：
-                  <select class="ipt pr-short-ipt color-3"
+                  <select  class="ipt pr-short-ipt color-3"
                           data-placeholder=" "
                           chosen
                           no-first-select-source="true"
@@ -120,6 +120,7 @@
                           style="width: 180px"
                           select-source="rest/authen/department/queryForSelectOption">
                   </select>
+
                 </span>
               </div>
             </div>
@@ -127,11 +128,12 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <div class="flex-item-1  text-right">
               </div>
-              <div class="flex-item-6 text-left">
+              <div ng-if="initFlag" class="flex-item-6 text-left">
                <span class="mgr">发 布 人 ：
-                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:180px;"
+                <select  class="ipt pr-short-ipt color-3" style="width:180px;"
                         data-placeholder=" "
                         chosen
+
                         no-first-select-source="true"
                         ng-model="formData.saleUserId"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
@@ -169,7 +171,7 @@
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条购通知公告吗?"
+           dialog-content="您确认删除这条通知公告吗?"
            dialog-template="pr-dialog-confirm.html"
            request-url="rest/authen/announcement/delete?id={{formData.id}}"
            callback="$root.goTo('#/announcement/query.html')">删除
@@ -184,7 +186,7 @@
 
         <button
                 type="button"
-                ng-disabled="!announcement_editForm.$valid"
+                ng-disabled="!announcement_editForm.$valid || !formData.htmlContent"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('announcement_editForm','submit')">提交发布
         </button>
