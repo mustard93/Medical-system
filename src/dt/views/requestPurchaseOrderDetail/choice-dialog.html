@@ -102,7 +102,7 @@
          scope-data="scopeData"
          callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id); selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'id');">
 
-        <!-- 按单号查找 -->
+
         <div class="pdt-s pdb-s pd-c-xl">
             <div class="inline-block relative" style="margin: 20px 0 20px -10px;color: #fff;">
                 <span angucomplete placeholder="请先输入目标客户"
@@ -132,6 +132,7 @@
                 <!-- 要求到货日期 -->
                 <div class="inline-block relative">
                     <span class="color-9 mgl-m">要求到货日期：</span>
+
                     <div class="date-icon-outside" ng-if="!listParams.expectAtBeg">
                         <input type="text"
                                datepicker
@@ -149,9 +150,11 @@
                                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                                ng-readonly="true"
                                style="z-index: 15"
-                               ng-model="listParams.createAtBeg">
-                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
+                               ng-model="listParams.expectAtBeg">
+                        <span class="delete-date-icon" style="z-index:16;" ng-click="listParams.expectAtBeg='';"></span>
                     </div>
+
+
                     <span class="color-9">至</span>
                     <div class="date-icon-outside" ng-if="!listParams.expectAtEnd">
                         <input type="text"
@@ -250,7 +253,7 @@
                         <td class="text-center">{{item.orderCode}}</td>
                         <td>
                             <span
-                                    class="color-orange cur-pot lend-order-goods-info"
+                              class="color-orange cur-pot lend-order-goods-info"
                                     ng-init="showInfoArea=false"
                                     ng-mouseenter="showInfoArea=true"
                                     ng-mouseleave="showInfoArea=false">{{item.orderMedicalNo.approvedName}}

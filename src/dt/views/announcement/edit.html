@@ -110,9 +110,9 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <div class="flex-item-1  text-right">
               </div>
-              <div class="flex-item-6 text-left">
+              <div ng-if="initFlag" class="flex-item-6 text-left">
                <span class="mgr">发布部门：
-                  <select class="ipt pr-short-ipt color-3"
+                  <select  class="ipt pr-short-ipt color-3"
                           data-placeholder=" "
                           chosen
                           no-first-select-source="true"
@@ -120,6 +120,7 @@
                           style="width: 180px"
                           select-source="rest/authen/department/queryForSelectOption">
                   </select>
+
                 </span>
               </div>
             </div>
@@ -127,11 +128,12 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <div class="flex-item-1  text-right">
               </div>
-              <div class="flex-item-6 text-left">
+              <div ng-if="initFlag" class="flex-item-6 text-left">
                <span class="mgr">发 布 人 ：
-                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:180px;"
+                <select  class="ipt pr-short-ipt color-3" style="width:180px;"
                         data-placeholder=" "
                         chosen
+
                         no-first-select-source="true"
                         ng-model="formData.saleUserId"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
