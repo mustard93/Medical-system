@@ -4183,36 +4183,30 @@ function  dtRightSide(utils) {
 
 }
 
-// function  tabHref($rootScope){
-//     return {
-//       scope:{
-//         tab:"@",
-//       },
-//       restrict: 'A',
-//       link: function ($scope, element, $attrs) {
-//
-//
-//         console.log("typeof $scope.tab",typeof $scope.tab );
-//
-//         $scope.tab= angular.fromJson($scope.tab);
-//
-//         console.log("typeof $scope.tab",typeof $scope.tab );
-//
-//         console.log("$scope.tab",$scope.tab);
-//
-//         var tabObj=  {
-//               showName: $scope.tab.title,
-//               ahref: $scope.tab.href
-//           };
-//
-//           console.log("tabObj",tabObj);
-//
-//         element.on('click',function(){
-//             $rootScope.addTab(tabObj)
-//         });
-//       }
-//     };
-// }
+  // 实现文字向上跑马灯效果，目前用于首页显示通知公告用。
+  function autoScrollUp () {
+    'use strict';
+    return {
+      restrict: 'A',
+      scope: true,
+      link: function (scope, element, attrs) {
+        window.setTimeout(function(){
+
+          if ($(element).children().length>0) {
+            setInterval(function(){
+              $(element).animate({
+                  marginTop : "-20px"
+              },500,function(){
+                $(this).css({
+                  marginTop : "0px"
+                }).find("p:first").appendTo(this)
+              })
+            },2000)
+          }
+        },300)
+      }
+    };
+  }
 
 
 angular.module('manageApp.project')
@@ -4225,6 +4219,7 @@ angular.module('manageApp.project')
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
+  .directive("autoScrollUp", [autoScrollUp])
   .directive("htmlEdit", [ htmlEdit]) //html-edit
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
