@@ -258,8 +258,13 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
     };
 
-    $scope.submitSaveCallBack=function(type){
-        requestData('rest/authen/'+type+'/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+    $scope.submitSaveCallBack=function(type,saveType){
+      if (saveType) {
+        var url='rest/authen/'+type+'/'+saveType;
+      }else {
+          var url='rest/authen/'+type+'/saveBaseInfo';
+      }
+        requestData(url, $scope.formData, 'POST', 'parameterBody')
             .then(function (results) {
                 if (results[1].code === 200) {
                   $scope.formData.validFlag = true;
@@ -532,6 +537,23 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
           }
       });
 
+
+      // 新增的生产企业，不用重新选择就实时显示到页面上
+
+      $scope.submitProduct=function(_data){
+        if (_data) {
+          requestData('rest/authen/productEnterprise/save', _data, 'POST', 'parameterBody')
+          .then(function (results) {
+             if (results[1].code === 200){
+               $scope.formData.productEnterprise=results[1].data;
+
+             }
+          })
+          .catch(function (error) {
+              alertError(error || '出错');
+          });
+        }
+      }
 
   }
 

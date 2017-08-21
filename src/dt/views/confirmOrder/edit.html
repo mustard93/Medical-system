@@ -218,11 +218,11 @@
                   <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
                   <th class="text-center">{{thData.unit || '单位'}}</th>
                   <th class="text-center">{{thData.quantity || '商品数量'}}</th>
-                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
-                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
+                  <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}/数量</th>
+                  <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
                   <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
                   <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
-                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
+                  <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
                   </tr>
                 </thead>
                 <tbody >
@@ -264,7 +264,7 @@
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center" style="white-space: nowrap;">
+                    <td class="text-center relative" style="white-space: nowrap;">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
@@ -286,7 +286,8 @@
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
                     </td><!-- 订购数量 -->
-                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-if="formData.orderBusinessType=='普通销售'">
+
+                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-show="formData.orderBusinessType!='直发销售'">
                       <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
@@ -327,11 +328,12 @@
                       </div>
                       <!-- 待选择数 -->
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
-                    </td><!-- 生产批号/数量 -->
-                    <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
+                    </td>
+                    <!-- 生产批号/数量 -->
+                    <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td>
-                    <td class="text-center" style="white-space: nowrap;">￥
+                    <td class="text-center relative" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="strike_price{{$index}}"
@@ -342,7 +344,7 @@
                              invalid-popover
                              valid-value="{{!confirmOrder_editForm['strike_price'+$index].$valid}}"
                              popover-show
-                             popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                             popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}' />
                             <p class="color-orange pr-indent-35">
                               <a modal-right="577"
                                  modal-scope="this"
@@ -352,7 +354,7 @@
                             </p>
                     </td><!-- 报价 -->
                     <td class="text-center">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td><!-- 价税合计 -->
-                    <td  class="text-center pd-n" ng-if="formData.orderBusinessType=='普通销售'">
+                    <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                       <!-- <div style="margin-top:12px;margin-bottom:12px;">{{item.validTill | date : 'yyyy-MM-dd'}}</div> -->
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td>
@@ -607,6 +609,11 @@
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              !confirmOrder_editForm.$valid ||
@@ -614,34 +621,41 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
           单据存在不符合交易要求的因素，不能提交。
@@ -650,18 +664,22 @@
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
                              !confirmOrder_editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)"
-                ng-click="submitForm('confirmOrder_editForm','submit')">提交
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
 
       </div>
 
-      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">
+      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">
         总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>
       <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">
         总计：￥{{formData.totalPrice || '0.00' | number:2}}</div>

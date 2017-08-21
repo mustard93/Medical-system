@@ -1,4 +1,4 @@
-<div class="allocate-order confirm-order-edit "
+<div class="allocate-order confirm-order-edit del-bgc"
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="formData"
@@ -17,11 +17,11 @@
         callback="submitFormAfter();watchFormChange('formData')">
 
     <!-- 头部信息 -->
-    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">库存管理 > <em class="color-custom-orange">调拨单</em></p>
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix  padd-botom5">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl mar-botom0">库存管理 > <em class="color-custom-orange">调拨单</em></p>
       <!-- 标题 -->
-      <div class="pd-c-xxl">
-        <div class="pos-rel-tl inline-block fl-l">
+      <div class="pd-c-xxl head-style padd-bt0 mar-b20">
+        <div class="pos-rel-tl inline-block fl-l head-style-title">
           <h1 class="pr-font-20 color-black">调拨单</h1>
 
         </div>
@@ -90,13 +90,7 @@
           <div class="flex-item-6 text-right">
             <!--<span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>-->
             <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
-            <a ng-if="initFlag"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{formData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">
-               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
-            </a>
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 类别选择 -->

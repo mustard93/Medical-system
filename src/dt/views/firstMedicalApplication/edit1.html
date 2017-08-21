@@ -42,16 +42,13 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div  ng-if="!formData.enterFlag" step-flow-arrow-show
+    <div  ng-if="!formData.enterFlag" class="step-flow-arrow" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
 
-    <div  ng-if="formData.enterFlag" step-flow-arrow-show
+    <div  ng-if="formData.enterFlag" class="step-flow-arrow" step-flow-arrow-show
          step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"新品引进原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"},{"arrowText":"首营品种审核人","className":"unactive"}]'>
     </div>
-
-
-
 
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
@@ -386,20 +383,8 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
-                <a ng-if="formData.id"
-                class="color-orange"
-                style="margin-left: 10px;"
-                handle-this-click
-                dialog-title="确认生成?"
-                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
-                dialog-template="pr-dialog-submit.html"
-                http-method="GET"
-                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
-                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
-                request-url="rest/authen/firstMedicalApplication/generateBarcode">
-                重新生成
-                </a>
+                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+
               </div>
             </div>
 
@@ -477,53 +462,6 @@
               </div>
             </div>
 
-              <!--<div class="flex-column mgt">-->
-                <!--<label class="flex-item-2 text-right control-label pdr-s">剂型/管理类别：</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                  <!--<select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"-->
-                  <!--chosen-->
-                  <!--default-empty="无"-->
-                  <!--ng-model="formData.dosageForms"-->
-                  <!--select-source="rest/baseData/queryForSelectOptionByType?type=剂型">-->
-                  <!--</select>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!-- <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">包装情况：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="packingCondition"
-                         ng-model="formData.packingCondition" />
-                </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">中包装数量：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="text"
-                         class="ipt-new ipt-new-s"
-                         name="numberOfPackages"
-                         ng-model="formData.numberOfPackages"
-                         ng-pattern="/^\d+$/"
-                         invalid-popover
-                         popover-show="!firstMedicalEditForm.numberOfPackages.$valid"
-                         popover-options='{"content":"中包装数量格式不正确", "placement":"right", "trigger":"manual"}' />
-                </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">件装量：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="text"
-                         class="ipt-new ipt-new-s"
-                         name="pieceLoading"
-                         ng-model="formData.pieceLoading"
-                         ng-pattern="/^\d+$/"
-                         invalid-popover
-                         popover-show="!firstMedicalEditForm.pieceLoading.$valid"
-                         popover-options='{"content":"件装量格式不正确", "placement":"right", "trigger":"manual"}' />
-                </div>
-              </div> -->
 
             </div>
 
@@ -532,10 +470,6 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">生产企业名称：</label>
                 <div class="flex-item-10 text-left" style="width: 245px;">
-                  <!--<input type="text"-->
-                         <!--class="ipt-new"-->
-                         <!--name="productEnterprise"-->
-                         <!--ng-model="formData.productEnterprise" />-->
 
                   <div ng-if="initFlag" style="position: relative;">
                           <span ng-if="!formData.productEnterprise.name"
@@ -595,43 +529,12 @@
                 <!---->
                 <label
                         modal-right="456"
-                        modal-scope="none"
+                        modal-scope="this"
                         modal-data="{}"
-                        modal-url="views/productEnterprise/set-product-dialog.html"
-                        class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
+                        modal-url="views/firstMedicalApplication/set-product-dialog.html"
+                        class="flex-item-2 text-right control-label pdr-s color-orange cur-pot" style="font-weight: normal">+新增生产企业</label>
               </div>
 
-
-
-
-              <!--<div class="flex-column mgt">-->
-                <!--<label class="flex-item-2 text-right control-label pdr-s">厂址：</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                  <!--<input type="text"-->
-                         <!--class="ipt-new"-->
-                         <!--name="genericName"-->
-                         <!--ng-model="formData.factoryAddress" />-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="flex-column mgt">-->
-                <!--<label class="flex-item-2 text-right control-label pdr-s">产地：</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                  <!--<input type="text"-->
-                         <!--class="ipt-new"-->
-                         <!--name="factoryAddress"-->
-                         <!--ng-model="formData.productionPlace" />-->
-                <!--</div>-->
-              <!--</div>-->
-              <!-- <div class="flex-column mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">供应单位：</label>
-                <div class="flex-item-10 text-left">
-                  <select class="select-new"
-                          ng-model="formData.supplierId"
-                          chosen
-                          select-source="rest/authen/supplier/queryForSelectOption">
-                  </select>
-                </div>
-              </div> -->
             </div>
 
 

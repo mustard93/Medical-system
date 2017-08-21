@@ -82,7 +82,8 @@
         </form>
       </div>
     </div>
-
+    <!-- 版本号展示 -->
+    <div class="version" id="Version"></div>
     <!-- Placed js at the end of the document so the pages load faster -->
     <script src="../js/jquery-1.10.2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -100,7 +101,15 @@
       document.addEventListener('DOMContentLoaded', function () {
         new Login('loginForm', 'phone', 'password', 'remeberNumber', '.login-info-prompt', conf, 'rest/index/authorize.json', 'rest/loginRecords/add').bindSubmitEvent();
       }, false);
-
+      //获取版本号
+      $.ajax({
+        type:"get",
+        url:conf.serverPath + 'rest/versionInformation/gitBranchInformation',
+        dataType:"json",
+        success:function(data){
+            $("#Version").html(data.version);
+        }
+      });
     </script>
 </body>
 </html>

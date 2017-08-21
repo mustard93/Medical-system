@@ -9,10 +9,18 @@
     <div class="header-info relative mgb-l">
 
       <p class="pdb-s pdt-s crumbs pd-c-xxl">通知消息公告  >
-        <a
+
+
+
+        <a ng-if="$root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改')"
             tab-nav
             tab-name='通知公告'
-            tab-href="#/announcement/query.html"><em class="color-custom-orange">通知公告</em></a>
+            tab-href="#/announcement/query.html"><em class="color-custom-orange">通知公告</em>
+        </a>
+        <a ng-if="!($root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改'))" ><em class="color-custom-orange">通知公告</em>
+        </a>
+
+
         <em> > 通知公告详情</em>
       </p>
 
@@ -34,9 +42,9 @@
           {{showData.title}}
         </h1>
         <p class="text-center" style="font-size: 12px;color: #999;line-height: 17px;">
-          <span>发布部门：<em style="color:#151515;">{{showData.salesDepartmentName}}</em></span>
-          <span style="margin: 0 20px;">发布人：<em style="color:#151515;">{{showData.inputUser.n}}</em></span>
-          <span>发布时间：<em style="color:#151515;">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss' || '暂无'}}</em></span>
+          <span>发布部门：<em style="color:#151515;">{{showData.salesDepartmentName   || '暂无'}}</em></span>
+          <span style="margin: 0 20px;">发布人：<em style="color:#151515;">{{showData.saleUser.n  || '暂无'}}</em></span>
+          <span>发布时间：<em style="color:#151515;">{{showData.publishAt  || '暂无' | date :'yyyy-MM-dd HH:mm:ss'}}</em></span>
 
         </p>
 
@@ -53,8 +61,12 @@
 
            <li ng-repeat="item in showData.uploadFiles track by $index" class="file-item">
              <div class="close-btn" ng-click="showData.uploadFiles.splice($index,1);"></div>
-             <a ng-if="$root.utils.isPicture(item.key);"><img src="{{item.key}}" alt=""></a>
-             <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}"><div class="icon-file"></div></a>
+
+             <a ng-if="$root.utils.isPicture(item.key);" ng-src="{{item.key}}" modal-img-show>
+               <img src="{{item.key}}" alt="">
+             </a>
+
+             <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}" download="{{item.originalFileName}}"><div class="icon-file"></div></a>
              <p>{{item.originalFileName}}</p>
            </li>
 

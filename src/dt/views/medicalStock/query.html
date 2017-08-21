@@ -9,7 +9,8 @@
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"品种管理","link":"","style":""}]'
-                                component-title="品种管理"
+                                component-title="首营品种管理"
+                                component-other-title="品种管理"
                                 is-show-create-btn="新建首营品种申请"
                                 create-new-url="#/firstMedicalApplication/edit1.html?enterFlag=false"
                                 is-show-enter-btn="录入已审核首营品种"
@@ -131,7 +132,7 @@
                       </span>
                     </span>
                     <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-if="$root.hasAuthor('品种管理删除')">
+                      <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-show="$root.hasAuthor('品种管理删除')">
 >
                           <div class="del-confirm-area text-center">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
@@ -211,12 +212,12 @@
                                           "showName":"查看操作记录"}'
                              modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录
                           </a>
-                          <a href="javascript:;"
+                          <!-- <a href="javascript:;"
                              ajax-url-submit="rest/authen/medicalStock/checkStock"
                              params='{"id":"{{tr.id}}"}'
                              alert-error
                              callback="listParams.refreshId=tr.id">校验库存
-                          </a>
+                          </a> -->
                           <a href="javascript:;"
                              modal-right="500"
                              modal-scope="this"
@@ -267,6 +268,9 @@
         <div class="fr">
             <pagination status="status"></pagination>
         </div>
+    </div>
+    <div class="" style="min-height:100px;">
+
     </div>
   </table-list>
 </div>

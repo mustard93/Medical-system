@@ -10,7 +10,7 @@
         <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
     </div>
     <!-- 过滤条件 -->
-    <div class="bb-line-gold pdt-s pdb-s pd-c-xl" style="margin: 10px 0; padding-bottom: 15px;">
+    <div class="bb-line-gold pdt-s pdb-s pd-c-xl" style="margin: 10px 0; padding-bottom: 15px;margin-bottom:0;">
         <!-- 仓库过滤 -->
         <div class="inline-block">
             <span class="color-9">仓库：</span>
@@ -25,11 +25,12 @@
             </select>
         </div>
         <!-- 日期过滤 -->
-        <div class="inline-block" style="margin-top:-3px;">
-            <span class="color-9 mgl-m">有效期：</span>
+        <div class="inline-block" >
+            <span class="color-9 mgl-m" style="position: relative;top: -3px;">有效期：</span>
             <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
                 <input type="text"
                        datepicker
+                       style="z-index: 15"
                        class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                        ng-readonly="true"
                        ng-model="listParams.createAtBeg"
@@ -42,14 +43,14 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-
                        ng-model="listParams.createAtBeg">
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
             </div>
-            <span class="color-9">至</span>
+            <span class="color-9" style="position: relative;top: -3px;">至</span>
             <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
                 <input type="text"
                        datepicker
+                       style="z-index: 15"
                        class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                        ng-readonly="true"
                        ng-model="listParams.createAtEnd"
@@ -62,7 +63,6 @@
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                        ng-readonly="true"
-
                        ng-model="listParams.createAtEnd"/>
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
             </div>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div style="height: 85%; overflow-y: scroll;">
+    <div style="height: 85%; ">
       <table-list list-data="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&isOnlyAvailable=true&warehouseType=正常库"
                   list-params="listParams"
                   search-mode="noCaseSensitive"

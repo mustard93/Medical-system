@@ -53,7 +53,10 @@ define('project/controllers-cfgGoodsBarcode', ['project/init'], function() {
           }
         })
         .catch(function (error) {
-          if (error) { throw new Error(error || '出错'); }
+          if (error) {
+            alertError(error || '出错')
+            // throw new Error(error || '出错');
+           }
         });
       }
     };

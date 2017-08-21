@@ -612,13 +612,13 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       //提交表单
       $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
+          $scope.formData.isMerge=true;
+
           if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
-              $scope.formData.isMerge=true;
           }
           if ($scope.submitForm_type == 'save') {
               $scope.formData.validFlag = false;
-              $scope.formData.isMerge=true;
           }
 
           $scope.submitFormValidator(fromId);
@@ -628,87 +628,73 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
           // $scope.addDataItem={};
       };
 
+      //清除客户信息
+      $scope.clearCustomer=function () {
+          if($scope.formData.orderMedicalNos.length==0){
+              $scope.formData.customerId='';
+              $scope.formData.customerName='';
+          }
+      };
 
       //选择事件
       $scope.$on("selctedMed",function (e,data) {
 
+          //设置客户名称
+          $scope.formData.customerId=data[0].customerId;
+          $scope.formData.customerName=data[0].customerName;
           //构造数据
           var datas=[];
 
           angular.forEach(data,function (item,index) {
-
               var obj=item.orderMedicalNo;
-
               datas.push(obj);
           });
-
 
           $scope.formData.orderMedicalNos=datas;
           e.stopPropagation();
           modal.close();
-      })
+      });
 
       $scope.canNextStep=function () {
-
           return true;
       }
 
     }//
 
+
+
+
+    //
     function requestPurchaseOrderDetailDialogCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
         modal.closeAll();
-
-        // 监视表单内子项目变化
-        $scope.watchFormChange=function(watchName){
-            watchFormChange(watchName,$scope);
-        };
-        // 保存  type:save-草稿,submit-提交订单。
-        $scope.submitFormAfter = function() {
-            $scope.formData.validFlag = false;
-
-            if ($scope.submitForm_type == 'submit') {
-                requestData('rest/authen/announcement/publish',{id:$scope.formData.id},'POST').then(function (results) {
-                    if (results[1].code === 200) {
-                        utils.goTo('#/announcement/query.html');
-                    }
-                }).catch(function (error) {
-                    throw new Error(error || '出错');
-                });
-            }
-
-            if ($scope.submitForm_type == 'save') {
-            }
-        };
-
-        // 2保存 type:save-草稿,submit-提交订单。
-        $scope.submitForm = function(fromId, type) {
-            $scope.submitForm_type = type;
-            if ($scope.submitForm_type == 'submit') {
-                $scope.formData.validFlag = true;
-            }
-
-            if ($scope.submitForm_type == 'save') {
-                $scope.formData.validFlag = false;
-            }
-
-            $scope.submitFormValidator(fromId);
-
-        };
-
 
 
         //监控选择的发货单变化
         $scope.$watch('scopeData',function (newVal,oldVal){
             if(newVal){
-                console.log("newVal");
                 $scope.listParams.customerId= newVal.id;
             }
         });
 
+        // $scope.$watch('listParams.customerId',function (newVal,oldVal){
+        //     if(newVal){
+        //
+        //         console.log("newVal");
+        //         $scope.listParams.customerId= newVal;
+        //     }
+        // });
+        $scope.$watch('selectedOrderCode',function (newVal,oldVal){
+            if(newVal){
+                console.log("newVal-orderCode",newVal);
+                $scope.listParams.orderCode= newVal.data.orderCode;
+            }
+        });
+
+
+
 
         $scope.addOrderDataToList=function () {
-            console.log("$scope.choiced",$scope.choiced);
             $scope.$emit('selctedMed',$scope.choiced);
         };
 
@@ -716,7 +702,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
 
 
 
-        // 处理全选与全不选222
+        // 处理全选与全不选
         $scope.choiced=[];
         $scope.handleChoiseAllEvent = function (medicalsObj,handleFlag) {
             if (medicalsObj && angular.isArray(medicalsObj)) {
@@ -755,10 +741,21 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         };
 
+        $scope.itemInArray=function (id,batchlist,attr) {
 
+            if(!batchlist){
+                var  batchlist= [];
+            }
 
-
-
+            var flag=false;
+            for(var i=0; i<batchlist.length; i++){
+                if(batchlist[i][attr] == id){
+                    flag=true;
+                }
+            }
+            return flag;
+        };
+        
     }
 
 

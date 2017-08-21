@@ -241,47 +241,89 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
       }
 
       // 获取系统配置的纸张大小
-      var getConfUrl = 'rest/authen/uiCustomHtml/getByKey.json?key=barcodePrint';
+      var getConfUrl = 'rest/authen/uiCustomHtml/getByKey.json?key=qrcodePrint';
       requestData(getConfUrl)
       .then(function (results) {
-        $scope.printPageSize = {
-          w: parseInt(results[1].data.paper_width, 10),
-          h: parseInt(results[1].data.paper_height, 10)
-        }
-      });
-
-      $scope.$watchCollection('printPageSize', function (newVal, oldVal) {
-        if (newVal && newVal !== oldVal) {
-          LODOP.SET_PRINT_PAGESIZE(1, $scope.printPageSize.w * 10, $scope.printPageSize.h * 10, "");
-
-          angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-            for (var i = 0; i < item.converResults.length; i++) {
-              if (item.converResults[i].unitQuantity !== 0) {
-                for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
-                  var printHtml = '<div style="padding-top:5px;">' +
-                                    '<div style="text-align:center;"><img src="' + item.qrcode + '" style="width:150px;height:150px;"></div>' +
-                                    '<div style="text-align:center;font-size:13px;color:#333;">' +
-                                      '<p>' + item.name + '</p>' +
-                                      '<p>客户：' + $scope.medicalDataList.customerName + '</p>' +
-                                    '</div>' +
-                                  '</div>';
-
-                  LODOP.NewPage();
-                  LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
-                }
-              }
-            }
-          });
-          LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
-          LODOP.SET_PRINT_COPIES($scope.scopeData.num);
-
-          if (printType === 'preview') {
-            LODOP.PREVIEW();
-          } else if (printType === 'print') {
-            LODOP.PRINT();
+        // 定义从系统获取的纸张大小
+        var uiCustomHtml= results[0];
+        // 设定纸张大小
+        LODOP.SET_PRINT_PAGESIZE(uiCustomHtml.print_orient, uiCustomHtml.paper_width, uiCustomHtml.paper_height, "");
+        var firstPage=true;
+        // 遍历数据设置每张打印
+        angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+          // 当前商品获取打印数量
+          var _tmpNum = 0;
+          for (var i = 0; i < item.converResults.length; i++) {
+            _tmpNum += parseInt(item.converResults[i].unitQuantity, 10);
           }
+
+          // 循环遍历打印总数
+          for (var i = 0; i < _tmpNum; i++) {
+            var printScope = $scope.$new(true);
+            printScope.qrcode=item.qrcode;//条码信息
+            printScope.medicalName=item.name;//商品名称
+            printScope.customerName=$scope.medicalDataList.customerName;//客户名称
+
+
+            var tmpHtml=uiCustomHtml.html;
+            tmpHtml=tmpHtml.replace(/\{\{qrcode\}\}/g, printScope.qrcode||"");
+            tmpHtml=tmpHtml.replace(/\{\{medicalName\}\}/g,   printScope.medicalName||"");
+            tmpHtml=tmpHtml.replace(/\{\{customerName\}\}/g,    printScope.customerName||"");
+
+            var printHtml =tmpHtml;
+
+            if(firstPage){
+              firstPage=false;
+            }else{
+              LODOP.NewPage();
+            }
+
+            console.log("printHtml",printHtml);
+            LODOP.ADD_PRINT_HTM(uiCustomHtml.html_top,uiCustomHtml.html_left,uiCustomHtml.html_width,uiCustomHtml.html_height, printHtml);
+          }
+        });
+        LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
+        LODOP.SET_PRINT_COPIES($scope.scopeData.num);
+
+        if (printType === 'preview') {
+          LODOP.PREVIEW();
+        } else if (printType === 'print') {
+          LODOP.PRINT();
         }
       });
+
+      // $scope.$watchCollection('printPageSize', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     LODOP.SET_PRINT_PAGESIZE(1, $scope.printPageSize.w * 10, $scope.printPageSize.h * 10, "");
+      //
+      //     angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
+      //       for (var i = 0; i < item.converResults.length; i++) {
+      //         if (item.converResults[i].unitQuantity !== 0) {
+      //           for (var j = 0; j < item.converResults[i].unitQuantity; j++) {
+      //             var printHtml = '<div style="padding-top:5px;">' +
+      //                               '<div style="text-align:center;"><img src="' + item.qrcode + '" style="width:150px;height:150px;"></div>' +
+      //                               '<div style="text-align:center;font-size:13px;color:#333;">' +
+      //                                 '<p>' + item.name + '</p>' +
+      //                                 '<p>客户：' + $scope.medicalDataList.customerName + '</p>' +
+      //                               '</div>' +
+      //                             '</div>';
+      //
+      //             LODOP.NewPage();
+      //             LODOP.ADD_PRINT_HTML(0, 0, "100%", "100%", printHtml);
+      //           }
+      //         }
+      //       }
+      //     });
+      //     LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);
+      //     LODOP.SET_PRINT_COPIES($scope.scopeData.num);
+      //
+      //     if (printType === 'preview') {
+      //       LODOP.PREVIEW();
+      //     } else if (printType === 'print') {
+      //       LODOP.PRINT();
+      //     }
+      //   }
+      // });
 
     }
 
@@ -308,23 +350,20 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
    * @return {[type]}                                     [description]
    */
   function qrcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
+    $scope.originData = [];
+
     // 记录原始值
     $scope.saveOriginData = function (originData) {
-      $scope.originData = angular.copy(originData);
+      angular.copy(originData, $scope.originData);
     }
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
-      if (unitQuantity > $scope.originData.converResults[index].unitQuantity) {
-        converResults[index].unitQuantity = $scope.originData.converResults[index].unitQuantity;
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity;
-        return;
-      } else {
-        var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
-            _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+      var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
+          _temp = parseInt(_temp / converResults[index+1].ratio, 10);
 
-        converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
-      }
+      converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+      angular.copy(converResults, $scope.originData.converResults);
     }
   }
 

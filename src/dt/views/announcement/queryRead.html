@@ -25,7 +25,7 @@
                         <div class="flex-item-8" style=" margin-top: 30px;"></div>
                         <div class="flex-item-4 text-right mgt-xl">
                             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                                <input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">
+                                <input type="text" class="ipt pdr-xxl" placeholder="标题" ng-model="listParams.q">
                                 <i class=""></i>
                             </div>
                             <div class="inline-block mgl-m" ng-click="listParams.q=''">
@@ -41,15 +41,19 @@
 
 
                 <div class="pr-bg-white pr-fuzzy-boundary">
-                    <ol class="index-msg-list" style="margin: 0 10px;">
+                    <ol class="index-msg-list" style="margin: 0 10px; padding-bottom: 40px;">
                         <li ng-repeat="item in tbodyList track by $index" style="border-bottom: 1px dashed #E9E9E8;">
-                            <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" style="color: #333333;">
-                                <p class="flex-column">
-                                    <span class="flex-item-9 text-left color-orange ">{{item.title}}</span>
-                                    <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
-                                    <span class="flex-item-1 text-right ng-binding">{{item.salesDepartmentName}}</span>
-                                </p>
-                            </a>
+                            <div class="flex-column">
+                                <span class="flex-item-9 text-left" style="overflow: hidden;">
+
+                                    <div class="text-ellips-s  color-orange">
+                                        <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" class="color-orange" style="color: #333333;">{{item.title}}</a>
+                                    </div>
+                                    <!--<em ng-if="$index<3" class="color-red">NEW</em>-->
+                                </span>
+                                <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
+                                <span class="flex-item-1 text-left">{{item.salesDepartmentName}}</span>
+                            </div>
                         </li>
 
                     </ol>
@@ -95,7 +99,7 @@
                 </div>
             </div>
         </div>
-</div>
 
+        </div>
     </table-list>
 </div>

@@ -25,7 +25,7 @@
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
+                                 crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
                                  component-title="归还单-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
@@ -229,7 +229,7 @@
                    <td class="text-center">{{tr.actualCount}}</td><!-- 借出数量 -->
                    <td class="text-center">{{tr.actualCount - tr.cumulativeReturnCount}}</td><!-- 待还数量 -->
 
-                   <td class="text-center" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
+                   <td class="text-center relative" style="white-space: nowrap;" ng-init="tr.quantity =tr.quantity ? tr.quantity :(tr.actualCount - tr.cumulativeReturnCount)">
                      <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                        <span class="inline-block">
