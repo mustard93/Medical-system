@@ -565,14 +565,48 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
         };
 
 
+
+        $scope.warehouselist=[];
+
+        // $scope.$watch('formData.logisticsCenterId',function (newVal,oldVal) {
+        //
+        //     if(newVal){
+        //         requestData('rest/authen/warehouse/queryForSelectOption?logisticsCenterId='+$scope.formData.logisticsCenterId+'&type=虚拟库',{},"GET")
+        //         .then(function (results) {
+        //             var _data = results[1];
+        //
+        //             if(_data.code ==200){
+        //                 $scope.warehouselist=_data.data;
+        //
+        //                 console.log("warehouselist" ,$scope.warehouselist);
+        //             }
+        //
+        //             $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+        //         })
+        //         .catch(function (error) {
+        //             alertError(error || '出错');
+        //         });
+        //     }
+        // });
+
         //设置预入库房
-        $scope.changeWarehouse = function (warehouseId,orderMedicalNos){
+        $scope.changeWarehouse = function (warehouseId,orderMedicalNos,warehouseList){
+
+            var  warehouseName = "";
+            if(warehouseList){
+                angular.forEach(warehouseList,function (item,index) {
+                    if(item.value == warehouseId){
+                        warehouseName=item.text;
+                    }
+                });
+            }
             if (orderMedicalNos) {
                 angular.forEach(orderMedicalNos, function (data, index) {
                     data.warehouseId=warehouseId;
+                    data.warehouseName=warehouseName;
                 });
             }
-        }
+        };
 
 
 
@@ -651,6 +685,12 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
           });
 
           $scope.formData.orderMedicalNos=datas;
+
+          //设置仓库
+          if($scope.formData.warehouseId){
+              $scope.changeWarehouse($scope.formData.warehouseId,$scope.formData.orderMedicalNos,$scope.warehouseList);
+          }
+
           e.stopPropagation();
           modal.close();
       });
@@ -659,7 +699,29 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
           return true;
       }
 
-    }//
+
+      $scope.uuids="";
+
+      //获取UUIDS
+      $scope.getOrderMedicalNosUUID=function(){
+          var arr=[];
+          var list=[];
+          if($scope.formData){
+              list = $scope.formData.orderMedicalNos || [];
+          }
+
+
+          angular.forEach(list,function (item,index) {
+              arr.push(item['uuid']);
+          });
+
+          $scope.uuids= arr.join(',');
+
+          return arr.join(',');
+      }
+
+      $scope.getOrderMedicalNosUUID();
+  }//
 
 
 
