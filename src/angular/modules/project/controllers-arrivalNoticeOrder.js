@@ -532,69 +532,9 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
       }
     }
 
-    // if ($scope.medicalDataList.orderMedicalNos) {
-    //   try {
-    //     angular.forEach($scope.medicalDataList.orderMedicalNos, function (item, index) {
-    //
-    //       if (item.othersPackingAttribute) {
-    //         // 降序排序，也就是包装最大的在前面
-    //         item.othersPackingAttribute.sort(function (a, b) {
-    //           return b['ratio'] - a['ratio'];
-    //         });
-    //       } else {
-    //         item.othersPackingAttribute = [];
-    //       }
-    //
-    //       item.othersPackingAttribute.push({
-    //         ratio: 1,
-    //         name: item.packingAttribute.name
-    //       });
-    //
-    //       item.converResults = $scope.getConverResults(item.quantity, item.othersPackingAttribute, item.packingAttribute.name);
-    //
-    //       for (var i = 0; i < item.converResults.length; i++) {
-    //         (function() {
-    //           var temp = i;
-    //           requestData(_barCodeReqUrl,
-    //                      [{
-    //                        id: $scope.medicalDataList.id,
-    //                        barcode:item.barcode,
-    //                        quantity: item.converResults[temp].ratio,
-    //                        productionBatch: item.productionBatch !== '默认批号' ? item.productionBatch : null,
-    //                        validTill: item.validTill
-    //                      }],
-    //                      'POST', 'params-body')
-    //           .then(function (results) {
-    //             if (results[1].code === 200) {
-    //               item.converResults[temp].barcode = results[1].data[0].barcode;
-    //             }
-    //           })
-    //         })();
-    //       }
-    //
-    //       // 构建显示换算单位字符串
-    //       item.converStr = item.quantity + item.unit + ' = ';
-    //       angular.forEach(item.converResults, function (data, index) {
-    //         if ((index + 1) !== item.converResults.length) {
-    //           item.converStr += data.unitQuantity + data.unit + ' + ';
-    //         } else {
-    //           item.converStr += data.unitQuantity + data.unit;
-    //         }
-    //
-    //       });
-    //
-    //     });
-    //   }
-    //   catch(err) {
-    //     throw new Error(err);
-    //   }
-    // }
-
     // 打印
     // @param printType 打印类型：preview为预览(默认)，print为直接打印
     $scope.barCodePrint = function (printType) {
-
-
 
       if (!LODOP) {
         throw new Error('打印插件加载错误！');
@@ -818,12 +758,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
         var moment = require('moment');
         m = moment(time).format('YYYY-MM-DD');
         return m;
-      //   天数解析不准确bug
-      // if (time) {
-      //   return new Date(time).getFullYear() + '-' + (new Date(time).getMonth() + 1) + '-' + new Date(time).getDay();
-      // } else {
-      //   return '暂无';
-      // }
     }
 
   }
