@@ -11,7 +11,7 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
    * @param  {[type]}              dialogAlert     [description]
    * @return {[type]}                              [description]
    */
-  function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
+  function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert, checkDataCorrectness) {
 
     //初始化校验数据
     $scope.checkData=function(){
@@ -396,9 +396,6 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
     };
 
     $scope.submitFormAfter = function() {
-
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
       $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
@@ -542,6 +539,7 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
         });
       }
     };
+    
     // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
     $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
       if (newVal && newVal!==oldVal) {
@@ -644,5 +642,5 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
    }
 
   angular.module('manageApp.project')
-  .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert",  purchaseOrderEditCtrl]);
+  .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert", "checkDataCorrectness",  purchaseOrderEditCtrl]);
 });
