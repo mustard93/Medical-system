@@ -5,7 +5,7 @@ define('project/controllers-infrastructure', ['project/init'], function() {
    * @param  {[type]}                 $scope [description]
    * @return {[type]}                        [description]
    */
-  function infrastructureController ($scope) {
+  function infrastructureController ($scope, requestData) {
 
     $scope.buildMapping = function (objName, keyName, valName) {
 
@@ -66,8 +66,24 @@ define('project/controllers-infrastructure', ['project/init'], function() {
       }
       // console.log($scope.formData);
     };
+
+    // 生成key
+    $scope.createKey = function (keyName) {
+      if (keyName) {
+        var _reqUrl = 'rest/index/generateUUID';
+
+        requestData(_reqUrl, {}, 'GET')
+        .then(function (results) {
+          $scope[keyName] = results.data;
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+
+      }
+    }
   }
 
   angular.module('manageApp.project')
-  .controller('infrastructureController', ['$scope', infrastructureController]);
+  .controller('infrastructureController', ['$scope', 'requestData', infrastructureController]);
 });
