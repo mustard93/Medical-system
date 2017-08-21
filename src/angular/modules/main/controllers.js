@@ -886,6 +886,10 @@ define('main/controllers', ['main/init'], function () {
                 }
               }
               $scope.formData.contacts.push(_data);
+              // 如果添加的联系人里面都没有设置默认联系人，则把联系人中的第一条设置为默认联系人。
+              if (!$scope.formData.contacts.some(function(item){return item.isDefault;})) {
+                $scope.formData.contacts[0].isDefault=true;
+              }
               modal.closeAll();
             }
           })
