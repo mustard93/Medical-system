@@ -1228,9 +1228,7 @@ define('project/services', ['project/init'], function() {
 
     // 经销商模块中新建单据时校验各条目的有效性
     function checkDataCorrectness () {
-      return function (url) {
-        
-      }
+      
     }
 
     angular.module('manageApp.project')
