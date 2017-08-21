@@ -4467,5 +4467,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
       .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
-      .directive("a2",['$rootScope',a2])
+        .directive("a2",['$rootScope',a2])
 });

@@ -295,6 +295,8 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
                 item.stayCount= utils.countAttrVal(item.stockBatchs,'quantity') || 0;
                 item.stockBatchs=[];
                 $scope.formData.orderMedicalNos.push(item);
+                $scope.formData.orderMedicalNos[index].relLineNumber=item.lineNumber;
+
             });
 
         };
@@ -320,7 +322,6 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
             }
             return flag;
         };
-
 
         //比对借出单ID 与已选择借出单ID  不相同返回false;
         $scope.compareOrderId=function(choicedLendOrderId,nowLendOrderId){

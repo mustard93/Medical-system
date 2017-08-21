@@ -42,12 +42,25 @@
 
           <div class="form-group">
             <label class="col-lg-2 col-sm-2 control-label">实例队列Key</label>
-            <div class="col-lg-10 col-sm-10">
+            <div class="col-lg-6 col-sm-6">
                 <input type="text" class="form-control" placeholder="" ng-model="formData.instanceKey"/>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <button type="button" class="btn btn-primary" ng-click="createKey('formData.instanceKey')">生成实例队列Key</button>
             </div>
           </div>
 
-          <div class="form-group" ng-init="formData.warehouseTypeMapping={}">
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">实例密钥</label>
+            <div class="col-lg-6 col-sm-6">
+                <input type="text" class="form-control" placeholder="" ng-model="formData.secretKey"/>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <button type="button" class="btn btn-primary" ng-click="createKey('formData.secretKey')">生成实例密钥</button>
+            </div>
+          </div>
+
+         <!-- <div class="form-group" ng-init="formData.warehouseTypeMapping={}">
             <label class="col-lg-2 col-sm-2 control-label">库类型</label>
             <div class="col-lg-10 col-sm-10">
               <div class="">
@@ -103,10 +116,10 @@
               </div>
 
               <div>
-                <!-- <select class="ipt pr-short-ipt" ng-model="formData.extendedAttributeKey" ng-change="handleChoiseEvent()">
+                <select class="ipt pr-short-ipt" ng-model="formData.extendedAttributeKey" ng-change="handleChoiseEvent()">
                   <option value="">无</option>
                   <option ng-repeat="item in extendedAttrList" value="{{item.value}}">{{item.name}}</option>
-                </select> -->
+                </select>
                 <select class="ipt pr-short-ipt"
                         ng-model="formData.extendedAttributeKey"
                         ng-options="item.name for item in extendedAttrList"
@@ -139,17 +152,17 @@
                 <a href="" ng-click="buildMapping('inoutTypeMapping','inoutTypeMappingKey','inoutTypeMappingValue')">添加</a>
               </div>
             </div>
-          </div>
+          </div> -->
 
       </div>
-      <textarea-json ng-model="formData"></textarea-json>
+      <!-- <textarea-json ng-model="formData"></textarea-json> -->
 
-          <div class="form-group">
-              <label class="col-lg-2 col-sm-2 control-label"></label>
-              <div class="col-lg-10 col-sm-10">
-                  <input type="submit" class="btn pr-btn-create-glodbg" value="保存">
-              </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="保存">
           </div>
+      </div>
 
 
   </form>
