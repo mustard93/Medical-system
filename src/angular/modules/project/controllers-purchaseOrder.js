@@ -565,28 +565,37 @@ define('project/controllers-purchaseOrder', ['project/init'], function() {
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
     $scope.getHistoryFirstPrice=function(supplier){
 
-      if (!$scope.ids.length) {
-        for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
-          $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+      // 如果有返回价格的值，则说明保存过，并且修改过价格，所以直接返回，不用执行下面的方法去获取新值。解决bug1647
+      if ($scope.formData.orderMedicalNos.length) {
+        for (var i = 0; i < $scope.formData.orderMedicalNos.length; i++) {
+          if ($scope.formData.orderMedicalNos[i].strike_price!==null) {
+            return;
+          }
         }
       }
-      console.log($scope.ids.length);
-        if (supplier.id&&$scope.ids.length&&supplier.contact) {
-          var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
-          _data={};
-          requestData(_url,_data, 'get')
-            .then(function (results) {
-              var _data = results[1].data;
-              console.log(_data);
-              // 把相应的历史价格赋值叨叨相应的商品上
-              for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
-                console.log($scope.formData.orderMedicalNos[i]);
 
-                if ($scope.formData.orderMedicalNos[i].id!=null) {
-                  $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
-                }else {
-                  $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
-                }
+    if (!$scope.ids.length) {
+      for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+        $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+      }
+    }
+
+      if (supplier.id&&$scope.ids.length&&supplier.contact) {
+        var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
+        _data={};
+        requestData(_url,_data, 'get')
+          .then(function (results) {
+            var _data = results[1].data;
+            console.log(_data);
+            // 把相应的历史价格赋值叨叨相应的商品上
+            for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+              console.log($scope.formData.orderMedicalNos[i]);
+
+              if ($scope.formData.orderMedicalNos[i].id!=null) {
+                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
+              }else {
+                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+              }
 
               }
             })

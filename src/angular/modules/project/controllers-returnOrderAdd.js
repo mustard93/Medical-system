@@ -40,13 +40,26 @@ define('project/controllers-returnOrderAdd', ['project/init'], function() {
         angular.forEach(addDataObj_orderMedicalNos, function (data, index) {
           if (saleReturnOrder_orderMedicalNos) {
             for (var i = 0; i < saleReturnOrder_orderMedicalNos.length; i++) {
-              if (data.relId === saleReturnOrder_orderMedicalNos[i].relId &&
-                  data.productionBatch === saleReturnOrder_orderMedicalNos[i].productionBatch &&
-                  data.sterilizationBatchNumber === saleReturnOrder_orderMedicalNos[i].sterilizationBatchNumber) {
-                    data.itemSelected = true;
-                    choisedMedicalList.push(data);
-                    _initFlag++;
-                  }
+
+
+              //兼容模式，增加可以添加同药械后，需要用关联行号来确定唯一值。
+              if(saleReturnOrder_orderMedicalNos[i].relLineNumber){
+                    if (data.relId == saleReturnOrder_orderMedicalNos[i].relId &&saleReturnOrder_orderMedicalNos[i].relLineNumber==data.lineNumber){
+                      data.itemSelected = true;
+                      choisedMedicalList.push(data);
+                      _initFlag++;
+                    }
+              }else{//兼容1.0.2.7以前，没添加relLineNumber（关联行号）
+                if (data.relId === saleReturnOrder_orderMedicalNos[i].relId &&
+                    data.productionBatch === saleReturnOrder_orderMedicalNos[i].productionBatch &&
+                    data.sterilizationBatchNumber === saleReturnOrder_orderMedicalNos[i].sterilizationBatchNumber) {
+                      data.itemSelected = true;
+                      choisedMedicalList.push(data);
+                      _initFlag++;
+                    }
+              }
+
+
             }
           }
 
@@ -260,6 +273,7 @@ define('project/controllers-returnOrderAdd', ['project/init'], function() {
       if (choisedMedicalList.length) {
         for (var i = 0; i < choisedMedicalList.length; i++) {
           choisedMedicalList[i].quantity=choisedMedicalList[i].returnQuantity;
+          choisedMedicalList[i].relLineNumber=choisedMedicalList[i].lineNumber;
         }
       }
       // 首次添加数据
