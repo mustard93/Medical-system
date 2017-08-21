@@ -4,111 +4,127 @@
               search-mode="noCaseSensitive"
               search-param="q">
 
+      <page-main-header-component list-params="listParams"
+                                  crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"批次解冻单","link":"","style":""}]'
+                                  is-show-select-item='[{"name":"批次解冻单","link":"#/freezeThawOrder/query-thaw.html"},{"name":"批次冻结单","link":"#/freezeThawOrder/query-freeze.html"}]'
+                                  is-show-create-btn="新建批次解冻单"
+                                  create-btn-author="批次冻结解冻单新增"
+                                  create-new-url="#/freezeThawOrder/edit-freeze.html"
+                                  get-status-num-url="rest/authen/freezeThawOrder/countByOrderStatus.json?type=批次解冻"
+                                  status-group-data='[["待审核-true","待审批-true","已通过-true","未通过-true"]]'
+                                  is-show-business-btn-group=true
+                                  is-show-date-filter=true
+                                  is-show-key-filter=true
+                                  is-show-warehouse-filter=true
+                                  get-warehouse-list-url="rest/authen/warehouse/queryForSelectOption"
+                                  search-placeholder-info=""
+                                  get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+      </page-main-header-component>
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading pdb-m mgb-l relative">
-        <!-- 模块标题及面包屑 -->
-        <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>批次解冻单</em></p>
-        <div class="pd-c-xxxxl">
-          <div class="flex-column mgb-m">
-            <div class="flex-item-4 pos-rel-tl inline-block fl-l">
-                <select ng-init="itemChooise='#/freezeThawOrder/query-thaw.html';itemElseChooise='#/freezeThawOrder/query-freeze.html';itemElseChooiseName='批次冻结单'"
-                class="select pr-select pr-select-sm z-index-l relative" style="width:120px;"
-                ng-model="itemChooise" ng-change="$root.utils.goTo({'tabHref':itemElseChooise,'tabName':itemElseChooiseName})">
-                  <option value="#/freezeThawOrder/query-thaw.html">批次解冻单</option>
-                  <option value="#/freezeThawOrder/query-freeze.html">批次冻结单</option>
-                </select>
-            </div>
-            <div class="flex-item-8 order-status-btn pos-rel-tr text-right"
-                 ajax-url="rest/authen/freezeThawOrder/countByOrderStatus.json?type=批次解冻"
-                 scope-data="countByOrderStatus"
-                 alert-error>
-                <div class=""></div>
-                <div class="btn btn-group">
-                  <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
-                  <button query-order-status-button  ng-model="listParams.orderStatus" key="待审核"  count-map="countByOrderStatus">  </button>
-                  <button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>
-                  <button query-order-status-button  ng-model="listParams.orderStatus" key="已通过" >  </button>
-                  <button query-order-status-button  ng-model="listParams.orderStatus" key="未通过"  count-map="countByOrderStatus">  </button>
-                </div>
-            </div>
-          </div>
-        </div>
+    <!--<div class="content-wrapper-heading pdb-m mgb-l relative" style="background:linear-gradient(rgba(230, 226, 215, .6) 20%, rgba(230, 226, 215, .9) 80%)">-->
+        <!--&lt;!&ndash; 模块标题及面包屑 &ndash;&gt;-->
+        <!--<p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>批次解冻单</em></p>-->
+        <!--<div class="pd-c-xxxxl">-->
+          <!--<div class="flex-column mgb-m">-->
+            <!--<div class="flex-item-4 pos-rel-tl inline-block fl-l">-->
+                <!--<select ng-init="itemChooise='#/freezeThawOrder/query-thaw.html';itemElseChooise='#/freezeThawOrder/query-freeze.html';itemElseChooiseName='批次冻结单'"-->
+                <!--class="select pr-select pr-select-sm z-index-l relative" style="width:120px;"-->
+                <!--ng-model="itemChooise" ng-change="$root.utils.goTo({'tabHref':itemElseChooise,'tabName':itemElseChooiseName})">-->
+                  <!--<option value="#/freezeThawOrder/query-thaw.html">批次解冻单</option>-->
+                  <!--<option value="#/freezeThawOrder/query-freeze.html">批次冻结单</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="flex-item-8 order-status-btn pos-rel-tr text-right"-->
+                 <!--ajax-url="rest/authen/freezeThawOrder/countByOrderStatus.json?type=批次解冻"-->
+                 <!--scope-data="countByOrderStatus"-->
+                 <!--alert-error>-->
+                <!--<div class=""></div>-->
+                <!--<div class="btn btn-group">-->
+                  <!--<button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>-->
+                  <!--<button query-order-status-button  ng-model="listParams.orderStatus" key="待审核"  count-map="countByOrderStatus">  </button>-->
+                  <!--<button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>-->
+                  <!--<button query-order-status-button  ng-model="listParams.orderStatus" key="已通过" >  </button>-->
+                  <!--<button query-order-status-button  ng-model="listParams.orderStatus" key="未通过"  count-map="countByOrderStatus">  </button>-->
+                <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
 
 
-      <!-- 搜索 -->
-      <div class="text-right relative full-width pd-c-xxxxl">
+      <!--&lt;!&ndash; 搜索 &ndash;&gt;-->
+      <!--<div class="text-right relative full-width pd-c-xxxxl">-->
 
 
-        <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
+        <!--<div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">-->
 
 
-          <a
-          tab-nav
-          tab-name='批次解冻单'
-          tab-href="#/freezeThawOrder/edit-thaw.html" title="新建批次解冻单"><i></i><span class="text-s ">新建批次解冻单</span></a>
-        </div>
-        <div class="relative">
-          <span class="mgr color-999">仓库</span>
-          <select class="pr-select select-wd mgr-xl"
-           chosen
-            ng-model="listParams.warehouseCode"
-            default-empty="全部"
-            select-source="rest/authen/warehouse/queryForSelectOption">
-          </select>
-          <span class="mgr color-999">制单日期</span>
-          <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
-              <input type="text"
-                     datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                     ng-readonly="true"
+          <!--<a-->
+          <!--tab-nav-->
+          <!--tab-name='批次解冻单'-->
+          <!--tab-href="#/freezeThawOrder/edit-thaw.html" title="新建批次解冻单"><i></i><span class="text-s ">新建批次解冻单</span></a>-->
+        <!--</div>-->
+        <!--<div class="relative">-->
+          <!--<span class="mgr color-999">仓库</span>-->
+          <!--<select class="pr-select select-wd mgr-xl"-->
+           <!--chosen-->
+            <!--ng-model="listParams.warehouseCode"-->
+            <!--default-empty="全部"-->
+            <!--select-source="rest/authen/warehouse/queryForSelectOption">-->
+          <!--</select>-->
+          <!--<span class="mgr color-999">制单日期</span>-->
+          <!--<div class="date-icon-outside" ng-if="!listParams.createAtBeg">-->
+              <!--<input type="text"-->
+                     <!--datepicker-->
+                     <!--class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"-->
+                     <!--ng-readonly="true"-->
 
-                     ng-model="listParams.createAtBeg">
-              <span class="date-icon"></span>
-          </div>
-          <div class="date-icon-outside" ng-if="listParams.createAtBeg">
-              <input type="text"
-                     datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                     ng-readonly="true"
+                     <!--ng-model="listParams.createAtBeg">-->
+              <!--<span class="date-icon"></span>-->
+          <!--</div>-->
+          <!--<div class="date-icon-outside" ng-if="listParams.createAtBeg">-->
+              <!--<input type="text"-->
+                     <!--datepicker-->
+                     <!--class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"-->
+                     <!--ng-readonly="true"-->
 
-                     ng-model="listParams.createAtBeg">
-              <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
-          </div>
-          <span class="mgr">至</span>
-          <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
-              <input type="text"
-                     datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                     ng-readonly="true"
+                     <!--ng-model="listParams.createAtBeg">-->
+              <!--<span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>-->
+          <!--</div>-->
+          <!--<span class="mgr">至</span>-->
+          <!--<div class="date-icon-outside" ng-if="!listParams.createAtEnd">-->
+              <!--<input type="text"-->
+                     <!--datepicker-->
+                     <!--class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"-->
+                     <!--ng-readonly="true"-->
 
-                     ng-model="listParams.createAtEnd"
-                     invalid-popover
-                     popover-show="listParams.createAtEnd<listParams.createAtBeg"
-                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
-              <span class="date-icon"></span>
-          </div>
-          <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-              <input type="text"
-                     datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                     ng-readonly="true"
+                     <!--ng-model="listParams.createAtEnd"-->
+                     <!--invalid-popover-->
+                     <!--popover-show="listParams.createAtEnd<listParams.createAtBeg"-->
+                     <!--popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />-->
+              <!--<span class="date-icon"></span>-->
+          <!--</div>-->
+          <!--<div class="date-icon-outside" ng-if="listParams.createAtEnd">-->
+              <!--<input type="text"-->
+                     <!--datepicker-->
+                     <!--class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"-->
+                     <!--ng-readonly="true"-->
 
-                     ng-model="listParams.createAtEnd"/>
-              <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
-          </div>
-
-
-
-        <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+                     <!--ng-model="listParams.createAtEnd"/>-->
+              <!--<span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>-->
+          <!--</div>-->
 
 
-          <input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">
-          <i class=""></i>
-        </div>
-        </div>
 
-      </div>
-    </div>
+        <!--<div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">-->
+
+
+          <!--<input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">-->
+          <!--<i class=""></i>-->
+        <!--</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+    <!--</div>-->
   <div class="content-wrapper freeze-thaw-order"
          ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
           formData.type='批次解冻';listParams.type='批次解冻'

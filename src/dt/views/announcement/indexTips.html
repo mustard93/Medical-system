@@ -6,10 +6,14 @@
     <header class="text-n color-3 text-bold" ng-init="showMore=false;">
       通知公告
 
-      <center style="margin-top: -20px; height: 22px;" >
-          <ul ng-if="msgList.length && !showMore"  class="color-orange font-inner" style="font-weight: normal; font-size: 12px;" >
-              <li ng-repeat="item in msgList" style="height: 45px" ><a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}">{{item.title}}</a></li>
-           </ul>
+      <center style="margin-top: -20px; height: 20px;overflow:hidden;" >
+        <div class="" auto-scroll-up>
+          <p ng-if="msgList.length && !showMore" ng-repeat="tr in msgList "  class="color-orange" style="font-weight: normal; font-size: 12px;" >
+            <em >
+                <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{tr.id}}">{{tr.title}}</a>
+            </em>
+          </p>
+        </div>
       </center>
         <span class="tools pull-right" style="margin-top: -25px;">
             <a ng-click="showMore=!showMore;" href="javascript:;" class="fa fa-chevron-down" toggle-panel=""></a>
@@ -36,8 +40,9 @@
 
                             <div class="text-ellips-s  color-orange">
                                 <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" class="color-orange" style="color: #333333;">{{item.title}}</a>
+                                <em ng-if="item.isNew" class="color-red">NEW</em>
                             </div>
-                            <!--<em ng-if="$index<3" class="color-red">NEW</em>-->
+
                         </span>
                         <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
                         <span class="flex-item-1 text-left">{{item.salesDepartmentName}}</span>
