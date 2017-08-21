@@ -99,12 +99,12 @@
                    </em>
 
 
-                   <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
-                     <i class="warning-icon"></i>
-                     {{customerInfo.msg}}
-                     <span ng-if="formData.supplier.id" style="margin-left: 15px;">
-                     <a tab-nav tab-name="供应商管理" tab-href="#/supplier/get.html?id={{formData.supplier.id}}" class="color-orange">查看详情</a></span>
-                   </em>
+                   <!--<em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">-->
+                     <!--<i class="warning-icon"></i>-->
+                     <!--{{customerInfo.msg}}-->
+                     <!--<span ng-if="formData.supplier.id" style="margin-left: 15px;">-->
+                     <!--<a tab-nav tab-name="供应商管理" tab-href="#/supplier/get.html?id={{formData.supplier.id}}" class="color-orange">查看详情</a></span>-->
+                   <!--</em>-->
 
                  </div>
                </div>
@@ -124,6 +124,7 @@
                           chosen
                           ng-model="formData.logisticsCenterId"
                           is-disabled-this="{{formData.customerId}}"
+                          callback="getWarehouselist()"
                           select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
                   </select>
                 </p>
@@ -150,7 +151,12 @@
                    modal-right="1000"
                    modal-scope="this"
                    modal-open-auto="1"
-                   modal-data='{"orderMedicalNos":"{{formData.orderMedicalNos}}",   "relId":"{{formData.relId}}","customerId":"{{formData.customerId}}","customerName":"{{formData.customerName}}"}'
+                   modal-data='{
+                                "orderMedicalNos":"{{getOrderMedicalNosUUID()}}",
+                                "relId":"{{formData.relId}}",
+                                "customerId":"{{formData.customerId}}",
+                                "customerName":"{{formData.customerName}}"
+                                }'
                    modal-url="views/requestPurchaseOrderDetail/choice-dialog.html">
              <i></i>
              <span>增加采购条目</span>
@@ -243,8 +249,9 @@
 
                  <select class="pr-select pd-s"
                          style="width:115px;"
+                         required
                          ng-model="formData.warehouseId"
-                         ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
+                         ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos,warehouseList)"
                          ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
                          scope-data="warehouseList">
                    <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
@@ -310,13 +317,16 @@
                      <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
                      <td class="text-center">
 
-                       <select ng-if="initFlag" class="pr-select pd-s"
-                               style="width:115px;"
-                               ng-model="tr.warehouseId"
-                               ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
-                               scope-data="warehouseList">
-                         <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
-                       </select>
+                       <!--<select ng-if="initFlag" class="pr-select pd-s"-->
+                               <!--style="width:115px;"-->
+                               <!--ng-model="tr.warehouseId"-->
+                               <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
+                               <!--scope-data="warehouseList">-->
+                         <!--<option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>-->
+                       <!--</select>-->
+
+                       {{tr.warehouseName}}
+
                      </td><!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
 
