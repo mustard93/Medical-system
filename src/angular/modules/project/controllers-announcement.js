@@ -93,6 +93,8 @@ define('project/controllers-announcement', ['project/init'], function() {
 
 
 
+
+
   }
 
   angular.module('manageApp.project')
