@@ -673,17 +673,24 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
         //监控选择的发货单变化
         $scope.$watch('scopeData',function (newVal,oldVal){
             if(newVal){
-                console.log("newVal");
                 $scope.listParams.customerId= newVal.id;
             }
         });
 
-        $scope.$watch('listParams.customerId',function (newVal,oldVal){
+        // $scope.$watch('listParams.customerId',function (newVal,oldVal){
+        //     if(newVal){
+        //
+        //         console.log("newVal");
+        //         $scope.listParams.customerId= newVal;
+        //     }
+        // });
+        $scope.$watch('selectedOrderCode',function (newVal,oldVal){
             if(newVal){
-                console.log("newVal");
-                $scope.listParams.customerId= newVal;
+                console.log("newVal-orderCode",newVal);
+                $scope.listParams.orderCode= newVal.data.orderCode;
             }
         });
+
 
 
 
@@ -734,6 +741,21 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         };
 
+        $scope.itemInArray=function (id,batchlist,attr) {
+
+            if(!batchlist){
+                var  batchlist= [];
+            }
+
+            var flag=false;
+            for(var i=0; i<batchlist.length; i++){
+                if(batchlist[i][attr] == id){
+                    flag=true;
+                }
+            }
+            return flag;
+        };
+        
     }
 
 

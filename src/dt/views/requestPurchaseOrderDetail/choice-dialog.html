@@ -1,13 +1,13 @@
-
+<!--listParams.customerId=dialogData.customerId;-->
 <table-list
-        ng-init="listParams={};listParams.customerId=dialogData.customerId;"
+        ng-init="listParams={};"
         list-data="rest/authen/requestPurchaseOrderDetail/query"
         list-params="listParams"
         search-mode="noCaseSensitive"
         search-param="q"
 >
 
-    <div class="modal-content pr-modal-content right-side-new  more-stock"
+    <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock "
      ng-controller="requestPurchaseOrderDetailDialogCtrl"
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
@@ -122,13 +122,13 @@
 
             <p class="bb-line-gold" style="line-height: 40px; text-indent: 20px;">选择需要合并生成采购单的请购条目</p>
 
-            <div ng-if="!tbodyList" class="empty-table clearfix" style="background: #6e6a67;">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
+            <div ng-if="!scopeData" class="empty-table clearfix" style="opacity: .4">
+                <div  style="background: #554D44;">&nbsp;</div>
+                <div  style="background: #554D44;">&nbsp;</div>
+                <div  style="background: #554D44;">&nbsp;</div>
             </div>
 
-            <div style="margin: 15px  0;">
+            <div ng-if="scopeData" style="margin: 15px  0;">
                 <!-- 要求到货日期 -->
                 <div class="inline-block relative">
                     <span class="color-9 mgl-m">要求到货日期：</span>
@@ -183,11 +183,11 @@
                     <div class="order-list-search text-left code pos-rel-tr inline-block fl-r relative">
                         <span angucomplete placeholder=""
                               style="width: 180px; "
-                              title-field="name"
+                              title-field="orderCode"
                               search-str-class="ipt ipt-bg-black"
                               url="rest/authen/requestPurchaseOrder/query"
                               class="inline-block"
-                              ng-model="listParams.orderCode">
+                              ng-model="selectedOrderCode">
                         </span>
                         <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
                     </div>
@@ -210,8 +210,8 @@
             </div>
 
             <!-- 商品列表 -->
-            <div ng-if="tbodyList.length">
-                <table class="table pr-table pr-new-table" style="background:none">
+            <div ng-if="tbodyList.length" class="pr-panel pd-n pr-panel-height">
+                <table class="table pr-table pr-new-table">
                     <thead>
                     <tr>
                         <th class="w-60 text-center mycheck">
@@ -237,9 +237,13 @@
                         <td class="select-td text-center mycheck">
 
                             <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"-->
+
+                            <!--ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');-->
+                            <!--item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"-->
+                            <!---->
                             <input type="checkbox"
-                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
-                                       item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"
+
+                                   ng-init="itemInArray(item.orderMedicalNos.uuid,dialoagData.orderMedicalNos,'uuid')"
 
                                    class="selectOne cur-pot" id='otherCustomerManagement_dialog_{{$index+2}}'
                                    ng-model="item.handleFlag"
@@ -290,10 +294,12 @@
                 </div>
 
             </div>
-        <!--ng-disabled="selectedBatchs2.length<1"-->
+
+
             <div class="footer-button-area" style="position:fixed;bottom:0px;" >
                 <button type="submit" style="margin-left:500px;"
                         class="pr-btn-create-glodbg new-left-side-button"
+                        ng-disabled="choiced.length<1"
                         ng-click="addOrderDataToList(dialogData.relId,scopeData.data);modal.close()">确定</button>
             </div>
         </div>
