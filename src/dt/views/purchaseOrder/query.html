@@ -53,8 +53,14 @@
                   <span class="flex-item-6 text-right">
                     <span ng-if="$root.hasAuthor('采购单修改')">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-                      <a tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
-                      <span class="edit-link-icon">&nbsp;</span></a>
+
+                      <a ng-if="tr.isMerge" tab-nav tab-name="采购单"  tab-href="#/requestPurchaseOrderDetail/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span>
+                      </a>
+
+                        <a ng-if="!tr.isMerge" tab-nav tab-name="采购单"  tab-href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span>
+                      </a>
                    </span>
                     <span ng-if="$root.hasAuthor('采购单删除')">
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"

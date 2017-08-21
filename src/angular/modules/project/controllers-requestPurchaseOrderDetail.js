@@ -739,29 +739,31 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         });
 
-        // $scope.$watch('listParams.customerId',function (newVal,oldVal){
-        //     if(newVal){
-        //
-        //         console.log("newVal");
-        //         $scope.listParams.customerId= newVal;
-        //     }
-        // });
-        $scope.$watch('selectedOrderCode',function (newVal,oldVal){
+        $scope.$watch('selectedOrderCode2',function (newVal,oldVal){
+            console.log("$scope.selectedOrderCode2",$scope.selectedOrderCode2)
             if(newVal){
-                console.log("newVal-orderCode",newVal);
-                $scope.listParams.orderCode= newVal.data.orderCode;
+                $scope.listParams.orderCode= $scope.selectedOrderCode2.data.orderCode;
             }
-        });
+        },true);
 
+        
+        
+        $scope.setOrderCode=function (object) {
+            console.log("object",object);
 
-
+            $scope.listParams.orderCode= object.data.orderCode;
+            console.log("$scope.listParams.orderCode",$scope.listParams.orderCode);
+        };
+        
+        
+        
+        
+        
+        
 
         $scope.addOrderDataToList=function () {
             $scope.$emit('selctedMed',$scope.choiced);
         };
-
-
-
 
 
         // 处理全选与全不选

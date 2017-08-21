@@ -1760,6 +1760,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "calbakMethod":'&?',//扩展回调方法；
                 "ngModel": "=",
                 "searchFields": "@",
+                "showAttr":'@?',//要显示的字段名称（默认 name） venray 2017年8月21日 16:29:48
                 "matchClass": "@",
                 "searchStrClass": "@",
                 "ngDisabled": "=?",
@@ -1785,7 +1786,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                         $scope.ngModelId=value.id;
 
-                        $scope.searchStr=   value.data.name;
+                        $scope.searchStr=   value.data.name ;
+
+                        if($attrs.showAttr){
+                            $scope.searchStr=   value.data[$attrs.showAttr] ;
+                        }
 
                         $scope.ngModelData=value.data;
 
