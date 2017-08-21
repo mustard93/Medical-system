@@ -124,45 +124,6 @@ define('project/controllers-orderStatistics', ['project/init'], function() {
       $scope.filterObject.queryGroupEnum = tmparr.join();
     }
 
-    // 查看详情回调方法
-    // $scope.handleThisItemData = function (data) {
-    //   // 定义当前侧边栏的数据对象
-    //   $scope.dataDetailsList = {};
-    //
-    //   // data-当前点击行的数据对象
-    //   var _keyarr = data['groupKey'].split('-');
-    //   angular.forEach(_keyarr, function (item, index) {
-    //     $scope.dataDetailsList[item] = data[item];
-    //
-    //     // 循环查找对应的分组条件，将其ID写入参数对象中
-    //     if (item === 'customerName') { $scope.dataDetailsList['customerId'] = data['customerId']; }
-    //     if (item === 'medicalAttributeName') { $scope.dataDetailsList['medicalAttributeId'] = data['medicalAttributeId']; }
-    //     if (item === 'medicalApprovedName') { $scope.dataDetailsList['orderMedicalNoId'] = data['orderMedicalNoId']; }
-    //     if (item === 'salesDepartmentName') { $scope.dataDetailsList['salesDepartmentId'] = data['salesDepartmentId']; }
-    //     if (item === 'saleUserName') { $scope.dataDetailsList['saleUserId'] = data['saleUserId']; }
-    //     if (item === 'departmentName') { $scope.dataDetailsList['departmentId'] = data['departmentId']; }
-    //     if (item === 'inputUserName') { $scope.dataDetailsList['inputUserId'] = data['inputUserId']; }
-    //   });
-    //
-    //   if ($scope.listParams) {
-    //     for (var key in $scope.listParams) {
-    //       if ($scope.listParams.hasOwnProperty(key) && $scope.listParams[key]) {
-    //         $scope.dataDetailsList[key] = $scope.listParams[key];
-    //       }
-    //     }
-    //   }
-    //
-    //   var _reqUrl = 'rest/authen/saleOrderStatistics/getSaleOrderStatisticsList';
-    //   requestData(_reqUrl, $scope.dataDetailsList)
-    //   .then(function (results) {
-    //     $scope.detailsDataList = results[1].data;
-    //   })
-    //   .catch(function (err) {
-    //     throw new Error(err);
-    //   });
-    //
-    // }
-
     // 监控医院选择组件对外绑定的对象listObejct，若更改则将其name属性值赋值给filterObject
     // 以便在再次打开时将上次选择的医院名称赋值在选择框内
     $scope.$watchCollection('listObject', function (newVal, oldVal) {
