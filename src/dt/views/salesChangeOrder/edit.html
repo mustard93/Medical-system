@@ -97,6 +97,8 @@
        </div>
 
        <!--   自动打开右侧弹窗  modal-open-auto="{{!formData.orderMedicalNos.length}}" -->
+
+
        <div class="pos-rel-tl order-create-btn mgb-m">
          <a
              modal-right="1000"
@@ -114,14 +116,14 @@
              <div class="flex-item-6" ng-init="numberingPolicy='auto'">
 
                <!--自动获取单号-->
-               <span ng-if="initFlag&&numberingPolicy!='auto'" class="mgr">单据编号：
+               <span ng-if="initFlag&&numberingPolicy!='auto'" class="mar-r20">单据编号：
                  <input type="text"
                         class="inline ipt pr-ipt-60 text-center"
                         style="width:100px;"
                         ng-model="formData.orderCode" />
                   <em ng-if="initFlag&&!formData.orderCode" class="color-red">（必填）</em>
                </span>
-               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+               <span ng-if="initFlag&&numberingPolicy=='auto'" class="mar-r20">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
 
                <span class="mgr">单据日期: </span>
                <div class="date-icon-outside">
@@ -178,7 +180,7 @@
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
              </select>
 
-             <span class="mgr">要求到货日期:</span>
+             <span class="mar-l20">要求到货日期:</span>
              <div class="date-icon-outside">
                <input type="text"
                       datepicker
@@ -259,7 +261,7 @@
                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
                  <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
-                 <td class="text-center" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
+                 <td class="text-center relative" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
                      <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1; updateMedcalInfo($index,tr);" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                      <span class="inline-block">
@@ -418,7 +420,7 @@
                    <div
                       ng-if="getAllBatchTotal(tr.stockBatchs,'quantity')<tr.stayCount"
                       class="ipt-div relative"  style="width:180px; margin: 0 auto; margin-top:10px;">
-                     <i class="addImg"
+                     <i class="addImg left150"
                         modal-right="50%"
                         modal-scope="this"
                         modal-data='{

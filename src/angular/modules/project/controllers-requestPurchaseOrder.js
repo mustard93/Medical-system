@@ -176,7 +176,7 @@ define('project/controllers-requestPurchaseOrder', ['project/init'], function() 
         requestData(url,data, 'POST')
          .then(function (results) {
            var _data = results[1];
-           $scope.goTo('#/purchaseOrder/edit.html?id='+_data.data.purchaseOrder.id);
+           $scope.goTo({tabHref:'#/purchaseOrder/edit.html?id='+_data.data.purchaseOrder.id,tabName:'采购单'});
          })
          .catch(function (error) {
            alertError(error || '出错');

@@ -26,14 +26,14 @@
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
-         <div class="mgb-l">
+         <div>
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
        </div>
      </div>
      <div class="">
        <div class="content-wrapper">
-         <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+         <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1 pad-tb11">
            <em class="color-red">原因:</em>
            <p class="inline-block color-red">
              <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
@@ -159,7 +159,6 @@
            </div>
          </div>
        </div>
-
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <!-- 信息 -->
@@ -343,7 +342,7 @@
                      <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                      <!-- <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td> -->
                      <!-- 请购数量 -->
-                     <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
+                     <td class="text-center relative" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
                                  ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
@@ -369,7 +368,7 @@
                          待采购数量：{{tr.planQuantity-tr.quantity}}
                        </p>
                      </td><!-- 数量 -->
-                     <td class="text-center" ng-if="!formData.relId" style="white-space: nowrap;">
+                     <td class="text-center relative" ng-if="!formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
                          <span class="inline-block">
@@ -413,7 +412,7 @@
                        </select>
                      </td>
                      <!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
+                     <td class="text-center relative" style="white-space:nowrap;line-height:2.4">￥
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
@@ -467,7 +466,6 @@
              </div>
            </div>
          </div>
-
        <!-- 其他信息 -->
        <div class="relative">
         <!-- 付款 -->
@@ -641,7 +639,7 @@
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
                              !formData.supplier.id ||
-                             !formData.orderCode || !canNextStep(formData)">提交
+                             !formData.orderCode || !canNextStep(formData) || !formData.supplier.contact.id">提交
         </button>
 
         <button ng-if="!formData.relId && numberingPolicy=='auto'" class="pr-btn-create-glodbg"
@@ -654,7 +652,7 @@
                 ng-disabled="purchaseForm_editForm.$invalid ||
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
-                             !formData.supplier.id || !canNextStep(formData)">提交
+                             !formData.supplier.id || !canNextStep(formData)  || !formData.supplier.contact.id">提交
         </button>
 
         <button ng-if="formData.relId && numberingPolicy!='auto'" class="pr-btn-create-glodbg"
@@ -668,7 +666,7 @@
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
                              !formData.supplier.id ||
-                             !formData.orderCode || !canNextStep(formData)">提交
+                             !formData.orderCode || !canNextStep(formData)  || !formData.supplier.contact.id">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
           单据存在不符合交易要求的因素，不能提交。
@@ -684,7 +682,7 @@
                 ng-disabled="purchaseForm_editForm.$invalid ||
                              !formData.orderMedicalNos.length ||
                              !formData.expectDate ||
-                             !formData.supplier.id || !canNextStep(formData) ">提交
+                             !formData.supplier.id || !canNextStep(formData)  || !formData.supplier.contact.id">提交
         </button>
       </div>
       <div class="price-area relative fl-r mgr-l color-light-brown" style="font-size: 18px;">总计：

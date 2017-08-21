@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
+     callback="initFlag=true;formData.validFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -106,9 +106,7 @@
                 <input type="text"
                        class="ipt-new"
                        name="englishName"
-                       required
                        ng-model="formData.englishName" />
-                <span ng-if="!formData.englishName" class="color-red">（必填）</span>
               </div>
             </div>
 
@@ -549,8 +547,9 @@
                 <label
                         modal-right="456"
                         modal-scope="this"
-                        modal-url="views/productEnterprise/set-product-dialog.html"
-                        class="flex-item-2 text-right control-label pdr-s color-orange " style="font-weight: normal">+新增生产企业</label>
+                        modal-data="{}"
+                        modal-url="views/firstMedicalApplication/set-product-dialog.html"
+                        class="flex-item-2 text-right control-label pdr-s color-orange cur-pot" style="font-weight: normal">+新增生产企业</label>
               </div>
 
 
@@ -1036,8 +1035,7 @@
                  dialog-content="该申请单存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
                  nosave-callback="goTo({tabHref:'#/medicalStock/query.html'tabName:'品种管理'})"
-                 save-callback="submitForm('medicalStock_editForm','exit');
-                 $root.goTo({tabHref:'#/medicalStock/query.html',tabName:'品种管理'})">返回品种管理列表</a>
+                 save-callback="submitSaveCallBack('medicalStock','save')">返回品种管理列表</a>
               <a ng-if="!changeFlag" tab-nav tab-name="品种管理"  tab-href="#/medicalStock/query.html">返回品种管理列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>

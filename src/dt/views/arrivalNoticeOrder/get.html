@@ -1,4 +1,4 @@
-<div class="create-new-order arrivalNotaice-order"
+<div class="create-new-order arrivalNotaice-order del-bgc"
      ng-controller="arrivalNoticeOrderEditCtrl"
      ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="scopeData"
@@ -16,16 +16,16 @@
         scope-data="scopeData"
         callback="submitFormAfter();watchFormChange('scopeData')">
     <!-- 头部信息 -->
-    <div class="content-wrapper-heading mgb-l relative clearfix">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+    <div class="content-wrapper-heading mgb-l relative clearfix padd-botom5">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl mar-botom0">采购中心 >
         <a tab-nav tab-name="来货通知单" tab-href="#/arrivalNoticeOrder/query.html">
            <em class="color-custom-orange">来货通知单</em>
         </a>
        <em>>来货通知单详情</em>
       </p>
       <!-- 标题 -->
-      <div class="pd-c-xxl pdt-l pdb-l clearfix">
-        <div class="pos-rel-tl inline-block fl-l">
+      <div class="pd-c-xxl clearfix head-style mar-b20">
+        <div class="pos-rel-tl inline-block fl-l head-style-title">
           <h1 class="pr-font-20 color-black">来货通知单</h1>
         </div>
       </div>
@@ -92,13 +92,7 @@
             </span>
           </div>
           <div class="flex-item-6 text-right">
-            <a ng-if="initFlag"
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{scopeData.relId}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">
             <span class="mgr">状态：<em class="color-6">{{scopeData.orderStatus}}</em></span>
-            </a>
           </div>
         </div>
         <!-- 类别选择 -->
@@ -152,7 +146,6 @@
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}
                     <!--<div class="table-item-multiple-btn-top" style="display: none">-->
-
                       <!--<a class="inline-block btn-receiveItem pr-bg-edit color-white"-->
                               <!--tab-name="采购入库单" tab-nav tab-href="#/purchaseInstockOrder/get.html?sourceOrderNo={{scopeData.orderNo}}">查看入库明细</a>-->
                     <!--</div>-->
@@ -241,7 +234,7 @@
         </div>
       </div>
       <!-- 发货方信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <header class="text-n color-3 text-bold">发货方信息
           <span class="tools pull-right">
             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
@@ -255,7 +248,7 @@
       </div>
 
       <!-- 备注 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <h1 class="text-bold color-3 font-size-14">备注</h1>
         <p>{{scopeData.note}}</p>
       </div>
@@ -304,7 +297,7 @@
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
       </div>
-      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:48px;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
       </div>
     </div>

@@ -1,10 +1,13 @@
+<!--listParams.customerId=dialogData.customerId;-->
 <table-list
+        ng-init="listParams={};"
         list-data="rest/authen/requestPurchaseOrderDetail/query"
         list-params="listParams"
         search-mode="noCaseSensitive"
         search-param="q"
 >
-    <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+
+    <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock "
      ng-controller="requestPurchaseOrderDetailDialogCtrl"
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
@@ -82,30 +85,7 @@
         }
 
 
-        .choiced {
-            width: 25px;
-            height: 25px;
-            /*line-height: 25px;*/
-            /*background: #C7A77B;*/
-            /*color: #fff;*/
-            /*border-radius: 50%;*/
-            /*text-align: center;*/
-            /*font-size: 20px;*/
-            position: absolute;
-            left: 10px;
-        }
 
-
-        /* 重写样式- 药械闪加*/
-        p.mgb{
-            display: none;
-        }
-       input.pr-w-100{
-            width: 390px!important;
-        }
-        .angucomplete-dropdown{
-            width: 390px!important;
-        }
         .angucomplete-holder .ipt{
             width: 100%;
         }
@@ -122,13 +102,14 @@
          scope-data="scopeData"
          callback="isChoiseAll=false;checkRelId(dialogData.relId,scopeData.id); selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'id');">
 
-        <!-- 按单号查找 -->
+
         <div class="pdt-s pdb-s pd-c-xl">
             <div class="inline-block relative" style="margin: 20px 0 20px -10px;color: #fff;">
                 <span angucomplete placeholder="请先输入目标客户"
                       style="width: 390px; "
                       title-field="name"
-                      search-str-class="ipt ipt-bg-black"
+                      search-str-class="ipt"
+                      search-fields="{{dialogData.customerName}}"
                       url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                       class="inline-block"
                       ng-model="scopeData">
@@ -141,70 +122,74 @@
 
             <p class="bb-line-gold" style="line-height: 40px; text-indent: 20px;">选择需要合并生成采购单的请购条目</p>
 
-            <div ng-if="!tbodyList" class="empty-table clearfix" style="background: #6e6a67;">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
+            <div ng-if="!scopeData" class="empty-table clearfix" style="opacity: .4">
+                <div  style="background: #554D44;">&nbsp;</div>
+                <div  style="background: #554D44;">&nbsp;</div>
+                <div  style="background: #554D44;">&nbsp;</div>
             </div>
 
-            <div style="margin: 15px  0;">
+            <div ng-if="scopeData" style="margin: 15px  0;">
                 <!-- 要求到货日期 -->
                 <div class="inline-block relative">
                     <span class="color-9 mgl-m">要求到货日期：</span>
-                    <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+
+                    <div class="date-icon-outside" ng-if="!listParams.expectAtBeg">
                         <input type="text"
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                                ng-readonly="true"
-                               ng-model="listParams.createAtBeg"
+                               ng-model="listParams.expectAtBeg"
                                placeholder=""
                                style="z-index: 15"
                                ng-change="handleSearchFilter(listParams,dialogData.id)">
                         <span class="date-icon"></span>
                     </div>
-                    <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                    <div class="date-icon-outside" ng-if="listParams.expectAtBeg">
                         <input type="text"
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                                ng-readonly="true"
                                style="z-index: 15"
-                               ng-model="listParams.createAtBeg">
-                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
+                               ng-model="listParams.expectAtBeg">
+                        <span class="delete-date-icon" style="z-index:16;" ng-click="listParams.expectAtBeg='';"></span>
                     </div>
+
+
                     <span class="color-9">至</span>
-                    <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                    <div class="date-icon-outside" ng-if="!listParams.expectAtEnd">
                         <input type="text"
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                                ng-readonly="true"
-                               ng-model="listParams.createAtEnd"
+                               ng-model="listParams.expectAtEnd"
                                placeholder=""
                                style="z-index: 15"
                                ng-change="handleSearchFilter(listParams,dialogData.id)">
                         <span class="date-icon"></span>
                     </div>
-                    <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                    <div class="date-icon-outside" ng-if="listParams.expectAtEnd">
                         <input type="text"
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                                ng-readonly="true"
-
-                               ng-model="listParams.createAtEnd"/>
-                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
+                               ng-model="listParams.expectAtEnd"/>
+                        <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.expectAtEnd='';"></span>
                     </div>
                 </div>
 
                 <!-- 请购单编号 -->
-                <div class="inline-block">
-                    <span class="color-9">请购单编号: </span>
-                    <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
-                        <input type="text"
-                               class="ipt pdr-xxl relative"
-                               placeholder="商品通用名"
-                               ng-model="listParams.q"
-                               style="background: #fff"
-                               ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
-                        <i class="" style=""></i>
+                <div class="inline-block" style="margin-left: 15px;">
+                    <span class="color-9" style="line-height: 26px;">请购单编号: </span>
+                    <div class="order-list-search text-left code pos-rel-tr inline-block fl-r relative">
+                        <span angucomplete placeholder=""
+                              style="width: 180px; "
+                              title-field="orderCode"
+                              search-str-class="ipt ipt-bg-black"
+                              url="rest/authen/requestPurchaseOrder/query"
+                              class="inline-block"
+                              ng-model="selectedOrderCode">
+                        </span>
+                        <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
                     </div>
                 </div>
 
@@ -221,13 +206,12 @@
                         <i class="" style=""></i>
                     </div>
                 </div>
+
             </div>
 
-            choiced::{{choiced.length}}
-
             <!-- 商品列表 -->
-            <div ng-if="tbodyList.length">
-                <table class="table pr-table pr-new-table mgb-n">
+            <div ng-if="tbodyList.length" class="pr-panel pd-n pr-panel-height">
+                <table class="table pr-table pr-new-table">
                     <thead>
                     <tr>
                         <th class="w-60 text-center mycheck">
@@ -253,9 +237,13 @@
                         <td class="select-td text-center mycheck">
 
                             <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"-->
+
+                            <!--ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');-->
+                            <!--item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"-->
+                            <!---->
                             <input type="checkbox"
-                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');
-                                       item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"
+
+                                   ng-init="itemInArray(item.orderMedicalNos.uuid,dialoagData.orderMedicalNos,'uuid')"
 
                                    class="selectOne cur-pot" id='otherCustomerManagement_dialog_{{$index+2}}'
                                    ng-model="item.handleFlag"
@@ -269,7 +257,7 @@
                         <td class="text-center">{{item.orderCode}}</td>
                         <td>
                             <span
-                                    class="color-orange cur-pot lend-order-goods-info"
+                              class="color-orange cur-pot lend-order-goods-info"
                                     ng-init="showInfoArea=false"
                                     ng-mouseenter="showInfoArea=true"
                                     ng-mouseleave="showInfoArea=false">{{item.orderMedicalNo.approvedName}}
@@ -306,10 +294,12 @@
                 </div>
 
             </div>
-        <!--ng-disabled="selectedBatchs2.length<1"-->
+
+
             <div class="footer-button-area" style="position:fixed;bottom:0px;" >
                 <button type="submit" style="margin-left:500px;"
                         class="pr-btn-create-glodbg new-left-side-button"
+                        ng-disabled="choiced.length<1"
                         ng-click="addOrderDataToList(dialogData.relId,scopeData.data);modal.close()">确定</button>
             </div>
         </div>
