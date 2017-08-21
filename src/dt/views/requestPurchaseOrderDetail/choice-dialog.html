@@ -1,16 +1,16 @@
 <!--listParams.customerId=dialogData.customerId;-->
+<div ng-init="listObject= dialogData.orderMedicalNos" class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock ">
 <table-list
         ng-init="listParams={};"
         list-data="rest/authen/requestPurchaseOrderDetail/query"
         list-params="listParams"
         search-mode="noCaseSensitive"
         search-param="q"
+        list-object="listObject"
 >
-
-    <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock "
+    <div
      ng-controller="requestPurchaseOrderDetailDialogCtrl"
      style="position: relative"
-     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
 >
 
     <style>
@@ -233,24 +233,14 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="item in tbodyList">
-
                         <td class="select-td text-center mycheck">
-
-                            <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"-->
-
-                            <!--ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.data.id) && itemInArray(item.id,formData.orderMedicalNos,'id');-->
-                            <!--item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"-->
-                            <!---->
                             <input type="checkbox"
-
-                                   ng-init="itemInArray(item.orderMedicalNos.uuid,dialoagData.orderMedicalNos,'uuid')"
-
+                                   ng-init=""
                                    class="selectOne cur-pot" id='otherCustomerManagement_dialog_{{$index+2}}'
                                    ng-model="item.handleFlag"
+                                   ng-checked="listObject.indexOf(item.orderMedicalNo.uuid) !=-1 ? true : false "
                                    ng-click="handleItemClickEvent(item,scopeData.data.orderMedicalNos,'id');">
                             <label for="otherCustomerManagement_dialog_{{$index+2}}"></label>
-
-
                         </td>
 
                         <td class="text-center">{{$index+1}}</td>
@@ -306,6 +296,6 @@
 
     </div>
 </table-list>
-
+</div>
 
 
