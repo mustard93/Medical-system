@@ -1,8 +1,3 @@
-<!--
-
-
--->
-
 <page-main-header-component list-params="listParams"
                             crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"归还单","link":"","style":""}]'
                             component-title="归还单"
@@ -14,21 +9,8 @@
                             is-show-key-filter=true
                             is-show-date-filter=true
                             search-placeholder-info="单据编号"
-
                             is-show-business-btn-group=true
-                            get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-
->
-
-        <!--<span class="color-9">归还状态：</span>-->
-        <!--<select class="ipt pr-short-ipt color-3" style="width:90px;"-->
-                <!--data-placeholder=""-->
-                <!--default-empty="全部"-->
-                <!--chosen-->
-                <!--ng-model="listParams.departmentId"-->
-                <!--select-source="">-->
-        <!--</select>-->
-
+                            get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 
 <div class="content-wrapper order-center">
@@ -82,17 +64,16 @@
                             <span class="edit-link-icon">&nbsp;</span>
                           </a>
 
-                          <span  ng-if="$root.hasAuthor('归还单删除')"  >
-                                <a ng-if="tr.orderStatus=='未提交' &&tr.orderStatus!='未通过' "
-                                 href="javascript:;"
-                                 class="btn-link pd rect-s"
-                                 title="删除"
-                                 handle-this-click
-                                 dialog-title="确认删除 ?"
-                                 dialog-content="删除后将无法恢复,确认删除?"
-                                 dialog-template="pr-dialog-confirm.html"
-                                 request-url="rest/authen/returnOrder/delete?id={{tr.id}}"
-                                 emitted="reloadList">
+                          <span  ng-if="$root.hasAuthor('归还单删除')&&tr.orderStatus=='未提交'">
+                                <a href="javascript:;"
+                                   class="btn-link pd rect-s"
+                                   title="删除"
+                                   handle-this-click
+                                   dialog-title="确认删除 ?"
+                                   dialog-content="删除后将无法恢复,确认删除?"
+                                   dialog-template="pr-dialog-confirm.html"
+                                   request-url="rest/authen/returnOrder/delete?id={{tr.id}}"
+                                   emitted="reloadList">
                                     <span class="delete-link-icon">&nbsp;</span>
                               </a>
                          </span>
@@ -146,7 +127,7 @@
                 <div class="card-new">
 
                     <div class="bt-line">
-                      <h1 class="text-center text-m color-3 text-ellips-s">{{tr.departmentName || '暂无'}}</h1>
+                      <h1 class="text-center text-m color-3 text-ellips-s" title="{{tr.departmentName}}">{{tr.departmentName || '暂无'}}</h1>
                     </div>
 
                     <div class="flex-row qurey text-s color-9 bt-dashed-line">

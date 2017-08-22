@@ -72,9 +72,8 @@ is-show-type-filter=false
 
 
 
-                    <span ng-if="$root.hasAuthor('借出单删除')">
-                      <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id "
-                         href="javascript:;"
+                    <span ng-if="$root.hasAuthor('借出单删除')&&tr.orderStatus=='未提交'&&tr.inputUserId==mainStatus.id">
+                      <a href="javascript:;"
                          class="btn-link pd rect-s"
                          title="删除"
                          handle-this-click
@@ -126,7 +125,7 @@ is-show-type-filter=false
 
                 <div class="card-new">
                     <div class="bt-line">
-                      <h1 class="text-center text-m color-3 text-ellips-s">{{tr.customerName || '暂无'}}</h1>
+                      <h1 class="text-center text-m color-3 text-ellips-s" title="{{tr.customerName}}">{{tr.customerName || '暂无'}}</h1>
                     </div>
 
                     <div class="flex-row qurey text-s color-9 bt-dashed-line">
