@@ -35,7 +35,7 @@
             novalidate="true"
             callback="submitFormAfter('#/supplier/get.html','供应商管理');watchFormChange('formData')">
             <!-- 单号 -->
-            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
               <div class="flex-item-6">
                 <span class="flex-item-12">
                   单据编号：<em class="color-6 mgr-s">{{formData.relOrderNo || '暂无'}}</em>
@@ -49,7 +49,7 @@
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb" >
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="bb-dashed-line flex-column mgb" >
+            <div class="bb-dashed-line flex-row mgb" >
                 <div class="flex-item-3 mgb text-right">
                 <label class="radio-inline radio radio-new">
                   <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type" required><i style="top:12px;"></i>
@@ -62,7 +62,7 @@
                     <span ng-if="!formData.type" class="color-red" style="margin-top: 8px; margin-left: 20px;">*必选</span>
                 </div>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2   text-right control-label">分类：</label>
               <div class="flex-item-10 color-3 text-left ">
                 <div ng-disabled="true" class="autocut z-tree-div inline-block fl-l" title="{{formData.supplierAttribute.name}}">
@@ -83,7 +83,7 @@
               </div>
             </div>
             <div class=" pd-v-m" style="min-height:200px;">
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">企业名称：</label>
                     <div class="flex-item-10 text-left">
                       <input type="text"
@@ -95,7 +95,7 @@
                           <!-- <span ng-if="!formData.name" class="color-red">（必填）</span> -->
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label pdr-s">企业编码：</label>
                     <div class="flex-item-10 text-left">
                       <input type="text"
@@ -114,13 +114,13 @@
                              <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
                    </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">详细地址：</label>
                     <div class="flex-item-10 text-left">
                         <input type="text" class="ipt-new" name="name" ng-model="formData.address" />
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">拟定购进商品类别：</label>
                     <div style="float:left;width:21%;"
                      ng-if="initFlag"
@@ -135,7 +135,7 @@
                 </div>
             </div>
           <div class=" pd-v-m bt-dashed-line">
-            <div class="mgt flex-column">
+            <div class="mgt flex-row">
               <label class="flex-item-2 text-right">开户银行：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -145,7 +145,7 @@
                        ng-model="formData.accountBank" />
               </div>
             </div>
-            <div class="mgt flex-column">
+            <div class="mgt flex-row">
               <label class="flex-item-2 text-right">开户账号：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -155,7 +155,7 @@
                        ng-model="formData.accountNumber" />
               </div>
             </div>
-            <div class="mgt flex-column">
+            <div class="mgt flex-row">
               <label class="flex-item-2 text-right">开户名称：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -165,7 +165,7 @@
                        ng-model="formData.accountName" />
               </div>
             </div>
-            <div class="mgt flex-column">
+            <div class="mgt flex-row">
               <label class="flex-item-2 text-right">付款方式：</label>
               <div class="flex-item-10 text-left">
                 <select class="select pr-select ipt-new-s" data-placeholder=" "
@@ -177,7 +177,7 @@
                 </select>
               </div>
             </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">采购员：</label>
                   <div class="flex-item-10 text-left">
                       <select class="select pr-select ipt-new-s" data-placeholder=" "
@@ -188,7 +188,7 @@
                       </select>
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">质量部联系人：</label>
                   <div class="flex-item-10 text-left">
                       <input type="text"
@@ -197,7 +197,7 @@
                              ng-model="formData.qualityPerson.name" />
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">手机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -211,7 +211,7 @@
 
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">座机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -224,7 +224,7 @@
                            popover-options='{"content":"座机号码格式不正确", "placement":"right", "trigger":"manual"}' />
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">财务部联系人：</label>
                   <div class="flex-item-10 text-left">
                       <input type="text"
@@ -234,7 +234,7 @@
                   </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">手机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -248,7 +248,7 @@
 
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">座机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -262,7 +262,7 @@
 
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">业务对接人：</label>
                   <div class="flex-item-10 text-left">
                       <input type="text"
@@ -272,7 +272,7 @@
                   </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">手机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -296,7 +296,7 @@
                            popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
                   </div> -->
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label">座机：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -313,13 +313,13 @@
             </div>
             <div class="bt-dashed-line mgb">
                 <h1 class="mgb-m color-black text-bold text-n mgt">发货人信息</h1>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">发货人：</label>
                     <div class="flex-item-10 text-left">
                         <input type="text"  class="ipt-new" placeholder="" ng-model="formData.contact.name"/>
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">手机：</label>
                     <div class="flex-item-10 text-left">
                       <input type="text"
@@ -332,7 +332,7 @@
                              popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">省/市/区：</label>
                     <div class="flex-item-10 text-left">
                       <input  class="ipt-new"
@@ -341,13 +341,13 @@
                              />
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">详细发货地址：</label>
                     <div class="flex-item-10 text-left">
                         <input type="text"  class="ipt-new" placeholder="详细收货地址" ng-model="formData.contact.address"/>
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">邮编：</label>
                     <div class="flex-item-10 text-left">
                       <input type="text"
@@ -360,7 +360,7 @@
                              popover-options='{"content":"邮编编码格式错误", "placement":"right", "trigger":"manual"}'>
                     </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <label class="flex-item-2 text-right control-label">座机：</label>
                     <div class="flex-item-10 text-left">
                       <input type="text"
