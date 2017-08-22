@@ -51,8 +51,8 @@ define('project/controllers-customerAddress', ['project/init'], function() {
 
     });
 
-    $scope.$watch('formData.object.customerAttribute.code',function(newVal){
-      $scope.formData.object.attributeCode=$scope.formData.object.customerAttribute.code;
+    $scope.$watch('formData.customerAttribute.code',function(newVal){
+      $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
       $scope.formData.attributeId=$scope.formData.customerAttribute.id;
     });
 
