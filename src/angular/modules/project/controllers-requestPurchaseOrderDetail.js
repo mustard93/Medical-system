@@ -674,17 +674,10 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
       $scope.$on("selctedMed",function (e,data) {
 
           //设置客户名称
-          $scope.formData.customerId=data[0].customerId;
-          $scope.formData.customerName=data[0].customerName;
-          //构造数据
-          var datas=[];
+          $scope.formData.customerId=data.customer.id;
+          $scope.formData.customerName=data.customer.name;
 
-          angular.forEach(data,function (item,index) {
-              var obj=item.orderMedicalNo;
-              datas.push(obj);
-          });
-
-          $scope.formData.orderMedicalNos=datas;
+          $scope.formData.orderMedicalNos=data.choiced;
 
           //设置仓库
           if($scope.formData.warehouseId){
@@ -697,7 +690,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
 
       $scope.canNextStep=function () {
           return true;
-      }
+      };
 
 
       $scope.uuids="";
@@ -736,6 +729,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
         $scope.$watch('scopeData',function (newVal,oldVal){
             if(newVal){
                 $scope.listParams.customerId= newVal.id;
+                $scope.customerName=newVal.title;
             }
         });
 
@@ -754,26 +748,28 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             $scope.listParams.orderCode= object.data.orderCode;
             console.log("$scope.listParams.orderCode",$scope.listParams.orderCode);
         };
-        
-        
-        
-        
-        
-        
+
 
         $scope.addOrderDataToList=function () {
-            $scope.$emit('selctedMed',$scope.choiced);
+            var datas={
+                customer:{
+                    id:$scope.listParams.customerId,
+                    name:$scope.customerName,
+                },
+                choiced:$scope.choiced
+            };
+            $scope.$emit('selctedMed',datas);
         };
 
 
         // 处理全选与全不选
-        $scope.choiced=[];
+        // $scope.choiced=[];
         $scope.handleChoiseAllEvent = function (medicalsObj,handleFlag) {
             if (medicalsObj && angular.isArray(medicalsObj)) {
                 if (handleFlag) {   // 全选被选中
                     angular.forEach(medicalsObj, function (data, index) {
                         data.handleFlag = true;
-                        $scope.choiced.push(data);
+                        $scope.choiced.push(data.orderMedicalNo);
                     });
                 } else {    //取消了全部选中
                     angular.forEach(medicalsObj, function (data, index) {
@@ -791,13 +787,13 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
 
             if (tr.handleFlag) {
-                $scope.choiced.push(tr);
+                $scope.choiced.push(tr.orderMedicalNo);
                 if ($scope.choiced.length === _dataSource.length) {
                     $scope.isChoiseAll = true;
                 }
             } else {
                 angular.forEach($scope.choiced, function (data, index) {
-                    if (data === tr) {
+                    if (data.uuid == tr.orderMedicalNo.uuid) {
                         $scope.choiced.splice(index, 1);
                     }
                 });

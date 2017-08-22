@@ -60,7 +60,7 @@
             callback="submitFormAfter('#/hospitalApplication/edit-step-2.html');watchFormChange('formData')">
 
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
           <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
           <span class="flex-item-1 text-right">
             状态：<em class="color-black">{{formData.orderStatus}}</em>
@@ -69,7 +69,7 @@
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="flex-column mgt pdb-l bb-dashed-line">
+            <div class="flex-row mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">分类：</label>
               <div class="flex-item-10 color-3 text-left ">
                 <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">
@@ -89,7 +89,7 @@
               </div>
             </div>
             <div class="bt-dashed-line pd-v-m">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">医院名称：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
@@ -101,7 +101,7 @@
                       <span ng-if="!formData.name" class="color-red">（必填）</span>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <label class="flex-item-2 text-right control-label pdr-s">医院系统编码：</label>
                   <div class="flex-item-10 text-left">
                     <input type="text"
@@ -122,7 +122,7 @@
                            <!-- <span ng-if="!formData.medical.code" class="color-red">（必填）</span> -->
                  </div>
               </div>
-              <!-- <div class="flex-column mgt">
+              <!-- <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">医院系统编号：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
@@ -136,7 +136,7 @@
                   <span ng-if="!formData.systemNumber" class="color-red">（必填）</span>
                 </div>
               </div> -->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">经营性质：</label>
                 <div class="flex-item-10   text-left">
                   <select class="ipt-new" name="" ng-model="formData.managementType" chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalManagementType">
@@ -144,19 +144,19 @@
                   </select>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">法人代表：</label>
                 <div class="flex-item-10   text-left">
                     <input type="text" class="ipt ipt-new" ng-model="formData.legalRepresentative">
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">地址：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text" class="ipt-new" ng-model="formData.address">
                 </div>
               </div>
-              <!-- <div class="flex-column mgt">
+              <!-- <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">级别：</label>
                 <div class="flex-item-10   text-left">
                   <select ng-if="initFlag" class="ipt-new"
@@ -168,7 +168,7 @@
                   </select>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">等级：</label>
                 <div class="flex-item-10   text-left">
                   <select ng-if="initFlag" id="hospitalGrade"
@@ -180,7 +180,7 @@
                 </div>
               </div> -->
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">级别：</label>
                 <div class="flex-item-10 text-left">
                   <select ng-if="initFlag"
@@ -192,7 +192,7 @@
                   </select>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">等级：</label>
                 <div class="flex-item-10 text-left">
                   <select class="ipt-new"
@@ -204,7 +204,7 @@
                 </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">座机：</label>
                 <div class="flex-item-10 text-left">
                 <input type="text"
@@ -216,7 +216,7 @@
                        invalid-popover="{{!hospitalApplication_editForm1.hospitalTel.$valid}}" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">邮编：</label>
                 <div class="flex-item-10   text-left">
                 <input type="text"
@@ -230,25 +230,25 @@
               </div>
             </div>
             <div class="pd-v-m bt-dashed-line">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">开户银行：</label>
                   <div class="flex-item-10  text-left">
                     <input type="text" class="ipt-new" ng-model="formData.accountBank">
                   </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">开户账号：</label>
                 <div class="flex-item-10">
                   <input type="text" class="ipt-new" ng-model="formData.accountNumber">
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2  text-right control-label">开户名称：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text" class="ipt-new" ng-model="formData.accountName">
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">付款方式：</label>
                 <div class="flex-item-10  text-left">
                   <select ng-if="initFlag"
@@ -263,7 +263,7 @@
             </div>
             <div class="pd-v-m bt-dashed-line">
               <!-- <h3 class="color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息：</h3> -->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label">采购员/身份证号：</label>
                 <div class="flex-item-10">
                   <input type="text" class="ipt flex-item-1" ng-model="formData.purchaserName" />
@@ -277,7 +277,7 @@
                          invalid-popover="{{!hospitalApplication_editForm1.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2  text-right control-label">座机：</label>
                 <div class="flex-item-10   text-left">
                 <input type="text"
@@ -289,7 +289,7 @@
                        invalid-popover="{{!hospitalApplication_editForm1.purchaserTel.$valid}}" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">手机：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
@@ -301,7 +301,7 @@
                          invalid-popover="{{!hospitalApplication_editForm1.purchaserPhone.$valid}}" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2   text-right control-label">E-mail：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"

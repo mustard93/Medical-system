@@ -35,7 +35,7 @@
             novalidate="true"
             callback="submitFormAfter('#/medicalStock/get.html','品种管理');watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);">
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
           <div class="flex-item-6">
             <span class="flex-item-2">
               单据编号：<em class="color-6">{{formData.relOrderNo || '暂无'}}</em>
@@ -52,7 +52,7 @@
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
           <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
           <!--性质-->
-          <div ng-if="initFlag" class="flex-column mgt">
+          <div ng-if="initFlag" class="flex-row mgt">
             <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
             <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left">
               <div class="inline-block">
@@ -74,7 +74,7 @@
 
           <div class=" pd-v-m">
             <!--通用名-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">通用名：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -87,7 +87,7 @@
             </div>
 
             <!--商品名称-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">商品名称：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -100,7 +100,7 @@
             </div>
 
             <!--英文名称-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">英文名称：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -111,7 +111,7 @@
             </div>
 
             <!--商品分类-->
-            <div class="flex-column mgt pdb-l bb-dashed-line">
+            <div class="flex-row mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">商品分类：</label>
               <div class="flex-item-10 color-3 text-left ">
               <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">{{formData.medicalAttribute.name}}</div>
@@ -130,7 +130,7 @@
             </div>
 
             <!--编号-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -156,7 +156,7 @@
             </div>
 
             <!--剂型／分类-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">剂型／分类：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
@@ -170,7 +170,7 @@
             </div>
 
             <!--规格／型号-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">规格／型号：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -183,7 +183,7 @@
             </div>
 
             <!--装箱规格-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">装箱规格：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -194,7 +194,7 @@
             </div>
 
             <!--基本单位-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">基本单位：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -208,7 +208,7 @@
             </div>
 
             <!--有效期-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">有效期：</label>
               <div class="flex-item-10 text-left">
                 <input type="number"
@@ -228,7 +228,7 @@
             </div>
 
             <!--预警天数-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">预警天数：</label>
               <div class="flex-item-10 text-left">
                 <input type="number"
@@ -240,7 +240,7 @@
 
 
             <!--储存条件-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">储存条件：</label>
               <div class="flex-item-10 text-left">
                 <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
@@ -254,7 +254,7 @@
               </div>
             </div>
             <div class="" ng-if="formData.storageCondition=='冷藏'||formData.storageCondition=='冷冻'">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">温度上限：</label>
                 <div class="flex-item-10 text-left">
                   <input type="number"
@@ -265,7 +265,7 @@
                          ng-model="formData.topTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.topTemperature" class="color-red mgl-s">(必填)</em>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">温度下限：</label>
                 <div class="flex-item-10 text-left">
                   <input type="number"
@@ -276,7 +276,7 @@
                          ng-model="formData.lowTemperature" /><em class="mgl-s">℃</em><em ng-if="!formData.lowTemperature" class="color-red mgl-s">(必填)</em>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">湿度上限：</label>
                 <div class="flex-item-10 text-left">
                   <input type="number"
@@ -287,7 +287,7 @@
                          ng-model="formData.topHumidity" /><em class="mgl-s">%</em><em ng-if="!formData.topHumidity" class="color-red mgl-s">(必填)</em>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">湿度下限：</label>
                 <div class="flex-item-10 text-left">
                   <input type="number"
@@ -301,7 +301,7 @@
             </div>
 
             <!--经营范围-->
-            <div class="flex-column mgt pdb-l bb-dashed-line">
+            <div class="flex-row mgt pdb-l bb-dashed-line">
               <label class="flex-item-2   text-right control-label">经营范围：</label>
               <div class="flex-item-10 color-3 text-left ">
                 <!--<input type="text"-->
@@ -330,7 +330,7 @@
             </div>
 
             <!--质量标准-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
               <div class="flex-item-10 text-left">
                 <input type="quality"
@@ -340,7 +340,7 @@
             </div>
 
             <!--条形码   -->
-            <div class="flex-column mgt">
+            <div ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
 
@@ -367,9 +367,22 @@
               </div>
             </div>
 
+            <!--条形码-药品（手动输入）   -->
+            <div  ng-if="formData.medicalType == '药品'" class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
+              </div>
+            </div>
+
+
+
+
 
             <!--品牌-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">品牌：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -380,7 +393,7 @@
             </div>
 
             <!--产地-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -391,7 +404,7 @@
             </div>
 
             <!--国家器械分类-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">国家器械分类：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
@@ -403,7 +416,7 @@
               </div>
             </div>
             <!--U8计量单位-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">U8计量单位：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"
@@ -417,7 +430,7 @@
 
 
             <!--U8计价方式-->
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">U8计价方式：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
@@ -429,7 +442,7 @@
               </div>
             </div>
 
-              <!--<div class="flex-column mgt">-->
+              <!--<div class="flex-row mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">剂型/管理类别：</label>-->
                 <!--<div class="flex-item-10 text-left">-->
                   <!--<select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"-->
@@ -441,7 +454,7 @@
                 <!--</div>-->
               <!--</div>-->
 
-              <!-- <div class="flex-column mgt">
+              <!-- <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">包装情况：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -450,7 +463,7 @@
                          ng-model="formData.packingCondition" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">中包装数量：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -463,7 +476,7 @@
                          popover-options='{"content":"中包装数量格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">件装量：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -481,7 +494,7 @@
 
             <!--生产企业-->
             <div  class="pd-v-m bt-dashed-line">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">生产企业名称：</label>
                 <div class="flex-item-10 text-left" style="width: 245px;">
                   <!--<input type="text"-->
@@ -514,7 +527,7 @@
                 </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">生产许可证号：</label>
                 <div class="flex-item-3 text-left">
                  <span>{{formData.productEnterprise.productLicense}}</span>
@@ -525,7 +538,7 @@
                 </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">GMP认证：</label>
                 <div class="flex-item-3 text-left">
                   <span>{{formData.productEnterprise.gmpAuthentication}}</span>
@@ -536,14 +549,14 @@
                 </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">企业注册地址：</label>
                 <div class="flex-item-10 text-left">
                   <span>{{formData.productEnterprise.address}}</span>
                 </div>
               </div>
 
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label
                         modal-right="456"
                         modal-scope="this"
@@ -555,7 +568,7 @@
 
 
 
-              <!--<div class="flex-column mgt">-->
+              <!--<div class="flex-row mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">厂址：</label>-->
                 <!--<div class="flex-item-10 text-left">-->
                   <!--<input type="text"-->
@@ -564,7 +577,7 @@
                          <!--ng-model="formData.factoryAddress" />-->
                 <!--</div>-->
               <!--</div>-->
-              <!--<div class="flex-column mgt">-->
+              <!--<div class="flex-row mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">产地：</label>-->
                 <!--<div class="flex-item-10 text-left">-->
                   <!--<input type="text"-->
@@ -573,7 +586,7 @@
                          <!--ng-model="formData.productionPlace" />-->
                 <!--</div>-->
               <!--</div>-->
-              <!-- <div class="flex-column mgt">
+              <!-- <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">供应单位：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select-new"
@@ -587,7 +600,7 @@
 
 
             <!-- <div ng-if="1==2" class="pd-v-m bt-dashed-line">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">注册商标：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -596,7 +609,7 @@
                          ng-model="formData.trademark" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">国药统一编码：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -605,7 +618,7 @@
                          ng-model="formData.medicalUniformCode" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -618,7 +631,7 @@
 
             <div class="pd-v-m bt-dashed-line">
               <!--是否基药-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" style="height:32px;" ng-model="formData.isBasicMedicine">
@@ -629,7 +642,7 @@
               </div>
 
               <!--牌价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">牌价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -647,7 +660,7 @@
               </div>
 
               <!--零售价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
 
                 <label class="flex-item-2 text-right control-label pdr-s">零售价：￥</label>
                 <div class="flex-item-10 text-left">
@@ -665,7 +678,7 @@
               </div>
 
               <!--批发价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">批发价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -682,7 +695,7 @@
               </div>
 
               <!--最高售价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最高售价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -699,7 +712,7 @@
               </div>
 
               <!--最低售价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最低售价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -716,7 +729,7 @@
               </div>
 
               <!--采购价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">采购价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -733,7 +746,7 @@
               </div>
 
               <!--最高采购价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最高采购价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -750,7 +763,7 @@
               </div>
 
               <!--最低采购价-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">最低采购价：￥</label>
                 <div class="flex-item-10 text-left">
                   <input type="text"
@@ -767,7 +780,7 @@
               </div>
 
               <!--税率-->
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
@@ -778,7 +791,7 @@
               </div>
 
 
-              <!--<div class="flex-column mgt">-->
+              <!--<div class="flex-row mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">采购员：</label>-->
                 <!--<div class="flex-item-10 text-left">-->
                     <!--<select class="select pr-select"-->
