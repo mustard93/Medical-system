@@ -1,6 +1,7 @@
 <!--listParams.customerId=dialogData.customerId;-->
 <div ng-init="
     listObject.orderMedicalNos= dialogData.orderMedicalNos;
+    listObject.choiced= dialogData.choiced;
     listObject.customerId=dialogData.customerId;
     listObject.customerName=dialogData.customerName;
     listParams.customerId= dialogData.customerId
@@ -15,7 +16,12 @@
 >
     <div
      ng-controller="requestPurchaseOrderDetailDialogCtrl"
-     style="position: relative">
+     style="position: relative"
+
+     ng-init="
+        choiced=listObject.choiced;
+        customerName=listObject.customerName;"
+    >
 
     <style>
 
@@ -167,13 +173,6 @@
                           show-attr="orderCode"
                           calbak-method="setOrderCode(selectedOrderCode2)"
                         >
-
-                        <!--
-
-                        -->
-
-
-
                     </span>
                     <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
                 </div>
@@ -223,8 +222,8 @@
                                ng-init=""
                                class="selectOne cur-pot" id='otherCustomerManagement_dialog_{{$index+2}}'
                                ng-model="item.handleFlag"
-                               ng-checked="listObject.orderMedicalNos.indexOf(item.orderMedicalNo.uuid) !=-1 ? true : false "
-                               ng-click="handleItemClickEvent(item,scopeData.data.orderMedicalNos,'id');">
+                               ng-checked="itemInArray(item.orderMedicalNo.uuid,choiced,'uuid') || listObject.orderMedicalNos.indexOf(item.orderMedicalNo.uuid) !=-1 ? true : false "
+                               ng-click="handleItemClickEvent(item);">
                         <label for="otherCustomerManagement_dialog_{{$index+2}}"></label>
                     </td>
 
@@ -246,7 +245,7 @@
                     </td>
                     <td class="text-left">{{item.orderMedicalNo.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{item.orderMedicalNo.specificationAndModelType}}</td> <!--规格／型号-->
-                    <td class="text-center">{{item.orderMedicalNo.validTill | date : 'yyyy-MM-dd'}}</td> <!--要求到货日期-->
+                    <td class="text-center">{{item.expectDate | date : 'yyyy-MM-dd'}}</td> <!--要求到货日期-->
                     <td class="text-center">{{item.orderMedicalNo.quantity}}</td><!--待采购量-->
                     <td class="text-right">{{item.customerName}}</td><!--目标客户-->
 
