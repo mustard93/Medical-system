@@ -4135,9 +4135,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }
 
 
+
     /**
-      药械订单列表-采购
-    */
+   * @Description:   业务流程图
+     rest/authen/businessFlow/getByBusinessKey.json
+   * @author liumingquan
+   * @date 2016年12月15日 下午4:32:59
+
+    用法：
+    <business-flow-show business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show>
+
+  */
     function businessFlowShow() {
       return {
         restrict: 'EA',
@@ -4146,6 +4154,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             businessType: "@"
         },
         templateUrl:  Config.tplPath +'tpl/project/businessFlowShow.html',
+        link: function ($scope, element, $attrs,ngModel) {
+
+        }//link
+      };
+    }
+
+
+    /**
+   * @Description:     多个业务流程图
+     rest/authen/businessFlow/getListByBusinessKey.json
+   * @author liumingquan
+   * @date 2016年12月15日 下午4:32:59
+
+   用法：
+   <business-flow-show-list business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show-list>
+
+   <
+  */
+    function businessFlowShowList() {
+      return {
+        restrict: 'EA',
+        scope: {
+            businessKey:"@",
+            businessType: "@"
+        },
+        templateUrl:  Config.tplPath +'tpl/project/businessFlowShowList.html',
         link: function ($scope, element, $attrs,ngModel) {
 
         }//link
@@ -4424,6 +4458,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     angular.module('manageApp.main')
     .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
+    .directive("businessFlowShowList", [businessFlowShowList])//业务单流程展示
     .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])

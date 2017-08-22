@@ -1,19 +1,16 @@
 <div ng-if="businessKey"
      class="bt-dashed-line"
-     ajax-url="rest/authen/businessFlow/getListByBusinessKey.json"
+     ajax-url="rest/authen/businessFlow/getByBusinessKey.json"
      params='{"businessKey":"{{businessKey}}","businessType":"{{businessType}}"}'
-     scope-data="businessFlowDataList"
+     scope-data="businessFlowData"
      callback="businessFlowDataInitFlag=true;"
      error-callback="businessFlowDataInitFlag=true;">
 
-     <div ng-if="businessFlowDataInitFlag && !(businessFlowDataList.length>0)">
+     <div ng-if="businessFlowDataInitFlag && !(businessFlowData.events.length>0)">
             无业务流程数据
      </div>
-    <div >
-
-
-   <canvas ng-if="businessFlowDataInitFlag" ng-repeat="businessFlowData in businessFlowDataList"
-     id="canvas_businessFlow_{{businessKey}}_{{businessFlowData.id}}"
+   <canvas ng-if="businessFlowDataInitFlag&& (businessFlowData.events.length>0)"
+     id="canvas_businessFlow_{{businessKey}}"
      canvas-business-flow
      ng-model="businessFlowData"
     cur-rel-id="{{businessKey}}"
