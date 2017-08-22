@@ -142,7 +142,7 @@ define('project/controllers-orderCodeStrategy', ['project/init'], function() {
         // 用户点击了树中不同节点，请求当前节点的信息
         var _nodeName = 'DT_' + newVal['name'];
         //判断是否显示完全手工编号选项
-        if(newVal['name'] == '发货单') $scope.manualNumber = true;
+        if(newVal['name'] == '发货单' || newVal['name'] == '来货通知单') $scope.manualNumber = true;
         else $scope.manualNumber = false;
         var _reqUrl = 'rest/authen/orderCodeStrategy/get?moduleType=' + _nodeName;
         requestData(_reqUrl)
