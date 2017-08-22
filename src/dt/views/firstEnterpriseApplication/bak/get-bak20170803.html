@@ -41,7 +41,7 @@
                     <p class="inline-block color-3"><em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em></p>
                 </div>
             <!-- 单号 -->
-            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
                 <div class="flex-item-6">
                     <span class="flex-item-3">
                       单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
@@ -62,15 +62,15 @@
                   <div ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
                                   'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}">
                   </div>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">{{item.event.extendShowName || '暂无'}}：</em>
                     <em class="flex-item-8 text-left">{{item.event.conditionType }}</em>
                   </span>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">审核人：</em>
                     <em class="flex-item-8 text-left">{{item.inputUser || '暂无'}}</em>
                   </span>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">审核时间：</em>
                     <em class="flex-item-8 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
                   </span>
@@ -87,7 +87,7 @@
 <div class="panel pr-panel pr-panel-height mgb">
     <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
     <div class="">
-        <div class="flex-column mgt pdb-l bb-dashed-line">
+        <div class="flex-row mgt pdb-l bb-dashed-line">
           <div style="margin-left:250px;">
           <label class="radio-inline radio radio-new">
             <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="showData.type" ng-disabled="true" ><i style="top:8px;"></i>
@@ -100,23 +100,23 @@
           </div>
         </div>
         <div class="bb-dashed-line pd-v-m">
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">分类：</span>
                 <span class="flex-item-10 text-left">  {{showData.supplierAttribute.name}}</span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">企业名称：</span>
                 <span class="flex-item-10 text-left">{{showData.name}}</span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">企业编码：</span>
                 <span class="flex-item-10 text-left">{{showData.attributeCode}}-{{showData.serialCode}}</span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">详细地址：</span>
                 <span class="flex-item-10 text-left">{{showData.address}}</span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">拟定购进商品类别：</span>
                 <span class="flex-item-10 text-left">
                     <em class="mgr-s" ng-repeat="item in showData.commodityType">{{item}}</em>
@@ -125,31 +125,31 @@
 
         </div>
         <div class=" pd-v-m">
-          <div class="flex-column mgt">
+          <div class="flex-row mgt">
               <span class="flex-item-2 text-right">开户银行：</span>
               <span class="flex-item-10 text-left">
                   {{showData.accountBank}}
                 </span>
           </div>
-          <div class="flex-column mgt">
+          <div class="flex-row mgt">
               <span class="flex-item-2 text-right">开户账号：</span>
               <span class="flex-item-10 text-left">
                   {{showData.accountNumber}}
                 </span>
           </div>
-          <div class="flex-column mgt">
+          <div class="flex-row mgt">
               <span class="flex-item-2 text-right">开户名称：</span>
               <span class="flex-item-10 text-left">
                   {{showData.accountName}}
                 </span>
           </div>
-          <div class="flex-column mgt">
+          <div class="flex-row mgt">
               <span class="flex-item-2 text-right">付款方式：</span>
               <span class="flex-item-10 text-left">
                   {{showData.payType}}
                 </span>
           </div>
-          <div class="flex-column mgt">
+          <div class="flex-row mgt">
               <span class="flex-item-2 text-right">采购员：</span>
               <span class="flex-item-10">
                 <span class="flex-item-2 purchaseorder-buyer-info-outside">
@@ -171,62 +171,62 @@
                     </span>
               </span>
           </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">质量部联系人：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.qualityPerson.name}}
                   </span>
             </div>
 
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10 text-left">
                 {{showData.qualityPerson.tel}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10 text-left">
                 {{showData.qualityPerson.telephone}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">财务部联系人：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.financePerson.name}}
                   </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.financePerson.tel}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.financePerson.telephone}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10 text-left">
                 {{showData.qualityPerson.telephone}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">业务对接人：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.businessContact.name}}
                   </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.businessContact.tel}}
                 </span>
             </div>
-            <div class="flex-column mgt">
+            <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10 text-left">
                     {{showData.businessContact.telephone}}
@@ -237,27 +237,27 @@
           <h1 class="mgb-m color-black text-bold text-n">发货人信息</h1>
           <div class="">
             <div class="pd-v-m">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">发货人：</span>
                 <span class="flex-item-10   text-left">{{showData.contact.name}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">手机：</span>
                 <span class="flex-item-10   text-left">{{showData.contact.tel}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">省/市/区：</span>
                 <span class="flex-item-10   text-left">{{showData.contact.prov}}/{{showData.contact.city}}/{{showData.contact.area}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">详细发货地址：</span>
                 <span class="flex-item-10  text-left">{{showData.contact.address}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">邮编：</span>
                 <span class="flex-item-10   text-left">{{showData.contact.zipCode}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2  text-right">座机号码：</span>
                 <span class="flex-item-10   text-left">{{showData.contact.telephone}}</span>
               </div>

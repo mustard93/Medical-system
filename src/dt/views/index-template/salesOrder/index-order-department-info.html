@@ -1,7 +1,7 @@
-<div class="index-order-department-info flex-column text-center">
+<div class="index-order-department-info flex-row text-center">
   <!-- 左侧 -->
   <div class="flex-item-4">
-    <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column">
+    <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-row">
       <div class="flex-item-5 br-line">
         <h4 class="bb-line pd-v-m pr-panel-title-color">部门今日新购需单统计</h4>
         <div class="department-data department-data-left"
@@ -11,7 +11,7 @@
             <p class="mgb-s">今日新购需单</p>
             <p class="pr-font-20 pr-color"><a  class="pr-color" href="#/salesOrder/query.html?orderStatus=">{{salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.totalCount}}</a></p>
           </div>
-          <div class="flex-column pd-v-c-41" >
+          <div class="flex-row pd-v-c-41" >
             <div class="flex-item-6">
               <p class="mgb-s">待处理购需单</p>
               <p class="pr-font-20 pr-color"><a  class="color-custom-orange" href="#/salesOrder/query.html?orderStatus=待处理">{{salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.data["待处理"]}}</a></p>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="flex-item-7">
-        <h4 class="bb-line pd-v-m pr-panel-title-color flex-column">
+        <h4 class="bb-line pd-v-m pr-panel-title-color flex-row">
           <span class="flex-item-6">部门购需单分析</span>
           <span class="flex-item-6" style="padding-right:45px;">
             <select ng-init="salesOrder_dateRangeType='today'" ng-model="salesOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:90px;position:absolute;top:10px;right:10px;">
@@ -42,7 +42,7 @@
             callback="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2_parent=(salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2.data['已处理']/salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2.totalCount*100)"
         >
 
-        <div class="flex-column pd-v-l">
+        <div class="flex-row pd-v-l">
           <div class="flex-item-6">
             <p class="text-s">总购需单</p>
             <p class="pr-color text-l"> <a  class="pr-color" href="#/salesOrder/query.html">{{salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2.totalCount}}</a></p>
@@ -68,7 +68,7 @@
   </div>
   <!-- 右侧 -->
   <div class="flex-item-8">
-    <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n flex-column department-confirmOrder">
+    <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n flex-row department-confirmOrder">
       <div class="flex-item-2 pr-color br-line full-height"
       ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
       scope-data="confirmOrder_countByOrderStatus_department"
@@ -125,12 +125,12 @@
       </div><!--部门销售单统计-->
       <div class="flex-item-7">
         <h4 class="bb-line pd-v-m pr-panel-title-color">本年部门销售单分析</h4>
-        <div class="flex-column department-data"
+        <div class="flex-row department-data"
         ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
         scope-response="confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment"
         callback="confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment_parent=(confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment.data['已完成']/confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment.totalCount*100)">
           <div class="flex-item-6 br-dashed-line">
-            <div class="flex-column pd-v-l">
+            <div class="flex-row pd-v-l">
               <div class="flex-item-6">
                 <p class="text-s">本年总销售单</p>
                 <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">{{confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment.totalCount}}</a></p>
@@ -155,7 +155,7 @@
                 callback="confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment_parent=(confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.finish_totalPrice/confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.totalPrice*100)"
 
           >
-            <div class="flex-column pd-v-l">
+            <div class="flex-row pd-v-l">
               <div class="flex-item-6">
                 <p class="text-s">本年销售总额</p>
                 <p class="color-6 text-l">￥{{confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.totalPrice}}</p>
