@@ -5,7 +5,7 @@
 
 <div class="content-wrapper order-center medical-attribute"
      ng-controller="medicalAttributeController"
-     ng-init="moduleName='supplierAttribute';showModuleName='供应商';;initFlag=true;showAddClass=false;formData={}"
+     ng-init="moduleName='supplierAttribute';showModuleName='供应商';initFlag=true;showAddClass=false;isDisabled=false;formData={}"
   >
   <!-- 主内容区域 -->
   <div class="content-wrapper-main pdl-l pdr-l full-height">
@@ -37,12 +37,13 @@
                    p-id-key="parentId">
               </ul>
           </div>
-        
+
         </div>
         <div ng-if="formData.medicalAttribute" class="flex-item-6 pdt-l pdl-xxl text-n">
           <div class="bb-dashed-line pdt-l pdb-l">
             <span ng-if="$root.hasAuthor('供应商分类管理删除')">
               <button type="button"
+                      ng-disabled="isDisabled"
                       class="pr-btn-confirm-glodbg-small mgr-l bg-red-100"
                       handle-this-click
                       dialog-title="确认"
@@ -54,7 +55,7 @@
               </button>
             </span>
             <span ng-if="$root.hasAuthor('供应商分类管理新增')">
-              <button type="button" class="pr-btn-confirm-glodbg-small mgr-l bg-yellow-100 relative" ng-click="addNewChildNode()" style="padding-left: 25px">
+              <button type="button" ng-disabled="isDisabled" class="pr-btn-confirm-glodbg-small mgr-l bg-yellow-100 relative" ng-click="addNewChildNode();change();" style="padding-left: 25px">
                 <i class="plus-icon"></i>
                 <span class="fa mgr text-n"></span>新增子类别
               </button>
@@ -69,12 +70,12 @@
               </span> -->
               <span>
                 <em ng-if="formData.medicalAttribute.parentCode">{{formData.medicalAttribute.parentCode}} +</em>
-                <input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode" ng-disabled="!formData.medicalAttribute.parentCode">
+                <input type="text" class="ipt pr-short-ipt" style="width:80px;" ng-model="formData.medicalAttribute.levelCode" ng-change="change();" ng-disabled="!formData.medicalAttribute.parentCode">
               </span>
             </p>
             <p class="pdt-m pdb-m">
               <span>分类名称：</span>
-              <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.medicalAttribute.showName"></span>
+              <span><input type="text" class="ipt pr-short-ipt" ng-model="formData.medicalAttribute.showName" ng-change="change();" ></span>
             </p>
             <!-- <p class="pdt-m pdb-m">
               <span>编码规则提示：</span>
