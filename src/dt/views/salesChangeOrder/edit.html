@@ -112,7 +112,7 @@
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <!-- 列表 -->
          <div class="bt-line">
-           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6" ng-init="numberingPolicy='auto'">
 
                <!--自动获取单号-->
@@ -445,12 +445,17 @@
                    {{tr.strike_price   | currency: "￥"}}</td><!-- 含税单价 -->
 
                  <td class="text-center" style="line-height:2.4">{{tr.strike_price * tr.stayCount  | currency: "￥"}}</td><!-- 价税合计 -->
-                 <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                  <td class="text-center" style="line-height:2.4">
-                   <div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
+
+                   <!--{{tr.sterilizationBatchNumber}}-->
+
+                   <div ng-repeat="item in tr.stockBatchs" style="margin-bottom:12px;">{{item.sterilizationBatchNumber}}</div>
+                 </td><!-- 灭菌批号 -->
+                 <td class="text-center" style="line-height:2.4">
+                   <div ng-repeat="warehouse in tr.stockBatchs" style="margin-bottom:12px;">{{warehouse.warehouseName}}</div>
                  </td>  <!--仓库-->
                  <td class="text-center" style="line-height:2.4">
-                   <div ng-repeat="batch in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{batch.validTill || '暂无' | date : 'yyyy-MM-dd' }}</div>
+                   <div ng-repeat="batch in tr.stockBatchs" style="margin-bottom:12px;">{{batch.validTill || '暂无' | date : 'yyyy-MM-dd' }}</div>
 
                  </td><!-- 失效日期 -->
                </tr>
@@ -469,7 +474,7 @@
 
 
            <!-- 制单人信息 -->
-           <div class="flex-column color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
+           <div class="flex-row color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
                <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>

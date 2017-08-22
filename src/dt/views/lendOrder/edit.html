@@ -129,7 +129,7 @@
           </div>
           <!-- 列表 -->
           <div class="">
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
+            <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode"/>
@@ -533,7 +533,7 @@
           </div>
 
         <!-- 制单人信息 -->
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+        <div class="flex-row color-9 pd-c-l pdt-m pdb-m">
           <div class="flex-item-6 text-right"></div>
           <div class="flex-item-6 text-right">
             <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName ||  "暂无" }}</em></span>
@@ -731,45 +731,11 @@
           </a>
         </span>
 
-        <!-- <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('lendOrder_editForm','create')">智能匹配
-        </button> -->
-
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
                 ng-click="submitForm('lendOrder_editForm','save')">保存
         </button>
-
-        <!--<button  type="button"-->
-                <!--class="pr-btn-save-glodbg mgr"-->
-                <!--ng-click="submitForm('lendOrder_editForm','print')">打印预览-->
-        <!--</button>-->
-
-        <!--
-
-         ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             !lendOrder_editForm.$valid ||
-                             !formData.customerId ||
-                             !formData.orderMedicalNos.length ||
-                             formData.contactsNull ||
-                             !formData.orderCode ||
-                             formData.totalPrice>100000"
-        -->
-
-        <!--<button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"-->
-                <!--type="button"-->
-                <!--class="pr-btn-save-glodbg mgr"-->
-                <!--ng-disabled="-->
-                             <!--!lendOrder_editForm.$valid ||-->
-                             <!--!formData.customerId ||-->
-                             <!--!formData.orderMedicalNos.length ||-->
-                             <!--!formData.orderCode"-->
-                <!--ng-click="submitForm('lendOrder_editForm','submit')">提交-->
-        <!--</button>-->
-
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="
@@ -781,29 +747,6 @@
                 ng-click="submitForm('lendOrder_editForm','submit')">提交
         </button>
       </div>
-
-      <!---->
-      <!--<div ng-if="formData.orderBusinessType=='普通销售'"-->
-           <!--class="price-area relative fl-r mgr-l"-->
-           <!--style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：-->
-        <!--<em class="color-white"-->
-            <!--invalid-popover-->
-            <!--popover-show="formData.totalPrice>100000"-->
-            <!--popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}-->
-        <!--</em>-->
-
-      <!--</div>-->
-
-      <!--<div ng-if="formData.orderBusinessType=='直运销售'"-->
-           <!--class="price-area relative fl-r mgr-l"-->
-           <!--style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：-->
-        <!--<em class="color-white"-->
-            <!--invalid-popover-->
-            <!--popover-show="formData.totalPrice>100000"-->
-            <!--popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}-->
-        <!--</em>-->
-      <!--</div>-->
-      <!---->
 
     </div>
   </form>

@@ -38,7 +38,7 @@
     </div>
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
-      <div class="flex-column pd-c-m pdt-m pdb-m">
+      <div class="flex-row pd-c-m pdt-m pdb-m">
         <div class="flex-item-4">
           <span class="mgr-l color-9">单据编号：<span class="color-6">{{showData.orderCode}}</span></span>
           <span class="mgr-m color-9">单据日期：<span class="color-6">{{showData.orderDate | date:'yyyy-MM-dd'}}</span></span>
@@ -47,7 +47,7 @@
           <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
         </div>
       </div>
-      <div class="flex-column pd-c-m pdt-m pdb-m bt-dashed-line">
+      <div class="flex-row pd-c-m pdt-m pdb-m bt-dashed-line">
         <div><span class="mgr-l color-9">单据来源：<span class="color-6" >{{showData.orderSource}}</span></span></div>
         <div ng-if="showData.orderSource=='线上订单'||showData.orderSource=='手工自建'"><span class="mgr-l color-9">来源订单编号：<span class="color-6">{{showData.relOrderNo}}</span></span></div>
         <div><span class="mgr-l color-9">业务部门：<span class="color-6">{{showData.salesDepartmentName || "暂无"}}</span></span></div>
@@ -165,7 +165,7 @@
         </div>
       </div>
     </div>
-    <div class="bt-line flex-column pr-bg-white">
+    <div class="bt-line flex-row pr-bg-white">
       <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
         <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || "暂无"}}</em></span>
 
@@ -183,7 +183,7 @@
     <div ng-if="showData.id" ajax-url="rest/authen/confirmOrder/getListByRelId.json?relId={{showData.id}}" scope-data="iTbodyList">
       <h1 class="pdb-m color-3 text-n text-bold">已生成销售单部分</h1>
       <div ng-repeat="iShowData in iTbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height clearfix pdb-0-important">
-        <header class="text-n color-3 flex-column mgb-m">
+        <header class="text-n color-3 flex-row mgb-m">
           <span class="flex-item-6">
             <div class=" color-9 text-s">
               <span class="mgr-l">制单人：<em class="color-6">{{iShowData.inputUser.n}}</em></span>
@@ -207,7 +207,7 @@
                custom-tr-menus="1"
                style="width:100%;">
           </div>
-          <div class="bt-line flex-column pr-bg-white">
+          <div class="bt-line flex-row pr-bg-white">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
               <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
 

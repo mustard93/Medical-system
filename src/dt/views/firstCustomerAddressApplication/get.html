@@ -52,7 +52,7 @@
                     <p class="inline-block color-3"><em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em></p>
                 </div>
             <!-- 单号 -->
-            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
                 <div class="flex-item-6">
                     <span class="flex-item-3">
                       单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
@@ -75,15 +75,15 @@
                   <div ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='通过'),
                                   'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不通过')}">
                   </div>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">{{item.event.extendShowName || '暂无'}}：</em>
                     <em class="flex-item-8 text-left">{{item.event.conditionType }}</em>
                   </span>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">审核人：</em>
                     <em class="flex-item-8 text-left">{{item.inputUser || '暂无'}}</em>
                   </span>
-                  <span class="mgr-xl flex-column">
+                  <span class="mgr-xl flex-row">
                     <em class="color-9 flex-item-4 text-right">审核时间：</em>
                     <em class="flex-item-8 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
                   </span>
@@ -101,66 +101,66 @@
         <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
         <div class="">
             <div class="bb-dashed-line pd-v-m">
-              <div class="flex-column">
+              <div class="flex-row">
                   <span class="flex-item-2 text-right">性质：</span>
                   <span class="flex-item-10 text-left" style="float:left;">
                       <em class="mgr-s" ng-repeat="item in formData.type">{{item}}</em>
                     </span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">名称：</span>
                   <span class="flex-item-10 text-left">{{formData.name}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">法定代表人：</span>
                   <span class="flex-item-10 text-left">{{formData.legalUser.n}}</span>
               </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <span class="flex-item-2 text-right">分类：</span>
                     <span class="flex-item-10 text-left">  {{formData.customerAttribute.name}}</span>
                 </div>
 
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <span class="flex-item-2 text-right">编号：</span>
                     <span class="flex-item-10 text-left">{{formData.code}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <span class="flex-item-2 text-right">总线编码：</span>
                     <span class="flex-item-10 text-left">{{formData.opCode}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <span class="flex-item-2 text-right">分管部门：</span>
                     <span class="flex-item-10 text-left">{{formData.branchDepartmentName}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                     <span class="flex-item-2 text-right">分管业务人员：</span>
                     <span class="flex-item-10 text-left">{{formData.branchUser.n}}</span>
                 </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户银行：</span>
                   <span class="flex-item-10 text-left">
                       {{formData.accountBank}}
                     </span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户账号：</span>
                   <span class="flex-item-10 text-left">
                       {{formData.accountNumber}}
                     </span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户名称：</span>
                   <span class="flex-item-10 text-left">
                       {{formData.accountName}}
                     </span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">付款方式：</span>
                   <span class="flex-item-10 text-left">
                       {{formData.payType}}
                     </span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">经营范围：</span>
                   <span class="flex-item-10 text-left" style="float:left;">
                       <em class="mgr-s" ng-repeat="bus in formData.businessScope">{{bus.name}}</em>
@@ -170,7 +170,7 @@
             <div class="pr-panel-height mgt">
               <h1 class="mgb-m color-black text-bold text-n">联系人</h1>
               <div class="">
-                <div class=" color-black relative flex-column " style="background: rgba(209,209,209,0.25);">
+                <div class=" color-black relative flex-row " style="background: rgba(209,209,209,0.25);">
                   <span class="pd-s text-left flex-item-1" style="text-indent:13px;">姓名</span>
                   <span class="pd-s text-left flex-item-1">职务</span>
                   <span class="pd-s text-left flex-item-1">电话</span>
@@ -180,7 +180,7 @@
                   <span class="pd-s text-left flex-item-2">备注</span>
                 </div>
                 <div class="">
-                  <div class="pd-c-v-s color-black relative flex-column address-div"
+                  <div class="pd-c-v-s color-black relative flex-row address-div"
                        ng-repeat="tr in formData.contacts">
                     <span class="text-left flex-item-1" >{{tr.name}}</span>
                     <span class="text-left flex-item-1">{{tr.professionPosition}}</span>

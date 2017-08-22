@@ -33,12 +33,12 @@
       </thead>
       <tbody>
         <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController" ng-class="{'bb-dashed-line':(ngModel.length>1&&$index+1!=ngModel.length)}">
-          <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
+          <!-- <td ng-if="!item.handleCreate" class="w-80 mycheck mgcheck-mg">
             <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" ng-disabled="item.isMust"/>
             <label for="{{$index + 1}}" ng-class="{'pr-bg-grey-white':(item.isMust)}" ></label>
-          </td>
-
-          <td ng-if="item.handleCreate">
+          </td> -->
+          <!-- ng-if="item.handleCreate" -->
+          <td >
             <span class="delete-attachement-item cur-pot" ng-click="ngModel.splice($index,1);"></span>
           </td>
           <!-- 选择checkbox  -->
@@ -60,8 +60,7 @@
                    name="certificateNumber"
                    data-content="该字段保存后将不能修改"
                    invalid-popover="{{!EditForm.certificateNumber.$valid}}"
-                   popover-options='{"content":"该字段保存后将不能修改", "placement":"bottom", "trigger":"manual"}'
-                   ng-disabled="!item.showFlag&&!item.handleCreate">
+                   popover-options='{"content":"该字段保存后将不能修改", "placement":"bottom", "trigger":"manual"}'>
           </td>
           <!-- <td ng-if="item.isAdmin==false">
             <input type="text"
@@ -109,7 +108,7 @@
             <div style="width:90px;height:90px;">上传附件</div>
           </td><!-- 附件  -->
           <td>
-            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag&&!item.handleCreate" ng-model="item.note"></textarea>
+            <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"   ng-model="item.note"></textarea>
           </td><!-- 备注  -->
 
         </tr>

@@ -39,7 +39,7 @@
        </p>
      </div>
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column ">
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-row ">
           <div class="flex-item-8 ">
             <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
             <span class="mgr-l">申请人：
@@ -82,15 +82,15 @@
               <div
               ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='通过')
               ,'pr-nopass-bdbg-tb':(item.event.conditionType=='不通过')}"></div>
-              <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
+              <span class="mgr-xl flex-row" ng-if="item.event.status!='待审核'">
                 <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
                 <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
               </span>
-              <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <span class="mgr-xl flex-row " ng-if="item.event.status!='待审核'">
                 <em class="color-9 flex-item-6 text-right">审核人：</em>
                 <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
               </span>
-              <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <span class="mgr-xl flex-row " ng-if="item.event.status!='待审核'">
                 <em class="color-9 flex-item-6 text-right">审核时间：</em>
                 <em class="flex-item-6 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
               </span>
@@ -108,7 +108,7 @@
           <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <div class="">
               <div class="bb-dashed-line">
-                <div class="flex-column mgb">
+                <div class="flex-row mgb">
                   <label class="radio-inline radio radio-new">
                     <input type="radio" class="default-radio" name="type" value="批发商" ng-model="showData.type" ng-disabled="showData.type"> <i style="top:5px;"></i>
                     <em class="inline-block" style="margin-left:-5px; color:#666;">批发商</em>
@@ -121,111 +121,111 @@
               </div>
 
               <div class="bb-dashed-line">
-                <div class="flex-column mgt ">
+                <div class="flex-row mgt ">
                   <label class="flex-item-2 text-right">分类：</label>
                   <div class="flex-item-10 color-3 text-left ">
                     {{showData.customerAttribute.name}}
                  </div>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">客户全称：</span>
                   <span class="flex-item-10  text-left">{{showData.name}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">企业编码：</span>
                   <span class="flex-item-10  text-left">{{showData.attributeCode}}-{{showData.serialCode}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">企业地址：</span>
                   <span class="flex-item-10  text-left">{{showData.address}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">企业简称：</span>
                   <span class="flex-item-10  text-left">{{showData.shortName}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">法人代表/身份证号：</span>
                   <span class="flex-item-10  text-left">{{showData.legalRepresentative}}&nbsp;&nbsp;{{showData.legalRepresentativeIdentityNo}}</span>
                 </div>
-                <!-- <div class="flex-column mgt">
+                <!-- <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">GMP/GSP证书号：</span>
                   <span class="flex-item-10  text-left">{{showData.gspCertificateNo}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">经营许可证号：</span>
                   <span class="flex-item-10  text-left">{{showData.productionLicenseNo}}</span>
                 </div> -->
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">注册资金：</span>
                   <span class="flex-item-10  text-left">{{showData.registeredCapital}}&nbsp;&nbsp;万元</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">社会信用代码：</span>
                   <span class="flex-item-10  text-left">{{showData.socialCreditCode}}</span>
                 </div>
-                <!-- <div class="flex-column mgt">
+                <!-- <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">税号：</span>
                   <span class="flex-item-10  text-left">{{showData.taxNo}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">营业执照号：</span>
                   <span class="flex-item-10  text-left">{{showData.businessLicenseNo}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">营业期限：</span>
                   <span class="flex-item-10  text-left">{{showData.busnissAllotedTime | date:'yyyy-MM-dd'}}</span>
                 </div> -->
               </div>
               <div class="bb-dashed-line pd-v-m">
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户银行：</span>
                   <span class="flex-item-10  text-left">{{showData.accountBank}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户账号：</span>
                   <span class="flex-item-10  text-left">{{showData.accountNumber}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">开户名称：</span>
                   <span class="flex-item-10  text-left">{{showData.accountName}}</span>
                 </div>
-                <div class="flex-column mgt">
+                <div class="flex-row mgt">
                   <span class="flex-item-2 text-right">付款方式：</span>
                   <span class="flex-item-10  text-left">{{showData.payType}}</span>
                 </div>
               </div>
             <div class="bb-dashed-line pd-v-m">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">收货员/身份证号：</span>
                 <span class="flex-item-10  text-left">{{showData.consignee}}&nbsp;&nbsp;{{showData.consigneeIdentityNo}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10  text-left">{{showData.consigneeTel}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10  text-left">{{showData.consigneePhone}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">Email：</span>
                 <span class="flex-item-10  text-left">{{showData.consigneeEmail}}</span>
               </div>
             </div>
             <div class=" pd-v-m">
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">采购员/身份证号：</span>
                 <span class="flex-item-10  text-left">{{showData.purchaser}}&nbsp;&nbsp;{{showData.purchaserIdentityNo}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">座机：</span>
                 <span class="flex-item-10  text-left">{{showData.purchaserTel}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">手机：</span>
                 <span class="flex-item-10  text-left">{{showData.purchaserPhone}}</span>
               </div>
-              <div class="flex-column mgt">
+              <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">Email：</span>
                 <span class="flex-item-10  text-left">{{showData.purchaserEmail}}</span>
               </div>

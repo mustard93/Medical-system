@@ -3,7 +3,7 @@
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading mgb-m pdb-s line-b">
       <!-- 新建按钮及状态按钮 -->
-      <div class="flex-column">
+      <div class="flex-row">
         <div class="order-create-btn flex-item-2">
           <a href="#/salesOrder/edit.html" class="mgt"><i></i><span class="text-s">新建订单</span></a>
         </div>
@@ -45,17 +45,17 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <ul class="flex-column">
+      <ul class="flex-row">
         <li class="flex-item-3 no-width query-item mgr-s mgl-s" ng-repeat="tr in tbodyList">
           <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary">
             <div>
-              <div class="flex-column mgb-n">
+              <div class="flex-row mgb-n">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
                 <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
-              <div class="flex-column qurey text-s color-6">
+              <div class="flex-row qurey text-s color-6">
                 <span class="flex-item-6">
                   创建时间：<strong class="color-9 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
@@ -67,7 +67,7 @@
             <div>
               <div class="bb-line">
                 <h1 class="mg-l text-center text-m color-6">{{tr.customerName || '未知单位'}}</h1>
-                <div class="flex-column mgb-n query text-s color-6">
+                <div class="flex-row mgb-n query text-s color-6">
                   <div class="flex-item-6">
                     销售人员：<strong class="text-normal color-9">{{tr.saleUser.n}}</strong>
                   </div>
