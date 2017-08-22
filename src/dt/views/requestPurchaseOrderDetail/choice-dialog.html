@@ -81,12 +81,12 @@
 
         <!-- 标题 -->
         <div class="bb-line-gold pr-bg-black2 min-h-l">
-            <h1 ng-init="type='按商品查找'" class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">增加采购条目</h1>
+            <h1 ng-init="type='按商品查找'" class="pr-indent-20 pdb-m text-n text-bold" style="line-height:50px;max-height:35px;">增加采购条目</h1>
         </div>
 
 
         <div class="pdt-s pdb-s pd-c-xl">
-            <div class="inline-block relative" style="margin: 20px 0 20px -10px;color: #fff;">
+            <div class="inline-block relative" style="margin: 20px 0 0 -10px;color: #fff;">
                 <span angucomplete placeholder="请先输入目标客户"
                       style="width: 390px; "
                       title-field="name"
@@ -97,14 +97,14 @@
                       class="inline-block"
                       ng-model="scopeData">
                 </span>
-                <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                <span class="receive-item-icon" style="top: 6px;right: 5px;"></span>
             </div>
         </div>
 
         <p class="bb-line-gold" style="line-height: 40px; text-indent: 20px;">选择需要合并生成采购单的请购条目</p>
 
         <div ng-if="!listParams.customerId" class="empty-table clearfix">
-            <div  style="background: #554D44; height: 12px; ">&nbsp;</div>
+            <div  style="background: #554D44; height: 12px; margin-bottom:0;">&nbsp;</div>
             <div  style="background: #554D44; height: 12px; margin: 15px 0;">&nbsp;</div>
             <div  style="background: #554D44; height: 12px;">&nbsp;</div>
         </div>
@@ -112,9 +112,9 @@
         <div ng-if="listParams.customerId" style="margin: 15px  0;">
             <!-- 要求到货日期 -->
             <div class="inline-block relative">
-                <span class="color-9 mgl-m">要求到货日期：</span>
+                <span class="color-9 mgl-m fl-l mar-t3">要求到货日期：</span>
 
-                <div class="date-icon-outside" ng-if="!listParams.expectAtBeg">
+                <div class="date-icon-outside fl-l" ng-if="!listParams.expectAtBeg">
                     <input type="text"
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
@@ -125,7 +125,7 @@
                            ng-change="handleSearchFilter(listParams,dialogData.id)">
                     <span class="date-icon"></span>
                 </div>
-                <div class="date-icon-outside" ng-if="listParams.expectAtBeg">
+                <div class="date-icon-outside fl-l" ng-if="listParams.expectAtBeg">
                     <input type="text"
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -136,7 +136,7 @@
                 </div>
 
 
-                <span class="color-9">至</span>
+                <span class="color-9 fl-l mar-t3"> 至 </span>
                 <div class="date-icon-outside" ng-if="!listParams.expectAtEnd">
                     <input type="text"
                            datepicker
@@ -160,7 +160,7 @@
 
             <!-- 请购单编号 -->
             <div class="inline-block" style="margin-left: 15px;">
-                <span class="color-9" style="line-height: 26px;">请购单编号: </span>
+                <span class="color-9" style="line-height: 26px;">请购单编号 :　</span>
                 <div class="order-list-search text-left code pos-rel-tr inline-block fl-r relative">
                     <span angucomplete placeholder=""
                           style="width: 180px; "
@@ -174,7 +174,7 @@
                           calbak-method="setOrderCode(selectedOrderCode2)"
                         >
                     </span>
-                    <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                    <span class="receive-item-icon" style="top: 3.5px;right: 5px;"></span>
                 </div>
             </div>
 
@@ -203,7 +203,7 @@
                                ng-model="isChoiseAll"
                                ng-click="handleChoiseAllEvent(tbodyList,isChoiseAll);"
                         >
-                        <label for="otherCustomerManagement_dialog_1" style="top: 10px;"></label>
+                        <label for="otherCustomerManagement_dialog_1" style="top: 13px;"></label>
                     </th>
                     <th class="text-center">序号</th>
                     <th class="text-center">请购单编号</th>
@@ -263,7 +263,7 @@
         </div>
 
         <div ng-if="listParams.customerId && tbodyList.length<1" class="empty-table clearfix">
-            <div  style="background: #554D44; height: 5px; ">&nbsp;</div>
+            <div  style="background: #554D44; height: 5px; margin-bottom:0;">&nbsp;</div>
             <div  style="background: #554D44; height: 5px; margin: 5px 0;">&nbsp;</div>
             <div  style="background: #554D44; height: 5px;">&nbsp;</div>
         </div>
@@ -277,5 +277,3 @@
     </div>
 </table-list>
 </div>
-
-
