@@ -16,20 +16,33 @@
         onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
+
     <div class="header-info relative mgb-l  mar-b20">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+      <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">采购中心 >
        <a tab-nav tab-name="请购单" tab-href="#/requestPurchaseOrder/query.html"><em class="color-custom-orange">请购单</em></a>
        <em>> 请购单详情</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l head-style padd-bt0">
        <!-- 标题 -->
-       <div class="head-style-title">
+       <div class="head-style-title mgt-xl">
+
          <h1 class="color-black pr-font-20">请购单详情</h1>
        </div>
      </div>
     </div>
     <div class="content-wrapper">
-      <p class="mgb-l text-n color-3 text-bold">{{formData.customerName}}</p>
+      <!--<p class="mgb-l text-n color-3 text-bold">{{formData.customerName}}</p>-->
+        <div class="">
+            <div class="inline-block mgr">
+                <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding-left:85px;min-height:88px;">
+                    <div class="inline-block request-customer-name"></div>
+                    <div class="inline-block">
+                        <p class="mgb-s">客户名</p>
+                        <p class="text-m color-3 autocut-default" title="{{formData.customerName }}">{{formData.customerName || '暂无'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <div class="bt-line">

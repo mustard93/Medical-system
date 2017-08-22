@@ -25,10 +25,27 @@
          callback="submitFormAfter();watchFormChange('formData')"
          novalidate="true">
 
-     <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"销售换货单","link":"","style":"color-custom-orange"},{"name":"新建销售换货单","link":"","style":""}]'
-                                 component-title="销售换货单-{{formData&&formData.id?'编辑':'新建'}}">
-     </page-main-header-component>
+     <!--<page-main-header-component list-params="listParams"-->
+                                 <!--crumbs-nav='[{"name":"销售中心","link":"","style":""},{ "name":"销售换货单","tabName":"销售换货单","link":"#/salesChangeOrder/query.html","style":"color-custom-orange"},{"name":"新建销售换货单","link":"","style":""}]'-->
+                                 <!--component-title="销售换货单-{{formData&&formData.id?'编辑':'新建'}}">-->
+     <!--</page-main-header-component>-->
+
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
+        <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html">
+          <em class="color-custom-orange">销售换货单</em>
+        </a>
+        <em>>新建销售换货单</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div>
+          <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}销售换货单</h1>
+        </div>
+      </div>
+    </div>
+
+
 
      <div class="content-wrapper">
        <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">

@@ -40,13 +40,17 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
 
       $scope.showAddClass = $scope.showAddClass ? false :true;
 
-      // if ($scope.showAddClass) {
-      //   $scope.showAddClass = false;
-      // } else {
-      //   $scope.showAddClass = false;
-      // }
     }
-
+    // 该方法用于改变名称和分类编码后，禁止点击删除和新增按钮
+    $scope.change=function(){
+      $scope.isDisabled=true;
+    }
+    // 监听侧边选择是否重新选择，如果重新选，则激活删除和新建按钮
+    $scope.$watch('formData.medicalAttribute.id',function(newVal,oldVal){
+      if (newVal&&newVal!==oldVal) {
+        $scope.isDisabled=false;
+      }
+    })
     // 添加主分类
     $scope.addMainClass = function (addMainClassObj) {
       if (addMainClassObj) {
@@ -65,7 +69,7 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
           // }
         })
         .catch(function (error) {
-          if (error) { alertWarn(error) }
+          if (error) { alertError(error) }
         });
       }
     }
@@ -77,20 +81,17 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
 
       requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
       .then(function (results) {
-        alertOk('操作成功');
-        console.log("saveNodeInfo",results);
+        if (results[1].code === 200) {
+          alertOk('操作成功');
           $scope.$broadcast('zTreeUpdateNode',results[0]);
-          // $scope.formData.medicalAttribute=null;
-        // if (results[1].code === 200) {
-        //   alertOk('操作成功');
-        //   utils.refreshHref();
-        // } else {
-        //   alertWarn(results[1].msg);
-        // }
+          $scope.isDisabled=false;
+        }
       })
       .catch(function (error) {
-        if (error) { alertWarn(error); }
+        if (error) { alertError(error); }
       })
+
+
 
 
       // if ($scope.modifyNodeInfo) {     // 修改节点信息
@@ -143,15 +144,10 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
         _delUrl = 'rest/authen/' + $scope.moduleName + '/delete?id=' + id
         requestData(_delUrl, {}, 'POST')
         .then(function (results) {
-            $scope.$broadcast('zTreeRemoveNode',id);
+          if (results[1].code === 200) {
+              $scope.$broadcast('zTreeRemoveNode',id);
               $scope.formData.medicalAttribute=null;
-          //
-          // if (results[1].code === 200) {
-          //   // $scope._reloadData('rest/authen/medicalAttribute/query.json', 'scopeTreeData2')
-          //   utils.refreshHref();
-          // } else {
-          //   alertWarn(results[1].msg);
-          // }
+          }
         })
         .catch(function (error) {
           if (error) { alertWarn(error); }
