@@ -80,12 +80,15 @@
                         <!---->
 
                         <!--tr.orderStatus =='待审核' && (tr.orderStatus!='未通过')-->
-                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'||tr.orderStatus=='待审核'"
+                        <a ng-if="tr.orderStatus =='已作废'||tr.orderStatus =='已完成'|| tr.orderStatus =='换货中'&&tr.orderStatus!='待审核'"
                            tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/get.html?id={{tr.id}}"
                            class="btn-link pd rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
-
+                        <a class="btn-link pd rect-s" title="查看详情" ng-if="tr.orderStatus=='待审核'"
+                           tab-nav tab-name="销售换货单"  tab-href="#/salesChangeOrder/get.html?id={{tr.id}}">
+                            <span class="examine-approve">&nbsp;</span>
+                        </a>
                         <!--ng-if="$root.hasAuthor('归还单审批')"-->
                         <!--<span>-->
                           <!--<a ng-if="tr.orderStatus=='待审核'"-->

@@ -69,12 +69,16 @@
                         <!---->
 
                         <!--tr.orderStatus =='待审核' && (tr.orderStatus!='未通过')-->
-                        <a ng-if="tr.orderStatus=='待审核' || tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'"
+                        <a ng-if="tr.orderStatus!='待审核' && tr.orderStatus=='处理中' || tr.orderStatus=='已处理'|| tr.orderStatus=='已作废'"
                            tab-nav tab-name="销售退货单" tab-href="#/saleReturnOrder/get.html?id={{tr.id}}"
                            class="btn-link pd rect-s " title="查看详情">
                           <span class="watch-detail-icon">&nbsp;</span>
                         </a>
                     </span>
+                      <a class="btn-link pd rect-s" title="查看详情" ng-if="tr.orderStatus=='待审核'"
+                         tab-nav tab-name="销售退货单"  tab-href="#/saleReturnOrder/get.html?id={{tr.id}}">
+                            <span class="examine-approve">&nbsp;</span>
+                      </a>
                   </span>
 
                 </div>
