@@ -91,10 +91,10 @@ define('project/controllers-lendOrder', ['project/init'], function() {
        // 保存type:save-草稿,submit-提交订单。
        $scope.submitFormAfter = function() {
            if ($scope.submitForm_type == 'exit') {
-               $scope.goTo('#/confirmOrder/query.html');
+               $scope.goTo('#/lendOrder/query.html');
                return;
            }else if($scope.submitForm_type == 'exit-allocate'){
-               $scope.goTo('#/allocateOrder/query.html');
+               $scope.goTo('#/lendOrder/query.html');
                return;
            }else   if ($scope.submitForm_type == 'print') {
                var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;

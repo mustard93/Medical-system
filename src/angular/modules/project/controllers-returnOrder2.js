@@ -61,7 +61,6 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
 
         if($scope.submitForm_type == 'save'){
 
-
             $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
             return;
         }
@@ -82,6 +81,12 @@ define('project/controllers-returnOrder2', ['project/init'], function() {
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
+        }
+
+
+        if($scope.submitForm_type == 'exit'){
+            $scope.goTo('#/returnOrder/query.html');
+            return;
         }
 
     };
