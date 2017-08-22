@@ -619,7 +619,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
 
-              
+
                 //单个操作
                 $scope.dothing = function(_url, _param,tip,method) {
                 	if(!method)method='POST';
@@ -3770,200 +3770,194 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
 
-      /**
-          树形
-      */
 
-        /**
-            树形z-tree-select
-        */
-        function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
-          //弹出框的样式，用于选择div隐藏。
-          var selectDivClass="menuContent";
-          //隐藏选择窗口
-          function hideMenu() {
-                console.log("hideMenu");
-                $("."+selectDivClass).fadeOut("fast");
-                $("body").unbind("mousedown", onBodyDown);
+    /**
+     * [zTreeSelect 树形z-tree-select]
+     */
+    function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
+      //弹出框的样式，用于选择div隐藏。
+      var selectDivClass="menuContent";
+
+      //隐藏选择窗口
+      function hideMenu() {
+        console.log("hideMenu");
+        $("."+selectDivClass).fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+      }
+
+      function onBodyDown(event) {
+        if (!(event.target.className.indexOf("menuContent" )>-01 || $(event.target).parents(".menuContent").length>0)) {
+          hideMenu();
+        }
+      }
+
+      function zTree_init($element,zNodes,$scope){
+
+        var setting = {
+            data: {
+              async:{
+                  enable:false
+              },
+          		simpleData: {
+          			enable: true,
+          			idKey: $scope.idKey||"id",
+          			pIdKey: $scope.pIdKey||"pId",
+          			rootPId: null,
+          		}
+          	},
+            callback: {
+          		onClick: function(event, treeId, treeNode) {
+                  $scope.ngModel=treeNode;
+                  $scope.$apply();
+
+                  hideMenu();
+                   //  阻止事件冒泡
+                 event.stopPropagation();
+                 return false;
               }
+          	}
+          };
+          require(['ztree'], function(store) {
+              $.fn.zTree.init($element, setting, zNodes);
 
-          function onBodyDown(event) {
-            if (!(event.target.className.indexOf("menuContent" )>-01 || $(event.target).parents(".menuContent").length>0)) {
-              hideMenu();
+          });//require
+      }
+
+      return {
+        restrict: 'EA',
+        scope: {
+          "ngModel":"=",
+          "idKey":"@?",
+          "pIdKey":"@?",
+          "width": "@?"
+        },
+        link: function ($scope, $element, $attrs) {
+
+          var suff=new Date().getTime();
+            var urlKey="zTreeSelect";
+            //插下tree div
+          var zTreeSelectDivId="zTreeSelectDiv_"+suff;
+
+          var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
+
+          // 如果定义了宽度
+          var _width = $attrs.width ? $attrs.width : '100%';
+
+          var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+         $element.append(tmp_template);
+
+         //组件的显示，隐藏，及触发事件
+         function showZTreeSelect($element){
+           var display =$element.css('display');
+
+           //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
+            if(display == 'none'){
+              getData();
             }
+
+            //getData();
+            var cityObj = $element;
+            var cityOffset = $element.offset();
+            //显示div
+            $("#"+zTreeSelectshowDivId).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+
           }
 
-          function zTree_init($element,zNodes,$scope){
+          $($element).on("click", function() {
+            showZTreeSelect($element);
+          });
 
-            var setting = {
-                data: {
-                  async:{
-                      enable:false
-                  },
-              		simpleData: {
-              			enable: true,
-              			idKey: $scope.idKey||"id",
-              			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: null,
-              		}
-              	},
-                callback: {
-              		onClick: function(event, treeId, treeNode) {
-                      $scope.ngModel=treeNode;
-                      $scope.$apply();
-
-                      hideMenu();
-                       //  阻止事件冒泡
-                     event.stopPropagation();
-                     return false;
-                  }
-              	}
-              };
-              require(['ztree'], function(store) {
-                  $.fn.zTree.init($element, setting, zNodes);
-
-              });//require
+          var _params = {};
+          if ($attrs.params) {
+              if ($attrs.params.indexOf("{") === 0) {
+                  //监听具体值
+                  $attrs.$observe("params", function(value) {
+                      _params = $scope.$eval(value);
+                      getData(_params);
+                  });
+              } else {
+                  //监听对象
+                  $scope.$watch($attrs.params, function(value) {
+                      _params = value;
+                      getData(_params);
+                  }, true);
+              }
+          } else {
+              $attrs.$observe(urlKey, function(value) {
+                  getData({});
+              });
           }
 
 
-
-          return {
-            restrict: 'EA',
-            scope: {
-              "ngModel":"=",
-              "idKey":"@?",
-              "pIdKey":"@?",
-              "width": "@?"
-            },
-            link: function ($scope, $element, $attrs) {
-
-              var suff=new Date().getTime();
-                var urlKey="zTreeSelect";
-                //插下tree div
-              var zTreeSelectDivId="zTreeSelectDiv_"+suff;
-
-              var zTreeSelectshowDivId="zTreeSelectshowDiv_"+suff;
-
-              // 如果定义了宽度
-              var _width = $attrs.width ? $attrs.width : '100%';
-
-              var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
-             $element.append(tmp_template);
-
-             //组件的显示，隐藏，及触发事件
-             function showZTreeSelect($element){
-               var display =$element.css('display');
-
-               //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
-              //  if(display == 'none'){
-              //    //加载数据
-              //    getData();
-              //  }
-
-                  getData();
-               var cityObj = $element;
-               var cityOffset = $element.offset();
-               //显示div
-               $("#"+zTreeSelectshowDivId).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-               $("body").bind("mousedown", onBodyDown);
-
+          function getData(params) {
+             //满足条件才异步请求
+             if (angular.isDefined($attrs.ajaxIf)) {
+               if (!$attrs.ajaxIf) return;
+             }
+             if (angular.isDefined($attrs.ajaxIfEval)) {
+                 var tmp=$scope.$eval($attrs.ajaxIfEval);
+               if (!tmp) return;
              }
 
-              $($element)
-                  .on("click", function() {
-                        showZTreeSelect($element);
-                  });
+             var maskObj=null;
 
-              var _params = {};
-              if ($attrs.params) {
-                  if ($attrs.params.indexOf("{") === 0) {
-                      //监听具体值
-                      $attrs.$observe("params", function(value) {
-                          _params = $scope.$eval(value);
-                          getData(_params);
-                      });
-                  } else {
-                      //监听对象
-                      $scope.$watch($attrs.params, function(value) {
-                          _params = value;
-                          getData(_params);
-                      }, true);
-                  }
-              } else {
-                  $attrs.$observe(urlKey, function(value) {
-                      getData({});
-                  });
+            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+            $scope.isLoading = true;
+            var url=$attrs[urlKey];
+            if (!$attrs.noshowLoading) {
+              maskObj=proLoading($element,url);
+            }
+
+            requestData($attrs[urlKey], params)
+            .then(function(results) {
+              if(maskObj)maskObj.hide();
+              var data = results[0];
+              zTree_init($("#"+zTreeSelectDivId),data,$scope);
+
+              if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+
+              if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+              //回调父级的处理事件;
+              if ($scope.listCallback) {
+                $scope.listCallback(results[1]);
               }
 
-
-              function getData(params) {
-                 //满足条件才异步请求
-                 if (angular.isDefined($attrs.ajaxIf)) {
-                   if (!$attrs.ajaxIf) return;
-                 }
-                 if (angular.isDefined($attrs.ajaxIfEval)) {
-                     var tmp=$scope.$eval($attrs.ajaxIfEval);
-                   if (!tmp) return;
-                 }
-
-                 var maskObj=null;
-
-                if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
-
-                $scope.isLoading = true;
-                var url=$attrs[urlKey];
-                if (!$attrs.noshowLoading) {
-                  maskObj=proLoading($element,url);
-                  //  if(maskObj)maskObj.hide();
-                }
-                 requestData($attrs[urlKey], params)
-                   .then(function(results) {
-                         if(maskObj)maskObj.hide();
-                       var data = results[0];
-                       zTree_init($("#"+zTreeSelectDivId),data,$scope);
-
-                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-
-                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
-                       //回调父级的处理事件;
-                       if ($scope.listCallback) {
-                         $scope.listCallback(results[1]);
-                       }
-
-                       // $scope.$apply();
-                       if ($attrs.callback) {
-                           $scope.$eval($attrs.callback);
-                       }
-
-                       $scope.isLoading = false;
-                   })
-                   .catch(function(msg) {
-                         if(maskObj)maskObj.hide();
-
-                         if ($attrs.errorCallback) {
-                             $scope.$eval($attrs.errorCallback);
-                         }
-
-                      if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                      if (angular.isDefined($attrs.alertError)) alertError(msg);
-                      $('.pr-full-loading').remove();
-                   });
-
+              // $scope.$apply();
+              if ($attrs.callback) {
+                $scope.$eval($attrs.callback);
               }
 
-              $scope.$on("ajaxUrlReload", function() {
-                 //  getData(_detailsParams);
-                 getData({});
+               $scope.isLoading = false;
+             })
+            .catch(function(msg) {
+                   if(maskObj)maskObj.hide();
 
-              });
+                   if ($attrs.errorCallback) {
+                       $scope.$eval($attrs.errorCallback);
+                   }
+
+                if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                if (angular.isDefined($attrs.alertError)) alertError(msg);
+                $('.pr-full-loading').remove();
+             });
+          }
+
+          $scope.$on("ajaxUrlReload", function() {
+             //  getData(_detailsParams);
+             getData({});
+
+          });
 
 
 
 
-            }//end link
-          };
-        }//zTreeSelect
+        }//end link
+      };
+    }//zTreeSelect
+
     /**
      *  全局弹出层显示信息组件
      *  支持两种获取信息的模式：
