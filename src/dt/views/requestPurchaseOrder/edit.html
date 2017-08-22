@@ -1,4 +1,4 @@
-<div class="create-new-order"
+<div class="create-new-order del-bgc"
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -16,14 +16,14 @@
         onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
-    <div class="header-info relative mgb-l">
+    <div class="header-info relative mgb-l  mar-b20">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
        <a tab-nav tab-name="请购单" tab-href="#/requestPurchaseOrder/query.html"><em class="color-custom-orange">请购单</em></a>
        <em>> 请购单详情</em>
       </p>
-      <div class="pd-c-xxl pdt-l pdb-l">
+      <div class="pd-c-xxl pdt-l pdb-l head-style padd-bt0">
        <!-- 标题 -->
-       <div class="mgb-l">
+       <div class="head-style-title">
          <h1 class="color-black pr-font-20">请购单详情</h1>
        </div>
      </div>
@@ -36,12 +36,12 @@
            <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <!-- <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span> -->
-               <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+               <span ng-if="numberingPolicy!='auto'" class="mgr vtc-mdd">单据编号：
                  <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                  <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
                </span>
-               <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-               <span class="inline-block relative">
+               <span ng-if="numberingPolicy=='auto'" class="mgr vtc-mdd">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+               <span class="inline-block relative vtc-mdd">
                  <span>单据日期：</span>
                  <input ng-if="initFlag" type="text"
                         datepicker
@@ -50,9 +50,9 @@
                         ng-readonly="true"
                         placeholder=""
                         ng-model="formData.orderDate" />
-                       <span class="date-icon"></span>
+                       <span class="date-icon" style="top:4px;"></span>
                </span>
-               <span class="mgl-l">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+               <span class="mgl-l vtc-mdd">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
 
              </div>
              <div class="flex-item-6 text-right">
