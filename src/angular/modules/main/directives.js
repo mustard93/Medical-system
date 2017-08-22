@@ -3780,7 +3780,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
       //隐藏选择窗口
       function hideMenu() {
-        console.log("hideMenu");
         $("."+selectDivClass).fadeOut("fast");
         $("body").unbind("mousedown", onBodyDown);
       }
@@ -3832,6 +3831,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           "width": "@?"
         },
         link: function ($scope, $element, $attrs) {
+          // 设置标志位，标识是否已加载完成数据
+          var _loadFlag = false;
 
           var suff=new Date().getTime();
             var urlKey="zTreeSelect";
@@ -3851,11 +3852,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
            var display =$element.css('display');
 
            //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
-            if(display == 'none'){
-              getData();
-            }
+           if(!_loadFlag){
+             getData();
+           }
 
-            //getData();
+            // getData();
             var cityObj = $element;
             var cityOffset = $element.offset();
             //显示div
@@ -3915,6 +3916,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if(maskObj)maskObj.hide();
               var data = results[0];
               zTree_init($("#"+zTreeSelectDivId),data,$scope);
+
+              // 设置标志位
+              _loadFlag = true;
 
               if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
 
