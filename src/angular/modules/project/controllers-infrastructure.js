@@ -74,7 +74,7 @@ define('project/controllers-infrastructure', ['project/init'], function() {
 
         requestData(_reqUrl, {}, 'GET')
         .then(function (results) {
-          $scope[keyName] = results.data;
+          $scope.formData[keyName] = results[1].data;
         })
         .catch(function (error) {
           throw new Error(error || '出错');

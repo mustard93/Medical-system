@@ -352,13 +352,26 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
   function qrcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     $scope.originData = [];
 
+    // 不可修改的系统配置的数量原始值
+    var _originDataList = [];
+
     // 记录原始值
     $scope.saveOriginData = function (originData) {
       angular.copy(originData, $scope.originData);
+      angular.copy(originData, _originDataList);
     }
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
+      // 检测用户输入的值是否大于系统配置的原始值
+      if (unitQuantity > _originDataList.converResults[index].unitQuantity) {
+        for(var i = 0; i < converResults.length; i++) {
+          converResults[i].unitQuantity = _originDataList.converResults[i].unitQuantity;
+        }
+
+        return;
+      }
+
       var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
           _temp = parseInt(_temp / converResults[index+1].ratio, 10);
 

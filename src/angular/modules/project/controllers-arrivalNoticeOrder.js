@@ -778,16 +778,32 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
   function barcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     $scope.originData = [];
 
+    // 不可修改的系统配置的数量原始值
+    var _originDataList = [];
+
     // 换算后的单位显示字符串
     $scope.converedStr = '';
 
     // 记录原始值
     $scope.saveOriginData = function (originData) {
       angular.copy(originData, $scope.originData);
+      angular.copy(originData, _originDataList);
     }
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitNumber, index) {
+      // 检测用户输入的值是否大于系统配置的原始值
+      if (unitNumber > _originDataList[index].unitNumber) {
+        for(var i = 0; i < $scope.mItem.stockBatch.length; i++) {
+          $scope.mItem.stockBatch[i].unitNumber = _originDataList[i].unitNumber;
+        }
+
+        for(var j = 0; j < $scope.originData.length; j++) {
+          $scope.originData[j].unitNumber = _originDataList[j].unitNumber;
+        }
+
+        return;
+      }
 
       var _temp = ($scope.originData[index].unitNumber - unitNumber) * $scope.originData[index].ratios;
           _temp = parseInt(_temp / $scope.originData[index+1].ratios, 10);
