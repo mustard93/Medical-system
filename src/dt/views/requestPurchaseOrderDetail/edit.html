@@ -248,12 +248,11 @@
 
                  <select class="pr-select pd-s"
                          style="width:115px;"
-                         required
                          ng-model="formData.warehouseId"
                          ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos,warehouseList)"
                          ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
                          scope-data="warehouseList">
-                   <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                   <option ng-init="formData.warehouseId=warehouseList[0].value" ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                  </select>
 
                </span>
@@ -316,15 +315,17 @@
                      <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
                      <td class="text-center">
 
-                       <!--<select ng-if="initFlag" class="pr-select pd-s"-->
-                               <!--style="width:115px;"-->
-                               <!--ng-model="tr.warehouseId"-->
-                               <!--ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"-->
-                               <!--scope-data="warehouseList">-->
-                         <!--<option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>-->
-                       <!--</select>-->
+                       <select ng-if="initFlag" class="pr-select pd-s"
+                               style="width:115px;"
+                               required
+                               ng-model="tr.warehouseId"
+                               ng-change="formData.warehouseId='';"
+                               ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
+                               scope-data="warehouseList">
+                         <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                       </select>
 
-                       {{tr.warehouseName}}
+                       <!--{{tr.warehouseName}}-->
 
                      </td><!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥

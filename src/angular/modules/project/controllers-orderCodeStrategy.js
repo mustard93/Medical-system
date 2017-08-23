@@ -78,22 +78,6 @@ define('project/controllers-orderCodeStrategy', ['project/init'], function() {
         $scope.codeLength = _prefix1Length + _prefix2Length + Number(formData.serialNumberLength);
 
       }
-
-      // $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
-
-      // if (formData.prefix1_type === '静态文本' && formData.prefix2) {
-      //   $scope.createPrefixForDate(formData.prefix2);
-      //   if ($scope.fixDateString) {
-      //     $scope.codeLength = Number(formData.prefix1.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
-      //   }
-      // }
-      //
-      // if (formData.prefix2_type === '静态文本' && formData.prefix1) {
-      //   $scope.createPrefixForDate(formData.prefix1);
-      //   if ($scope.fixDateString) {
-      //     $scope.codeLength = Number(formData.prefix2.length) + Number($scope.fixDateString.length) + Number(formData.serialNumberLength);
-      //   }
-      // }
     }
 
     // 创建编码样例
@@ -105,7 +89,7 @@ define('project/controllers-orderCodeStrategy', ['project/init'], function() {
 
         // 构建流水号
         var _tmp = formData.serialNumberLength - 1;
-        _serialNumber = 1;
+        _serialNumber = '';
         for (var i = 0; i < _tmp; i ++) {
           _serialNumber += '0';
         }
@@ -130,7 +114,7 @@ define('project/controllers-orderCodeStrategy', ['project/init'], function() {
           _prefix2 = '';
         }
 
-        $scope.codeSample = _prefix1 + _prefix2 + _serialNumber;
+        $scope.codeSample = _prefix1 + _prefix2 + (_serialNumber + '1');
 
       }
 
