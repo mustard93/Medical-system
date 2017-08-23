@@ -2,7 +2,8 @@
      ng-controller="needToPurchaseEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;isGoNextStep=false;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();"
+     ng-init="isGoNextStep=false;"
+     callback="initFlag=true;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -34,7 +35,7 @@
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgt-xl">
-          <h1 class="pr-font-20 color-black">新建购需单</h1>
+          <h1 class="pr-font-20 color-black">新建购需单{{isGoNextStep}}</h1>
         </div>
 
       </div>

@@ -379,12 +379,12 @@ define('project/controllers-needToPurchase', ['project/init'], function() {
 
       $scope.handleItemClickEvent = function (item) {
         if (item.handleFlag) {    // 选中
-          if (item.id) {
-            $scope.choisedMedicalIdList.push(item.id);
+          if (item.relId) {
+            $scope.choisedMedicalIdList.push(item.relId);
           }
         } else {
           for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
-            if (item.id === $scope.choisedMedicalIdList[i]) {
+            if (item.relId === $scope.choisedMedicalIdList[i]) {
               $scope.choisedMedicalIdList.splice(i,1);
             }
           }
