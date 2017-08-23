@@ -306,17 +306,19 @@
                        table-item-handlebtn-component
                        ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
                        class="relative">
-                     <td class="text-center" style="line-height:2.4">{{tr.code}}
-                       <div class="table-item-handle-btn">
+                     <td   class="text-center" style="line-height:2.4">{{tr.code}}
+                       <div  class="table-item-handle-btn" ng-class="{'table-item-handle-remove-btn':(formData.relId)}">
                          <div class="table-item-confirm-del-area bg-white">
-                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                           <p ng-show="!formData.relId" class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                           <p ng-show="formData.relId" class="bb-line color-red pd-v-s">确认移除本条数据?</p>
                            <p class="pdt">
                              <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
                              <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
                            </p>
                          </div>
                        </div>
-                     </td><!-- 商品编号 -->
+                      
+                     <!-- 商品编号 -->
                      <td class="text-left" style="width: 300px;" >
                        <span
                             class="color-orange cur-pot lend-order-goods-info"

@@ -974,7 +974,7 @@ table-list {
 }
 /*表格内容过多显示省略号问题*/
 .autocut {
-	width:220px;
+	/*width:220px;*/
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow:ellipsis;
@@ -983,12 +983,14 @@ table-list {
 	-khtml-text-overflow:ellipsis;
 	-moz-text-overflow:ellipsis;
 	-webkit-text-overflow:ellipsis;
+	margin-right: 20px;
 }
 .autocut-default {
 	display:block;
 	white-space:nowrap;
 	overflow:hidden;
 	text-overflow:ellipsis;
+
 }
 .autocut-l {
 	width:100%;
@@ -2246,7 +2248,7 @@ input[disabled],textarea[disabled],select[disabled],div[disabled],span[disabled]
 .order-list-search .ipt {
 	height:26px;
 	border:1px solid rgba(0,0,0,.2);
-	background:rgba(255,255,255,.8);
+	background:rgba(255,255,255,1);
 	font-weight:normal;
 }
 .order-list-search i {
@@ -3358,7 +3360,7 @@ label.checkbox_label > div {
 	position:relative;
 	width:125px;
 	height:26px;
-	background-color:rgba(255,255,255,.8);
+	background-color:rgba(255,255,255,1);
 	border:1px solid rgba(0,0,0,0.2);
 	border-radius:4px;
 }
@@ -3763,6 +3765,9 @@ label.checkbox_label > div {
 	overflow:hidden;
 	background:rgba(230,226,215,.9);
 }
+.del-bgc .head-style-bgc {
+	background:rgba(230,226,215,.9);
+}
 .del-bgc .mar-l40px {
 	margin-left:40px;
 }
@@ -3893,7 +3898,7 @@ label.checkbox_label > div {
 	width:375px;
 	height:30px;
 }
-/* 150px的输入框 表格中输入框 */
+/* 160px的输入框 表格中输入框 */
 .pr-short-ipt {
 	width:160px;
 	height:30px;
@@ -3935,7 +3940,7 @@ label.checkbox_label > div {
 	position:relative;
 	width:150px;
 	height:26px;
-	background-color:rgba(255,255,255,.8);
+	background-color:rgba(255,255,255,1);
 	border:1px solid rgba(0,0,0,0.2);
 	border-radius:4px
 }
@@ -5236,7 +5241,34 @@ font-size:12px;
 	z-index:1;
 	display:none;
 }
-.table-item-handle-btn > div.table-item-confirm-del-area {
+/* 表格行移除功能按钮样式新版 */
+/*移除*/
+.table-item-handle-remove-btn {
+	display:inline-block;
+	position:absolute;
+	top:0;
+	left:0;
+	width:30px;
+	height:30px;
+	/*background:rgba(255,56,56,0.8);*/
+	/*box-shadow:0 0 6px 0 rgba(255,56,56,1);*/
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	border-radius:50%;
+	background-image:url(../../images/remove.png);
+	background-repeat:no-repeat;
+	background-position:-4px -3px;
+	margin-top:10px;
+	margin-left:auto;
+	margin-right:10px;
+	cursor:pointer;
+	z-index:1;
+	display:none;
+}
+
+.table-item-handle-btn > div.table-item-confirm-del-area,
+.table-item-handle-remove-btn > div.table-item-confirm-del-area
+{
 	margin-top:10px;
 	width:150px;
 	height:85px;
@@ -5249,12 +5281,16 @@ font-size:12px;
 	background:rgba(255,255,255,.8);
 	box-shadow:0 0 10px rgba(199,167,123,.7);
 }
-.table-item-handle-btn > div:last-child {
+.table-item-handle-btn > div:last-child,
+.table-item-handle-remove-btn > div:last-child
+{
 	margin-top:6px;
 	/*display:none;
 	*/
 }
-.table-item-handle-btn > div.table-item-confirm-del-area:before {
+.table-item-handle-btn > div.table-item-confirm-del-area:before,
+.table-item-handle-remove-btn > div.table-item-confirm-del-area:before
+{
 	content:' ';
 	position:absolute;
 	top:-6px;
@@ -5613,7 +5649,7 @@ font-size:12px;
 	display:inline-block;
 	position:absolute;
 	top:3px;
-	left:138px;
+	left:150px;
 	background-image:url(../../images/pr-sprites.png);
 	background-repeat:no-repeat;
 	background-position:-125px -1px;
@@ -7826,4 +7862,10 @@ span.custom-table-left-arrow {
 }
 .wid-160{
 	width:160px;
+}
+.padd-t28{
+	padding-top:28px;
+}
+.line-hei{
+	line-height:26px;
 }
