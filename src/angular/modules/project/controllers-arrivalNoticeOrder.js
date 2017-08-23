@@ -526,7 +526,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
           if (results[1].code === 200) {
             $scope.barCodeDataList = results[1].data;
           }
-        })  // http://localhost:3000/src/dt/rest/arrivalNoticeOrder/get.json
+        })
 
       }
       catch(err) {
@@ -780,7 +780,7 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
   function barcodePrintDialogItemController ($scope, modal, alertOk, alertWarn, alertError, requestData, OPrinter, $timeout) {
     $scope.originData = [];
 
-    // 不可修改的系统配置的数量原始值
+    // 原始不可变的系统配置的原始值
     var _originDataList = [];
 
     // 换算后的单位显示字符串
@@ -793,25 +793,35 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
     }
 
     // 用户修改数量后的操作
-    $scope.chgThisUnitQuantity = function (unitNumber, index) {
-      // 检测用户输入的值是否大于系统配置的原始值
-      if (unitNumber > _originDataList[index].unitNumber) {
-        for(var i = 0; i < $scope.mItem.stockBatch.length; i++) {
-          $scope.mItem.stockBatch[i].unitNumber = _originDataList[i].unitNumber;
+    $scope.chgThisUnitQuantity = function (unitNumber, index, batchTotal) {
+      if (index - 1 < 0) {    // 当前修改数量的节点没有上一级节点
+        var _num = parseInt((batchTotal - unitNumber * _originDataList[index].ratios) / _originDataList[index+1].ratios, 10);
+
+        if (_num < 0) {
+          $scope.mItem.stockBatch[index].unitNumber = $scope.originData[index].unitNumber;
+          $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber;
+        } else {
+          $scope.mItem.stockBatch[index+1].unitNumber = _num;
+          angular.copy($scope.mItem.stockBatch, $scope.originData);
+        }
+      } else {     // 当前修改数量的节点有上一级节点
+        var _tmp = 0;
+        for (var i = 0; i < $scope.mItem.stockBatch.length; i++) {
+          if (i < index) {
+            _tmp += $scope.mItem.stockBatch[i].unitNumber * $scope.mItem.stockBatch[i].ratios;
+          }
         }
 
-        for(var j = 0; j < $scope.originData.length; j++) {
-          $scope.originData[j].unitNumber = _originDataList[j].unitNumber;
-        }
+        var _num = parseInt((batchTotal - (_tmp + unitNumber * _originDataList[index].ratios)) / _originDataList[index+1].ratios, 10);
 
-        return;
+        if (_num < 0) {
+          $scope.mItem.stockBatch[index].unitNumber = $scope.originData[index].unitNumber;
+          $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber;
+        } else {
+          $scope.mItem.stockBatch[index+1].unitNumber = _num;
+          angular.copy($scope.mItem.stockBatch, $scope.originData);
+        }
       }
-
-      var _temp = ($scope.originData[index].unitNumber - unitNumber) * $scope.originData[index].ratios;
-          _temp = parseInt(_temp / $scope.originData[index+1].ratios, 10);
-
-      $scope.mItem.stockBatch[index+1].unitNumber = $scope.mItem.stockBatch[index+1].unitNumber + _temp;
-      angular.copy($scope.mItem.stockBatch, $scope.originData);
     }
 
     // 生成当前批次商品的初始化换算单位字符串
@@ -828,8 +838,6 @@ define('project/controllers-arrivalNoticeOrder', ['project/init'], function() {
         }
       });
     }
-
-
   }
 
   angular.module('manageApp.project')
