@@ -6,30 +6,35 @@
                 search-param="q">
 
         <div class="medical-stock child-project-management receive-item" ng-controller="productEnterpriseController" ng-init="getNearEffectNum()">
-            <page-main-header-component list-params="listParams"
-                                        style="min-height:130px;"
-                                        crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"生产企业管理","link":"","style":""}]'
-                                        component-title="生产企业管理">
-            </page-main-header-component>
+            <!-- <page-main-header-component list-params="listParams"
+                                        crumbs-nav='[{"name":"GSP质量管理","link":"","style":""},{"name":"生产企业管理","link":"","style":""}]'>
+            </page-main-header-component> -->
+            <!-- 面包屑 -->
+            <div class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl crumbs-" style="top:72px;padding-left:30px;">
+              <span class="mgr-s">GSP质量管理</span>
+              <span class="fa fa-angle-right mgr-s"></span>
+              <span class="mgr-s">生产企业管理</span>
+            </div>
 
+            <!-- 新建按钮 -->
+            <div class="sales-statistics head-bgc head-bg-pad mar-t33">
+              <h1 class="pr-font-20 color-black">生产企业管理</h1>
+              <div class="inline-block relative mar-t15" ng-if="$root.hasAuthor('生产企业管理新增')">
+                <a modal-right="456"
+                modal-scope="this"
+
+                modal-url="views/productEnterprise/set-product-dialog.html">
+                <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s box-sh">新建生产企业</span>
+              </a>
+            </div>
+            <div class="order-list-search code product-right" style="margin-top:28px;">
+              <input type="text" class="ipt pdr-xxl" placeholder="企业名称/编码" ng-model="listParams.q" style="  width: 286px;height: 28px;">
+              <i class=""></i>
+            </div>
+          </div>
 
             <!--主内容区域-->
-            <div class="content-wrapper" style="min-height: 240px; padding-bottom: 80px;">
-                <!-- 新建按钮 -->
-                <div class="sales-statistics">
-                    <div class="inline-block relative mgb-l " ng-if="$root.hasAuthor('生产企业管理新增')">
-                        <a modal-right="456"
-                           modal-scope="this"
-
-                           modal-url="views/productEnterprise/set-product-dialog.html">
-                            <i class="license-file"></i><span style="width:135px;padding-left: 35px" class="mgt-s box-sh">新建生产企业</span>
-                        </a>
-                    </div>
-                    <div class="order-list-search code product-right">
-                        <input type="text" class="ipt pdr-xxl" placeholder="企业名称/编码" ng-model="listParams.q" style="  width: 286px;height: 28px;">
-                        <i class=""></i>
-                    </div>
-                </div>
+            <div class="content-wrapper" style="min-height: 240px; padding-bottom: 80px;margin-top:36px;">
                 <div class="content-wrapper-main">
 
                     <div class="pr-bg-white pr-fuzzy-boundary">
@@ -81,12 +86,12 @@
                                     </div>
                                 </td>
                                 <td>{{tr.code}}</td> <!--编号-->
-                                <td>{{tr.name}}</td><!--企业名称-->
+                                <td class="text-left">{{tr.name}}</td><!--企业名称-->
                                 <td>{{tr.productLicense}}</td><!--生产许可证-->
                                 <td>{{tr.productLicensePeriod | date : 'yyyy-MM-dd'}}</td> <!--许可证有效期至-->
                                 <td>{{tr.gmpAuthentication}}</td><!--GMP认证-->
                                 <td>{{tr.gmpAuthenPeriod | date : 'yyyy-MM-dd'}}</td><!--GMP有效期至-->
-                                <td>{{tr.address}}</td><!--企业注册地址-->
+                                <td class="text-left">{{tr.address}}</td><!--企业注册地址-->
 
                             </tr>
                             </tbody>
