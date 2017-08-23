@@ -3780,7 +3780,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
       //隐藏选择窗口
       function hideMenu() {
-        console.log("hideMenu");
         $("."+selectDivClass).fadeOut("fast");
         $("body").unbind("mousedown", onBodyDown);
       }
@@ -3832,6 +3831,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           "width": "@?"
         },
         link: function ($scope, $element, $attrs) {
+          // 设置标志位，标识是否已加载完成数据
+          var _loadFlag = false;
 
           var suff=new Date().getTime();
             var urlKey="zTreeSelect";
@@ -3851,11 +3852,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
            var display =$element.css('display');
 
            //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
-            if(display == 'none'){
-              getData();
-            }
+           if(!_loadFlag){
+             getData();
+           }
 
-            //getData();
+            // getData();
             var cityObj = $element;
             var cityOffset = $element.offset();
             //显示div
@@ -3915,6 +3916,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if(maskObj)maskObj.hide();
               var data = results[0];
               zTree_init($("#"+zTreeSelectDivId),data,$scope);
+
+              // 设置标志位
+              _loadFlag = true;
 
               if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
 
@@ -4135,9 +4139,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }
 
 
+
     /**
-      药械订单列表-采购
-    */
+   * @Description:   业务流程图
+     rest/authen/businessFlow/getByBusinessKey.json
+   * @author liumingquan
+   * @date 2016年12月15日 下午4:32:59
+
+    用法：
+    <business-flow-show business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show>
+
+  */
     function businessFlowShow() {
       return {
         restrict: 'EA',
@@ -4146,6 +4158,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             businessType: "@"
         },
         templateUrl:  Config.tplPath +'tpl/project/businessFlowShow.html',
+        link: function ($scope, element, $attrs,ngModel) {
+
+        }//link
+      };
+    }
+
+
+    /**
+   * @Description:     多个业务流程图
+     rest/authen/businessFlow/getListByBusinessKey.json
+   * @author liumingquan
+   * @date 2016年12月15日 下午4:32:59
+
+   用法：
+   <business-flow-show-list business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show-list>
+
+   <
+  */
+    function businessFlowShowList() {
+      return {
+        restrict: 'EA',
+        scope: {
+            businessKey:"@",
+            businessType: "@"
+        },
+        templateUrl:  Config.tplPath +'tpl/project/businessFlowShowList.html',
         link: function ($scope, element, $attrs,ngModel) {
 
         }//link
@@ -4424,6 +4462,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     angular.module('manageApp.main')
     .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
+    .directive("businessFlowShowList", [businessFlowShowList])//业务单流程展示
     .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
       .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
