@@ -241,15 +241,13 @@
                             <!--ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"-->
 
                             <input type="checkbox"
-                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.id) && itemInArray(item.id,formData.orderMedicalNos,'id')&& itemInArray(item.lineNumber,formData.orderMedicalNos,'relLineNumber');
-                                       item.disabled =  (itemInArray(item.id,formData.orderMedicalNos,'id')   || item.outgoingQuantity<1);"
+                                   ng-init="item.handleFlag= compareOrderId(dialogData.relId,scopeData.id) && itemInArray(item.lineNumber,formData.orderMedicalNos,'lineNumber')&& itemInArray(item.lineNumber,formData.orderMedicalNos,'lineNumber');
+                                       item.disabled =  (itemInArray(item.lineNumber,formData.orderMedicalNos,'lineNumber')   || item.outgoingQuantity<1);"
                                    ng-disabled="!compareOrderId(dialogData.relId,scopeData.id) || item.disabled"
                                    class="selectOne cur-pot" id='salasChangeOrderDialog_{{$index+2}}'
                                    ng-model="item.handleFlag"
-                                   ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'id');">
+                                   ng-click="handleItemClickEvent(item,scopeData.orderMedicalNos,'lineNumber');">
                             <label for="salasChangeOrderDialog_{{$index+2}}"></label>
-
-
                         </td>
 
                         <td class="text-center">{{item.code}}</td>

@@ -273,7 +273,7 @@
                          ng-change="changeWarehouse(formData.warehouseId,formData.orderMedicalNos)"
                          ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
                          scope-data="warehouseList">
-                   <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                   <option ng-init="formData.warehouseId=warehouseList[0].value" ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                  </select>
                  <!-- <select ng-if="formData.orderBusinessType=='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
@@ -409,7 +409,7 @@
                                ng-model="tr.warehouseId"
                                ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
                                scope-data="warehouseList">
-                         <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                         <option ng-init="tr.warehouseId=warehouseList[0].value" ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                        </select>
                      </td>
                      <!-- 预入仓库 -->
