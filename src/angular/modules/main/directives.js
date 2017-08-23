@@ -3858,7 +3858,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
            if(!_loadData){
              getData();
            }else{
-               zTree_init($("#"+zTreeSelectDivId),_loadData,$scope);
+              //button 与zTreeSelectDivId 父子 div，防止点击ztree节点加载数据
+              if(display == 'none'){
+                zTree_init($("#"+zTreeSelectDivId),_loadData,$scope);
+              }
            }
 
             // getData();
