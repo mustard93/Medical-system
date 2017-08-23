@@ -21,7 +21,7 @@
          <a ng-click="$root.goTo('#/saleReturnOrder/query.html')">销售退货单</a>
          > 新建销售退货单
       </p>
-      <div class="pd-c-xxl pdt-l pdb-l">
+      <div class="pd-c-xxl padd-t28 pdb-l">
         <!-- 标题 -->
         <div class="mgt-l">
           <h1 class="pr-font-20 color-black">新建销售退货单</h1>
@@ -156,7 +156,7 @@
             </div>
           </div>
 
-          <div class="flex-row color-9 pdt-m pdb-m pd-c-l" ng-init="formData.saleUserId=formData.saleUser.id">
+          <div class="flex-row color-9 pdt-m pdb-m pd-c-l line-hei" ng-init="formData.saleUserId=formData.saleUser.id">
             <span>业务部门：
               <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                       placeholder=" "
@@ -167,7 +167,7 @@
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
-            <span class="mgr-l">业务人员：
+            <span>业务人员：
               <select ng-if="initFlag"
                       class="ipt pr-short-ipt color-3" style="width:90px;"
                       data-placeholder=" "
@@ -309,7 +309,7 @@
         </div>
       </div>
       <!-- 其他信息 -->
-      <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
+      <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l mar-t20">
         <!-- 备注 -->
         <div>
           <h1 class="font-size-14 color-3">备注</h1>
@@ -324,16 +324,6 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <div
-               class="price-area relative fl-l mgr-l"
-               style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-            <em class="color-white"
-                invalid-popover
-                popover-show="formData.totalPrice>100000"
-                popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
-            </em>
-
-          </div>
 
           <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
@@ -376,6 +366,16 @@
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length || formData.totalPrice>100000">提交
           </button>
+
+      </div>
+      <div
+          class="price-area relative fl-r mgr-l"
+          style="height:100%;font-size:18px;color:#c7a77b;">总计：
+          <em class="color-white"
+          invalid-popover
+          popover-show="formData.totalPrice>100000"
+          popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+        </em>
 
       </div>
     </div>

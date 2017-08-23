@@ -2265,12 +2265,15 @@ function tableItemHandlebtnComponent (utils) {
     link: function (scope, element, attrs) {
 
       // 操作删除按钮
-      var _delBtn = $(element).find('div.table-item-handle-btn');
+
+      if ($(element).find('div').hasClass('table-item-handle-remove-btn')) {
+        var _delBtn = $(element).find('div.table-item-handle-remove-btn');
+      }else {
+        var _delBtn = $(element).find('div.table-item-handle-btn');
+      }
       // 操作删除层
       var _delArea = $(element).find('div.table-item-confirm-del-area');
       //查看入库明细
-        var _
-
 
       //绑定点击显示操作删除层
       _delBtn.on('click', function () {

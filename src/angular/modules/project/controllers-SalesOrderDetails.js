@@ -18,12 +18,6 @@ define('project/controllers-SalesOrderDetails', ['project/init'], function() {
       }
     });
 
-    // $scope.$watch('tr.discountPrice', function (newVal) {
-    //   if (isNaN(newVal)) {
-    //     $scope.tr.discountPrice = '';
-    //   }
-    // });
-
     $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
       if (relMedicalStockId && p_and_s) {

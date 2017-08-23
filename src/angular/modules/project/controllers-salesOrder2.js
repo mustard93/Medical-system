@@ -11,7 +11,7 @@ define('project/controllers-needToPurchase', ['project/init'], function() {
   function needToPurchaseEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
       modal.closeAll();
-
+      $scope.isGoNextStep = false;
       //初始化校验数据
       $scope.checkData=function(){
 
@@ -37,10 +37,6 @@ define('project/controllers-needToPurchase', ['project/init'], function() {
               });
           }
       };
-
-
-
-
 
 
       $scope.addDataItem = {};
@@ -360,8 +356,50 @@ define('project/controllers-needToPurchase', ['project/init'], function() {
 
 
       };
+      $scope.handleChoiseAllEvent = function () {
+        if ($scope.isChoiseAll) {
+          if ($scope.formData.orderMedicalNos) {
+            $scope.choisedMedicalIdList = [];
+            angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+              $scope.choisedMedicalIdList.push(data.id);
+              data.handleFlag=true;
+            });
+          }
+            $scope.isGoNextStep=true;
+        } else {
+          if ($scope.formData.orderMedicalNos) {
+            angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+              data.handleFlag=false;
+            });
+          }
+          $scope.choisedMedicalIdList = [];
+          $scope.isGoNextStep=false;
+        }
+      };
 
-
+      $scope.handleItemClickEvent = function (item) {
+        if (item.handleFlag) {    // 选中
+          if (item.id) {
+            $scope.choisedMedicalIdList.push(item.id);
+          }
+        } else {
+          for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
+            if (item.id === $scope.choisedMedicalIdList[i]) {
+              $scope.choisedMedicalIdList.splice(i,1);
+            }
+          }
+        }
+        if ($scope.choisedMedicalIdList.length) {
+          $scope.isGoNextStep=true;
+        }else {
+          $scope.isGoNextStep=false;
+        }
+        if ($scope.choisedMedicalIdList.length==$scope.formData.orderMedicalNos.length) {
+          $scope.isChoiseAll=true;
+        }else {
+          $scope.isChoiseAll=false;
+        }
+      };
       //根据资质条件判断时候允许下一步或提交
       $scope.canNextStep=function(){
 

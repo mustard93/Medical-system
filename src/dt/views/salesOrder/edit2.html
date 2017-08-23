@@ -2,7 +2,7 @@
      ng-controller="needToPurchaseEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);getCodeGenerationStrategy('购需单');checkData();"
+     callback="initFlag=true;isGoNextStep=false;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -157,6 +157,10 @@
               <table  class="table pr-table pr-new-table">
                 <thead>
                   <tr>
+                    <th  class="w-60 text-center mycheck">
+                      <input type="checkbox" class="selectAll cur-pot" id='salesOrder_1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                      <label for="salesOrder_1"></label>
+                    </th>
                     <th class="text-center">商品编号</th>
                     <th class="text-left">商品通用名</th>
                     <th class="text-left">剂型/分类</th>
@@ -170,19 +174,21 @@
                 <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
                   <tr ng-repeat="tr in formData.orderMedicalNos"
                       ng-mouseenter="areaStatus=false"
-                      table-item-handlebtn-component
                       ng-init="orderMedicalNoIds.push(tr.relId)"
-                      ng-controller="SalesOrderDetailsController">
+                    >
+                      <td class="select-td mycheck">
+                        <input
+                               type="checkbox"
+                               id="salesOrder_{{$index + 2}}"
+                               class="selectOne"
+                               name="choise-this"
+                               ng-model="tr.handleFlag"
+                               ng-click="handleItemClickEvent(tr);"
+                             >
+                      <label for="salesOrder_{{$index + 2}}"></label>
+                      </td>
                     <td class="text-center">{{tr.code}}
-                      <div class="table-item-handle-btn" ng-show="formData.orderSource != '线上订单'">
-                        <div class="table-item-confirm-del-area bg-white">
-                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                          <p class="pdt-s">
-                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
-                          </p>
-                        </div>
-                      </div>
+
                     </td><!-- 商品编号 -->
                     <td class="text-left">
                       <span
@@ -570,7 +576,7 @@
           <button type="button"
                   ng-click="submitForm('salesOrder_editForm1','submit');$root.utils.refreshHref();"
                   class="pr-btn-create-glodbg"
-                  ng-disabled="!formData.orderMedicalNos.length ||
+                  ng-disabled="!formData.orderMedicalNos.length ||!isGoNextStep ||
                                !formData.customerId ||
                                !salesOrder_editForm1.$valid ||
                                formData.contactsNull ||
