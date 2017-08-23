@@ -287,7 +287,7 @@ define('project/controllers-salesChangeOrder', ['project/init'], function() {
             var hasOrderMedicalNos = $scope.formData.receiveOrderMedicalNos;
 
 
-            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'id','id');
+            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'lineNumber','lineNumber');
             $scope.formData.receiveOrderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
             //添加到重新发货列表

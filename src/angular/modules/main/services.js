@@ -646,16 +646,19 @@ function alertOk($rootScope, modal) {
 
                   if(typeof  url == 'string'){
 
+                    //根据配置表获取标题，如果没有则取当前tab的标题。
+                      var tabName= $rootScope.TabNameMatchByUrl.getTabNameByUrl(url);
+                      if(!tabName)tabName=$rootScope.getCurrentTab().name;
                       if(confirmMsg){
                           dialogConfirm(confirmMsg, function () {
                               $rootScope.addTab({
-                                  tabName:$rootScope.getCurrentTab().name,
+                                  tabName:tabName,
                                   tabHref:url
                               });
                           }, null);
                       }else{
                           $rootScope.addTab({
-                              tabName:$rootScope.getCurrentTab().name,
+                              tabName:tabName,
                               tabHref:url
                           });
                       }
@@ -1443,6 +1446,82 @@ e
         }//AjaxUtils
 
 
+        /**
+        *
+        根据url或者模块名获取对应的tab标题（对应关系后台配置表配置。key=优联-模块在UITab的标题定义）
+        * @Description: 记录菜单名与菜单模块名字直接的关系
+        * @author liumingquan
+        * @date 2017年8月23日
+        用法：
+        步骤1：加载配置表。
+        <div
+          ajax-url="rest/authen/configurationTable/getByKey.json?key=优联-模块在UITab的标题定义"
+           scope-data="configurationTable",
+           callback="$root.TabNameMatchByUrl.addByConfigurationTable(configurationTable)"
+        ></div>
+        步骤2：获取tab标题
+          $rootScope.TabNameMatchByUrl.getTabNameByKey(moduleType);
+          $rootScope.TabNameMatchByUrl.getTabNameByUrl(url);
+        */
+
+                function TabNameMatchByUrl() {
+                  var   routeMap={};
+                  var TabNameMatchByUrlObj={
+                    //
+                    /**
+                    * @Description:添加 优联-模块在UITab的标题定义
+                    需要在提前加载
+                    * @author liumingquan
+                    * @date 2017年8月23日
+                    用法：
+                    */
+                      addByConfigurationTable:function(data){
+                          if(!data||!data.items||data.items.length==0)return;
+                          for(var i=0;i<data.items.length;i++){
+                              var itemVO=data.items[i];
+                              if(itemVO.key)  routeMap[itemVO.key]=itemVO.value;
+                          }
+                          console.log("routeMap",routeMap);
+                      },
+                      /**
+                      * @Description: 根据url获取tab标题
+                      根据模块名查找合适的标题
+                      * @author liumingquan
+                      * @date 2017年8月23日
+                      用法：
+                      */
+                      getTabNameByUrl:function(url){
+                          // #/purchaseOrder/query.html?t=123=>#/purchaseOrder/query.html
+                           url=url.split('?')[0];
+                        // #/purchaseOrder/query.html=>['#','purchaseOrder','query.html']
+                           urlSplitArr=url.split('/');
+                           var index=0;
+                           do {
+                                var key=urlSplitArr[index];
+                                if(key&&key!=='#'){
+                                  var name=routeMap[key];
+                                  if(name)return name;
+                                }
+                                index++;
+                           } while (urlSplitArr.length>=index);
+                        return null;
+                      },
+                      /**
+                      * @Description: 根据key获取tab标题
+                      * @author liumingquan
+                      * @date 2017年8月23日
+                      用法：
+                      */
+                      getTabNameByKey:function(key){
+                        return routeMap[key];
+                      }
+                    }//TabNameMatchByUrlObj
+
+
+                    return TabNameMatchByUrlObj;
+                }//TabNameMatchByUrl
+
+
 
     angular.module('manageApp.main')
       .factory('OPrinter', OPrinter)
@@ -1458,6 +1537,8 @@ e
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
       .factory('store', store)
+      .factory('OPrinter', OPrinter)
+      .factory('TabNameMatchByUrl', TabNameMatchByUrl)
       .factory('utils', ["$timeout","$rootScope",utils])
       .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
       .factory('UICustomTable', ["$filter","utils",UICustomTable])

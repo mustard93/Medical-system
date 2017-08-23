@@ -26,9 +26,9 @@ define('project/controllers-notice', ['project/init'], function() {
         }
             //相应跳转
           // window.location.assign('#/'+notice.moduleType+'/get.html?id='+notice.relId);
+        // var tabName = $rootScope.findModuleNameByType(notice.moduleType);
 
-        var tabName = $rootScope.findModuleNameByType(notice.moduleType);
-
+        var tabName =  $rootScope.TabNameMatchByUrl.getTabNameByKey(notice.moduleType);
         console.log("tabName",tabName);
 
         $rootScope.goTo({tabHref:'#/'+notice.moduleType+'/get.html?id='+notice.relId,tabName:tabName});

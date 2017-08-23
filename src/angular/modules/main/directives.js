@@ -4236,7 +4236,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                    var url="#/"+moduleType+"/get.html?id="+relId;
 
-                   var moduleName = $rootScope.findModuleNameByType(moduleType);
+                   var moduleName = $rootScope.TabNameMatchByUrl.getTabNameByKey(moduleType);
                    tabPara.tabName= moduleName ? moduleName :'查看详细';
 
 
