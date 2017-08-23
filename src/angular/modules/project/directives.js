@@ -3841,23 +3841,24 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
       element.hover(function () {
         // //兼容处理 如果用 tab 就查找父元素，否者 就全局查找
-        // var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
+        var el= conf.useTab ?   $(element).parent('table').parent('.outside-table-d'): $('div.outside-table-d');
 
         // 不用兼容处理，直接查找，一样可以实现不全局查找。
-          if($(element).parents('table').parent('div').hasClass('outside-table-d')){
+          if($(element).parents('div').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
-          var leftShift=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+          var _leftShif=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
           // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
           var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
+
+        _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':_leftShif}).show();
         }else {
           // 没有横向滚动条的情况下
           // 向左的偏移量=当前元素的宽度-本身按钮的宽度
-          var leftShift=$(element).width()-_handleBtnGroup.width();
-          // 计算当前tr距离顶部的高度
-          var _offsetTop = $(element).offset().top - document.body.scrollTop -15;
+          var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width()-20;
+          var _offsetTop=$(element).offset().top-$(document).scrollTop()+_handleBtnGroup.height()/2+10;
+            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif}).show();
         }
-        _handleBtnGroup.css({'position':'absolute','top':_offsetTop,'left':leftShift}).show();
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
