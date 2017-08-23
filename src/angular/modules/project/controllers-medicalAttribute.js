@@ -49,6 +49,20 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
     $scope.$watch('formData.medicalAttribute.id',function(newVal,oldVal){
       if (newVal&&newVal!==oldVal) {
         $scope.isDisabled=false;
+        // 切换之后请求get接口，根据id重新获取当前选中的分类的具体信息，避免上次修改之后未保存导致的后面再重新添加的问题。
+        var _getUrl = 'rest/authen/' + $scope.attributeType + '/get.json?id='+newVal;
+        // 发送请求保存数据
+        requestData(_getUrl, {}, 'get')
+        .then(function (results) {
+          if (results[1].code==200) {
+            $scope.formData.medicalAttribute.parentCode=results[1].data.parentCode;
+            $scope.formData.medicalAttribute.levelCode=results[1].data.levelCode;
+            $scope.formData.medicalAttribute.showName=results[1].data.showName;
+          }
+        })
+        .catch(function (error) {
+          if (error) { alertError(error) }
+        });
       }
     })
     // 添加主分类
@@ -63,10 +77,6 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
             console.log("addMainClass",results);
                 $scope.$broadcast('zTreeUpdateNode',results[0]);
                 $scope.showAddClass=false;
-          // if (resutls[1].code === 200) {
-          //   alertOk('操作成功');
-          //   utils.refreshHref();
-          // }
         })
         .catch(function (error) {
           if (error) { alertError(error) }
@@ -162,28 +172,12 @@ define('project/controllers-medicalAttribute', ['project/init'], function() {
       if(!$scope.formData.medicalAttribute.id){
         return;
       }
-      console.log($scope.formData.medicalAttribute.levelCode);
         var medicalAttribute={};
           medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
           var parentCode=$scope.formData.medicalAttribute.parentCode;
           if(!parentCode)parentCode="";
           medicalAttribute.parentCode = angular.copy(parentCode + $scope.formData.medicalAttribute.levelCode);
           $scope.formData.medicalAttribute=medicalAttribute;
-
-      // if ($scope.formData.medicalAttribute.levelCode && $scope.formData.medicalAttribute.showName) {
-      //
-      //   // 设置标识符
-      //   $scope.modifyNodeInfo = false;
-      //
-      //   if (!$scope.formData.medicalAttribute.parentCode) {
-      //     $scope.formData.medicalAttribute.parentCode = '';
-      //   }
-      //
-      //   $scope.formData.medicalAttribute.parentCode = angular.copy($scope.formData.medicalAttribute.parentCode + $scope.formData.medicalAttribute.levelCode);
-      //   $scope.formData.medicalAttribute.parentId = $scope.formData.medicalAttribute.id;
-      //   $scope.formData.medicalAttribute.levelCode = null;
-      //   $scope.formData.medicalAttribute.showName = null;
-      // }
     }
 
 
