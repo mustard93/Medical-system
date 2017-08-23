@@ -17,29 +17,29 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs,TabNameMatchByUrl) {
 
         /**
          * moduleMap 为全局 conf.js 中维护；
          * 根据ModuleType 查找 ModuleName
          * @returns {*}
          */
-        $rootScope.findModuleNameByType=function(moduleType){
-            var moduleName=null;
-            if(moduleMap.length){
-                angular.forEach(moduleMap,function (item,index) {
-                    if(item.moduleType.toUpperCase() == moduleType.toUpperCase()){
-                        moduleName = item.moduleName;
-                        return;
-                    }
-                });
-            }
-            return moduleName;
-        };
+        // $rootScope.findModuleNameByType=function(moduleType){
+        //     var moduleName=null;
+        //     if(moduleMap.length){
+        //         angular.forEach(moduleMap,function (item,index) {
+        //             if(item.moduleType.toUpperCase() == moduleType.toUpperCase()){
+        //                 moduleName = item.moduleName;
+        //                 return;
+        //             }
+        //         });
+        //     }
+        //     return moduleName;
+        // };
 
         //是否使用 TAB 标签页，读取项目根目录下的conf.js 配置文件
         $rootScope.useTab= conf.useTab;
-
+        $rootScope.TabNameMatchByUrl=TabNameMatchByUrl;
         // console.log("$rootScope.useTab:",$rootScope.useTab);
 
         //  $http.defaults.withCredentials=true;
@@ -960,7 +960,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', mainCtrl])
+    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs','TabNameMatchByUrl', mainCtrl])
     .controller('tabCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils",'uiTabs', tabCtrl])
     .controller('sideNav',  ["$scope",sideNav])
     .controller('editCtrl',  ["$scope","modal","requestData","alertWarn","watchFormChange",editCtrl])
