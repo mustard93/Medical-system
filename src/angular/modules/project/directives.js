@@ -179,6 +179,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'EA',
       scope: {
           attachmentsExtend:"=",
+          enterpriseType:"=",
           ngModel: "="
       },
       replace: true,
@@ -236,6 +237,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'EA',
       scope: {
           eAttachmentsExtend:"=",
+          enterpriseType:"=",
           ngModel: "="
       },
       replace: true,

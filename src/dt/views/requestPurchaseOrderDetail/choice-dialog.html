@@ -160,9 +160,10 @@
 
             <!-- 请购单编号 -->
             <div class="inline-block" style="margin-left: 15px;">
-                <span class="color-9" style="line-height: 26px;">请购单编号 :　</span>
+                <span class="color-9" style="line-height: 26px;">请购单编号 :</span>
                 <div class="order-list-search text-left code pos-rel-tr inline-block fl-r relative">
-                    <span angucomplete placeholder=""
+                    <span ng-if="!listParams.orderCode"
+                          angucomplete placeholder=""
                           style="width: 180px; "
                           title-field="orderCode"
                           search-str-class="ipt ipt-bg-black"
@@ -174,7 +175,15 @@
                           calbak-method="setOrderCode(selectedOrderCode2)"
                         >
                     </span>
-                    <span class="receive-item-icon" style="top: 3.5px;right: 5px;"></span>
+                    <input ng-if="listParams.orderCode"
+                          placeholder=""
+                          style="width:180px;"
+                          class="inline-block ipt"
+                          ng-model="listParams.orderCode"
+                          >
+                    </input>
+                    <span ng-if="!listParams.orderCode" class="receive-item-icon" style="top: 3.5px;right: 5px;"></span>
+                    <span ng-if="listParams.orderCode" class="delete-date-icon cur-pot" style="right:10px;" ng-click="listParams.orderCode='';"></span>
                 </div>
             </div>
 
