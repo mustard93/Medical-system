@@ -125,10 +125,10 @@
 
         <!-- 按单号查找  ng-show="!dialogData.relId"-->
         <div class="pdt-s pdb-s pd-c-xl"  ng-show="!dialogData.relId">
-            <div class="inline-block relative" style="margin: 20px 0 20px -10px;">
+            <div class="inline-block relative" style="margin: 12px 0 15px -10px;">
 
                 <span angucomplete placeholder="发货单号"
-                      style="width: 390px"
+                      style="width: 240px"
                       title-field="orderCode"
                       search-fields=""
                       search-str-class="ipt"
@@ -136,7 +136,7 @@
                       class="inline-block"
                       ng-model="selectedData">
                 </span>
-                <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                <!-- <span class="receive-item-icon" style="top: 6px;right: 15px;"></span> -->
             </div>
         </div>
 
@@ -146,7 +146,7 @@
             <div class="inline-block"  style="width: 214px; margin: 0 20px; ">
                 <div class="inline-block mgr-l">
                     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="
-                    background: rgba(47,42,38,0.80);
+                    background: rgba(54,48,44,0.3);
                     box-shadow: none;
                     padding:15px;min-height:88px; min-width: 214px; max-width:412px; ">
                         <div class="inline-block customer-name "></div>
@@ -160,7 +160,7 @@
             <div class="inline-block purchaseOrder-edit" style="width: 214px;">
                 <div class="inline-block mgr-l" style="">
                     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="
-                       background: rgba(47,42,38,0.80);
+                       background: rgba(54,48,44,0.3);
                        box-shadow: none;
                      padding:15px;min-height:88px;  min-width: 214px; max-width:412px;">
                         <div class="inline-block logistics-center"></div>
@@ -174,15 +174,15 @@
             </div>
         </div>
 
-        <div ng-if="!scopeData" class="empty-table clearfix ng-scope" style="background: #6e6a67;">
+        <div ng-if="!scopeData" class="empty-panel-new clearfix ng-scope empty-panel" style="background:rgba(54,48,44,0.3);">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
         </div>
 
-            <div ng-if="scopeData" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n"
+            <div ng-if="scopeData" class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n"
 
-                 style="padding: 0; background: rgba(47,42,38,0.80);">
+                 style="padding: 0; background: rgba(54,48,44,0.3);">
                 <!-- 单据信息 -->
                 <div class="flex-row color-9 pd-c-l pdt-m pdb-m" style="border: 1px dashed rgba(0,0,0,0.10);">
                     <div class="flex-item-6">
@@ -282,13 +282,13 @@
                     </tbody>
                 </table>
 
-                <div ng-if="!scopeData" class="empty-table clearfix" style="background: #6e6a67;">
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                </div>
             </div>
-            <div ng-if="scopeData" class="bt-line flex-row" style="background: rgba(47,42,38,4.2);" >
+            <div ng-if="!scopeData" class="empty-table empty-table-new clearfix" style="background:rgba(54,48,44,0.3);">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+            <div ng-if="scopeData" class="bt-line flex-row" style="background: rgba(54,48,44,0.3);" >
                 <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
                   <span class="mgr-l color-9">制单部门：
                     <em class="color-white">{{scopeData.departmentName || '暂无'}}</em>
@@ -301,7 +301,7 @@
             </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
+                <button type="submit" style="width:160px;margin-left:500px;" ng-disabled="selectedBatchs2.length<1"
                         class="pr-btn-create-glodbg new-left-side-button"
                         ng-click="addOrderDataToList(dialogData.relId,scopeData);modal.close()">确定</button>
             </div>
