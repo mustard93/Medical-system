@@ -3818,8 +3818,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           };
           require(['ztree'], function(store) {
               $.fn.zTree.init($element, setting, zNodes);
-
-          });//require
+          });
       }
 
       return {
