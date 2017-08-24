@@ -24,9 +24,9 @@
          </a>
         <em>>新建来货通知单</em>
        </p>
-       <div class="pd-c-xxl pdt-l pdb-l  ">
+       <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
-         <div class="mgt-xl">
+         <div class="mgt-xxl mgb-m">
            <h1 class="color-black pr-font-20">{{!formData.purchaseId?'新建':'编辑'}}来货通知单</h1>
          </div>
        </div>
@@ -96,12 +96,12 @@
            <div class="bt-line">
              <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
                <div class="flex-item-6">
-                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                 <span ng-if="numberingPolicy!='auto'" class="mgr-l">单据编号：
                    <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                    <em ng-if="!formData.orderCode" class="color-red">(必填)</em>
                  </span>
-                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                 <span class="inline-block relative">
+                 <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+                 <span class="inline-block relative mgr-l">
                    <span>单据日期：</span>
                    <input ng-if="initFlag" type="text"
                           datepicker
@@ -122,7 +122,7 @@
                </div>
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
-               <span class="mgr">业务部门：
+               <span class="mgr-l">业务部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
                          ng-if="initFlag"
                          data-placeholder=" "
@@ -132,7 +132,7 @@
                          select-source="rest/authen/department/queryForSelectOption">
                  </select>
                </span>
-               <span class="mgr">业务人员：
+               <span class="mgr-l">业务人员：
                  <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -141,7 +141,7 @@
                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                  </select>
                </span>
-               <span class="mgr">采购类型：
+               <span class="mgr-l">采购类型：
                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -150,7 +150,7 @@
                  </select>
                </span>
 
-               <span class="mgr">计划到货时间：
+               <span class="mgr-l">计划到货时间：
                  <input type="text"
                         datepicker
                         class="ipt pr-short-ipt color-3"
@@ -288,7 +288,7 @@
                      </td><!-- 失效日期 -->
                      <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                      <!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price | number:2}}
+                     <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price | number:2}}
                        <!--<input type="text"-->
                               <!--class="ipt pr-ipt-60 text-right"-->
                               <!--name="strike_price{{$index}}"-->
@@ -308,7 +308,7 @@
                          <!--</a>-->
                        <!--</p>-->
                      </td>
-                    <td class="text-center">￥{{tr.strike_price*tr.quantity||tr.totalPrice  | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-right">￥{{tr.strike_price*tr.quantity||tr.totalPrice  | number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
