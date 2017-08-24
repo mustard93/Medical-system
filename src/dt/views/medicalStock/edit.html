@@ -340,7 +340,10 @@
             </div>
 
             <!--条形码   -->
-              <div class="flex-row mgt">
+    
+
+              <!--条形码-器械自动生成 -->
+              <div  ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
                 <div class="flex-item-10 text-left">
 
@@ -350,8 +353,6 @@
                          class="ipt-new-s ipt-new"
                          ng-model="formData.barcode"/>
                   <!---->
-
-                  <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
                   <a ng-if="formData.id"
                      class="color-orange"
                      style="margin-left: 10px;"
@@ -361,6 +362,17 @@
                      dialog-template="pr-dialog-submit.html"
                      callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)">重新生成
                   </a>
+
+                </div>
+              </div>
+
+              <!--条形码-药品（手动输入）   -->
+              <div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">
+                <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new-s ipt-new"
+                         ng-model="formData.barcode"/>
                 </div>
               </div>
 
