@@ -57,7 +57,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             // 当用户第一次选择客户时，检查该用户是否有证照过期
             if (newVal && oldVal !== newVal) {
                 console.log($scope.formData.customerId);
-                if ($scope.formData.customerId) {
+                // if ($scope.formData.customerId) {
                     var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
                     // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
                     requestData(_reqUrl)
@@ -70,7 +70,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
                         .catch(function (error) {
                             throw new Error(error);
                         });
-                }
+                // }
             }
 
         });
