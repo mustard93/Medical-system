@@ -27,10 +27,10 @@
         <!-- 日期过滤 -->
         <div class="inline-block" >
             <span class="color-9 mgl-m" style="position: relative;top: -3px;">有效期：</span>
-            <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+            <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtBeg">
                 <input type="text"
                        datepicker
-                       style="z-index: 15"
+                       style="z-index: 15; "
                        class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                        ng-readonly="true"
                        ng-model="listParams.createAtBeg"
@@ -38,7 +38,7 @@
                        ng-change="handleSearchFilter(listParams,dialogData.id)">
                 <span class="date-icon"></span>
             </div>
-            <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+            <div class="date-icon-outside bgco-white" ng-if="listParams.createAtBeg">
                 <input type="text"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -47,10 +47,10 @@
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
             </div>
             <span class="color-9" style="position: relative;top: -3px;">至</span>
-            <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+            <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtEnd">
                 <input type="text"
                        datepicker
-                       style="z-index: 15"
+                       style="z-index: 15;"
                        class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                        ng-readonly="true"
                        ng-model="listParams.createAtEnd"
@@ -70,7 +70,7 @@
         <!-- 关键字过滤 -->
         <div class="inline-block">
             <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-                <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q">
+                <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q" style="background: #fff;">
                 <i class=""></i>
             </div>
         </div>
@@ -87,11 +87,11 @@
           <thead>
             <tr class="bb-line-gold">
                 <th style="width: 80px;">&nbsp;</th>
-                <th>生产批号</th>
-                <th>灭菌批号</th>
-                <th>有效期至</th>
-                <th>仓库</th>
-                <th>可用量</th>
+                <th class="text-center">生产批号</th>
+                <th class="text-center">灭菌批号</th>
+                <th class="text-center">有效期至</th>
+                <th class="text-center">仓库</th>
+                <th class="text-center">可用量</th>
             </tr>
           </thead>
           <tbody class="bg-white">
@@ -110,11 +110,11 @@
                         <input type="radio" name="medicals" class="default-radio"><i></i>
                     </label>
                 </td>
-                <td class="text-left color-white" style="height:50px;"> {{item1.productionBatch}}</td>
-                <td class="text-left color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
-                <td class="color-white" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
-                <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
-                <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
+                <td class="text-center color-white" style="height:50px;"> {{item1.productionBatch}}</td>
+                <td class="text-center color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
+                <td class="color-white text-center" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
+                <td class="text-center color-white" style="height:50px;">{{item1.warehouseName}}</td>
+                <td class="text-center color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
             </tr>
           </tbody>
         </table>
