@@ -117,12 +117,12 @@
               <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">{{formData.medicalAttribute.name}}</div>
                 <span style="display:none;">{{formData.attributeId}}</span>
                 <button type="button"
-                        z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
-                        class="btn-select fl-l"
-                        width="240px"
-                        ng-model="formData.medicalAttribute"
-                        id-key="id"
-                        p-id-key="parentId">选择
+                z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
+                class="btn-select fl-l"
+                width="240px"
+                ng-model="formData.medicalAttribute"
+                id-key="id"
+                p-id-key="parentId">选择
                 </button>
                 <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.medicalAttribute.name">(必选)</em>
               </div>
@@ -340,7 +340,7 @@
             </div>
 
             <!--条形码   -->
-            <div ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
+            <div class="flex-row mgt">
               <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
               <div class="flex-item-10 text-left">
 
@@ -350,35 +350,10 @@
                        class="ipt-new-s ipt-new"
                        ng-model="formData.barcode"/>
                 <!---->
-                <!-- <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a> -->
-                <a ng-if="formData.id"
-                class="color-orange"
-                style="margin-left: 10px;"
-                handle-this-click
-                dialog-title="确认生成?"
-                dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
-                dialog-template="pr-dialog-submit.html"
-                http-method="GET"
-                callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
-                params='{"productEnterpriseCode":formData.productEnterprise.code,"medicalClassId":formData.medicalClassId}'
-                request-url="rest/authen/firstMedicalApplication/generateBarcode">
-                重新生成
-                </a>
+                <a ng-if="formData.id" ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)" class="color-orange" style="margin-left: 10px;">重新生成</a>
+
               </div>
             </div>
-
-            <!--条形码-药品（手动输入）   -->
-            <div  ng-if="formData.medicalType == '药品'" class="flex-column mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
-              <div class="flex-item-10 text-left">
-                <input type="text"
-                       class="ipt-new-s ipt-new"
-                       ng-model="formData.barcode"/>
-              </div>
-            </div>
-
-
-
 
 
             <!--品牌-->
@@ -415,32 +390,7 @@
                 </select>
               </div>
             </div>
-            <!--U8计量单位-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">U8计量单位：</label>
-              <div class="flex-item-10 text-left">
-                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"
-                        chosen
-                        default-empty="无"
-                        ng-model="formData.u8Unit"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计量单位">
-                </select>
-              </div>
-            </div>
 
-
-            <!--U8计价方式-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">U8计价方式：</label>
-              <div class="flex-item-10 text-left">
-                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
-                        chosen
-                        default-empty="无"
-                        ng-model="formData.u8ChargeType"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计价方式">
-                </select>
-              </div>
-            </div>
 
               <!--<div class="flex-row mgt">-->
                 <!--<label class="flex-item-2 text-right control-label pdr-s">剂型/管理类别：</label>-->
@@ -502,27 +452,27 @@
                          <!--name="productEnterprise"-->
                          <!--ng-model="formData.productEnterprise" />-->
 
-                   <div ng-if="initFlag" style="position: relative;">
-                           <span ng-if="!formData.productEnterprise.name"
-                                 angucomplete=""
-                                 placeholder="生产企业名称"
-                                 title-field="name"
-                                 description-field="formData.productEnterprise.name"
-                                 search-fields="{{formData.productEnterprise.name}}"
-                                 search-str-class="ipt"
-                                 url="rest/authen/productEnterprise/query"
-                                 class="inline-block"
-                                 ng-model="formData.productEnterprise">
-                           </span>
-                           <input ng-if="formData.productEnterprise.name"
-                                 placeholder="生产企业名称"
-                                 class="inline-block ipt"
-                                 ng-model="formData.productEnterprise.name"
-                                 >
-                           </input>
-                     <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
-                     <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
-                   </div>
+                         <div ng-if="initFlag" style="position: relative;">
+                                 <span ng-if="!formData.productEnterprise.name"
+                                       angucomplete=""
+                                       placeholder="生产企业名称"
+                                       title-field="name"
+                                       description-field="formData.productEnterprise.name"
+                                       search-fields="{{formData.productEnterprise.name}}"
+                                       search-str-class="ipt"
+                                       url="rest/authen/productEnterprise/query"
+                                       class="inline-block"
+                                       ng-model="formData.productEnterprise">
+                                 </span>
+                                 <input ng-if="formData.productEnterprise.name"
+                                       placeholder="生产企业名称"
+                                       class="inline-block ipt"
+                                       ng-model="formData.productEnterprise.name"
+                                       >
+                                 </input>
+                           <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                           <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
+                         </div>
 
                 </div>
               </div>
@@ -599,7 +549,7 @@
             </div>
 
 
-            <!-- <div ng-if="1==2" class="pd-v-m bt-dashed-line">
+            <div ng-if="1==2" class="pd-v-m bt-dashed-line">
               <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">注册商标：</label>
                 <div class="flex-item-10 text-left">
@@ -627,7 +577,7 @@
                          ng-model="formData.quality" />
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <div class="pd-v-m bt-dashed-line">
               <!--是否基药-->
@@ -789,21 +739,6 @@
                   </select>%
                 </div>
               </div>
-
-
-              <!--<div class="flex-row mgt">-->
-                <!--<label class="flex-item-2 text-right control-label pdr-s">采购员：</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<select class="select pr-select"-->
-                            <!--data-placeholder=" "-->
-                            <!--chosen-->
-                            <!--width="150px"-->
-                            <!--default-empty=""-->
-                            <!--ng-model="formData.buyerId"-->
-                            <!--select-source="rest/authen/user/queryForSelectOption">-->
-                    <!--</select>-->
-                <!--</div>-->
-              <!--</div>-->
 
 
           <!--新增商品辅助单位-->
@@ -1066,7 +1001,7 @@
                                    "content2":"请输入修改原因",
                                    "btnConfirm":"确定",
                                    "btnCancel":"取消",
-                                   "url":"rest/authen/medicalStock/save",
+                                   "url":"",
                                    "goUrl":"",
                                    "urlType":"save-medicalStock"
                                   }'
@@ -1083,39 +1018,6 @@
           </span>
       </form>
     </div>
-
-<!--             <span class="mgl">
-              <button ng-if="!changeFlag"
-                      class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="EditForm.$invalid">
-                      <a href="javascript:;"
-                      class="color-white"
-                      ng-click="submitForm('editForm','submit-medical')">
-                        保存并结束编辑
-                      </a>
-              </button>
-
-              <button ng-if="changeFlag"
-                      class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="EditForm.$invalid">
-                      <a href="javascript:;"
-                      class="color-white"
-                      modal-center="350"
-                      modal-scope="this"
-                      modal-data='{"title":"确认提示",
-                                   "content1":"请输入修改内容",
-                                   "content2":"请输入修改原因",
-                                   "btnConfirm":"确定",
-                                   "btnCancel":"取消",
-                                   "canHref":"submit-medical",
-                                   "url":"rest/authen/medicalStock/save"
-                                  }'
-                      tpl-url="tpl/pr-dialog-content-reason-href.html"
-                      >
-                        保存并结束编辑
-                      </a>
-              </button> -->
-
 
             </span>
 

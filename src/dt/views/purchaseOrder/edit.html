@@ -76,20 +76,20 @@
              <div class="inline-block">
                <p class="mgb-s">供应商</p>
                <div class="inline-block"
-                    ajax-if-eval="formData.supplier.id"
-                    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                    ajax-if-eval="tmp_supplier_id"
+                    ajax-url="rest/authen/supplier/get.json?id={{tmp_supplier_id}}"
                     scope-data="supplier"
-                    callback="formData.supplier=supplier;chkSupplierInfo(supplier);getHistoryFirstPrice(supplier);"
+                    callback="setformData_supplier(supplier,formData);chkSupplierInfo(supplier);"
                     alert-error>
                  <div>
-                   <span ng-if="initFlag"
+                   <span 
                          angucomplete-supplier
                          placeholder="供应商"
                          title-field="name"
                          search-fields="{{formData.supplier.name}}"
                          url="rest/authen/supplier/query.json?isFilterDefault=true"
                          ng-model="tmp_supplier"
-                         ng-model-id="formData.supplier.id"
+                         ng-model-id="tmp_supplier_id"
                          class="inline-block" style="height:28px;">
                    </span>
                    <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
