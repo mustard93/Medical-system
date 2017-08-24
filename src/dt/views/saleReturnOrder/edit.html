@@ -17,13 +17,13 @@
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">销售中心 >
+      <p class="pdb-s pdt-s crumbs pd-c-xxl"  style="top: 72px;">销售中心 >
          <a ng-click="$root.goTo('#/saleReturnOrder/query.html')">销售退货单</a>
          > 新建销售退货单
       </p>
       <div class="pd-c-xxl padd-t28 pdb-l">
         <!-- 标题 -->
-        <div class="mgt-l">
+        <div class="mgt-xl mgb-m">
           <h1 class="pr-font-20 color-black">新建销售退货单</h1>
         </div>
       </div>
@@ -157,8 +157,8 @@
           </div>
 
           <div class="flex-row color-9 pdt-m pdb-m pd-c-l line-hei" ng-init="formData.saleUserId=formData.saleUser.id">
-            <span>业务部门：
-              <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+            <span class="mgr-l">业务部门：
+              <select ng-if="initFlag" class="ipt pr-short-ipt color-3 "
                       placeholder=" "
                       chosen
                       no-first-select-source="true"
@@ -167,7 +167,7 @@
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
-            <span>业务人员：
+            <span class="mgr-l">业务人员：
               <select ng-if="initFlag"
                       class="ipt pr-short-ipt color-3" style="width:90px;"
                       data-placeholder=" "
@@ -286,8 +286,8 @@
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-center">{{item.strike_price | currency:"￥"}}</td><!-- 报价 -->
-                <td class="text-center">{{item.strike_price*item.quantity | currency: "￥"}}</td><!-- 报价 -->
+                <td class="text-right">{{item.strike_price | currency:"￥"}}</td><!-- 报价 -->
+                <td class="text-right">{{item.strike_price*item.quantity | currency: "￥"}}</td><!-- 报价 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
               </tr>
             </tbody>

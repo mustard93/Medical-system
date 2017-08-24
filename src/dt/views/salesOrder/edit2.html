@@ -118,10 +118,10 @@
             <div class="bg-white">
            <div class="bt-dashed-line">
                 <p class="pdb-m pdt-m pd-c-l ">
-                  <span class="color-9">单据来源：
+                  <span class="color-9 mgr-l">单据来源：
                     <em class="color-3">{{formData.orderSource}}</em>
                   </span>
-                  <span class="mgl color-9">业务部门：
+                  <span class="color-9 mgr-l">业务部门：
                     <select ng-if="initFlag"
                             class="ipt pr-short-ipt color-3"
                             data-placeholder=" "
@@ -132,7 +132,7 @@
                             select-source="rest/authen/department/queryForSelectOption">
                     </select>
                   </span>
-                  <span class="mgr-l mgl color-9">业务人员：
+                  <span class="mgr-l color-9">业务人员：
                     <select ng-if="initFlag"
                             class="ipt pr-short-ipt color-3" style="width:90px;"
                             data-placeholder=" "
@@ -276,9 +276,7 @@
                         <!--</a>-->
                       <!--</p>-->
                     </td>  <!--报价-->
-                    <td class="text-right relative" ng-if="formData.orderSource!='线上订单'" style="width: 140px;">
-
-                      <span style="float: right"> ￥
+                    <td class="text-right relative" style="width: 140px;" ng-if="formData.orderSource!='线上订单'">￥
                       <input type="text"
                              style="width: 90px;"
                       class="ipt pr-ipt-60 text-right"
@@ -299,7 +297,7 @@
                       </a>
                       </p>
                     </td>  <!--报价-->
-                    <td class="text-center">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
+                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
 
                     <!--
 
