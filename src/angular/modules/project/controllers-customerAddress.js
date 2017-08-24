@@ -87,6 +87,7 @@ define('project/controllers-customerAddress', ['project/init'], function() {
 
          });
        }
+
       $scope.submitFormValidator(fromId);
     };
 

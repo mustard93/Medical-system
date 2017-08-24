@@ -752,9 +752,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.tbodyList = data.data;
                               }
 
+                              if($attrs.emitLoaded){
+                                  $scope.$broadcast("tbodyListLoaded",$scope.tbodyList);
+                                  $scope.$emit("tbodyListLoaded",$scope.tbodyList)
+                              }
 
-                                $scope.$broadcast("tbodyListLoaded",$scope.tbodyList);
-                                $scope.$emit("tbodyListLoaded",$scope.tbodyList)
+
+
 
                             } else {
                                 statusInfo.isFinished = true;
