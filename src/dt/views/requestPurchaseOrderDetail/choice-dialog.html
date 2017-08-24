@@ -8,16 +8,18 @@
 "
      class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock ">
 <table-list
+
         list-data="rest/authen/requestPurchaseOrderDetail/query"
         list-params="listParams"
         search-mode="noCaseSensitive"
         search-param="q"
         list-object="listObject"
+        callback=""
 >
     <div
-     ng-controller="requestPurchaseOrderDetailDialogCtrl"
-     style="position: relative"
 
+     style="position: relative"
+     ng-controller="requestPurchaseOrderDetailDialogCtrl"
      ng-init="
         choiced=listObject.choiced;
         customerName=listObject.customerName;"
@@ -208,6 +210,8 @@
                 <thead>
                 <tr>
                     <th class="w-60 text-center mycheck">
+                        isChoiseAll::{{isChoiseAll}}
+
                         <input type="checkbox" class="selectAll cur-pot" id='otherCustomerManagement_dialog_1'
                                ng-model="isChoiseAll"
                                ng-click="handleChoiseAllEvent(tbodyList,isChoiseAll);"
