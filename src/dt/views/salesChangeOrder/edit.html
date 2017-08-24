@@ -31,7 +31,7 @@
      <!--</page-main-header-component>-->
 
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
+      <p class="pdb-s pdt-s crumbs pd-c-xxl" style="top: 72px;">销售中心 >
         <a tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html">
           <em class="color-custom-orange">销售换货单</em>
         </a>
@@ -39,7 +39,7 @@
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
-        <div>
+        <div class="mgt-m mgb-m">
           <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}销售换货单</h1>
         </div>
       </div>
@@ -61,11 +61,11 @@
          <!--客户名-->
          <div class="inline-block" ng-if="initFlag">
            <div class="inline-block mgr">
-             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:100px;">
+             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
                <div class="inline-block customer-name "></div>
                <div class="inline-block">
-                 <p class="mgb-s" style="margin-left: 20px;">客户名</p>
-                 <p class="mgb-s color-3 text-m" style="margin-left: 20px;">{{formData.customerName || "暂无"}}</p>
+                 <p class="mgb-s">客户名</p>
+                 <p class="mgb-s color-3 text-m">{{formData.customerName || "暂无"}}</p>
                </div>
              </div>
            </div>
@@ -74,9 +74,9 @@
 
          <!--退回预入物流中心-->
          <div class="inline-block mgr" ng-if="initFlag">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:100px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center"></div>
-             <div class="inline-block" style="margin-left: 10px;">
+             <div class="inline-block">
                <p class="mgb-s">退回物流中心</p>
                <p class="text-m color-3">
                  <!--<select class="ipt pr-long-ipt color-6">-->
@@ -95,12 +95,12 @@
 
          <!--出货物流中心-->
          <div class="inline-block" ng-if="initFlag" >
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:100px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center"></div>
-             <div class="inline-block" style="margin-left: 10px;">
+             <div class="inline-block">
                <p class="mgb-s">出货物流中心</p>
                <p class="text-m color-3">
-                 <select class="ipt ipt-new-select color-6"
+                 <select class="ipt ipt-new-select color-3"
                          data-placeholder=" "
                          chosen
                          ng-model="formData.outlogisticsCenterId"
@@ -455,13 +455,13 @@
                    <p ng-if="getAllBatchTotal(tr.stockBatchs,'quantity')<tr.stayCount" class="text-right color-red pdr relative">待选择：{{tr.stayCount-getAllBatchTotal(tr.stockBatchs,'quantity')}}</p>
                  </td><!-- 批号/数量 -->
 
-                 <td class="text-center" style="line-height:2.4">
+                 <td class="text-right" style="line-height:2.4">
 
                    <!--<div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>-->
 
                    {{tr.strike_price   | currency: "￥"}}</td><!-- 含税单价 -->
 
-                 <td class="text-center" style="line-height:2.4">{{tr.strike_price * tr.stayCount  | currency: "￥"}}</td><!-- 价税合计 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.strike_price * tr.stayCount  | currency: "￥"}}</td><!-- 价税合计 -->
                  <td class="text-center" style="line-height:2.4">
 
                    <!--{{tr.sterilizationBatchNumber}}-->
@@ -494,9 +494,9 @@
            <div class="flex-row color-9 pd-c-l pdt-m pdb-m" style="border-top: 1px solid rgba(209,143,0,0.20);">
              <div class="flex-item-6 text-right"></div>
              <div class="flex-item-6 text-right">
-               <span class="mgr">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
-               <span class="mgr">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
+               <span class="mgr-l">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
+               <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr-l">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd HH:mm'}}</em></span>
              </div>
            </div>
 
@@ -613,7 +613,7 @@
         </span>
         <!---->
         <span class="mgl mgt">
-          <button class="pr-btn-save-glodbg mgr-l"
+          <button class="pr-btn-save-glodbg mgr-m"
                   type="button"
                   ng-disabled="!changeFlag"
                   ng-click="submitForm('salesChangeOrder_editForm','save')">保存

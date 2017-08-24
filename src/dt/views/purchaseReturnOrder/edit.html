@@ -22,7 +22,7 @@
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
-        <div class="mgt-xl">
+        <div class="mgt-xxl mgb-m">
           <h1 class="pr-font-20 color-black">新建采购退货单</h1>
         </div>
       </div>
@@ -87,7 +87,7 @@
            </div>
         </div>
       </div>
-      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
+      <div class="pos-rel-tl order-create-btn mgb-m">
         <a ng-if="initFlag"
            modal-right="1000"
            modal-open-auto="{{!formData.orderMedicalNos.length}}"
@@ -108,11 +108,11 @@
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-row pdt-m pdb-m pd-c-l bb-dashed-line color-9">
             <div class="flex-item-6">
-              <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+              <span ng-if="numberingPolicy!='auto'" class="mgr-l">单据编号：
                 <input type="text" name="orderCode" class="ipt pr-new-short-ipt" ng-model="formData.orderCode" />
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
-              <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+              <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
               <!--<span ng-if="numberingPolicy=='auto'" class="mgr">单据日期：<em class="color-3">{{formData.orderDate || '暂无' | date : 'yyyy-MM-dd'}}</em></span>-->
               <span class="inline-block relative mgr-l">
                    <span>单据日期：</span>
@@ -130,12 +130,12 @@
             <div class="flex-item-6 text-right">
               <!-- <span class="mgl-l">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span> -->
                <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo}}</em></span> -->
-              <span class="mgl-l">状态：<em class="color-3">{{formData.orderStatus || '暂无'}}</em></span>
+              <span class="mgr-m">状态：<em class="color-3">{{formData.orderStatus || '暂无'}}</em></span>
             </div>
           </div>
 
           <div class="flex-row pdt-m pdb-m pd-c-l color-9">
-            <span class="mgr">业务部门：
+            <span class="mgr-l">业务部门：
               <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                       placeholder=" "
                       chosen
@@ -145,7 +145,7 @@
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
-            <span class="mgr">业务人员：
+            <span class="mgr-l">业务人员：
               <select ng-if="initFlag"
                       class="ipt pr-short-ipt color-3" style="width:90px;"
                       data-placeholder=" "
@@ -242,8 +242,8 @@
                   <p class="mgt-s color-red" ng-if="quantityError">实退数量不能大于当前可退数量:{{item.returnQuantity}}</p>
                 </td><!-- 实退数量 -->
 
-                <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 含税单价 -->
-                <td class="text-center">￥{{item.totalTaxPrice | number:2}}</td><!-- 价税合计 -->
+                <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 含税单价 -->
+                <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td><!-- 价税合计 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                 <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->

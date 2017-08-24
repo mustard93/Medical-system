@@ -92,8 +92,8 @@
 
                             <li ng-repeat="item in formData.uploadFiles track by $index" class="file-item">
                                 <div class="close-btn" ng-click="formData.uploadFiles.splice($index,1);"></div>
-                                <a ng-if="$root.utils.isPicture(item.key);"><img src="{{item.key}}" alt=""></a>
-                                <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}"><div class="icon-file"></div></a>
+                                <a ng-if="$root.utils.isPicture(item.key);"  ng-src="{{item.key}}" modal-img-show><img src="{{item.key}}" alt=""></a>
+                                <a ng-if="!$root.utils.isPicture(item.key);" href="{{item.key}}" download="{{item.originalFileName}}"><div class="icon-file"></div></a>
                                 <p class="text-ellips-s mgt-s" title="{{item.originalFileName}}">{{item.originalFileName}}</p>
                             </li>
                         </ul>

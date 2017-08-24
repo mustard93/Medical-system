@@ -265,12 +265,13 @@
                   <td class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
-                  <td class="text-center relative relative" style="white-space: nowrap;"
+                  <td class="text-right relative relative" style="white-space: nowrap;width: 140px;"
                       ng-if="initFlag"
                       ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
                       scope-data="strikePrice"
                       callback="item.strike_price?item.strike_price=item.strike_price:item.strike_price=strikePrice[item.relId].value">￥
                     <input type="text"
+                           style="width: 90px;"
                            class="ipt pr-ipt-60 text-right"
                            name="strike_price{{$index}}"
                            ng-model="item.strike_price"
@@ -289,7 +290,7 @@
                             </a>
                           </p>
                   </td><!-- 报价 -->
-                  <td class="text-center">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
                   <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>

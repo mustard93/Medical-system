@@ -26,7 +26,7 @@
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
-         <div class="mgt-l">
+         <div class="mgt-xl mgb-m">
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
        </div>
@@ -177,12 +177,12 @@
            <div class="bt-line">
              <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
                <div class="flex-item-6">
-                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+                 <span ng-if="numberingPolicy!='auto'" class="mgr-l">单据编号：
                    <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                    <em ng-if="!formData.orderCode" class="color-red">(必填)</em>
                  </span>
-                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                 <span class="inline-block relative">
+                 <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+                 <span class="inline-block relative mgr-l">
                    <span>单据日期：</span>
                    <span class="date-icon-outside">
                      <input ng-if="initFlag" type="text"
@@ -195,7 +195,7 @@
                    </span>
                  </span>
                  <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
-                 <span class="mgr">审核人：<em class="color-3">暂无</em></span>
+                 <span class="mgr-l">审核人：<em class="color-3">暂无</em></span>
                </div>
                <div class="flex-item-6 text-right">
                  <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
@@ -204,7 +204,7 @@
                </div>
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
-               <span class="mgr">业务部门：
+               <span class="mgr-l">业务部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
                          data-placeholder=" "
                          chosen
@@ -213,7 +213,7 @@
                          select-source="rest/authen/department/queryForSelectOption">
                  </select>
                </span>
-               <span class="mgr">业务人员：
+               <span class="mgr-l">业务人员：
                  <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -222,7 +222,7 @@
                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                  </select>
                </span>
-               <span class="mgr">采购类型：
+               <span class="mgr-l">采购类型：
                  <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -231,7 +231,7 @@
                  </select>
                </span>
 
-               <span class="mgr">计划到货日期：
+               <span class="mgr-l">计划到货日期：
                  <span class="date-icon-outside">
                    <input type="text"
                           datepicker
@@ -243,14 +243,14 @@
                    </span>
                  <span class="color-red">(必填)</span>
                 </span>
-               <span class="mgr">合同号：
+               <span class="mgr-l">合同号：
                  <input type="text"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.contractNo"
                       >
                </span>
-               <span class="mgr">预入仓库：
+               <span class="mgr-l">预入仓库：
                  <!-- <select ng-if="formData.orderBusinessType!='直发采购'" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          default-empty="无"
@@ -317,6 +317,7 @@
                            </p>
                          </div>
                        </div>
+                     </td>
 
                      <!-- 商品编号 -->
                      <td class="text-left" style="width: 300px;" >
@@ -415,8 +416,9 @@
                        </select>
                      </td>
                      <!-- 预入仓库 -->
-                     <td class="text-center relative" style="white-space:nowrap;line-height:2.4">￥
+                     <td class="text-right relative" style="white-space:nowrap;line-height:2.4;width: 140px;">￥
                        <input type="text"
+                              style="width: 90px;"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
                               ng-model="tr.strike_price"
