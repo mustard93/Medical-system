@@ -487,6 +487,7 @@ define('project/controllers-QualificationApply', ['project/init'], function() {
 
 
       //获取条形码
+      debugger;
       $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
 
           var data={

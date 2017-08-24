@@ -724,7 +724,8 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
 
         modal.closeAll();
 
-
+        $scope.listParams.pageSize=3;
+        $scope.listParams.pageNo=1;
         //监控选择的发货单变化
         $scope.$watch('scopeData',function (newVal,oldVal){
             if(newVal){
@@ -815,7 +816,45 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
             return flag;
         };
-        
+
+
+        $scope.$watch('listParams',function (p1, p2, p3) {
+
+                console.log("listParams",$scope.listParams);
+
+        });
+
+
+        $scope.$on('tbodyListLoaded',function (p1, p2) {
+            console.log("p1, p2",p1, p2);
+            $scope.isCheckAll();
+        });
+
+
+
+        $scope.isCheckAll=function () {
+            //$scope.isChoiseAll=false;
+            console.log("tbodyList",$scope.tbodyList);
+
+            var count =0;
+
+            angular.forEach($scope.tbodyList,function (item) {
+
+                console.log($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid'));
+                if($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid')){
+                    count++;
+                }
+            });
+
+            console.log("$scope.tbodyList.length == count",$scope.tbodyList.length , count);
+            if($scope.tbodyList.length == count){
+                $scope.isChoiseAll = true;
+            }else{
+                $scope.isChoiseAll = false;
+            }
+
+            console.log("isChoiseAll",$scope.isChoiseAll);
+        }
     }
 
 
