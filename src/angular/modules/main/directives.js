@@ -3612,8 +3612,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
                 }
               };
-              require(['ztree'], function(store) {
 
+              require(['ztree'], function(store) {
                 var treeObj= $.fn.zTree.init($element, setting, zNodes);
 
                 //自动展开选中项。用于重新加载数据后，定位到数据
@@ -3621,6 +3621,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     treeObj.selectNode($scope.selectTreeNode);
                             // treeObj.expandNode($scope.selectTreeNode, true, true, true);
                 }
+
                 //使用广播方式，操作ztree节点
                   //添加节点 modify by liumingquan
                 $scope.$on("zTreeAddNode", function(evt,node) {
@@ -3633,9 +3634,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 //更新节点  modify by liumingquan
                 $scope.$on("zTreeUpdateNode", function(evt,node) {
+
                     console.log('$scope.$on("zTreeUpdateNode",',evt,node);
-                      var id=node[setting.data.simpleData.idKey];
+
+                    var id=node[setting.data.simpleData.idKey];
                     var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+
                     if(treeNode==null){//tree中没有，说明是新添加的，
                         var parntId=node[setting.data.simpleData.pIdKey];
                         var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
@@ -3818,8 +3822,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           };
           require(['ztree'], function(store) {
               $.fn.zTree.init($element, setting, zNodes);
-
-          });//require
+          });
       }
 
       return {
@@ -3832,7 +3835,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         },
         link: function ($scope, $element, $attrs) {
           // 设置标志位，标识是否已加载完成数据
-          var _loadFlag = false;
+          var _loadData = null;
 
           var suff=new Date().getTime();
             var urlKey="zTreeSelect";
@@ -3852,8 +3855,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
            var display =$element.css('display');
 
            //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
-           if(!_loadFlag){
+           if(!_loadData){
              getData();
+           }else{
+              //button 与zTreeSelectDivId 父子 div，防止点击ztree节点加载数据
+              if(display == 'none'){
+                zTree_init($("#"+zTreeSelectDivId),_loadData,$scope);
+              }
            }
 
             // getData();
@@ -3915,10 +3923,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             .then(function(results) {
               if(maskObj)maskObj.hide();
               var data = results[0];
+              _loadData=data;
               zTree_init($("#"+zTreeSelectDivId),data,$scope);
-
-              // 设置标志位
-              _loadFlag = true;
 
               if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
 

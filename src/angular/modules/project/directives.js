@@ -179,6 +179,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'EA',
       scope: {
           attachmentsExtend:"=",
+          enterpriseType:"=",
           ngModel: "="
       },
       replace: true,
@@ -236,6 +237,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'EA',
       scope: {
           eAttachmentsExtend:"=",
+          enterpriseType:"=",
           ngModel: "="
       },
       replace: true,
@@ -2268,6 +2270,7 @@ function tableItemHandlebtnComponent (utils) {
 
       if ($(element).find('div').hasClass('table-item-handle-remove-btn')) {
         var _delBtn = $(element).find('div.table-item-handle-remove-btn');
+
       }else {
         var _delBtn = $(element).find('div.table-item-handle-btn');
       }
@@ -2284,7 +2287,12 @@ function tableItemHandlebtnComponent (utils) {
         // 当前行序号
         // var _index = attrs.tableItemIndex,
         //     _orderMedicalNos = scope.formData.orderMedicalNos;
+        // 特殊处理，移除时需要显示title的问题
+        if ($(element).find('div').hasClass('table-item-handle-remove-btn')) {
 
+          $('.table-item-handle-btn').removeAttr('title');
+          $('.table-item-handle-btn').attr('title','移除');
+        }
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop;
         // 计算当前页面宽度
