@@ -13,68 +13,73 @@
           <h1 class="pr-font-22 color-black">采购入库单</h1>
           </div>
         </div>
-        <span class="mgr color-999">仓库</span>
-        <select class="pr-select select-wd mgr-xl"
-         chosen
-          ng-model="listParams.warehouseId"
-          default-empty="全部"
-          select-source="rest/authen/warehouse/queryForSelectOption">
-        </select>
+          <div class="mgr-l inline-block">
+            <span class="color-999">仓库：</span>
+            <select class="pr-select select-wd mgr-xl"
+             chosen
+              ng-model="listParams.warehouseId"
+              default-empty="全部"
+              select-source="rest/authen/warehouse/queryForSelectOption">
+            </select>
+          </div>
 
-        <span class="mgr color-999">采购入库类型</span>
-        <select class="pr-select select-wd mgr-xl"
-                chosen
-                ng-model="listParams.type"
-                default-empty="全部"
-                select-source="rest/authen/wInstockOrder/queryInstockTypeForSelectOption?instockType=采购入库">
-        </select>
+          <div class="mgr-l inline-block">
+            <span class="color-999">采购入库类型：</span>
+            <select class="pr-select select-wd mgr-xl"
+                    chosen
+                    ng-model="listParams.type"
+                    default-empty="全部"
+                    select-source="rest/authen/wInstockOrder/queryInstockTypeForSelectOption?instockType=采购入库">
+            </select>
+          </div>
 
-      <span class="mgr color-999">入库日期</span>
-      <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+           <div class="mgr-l inline-block">
+              <span class="posit-t">入库日期：</span>
+              <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                         ng-readonly="true"
 
-                 ng-model="listParams.createAtBeg">
-          <span class="date-icon"></span>
-      </div>
-      <div class="date-icon-outside" ng-if="listParams.createAtBeg">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+                         ng-model="listParams.createAtBeg">
+                  <span class="date-icon"></span>
+              </div>
+              <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                         ng-readonly="true"
 
-                 ng-model="listParams.createAtBeg">
-          <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
-      </div>
-      <span class="mgr">至</span>
-      <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+                         ng-model="listParams.createAtBeg">
+                  <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
+              </div>
+              <span class="mg-s-x posit-t">至</span>
+              <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                         ng-readonly="true"
 
-                 ng-model="listParams.createAtEnd"
-                 invalid-popover
-                 popover-show="listParams.createAtEnd<listParams.createAtBeg"
-                 popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
-          <span class="date-icon"></span>
-      </div>
-      <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
+                         ng-model="listParams.createAtEnd"
+                         invalid-popover
+                         popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                         popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                  <span class="date-icon"></span>
+              </div>
+              <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                         ng-readonly="true"
 
-                 ng-model="listParams.createAtEnd"/>
-          <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
-      </div>
+                         ng-model="listParams.createAtEnd"/>
+                  <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
+              </div>
+           </div>
 
+      <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
 
-      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-
-        <input type="text" class="ipt pdr-xxl" placeholder="供应商名称 / 单据编号" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="供应商名称 / 单据编号" ng-model="listParams.q" style="margin-top: 1px;">
         <i class=""></i>
       </div>
       </div>
