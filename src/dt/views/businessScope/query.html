@@ -6,17 +6,29 @@
                 search-param="q">
 
         <div class="medical-stock child-project-management receive-item" ng-controller="businessScopeController" ng-init="getNearEffectNum()">
-            <page-main-header-component list-params="listParams"
-                                        style="min-height:130px;"
-                                        crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"经营范围管理","link":"","style":""}]'
-                                        component-title="经营范围管理">
-            </page-main-header-component>
+            <!--<page-main-header-component list-params="listParams"-->
+                                        <!--style="min-height:130px;"-->
+                                        <!--crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"经营范围管理","link":"","style":""}]'-->
+                                        <!--component-title="经营范围管理">-->
+            <!--</page-main-header-component>-->
+
+            <div class="header-info relative mgb-l">
+                <p class="pdb-s pdt-s crumbs pd-c-xxl crumbs-">基础设置 >
+                        <em class="">经营范围管理</em>
+                </p>
+                <div class="pd-c-xxl pdt-l pdb-l">
+                    <!-- 标题 -->
+                    <div class="mgt-xl mgb-m">
+                        <h1 class="color-black pr-font-20">经营范围管理</h1>
+                    </div>
+                </div>
+            </div>
 
 
             <!--主内容区域-->
-            <div class="content-wrapper">
+            <div class="content-wrapper ">
                 <!-- 新建按钮 -->
-                <div class="sales-statistics ">
+                <div class="sales-statistics mgt-xxl">
                     <div class="business-heder">
                         <div ajax-url="rest/authen/systemSetting/getByParameter?parameter=经营范围策略"
                              scope-data="idData">
@@ -24,8 +36,13 @@
                                   ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessScopeLimit"
                                     scope-data="fromData">
                                 <h1 class="flex-item-1">经营范围控制策略:</h1>
-                                <label class="mgr" ng-repeat="item in fromData track by $index">
-                                    <input type="radio" name="经营范围控制" ng-click="businessReturnData(item.value,idData.id)"  ng-checked="idData.value==item.value?true:false" value="{{item.value}}">{{item.text}}
+                                <label class="mgr-l relative mgt-l" ng-repeat="item in fromData track by $index">
+                                    <input type="radio" name="经营范围控制"
+                                           style="position: absolute;"
+                                           ng-click="businessReturnData(item.value,idData.id)"
+                                           ng-checked="idData.value==item.value?true:false"
+                                           value="{{item.value}}">
+                                    <em style="margin-left: 18px;font-weight: normal;" class="color-black">{{item.text}}</em>
                                 </label>
                                 <!--<label class="mgr"><input type="radio" name="1" value="仅提示">仅提示</label>-->
                                 <!--<label class="mgr"><input type="radio" name="1" value="限制交易">限制交易</label>-->
@@ -107,14 +124,11 @@
             </div>
 
             <!-- 导航 -->
-            <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+            <div class="clearfix pd-c-m mgt" ng-if="tbodyList.length">
                 <div class="fr">
                     <pagination status="status"></pagination>
                 </div>
             </div>
-        </div>
-        <div class="" style="min-height:100px;">
-
         </div>
     </table-list>
 </div>
