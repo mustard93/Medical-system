@@ -3853,21 +3853,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           var _width = $attrs.width ? $attrs.width : '100%';
 
           var tmp_template='<div id="'+zTreeSelectshowDivId+'" class="'+selectDivClass+'" style="display:none;position:absolute;width:'+_width+'"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
-         $element.append(tmp_template);
-
+        //  $element.append(tmp_template);
+         $(document.body).append(tmp_template);
          //组件的显示，隐藏，及触发事件
          function showZTreeSelect($element){
            var display =$element.css('display');
+            getData();
 
-           //修复display == 'none' 判断不够准确，1546 刷新页面，品种管理页面->点击首营品种申请，商品分类下拉为空，请修改
-           if(!_loadData){
-             getData();
-           }else{
-              //button 与zTreeSelectDivId 父子 div，防止点击ztree节点加载数据
-              if(display == 'none'){
-                zTree_init($("#"+zTreeSelectDivId),_loadData,$scope);
-              }
-           }
 
             // getData();
             var cityObj = $element;
