@@ -1,4 +1,4 @@
-<div class="sale-return-order right-side pr-bg-black3 relative arrivalNotaice-order-dialog"
+<div class="sale-return-order right-side pr-bgc6 relative arrivalNotaice-order-dialog"
      ng-controller="arrivalBarcodePrintDialogController"
      ng-init="scopeData={num:1}">
 
@@ -33,7 +33,7 @@
                  ng-controller="barcodePrintDialogItemController"
                  ng-init="saveOriginData(mItem.stockBatch);getConverString(mItem)">
               <div class="bb-dashed-gold pd-c-l">
-                <div class="flex-row pd-v-l">
+                <div class="flex-row pdd-t15b8">
                   <div class="flex-item-6">
                     <span>商品通用名：</span><span class="color-white">{{item.productName}}</span>
                   </div>
@@ -41,7 +41,7 @@
                     <span>商品编号：</span><span class="color-white">{{item.productCode}}</span>
                   </div>
                 </div>
-                <div class="flex-row pdb-l">
+                <div class="flex-row pdd-b15">
                   <div class="flex-item-6">
                     <span>数量：{{mItem.batchNumber}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}} = </span>
                     <span class="color-white">{{converedStr}}</span>
@@ -58,7 +58,7 @@
                   <div class="flex-item-6">
                     <span class="mgr-xl">
                       <input type="number"
-                             class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80 text-right"
+                             class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80"
                              ng-model="uItem.unitNumber"
                              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                              ng-change="chgThisUnitQuantity(uItem.unitNumber,$index,mItem.batchNumber)">   <!-- ng-change="chgThisUnitQuantity(uItem.unitNumber,$index)" -->
@@ -75,12 +75,12 @@
       </div>
       <div class="text-center print-btn pr-bg-black1">
         <button type="button"
-                class="pr-btn-save-glodbg mgr-l"
+                class="pr-btn-save-glodbg mgr-l wid120 mar-t6"
                 ng-disabled="!scopeData.num || notInstallPrintPlusin "
                 ng-click="barCodePrint('preview')">打印预览
         </button>
         <button type="button"
-                class="pr-btn-save-glodbg"
+                class="pr-btn-save-glodbg wid120 mar-t6"
                 ng-disabled="!scopeData.num || notInstallPrintPlusin"
                 ng-click="barCodePrint('print')">打印
         </button>
