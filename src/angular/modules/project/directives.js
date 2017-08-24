@@ -2686,14 +2686,24 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             $scope.searchStr = $scope.searchFields;
 
-            //绑定返回对象的某个属性值。
-            if($attrs.ngModelId||$attrs.ngModelData){
-              $scope.$watch("ngModel", function(value) {
-                if(!value)return;
-                $scope.ngModelId=value.id;
-                $scope.searchStr=value.data.name;
-                $scope.ngModelData=value.data;
 
+
+
+
+
+            //绑定返回对象的某个属性值。
+            if($attrs.ngModelId||$attrs.ngModelData||$attrs.callback){
+              $scope.$watch("ngModel", function(value) {
+
+                if(value){
+                  $scope.ngModelId=value.id;
+                  $scope.searchStr=value.data.name;
+                  $scope.ngModelData=value.data;
+                };
+                
+                if ($attrs.callback) {
+                  $scope.$eval($attrs.callback);
+                }
               }, true);
             }
 
