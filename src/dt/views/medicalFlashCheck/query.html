@@ -11,7 +11,7 @@
     </p>
     <div class="pd-c-xxl pdt-l pdb-l">
       <!-- 标题 -->
-      <div class="mgb mgt-xl">
+      <div class="mgb mgt-xxl">
         <h1 class="pr-font-20 color-black">药械闪查</h1>
       </div>
     </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="inline-block mgr-s mgt-l relative">
-          <button ng-disabled="!medicalData.id"  ng-class="{'disabled':(!medicalData.id)}" type="button" style="width:120px;height:36px;" class="mgt-s pr-btn-save-glodbg mgr"
+          <button ng-disabled="!medicalData.id"  ng-class="{'disabled':(!medicalData.id)}" type="button" style="width:120px;height:36px;box-shadow: 0 0 10px rgba(199, 167, 123, .9);" class="mgt-s pr-btn-save-glodbg mgr"
           ng-click="medicalData.type='商品';medicalSearch(medicalData.id,medicalData.productionBatch);
           stockSearch(medicalData.id,medicalData.productionBatch);inOutStockSearch(medicalData.id,medicalData.productionBatch);">查询
 
@@ -59,17 +59,17 @@
               <p class="line-hei-10">
                 商品信息
               </p>
-              <i class="mgl"></i>
+              <i class="" style="margin-left: 13px"></i>
             </div>
             <div class="mgl-xxl inline-block cur-pot" ng-click="medicalData.type='价格'" ng-class="{'medical-active':(medicalData.type=='价格')}">
               <p class="line-hei-10">
                 进销价格
               </p>
-              <i class="mgl"></i>
+              <i class="" style="margin-left: 13px"></i>
             </div>
         </div>
         <!-- 显示商品信息 -->
-        <div class="pd-c-v-s flex-item-12 flex-row padd-t0 "  ng-if="scopeData&&medicalData.type=='商品'">
+        <div class="pd-c-v-m flex-item-12 flex-row padd-t0 "  ng-if="scopeData&&medicalData.type=='商品'">
           <!-- 第一行 -->
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
             <p>商品通用名称</p><p class="color-3 mgt-s">{{scopeData.approvedName}}</p>
@@ -191,7 +191,7 @@
     </div>
     <div class="flex-item-5 flex-row" >
       <div class="pd-c-v-l mgl-l" style="width:98%;background: rgba(255,255,255,0.40);min-height:780px;" >
-        <p class="mgt-l mgl-m text-bold color-6" >
+        <p class="mgt-l mgl-m text-bold color-6 text-n" >
           出入库记录
         </p>
         <div class="mgt mgl-m">
@@ -199,7 +199,7 @@
           <div class="date-icon-outside" ng-if="!stockData.createAtBeg">
               <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg"
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)">
@@ -208,7 +208,7 @@
           <div class="date-icon-outside" ng-if="stockData.createAtBeg">
               <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg">
               <span class="delete-date-icon" style="z-index:10;" ng-click="stockData.createAtBeg='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)"></span>
@@ -217,7 +217,7 @@
           <div class="date-icon-outside" ng-if="!stockData.createAtEnd">
               <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"
                      invalid-popover
@@ -229,7 +229,7 @@
           <div class="date-icon-outside" ng-if="stockData.createAtEnd">
               <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"/>
               <span class="delete-date-icon" style="z-index:10;" ng-click="stockData.createAtEnd='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)"></span>
@@ -240,7 +240,7 @@
         <div class="scroll-out-div mgt" style="overflow-y: auto;">
           <div class="mgl-m flex-item-12 " ng-if="inOutStockData.length" >
             <div class="flex-item-12 flex-row" ng-repeat="yearData in inOutStockData">
-              <p class="pd-c-v-s color-3 flex-item-12 text-left " style="text-indent:50px;">
+              <p class="pd-c-v-s color-3 flex-item-12 text-left pr-fw-701" style="text-indent:50px;">
                 {{yearData.year}}
               </p>
               <div class="text-s relative flex-item-12" ng-repeat="tr in yearData.detailVos" >
@@ -249,7 +249,7 @@
                 <span ng-if="tr.inoutType=='出库'" class="outStock-icon"></span>
                 <div class="show-info-stock" ng-class="{'pr-bg-inStock':(tr.inoutType=='入库')}">
                     <div class="show-info-stock-content">
-                    <p>
+                    <p class="mgb">
                       {{tr.message}}
                     </p>
                     <p>
