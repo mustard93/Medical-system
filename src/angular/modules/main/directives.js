@@ -4088,7 +4088,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           }
 
           if (_eleRight < _eleWidth) {
-            $(element).css({'left': 'inherit', 'right': '150%'});
+            $(element).css({'left': 'inherit', 'right': '120%'});
             $(element).find('div.arrow-icon').css({'top': 'inherit', 'bottom': '8px', 'left': 'inherit', 'right': '-4px', 'transform': 'rotate(135deg)'});
           }
 

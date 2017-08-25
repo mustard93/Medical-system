@@ -212,7 +212,8 @@
               <table class="table pr-table pr-new-table mgb-n ">
                 <thead>
                   <tr>
-                  <th class="text-center">{{thData.code || '商品编号'}}</th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">{{thData.code || '商品编号'}}</th>
                   <th class="text-left">{{thData.approvedName || '商品通用名'}}</th>
                   <th class="text-center">{{thData.dosageForms || '剂型/分类'}}</th>
                   <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
@@ -230,6 +231,7 @@
                       ng-controller="ConfirmOrderMedicalController"
                       ng-init="item.handleFlag=true"
                       table-item-handlebtn-component>
+                    <td class="text-center" style="line-height:2.4">{{$index+1}}</td>
                     <td class="text-center">{{item.code}}
                       <div  class="table-item-handle-btn" title="删除">
                         <div class="table-item-confirm-del-area bg-white">
@@ -295,8 +297,8 @@
                            style="width:180px;margin-top:10px;margin-left:10px;"
                            ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                         <div class="inline-block text-ellips-s"
-                             style="width:118px;height:100%;"
-                             ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                             style="width:118px;height:100%;background: #F9FFED;margin-top: -3px;"
+                             ng-class="{'br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                         </div>
                         <input type="number"
                                class="in_ipt"

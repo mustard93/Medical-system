@@ -26,7 +26,7 @@
           <span class="color-white">份</span>
         </div>
         <!-- 所有药品的条码列表 -->
-        <div class="scroll-out-div">
+        <div class="scroll-out-div" style="overflow-y:auto;">
           <div class="" ng-repeat="item in barCodeDataList track by $index">
             <div class="pr-bg-black1 mgb-xl pdb-l"
                  ng-repeat="mItem in item.barCodeVos track by $index"
@@ -43,8 +43,8 @@
                 </div>
                 <div class="flex-row pdd-b15">
                   <div class="flex-item-6">
-                    <span>数量：{{mItem.batchNumber}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}} = </span>
-                    <span class="color-white">{{converedStr}}</span>
+                    <span>数量：</span>
+                    <span class="color-white">{{mItem.batchNumber}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}} = {{converedStr}}</span>
                   </div>
                   <div class="flex-item-6 text-right">
                     <span>批号：</span><span class="color-white">{{mItem.stockBatchCode}}</span>

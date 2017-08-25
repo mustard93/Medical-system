@@ -64,6 +64,18 @@
 
         <div class="inline-block" ng-transclude="" style="vertical-align: text-top;"></div>
 
+        <!-- 传入需要查询的条件 ，下拉形式的查询-->
+        <div class="inline-block" ng-if="isShowSourceFilter" style="vertical-align: text-top;">
+          <span class="color-9">{{isShowSourceName}}</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.orderSource"
+                  select-source="{{getSourceUrl}}">
+          </select>
+        </div>
+
         <!-- 按部门过滤 -->
         <div class="inline-block" ng-if="isShowDepartmentFilter" style="vertical-align: text-top;">
           <span class="color-9">申请部门：</span>
@@ -75,6 +87,8 @@
                   select-source="{{getDepartmentListUrl}}">
           </select>
         </div>
+
+
         <!-- 按制单人过滤 -->
         <div class="inline-block" ng-if="isShowApplyUserFilter" style="vertical-align: text-top;">
           <span class="color-9">申请人：</span>

@@ -1,10 +1,11 @@
 <div class="angucomplete-holder">
+
     <!-- 屏蔽失去焦点隐藏下拉框的ng-blur事件，为实现点击已冻结药品时下拉框不消失的功能 -->
     <input id="angucompleteMedical_searchInputId{{id}}"
            ng-model="searchStr"
            type="text"
            placeholder="{{placeholder}}"
-           class="ipt pr-w-100"
+           class="angucompleteMedical-ipt"
            autofocus="true"
            onmouseup="this.select();"
            ng-focus="angucomplete1.resetHideResults()"
@@ -12,7 +13,7 @@
            autocomplete="off"
            ng-disabled="ngDisabled"
            style="{{customStyle}}"/>
-
+<!--  -->
     <div class="angucomplete-dropdown" ng-if="showDropdown&&!frozenGoodsDisabled">
       <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
       <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
