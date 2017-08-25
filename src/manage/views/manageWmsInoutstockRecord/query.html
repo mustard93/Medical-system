@@ -58,14 +58,21 @@
                             <th style="width:150px">名称</th>
                             <th>出入库类型</th>
                             <th>库类型</th>
+                            <!-- <th>操作</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="tr in tbodyList">
                             <td>{{tr.finishStatus}}</td>
-                            <td>{{tr.inoutstockDetail.name}}</td>
+                            <td>单据编号：[{{tr.inoutstockDetail.orderCode}}]，药械：{{tr.inoutstockDetail.name}}</td>
                             <td>{{tr.inoutstockDetail.type}}</td>
                             <td>{{tr.inoutstockDetail.warehouseType}}</td>
+                            <!-- <td>
+                              <button type="button" class="btn btn-primary" ng-click="dothing('rest/authen/manageWmsInoutstockRecord/reprocess', {id:tr.id}, '重新处理')" ng-disabled="tr.finishStatus === '已处理'">
+                                  <i class="fa fa-repeat"></i>
+                                  重新处理
+                              </button>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>

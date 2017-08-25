@@ -1,8 +1,9 @@
 <div class="create-new-order purchaseOrder-edit"
      ng-controller="purchaseOrderEditCtrl"
+    
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="test();initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);"
+     callback="tmp_supplier=formData.supplier;initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);"
      alert-error>
 
 <form id="purchaseForm_editForm"
@@ -70,26 +71,31 @@
                 </div>
               </div>
            </div>
+<<<<<<< HEAD
 
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height inline-block mgl" style="height:88px;">
+=======
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height inline-block mgl" style="height: 90px;">
+>>>>>>> V1.01.03.7.03_Alpha
              <div class="inline-block  supplier-name "></div>
              <div class="inline-block">
                <p class="mgb-s">供应商</p>
                <div class="inline-block"
-                    ajax-if-eval="formData.supplier.id"
-                    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                    ajax-if-eval="tmp_supplier.id"
+                    ajax-url="rest/authen/supplier/get.json?id={{tmp_supplier.id}}"
                     scope-data="supplier"
-                    callback="formData.supplier=supplier;chkSupplierInfo(supplier);getHistoryFirstPrice(supplier);"
+                    callback="setformData_supplier(supplier,formData);chkSupplierInfo(supplier);"
                     alert-error>
                  <div>
-                   <span ng-if="initFlag"
+
+                   <span
+                        ng-if="initFlag"
                          angucomplete-supplier
                          placeholder="供应商"
                          title-field="name"
                          search-fields="{{formData.supplier.name}}"
                          url="rest/authen/supplier/query.json?isFilterDefault=true"
-                         ng-model="tmp_supplier"
-                         ng-model-id="formData.supplier.id"
+                         ng-model="$parent.tmp_supplier"
                          class="inline-block" style="height:28px;">
                    </span>
                    <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">

@@ -273,11 +273,11 @@
 
 
         <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","licenseType":"公司","usege":"首营企业申请","addFlag":false}'
+        <div ng-init='attachmentsExtend={"title":"资质证照","licenseType":"公司","usege":"首营企业申请","addFlag":false}' enterprise-type="formData.type"
         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","licenseType":"公司","usege":"首营企业申请","addFlag":false}'
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","licenseType":"公司","usege":"首营企业申请","addFlag":false}' enterprise-type="formData.type"
         e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
 
         <!-- 功能按钮 -->
@@ -297,22 +297,22 @@
             <span class="mgl" >
               <a tab-nav tab-name="供应商管理" tab-href="#/views/supplier/edit.html?id={{formData.id}}"></a>
               <button ng-if="changeFlag" href="javascript:;"
-                class="pr-btn-save-glodbg"
-                type="button"
-                ng-disabled="!supplier_editForm.$valid"
-                modal-center="350"
-                modal-scope="this"
-                modal-data='{"title":"确认提示",
-                             "content1":"请输入修改内容",
-                             "content2":"请输入修改原因",
-                             "btnConfirm":"确定",
-                             "btnCancel":"取消",
-                             "url":"rest/authen/supplier/save",
-                             "goUrl":"",
-                             "urlType":"submit-supplier"
-                            }'
-                tpl-url="tpl/pr-dialog-content-reason.html"
-                 >保存</button>
+                      class="pr-btn-save-glodbg"
+                      type="button"
+                      ng-disabled="!supplier_editForm.$valid"
+                      modal-center="350"
+                      modal-scope="this"
+                      modal-data='{"title":"确认提示",
+                                   "content1":"请输入修改内容",
+                                   "content2":"请输入修改原因",
+                                   "btnConfirm":"确定",
+                                   "btnCancel":"取消",
+                                   "url":"rest/authen/supplier/save",
+                                   "goUrl":"",
+                                   "urlType":"submit"
+                                  }'
+                      tpl-url="tpl/pr-dialog-content-reason.html">保存
+              </button>
 
               <button ng-if="!changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg"

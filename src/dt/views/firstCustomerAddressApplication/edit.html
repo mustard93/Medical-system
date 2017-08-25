@@ -61,7 +61,7 @@
                 <label class="flex-item-2 text-right control-label">性质：</label>
                 <div class="flex-item-8" style="float:left;"
                  ng-if="initFlag"
-                 ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SupplierType" scope-data="scopeData"
+                 ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CustomerType" scope-data="scopeData"
                  callback="initFlag=false;">
                     <div class="mycheck-new" style="margin-top:-3px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
                         <input class="relative" type="checkbox" id="firstCustomerAddressApplication{{$index + 1}}1" ng-model="item.value" ng-click="choiceCommodityType(item);" />
@@ -276,11 +276,11 @@
             </div>
         </div>
         <!-- 添加资质证照 -->
-        <div ng-init='attachmentsExtend={"title":"资质证照","licenseType":"公司","usege":"首营客户申请","addFlag":false}'
+        <div ng-init='attachmentsExtend={"title":"资质证照","licenseType":"公司","usege":"首营客户申请","addFlag":false}' enterprise-type="formData.type"
         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 添加电子档案 -->
-        <div ng-init='eAttachmentsExtend={"title":"电子档案","licenseType":"公司","usege":"首营客户申请","addFlag":false}'
+        <div ng-init='eAttachmentsExtend={"title":"电子档案","licenseType":"公司","usege":"首营客户申请","addFlag":false}' enterprise-type="formData.type"
         e-attachments-edit ng-model="formData.eAttachments" e-attachments-extend="eAttachmentsExtend" ></div>
 
         <!-- 功能按钮 -->

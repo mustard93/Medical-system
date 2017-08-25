@@ -16,7 +16,8 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
         $scope.checkData=function(){
             console.log("checkData");
             //初始化显示数据
-            if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+
+            if($scope.formData.orderMedicalNos.length){
 
                 var ids=[];
                 angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
@@ -38,13 +39,25 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
         };
 
+
+        $scope.$watch('formData.orderMedicalNos',function (newVal,oldVal) {
+
+            if( oldVal && newVal){
+                if(newVal.length != oldVal.length){
+                    $scope.checkData();
+                }
+            }
+        });
+
+
+
         // 监控用户变化，清空之前选择药械列表
         $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 
             // 当用户第一次选择客户时，检查该用户是否有证照过期
             if (newVal && oldVal !== newVal) {
                 console.log($scope.formData.customerId);
-                if ($scope.formData.customerId) {
+                // if ($scope.formData.customerId) {
                     var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
                     // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
                     requestData(_reqUrl)
@@ -57,7 +70,7 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
                         .catch(function (error) {
                             throw new Error(error);
                         });
-                }
+                // }
             }
 
         });
@@ -688,8 +701,28 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
           modal.close();
       });
 
-      $scope.canNextStep=function () {
-          return true;
+      //根据资质条件判断时候允许下一步或提交
+      $scope.canNextStep=function(){
+
+          var flag=true;
+
+          if($scope.customerInfo){
+              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                  flag=false;
+                  return flag;
+              }
+          }
+
+          angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+
+              if(medical.info){
+
+                  if(medical.info.controllType =='限制交易' && medical.info.msg){
+                      flag=false;
+                  }
+              }
+          });
+          return flag;
       };
 
 
@@ -723,7 +756,6 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
     function requestPurchaseOrderDetailDialogCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
         modal.closeAll();
-
 
         //监控选择的发货单变化
         $scope.$watch('scopeData',function (newVal,oldVal){
@@ -815,7 +847,42 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
             return flag;
         };
-        
+
+
+        $scope.$watch('listParams',function (p1, p2, p3) {
+
+                console.log("listParams",$scope.listParams);
+
+        });
+
+
+        $scope.$on('tbodyListLoaded',function (p1, p2) {
+            $scope.isCheckAll();
+        });
+
+
+
+        $scope.isCheckAll=function () {
+
+            var count =0;
+
+            angular.forEach($scope.tbodyList,function (item) {
+
+                console.log($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid'));
+                if($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid')){
+                    count++;
+                }
+            });
+
+            console.log("$scope.tbodyList.length == count",$scope.tbodyList.length , count);
+            if($scope.tbodyList.length == count){
+                $scope.isChoiseAll = true;
+            }else{
+                $scope.isChoiseAll = false;
+            }
+
+            console.log("isChoiseAll",$scope.isChoiseAll);
+        }
     }
 
 
