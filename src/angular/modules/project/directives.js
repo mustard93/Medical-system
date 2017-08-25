@@ -3607,11 +3607,13 @@ function pageMainHeaderComponent ($rootScope,$sce) {
     restrict: 'EA',
     scope: {
       listParams: '=?',             // 请求查询的参数对象
+      listParamsFilter: '=?',             // 下拉查询传入后台需要用于查询的字段
       crumbsNav: '@',               // 面包屑导航
       componentTitle: '@',          // 头部标题
       componentOtherTitle: '@',          // 头部标题,处理特殊情况下，如首营品种和品种管理新建开同一窗口的问题。
       createNewUrl: '@',            // 新建URL
       enterNewUrl: '@',            // 其他URL
+      getUrl: '@',            // 下拉查询条件传入的URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
@@ -3675,6 +3677,10 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       if(attrs.showDateName){
         scope._showDateName=attrs.showDateName;
       }
+      // 自己传入的需要查询的显示名字
+      if(attrs.isShowName){
+        scope.isShowName=attrs.isShowName;
+      }
 
       //是否显示新建按钮
       //   console.log("attrs.createBtnAuthor",attrs.createBtnAuthor);
@@ -3686,8 +3692,8 @@ function pageMainHeaderComponent ($rootScope,$sce) {
         //是否显示新增按钮
         scope.enterBtnAuthor= angular.isDefined(attrs.enterBtnAuthor)  ?  attrs.enterBtnAuthor :  '';
 
-
-
+        // 其余传入的下拉查询条件是否显示
+      scope.isShowFilter = angular.isDefined(attrs.isShowFilter) ? attrs.isShowFilter : false;
         // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
       // 是否显示制单人过滤
