@@ -352,9 +352,6 @@ gulp.task('rev-manage',['concatMinCss-manage','concatMinJs-manage'], function ()
 /* 清理js文件(开发环境 )*/
 gulp.task('concatJs-project-dt-clean', function () {
   var tmpProject_paths = getProjectPaths("project-dt");
-  console.log('===============================================================================================================');
-  console.log(tmpProject_paths);
-  console.log('===============================================================================================================');
   return gulp.src([paths.build_js + tmpProject_paths.dest_js_fileName])
              .pipe(clean());
 });

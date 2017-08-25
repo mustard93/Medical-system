@@ -1268,7 +1268,7 @@ define('project-dt/directives', ['project-dt/init'], function () {
         //LeftMenuObj.doRoute();
         //根据优先级路由定位菜单
         doRoute:function(newUrl){
-          // console.log("routeMap=",this.routeMap);
+          
           var url=newUrl;// #/purchaseOrder/query.html?t=123
           url=url.split('#')[1];// /purchaseOrder/query.html?t=123
           if(!url)return;
@@ -3709,7 +3709,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           // 向左的偏移量=当前元素的宽度-本身按钮的宽度
           var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width()-20;
           var _offsetTop=$(element).offset().top-$(document).scrollTop()+_handleBtnGroup.height()/2+10;
-            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif}).show();
+            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif-10}).show();
         }
 
       }, function () {

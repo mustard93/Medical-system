@@ -852,25 +852,18 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
 
         $scope.isCheckAll=function () {
-
             var count =0;
-
             angular.forEach($scope.tbodyList,function (item) {
-
-                console.log($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid'));
                 if($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid')){
                     count++;
                 }
             });
 
-            console.log("$scope.tbodyList.length == count",$scope.tbodyList.length , count);
             if($scope.tbodyList.length == count){
                 $scope.isChoiseAll = true;
             }else{
                 $scope.isChoiseAll = false;
             }
-
-            console.log("isChoiseAll",$scope.isChoiseAll);
         }
     }
 
