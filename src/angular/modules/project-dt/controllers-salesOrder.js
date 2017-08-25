@@ -198,7 +198,7 @@ define('project-dt/controllers-salesOrder', ['project-dt/init'], function() {
           return;
         }
         if ($scope.submitForm_type == 'submit') {
-          $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
+          // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
         }
         if ($scope.submitForm_type == 'save') {
           // console.log(this);

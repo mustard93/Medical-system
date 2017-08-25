@@ -266,7 +266,7 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
 
             })
             .catch(function (error) {
-              // alertError(error || '出错');
+              alertError(error || '出错');
             });
         }
 

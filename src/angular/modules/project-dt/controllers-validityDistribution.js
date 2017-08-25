@@ -40,7 +40,6 @@ define('project-dt/controllers-validityDistribution', ['project-dt/init'], funct
 
   };
 
-
   angular.module('manageApp.project-dt')
   .controller('validityDistributionController', ['$scope', 'modal', 'alertWarn', 'alertOk', 'alertError', 'requestData', validityDistributionController]);
 });

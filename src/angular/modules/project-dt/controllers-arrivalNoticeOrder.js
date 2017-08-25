@@ -794,6 +794,7 @@ define('project-dt/controllers-arrivalNoticeOrder', ['project-dt/init'], functio
 
     // 用户修改数量后的操作
     $scope.chgThisUnitQuantity = function (unitNumber, index, batchTotal) {
+
       if (index - 1 < 0) {    // 当前修改数量的节点没有上一级节点
         var _num = parseInt((batchTotal - unitNumber * _originDataList[index].ratios) / _originDataList[index+1].ratios, 10);
 
@@ -805,22 +806,29 @@ define('project-dt/controllers-arrivalNoticeOrder', ['project-dt/init'], functio
           angular.copy($scope.mItem.stockBatch, $scope.originData);
         }
       } else {     // 当前修改数量的节点有上一级节点
-        var _tmp = 0;
-        for (var i = 0; i < $scope.mItem.stockBatch.length; i++) {
-          if (i < index) {
-            _tmp += $scope.mItem.stockBatch[i].unitNumber * $scope.mItem.stockBatch[i].ratios;
+        if ((index + 1) !== $scope.mItem.stockBatch.length) {    // 不是租后一个
+          var _tmp = 0;
+          for (var i = 0; i < $scope.mItem.stockBatch.length; i++) {
+            if (i < index) {
+              _tmp += $scope.mItem.stockBatch[i].unitNumber * $scope.mItem.stockBatch[i].ratios;
+            }
+          }
+
+          var _num = parseInt((batchTotal - (_tmp + unitNumber * _originDataList[index].ratios)) / _originDataList[index+1].ratios, 10);
+
+          if (_num < 0) {
+            $scope.mItem.stockBatch[index].unitNumber = $scope.originData[index].unitNumber;
+            $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber;
+          } else {
+            $scope.mItem.stockBatch[index+1].unitNumber = _num;
+            angular.copy($scope.mItem.stockBatch, $scope.originData);
+          }
+        } else {     // 是最后一个
+          if (unitNumber > $scope.originData[index].unitNumber) {
+            $scope.mItem.stockBatch[index].unitNumber = $scope.originData[index].unitNumber;
           }
         }
 
-        var _num = parseInt((batchTotal - (_tmp + unitNumber * _originDataList[index].ratios)) / _originDataList[index+1].ratios, 10);
-
-        if (_num < 0) {
-          $scope.mItem.stockBatch[index].unitNumber = $scope.originData[index].unitNumber;
-          $scope.mItem.stockBatch[index+1].unitNumber = $scope.originData[index+1].unitNumber;
-        } else {
-          $scope.mItem.stockBatch[index+1].unitNumber = _num;
-          angular.copy($scope.mItem.stockBatch, $scope.originData);
-        }
       }
     }
 

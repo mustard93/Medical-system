@@ -7,13 +7,15 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
    * @param  {[type]}           alertWarn       [description]
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
-   */
+  */
   function requestPurchaseOrderDetailCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
+
     //初始化校验数据
     $scope.checkData=function(){
         console.log("checkData");
         //初始化显示数据
-        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+
+        if($scope.formData.orderMedicalNos.length){
 
             var ids=[];
             angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
@@ -35,13 +37,22 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         }
     };
 
+    $scope.$watch('formData.orderMedicalNos',function (newVal,oldVal) {
+
+        if( oldVal && newVal){
+            if(newVal.length != oldVal.length){
+                $scope.checkData();
+            }
+        }
+    });
+
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 
         // 当用户第一次选择客户时，检查该用户是否有证照过期
         if (newVal && oldVal !== newVal) {
             console.log($scope.formData.customerId);
-            if ($scope.formData.customerId) {
+            // if ($scope.formData.customerId) {
                 var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
                 // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
                 requestData(_reqUrl)
@@ -54,7 +65,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                     .catch(function (error) {
                         throw new Error(error);
                     });
-            }
+            // }
         }
 
     });
@@ -389,6 +400,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         // $('#addDataItem_relId_chosen').trigger('click');
     };
 
+
     $scope.cancelForm = function(fromId, url) {
         alertWarn('cancelForm');
     };
@@ -490,6 +502,18 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
             });
         }
     };
+    // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
+
+    // $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
+    //     if (newVal && newVal!==oldVal) {
+    //         for (var i = 0; i < newVal.length; i++) {
+    //             $scope.ids.push(newVal[i].relId);
+    //         }
+    //
+    //         $scope.ids=unique1($scope.ids);
+    //         console.log($scope.ids);
+    //     }
+    // })
 
     // 数组去重
     function unique1(array){
@@ -548,7 +572,30 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         return _total.toFixed(2);
     };
 
+
+
     $scope.warehouselist=[];
+
+    // $scope.$watch('formData.logisticsCenterId',function (newVal,oldVal) {
+    //
+    //     if(newVal){
+    //         requestData('rest/authen/warehouse/queryForSelectOption?logisticsCenterId='+$scope.formData.logisticsCenterId+'&type=虚拟库',{},"GET")
+    //         .then(function (results) {
+    //             var _data = results[1];
+    //
+    //             if(_data.code ==200){
+    //                 $scope.warehouselist=_data.data;
+    //
+    //                 console.log("warehouselist" ,$scope.warehouselist);
+    //             }
+    //
+    //             $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+    //         })
+    //         .catch(function (error) {
+    //             alertError(error || '出错');
+    //         });
+    //     }
+    // });
 
     //设置预入库房
     $scope.changeWarehouse = function (warehouseId,orderMedicalNos,warehouseList){
@@ -646,9 +693,30 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         modal.close();
     });
 
-    $scope.canNextStep=function () {
-        return true;
+    //根据资质条件判断时候允许下一步或提交
+    $scope.canNextStep=function(){
+
+        var flag=true;
+
+        if($scope.customerInfo){
+            if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                flag=false;
+                return flag;
+            }
+        }
+
+        angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+
+            if(medical.info){
+
+                if(medical.info.controllType =='限制交易' && medical.info.msg){
+                    flag=false;
+                }
+            }
+        });
+        return flag;
     };
+
 
     $scope.uuids="";
 
@@ -671,12 +739,12 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     }
 
     $scope.getOrderMedicalNosUUID();
+
   }
 
   function requestPurchaseOrderDetailDialogCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
 
         modal.closeAll();
-
 
         //监控选择的发货单变化
         $scope.$watch('scopeData',function (newVal,oldVal){
@@ -769,6 +837,41 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
             return flag;
         };
 
+
+        $scope.$watch('listParams',function (p1, p2, p3) {
+
+                console.log("listParams",$scope.listParams);
+
+        });
+
+
+        $scope.$on('tbodyListLoaded',function (p1, p2) {
+            $scope.isCheckAll();
+        });
+
+
+
+        $scope.isCheckAll=function () {
+
+            var count =0;
+
+            angular.forEach($scope.tbodyList,function (item) {
+
+                console.log($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid'));
+                if($scope.itemInArray(item.orderMedicalNo.uuid,$scope.choiced,'uuid')){
+                    count++;
+                }
+            });
+
+            console.log("$scope.tbodyList.length == count",$scope.tbodyList.length , count);
+            if($scope.tbodyList.length == count){
+                $scope.isChoiseAll = true;
+            }else{
+                $scope.isChoiseAll = false;
+            }
+
+            console.log("isChoiseAll",$scope.isChoiseAll);
+        }
     }
 
   angular.module('manageApp.project-dt')

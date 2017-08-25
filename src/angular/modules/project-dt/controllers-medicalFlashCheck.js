@@ -1,5 +1,4 @@
 define('project-dt/controllers-medicalFlashCheck', ['project-dt/init'], function() {
-
   /**
    * [medicalFlashCheckController 药械闪查模块控制器]
    * @method medicalFlashCheckController

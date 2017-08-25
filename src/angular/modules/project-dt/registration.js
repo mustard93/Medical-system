@@ -2,7 +2,7 @@
  * Created by hao on 15/11/5.
  */
 
-define('project-dt/registration',['angular'], function () {
+define('project/registration',['angular'], function () {
 
   /**
    *  注册模块入口文件

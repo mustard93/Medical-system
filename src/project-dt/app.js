@@ -35,6 +35,7 @@ define('manageApp.project', ['project/init', 'project/services', 'project/contro
 define('manageApp.modal', ['modal/init', 'modal/services', 'modal/directives']);
 define('manageApp.upload', ['upload/init', 'upload/directives']);
 define('datePicker', ['datepicker/datepicker']);
+define('manageApp.project-dt', ['project-dt/init', 'project-dt/services', 'project-dt/controllers', 'project-dt/directives', 'project-dt/filters']);
 
 define('manageApp', [
        'angular',
@@ -43,6 +44,7 @@ define('manageApp', [
        'manageApp.main',
        'manageApp.project',
        'manageApp.upload',
+       'manageApp.project-dt',
        'datePicker'
 ], function () {
     return angular.module('manageApp', [
@@ -51,6 +53,7 @@ define('manageApp', [
         'manageApp.modal',
         'manageApp.main',
         'manageApp.project',
+        'manageApp.project-dt',
         'manageApp.upload',
         'datePicker',
         'easypiechart'

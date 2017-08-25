@@ -557,44 +557,47 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
 
   }
 
-  //监听器
+  /**
+   * [subSupplierCtrl 监听器]
+   * @method subSupplierCtrl
+   * @param  {[type]}        $scope          [description]
+   * @param  {[type]}        watchFormChange [description]
+   * @param  {[type]}        requestData     [description]
+   * @param  {[type]}        utils           [description]
+   * @param  {[type]}        alertError      [description]
+   * @param  {[type]}        alertWarn       [description]
+   * @return {[type]}                        [description]
+   */
   function subSupplierCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn){
-
     $scope.$watch('suppliertmp',function (newVal,oldVal) {
-      $scope.checkBusinessScope();
-      if($scope.supplier.data){
 
-          // utils.replaceObject($scope.supplier,$scope.supplier.data);
-          // //$scope.supplier= $scope.supplier.data;
-          //
-          // console.log($scope.formData.suppliers,$scope.supplier);
-
-
-
-
-
-      }
+        $scope.checkBusinessScope();
+        if($scope.supplier.data){
+            // utils.replaceObject($scope.supplier,$scope.supplier.data);
+            // //$scope.supplier= $scope.supplier.data;
+            //
+            // console.log($scope.formData.suppliers,$scope.supplier);
+        }
     });
 
     $scope.checkBusinessScope=function () {
-          console.log("监   听发送.......",$scope.formData);
-          var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
-          requestData(url,$scope.formData, 'POST','parameterBody')
-              .then(function (results) {
+        var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
+        requestData(url,$scope.formData, 'POST','parameterBody')
+            .then(function (results) {
 
 
-                  $scope.formData.suppliers =angular.copy(results[1].data.suppliers) ;
+                $scope.formData.suppliers =angular.copy(results[1].data.suppliers) ;
 
-                  // $scope.$emit('changeSuppliers',results[1].data.suppliers);
+                // $scope.$emit('changeSuppliers',results[1].data.suppliers);
 
 
-                  console.log("results[1].data.suppliers:" , angular.toJson($scope.formData.suppliers,true));
+                console.log("results[1].data.suppliers:" , angular.toJson($scope.formData.suppliers,true));
 
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-      };
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
   }
 
   angular.module('manageApp.project-dt')

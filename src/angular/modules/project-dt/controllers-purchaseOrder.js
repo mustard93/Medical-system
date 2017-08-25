@@ -11,7 +11,7 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
    * @param  {[type]}              dialogAlert     [description]
    * @return {[type]}                              [description]
    */
-  function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert, checkDataCorrectness) {
+  function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert, checkDataCorrectness,utils) {
 
     //初始化校验数据
     $scope.checkData=function(){
@@ -560,31 +560,65 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
       return n;
     }
 
+    // $scope.$watch('formData.supplier.contact',function(newVal,oldVal){
+    //   if (newVal&&newVal!==oldVal) {
+    //     if (!$scope.ids.length) {
+    //       for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+    //         $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+    //       }
+    //     }
+    //       if ($scope.ids.length&&$scope.formData.supplier.id) {
+    //         var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+$scope.formData.supplier.id,
+    //         _data={};
+    //         requestData(_url,_data, 'get')
+    //           .then(function (results) {
+    //             var _data = results[1].data;
+    //             // 把相应的历史价格赋值叨叨相应的商品上
+    //             for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+    //
+    //               if ($scope.formData.orderMedicalNos[i].id!=null) {
+    //                 $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
+    //               }else {
+    //                 $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+    //               }
+    //
+    //               }
+    //             })
+    //             .catch(function (error) {
+    //               alertError(error || '出错');
+    //             });
+    //         }
+    //   }
+    // },true)
+
+
+
+    // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
+      $scope.setformData_supplier=function(supplier,formData){
+        if(supplier&&formData.supplier&&supplier.id==formData.supplier.id){
+
+        }else{
+            //不能直接赋值，引用关系。
+            formData.supplier=  utils.deepCopy(supplier);;
+            $scope.getHistoryFirstPrice(formData.supplier);
+        }
+    }
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
     $scope.getHistoryFirstPrice=function(supplier){
 
       // 如果有返回价格的值，则说明保存过，并且修改过价格，所以直接返回，不用执行下面的方法去获取新值。解决bug1647
-      if ($scope.formData.orderMedicalNos.length) {
-        for (var i = 0; i < $scope.formData.orderMedicalNos.length; i++) {
-          if ($scope.formData.orderMedicalNos[i].strike_price!==null) {
-            return;
-          }
-        }
-      }
-
     if (!$scope.ids.length) {
       for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
         $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
       }
     }
 
-      if (supplier.id&&$scope.ids.length&&supplier.contact) {
+      if (supplier.id&&$scope.ids.length) {
         var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
         _data={};
         requestData(_url,_data, 'get')
           .then(function (results) {
             var _data = results[1].data;
-            console.log(_data);
             // 把相应的历史价格赋值叨叨相应的商品上
             for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
               console.log($scope.formData.orderMedicalNos[i]);
@@ -649,5 +683,5 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
    }
 
   angular.module('manageApp.project-dt')
-  .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert", "checkDataCorrectness",  purchaseOrderEditCtrl]);
+  .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert", "checkDataCorrectness","utils",  purchaseOrderEditCtrl]);
 });

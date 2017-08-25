@@ -11,9 +11,27 @@ define('project-dt/controllers-license', ['project-dt/init'], function() {
    * @return {[type]}                                   [description]
    */
   function licenseController ($scope, modal, alertWarn, alertError, requestData, utils) {
-    $scope.submitForm = function (fromId) {
-      $scope.submitFormValidator(fromId);
-    };
+
+      $scope.submitForm = function (fromId) {
+
+          $scope.submitFormValidator(fromId);
+      };
+
+        //点击选中对象加入数组
+      // $scope.licenseCommodityType=function(item){
+      //     if(item.value){
+      //         if(!$scope.formData.enterpriseType){
+      //             $scope.formData.enterpriseType=[];
+      //         }else {
+      //             if($scope.formData.enterpriseType.indexOf(item.text) == -1){
+      //                 $scope.formData.enterpriseType.push(item.text);
+      //             }else {
+      //                 $scope.formData.enterpriseType.pop(item.text);
+      //             }
+      //          }
+      //     }
+      // };
+
   }
 
   angular.module('manageApp.project-dt')

@@ -46,6 +46,4 @@ define('project-dt/controllers-imTaobao', ['project-dt/init'], function() {
 
   angular.module('manageApp.project-dt')
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr]);
-
-
 });

@@ -11,7 +11,7 @@ define('project-dt/controllers-returnOrder2', ['project-dt/init'], function() {
    * @param  {[type]}        alertWarn       [description]
    * @return {[type]}                        [description]
    */
-  function  returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+  function returnOrderCtrl($scope, modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //表单数据监控
       $scope.watchFormChange = function(watchName){

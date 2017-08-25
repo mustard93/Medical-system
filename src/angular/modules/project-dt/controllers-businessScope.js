@@ -54,6 +54,7 @@ define('project-dt/controllers-businessScope', ['project-dt/init'], function() {
                 });
 
         }
+
  }
 
   angular.module('manageApp.project-dt')

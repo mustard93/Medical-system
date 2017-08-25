@@ -88,6 +88,13 @@ define('project-dt/controllers-announcement', ['project-dt/init'], function() {
               $scope.isChoiseAll = false;
           }
       };
+
+
+
+
+
+
+
   }
 
   angular.module('manageApp.project-dt')
