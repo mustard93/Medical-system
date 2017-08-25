@@ -2700,7 +2700,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
                   $scope.searchStr=value.data.name;
                   $scope.ngModelData=value.data;
                 };
-                
+
                 if ($attrs.callback) {
                   $scope.$eval($attrs.callback);
                 }
@@ -3865,7 +3865,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           if($(element).parents('div').hasClass('outside-table-d')){
 
           // 如果有横向滚动条出现的表格，就重新计算偏移量。偏移量=出现滚动条的div的宽度+横向滚动条的滚动长度-自身按钮组的宽度-15；
-          var _leftShif=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-15;
+          var _leftShif=$('.outside-table-d').width()+$('.outside-table-d').scrollLeft()-_handleBtnGroup.width()-10;
           // 竖向偏移量=当前元素距离顶部的高度-出现横向滚动条的div距离顶部的高度+自身按钮组的高度-10
           var _offsetTop=$(element).offset().top-$('div.outside-table-d').offset().top+_handleBtnGroup.height()-10;
 
@@ -3873,9 +3873,9 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         }else {
           // 没有横向滚动条的情况下
           // 向左的偏移量=当前元素的宽度-本身按钮的宽度
-          var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width()-20;
+          var _rightShif=$(document).width()-$(element).offset().left-$(element).width()+10;
           var _offsetTop=$(element).offset().top-$(document).scrollTop()+_handleBtnGroup.height()/2+10;
-            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif}).show();
+            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':'inherit','right':_rightShif}).show();
         }
 
       }, function () {

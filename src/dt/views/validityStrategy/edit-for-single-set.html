@@ -18,16 +18,16 @@
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">设置单个商品效期预警天数</h1>
     </div>
-    <div class="bb-dashed-gold pd-xl text-n">
+    <div class="bb-dashed-gold pd-xl text-n"  style="padding-left:40px;">
       <h1 class="mgb-l text-l">商品信息</h1>
-      <p class="mgb-s"><span class="pdr-xl">商品编码：</span><span class="color-white">{{formData.code}}</span></p>
-      <p class="mgb-s"><span class="pdr-xl">商品名称：</span><span class="color-white">{{formData.name}}</span></p>
-      <p class="mgb-s"><span class="pdr-xl">商品规格：</span><span class="color-white">{{formData.specification}}</span></p>
-      <p class="mgb-s"><span class="pdr-xl">基本单位：</span><span class="color-white">{{formData.unit}}</span></p>
-      <p class="mgb-s"><span class="pdr-xl">生产厂商：</span><span class="color-white">{{formData.manufacturer}}</span></p>
+      <p class="mgb"><span class="pdr-xl">商品编码：</span><span class="color-white">{{formData.code}}</span></p>
+      <p class="mgb"><span class="pdr-xl">商品名称：</span><span class="color-white">{{formData.name}}</span></p>
+      <p class="mgb"><span class="pdr-xl">商品规格：</span><span class="color-white">{{formData.specification}}</span></p>
+      <p class="mgb"><span class="pdr-xl">基本单位：</span><span class="color-white">{{formData.unit}}</span></p>
+      <p class="mgb"><span class="pdr-xl">生产厂商：</span><span class="color-white">{{formData.manufacturer}}</span></p>
       <p><span class="pdr-l">有效期：</span><span>{{}}</span></p>
     </div>
-    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n mgt-l">
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n mgt-l  mgl-l" style="padding-top:0px;">
       <h1 class="mgb-xxl">设置效期预警天数</h1>
       <span>效期预警天数：</span>
       <input type="number"
@@ -36,13 +36,13 @@
              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
              ng-change="formData.guaranteePeriodAlarmDay<9999?formData.guaranteePeriodAlarmDay=formData.guaranteePeriodAlarmDay:formData.guaranteePeriodAlarmDay=9999">
     </div>
-    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n">
+    <div ng-if="formData.guaranteePeriod" class="pd-c-v-l text-n mgl-l">
       <span class="block mgb-s">备注：</span>
       <textarea class="pr-textarea pr-bg-black6 color-white border-none text-s" maxlength="240" placeholder="" ng-model="formData.validityStrategyNote"></textarea>
     </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
       <button type="submit"
-              style="margin-left:300px;"
+              style="margin-left:340px;"
               class="pr-btn-create-glodbg new-left-side-button"
               ng-click="selected();modal.closeAll()"
               ng-disabled="!formData.guaranteePeriodAlarmDay">确定
