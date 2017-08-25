@@ -1268,7 +1268,7 @@ define('project-dt/directives', ['project-dt/init'], function () {
         //LeftMenuObj.doRoute();
         //根据优先级路由定位菜单
         doRoute:function(newUrl){
-          // console.log("routeMap=",this.routeMap);
+          
           var url=newUrl;// #/purchaseOrder/query.html?t=123
           url=url.split('#')[1];// /purchaseOrder/query.html?t=123
           if(!url)return;

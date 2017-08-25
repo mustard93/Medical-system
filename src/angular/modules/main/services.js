@@ -1481,7 +1481,7 @@ e
                               var itemVO=data.items[i];
                               if(itemVO.key)  routeMap[itemVO.key]=itemVO.value;
                           }
-                          console.log("routeMap",routeMap);
+
                       },
                       /**
                       * @Description: 根据url获取tab标题
