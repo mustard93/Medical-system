@@ -1,0 +1,89 @@
+<div class="sale-return-order right-side pr-bgc6 relative arrivalNotaice-order-dialog"
+     ng-controller="arrivalBarcodePrintDialogController"
+     ng-init="scopeData={num:1}">
+
+  <script src="http://localhost:8000/CLodopfuncs.js?priority=1"></script>
+  <script src="http://localhost:8001/CLodopfuncs.js?priority=2"></script>
+
+  <div class="sale-bg" ng-init="loadCLodop();$root.OPrinter.init()">
+      <div class="pd-c-l pdt pdb pr-font-14 color-light-brown sale-boder-btm pr-bg-black2">条码打印预览</div>
+
+      <div id="installNoteDiv" class="mgb-xl pdl-xl mgt-xl" ng-if="notInstallPrintPlusin">
+        <i class="fa fa-warning color-red mgr text-n"></i>
+        <font>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='http://113.10.155.131/CLodopPrint_Setup_for_Win32NT.zip' target='_self'>执行安装</a>,安装后请刷新页面。</font>
+      </div>
+
+      <div class="pr-panel-height select-bg">
+        <!-- 打印份数 -->
+        <div class="bb-line-gold pd-c-l pdt pdb">
+          <span class="color-white">每个包装打印</span>
+          <span>
+            <input type="number"
+                   class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-50"
+                   ng-model="scopeData.num"
+                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+          </span>
+          <span class="color-white">份</span>
+        </div>
+        <!-- 所有药品的条码列表 -->
+        <div class="scroll-out-div" style="overflow-y:auto;">
+          <div class="" ng-repeat="item in barCodeDataList track by $index">
+            <div class="pr-bg-black1 mgb-xl pdb-l"
+                 ng-repeat="mItem in item.barCodeVos track by $index"
+                 ng-controller="barcodePrintDialogItemController"
+                 ng-init="saveOriginData(mItem.stockBatch);getConverString(mItem)">
+              <div class="bb-dashed-gold pd-c-l">
+                <div class="flex-row pdd-t15b8">
+                  <div class="flex-item-6">
+                    <span>商品通用名：</span><span class="color-white">{{item.productName}}</span>
+                  </div>
+                  <div class="flex-item-6 text-right">
+                    <span>商品编号：</span><span class="color-white">{{item.productCode}}</span>
+                  </div>
+                </div>
+                <div class="flex-row pdd-b15">
+                  <div class="flex-item-6">
+                    <span>数量：</span>
+                    <span class="color-white">{{mItem.batchNumber}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}} = {{converedStr}}</span>
+                  </div>
+                  <div class="flex-item-6 text-right">
+                    <span>批号：</span><span class="color-white">{{mItem.stockBatchCode}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pd-c-l" ng-repeat="uItem in mItem.stockBatch track by $index" >
+                <div class="mgt-l mgb-l barcode-show"><img ng-src="{{uItem.barcode}}"></div>
+                <div class="flex-row">
+                  <div class="flex-item-6">
+                    <span class="mgr-xl">
+                      <input type="number"
+                             class="ipt pr-short-ipt pr-bg-black6 color-white pr-cos-w-80"
+                             ng-model="uItem.unitNumber"
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                             ng-change="chgThisUnitQuantity(uItem.unitNumber,$index,mItem.batchNumber)">   <!-- ng-change="chgThisUnitQuantity(uItem.unitNumber,$index)" -->
+                      <em class="color-white"> {{uItem.unitName}}</em>
+                    </span>
+                    <span class="color-9" ng-if="($index+1)!==mItem.stockBatch.length">说明：1{{uItem.unitName}} = {{uItem.ratios}}{{mItem.stockBatch[mItem.stockBatch.length-1].unitName}}</span>
+                  </div>
+                  <div class="flex-item-6 text-right line-alignment">打印：{{uItem.unitNumber}}*{{scopeData.num}} = {{uItem.unitNumber*scopeData.num}}份</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center print-btn pr-bg-black1">
+        <button type="button"
+                class="pr-btn-save-glodbg mgr-l wid120 mar-t6"
+                ng-disabled="!scopeData.num || notInstallPrintPlusin "
+                ng-click="barCodePrint('preview')">打印预览
+        </button>
+        <button type="button"
+                class="pr-btn-save-glodbg wid120 mar-t6"
+                ng-disabled="!scopeData.num || notInstallPrintPlusin"
+                ng-click="barCodePrint('print')">打印
+        </button>
+      </div>
+  </div>
+</div>

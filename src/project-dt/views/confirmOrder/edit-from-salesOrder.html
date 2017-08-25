@@ -1,0 +1,448 @@
+<div class="confirm-order-edit del-bgc"
+     ng-controller="confirmOrderEditCtrl"
+     ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="formData"
+     callback="$root.watchFormChange('formData',this);geThName(formData.orderMedicalNos);
+               choiseStatus=false;
+               orderMedicalNos=formData.orderMedicalNos;
+               formData.exchangeRate='1.00';
+               formData.thisPageTotal=0;
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               getCodeGenerationStrategy('销售单');
+               initFlag=true;"
+     alert-error>
+  <form id="confirmOrder_editForm_salesOrder"
+        name="confirmOrder_editForm_salesOrder"
+        form-validator
+        parameter-body
+        action="rest/authen/confirmOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter(true);$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix padd-botom5">
+      <p class="pdb-s pdt-s crumbs- pd-c-xxl crumbs">销售中心 >
+        <a tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html"><em class="color-custom-orange">销售单</em></a>
+        <em> > 新建销售单</em>
+      </p>
+      <!-- 标题 -->
+      <div class="pd-c-xl head-style mgt-xl ">
+        <div class="pos-rel-tl inline-block fl-l head-style-title">
+          <h1 class="pr-font-20 color-black">编辑销售单</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div class="">
+        <div class="inline-block mgr">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+             <div class="inline-block logistics-center business-type"></div>
+             <div class="inline-block">
+               <p class="mgb-s">业务类型</p>
+               <p class="text-m color-3">
+                   <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                           data-placeholder=" "
+                           chosen
+                           ng-model="formData.orderBusinessType"
+                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                           ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                   </select>
+               </p>
+             </div>
+           </div>
+        </div>
+        <div class="inline-block mgr">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+            <div class="inline-block customer-name "></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名</p>
+              <p class="text-m color-3">{{formData.customerName}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block">
+               <p class="mgb-s">物流中心</p>
+               <p class="text-m color-3">
+                 <select ng-if="initFlag" class="ipt ipt-new-select color-3"
+                         data-placeholder=" "
+                         chosen
+                         ng-model="formData.logisticsCenterId"
+                         is-disabled-this="{{formData.customerId}}"
+                         select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                 </select>
+               </p>
+             </div>
+           </div>
+        </div>
+      </div>
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <!-- 单据信息 -->
+        <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span ng-if="numberingPolicy!='auto'" class="mgr-l text-left">单据编号：
+              <input type="text" class="ipt pr-new-short-ipt" ng-model="formData.orderCode" />
+              <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
+            </span>
+            <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+            <span class="relative">
+              <span>单据日期：</span>
+              <input ng-if="initFlag" type="text"
+                     datepicker
+                     class="ipt color-3"
+                     style="width:120px;"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="formData.orderDate" />
+                    <span class="date-icon" style="top: -1px;"></span>
+            </span>
+
+          </div>
+          <div class="flex-item-6 text-right mgt-s">
+            <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
+            <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span> -->
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+          </div>
+        </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">业务部门：
+            <select ng-if="initFlag"
+                    class="ipt pr-short-ipt color-3"
+                    data-placeholder=" "
+                    chosen
+                    no-first-select-source="true"
+                    width="150px"
+                    ng-model="formData.salesDepartmentId"
+                    select-source="rest/authen/department/queryForSelectOption">
+            </select>
+          </span>
+          <span class="mgr-l">业务人员：
+            <select ng-if="initFlag"
+                    class="ipt pr-short-ipt color-3" style="width:90px;"
+                    data-placeholder=" "
+                    chosen
+                    no-first-select-source="true"
+                    ng-model="formData.saleUserId"
+                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
+            </select>
+          </span>
+
+          <span class="mgr-l">销售类型：
+            <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.salesType"
+                    select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
+            </select>
+          </span>
+          <span class="mgr-l">付款条件：
+            <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.paymentType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
+            </select>
+          </span>
+          <span class="mgr-l">币种：
+            <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.currencyType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
+            </select>
+          </span>
+          <span class="mgr-l">汇率：<em class="color-6">1.00</em>
+          </span>
+          <span class="mgr-l">预发货日期：
+                <span class="date-icon-outside">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         placeholder=""
+                         ng-readonly="true"
+                         ng-model="formData.expectDate" />
+                  <span class="date-icon"></span>
+                </span>
+            </span>
+        </div>
+        <!-- 商品列表 -->
+        <div class="">
+          <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <!-- <th class="text-center w-50 mycheck"> -->
+                  <!-- <input type="checkbox" ng-model="choiseStatus" id='saleOrder_1' ng-click="isChoiseAll(choiseStatus)">
+                  <label for="saleOrder_1"></label>
+                </th> -->
+                <th class="text-center">序号</th>
+                <th class="text-center">{{thData.code || '商品编号'}}</th>
+                <th class="text-left">{{thData.approvedName || '商品通用名'}}</th>
+                <th class="text-center">{{thData.dosageForms || '剂型/分类'}}</th>
+                <th class="text-center">{{thData.specificationAndModelType || '规格/型号'}}</th>
+                <th class="text-center">{{thData.unit || '单位'}}</th>
+                <th class="text-center">{{thData.quantity || '购需数量'}}</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}+计划数量</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
+                <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
+                <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
+                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
+                  <!-- <td class="text-center w-50 mycheck">
+                    <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
+                  <label for="{{'saleOrder_'+$index+2}}"></label>
+                  </td> -->
+                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td>
+                  <td class="text-center" ng-init="item.handleFlag=true;">{{item.code}}
+                    <div  class="table-item-handle-remove-btn" title="移除">
+                      <div class="table-item-confirm-del-area bg-white">
+                        <p class="bb-line color-red pd-v-s">确认移除本条数据?</p>
+                        <p class="pdt-s">
+                          <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                          <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                        </p>
+                      </div>
+                    </div>
+                  </td><!-- 商品编号 -->
+                  <td class="text-left" >
+                    <span
+                         class="color-orange cur-pot lend-order-goods-info"
+                         ng-init="showInfoArea=false"
+                         ng-mouseenter="showInfoArea=true"
+                         ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                      <show-info-modal ng-show="showInfoArea"
+                                       get-data-type="local"
+                                       template-url="tpl/showInfoModalLendOrder"
+                                       info-object="{{item}}"
+                                       info-title="商品信息">
+                      </show-info-modal>
+                    </span>
+                  </td><!-- 商品全名 -->
+                  <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
+                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-show="formData.orderBusinessType!='直发销售'">
+                    <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
+                         class="ipt-div relative"
+                         style="width:180px;margin-top:10px;margin-left:10px;"
+                         ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+                      <div class="inline-block text-ellips-s"
+                           style="width:118px;height:100%;margin-top: -2px;background: #F9FFED;"
+                           ng-class="{'br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                      </div>
+                      <input type="number"
+                             class="in_ipt"
+                             name="batchNum{{$index}}"
+                             ng-model="batch.quantity"
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                      <input type="hidden" ng-model="batch.id">
+                      <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                    </div>
+                    <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative"  style="width:180px;margin-top:10px;margin-left:10px;">
+                      <i class="addImg"
+                         modal-right="50%"
+                         modal-scope="this"
+                         modal-data='{
+                                      "medicalName":"{{item.name}}",
+                                      "id":"{{item.relId}}",
+                                      "logisticsCenterId":"{{formData.logisticsCenterId}}",
+                                      "quantity":{{item.quantity}},
+                                      "choisedBatchList":{{item.stockBatchs}},
+                                      "index": {{$index}}
+                                    }'
+                         modal-url="views/versionFlow/choice-stockbatch-dialog.html">
+                      </i>
+                    </div>
+                    <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                  </td>
+
+                  <!-- 生产批号/数量 -->
+                  <td class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
+                    <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
+                  </td><!-- 灭菌批号 -->
+                  <td class="text-right relative relative" style="white-space: nowrap;width: 140px;"
+                      ng-if="initFlag"
+                      ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
+                      scope-data="strikePrice"
+                      callback="item.strike_price?item.strike_price=item.strike_price:item.strike_price=strikePrice[item.relId].value">￥
+                    <input type="text"
+                           style="width: 90px;"
+                           class="ipt pr-ipt-60 text-right"
+                           name="strike_price{{$index}}"
+                           ng-model="item.strike_price"
+                           ng-change="item.discountPrice=0;item.discountRate=100;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+                           required
+                           ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                           invalid-popover
+                           valid-value="{{!confirmOrder_editForm_salesOrder['strike_price'+$index].$valid}}"
+                           popover-show
+                           popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "position":"absolute" ,"placement":"top", "trigger":"manual"}' />
+                          <p class="color-orange pr-indent-35">
+                            <a modal-right="577"
+                               modal-scope="this"
+                               modal-data='{"medicalName":"{{item.name}}","id":"{{item.relId}}","type":"销售","customerId":"{{formData.customerId}}"}'
+                               modal-url="views/versionFlow/history-price.html">参考价格
+                            </a>
+                          </p>
+                  </td><!-- 报价 -->
+                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
+                    <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="bt-line flex-row">
+              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
+
+                <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+
+                <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+              </p>
+            </div>
+        </div>
+        <!-- 提示信息 -->
+        <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
+          <a tab-nav tab-name="购需单" tab-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
+        </p>
+      </div>
+      <!-- 其他信息 -->
+      <div class="relative">
+        <!-- 收货方信息 -->
+        <address-manage-component ng-if="initFlag"
+                                  compnent-title="收货方信息"
+                                  request-url="rest/authen/customerAddress/get.json"
+                                  request-data-id="{{formData.customerId}}"
+                                  scope-data-prefix="customer"
+                                  form-data="formData"
+                                  modify-modal-url="views/customerAddress/contact/edit.html"
+                                  modify-modal-title="编辑收货方信息"
+                                  create-modal-url="views/customerAddress/contact/edit.html"
+                                  create-modal-title="添加收货方信息"
+                                  create-address-type="销售"
+                                  set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+        </address-manage-component>
+
+        <!-- 发货方信息 -->
+        <address-manage-component ng-if="initFlag"
+                                  compnent-title="发货方信息"
+                                  request-url="rest/authen/invoicesAddress/get.json"
+                                  scope-data-prefix="invoices"
+                                  form-data="formData"
+                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
+                                  modify-modal-title="编辑发货方信息"
+                                  create-modal-url="views/invoicesAddress/contact/edit.html"
+                                  create-modal-title="添加发货方信息"
+                                  create-address-type="销售"
+                                  logistics-center-id="{{formData.logisticsCenterId}}"
+                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
+        </address-manage-component>
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3 text-n">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- 流程图 -->
+    <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})"
+           save-callback="submitForm('confirmOrder_editForm_salesOrder','exit')">返回销售单
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html" >返回销售单</a>
+
+        <a ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='待审核' &&formData.id "
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条销售单吗?"
+           dialog-template="pr-dialog-confirm.html"
+           request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
+           callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除
+        </a>
+        <!-- <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','create')">智能匹配
+        </button> -->
+        <button
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!changeFlag"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
+        </button>
+
+        <button
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','print')">打印预览
+        </button>
+
+
+        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
+                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
+                             !formData.orderCode ||
+                             formData.totalPrice>100000"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
+        </button>
+
+        <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
+                            !formData.orderCode ||
+                            formData.totalPrice>100000"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
+        </button>
+
+      </div>
+      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white"
+            invalid-popover
+            popover-show="formData.totalPrice>100000"
+            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+            ￥{{formData.totalPrice || '0.00' | number:2}}
+            <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
+        </em>
+      </div>
+
+      <div ng-if="formData.orderBusinessType=='直发销售'"
+           class="price-area relative fl-r mgr-l"
+           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white"
+            invalid-popover
+            popover-show="formData.totalPrice>100000"
+            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>
+            ￥{{formData.totalPrice || '0.00' | number:2}}
+        </em>
+        <!-- <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) | number:2}}
+        </em> -->
+      </div>
+    </div>
+  </form>
+</div>
