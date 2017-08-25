@@ -3709,7 +3709,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           // 向左的偏移量=当前元素的宽度-本身按钮的宽度
           var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width()-20;
           var _offsetTop=$(element).offset().top-$(document).scrollTop()+_handleBtnGroup.height()/2+10;
-            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif}).show();
+            _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif-10}).show();
         }
 
       }, function () {
