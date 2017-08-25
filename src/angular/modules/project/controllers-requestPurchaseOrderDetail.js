@@ -801,11 +801,15 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
                 if (handleFlag) {   // 全选被选中
                     angular.forEach(medicalsObj, function (data, index) {
                         data.handleFlag = true;
-                        $scope.choiced.push(data.orderMedicalNo);
+                        if(!$scope.itemInArray(data.orderMedicalNo.uuid,$scope.choiced,'uuid')){
+                            $scope.choiced.push(data.orderMedicalNo);
+                        }
+                        // $scope.choiced.push(data.orderMedicalNo);
                     });
                 } else {    //取消了全部选中
                     angular.forEach(medicalsObj, function (data, index) {
                         data.handleFlag = false;
+                        $scope.listObject.orderMedicalNos='';
                         $scope.choiced=[];
                     });
                 }
@@ -847,14 +851,6 @@ define('project/controllers-requestPurchaseOrderDetail', ['project/init'], funct
             }
             return flag;
         };
-
-
-        $scope.$watch('listParams',function (p1, p2, p3) {
-
-                console.log("listParams",$scope.listParams);
-
-        });
-
 
         $scope.$on('tbodyListLoaded',function (p1, p2) {
             $scope.isCheckAll();
