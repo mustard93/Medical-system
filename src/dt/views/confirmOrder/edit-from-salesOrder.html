@@ -39,7 +39,7 @@
     <div class="content-wrapper">
       <div class="">
         <div class="inline-block mgr">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:89px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center business-type"></div>
              <div class="inline-block">
                <p class="mgb-s">业务类型</p>
@@ -56,21 +56,21 @@
            </div>
         </div>
         <div class="inline-block mgr">
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
             <div class="inline-block customer-name "></div>
             <div class="inline-block">
               <p class="mgb-s">客户名</p>
-              <p class="text-m color-3" style="min-width:100px;">{{formData.customerName}}</p>
+              <p class="text-m color-3">{{formData.customerName}}</p>
             </div>
           </div>
         </div>
         <div class="inline-block">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block">
                <p class="mgb-s">物流中心</p>
                <p class="text-m color-3">
-                 <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                 <select ng-if="initFlag" class="ipt ipt-new-select color-3"
                          data-placeholder=" "
                          chosen
                          ng-model="formData.logisticsCenterId"
@@ -86,11 +86,11 @@
         <!-- 单据信息 -->
         <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
-              <input type="text" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-              <em class="color-red ">（必填）</em>
+            <span ng-if="numberingPolicy!='auto'" class="mgr-l text-left">单据编号：
+              <input type="text" class="ipt pr-new-short-ipt" ng-model="formData.orderCode" />
+              <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
             </span>
-            <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+            <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
             <span class="relative">
               <span>单据日期：</span>
               <input ng-if="initFlag" type="text"
@@ -100,11 +100,11 @@
                      ng-readonly="true"
                      placeholder=""
                      ng-model="formData.orderDate" />
-                    <span class="date-icon"></span>
+                    <span class="date-icon" style="top: -1px;"></span>
             </span>
 
           </div>
-          <div class="flex-item-6 text-right">
+          <div class="flex-item-6 text-right mgt-s">
             <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
             <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span> -->
             <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
@@ -112,7 +112,7 @@
         </div>
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr">业务部门：
+          <span class="mgr-l">业务部门：
             <select ng-if="initFlag"
                     class="ipt pr-short-ipt color-3"
                     data-placeholder=" "
@@ -123,7 +123,7 @@
                     select-source="rest/authen/department/queryForSelectOption">
             </select>
           </span>
-          <span class="mgr">业务人员：
+          <span class="mgr-l">业务人员：
             <select ng-if="initFlag"
                     class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
@@ -134,7 +134,7 @@
             </select>
           </span>
 
-          <span class="mgr">销售类型：
+          <span class="mgr-l">销售类型：
             <select class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
                     chosen
@@ -142,7 +142,7 @@
                     select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
             </select>
           </span>
-          <span class="mgr">付款条件：
+          <span class="mgr-l">付款条件：
             <select class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
                     chosen
@@ -150,7 +150,7 @@
                     select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
             </select>
           </span>
-          <span class="mgr">币种：
+          <span class="mgr-l">币种：
             <select class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
                     chosen
@@ -158,17 +158,19 @@
                     select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
             </select>
           </span>
-          <span class="mgr">汇率：<em class="color-6">1.00</em>
+          <span class="mgr-l">汇率：<em class="color-6">1.00</em>
           </span>
-          <span class="mgr">预发货日期：
-            <input type="text"
-                   datepicker
-                   class="ipt pr-short-ipt color-3"
-                   style="width:90px;"
-                   placeholder=""
-                   ng-readonly="true"
-                   ng-model="formData.expectDate" />
-          </span>
+          <span class="mgr-l">预发货日期：
+                <span class="date-icon-outside">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         placeholder=""
+                         ng-readonly="true"
+                         ng-model="formData.expectDate" />
+                  <span class="date-icon"></span>
+                </span>
+            </span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -232,7 +234,7 @@
                          style="width:180px;margin-top:10px;margin-left:10px;"
                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                       <div class="inline-block text-ellips-s"
-                           style="width:118px;height:100%;"
+                           style="width:118px;height:100%;margin-top: -2px;"
                            ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                       </div>
                       <input type="number"
@@ -265,12 +267,13 @@
                   <td class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
-                  <td class="text-center relative relative" style="white-space: nowrap;"
+                  <td class="text-right relative relative" style="white-space: nowrap;width: 140px;"
                       ng-if="initFlag"
                       ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
                       scope-data="strikePrice"
                       callback="item.strike_price?item.strike_price=item.strike_price:item.strike_price=strikePrice[item.relId].value">￥
                     <input type="text"
+                           style="width: 90px;"
                            class="ipt pr-ipt-60 text-right"
                            name="strike_price{{$index}}"
                            ng-model="item.strike_price"
@@ -289,7 +292,7 @@
                             </a>
                           </p>
                   </td><!-- 报价 -->
-                  <td class="text-center">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice | number:2}}</td><!-- 价税合计 -->
                   <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill | date : 'yyyy-MM-dd'}}</div>
                   </td>
@@ -346,7 +349,7 @@
         </address-manage-component>
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-          <h1 class="text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3 text-n">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
       </div>

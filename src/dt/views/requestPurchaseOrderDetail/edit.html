@@ -47,7 +47,7 @@
          <div class="inline-block mgr">
            <div ng-if="!formData.relId" class="inline-block">
               <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:89px;">
-                <div class="inline-block logistics-center"></div>
+                <div class="inline-block logistics-center type-icon"></div>
                 <div class="inline-block">
                   <p class="mgb-s">业务类型</p>
                   <p class="text-m color-3">
@@ -99,12 +99,12 @@
                    </em>
 
 
-                   <!--<em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">-->
-                     <!--<i class="warning-icon"></i>-->
-                     <!--{{customerInfo.msg}}-->
-                     <!--<span ng-if="formData.supplier.id" style="margin-left: 15px;">-->
-                     <!--<a tab-nav tab-name="供应商管理" tab-href="#/supplier/get.html?id={{formData.supplier.id}}" class="color-orange">查看详情</a></span>-->
-                   <!--</em>-->
+                   <em  ng-if="customerInfo.msg"  style="display:block" class="mgb-s color-red">
+                     <i class="warning-icon"></i>
+                     {{customerInfo.msg}}
+                     <span ng-if="formData.supplier.id" style="margin-left: 15px;">
+                     <a tab-nav tab-name="供应商管理" tab-href="#/supplier/get.html?id={{formData.supplier.id}}" class="color-orange">查看详情</a></span>
+                   </em>
 
                  </div>
                </div>
@@ -135,7 +135,7 @@
 
          <div class="inline-block mgl" style="    min-width: 190px;">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;">
-             <div class="inline-block logistics-center "></div>
+             <div class="inline-block logistics-center target-icon"></div>
              <div class="inline-block">
                <p class="mgb-s">目标客户</p>
                <p class="text-m color-3 autocut-default" title="{{formData.customerName}}">{{formData.customerName ||'暂无'}}</p>
@@ -198,7 +198,7 @@
                </div>
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
-               <span class="mgr">业务部门：
+               <span class="mgr-l">业务部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
                          data-placeholder=" "
                          chosen
@@ -207,7 +207,7 @@
                          select-source="rest/authen/department/queryForSelectOption">
                  </select>
                </span>
-               <span class="mgr">业务人员：
+               <span class="mgr-l">业务人员：
                  <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -216,7 +216,7 @@
                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                  </select>
                </span>
-               <span class="mgr">采购类型：
+               <span class="mgr-l">采购类型：
                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
@@ -225,7 +225,7 @@
                  </select>
                </span>
 
-               <span class="mgr">计划到货日期：
+               <span class="mgr-l">计划到货日期：
                  <span class="date-icon-outside">
                    <input type="text"
                           datepicker
@@ -237,14 +237,14 @@
                    </span>
                  <span class="color-red">(必填)</span>
                 </span>
-               <span class="mgr">合同号：
+               <span class="mgr-l">合同号：
                  <input type="text"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.contractNo"
                       >
                </span>
-               <span class="mgr">预入仓库：
+               <span class="mgr-l">预入仓库：
 
                  <select class="pr-select pd-s"
                          style="width:115px;"
@@ -283,7 +283,7 @@
                            <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                            <p class="pdt">
                              <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                             <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);clearCustomer();">确认</a>
+                             <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl delete-btn" ng-click="formData.orderMedicalNos.splice($index,1);clearCustomer();">确认</a>
                            </p>
                          </div>
                        </div>
@@ -328,9 +328,10 @@
                        <!--{{tr.warehouseName}}-->
 
                      </td><!-- 预入仓库 -->
-                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
+                     <td class="text-right" style="white-space:nowrap;line-height:2.4;width: 140px">￥
 
                        <input type="text"
+                              style="width: 90px"
                               class="ipt pr-ipt-60 text-right"
                               name="strike_price{{$index}}"
                               ng-model="tr.strike_price"
@@ -355,7 +356,7 @@
                      scope-data="priceData"
                      callback="tr.strike_price=priceData[0].value" -->
 
-                    <td class="text-center">￥{{tr.strike_price*tr.quantity || tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-right">￥{{tr.strike_price*tr.quantity || tr.totalPrice | number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>

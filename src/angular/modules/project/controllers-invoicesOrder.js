@@ -362,21 +362,53 @@ define('project/controllers-invoicesOrder', ['project/init'], function() {
     }
 
     // 用户修改数量后的操作
-    $scope.chgThisUnitQuantity = function (unitQuantity, converResults, index) {
-      // 检测用户输入的值是否大于系统配置的原始值
-      if (unitQuantity > _originDataList.converResults[index].unitQuantity) {
-        for(var i = 0; i < converResults.length; i++) {
-          converResults[i].unitQuantity = _originDataList.converResults[i].unitQuantity;
+    $scope.chgThisUnitQuantity = function (unitQuantity, index, batchTotal) {
+      // 当前修改数量的节点没有上一级节点
+      if (index - 1 < 0) {
+        var _num = parseInt((batchTotal - unitQuantity * _originDataList.converResults[index].ratio) / _originDataList.converResults[index+1].ratio, 10);
+
+        if (_num < 0) {
+          $scope.mItem.converResults[index].unitQuantity = $scope.originData[index].unitQuantity;
+          $scope.mItem.converResults[index+1].unitQuantity = $scope.originData[index+1].unitQuantity;
+        } else {
+          $scope.mItem.converResults[index+1].unitQuantity = _num;
+          angular.copy($scope.mItem.converResults, $scope.originData);
+        }
+      } else {     // 当前修改数量的节点有上一级节点
+        var _tmp = 0;
+        for (var i = 0; i < $scope.mItem.converResults.length; i++) {
+          if (i < index) {
+            _tmp += $scope.mItem.converResults[i].unitQuantity * $scope.mItem.converResults[i].ratio;
+          }
         }
 
-        return;
+        var _num = parseInt((batchTotal - (_tmp + unitQuantity * _originDataList.converResults[index].ratio)) / _originDataList.converResults[index+1].ratio, 10);
+
+        if (_num < 0) {
+          $scope.mItem.converResults[index].unitQuantity = $scope.originData[index].unitQuantity;
+          $scope.mItem.converResults[index+1].unitQuantity = $scope.originData[index+1].unitQuantity;
+        } else {
+          $scope.mItem.converResults[index+1].unitQuantity = _num;
+          angular.copy($scope.mItem.converResults, $scope.originData);
+        }
       }
 
-      var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
-          _temp = parseInt(_temp / converResults[index+1].ratio, 10);
 
-      converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
-      angular.copy(converResults, $scope.originData.converResults);
+
+      // 检测用户输入的值是否大于系统配置的原始值
+      // if (unitQuantity > _originDataList.converResults[index].unitQuantity) {
+      //   for(var i = 0; i < converResults.length; i++) {
+      //     converResults[i].unitQuantity = _originDataList.converResults[i].unitQuantity;
+      //   }
+      //
+      //   return;
+      // }
+      //
+      // var _temp = ($scope.originData.converResults[index].unitQuantity - unitQuantity) * converResults[index].ratio;
+      //     _temp = parseInt(_temp / converResults[index+1].ratio, 10);
+      //
+      // converResults[index+1].unitQuantity = $scope.originData.converResults[index+1].unitQuantity + _temp;
+      // angular.copy(converResults, $scope.originData.converResults);
     }
   }
 

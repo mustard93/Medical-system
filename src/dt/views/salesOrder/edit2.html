@@ -118,10 +118,10 @@
             <div class="bg-white">
            <div class="bt-dashed-line">
                 <p class="pdb-m pdt-m pd-c-l ">
-                  <span class="color-9">单据来源：
+                  <span class="color-9 mgr-l">单据来源：
                     <em class="color-3">{{formData.orderSource}}</em>
                   </span>
-                  <span class="mgl color-9">业务部门：
+                  <span class="color-9 mgr-l">业务部门：
                     <select ng-if="initFlag"
                             class="ipt pr-short-ipt color-3"
                             data-placeholder=" "
@@ -132,7 +132,7 @@
                             select-source="rest/authen/department/queryForSelectOption">
                     </select>
                   </span>
-                  <span class="mgr-l mgl color-9">业务人员：
+                  <span class="mgr-l color-9">业务人员：
                     <select ng-if="initFlag"
                             class="ipt pr-short-ipt color-3" style="width:90px;"
                             data-placeholder=" "
@@ -195,7 +195,7 @@
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl delete-btn" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
                           </p>
                         </div>
                       </div>
@@ -276,8 +276,9 @@
                         <!--</a>-->
                       <!--</p>-->
                     </td>  <!--报价-->
-                    <td class="text-center relative" ng-if="formData.orderSource!='线上订单'">￥
+                    <td class="text-right relative" style="width: 140px;" ng-if="formData.orderSource!='线上订单'">￥
                       <input type="text"
+                             style="width: 90px;"
                       class="ipt pr-ipt-60 text-right"
                       name="strike_price{{$index}}"
                       ng-model="tr.strike_price"
@@ -287,6 +288,7 @@
                       valid-value="{{!salesOrder_editForm1['strike_price'+$index].$valid}}"
                       popover-show
                       popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}' />
+                      </span>
                       <p class="color-orange pr-indent-35">
                       <a modal-right="577"
                       modal-scope="this"
@@ -295,7 +297,7 @@
                       </a>
                       </p>
                     </td>  <!--报价-->
-                    <td class="text-center">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
+                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
 
                     <!--
 
@@ -584,7 +586,7 @@
         </div>
 
           <button type="button"
-                  ng-click="submitForm('salesOrder_editForm1','submit');$root.utils.refreshHref();"
+                  ng-click="submitForm('salesOrder_editForm1','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||!isGoNextStep ||
                                !formData.customerId ||
