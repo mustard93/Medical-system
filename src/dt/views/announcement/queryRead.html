@@ -1,13 +1,25 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.shelvesUpStatus=mainStatus.pageParams.shelvesUpStatus;"
      ng-controller="announcementCtrl">
-    <page-main-header-component list-params="listParams"
-                                style="min-height:130px;"
-                                crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'
-                                component-title="通知公告"
+    <!--<page-main-header-component list-params="listParams"-->
+                                <!--style="min-height:130px;"-->
+                                <!--crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'-->
+                                <!--component-title="通知公告列表"-->
+                                <!--get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">-->
+    <!--</page-main-header-component>-->
 
-                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
-    </page-main-header-component>
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs- pd-c-xxl crumbs">通知消息公告 > <em class="color-orange">通知公告</em></p>
+        <div class="pd-c-xxl pdt-l pdb-l">
+            <!-- 标题 -->
+            <div class="mgb mgt-xl" style="margin-top: 33px;">
+                <h1 class="pr-font-20 color-black" style="margin-left: 20px;">通知公告列表</h1>
+            </div>
+        </div>
+    </div>
+
+
 
     <table-list list-data="rest/authen/announcement/queryOfPublish"
                 list-params="listParams"
@@ -17,13 +29,12 @@
             <!-- 主内容头部 -->
 
             <!-- 主内容区域 -->
-
             <div class="content-wrapper" style="margin:0px 45px;">
                 <div class="content-wrapper-main pr-fuzzy-boundary">
                     <div class="flex-row color-9 pd-c-l pdb-m bg-white ">
                         <!-- 批量删除按钮 -->
-                        <div class="flex-item-8" style=" margin-top: 30px;"></div>
-                        <div class="flex-item-4 text-right mgt-xl">
+                        <div class="flex-item-8" style=""></div>
+                        <div class="flex-item-4 text-right mgt-xl" style="    margin-top: 15px;">
                             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                                 <input type="text" class="ipt pdr-xxl" placeholder="标题" ng-model="listParams.q">
                                 <i class=""></i>
@@ -41,8 +52,8 @@
 
 
                 <div class="pr-bg-white pr-fuzzy-boundary">
-                    <ol class="index-msg-list" style="margin: 0 10px; padding-bottom: 40px;">
-                        <li ng-repeat="item in tbodyList track by $index" style="border-bottom: 1px dashed #E9E9E8;">
+                    <ol class="index-msg-list">
+                        <li ng-repeat="item in tbodyList track by $index" style="padding: 0 20px;">
                             <div class="flex-row">
                                 <span class="flex-item-9 text-left" style="overflow: hidden;">
 
@@ -51,8 +62,8 @@
                                     </div>
                                     <!--<em ng-if="$index<3" class="color-red">NEW</em>-->
                                 </span>
-                                <span class="flex-item-2 text-center">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
-                                <span class="flex-item-1 text-left">{{item.salesDepartmentName}}</span>
+                                <span class="flex-item-1 text-left" style="text-indent: 20px; color:#999; ">{{item.salesDepartmentName}}&nbsp;-&nbsp;{{item.saleUser.n}}</span>
+                                <span class="flex-item-2 text-right" style="color: #333">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
                             </div>
                         </li>
 
@@ -65,7 +76,9 @@
                         <div>&nbsp;</div>
                     </div>
                 </div>
-                <div class="flex-row bg-white">
+
+            </div>
+            <div class="flex-row">
                     <div class="flex-item-6">
                         <!-- 批量删除按钮 -->
                         <div style="display: none" ng-if="!listParams.shelvesUpStatus" class="flex-row color-9 pd-c-l pdt-m pdb-m">
@@ -89,15 +102,14 @@
                         </div>
                     </div>
                     <div class="flex-item-6">
-                        <!-- 导航 -->
-                        <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                        <!-- 导航 pd-c-xl-->
+                        <div class="clearfix " ng-if="tbodyList.length" style="margin-top: 15px; margin-right: 5px;">
                             <div class="fr">
                                 <pagination status="status"></pagination>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
 
         </div>
