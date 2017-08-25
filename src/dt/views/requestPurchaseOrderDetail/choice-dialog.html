@@ -8,16 +8,19 @@
 "
      class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock ">
 <table-list
+
         list-data="rest/authen/requestPurchaseOrderDetail/query"
         list-params="listParams"
         search-mode="noCaseSensitive"
         search-param="q"
         list-object="listObject"
+        callback=""
+        emit-loaded="true"
 >
     <div
-     ng-controller="requestPurchaseOrderDetailDialogCtrl"
-     style="position: relative"
 
+     style="position: relative"
+     ng-controller="requestPurchaseOrderDetailDialogCtrl"
      ng-init="
         choiced=listObject.choiced;
         customerName=listObject.customerName;"
@@ -136,7 +139,7 @@
                 </div>
 
 
-                <span class="color-9 fl-l mar-t3"> 至 </span>
+                <span class="color-9 fl-l mar-t3 mgr mgl"> 至 </span>
                 <div class="date-icon-outside" ng-if="!listParams.expectAtEnd">
                     <input type="text"
                            datepicker
@@ -160,7 +163,7 @@
 
             <!-- 请购单编号 -->
             <div class="inline-block" style="margin-left: 15px;">
-                <span class="color-9" style="line-height: 26px;">请购单编号 :</span>
+                <span class="color-9" style="line-height: 26px;">请购单编号：</span>
                 <div class="order-list-search text-left code pos-rel-tr inline-block fl-r relative">
                     <span ng-if="!listParams.orderCode"
                           angucomplete placeholder=""
@@ -203,13 +206,15 @@
         </div>
 
         <!-- 商品列表 -->
-        <div ng-if="listParams.customerId" class="pr-panel pd-n pr-panel-height">
+        <div ng-show="listParams.customerId" class="pr-panel pd-n pr-panel-height">
             <table  class="table pr-table pr-new-table">
                 <thead>
                 <tr>
                     <th class="w-60 text-center mycheck">
-                        <input type="checkbox" class="selectAll cur-pot" id='otherCustomerManagement_dialog_1'
+
+                        <input type="checkbox" class="selectAll2 cur-pot" id='otherCustomerManagement_dialog_1'
                                ng-model="isChoiseAll"
+                               ng-checked="isChoiseAll"
                                ng-click="handleChoiseAllEvent(tbodyList,isChoiseAll);"
                         >
                         <label for="otherCustomerManagement_dialog_1" style="top: 13px;"></label>
@@ -282,7 +287,7 @@
         </div>
         <div class="footer-button-area" style="position:fixed;bottom:0px;" >
             <button type="submit" style="margin-left:500px;"
-                    class="pr-btn-create-glodbg new-left-side-button"
+                    class="pr-btn-create-glodbg invariant-btn new-left-side-button"
                     ng-disabled="choiced.length<1"
                     ng-click="addOrderDataToList(dialogData.relId,scopeData.data);modal.close()">确定</button>
         </div>

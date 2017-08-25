@@ -201,7 +201,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
        $scope.goTo({tabHref:'#/allocateOrder/query.html',tabName:'调拨单'});
       return;
      }
-     else   if ($scope.submitForm_type == 'print') {
+     else if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
          win1=window.open(url);
 
@@ -514,7 +514,7 @@ define('project/controllers-confirmOrder', ['project/init'], function() {
       }
     };
 
-  
+
     // 切换物流中心时提示用户，在用户选择确定后将已选择品种的批次清空
     $scope.$watch('formData.logisticsCenterId', function (newVal, oldVal) {
       if (newVal && oldVal && newVal !== oldVal) {
