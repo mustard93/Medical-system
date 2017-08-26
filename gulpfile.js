@@ -630,8 +630,8 @@ gulp.task('rev-WLS',['concatMinCss-WLS','concatMinJs-WLS'], function () {
 gulp.task('default',  function (done) {
   condition = false;
     runSequence(
-      ['concatJs-dt'],
-      ['concatCss-dt'],
+      // ['concatJs-dt'],
+      // ['concatCss-dt'],
       ['concatJs-manage'],
       ['concatCss-manage'],
       ['concatJs-project-dt'],
@@ -660,7 +660,7 @@ gulp.task('default',  function (done) {
       //监控所有CSS文件
       gulp.watch(concatCss_src_all, function () {
         runSequence(
-          ['concatCss-dt'],
+          // ['concatCss-dt'],
           ['concatCss-manage'],
           ['concatCss-project-dt'],
           ['concatCss-project-PG16-H'],
@@ -671,7 +671,7 @@ gulp.task('default',  function (done) {
       //监控所有JS文件
       gulp.watch(concatJs_src_all, function () {
         runSequence(
-          ['concatJs-dt'],
+          // ['concatJs-dt'],
           ['concatJs-manage'],
           ['concatJs-project-dt'],
           ['concatJs-project-PG16-H'],
