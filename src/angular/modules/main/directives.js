@@ -601,21 +601,33 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
                 //单个删除
+                // $scope.deleteThis = function(_url, _param) {
+                //     var _tr = this.tr;
+                //     dialogConfirm('确定删除?', function() {
+                //         requestData(_url, {
+                //                 id: _param
+                //             }, 'POST')
+                //             .then(function() {
+                //                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                //                 if ($scope.tbodyList.length === 0) {
+                //                     $scope.$broadcast("reloadList");
+                //                 }
+                //             })
+                //             .catch(function(error) {
+                //                 alertError(error || '删除错误');
+                //             });
+                //     });
+                // };
                 $scope.deleteThis = function(_url, _param) {
                     var _tr = this.tr;
                     dialogConfirm('确定删除?', function() {
-                        requestData(_url, {
-                                id: _param
-                            }, 'POST')
-                            .then(function() {
-                                $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
-                                if ($scope.tbodyList.length === 0) {
-                                    $scope.$broadcast("reloadList");
-                                }
-                            })
-                            .catch(function(error) {
-                                alertError(error || '删除错误');
-                            });
+                        requestData(_url, {id: _param}, 'POST')
+                        .then(function() {
+                          $scope.$broadcast("reloadList");
+                        })
+                        .catch(function(error) {
+                            alertError(error || '删除错误');
+                        });
                     });
                 };
 
