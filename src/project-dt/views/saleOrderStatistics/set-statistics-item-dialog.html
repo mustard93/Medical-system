@@ -24,7 +24,7 @@
                   ng-model-id="filterObject.customerId"
                   class="inline-block text-s" style="height:28px;">
             </span>
-
+            <i class="medical-search-icon" style="top:-1px;right:222px;" ng-if="!cacheObject.customerAddress.title"></i>
             <span ng-if="cacheObject.customerAddress.title"
                    angucomplete-supplier
                    placeholder=""
@@ -141,7 +141,7 @@
                           ng-model-id="filterObject.medicalApprovedName"
                           class="inline-block text-s" style="height:28px;">
                     </span>
-                    <i class="medical-search-icon" style="top:-1px;right:222px;" ng-if="!cacheObject.customerAddress.title"></i>
+                    <i class="medical-search-icon" style="top:-1px;right:222px;" ng-if="!cacheObject.medicalStock.title"></i>
                     <span angucomplete-supplier
                           ng-if="cacheObject.medicalStock.title"
                           placeholder=""
@@ -210,14 +210,19 @@
                ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SaleOrderStatisticsGroupEnum"
                scope-data="departments"
                alert-error>
-              <fieldset>
-                  <label class="sales-selection relative label10"  ng-repeat="item in departments track by $index" title="{{item.value}}">
+              <fieldset >
+                  <label class="mycheck-new  relative " style="margin-right:30px;margin-top:15px;"  ng-repeat="item in departments track by $index" title="{{item.value}}">
                       <input type="checkbox"
+                             id="saleOrderStatistics_set{{$index + 1}}1"
                              value="{{item.id}}"
                              ng-checked="judgeHasThisItem(tbodyList,item.value)"
                              ng-click="handleGroupChoised($event,item.value)"
-                             class="click-reverse-selection3 mgt-l mgl -m">{{item.value}}
+                             class="click-reverse-selection3 mgt-l mgl -m">
+                             <i for="saleOrderStatistics_set{{$index + 1}}1"></i>
+                             <em style="padding:0px 5px;color:white;">{{item.value}}</em>
+
                   </label>
+
               </fieldset>
           </div>
           <p ng-if="groupFlag" class="color-red pdl-xl">分组条件至少选择一种!</p>
