@@ -149,18 +149,16 @@
                             {{tr.orderStatus}}
                         </em>
                       </span>
-                      <span ng-if="$root.hasAuthor('批次冻结解冻单修改')">
-                          <span ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
-                          class="flex-item-6 text-right ">
+                      <span ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right ">
+                          <span
+                          >
                           <a
                           tab-nav
                           tab-name='批次解冻'
                           tab-href="#/freezeThawOrder/edit-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                           <span class="edit-link-icon">&nbsp;</span></a>
                       </span>
-                      </span>
-                      <span ng-if="$root.hasAuthor('批次冻结解冻单删除')">
-                      <a ng-if="tr.orderStatus=='待审核' && tr.inputUserId==mainStatus.id"
+                      <a
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
@@ -173,21 +171,14 @@
                          request-url="rest/authen/freezeThawOrder/delete">
                       <span class="delete-link-icon">&nbsp;</span>
                       </a>
-                    </span>
-                    <span class="flex-item-6 text-right">
-                        <a ng-if="tr.orderStatus=='待审批' && !$root.hasAuthor('批次冻结解冻单审批') || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                      </span>
+                    <span class="flex-item-6 text-right" ng-if="tr.orderStatus=='待审批'  || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'">
+                        <a
                         tab-nav
                         tab-name='批次解冻单'
                          tab-href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                         <span class="watch-detail-icon">&nbsp;</span>
                         </a>
-                       <!--<a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('批次冻结解冻单审批')"-->
-                          <!--ng-href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}"-->
-                          <!--title="立即审批"-->
-                          <!--class="btn-link pd-m rect-s "-->
-                          <!--&gt;-->
-                         <!--<span class="examine-approve">&nbsp;</span>-->
-                        <!--</a>-->
                       </span>
                     </div>
                     <div class="card-new">

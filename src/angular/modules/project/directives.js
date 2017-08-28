@@ -3536,6 +3536,7 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       componentOtherTitle: '@',          // 头部标题,处理特殊情况下，如首营品种和品种管理新建开同一窗口的问题。
       createNewUrl: '@',            // 新建URL
       enterNewUrl: '@',            // 其他URL
+      getSourceUrl: '@',            // 单据来源URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
@@ -3599,6 +3600,9 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       if(attrs.showDateName){
         scope._showDateName=attrs.showDateName;
       }
+      if(attrs.isShowSourceName){
+        scope.isShowSourceName=attrs.isShowSourceName;
+      }
 
       //是否显示新建按钮
       //   console.log("attrs.createBtnAuthor",attrs.createBtnAuthor);
@@ -3614,6 +3618,8 @@ function pageMainHeaderComponent ($rootScope,$sce) {
 
         // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
+      // 增加购需单单据来源
+      scope.isShowSourceFilter = angular.isDefined(attrs.isShowSourceFilter) ? attrs.isShowSourceFilter : false;
       // 是否显示制单人过滤
       scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
       // 是否显示申请人过滤
