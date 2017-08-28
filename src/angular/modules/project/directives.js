@@ -3797,7 +3797,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         }else {
           // 没有横向滚动条的情况下
           // 向左的偏移量=当前元素的宽度-本身按钮的宽度
-          var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width()-20;
+          var _leftShif=$(element).offset().left+$(element).width()-_handleBtnGroup.width();
           var _offsetTop=$(element).offset().top-$(document).scrollTop()+_handleBtnGroup.height()/2+10;
             _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_leftShif-10}).show();
         }
@@ -4152,7 +4152,7 @@ function changeImg () {
         },300)
       }
     };
-  } 
+  }
   angular.module('manageApp.project')
   .directive("htmlEdit", [ htmlEdit])
   .directive("textareaJson", ['utils', 'alertError', textareaJson])
