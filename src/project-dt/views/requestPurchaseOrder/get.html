@@ -55,7 +55,7 @@
                <div class="flex-item-6">
                  <span class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
                  <span class="mgr">单据日期：<em class="color-3">{{formData.orderDate || '暂无' | date:'yyyy-MM-dd'}}</em></span>
-                 <span class="mgr">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+                 <!-- <span class="mgr">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span> -->
                </div>
                <div class="flex-item-6 text-right">
                  <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
@@ -109,7 +109,7 @@
                             <td class="text-center">{{tr.dosageForms}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                             <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                    <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td><!-- 数量 -->
+                    <td class="text-right" style="line-height:2.4;">{{tr.quantity}}</td><!-- 数量 -->
                    </tr>
                  </tbody>
                </table>
@@ -145,8 +145,8 @@
            </textarea>
          </div>
          <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
-           <h1 class="mgb pdb text-n text-bold">已生成采购单部分</h1>
-           <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+           <h1 class="mgb pdb text-n text-bold color-3">已生成采购单部分</h1>
+           <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
              <header class="text-n color-3 flex-row">
                <span class="flex-item-11">
                  <div class=" color-9 text-s">
