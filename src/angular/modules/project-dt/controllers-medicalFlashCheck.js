@@ -114,7 +114,7 @@ define('project-dt/controllers-medicalFlashCheck', ['project-dt/init'], function
 
 
     // 出入库记录根据时间段查询
-    $scope.handleSearchFilter = function (createAtBeg,createAtEnd, relMedicalStockId) {
+    $scope.handleSearchFilter = function (createAtBeg,createAtEnd, relMedicalStockId,productionBatch) {
 
       if (!createAtBeg) {
         createAtBeg='';
@@ -123,7 +123,7 @@ define('project-dt/controllers-medicalFlashCheck', ['project-dt/init'], function
         createAtEnd='';
       }
         // 构建完整的查询url
-        var _queryUrl = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?pageSize=999&relMedicalId=' + relMedicalStockId+"&&createAtBeg="+createAtBeg+"&&createAtEnd="+createAtEnd;
+        var _queryUrl = 'rest/authen/medicalFlashCheck/queryMedicalInoutStockDetail?pageSize=999&relMedicalId=' + relMedicalStockId+"&&createAtBeg="+createAtBeg+"&&createAtEnd="+createAtEnd+"&&productionBatch="+productionBatch;
 
         // 更新数据
         requestData(_queryUrl)
