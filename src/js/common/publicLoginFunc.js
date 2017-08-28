@@ -184,5 +184,37 @@ Login.prototype = {
         }
       });
     });
+  },
+
+  // 获取版本号
+  // @return: 请求后返回的数据体：data
+  getVersionNo: function (type, url, dataType) {
+    var _type = type ? type : 'GET';
+    var _reqUrl = url;
+    var _dataType = dataType ? dataType : 'JSON';
+
+    var _versionNo = '';
+
+    try {
+      $.ajax({
+        type: _type,
+        url: _reqUrl,
+        dataType: _dataType,
+        async: false,
+        success: function (result) {
+          if (result.code === 200) {
+            _versionNo = result.data.model.version;
+          } else {
+            throw new TypeError('版本数据请求失败!');
+          }
+        }
+      });
+
+    }
+    catch (e) {
+      throw new Error(e);
+    }
+
+    return _versionNo;
   }
 };
