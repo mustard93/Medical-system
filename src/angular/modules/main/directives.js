@@ -3491,23 +3491,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
 
           if (angular.isDefined($attrs.timePicker)) {
-            $element.prop("readonly", true).datetimepicker({
-                changeYear : true ,
-                changeMonth  : true ,
-                dateFormat:'yy-mm-dd',
-                monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
-                dayNamesMin: ['日','一','二','三','四','五','六'],
-                timeText: '时间',
-                hourText: '小时',
-                minuteText: '分钟',
-                secondText: '秒',
-                currentText: '现在',
-                closeText: '完成',
-                showSecond: false, //显示秒
-                timeFormat: 'HH:mm' //格式化时间
-            });
+            require(['jquery-ui-timepicker'], function(jqueryUiTimepicker) {
+              $element.prop("readonly", true).datetimepicker({
+                  changeYear : true ,
+                  changeMonth  : true ,
+                  dateFormat:'yy-mm-dd',
+                  monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                  dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                  dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                  dayNamesMin: ['日','一','二','三','四','五','六'],
+                  timeText: '时间',
+                  hourText: '小时',
+                  minuteText: '分钟',
+                  secondText: '秒',
+                  currentText: '现在',
+                  closeText: '完成',
+                  showSecond: false, //显示秒
+                  timeFormat: 'HH:mm', //格式化时间
+                  beforeShow: function () {
+                          setTimeout(function () {
+                            $('#ui-datepicker-div').css("z-index", 999999);
+                            }, 100);
+                        }
+                  });
+
+            });//require
           } else {
             $element.datepicker({
               changeYear : true ,
