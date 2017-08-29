@@ -820,6 +820,8 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                 });
                 $scope.isChoiseAll = false;
             }
+            //判断当前是否选中
+            $scope.isCheckAll();
         };
 
         $scope.itemInArray=function (id,batchlist,attr) {
