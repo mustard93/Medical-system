@@ -1,9 +1,15 @@
-<div ng-controller=tabCtrl>
-
-  <page-main-header-component list-params="listParams"
-                              crumbs-nav='[{"name":"基础设置","link":"","style":""},{"name":"客户类别管理","link":"","style":""}]'
-                              component-title="客户类别管理">
-  </page-main-header-component>
+<div ng-controller=tabCtrl class="del-bgc">
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix head-style" style="padding-bottom:23px;">
+    <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxl">基础设置
+      <span class="fa fa-angle-right mgr-s mgl-s"></span>
+      <em class="">客户类别管理</em>
+    </p>
+    <div class="pd-c-xxxl">
+      <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">客户类别管理</h1>
+      </div>
+    </div>
+  </div>
 
   <div class="content-wrapper order-center medical-attribute"
        ng-controller="medicalAttributeController"
@@ -11,13 +17,13 @@
     >
     <!-- 主内容区域 -->
     <div class="content-wrapper-main pdl-l pdr-l full-height">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd">
-        <h1 class="text-bold text-n">{{showModuleName}}分类</h1>
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd" style="padding-top:20px;">
+        <h1 class="text-bold text-n color-3">{{showModuleName}}分类</h1>
         <div class="flex-row">
-          <div class="flex-item-6 br-dotted-line" style="overflow-y:auto;max-height:550px; min-height: 500px;">
+          <div class="flex-item-6" style="overflow-y:auto;max-height:550px; min-height: 500px;border-right:1px solid #e2e2e2;">
             <!-- 新增商品主类别按钮 -->
             <span ng-if="$root.hasAuthor('客户分类管理新增')">
-              <div class="pos-rel-tl order-create-btn mgt-l mgb-xl">
+              <div class="pos-rel-tl order-create-btn mgt-xl mar-l45">
                 <a href="javascript:;" ng-click="cancelAddClass()"><i></i><span class="">新增{{showModuleName}}主类别</span></a>
               </div>
             </span>
@@ -32,6 +38,7 @@
             </div>
             <div  class="z-tree mgt">
               <ul class="ztree"
+                style="padding-left:15px;"
                 id="ztreeNode_customerAttribute"
                      z-tree="rest/authen/customerAttribute/query.json?pageSize=999"
                      select-tree-node="formData.medicalAttribute"
