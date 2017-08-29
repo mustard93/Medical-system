@@ -277,7 +277,7 @@
                  <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
-                 <td class="text-center" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
+                 <td class="text-right" style="line-height:2.4" ng-init="tr.planReturnCount= tr.planReturnCount ? tr.planReturnCount : tr.outgoingQuantity">{{tr.planReturnCount}}</td><!-- 可换数量 -->
                  <td class="text-center relative" style="white-space: nowrap;" ng-init="tr.stayCount = tr.stayCount ?  tr.stayCount : tr.outgoingQuantity">
                    <div class="order-goods-num">
                      <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1; updateMedcalInfo($index,tr);" ng-class="{'disabled':(!tr.quantity)}" ng-disabled="!tr.quantity">-</button>
@@ -408,7 +408,7 @@
                  <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格／型号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
 
-                 <td class="text-center" style="line-height:2.4">{{tr.stayCount}}</td><!-- 换货数量 -->
+                 <td class="text-right" style="line-height:2.4">{{tr.stayCount}}</td><!-- 换货数量 -->
                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;"
                      ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []"
                  >
@@ -586,7 +586,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <span>
+        <span class="mgr-l">
           <a ng-if="changeFlag"
              href="javascript:;"
              handle-this-click
@@ -599,7 +599,7 @@
 
           <a ng-if="!changeFlag" tab-nav tab-name="销售换货单" tab-href="#/salesChangeOrder/query.html" >返回销售换货单列表</a>
         </span>
-        <span class="mgl mgt" ng-if="$root.hasAuthor('销售换货单删除')">
+        <span class="mgr-l mgt" ng-if="$root.hasAuthor('销售换货单删除')">
           <a ng-if="formData.orderStatus=='未提交'&&formData.id"
              href="javascript:;"
              handle-this-click
@@ -612,8 +612,8 @@
           </a>
         </span>
         <!---->
-        <span class="mgl mgt">
-          <button class="pr-btn-save-glodbg mgr-m"
+        <span class="mgt">
+          <button class="pr-btn-save-glodbg mgr"
                   type="button"
                   ng-disabled="!changeFlag"
                   ng-click="submitForm('salesChangeOrder_editForm','save')">保存
