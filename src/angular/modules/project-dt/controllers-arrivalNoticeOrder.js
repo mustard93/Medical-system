@@ -569,9 +569,9 @@ define('project-dt/controllers-arrivalNoticeOrder', ['project-dt/init'], functio
                   var printScope = $scope.$new(true);
                   printScope.medicalItem=item;//药械信息
                   printScope.converResult=item2.stockBatch[i];//条码信息
-                  printScope.validTill=item2.validTill;//有效期
+                  printScope.validTill=item2.validTill ? item2.validTill : '';//有效期
                   printScope.specificationAndModelType=item2.specificationAndModelType;//型号规格
-                  printScope.supplier=item2.stockBatch[i].productEnterprise;//供应商信息
+                  printScope.supplier.name=item2.stockBatch[i].productEnterprise.name ? item2.stockBatch[i].productEnterprise.name : '';//供应商信息
                   printScope.intentionalCustomer=$scope.mainStatus.additional.HabbitOrganizationName;//货主信息
 
                   var tmpHtml=uiCustomHtml.html;
