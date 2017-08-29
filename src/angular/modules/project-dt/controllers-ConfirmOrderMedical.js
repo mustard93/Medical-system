@@ -4,7 +4,7 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
    * @method ConfirmOrderMedicalController
    * @param  {[type]}                      $scope [description]
    */
-  function ConfirmOrderMedicalController ($scope) {
+  function ConfirmOrderMedicalController ($scope,requestData) {
 
     // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
     $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
@@ -35,9 +35,8 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
 
     };
 
-    // 获取所有批次药品数量的合计
+    // 获取所有选了的批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
-
       if (batchsList && angular.isArray(batchsList)) {
         var _total = 0;
         angular.forEach(batchsList, function (item, index) {
@@ -46,6 +45,34 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
         return _total;
       } else {
         return 0;
+      }
+    };
+
+    // 计算所有批号的可用量之和，用于和购需数量做比较，判断当前状态是否是缺货状态。
+    $scope.getAllBatchesTotalSalesQuantity=function(logisticsCenterId,relMedicalStockId,quantity){
+      if (logisticsCenterId&&relMedicalStockId) {
+        var _url='rest/authen/medicalStock/queryStockBatch?isOnlyAvailable=true&logisticsCenterId='+logisticsCenterId+'&&relMedicalStockId='+relMedicalStockId+'&&warehouseType=正常库&&pageSize=999';
+        var data= {};
+        requestData(_url, data, 'get')
+          .then(function (results) {
+            if (results[1].code==200) {
+              var _data = results[1].data;
+              var totalQuantity = 0;
+              if (_data) {
+                angular.forEach(_data, function (item, index) {
+                  totalQuantity += parseInt(item.stockModel.salesQuantity, 10);
+                });
+                if (totalQuantity<quantity) {
+                  return true;
+                }else {
+                  return false;
+                }
+              }
+            }
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
       }
     };
 
@@ -74,5 +101,5 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
   }
 
   angular.module('manageApp.project-dt')
-  .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController]);
+  .controller('ConfirmOrderMedicalController', ['$scope','requestData', ConfirmOrderMedicalController]);
 });

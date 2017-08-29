@@ -82,29 +82,29 @@
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
           <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
           <!--性质-->
-          <div ng-if="initFlag" class="flex-row mgt">
+          <div ng-if="initFlag" class="flex-row mgt-l bb-dashed-line">
             <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
-            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left">
+            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">
               <div class="inline-block">
                 <div class="inline-block " style="position:relative;top:-5px;">
                   <label class="radio-inline radio radio-new mgl-s">
                     <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                    <em class="inline-block" style=" color:#666; ">医疗器械</em>
                   </label>
+                  <em class="inline-block  mgt-s" style=" color:#666;">医疗器械</em>
                 </div>
                 <div class="inline-block " style="position:relative;top:-5px;">
                   <label class="radio-inline radio radio-new mgl-s">
                     <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                    <em class="inline-block" style=" color:#666; ">药品</em>
                   </label>
+                  <em class="inline-block mgt-s" style=" color:#666;">药品</em>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class=" pd-v-m">
+          <div class="">
             <!--通用名-->
-            <div class="flex-row mgt">
+            <div class="flex-row mgt-l">
               <label class="flex-item-2 text-right control-label pdr-s">通用名：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -161,7 +161,7 @@
             </div>
 
             <!--编号-->
-            <div class="flex-row mgt">
+            <div class="flex-row mgt-l">
               <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
               <div class="flex-item-10 text-left">
                 <input type="text"
@@ -253,8 +253,8 @@
                   <div ng-repeat="date in DateUnit" class="inline-block " style="position:relative;top:-5px;">
                     <label class="radio-inline radio radio-new mgl-s">
                       <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
-                      <em class="inline-block" style=" color:#666; ">{{date.text}}</em>
                     </label>
+                    <em class="inline-block mgt-s" style=" color:#666; ">{{date.text}}</em>
                   </div>
                 </div>
               </div>
@@ -363,7 +363,7 @@
             </div>
 
             <!--质量标准-->
-            <div class="flex-row mgt">
+            <div class="flex-row mgt-l">
               <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
               <div class="flex-item-10 text-left">
                 <input type="quality"
@@ -454,7 +454,7 @@
 
 
             <!--U8计价方式-->
-            <div class="flex-row mgt">
+            <div class="flex-row mgt mgb-l">
               <label class="flex-item-2 text-right control-label pdr-s">U8计价方式：</label>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
@@ -465,8 +465,6 @@
                 </select>
               </div>
             </div>
-
-
             </div>
 
             <!--生产企业-->
@@ -572,7 +570,7 @@
               </div>
             </div>
 
-            <div class="pd-v-m bt-dashed-line">
+            <div class="bt-dashed-line bb-dashed-line">
               <!--是否基药-->
               <div class="flex-row mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
@@ -723,7 +721,7 @@
               </div>
 
               <!--税率-->
-              <div class="flex-row mgt">
+              <div class="flex-row mgt mgb-l">
                 <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
@@ -732,25 +730,11 @@
                   </select>%
                 </div>
               </div>
-
-
-              <!--<div class="flex-row mgt">-->
-                <!--<label class="flex-item-2 text-right control-label pdr-s">采购员：</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<select class="select pr-select"-->
-                            <!--data-placeholder=" "-->
-                            <!--chosen-->
-                            <!--width="150px"-->
-                            <!--default-empty=""-->
-                            <!--ng-model="formData.buyerId"-->
-                            <!--select-source="rest/authen/user/queryForSelectOption">-->
-                    <!--</select>-->
-                <!--</div>-->
-              <!--</div>-->
+        </div>
 
 
           <!--新增商品辅助单位-->
-          <div ng-if="$root.uiTabs.current.name == '品种管理'">
+          <div class="mgt-l" ng-if="$root.uiTabs.current.name == '品种管理'">
               <h3 class="mgt-xl crumbs-circle color-black pr-indent-10 pd-v" style="border-radius: 0 ;margin-bottom: 20px;">商品单位信息</h3>
               <div class="pr-bg-white mgb-m">
             <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
@@ -890,10 +874,10 @@
               </tbody>
             </table>
           </div>
-          </div>
+        </div>
 
           <!--供应商-->
-          <div class="pr-bg-white mgb-m">
+          <div class="pr-bg-white mgt-l mgb-m">
                 <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
                   <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
                 </div>
@@ -963,7 +947,6 @@
                   </div>
                 </div>
               </div>
-        </div>
 
           <!--说明-->
         <div class="color-black mgt-l mgb-l" style="margin-left: 15px;">

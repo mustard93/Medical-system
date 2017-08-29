@@ -195,12 +195,12 @@
                 </tr>
               </thead>
               <tbody >
-                <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
+                <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component ng-class="{'pr-bg-pinkred':isShowConfirmInfo}" >
                   <!-- <td class="text-center w-50 mycheck">
                     <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
                   <label for="{{'saleOrder_'+$index+2}}"></label>
                   </td> -->
-                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td>
+                  <td class="text-center" style="line-height:2.4" >{{$index+1}}</td>
                   <td class="text-center" ng-init="item.handleFlag=true;">{{item.code}}
                     <div  class="table-item-handle-remove-btn" title="移除">
                       <div class="table-item-confirm-del-area bg-white">
@@ -229,7 +229,7 @@
                   <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 购需数量 -->
                   <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-show="formData.orderBusinessType!='直发销售'">
                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                          class="ipt-div relative"
@@ -302,7 +302,12 @@
               </tbody>
             </table>
             <div class="bt-line flex-row">
-              <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+              <p class="flex-item-6 text-left pdb-m pdt-m pd-c-l">
+                <span  ng-if="isShowConfirmInfo" class="color-red ">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
+                  <a tab-nav tab-name="购需单" tab-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
+                </span>
+              </p>
+              <p class="flex-item-6 text-right pdb-m pdt-m pd-c-l ">
                 <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
 
                 <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
@@ -312,9 +317,7 @@
             </div>
         </div>
         <!-- 提示信息 -->
-        <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
-          <a tab-nav tab-name="购需单" tab-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
-        </p>
+
       </div>
       <!-- 其他信息 -->
       <div class="relative">
