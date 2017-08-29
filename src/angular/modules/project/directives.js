@@ -3767,12 +3767,12 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
       _handleBtn.on('click', function () {
 
         // 解决bug：1013 品种管理中 选择一个商品的菜单默认显示不完整，需要用户手动下拉展开菜单。用户使用不方便。$('.content-wrapper-main')以该容器的高度来作为判断依据，而不是document。
-        var _offsetTop = $(element).offset().top-$('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
+        var _offsetTop = $(element).offset().top-$(element).parents('.content-wrapper-main').offset().top - document.body.scrollTop + 23;
         $(this).find('.handle-area-show').show(0,function () {
             var handleAreaHeight=$(this).height();
             //如果显示不下 就向上显示菜单
             // console.log($('.content-wrapper-main'));
-            if((_offsetTop+handleAreaHeight) > $('.content-wrapper-main').height()){
+            if((_offsetTop+handleAreaHeight) > $(element).parents('.content-wrapper-main').height()){
                 $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
             }else{
                 $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
