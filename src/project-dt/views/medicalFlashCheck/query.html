@@ -145,47 +145,39 @@
       </div>
       <!-- 显示表格库存信息 -->
       <!-- out-scroll-div  -->
+
       <div class="mgt-l ">
-        <div class="flex-item-12 flex-row pr-bg-white pr-border" >
-          <div class="flex-item-12 flex-row " >
-            <p class="pd-c-v-l text-n flex-item-12 flex-row">
-              <span class="text-left flex-item-6 color-3 text-bold">库存信息</span>
-              <span class="text-right flex-item-6">合计：<em class="color-3">{{totalQuantity}}</em></span>
-            </p>
-            <table class="table pr-table pr-new-table mgb-n">
-              <thead>
-                <tr>
-                  <th class="text-center">序号</th>
-                  <th class="text-center">仓库</th>
-                  <th class="text-center">批号</th>
-                  <th class="text-center">灭菌批号</th>
-                  <th class="text-center">现存量</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="item in stockData" ng-if="item.stockModel.quantity != 0">
-                  <td class="text-center">{{$index+1}}</td><!-- 序号-->
-                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
-                </tr>
-              </tbody>
-            </table>
-            <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
-              <div class="empty-table clearfix">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-              </div>
+          <p class="pd-c-v-l text-n flex-item-12 flex-row pr-bg-white">
+            <span class="text-left flex-item-6 color-3 text-bold">库存信息</span>
+            <span class="text-right flex-item-6">合计：<em class="color-3">{{totalQuantity}}</em></span>
+          </p>
+          <table class="table pr-table pr-new-table mgb-n">
+            <thead>
+              <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">仓库</th>
+                <th class="text-center">批号</th>
+                <th class="text-center">灭菌批号</th>
+                <th class="text-center">现存量</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in stockData" ng-if="item.stockModel.quantity != 0">
+                <td class="text-center">{{$index+1}}</td><!-- 序号-->
+                <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
+              </tr>
+            </tbody>
+          </table>
+          <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
             </div>
-            <!-- <div class="clearfix">
-                <div class="fr">
-                    <pagination status="status"></pagination>
-                </div>
-            </div> -->
           </div>
-        </div>
       </div>
 
     </div>
