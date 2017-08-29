@@ -1,14 +1,20 @@
 
         <div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl" alert-error callback="initFlag=true">
+          <!-- 标题 -->
+          <div class="bb-line-gold pr-bg-black2 min-h-l">
+            <h1 class="pr-indent-20 pdb-m text-n text-bold" style="line-height:50px;max-height:35px;">添加库存</h1>
+          </div>
+
+          <style>
+            .form-horizontal .control-label {
+              padding-top: 3px;}
+          </style>
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/medicalStock/incStockBatch"
                   scope-data="formData" alert-error alert-ok
                 form-validator>
-            <div class="modal-header">
-                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
-                <h4 class="modal-title">添加库存</h4>
-            </div>
+
             <div class="modal-body modal-body-new" ng-init="formData={id:tr.id, stockChangeType:'真实库存量'}">
 
               <div class="form-group">
@@ -56,20 +62,22 @@
 
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">生产日期：</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <div class="col-lg-10 col-sm-10" style="position:relative;">
                     <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期"  ng-model="formData.productionDate">
+                    <span class="date-icon"  style="left: 135px;top: 5px;"></span>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">有效期至：</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <div class="col-lg-10 col-sm-10" style="position:relative;">
                     <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="有效期至"  ng-model="formData.validTill">
+                    <span class="date-icon" style="left: 135px;top: 5px;"></span>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">备注：</label>
                   <div class="col-lg-10 col-sm-10">
-                    <textarea class="pr-ipt-300" placeholder="" ng-model="formData.note"></textarea
+                    <textarea class="pr-ipt-300" placeholder="" ng-model="formData.note" style="height: 80px; padding: 3px;"></textarea>
                   </div>
                 </div>
 
