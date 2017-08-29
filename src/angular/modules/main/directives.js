@@ -764,9 +764,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.tbodyList = data.data;
                               }
 
-                              if($attrs.emitLoaded){
-                                  $scope.$broadcast("tbodyListLoaded",$scope.tbodyList);
-                                  $scope.$emit("tbodyListLoaded",$scope.tbodyList)
+                              if(angular.isDefined($attrs.emitLoaded)){
+                                  $scope.$broadcast($attrs.emitLoaded,$scope.tbodyList);
+                                  $scope.$emit($attrs.emitLoaded,$scope.tbodyList)
                               }
 
 
@@ -3634,10 +3634,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               	},
                 callback: {
                   onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
-                      $scope.ngModel=treeNode.id;
-                      $scope.selectTreeNode=treeNode;
-                      $scope.$apply();
+                    $scope.ngModel=treeNode.id;
+                    $scope.selectTreeNode=treeNode;
+                    $scope.$apply();
                   }
                 }
               };
@@ -3647,24 +3646,24 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 //自动展开选中项。用于重新加载数据后，定位到数据
                 if($scope.selectTreeNode){
-                    treeObj.selectNode($scope.selectTreeNode);
-                            // treeObj.expandNode($scope.selectTreeNode, true, true, true);
+                  treeObj.selectNode($scope.selectTreeNode);
+                  // treeObj.expandNode($scope.selectTreeNode, true, true, true);
                 }
 
                 //使用广播方式，操作ztree节点
-                  //添加节点 modify by liumingquan
+                //添加节点 modify by liumingquan
                 $scope.$on("zTreeAddNode", function(evt,node) {
-                      console.log('$scope.$on("zTreeAddNode",',evt,node);
-                    var parntId=node[setting.data.simpleData.pIdKey];
-                      var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
-                    node = treeObj.addNodes(parentNode, node);
-                    // if(node)treeObj.selectNode(node);
+                  // console.log('$scope.$on("zTreeAddNode",',evt,node);
+                  var parntId=node[setting.data.simpleData.pIdKey];
+                  var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
+                  node = treeObj.addNodes(parentNode, node);
+                  // if(node)treeObj.selectNode(node);
                 });
 
                 //更新节点  modify by liumingquan
                 $scope.$on("zTreeUpdateNode", function(evt,node) {
 
-                    console.log('$scope.$on("zTreeUpdateNode",',evt,node);
+                    //console.log('$scope.$on("zTreeUpdateNode",',evt,node);
 
                     var id=node[setting.data.simpleData.idKey];
                     var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
@@ -3682,11 +3681,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 });
                 //删除节点  modify by liumingquan
                 $scope.$on("zTreeRemoveNode", function(evt,id) {
-                      console.log('$scope.$on("zTreeRemoveNode",',evt,id);
+                  //console.log('$scope.$on("zTreeRemoveNode",',evt,id);
 
-                    var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+                  var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
 
-                    if(node)treeObj.removeNode(node);
+                  if(node)treeObj.removeNode(node);
                 });
                 // 刷新整个节点 modify by liumingquan
                 $scope.$on("zTreeReloadData", function() {
@@ -3716,7 +3715,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 zTree_init($element,data,$scope);
 
-                 return;
+                return;
               }
 
               if ($attrs.params) {
