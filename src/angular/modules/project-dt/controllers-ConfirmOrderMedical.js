@@ -37,7 +37,6 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
 
     // 获取所有批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
-
       if (batchsList && angular.isArray(batchsList)) {
         var _total = 0;
         angular.forEach(batchsList, function (item, index) {
