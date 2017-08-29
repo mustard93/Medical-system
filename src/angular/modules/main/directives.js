@@ -3636,12 +3636,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           	},
             callback: {
               onClick: function(event, treeId, treeNode) {
-                // 判断当前点击节点是否为最高层父节点
-                if (treeNode.pId) {
-                  $scope.ngModel=treeNode.id;
-                  $scope.selectTreeNode=treeNode;
-                  $scope.$apply();
-                }
+                $scope.ngModel=treeNode.id;
+                $scope.selectTreeNode=treeNode;
+                $scope.$apply();
               }
             }
           };
@@ -3664,7 +3661,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               node = treeObj.addNodes(parentNode, node);
               // if(node)treeObj.selectNode(node);
             });
-
             //更新节点  modify by liumingquan
             $scope.$on("zTreeUpdateNode", function(evt,node) {
 

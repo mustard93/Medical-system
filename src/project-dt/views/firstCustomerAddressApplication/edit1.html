@@ -1,4 +1,4 @@
-<div class="first-medical-application"
+<div class="first-medical-application first-modal"
     ng-controller="QualificationApplyCtrl"
     ajax-url="rest/authen/firstCustomerAddressApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
     scope-data="formData"
@@ -59,7 +59,7 @@
               parameter-body
               action="rest/authen/firstCustomerAddressApplication/saveBaseInfo"
               alert-error
-              alert-ok
+               
               scope-error-msg="errorMsg"
               scope-data="formData"
               novalidate="true"
@@ -82,8 +82,8 @@
             <!-- 基本信息 -->
             <div class="panel pr-panel pr-panel-height mgb" >
                 <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-                <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label">性质：</label>
+                <div class="flex-row mgt mgb">
+                    <p class="flex-item-2 text-right control-label">性质：</p>
                     <div class="flex-item-8" style="float:left;"
                      ng-if="initFlag"
                      ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CustomerType" scope-data="scopeData"
@@ -96,9 +96,9 @@
                         <span ng-if="!formData.type.length" class="color-red relative" style="top:-13px;">(必选)</span>
                     </div>
                 </div>
-                <div class="" style="min-height:200px;">
-                    <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label">名称：</label>
+                <div class="bt-dashed-line" style="min-height:200px;">
+                    <div class="flex-row mgt-l">
+                        <p class="flex-item-2 text-right control-label">名称：</p>
                         <div class="flex-item-10 text-left">
                           <input type="text"
                                  class="ipt ipt-new"
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label">法定代表人：</label>
+                        <p class="flex-item-2 text-right control-label">法定代表人：</p>
                         <div class="flex-item-10 text-left">
                           <input type="text"
                                  class="ipt ipt-new"
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div class="flex-row mgt">
-                      <label class="flex-item-2 text-right control-label">分类：</label>
+                      <p class="flex-item-2 text-right control-label">分类：</p>
                       <div class="flex-item-10 color-3 text-left ">
                         <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">{{formData.customerAttribute.name}}</div>
                         <span style="display:none;">{{formData.attributeId}}</span>
@@ -135,7 +135,7 @@
                       </div>
                     </div>
                     <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
+                        <p class="flex-item-2 text-right control-label pdr-s">编号：</p>
                         <div class="flex-item-10 text-left">
                           <input type="text"
                                  class="ipt-new "
@@ -155,26 +155,26 @@
                        </div>
                     </div>
                     <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label">总线编码：</label>
+                        <p class="flex-item-2 text-right control-label">总线编码：</p>
                         <div class="flex-item-10 text-left">
                             <input type="text" class="ipt-new" name="name" ng-model="formData.opCode" />
                         </div>
                     </div>
                     <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label">分管部门：</label>
+                        <p class="flex-item-2 text-right control-label">分管部门：</p>
                         <div class="flex-item-10 text-left">
                             <input type="text" class="ipt-new" name="name" ng-model="formData.branchDepartmentName" />
                         </div>
                     </div>
                     <div class="flex-row mgt">
-                        <label class="flex-item-2 text-right control-label">分管业务人员：</label>
+                        <p class="flex-item-2 text-right control-label">分管业务人员：</p>
                         <div class="flex-item-10 text-left">
                             <input type="text" class="ipt-new" name="name" ng-model="formData.branchUser.n" />
                         </div>
                     </div>
 
                 <div class="mgt flex-row">
-                  <label class="flex-item-2 text-right">开户银行：</label>
+                  <p class="flex-item-2 text-right">开户银行：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -184,7 +184,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <label class="flex-item-2 text-right">开户账号：</label>
+                  <p class="flex-item-2 text-right">开户账号：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -194,7 +194,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <label class="flex-item-2 text-right">开户户名：</label>
+                  <p class="flex-item-2 text-right">开户户名：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -204,7 +204,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <label class="flex-item-2 text-right">付款方式：</label>
+                  <p class="flex-item-2 text-right">付款方式：</p>
                   <div class="flex-item-10 text-left">
                     <select
                     ng-if="initFlag"
@@ -218,7 +218,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row mgt mgb">
-                  <label class="flex-item-2 text-right">经营范围：</label>
+                  <p class="flex-item-2 text-right">经营范围：</p>
                   <div class="flex-item-8  text-left ">
                     <div ng-if="formData.businessScope.length" class="inline-block">
                       <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope">
@@ -238,7 +238,7 @@
                 </div>
                 </div>
             </div>
-            <!-- 增加联系人 -->
+            <!-- 新增联系人 -->
             <!-- {{formData.contacts}} -->
             <!-- <div add-contacts-edit ng-model="formData.contacts"></div> -->
 
@@ -292,7 +292,7 @@
                           modal-right="456"
                           modal-data='{"contactType":"firstCustomerAddressApplication"}'
                           modal-scope="this"
-                          modal-url="views/public/firstRightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
+                          modal-url="views/public/firstRightSide/add-contact.html"><em class="fa fa-plus"></em> 新增联系人
                   </span>
                 </div>
                 </div>
