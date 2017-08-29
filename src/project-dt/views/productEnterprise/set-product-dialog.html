@@ -1,11 +1,21 @@
+<style media="screen">
+  .ngdialog.ngdialog-theme-right .ngdialog-close:before{
+    top:8px!important;
+  }
+  input:focus:invalid:focus{
+    border: 1px solid rgba(199,167,123,0.70)!important;
+    box-shadow: 0 0 4px 0 rgba(199,167,123,0.61)!important;
+  }
+</style>
 <div class="first-medical-application"
+     style="height:100%;"
      ng-controller="productEnterpriseController"
      ajax-url="rest/authen/productEnterprise/getOfEdit.json?id={{tr.id}}"
      scope-data="formData"
 
      alert-error>
-<div class="sale-return-order right-side pr-bg-black3" style="min-height: 950px">
-  <div class="sale-bg">
+<div class="sale-return-order right-side pr-bgc6" style="height: 100%;">
+  <div>
     <!-- 头部信息 -->
       <form class="form-horizontal"
             id="product_editForm"
@@ -20,11 +30,11 @@
             novalidate="true"
             callback="listObject.reloadTime=$root.utils.getNowTime();modal.close();">
     <div class="relative ">
-      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增生产企业</div>
+      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown sale-bg text-bold entry-detailed-btm">新增生产企业</div>
         {{scopeData}}
       <div class="pr-panel-height select-bg" style="padding:15px 0;">
         <div class="flex-row mgt-l relative ">
-            <h1 class="flex-item-3 pr-fw-700 text-right product-26">编号</h1>
+            <h1 class="flex-item-3 pr-fw-700 text-right product-26 font-w0">编号</h1>
             <input type="text"
                    style="width:238px;"
                    class="ipt-new-s product-000"
@@ -32,7 +42,7 @@
                    ng-model="formData.code" />
         </div>
           <div class="flex-row mgt-l relative ">
-              <h1 class="flex-item-3 pr-fw-700 text-right product-26">企业名称</h1>
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26 font-w0">企业名称</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
@@ -40,7 +50,7 @@
                      ng-model="formData.name" />
           </div>
           <div class="flex-row mgt-l relative">
-              <h1 class="flex-item-3 pr-fw-700 product-26 text-right">生产许可证</h1>
+              <h1 class="flex-item-3 pr-fw-700 product-26 text-right font-w0">生产许可证</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
@@ -49,22 +59,21 @@
           </div>
           <div class="flex-row mgt-l relative ">
               <!--<h1 class="quali-pd-l pr-fw-700"></h1>-->
-              <span class="mgr" style="margin-left: 43px;">许可证有效期至
-                <span class="produc-icon-outside">
+              <h1 class="flex-item-3 pr-fw-700 product-26 text-right font-w0">许可证有效期至</h1>
+              <span class="produc-icon-outside">
                   <input type="text"
-                         style="color: white;z-index: 15;"
-                         datepicker
-                         required
-                         class="ipt-date ipt color-3"
-                         placeholder=""
-                         ng-readonly="true"
-                         ng-model="formData.productLicensePeriod" />
+                  style="color: white;z-index: 15;width:238px;"
+                  datepicker
+                  required
+                  class="ipt-date ipt color-3"
+                  placeholder=""
+                  ng-readonly="true"
+                  ng-model="formData.productLicensePeriod" />
                   <span class="date-icon"></span>
-                </span>
-            </span>
+              </span>
           </div>
           <div class="flex-row mgt-l relative ">
-              <h1 class="flex-item-3 pr-fw-700 text-right product-26">GMP认证</h1>
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26 font-w0">GMP认证</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
@@ -73,22 +82,21 @@
           </div>
           <div class="flex-row mgt-l relative">
               <!--<h1 class="quali-pd-l pr-fw-700">GMP有效期至</h1>-->
-              <span class="mgr" style="margin-left: 51px;">GMP有效期至
-                <span class="produc-icon-outside">
-                  <input type="text"
-                         style="color: white;z-index: 15;"
-                         datepicker
-                         required
-                         class="ipt-date ipt color-3"
-                         placeholder=""
-                         ng-readonly="true"
-                         ng-model="formData.gmpAuthenPeriod" />
-                  <span class="date-icon"></span>
-                </span>
-            </span>
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26 font-w0">GMP有效期至</h1>
+              <span class="produc-icon-outside">
+                <input type="text"
+                style="color: white;z-index: 15;width:238px;"
+                datepicker
+                required
+                class="ipt-date ipt color-3"
+                placeholder=""
+                ng-readonly="true"
+                ng-model="formData.gmpAuthenPeriod" />
+                <span class="date-icon"></span>
+              </span>
           </div>
           <div class="flex-row mgt-l relative ">
-              <h1 class="flex-item-3 pr-fw-700 text-right product-26">企业注册地址</h1>
+              <h1 class="flex-item-3 pr-fw-700 text-right product-26 font-w0">企业注册地址</h1>
               <input type="text"
                      style="width:238px;"
                      class="product-000 ipt-new-s"
@@ -107,8 +115,8 @@
             <!--</div>-->
         <!--</div>-->
       <!-- 功能按钮 -->
-      <div class="sales-btn-area-2nd relative">
-          <div class="btn-area full-width text-center">
+      <div class="sales-btn-area-2nd sale-bg relative">
+          <div class="btn-area full-width text-center" style="padding-top:12px;">
           <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"
                   ng-disabled="product_editForm.$invalid"
