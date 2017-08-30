@@ -195,7 +195,10 @@
                 </tr>
               </thead>
               <tbody >
-                <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component ng-class="{'pr-bg-pinkred':isShowConfirmInfo}" >
+                <tr ng-repeat="item in formData.orderMedicalNos"
+                ng-controller="ConfirmOrderMedicalController"
+                table-item-handlebtn-component
+                ng-class="{'pr-bg-pinkred':getAllBatchTotal(item.stockBatchs)<item.quantity}" >
                   <!-- <td class="text-center w-50 mycheck">
                     <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
                   <label for="{{'saleOrder_'+$index+2}}"></label>
@@ -248,7 +251,7 @@
                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
                     <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative"  style="width:180px;margin-top:10px;margin-left:10px;">
-                      <i class="addImg"
+                      <i class="addImg" 
                          modal-right="50%"
                          modal-scope="this"
                          modal-data='{
@@ -262,7 +265,9 @@
                          modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                       </i>
                     </div>
-                    <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                    <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">
+                      待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}
+                    </p>
                   </td>
 
                   <!-- 生产批号/数量 -->
