@@ -48,35 +48,6 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
       }
     };
 
-    // 计算所有批号的可用量之和，用于和购需数量做比较，判断当前状态是否是缺货状态。
-    $scope.getAllBatchesTotalSalesQuantity=function(logisticsCenterId,relMedicalStockId,quantity){
-      if (logisticsCenterId&&relMedicalStockId) {
-        var _url='rest/authen/medicalStock/queryStockBatch?isOnlyAvailable=true&logisticsCenterId='+logisticsCenterId+'&&relMedicalStockId='+relMedicalStockId+'&&warehouseType=正常库&&pageSize=999';
-        var data= {};
-        requestData(_url, data, 'get')
-          .then(function (results) {
-            if (results[1].code==200) {
-              var _data = results[1].data;
-              $scope.totalQuantity=0;
-              if (_data) {
-                angular.forEach(_data, function (item, index) {
-                  $scope.totalQuantity += parseInt(item.stockModel.salesQuantity, 10);
-                  console.log('totalQuantity',$scope.totalQuantity);
-                });
-                if ($scope.totalQuantity<quantity) {
-                  $scope.isShowRedBg=true;
-                  return $scope.totalQuantity;
-                }else {
-                  $scope.isShowRedBg=false;
-                }
-              }
-            }
-          })
-          .catch(function (error) {
-            alertError(error || '出错');
-          });
-      }
-    };
 
     // 总价计算方法
     $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
