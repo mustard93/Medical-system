@@ -11,29 +11,32 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
   function requestPurchaseOrderDetailCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert) {
 
     //初始化校验数据
+    $scope.identityForMedicalStocksMap={};
     $scope.checkData=function(){
         console.log("checkData");
         //初始化显示数据
 
         if($scope.formData.orderMedicalNos.length){
 
-            var ids=[];
-            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                ids.push(item.relId);
-            });
+            _getIdentityForMedicalStocks();
 
-            requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
-
-                if(result[1].code==200){
-
-                    var datas = result[1].data;
-
-                    angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-                        item.info=datas[index];
-                    });
-                }
-
-            });
+            // var ids=[];
+            // angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+            //     ids.push(item.relId);
+            // });
+            //
+            // requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+            //
+            //     if(result[1].code==200){
+            //
+            //         var datas = result[1].data;
+            //
+            //         angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+            //             item.info=datas[index];
+            //         });
+            //     }
+            //
+            // });
         }
     };
 
@@ -698,6 +701,9 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
         $scope.formData.orderMedicalNos=data.choiced;
 
+        //获取是否过期
+        _getIdentityForMedicalStocks();
+
         //设置仓库
         if($scope.formData.warehouseId){
             $scope.changeWarehouse($scope.formData.warehouseId,$scope.formData.orderMedicalNos,$scope.warehouseList);
@@ -714,28 +720,28 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     });
 
     //根据资质条件判断时候允许下一步或提交
-    $scope.canNextStep=function(){
-
-        var flag=true;
-
-        if($scope.customerInfo){
-            if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-                flag=false;
-                return flag;
-            }
-        }
-
-        angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-
-            if(medical.info){
-
-                if(medical.info.controllType =='限制交易' && medical.info.msg){
-                    flag=false;
-                }
-            }
-        });
-        return flag;
-    };
+    // $scope.canNextStep=function(){
+    //
+    //     var flag=true;
+    //
+    //     if($scope.customerInfo){
+    //         if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+    //             flag=false;
+    //             return flag;
+    //         }
+    //     }
+    //
+    //     angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
+    //
+    //         if(medical.info){
+    //
+    //             if(medical.info.controllType =='限制交易' && medical.info.msg){
+    //                 flag=false;
+    //             }
+    //         }
+    //     });
+    //     return flag;
+    // };
 
 
     $scope.uuids="";
@@ -759,6 +765,61 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     }
 
     $scope.getOrderMedicalNosUUID();
+
+
+      //根据资质条件判断时候允许下一步或提交
+      $scope.canNextStep=function(){
+          var flag=true;
+          if($scope.customerInfo){
+              if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
+                  flag=false;
+                  return flag;
+              }
+          }
+
+
+          if($scope.formData.orderMedicalNos){
+              for(var i=0; i<$scope.formData.orderMedicalNos.length;i++){
+                  var tr = $scope.formData.orderMedicalNos[i];
+
+                  if($scope.identityForMedicalStocksMap[tr.relId]){
+
+                      if($scope.identityForMedicalStocksMap[tr.relId].controllType =='限制交易' &&  $scope.identityForMedicalStocksMap[tr.relId].msg ){
+                          flag=false;
+                          return flag;
+                      }
+                  }
+
+
+              }
+          }
+          return flag;
+      };
+
+      //根据ids 获取商品是否过期校验
+      function _getIdentityForMedicalStocks() {
+          var ids=[];
+          angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+              ids.push(item.relId);
+          });
+
+          requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+
+              if(result[1].code==200){
+
+                  var datas = result[1].data;
+
+                  angular.forEach(datas,function (item,index) {
+                      $scope.identityForMedicalStocksMap[item.medicalStockId]=item;
+                      // item.info=datas[index];
+                  });
+              }
+
+          });
+
+      }
+
+
 
   }
 
