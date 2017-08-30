@@ -1662,34 +1662,34 @@ define('project/directives', ['project/init'], function () {
 
      	   //  关键步骤：
 
-  function customTableSet (modal,utils,requestData) {
-    'use strict';
-    return {
-        restrict: 'AE',
-      link: function ($scope, element, $attrs) {
-        // 传入当前字段
-        var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
-
-        element.on('click',function(e){
-          e.stopPropagation();
-          // 重新选择其他的字段后，点击过后的样式重新定义
-          $('.custom-table-show').children('p').removeClass('hover');
-          $('.custom-table-hidden').children('p').removeClass('hover');
-          $(this).addClass('hover');
-          // 判断是否是必须要显示的字段，如果是，不允许点击隐藏按钮
-          if (_customTableSetItem.necessaryShowFlag) {
-            $('.hidden-button').removeClass('custom-table-right-arrow');
-            $('.hidden-button').addClass('custom-table-right-arrow-disabled');
-          }else {
-            $('.hidden-button').removeClass('custom-table-right-arrow-disabled');
-            $('.hidden-button').addClass('custom-table-right-arrow');
-          }
-          $scope.itemShow=_customTableSetItem;
-        });
-
-      }//end link
-    };
-  }
+  // function customTableSet (modal,utils,requestData) {
+  //   'use strict';
+  //   return {
+  //       restrict: 'AE',
+  //     link: function ($scope, element, $attrs) {
+  //       // 传入当前字段
+  //       var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
+  //
+  //       element.on('click',function(e){
+  //         e.stopPropagation();
+  //         // 重新选择其他的字段后，点击过后的样式重新定义
+  //         $('.custom-table-show').children('p').removeClass('hover');
+  //         $('.custom-table-hidden').children('p').removeClass('hover');
+  //         $(this).addClass('hover');
+  //         // 判断是否是必须要显示的字段，如果是，不允许点击隐藏按钮
+  //         if (_customTableSetItem.necessaryShowFlag) {
+  //           $('.hidden-button').removeClass('custom-table-right-arrow');
+  //           $('.hidden-button').addClass('custom-table-right-arrow-disabled');
+  //         }else {
+  //           $('.hidden-button').removeClass('custom-table-right-arrow-disabled');
+  //           $('.hidden-button').addClass('custom-table-right-arrow');
+  //         }
+  //         $scope.itemShow=_customTableSetItem;
+  //       });
+  //
+  //     }//end link
+  //   };
+  // }
 
   /**
       打印组件
@@ -4202,7 +4202,7 @@ function changeImg () {
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
-  .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击改变
+  // .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击改变
   .directive("queryOrderStatusButton", [queryOrderStatusButton])//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
