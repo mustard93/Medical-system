@@ -4,28 +4,43 @@
  */
 define('main/components', ['main/init'], function () {
   angular.module('manageApp.main')
-  // 测试component组件方法
-  .component('testComponent', {
-    template: '<div>Test - Components</div>',
-    bindings: {
-      test: '='
-    },
-    controller: ['$scope', function ($scope) {
-      console.log($scope);
-    }]
-  })
-
   /**
-   * 页头组件，包含上下两部分结构，上部为面包屑导航，下部为标题和新建按钮
+   * 页头容器组件，包含上下两部分结构，上部为面包屑导航，下部为标题和新建按钮
    * @type {[type]}
+   * @author  liuzhen
+   * @date  2017/06/28
    */
   .component('headerContainerComponent', {
     templateUrl: Config.tplPath + 'tpl/components/headerContainerComponent.html',
     bindings: {
-      test: '<'
+      crumbsNav: '<',
+      isShowCreateBtn: '<',
+      componentTitle: '@'
     },
     controller: ['$scope', function ($scope) {
+      // 组件初始化Hook
+      this.$onInit = function () {
+        // ...
+      };
 
+
+    }]
+  })
+  
+  /**
+   *  页头组件中，订单状态按钮组组件
+   *  @author  liuzhen
+   *  @date  2017/07/02
+   */
+  .component('headerStatusBtnGroup', {
+    bindings: {
+
+    },
+    controller: ['$scope', 'requestData', function ($scope, requestData) {
+      // 初始化请求数据
+      this.$onInit = function () {
+
+      }
     }]
   });
 });
