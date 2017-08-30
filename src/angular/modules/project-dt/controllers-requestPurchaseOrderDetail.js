@@ -46,11 +46,11 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         }
     });
 
-    // 监控用户变化，清空之前选择药械列表
+    // 监控供应商变化
     $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
 
         // 当用户第一次选择客户时，检查该用户是否有证照过期
-        if (newVal && oldVal !== newVal) {
+        if (newVal && (oldVal !== newVal)) {
             console.log($scope.formData.customerId);
             // if ($scope.formData.customerId) {
                 var _reqUrl = 'rest/authen/qualificationCertificate/identityForSupplier?id=' +$scope.formData.supplier.id;
@@ -66,6 +66,20 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                         throw new Error(error);
                     });
             // }
+        }
+        
+
+
+        if($scope.formData.id){
+
+            if(oldVal &&  (newVal !=oldVal)){
+                $scope.getHistoryFirstPrice($scope.formData.supplier);
+            }
+
+        }else{
+            if(newVal && (newVal != oldVal )){
+                $scope.getHistoryFirstPrice($scope.formData.supplier);
+            }
         }
 
     });
@@ -504,16 +518,17 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     };
     // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
 
-    // $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
-    //     if (newVal && newVal!==oldVal) {
-    //         for (var i = 0; i < newVal.length; i++) {
-    //             $scope.ids.push(newVal[i].relId);
-    //         }
-    //
-    //         $scope.ids=unique1($scope.ids);
-    //         console.log($scope.ids);
-    //     }
-    // })
+    $scope.$watchCollection('formData.orderMedicalNos',function(newVal,oldVal){
+        if (newVal && newVal!==oldVal) {
+            $scope.ids=[];
+            for (var i = 0; i < newVal.length; i++) {
+                $scope.ids.push(newVal[i].relId);
+            }
+
+            $scope.ids=unique1($scope.ids);
+            console.log($scope.ids);
+        }
+    });
 
     // 数组去重
     function unique1(array){
@@ -527,7 +542,6 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
     $scope.getHistoryFirstPrice=function(supplier){
-
         if (!$scope.ids.length) {
             for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
                 $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
@@ -546,9 +560,9 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                         console.log($scope.formData.orderMedicalNos[i]);
 
                         if ($scope.formData.orderMedicalNos[i].id!=null) {
-                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value;
+                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value || 0;
                         }else {
-                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value;
+                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value  || 0;
                         }
 
                     }
@@ -557,7 +571,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                     alertError(error || '出错');
                 });
         }
-    }
+    };
 
     // 总价金额计算方法
     $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {
@@ -688,6 +702,12 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         if($scope.formData.warehouseId){
             $scope.changeWarehouse($scope.formData.warehouseId,$scope.formData.orderMedicalNos,$scope.warehouseList);
         }
+
+        //获取历史价格
+        if($scope.formData.supplier){
+            $scope.getHistoryFirstPrice($scope.formData.supplier);
+        }
+
 
         e.stopPropagation();
         modal.close();
