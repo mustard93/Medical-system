@@ -4,7 +4,7 @@
       ng-init="className_getOfEdit=false;className='com.pangu.mss.domain.mongo.order.OrderMedicalNo';key='销售单详情列表'"
       ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}&key={{key}}"
       scope-data="formData"
-      callback="initFlag=true;watchFormChange('itemShow');formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
+      callback="initFlag=true;rightDisabled=false;leftDisabled=false;watchFormChange('itemShow');formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
 
   <form id="editForm"
         name="editForm"
@@ -19,12 +19,12 @@
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">基础设置 >
+      <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">基础设置
        <em>>自定义表格设置</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
-        <div class="mgb-l mgt-xxl">
+        <div class=" mgt-xl">
           <h1 class="color-black pr-font-20">自定义表格设置</h1>
         </div>
       </div>
@@ -32,20 +32,16 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper flex-row">
       <div class="flex-item-2">
-
-
           <div class="custom-table-strategy-menu mgt pd-c-v-l">
           <ul class="ztree"
           z-tree='[{"id":1,"pId":0,"name":"销售管理","open":true},
                           {"id":2,"pId":1,"name":"销售单","className":"com.pangu.mss.domain.mongo.order.OrderMedicalNo","key":"销售单详情列表"}]'
           z-tree-type="static"
-
           select-tree-node="formData.customTable"
           id-key="id"
           p-id-key="pId">
             </ul>
         </div>
-
       </div>
       <div class="flex-item-10">
         <div class="custom-table-strategy-form  text-right mgt">
@@ -56,57 +52,51 @@
               </p>
               <div class="flex-item-6 flex-row br-line">
                 <div class="flex-item-12 text-center">
-                  <p class="text-bold   color-3 pd-c-v-l bb-line flex-row text-right">
+                  <p class="text-bold   color-3 bb-line flex-row text-right" style="padding:15px 20px;">
                     <span class="flex-item-4 text-left">
                       <span class="custom-table-down-arrow " title="下移" ng-click="changeDownThisItem(itemShow);">
                       </span>
                       <span class="custom-table-up-arrow " title="上移" ng-click="changeUpThisItem(itemShow);">
                       </span>
                     </span>
-                   <span class="flex-item-4 text-center">显示列</span>
+                   <span class="flex-item-4 text-center" style="margin-top:3px;">显示列</span>
                    <span class="flex-item-4 text-right">
-                    <button style="background-color:transparent!important;"
+                    <span style="background-color:transparent!important;"
                     type="button"
-                    ng-disabled="itemShow.necessaryShowFlag"
+                    ng-disabled="itemShow.necessaryShowFlag || rightDisabled"
                     class="hidden-button custom-table-right-arrow" title="隐藏"
-                    ng-click="hiddenThisItem(itemShow);"></button>
+                    ng-click="hiddenThisItem(itemShow);"></span>
                   </span>
 
                   </p>
                   <div class="custom-table-show medical-hover">
-                    <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.items " class="cur-pot text-left "
+                    <p  ng-repeat="item in formData.items " class="cur-pot text-left "
                     ng-class="{'hover':(itemShow.propertyKey==item.propertyKey)}" >
-                      <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItem(item);">{{item.propertyName}}</em>
+                      <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItemShow(item);">{{item.propertyName}}</em>
                     </p>
                   </div>
                 </div>
               </div>
               <div class="flex-item-6 flex-row">
                 <div class="flex-item-12 text-center">
-                  <p class="text-bold   color-3 pd-c-v-l bb-line flex-row">
-
+                  <p class="text-bold   color-3  bb-line flex-row"  style="padding:15px 20px;">
                     <span class="flex-item-4 text-left">
-                      <!-- <span class="custom-table-left-arrow"
-                      title="显示"
-                      ng-click="showThisItem(itemShow);">
-                     </span> -->
-                     <button style="background-color:transparent!important;"
-                     type="button"
+                     <span style="background-color:transparent!important;"
                      class="hidden-button custom-table-left-arrow" title="显示"
-                     ng-click="showThisItem(itemShow);"></button>
+                     ng-disabled="itemShow.necessaryShowFlag || leftDisabled"
+                     ng-click="showThisItem(itemShow);"></span>
                     </span>
-                    <span class="flex-item-4 text-center">隐藏列</span>
+                    <span class="flex-item-4 text-center" style="margin-top:3px;">隐藏列</span>
                     <span class="flex-item-4 text-center">&nbsp;</span>
                   </p>
                   <div class=" custom-table-hidden medical-hover">
                     <p custom-table-set custom-table-set-item="{{item}}" ng-repeat="item in formData.noShowItems "  class="cur-pot text-left " >
-                      <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItem(item);">{{item.propertyName}}</em>
+                      <em class="pd-c-v-s text-s" style="display:inline-block;width:100%;" ng-click="selectThisItemNoShow(item);">{{item.propertyName}}</em>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
           <div class="custom-table-strategy-bottom flex-row-12 mgt-l" ng-init="formData1=item">
             <p class="pd-c-v-l text-left bb-line">
@@ -120,7 +110,7 @@
                 </p>
                 <p class="pd-c-v-s">
                   显示名称：
-                  <input type="text" value="" ng-model="itemShow.propertyName" style="" >
+                  <input type="text" value="" ng-model="itemShow.propertyName" style="background: #FFFFFF;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;width:219.9px;height:28px;" >
                 </p>
               </div>
             </div>
@@ -128,12 +118,12 @@
               <div class="flex-item-12 text-left pd-c-v-l">
                 <p class="pd-c-v-s" style="margin-left:27px;">
                   宽度：
-                  <input type="text" value="" ng-model="itemShow.width">
+                  <input type="text" value="" ng-model="itemShow.width"  style="background: #FFFFFF;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;width:118px;height:28px;">
                 </p>
                 <p class="pd-c-v-s">
                   对齐方式：
                   <select class="pr-select pd-s"
-                          style="width:160px;" ng-model="itemShow.tdCss" >
+                          style="width:120px;height:28px;background: #FFFFFF;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;" ng-model="itemShow.tdCss" >
                     <option value="text-left" ng-selected="text-left">左对齐</option>
                     <option value="text-right" ng-selected="text-right">右对齐</option>
                     <option value="text-center" ng-selected="text-center">居中对齐</option>
@@ -147,14 +137,13 @@
       </div>
     </div>
     <!-- 功能按钮 -->
-    <div class="handle-btn-area">
+    <div class="handle-btn-area" style="height:58px;">
+      <div class="btn-area" style="height:58px;line-height: 58px;" ng-if="$root.hasAuthor('自定义表格设置修改')">
 
-      <div class="btn-area" style="line-height:4.9;" ng-if="$root.hasAuthor('自定义表格设置修改')">
-
-        <button class="pr-btn-save-glodbg mgr"
+        <button class="pr-btn-save-glodbg mgr-l"
                 ng-class="{'disabled':(!formData.id)}"
                 type="button"
-                style="background-color:#d9534f;"
+                style="background: #FF1212;height:36px;width:100.9px;"
                 handle-this-click
                 dialog-title="确认重置?"
                 dialog-content="重置后，将回到初始状态。确认重置?"
@@ -162,7 +151,7 @@
                 callback="resetTableData(formData.id);watchFormChange(formData);"
                 ng-disabled="!formData.id">重置
         </button>
-        <button type="submit" ng-disabled='!changeFlag' class="pr-btn-save-glodbg mgr" >保存
+        <button type="submit" ng-disabled='!changeFlag' class="pr-btn-save-glodbg" style="height:36px;width:100.9px;" >保存
         </button>
       </div>
     </div>
