@@ -29,7 +29,7 @@
             parameter-body
             action="rest/authen/customerAddress/save"
             alert-error
-             
+
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
@@ -93,15 +93,18 @@
                 <div class="flex-row mgt">
                   <p class="flex-item-2 text-right control-label">分类：</p>
                   <div class="flex-item-10 color-3 text-left ">
-                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.customerAttribute.name}}">{{formData.customerAttribute.name}}</div>
-                    <span style="display:none;">{{formData.attributeId}}</span>
+
                     <button type="button"
                             z-tree-select="rest/authen/customerAttribute/query.json"
                             width="240px"
-                            class="btn-select btn-enter-price-select fl-l"
+                            style="margin-left:0px;"
+                            class="btn-select btn-enter-price-select fl-l text-left"
                             ng-model="formData.customerAttribute"
                             id-key="id"
-                            p-id-key="parentId">选择
+                            p-id-key="parentId">
+                            <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.customerAttribute.name}}">{{formData.customerAttribute.name}}</div>
+                            <span style="display:none;">{{formData.attributeId}}</span>
+                            <em class="mgl">选择</em>
                     </button>
                     <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
                   </div>
