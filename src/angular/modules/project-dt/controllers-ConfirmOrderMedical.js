@@ -57,15 +57,17 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
           .then(function (results) {
             if (results[1].code==200) {
               var _data = results[1].data;
-              var totalQuantity = 0;
+              $scope.totalQuantity=0;
               if (_data) {
                 angular.forEach(_data, function (item, index) {
-                  totalQuantity += parseInt(item.stockModel.salesQuantity, 10);
+                  $scope.totalQuantity += parseInt(item.stockModel.salesQuantity, 10);
+                  console.log('totalQuantity',$scope.totalQuantity);
                 });
-                if (totalQuantity<quantity) {
-                  return true;
+                if ($scope.totalQuantity<quantity) {
+                  $scope.isShowRedBg=true;
+                  return $scope.totalQuantity;
                 }else {
-                  return false;
+                  $scope.isShowRedBg=false;
                 }
               }
             }
