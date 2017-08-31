@@ -71,6 +71,21 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
       }
     };
 
+    //生产日期
+    $scope.yieldTime = function(tr){
+      if(!tr.guaranteePeriod) return;
+      var IsNewDate = new Date(Number(tr.productionDate));
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
+      tr.validTill = new Date(isLose).getTime();
+    }
+    //失效日期
+    $scope.loseTime = function(tr){
+      if(!tr.guaranteePeriod) return;
+      var IsNewDate = new Date(Number(tr.validTill));
+      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+      tr.productionDate = new Date(isLose).getTime();
+    }
+
   }
 
   angular.module('manageApp.project-dt')
