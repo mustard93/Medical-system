@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="editStockbatchNumberCtrl"
-     ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
+     ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType={{dialogData.warehouseType}}"
      scope-data="stockBatchList"
      callback="dialogData.choisedBatchsIdList= getChoisedBatchsId(dialogData.choisedBatchList)"
      alert-error>
@@ -21,7 +21,7 @@
                     chosen
                     ng-disabled="dialogData.sourceLogisticsCenterId"
                     ng-model="listParams.warehouseId"
-                    select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&type=正常库">
+                    select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&type={{dialogData.warehouseType}}">
             </select>
         </div>
         <!-- 日期过滤 -->

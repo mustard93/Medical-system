@@ -109,12 +109,8 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             alertWarn('请选择药品。');
             return false;
         }
-        if (!addDataItem.quantity||addDataItem.quantity<1) {
-            alertWarn('请输入大于0的数量。');
-            return false;
-        }
-        // if (!addDataItem.strike_price) {
-        //     alertWarn('请输入成交价格。');
+        // if (!addDataItem.quantity||addDataItem.quantity<1) {
+        //     alertWarn('请输入大于0的数量。');
         //     return false;
         // }
         if(addDataItem.quantity>medical.quantity){//库存不足情况
@@ -132,7 +128,23 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-  
+
+    // 重新选择历史价格之后哟啊实时重新计算总计
+    $scope.lossOverOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+
+            var _tmp = 0;
+            for (var i = 0; i < item.stockBatchs.length; i++) {
+              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
+            }
+            _total += _tmp;
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
     // 保存  type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
 

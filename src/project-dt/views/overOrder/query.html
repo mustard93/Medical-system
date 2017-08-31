@@ -6,18 +6,19 @@
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"报溢单","link":"","style":""}]'
-                                is-show-select-item='[{"name":"报溢单","link":"#/lossOverOrder/query-overflow.html"},{"name":"报损单","link":"#/lossOverOrder/query-reimburse.html"}]'
-                                is-show-create-btn="报溢单"
+                                component-title="报溢单"
+                                is-show-create-btn="新建报溢单"
                                 create-btn-author="报损报溢新增"
-                                create-new-url="#/lossOverOrder/edit-overflow.html"
+                                create-new-url=" #/overOrder/edit.html"
                                 get-status-num-url="rest/authen/lossOverOrder/countByOrderStatus.json?type=报溢"
-                                status-group-data='[["待审核-true","待审批-true","已通过-true","未通过-true"]]'
+                                status-group-data='[["未提交-true","待审核-true","已完成-true"],["未通过-true"],["已作废-true"]]'
                                 is-show-business-btn-group=true
                                 is-show-date-filter=true
                                 is-show-key-filter=true
-                                is-show-warehouse-filter=true
-                                get-warehouse-list-url="rest/authen/warehouse/queryForSelectOption"
-                                search-placeholder-info=""
+                                is-show-logistics-center-filter=true
+                                search-placeholder-info="单据编号"
+                                show-date-name="制单日期："
+                                get-logistics-center-url="rest/authen/logisticsCenter/queryForSelectOption.json"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
@@ -41,19 +42,18 @@
                 <div class="relative ">
                   <div class="flex-row">
                     <span class="flex-item-6 title-states text-bold color-3 pd-m">
-                      <em>
+                      <em ng-class="{'color-green2':(tr.orderStatus=='已完成')}">
                           {{tr.orderStatus}}
                       </em>
                     </span>
-                    <span ng-if="!tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id" class="text-right">
+                    <span ng-if="tr.orderStatus=='未提交' " class="flex-item-6 text-right">
                     <a
                     tab-nav
                     tab-name='报溢单'
-                    tab-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑" ng-if="$root.hasAuthor('报损报溢修改')">
-
-                    <span class="edit-link-icon">&nbsp;</span></a>
-                        <span ng-if="$root.hasAuthor('报损报溢删除')">
-                            <a ng-if=" !tr.orderStatus =='待审核'&& tr.inputUserId==mainStatus.id"
+                    tab-href=" #/overOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑" ng-if="$root.hasAuthor('报损报溢修改')">
+                    <span class="edit-link-icon">&nbsp;</span>
+                  </a>
+                            <a
                                href="javascript:;"
                                class="btn-link pd-m rect-s"
                                title="删除"
@@ -61,22 +61,21 @@
                                dialog-title="确认删除?"
                                dialog-content="删除后将无法恢复,确认删除?"
                                dialog-template="pr-dialog-submit.html"
-                               callback="$root.goTo('#/lossOverOrder/query-overflow.html')"
+                               callback="$root.goTo(' #/overOrder/query.html')"
                                params='{"id":tr.id}'
                                request-url="rest/authen/lossOverOrder/delete">
                             <span class="delete-link-icon">&nbsp;</span>
                             </a>
-                          </span>
                     </span>
-                    <span class="flex-item-6 text-right">
-                      <a ng-if="tr.orderStatus=='待审核' || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                    <span ng-if="tr.orderStatus!=='未提交'" class="flex-item-6 text-right">
+                      <a
                       tab-nav
                       tab-name='报溢单'
-                      tab-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      tab-href=" #/overOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                      <!--<a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"-->
-                        <!--ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}"-->
+                        <!--ng-href=" #/overOrder/get.html?id={{tr.id}}"-->
                         <!--title="立即审批"-->
                         <!--class="btn-link pd-m rect-s "-->
                         <!--&gt;-->
@@ -87,7 +86,7 @@
 
                   <div class="card-new">
                         <div class="bt-line">
-                          <h1 class="text-center text-m color-black text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
+                          <h1 class="text-center text-m color-black text-ellips-s">{{tr.logisticsCenterName || '暂无'}}</h1>
                         </div>
                         <div class="flex-row qurey text-s color-9 bt-dashed-line">
                           <span class="flex-item-6">单据编号</span>

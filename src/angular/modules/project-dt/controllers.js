@@ -194,7 +194,7 @@ define('project-dt/controllers', ['project-dt/init',
               createAtBeg: $scope.listParams.createAtBeg,
               createAtEnd: $scope.listParams.createAtEnd,
               q: $scope.listParams.q,
-              warehouseType: '正常库',
+              warehouseType:  $scope.dialogData.warehouseType,
               isOnlyAvailable: true
             };
 

@@ -42,6 +42,7 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
         angular.forEach(batchsList, function (item, index) {
           _total += parseInt(item.quantity, 10);
         });
+        $scope.totalQuantity=_total;
         return _total;
       } else {
         return 0;
@@ -71,6 +72,21 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
       }
     };
 
+    $scope.lossOverOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+
+            var _tmp = 0;
+            for (var i = 0; i < item.stockBatchs.length; i++) {
+              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
+            }
+            _total += _tmp;
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
     //生产日期
     $scope.yieldTime = function(tr){
       if(!tr.guaranteePeriod) return;
@@ -86,6 +102,37 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
       tr.productionDate = new Date(isLose).getTime();
     }
 
+
+
+    //计算日期
+    function   DateAdd(interval,number,date,add)  {//如果add为true则加否则减
+        switch(interval) {
+              case   "年"   :   {
+                      if(add) date.setFullYear(date.getFullYear()+number);
+                      else date.setFullYear(date.getFullYear()-number);
+                      return   date;
+                      break;
+              }
+              case   "月"   :   {
+                      if(add) date.setMonth(date.getMonth()+number);
+                      else date.setMonth(date.getMonth()-number);
+                      return   date;
+                      break;
+              }
+              case   "日"   :   {
+                      if(add) date.setDate(date.getDate()+number);
+                      else date.setDate(date.getDate()-number);
+                      return   date;
+                      break;
+              }
+              default   :   {
+                      date.setDate(d.getDate()+number);
+                      return   date;
+                      break;
+              }
+        }
+
+    }
   }
 
   angular.module('manageApp.project-dt')
