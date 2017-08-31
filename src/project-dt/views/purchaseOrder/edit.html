@@ -307,7 +307,8 @@
                    <tr ng-repeat="tr in formData.orderMedicalNos"
                        table-item-handlebtn-component
                        ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
-                       class="relative">
+                       class="relative"
+                       ng-class="{'pr-bg-pinkred':(tr.planQuantity>tr.quantity&&formData.relId)}">
                      <td   class="text-center" style="line-height:2.4">{{tr.code}}
                        <div  class="table-item-handle-btn" ng-class="{'table-item-handle-remove-btn':(formData.relId)}" title="删除">
                          <div class="table-item-confirm-del-area bg-white">

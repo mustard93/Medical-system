@@ -49,11 +49,6 @@
         <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr">业务部门：<em class="color-6">{{showData.departmentName}}</em></span>
           <span class="mgr">业务人员：<em class="color-6">{{showData.saleUser.n}}</em></span>
-          <span class="mgr">销售类型：<em class="color-6">{{showData.salesType}}</em></span>
-          <span class="mgr">付款条件：<em class="color-6">{{showData.paymentType}}</em></span>
-          <span class="mgr">币种：<em class="color-6">{{showData.currencyType}}</em></span>
-          <span class="mgr">汇率：<em class="color-6">1.00</em></span>
-          <span class="mgr">预发货日期：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
         </div>
 
         <!-- 主内容区域 -->
@@ -62,21 +57,23 @@
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="text-center ">商品编号</th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
-                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
-                  <th class="text-center">批号</th>
+                  <th class="text-center">可用量</th>
+                  <th class="text-center">批号/数量</th>
                   <th class="text-center">灭菌批号</th>
+                  <th class="text-center">仓库</th>
                   <th class="text-center">失效日期</th>
+                  <th class="text-center">单价</th>
+                  <th class="text-center">金额</th>
                 </tr>
               </thead>
               <tbody class="pr-bg-white">
                 <tr ng-if="showData.orderMedicalNos.length"
                     ng-repeat="tr in showData.orderMedicalNos">
-                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                  <td class="text-center">{{$index+1}}</td><!-- 序号 -->
                   <td class="text-left">
                     <span class="color-orange cur-pot lend-order-goods-info"
                           ng-init="showInfoArea=false"
@@ -96,6 +93,8 @@
                   <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
                   <td class="text-center">{{tr.productionBatch}}</td><!-- 批号 -->
                   <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
+                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
                 </tr>
               </tbody>
