@@ -74,6 +74,7 @@
              ng-model="data1"
              ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)"
+             is-disabled-this="{{formData.logisticsCenterId}}"
              hide-quantity
              hide-import>
         </div>
@@ -145,7 +146,7 @@
                     ng-repeat="tr in formData.orderMedicalNos"
                     table-item-handlebtn-component
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="ConfirmOrderMedicalController">
+                    ng-controller="lossOverOrderMedicalController">
                   <td class="text-center">
                     {{$index+1}}
                     <div  class="table-item-handle-btn" title="删除">
@@ -189,7 +190,13 @@
                              class="in_ipt"
                              name="batchNum{{$index}}"
                              ng-model="batch.quantity"
-                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                             required
+                             ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
+                             invalid-popover="{{batch.quantity>batch.salesQuantity}}"
+                             popover-show
+                             is-focus="true"
+                             popover-options='{"content":"不能大于可用量", "placement":"right", "trigger":"manual"}'>
                       <input type="hidden" ng-model="batch.id">
                       <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
@@ -288,19 +295,19 @@
              callback="$root.goTo({'tabHref':' #/lossOrder/query.html','tabName':'报损单'})">删除
           </a>
         </span>
-          <button type="submit" class="pr-btn-save-glodbg"
+          <button type="submit" class="pr-btn-save-glodbg mgr"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
-          <button
-                  class=" mgl pr-btn-create-glodbg"
+          <button ng-if="formData.orderStatus=='未提交'"
                   type="button"
+                  class="pr-btn-save-glodbg "
                   handle-this-click
-                  dialog-title="确认通过?"
-                  dialog-content="审核后,将提交审批，确认审核?"
+                  dialog-title="确认提示"
+                  dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  confirm-btn-txt="通过"
-                  callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!formData.orderMedicalNos.length">审核
+                  callback="submitForm('lossOverOrder_editForm1','submit-loss')"
+                  ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
+                               lossOverOrder_editForm1.$invalid || !formData.totalPrice">提交
           </button>
       </div>
 
