@@ -123,25 +123,16 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         if (!$scope.formData.orderMedicalNos) {
           $scope.formData.orderMedicalNos = [];
         }
-        // 如果已添加
-        if ($scope.formData.orderMedicalNos.length !== 0) {
-          var _len = $scope.formData.orderMedicalNos.length;
-          // console.log(_len);
-          // 未使用forEach方法，因为IE不兼容
-          for (var i=0; i<_len; i++) {
-            if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-              alertWarn('此药械已添加到列表');
-              return false;
-            }
-          }
-        }
+
+        addDataItem.stockBatchs=[];
+
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
         //计算价格
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-
+  
     // 保存  type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
 
@@ -211,6 +202,162 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
       $('.sales-order-item-delbtn').hide();
       $scope.showHandleArea = false;
     };
+
+    // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
+    $scope.$watch('formData.orderMedicalNos', function (newVal) {
+
+      var _total = 0;
+      if ($scope.formData.orderMedicalNos) {
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.stockBatchs) {
+            for (var i = 0; i < data.stockBatchs.length; i++) {
+              _total += parseInt(data.stockBatchs[i].quantity,10);
+            }
+          }
+
+          // 如果所有批次数量的和小于计划数量，则弹出提示
+          $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].quantity && _total !== 0) ? true : false;
+
+        });
+
+
+      }
+    }, true);
+
+    $scope.deleteQuantity=function(item){
+      angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+        if (item.quantityAndbatchNumber) {
+          item.quantityAndbatchNumber = '';
+          item.otherQuantity ='';
+          item.otherSterilizationBatchNumber = '';
+          item.otherWarehouseName ='';
+          item.validTill=' ';
+        }
+      });
+    };
+
+    //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+    //用于chosen 回调过滤数据用。
+    $scope.getProductionBatchValueArray = function (stockBatchs) {
+        var arr=[];
+        if(!stockBatchs)return arr;
+        for(var i=0;i<stockBatchs.length;i++){
+            arr.push(stockBatchs[i].batchNumber);
+        }
+        return arr;
+    };
+
+
+        $scope.diffPurchaseNumber = function (orderMedicalList) {
+          if (orderMedicalList) {
+            // 用于放每一条判断数量后的结果
+            isDisabledNextStepList=[];
+            angular.forEach(orderMedicalList, function (data, index) {
+              // 选择的数量小于计划数量，显示提示信息
+              $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
+              // ..
+              $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
+              // 把每一条判断后的true或者是false放入数组中
+              isDisabledNextStepList.push($scope.isDisabledNextStep);
+            });
+            // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
+            if (isDisabledNextStepList.some(function(item){ return item == true;}))
+            {
+              return $scope.isDisabledNextStep=true;
+            }else{
+              return $scope.isDisabledNextStep=false;
+            }
+          }
+        };
+
+
+            // 切换物流中心时提示用户，在用户选择确定后将已选择品种的批次清空
+            $scope.$watch('formData.logisticsCenterId', function (newVal, oldVal) {
+              if (newVal && oldVal && newVal !== oldVal) {
+
+                // 如果最新值等于初始值 不做更新；
+                if($scope.defaultLogisticsCenterId==newVal){
+                    return;
+                }
+
+                //如果最新值不等于初始值, 清空商品批次信息-并把新值赋给 "defaultLogisticsCenterId";
+                dialogConfirm('切换物流中心后,所有批号信息需要重新选择.确认切换?', function () {
+
+                    // 将已选药品的批次选择清空
+                  if ($scope.formData.orderMedicalNos) {
+                    angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+                      data.stockBatchs = [];
+                    });
+
+                    $scope.defaultLogisticsCenterId=newVal;
+                  }
+
+                },'pr-dialog-confirm.html','确认提示','确定',"", "",{},function () {
+                    //如果取消- 把之前的旧值赋给当前对象属性
+                    $scope.formData.logisticsCenterId=$scope.defaultLogisticsCenterId;
+                });
+              }
+            });
+
+
+
+                $scope.finishQuantity = function (medicalNos){
+
+                  var medicalList=[];
+                  for (var i = 0; i < medicalNos.length; i++) {
+                    medicalList.push(medicalNos[i].quantity);
+                  }
+                  if (medicalList.some(function(item){ return item == 0;}))
+                  {
+                    return $scope.isDisabledNextStep=false;
+
+                  }else{
+                    return $scope.isDisabledNextStep=true;
+                  }
+
+                }
+
+                $scope.checkQuantity = function (quantity,batches){
+                  var totalQuantity=0;
+                  for (var i = 0; i < batches.length; i++) {
+                    totalQuantity+=batches[i].quantity;
+                  }
+
+                  console.log(totalQuantity + '==>' +quantity);
+
+                  if (totalQuantity>quantity||totalQuantity==0) {
+                    $scope.quantityError=true;
+                  }else {
+                    $scope.quantityError=false;
+                  }
+                }
+                // 销售单中批号数量自己手动修改之后。
+                $scope.checkConfirmOrderQuantity = function (batchQuantity,salesQuantity){
+                    // 确定是该商品的哪个批号，然后取出对应的可用量。与当前修改的数量做对比。如果修改的数量大于可用量，则不允许提交。
+                        if (batchQuantity > salesQuantity) {
+                          $scope.quantityConfirmOrderError=true;
+                        }else {
+                          $scope.quantityConfirmOrderError=false;
+                        }
+
+                }
+
+                $scope.totalQuantity=0;
+                // 判断商品数量和该商品所选批号所有的数量之和的对比。
+                $scope.checkSalesQuantity = function (batches,quantity){
+
+                  // 刚执行此方法时要把总数清空，置为0.
+                  $scope.totalQuantity=0;
+                  for (var i = 0; i < batches.length; i++) {
+                    $scope.totalQuantity+=batches[i].quantity;
+                  }
+                  console.log($scope.totalQuantity);
+                  if ($scope.totalQuantity > quantity) {
+                    $scope.quantityError=true;
+                  }else {
+                    $scope.quantityError=false;
+                  }
+                }
 
   }
 

@@ -235,6 +235,8 @@ define('project-dt/controllers', ['project-dt/init',
         salesQuantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
         validTill:obj.validTill,
+        strike_price:obj.strike_price,
+        totalPrice:obj.totalPrice,
         productionDate:obj.productionDate,
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
@@ -267,8 +269,7 @@ define('project-dt/controllers', ['project-dt/init',
           //   $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
           //    // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           // }
-
-          if (index === i) {
+          if (index == i) {
             $scope.formData.orderMedicalNos[i].stockBatchs.push(_tmp);
           }
         });

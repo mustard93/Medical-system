@@ -36,19 +36,28 @@
        <!-- 标题 -->
        <div class="mgt-xl">
          <h1 class="color-black pr-font-20">新建报溢申请单</h1>
-         <div class="mgt-l">
-           <select class="pr-select select-wd-new"
-            chosen
-             ng-model="formData.warehouseCode"
-             default-empty="仓库名"
-             select-source="rest/authen/warehouse/queryForSelectOption">
-           </select>
-         </div>
        </div>
      </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
+      <div class="inline-block">
+         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+           <div class="inline-block logistics-center"></div>
+           <div class="inline-block">
+             <p class="mgb-s">物流中心</p>
+             <p class="text-m color-3">
+               <select ng-if="initFlag" class="ipt ipt-new-select color-3"
+                       data-placeholder=" "
+                       chosen
+                       ng-model="formData.logisticsCenterId"
+                       is-disabled-this="{{formData.customerId}}"
+                       select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+               </select>
+             </p>
+           </div>
+         </div>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
         <div class="view-medical pd-c-l pdt-m" flash-add-medical
@@ -74,7 +83,7 @@
                        ng-readonly="true"
                        placeholder=""
                        ng-model="formData.orderDate" />
-                      <span class="date-icon"></span>
+                      <span class="date-icon" style="top:4px;"></span>
               </span>
               <span class="mgr">审核人：<em class="color-3">暂无</em></span>
             </div>
@@ -84,74 +93,41 @@
           </div>
           <div class="pd-c-l pdt-m pdb-m color-9">
             <span class="mgr">业务部门：
-              <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+              <select ng-if="initFlag" class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
                       chosen
-                      no-first-select-source="true"
-                      width="150px"
+                      width="86px"
                       ng-model="formData.salesDepartmentId"
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
             <span class="mgr">业务人员：
               <select ng-if="initFlag"
-                      class="ipt pr-short-ipt color-3" style="width:90px;"
+                      class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
+                      width="86px"
                       chosen
-                      no-first-select-source="true"
                       ng-model="formData.saleUserId"
                       select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
               </select>
-            </span>
-            <span class="mgr">销售类型：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                        data-placeholder=" "
-                        chosen
-                        ng-model="formData.salesType"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
-                </select>
-            </span>
-            <span class="mgr">付款条件：
-              <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.paymentType"
-                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
-              </select>
-            </span>
-            <span class="mgr">币种：
-              <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.currencyType"
-                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
-              </select>
-            </span>
-            <span class="mgr">汇率：<em class="color-6">1.00</em>
-            </span>
-            <span class="mgr">预发货日期：
-              <input type="text"
-                     datepicker
-                     class="ipt pr-short-ipt color-3"
-                     style="width:90px;"
-                     placeholder=""
-                     ng-readonly="true"
-                     ng-model="formData.expectDate" />
             </span>
           </div>
           <div>
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="text-center ">商品编号</th>
+                  <th class="text-center" style="width:60px;"></th>
                   <th class="text-left w-160">商品通用名</th>
-                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
+                  <th class="text-center">数量<em class="color-red">（必填）</em></th>
                   <th class="text-center">批号</th>
                   <th class="text-center">灭菌批号</th>
+                  <th class="text-center">仓库<em class="color-red">（必填）</em></th>
+                  <th class="text-center">生产日期</th>
                   <th class="text-center">失效日期</th>
+                  <th class="text-center">单价</th>
+                  <th class="text-center">金额</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
@@ -159,91 +135,113 @@
                     ng-repeat="tr in formData.orderMedicalNos"
                     salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="SalesOrderDetailsController">
-                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
-                  <td class="text-left">
-                    <span
-                         class="color-orange cur-pot lend-order-goods-info"
-                         ng-init="showInfoArea=false"
-                         ng-mouseenter="showInfoArea=true"
-                         ng-mouseleave="showInfoArea=false">{{tr.name}}
-                      <show-info-modal ng-show="showInfoArea"
-                                       get-data-type="local"
-                                       template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{tr}}"
-                                       info-title="商品信息">
-                      </show-info-modal>
-                    </span>
-                  </td><!-- 商品通用名 -->
-                  <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
-                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                  <td class="text-center" style="white-space: nowrap;">
-                    <div class="order-goods-num">
-                      <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
-                      <span class="inline-block">
-                        <input type="number"
-                               min="1"
-                               name="quantity{{$index}}"
-                               class="inline ipt pr-ipt-60 text-center tr-planQuantity"
-                               style="width:60px;"
-                               ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                               ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                               invalid-popover
-                               valid-value="{{!lossOverOrder_editForm['quantity'+$index].$valid}}"
-                               popover-show
-                               popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
-                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                      </span>
-                      <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
-                    </div>
-                  </td><!-- 数量 -->
-                  <td class="text-center relative">
-                    <!-- 已选批号列表 -->
-                    <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
-                         ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
-                         class="ipt-div relative"
-                         style="width:180px;margin-top:10px;margin-left:10px;"
-                         ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
-                      <div class="inline-block text-ellips-s"
-                           style="width:118px;height:100%;"
-                           ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                    ng-controller="ConfirmOrderMedicalController">
+                    <td class="text-center">
+                      {{$index+1}}
+                      <div  class="table-item-handle-btn" title="删除">
+                        <div class="table-item-confirm-del-area bg-white">
+                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                          <p class="pdt-s">
+                            <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                          </p>
+                        </div>
                       </div>
-                      <input type="number"
-                             class="in_ipt"
-                             name="batchNum{{$index}}"
-                             ng-model="batch.quantity"
-                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                      <input type="hidden" ng-model="batch.id">
-                      <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                    </div>
-                    <!-- 批号选择 -->
-                    <div ng-if="getAllBatchTotal(tr.stockBatchs)<tr.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
-                      <i class="addImg"
-                         modal-right="50%"
-                         modal-scope="this"
-                         modal-data='{
-                                      "medicalName":"{{tr.name}}",
-                                      "id":"{{tr.relId}}",
-                                      "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                      "quantity":{{tr.quantity}},
-                                      "choisedBatchList":{{tr.stockBatchs}}
-                                    }'
-                         modal-url="views/versionFlow/choice-stockbatch-dialog.html">
-                      </i>
-                    </div>
-                    <!-- 待选择数 -->
-                    <p ng-if="getAllBatchTotal(tr.stockBatchs)<tr.quantity" class="text-right color-red pdr relative">待选择：{{tr.quantity-getAllBatchTotal(tr.stockBatchs)}}</p>
-                  </td><!-- 批号 -->
-                  <td class="text-center pd-n">
-                    <div ng-repeat="ster in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{tr.sterilizationBatchNumber}}</div>
-                  </td><!-- 灭菌批号 -->
-                  <td class="text-center pd-n" >
-                    <div  ng-repeat="vill in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{tr.validTill | date : 'yyyy-MM-dd'}}</div>
-                  </td>
+                    </td><!-- 序号 -->
+                    <td class="text-left">
+                      <span
+                           class="color-orange cur-pot lend-order-goods-info"
+                           ng-init="showInfoArea=false"
+                           ng-mouseenter="showInfoArea=true"
+                           ng-mouseleave="showInfoArea=false">{{tr.name}}
+                        <show-info-modal ng-show="showInfoArea"
+                                         get-data-type="local"
+                                         template-url="tpl/showInfoModalLendOrder"
+                                         info-object="{{tr}}"
+                                         info-title="商品信息">
+                        </show-info-modal>
+                      </span>
+                    </td><!-- 商品通用名 -->
+                    <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                    <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                    <td class="text-center" style="white-space: nowrap;">
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="number"
+                                 min="1"
+                                 name="quantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center tr-planQuantity"
+                                 style="width:60px;"
+                                 ng-model="tr.quantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!lossOverOrder_editForm['quantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
+                      </div>
+                    </td><!-- 数量 -->
+                    <td class="text-center relative">
+                      <input type="text" name="name" value="" class="ipt text-right" ng-model="tr.productionBatch" style="width:100px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
+                    </td>
+                    <td class="text-center">
+                      <input type="text" name="name" value="" class="ipt text-right" ng-model="tr.sterilizationBatchNumber" style="width:100px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
+
+                    </td><!-- 灭菌批号 -->
+                    <td class="text-center">
+                      <select ng-if="initFlag" class="pr-select pd-s"
+                              style="width:115px;"
+                              ng-model="tr.warehouseId"
+                              ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库"
+                              scope-data="warehouseList">
+                        <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                      </select>
+                    </td><!-- 仓库 -->
+                    <td class="text-center" >
+                      <div class="inline-block relative">
+                        <input type="text" readonly="true" datepicker style="width:120px;"  class="ipt pr-short-ipt" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
+                        <span class="date-icon"></span>
+                      </div>
+                      <!-- <span class="inline-block relative">
+                        <input ng-if="initFlag" type="text"
+                               datepicker
+                               class="ipt color-3"
+                               style="width:120px;"
+                               ng-readonly="true"
+                               placeholder=""
+                               ng-change="yieldTime(tr)"
+                               ng-model="tr.productionDate" />
+                              <span class="date-icon" style="top:4px;"></span>
+                      </span> -->
+                    </td>
+                    <td class="text-center" >
+                      <div class="inline-block relative">
+                        <input type="text" readonly="true" style="width:120px;" datepicker   class="ipt pr-short-ipt" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
+                        <span class="date-icon"></span>
+                      </div>
+                      <!-- <span class="inline-block relative">
+                        <input ng-if="initFlag" type="text"
+                               datepicker
+                               class="ipt color-3"
+                               style="width:120px;"
+                               ng-readonly="true"
+                               placeholder=""
+                               ng-change="loseTime(tr)"
+                               ng-model="tr.validTill" />
+                              <span class="date-icon" style="top:4px;"></span>
+                      </span> -->
+                    </td>
+                    <td class="text-center" >
+                      ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
+                    </td>
+                    <td class="text-right" >
+                      {{tr.quantity*tr.strike_price || tr.totalPrice | currency : '￥'}}
+                    </td>
                 </tr>
               </tbody>
             </table>
