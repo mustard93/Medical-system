@@ -2,8 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");
-     formData.type="报损";
+     callback='initFlag=true;watchFormChange("formData");canNextStep=false;
      getCodeGenerationStrategy("报损报溢单");
      lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);'
      alert-error>
@@ -18,13 +17,8 @@
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-
-        callback='updateStatus={"type":"submit","url":"rest/authen/lossOrder/startProcessInstance",
-        "param":{"businessKey":formData.id}};
-        goToUrlMap={"submit":" #/lossOrder/get.html?id="+formData.id};
-        submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate"
-        ng-init="formData.type='报损'">
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="novalidate">
         <!-- onkeydown="if(window.event.keyCode==13) return false;" -->
         <!-- callback='updateStatus={"type":"submit","url":"rest/authen/lossOrder/updateStatus",
         "param":{"id":formData.id,orderStatus:"待审批"}};
@@ -186,17 +180,17 @@
                            style="width:118px;height:100%;background: #F9FFED;margin-top: -2px;"
                            ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                       </div>
-                      <input type="number"
+                      <input type="text"
                              class="in_ipt"
                              name="batchNum{{$index}}"
                              ng-model="batch.quantity"
-                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                             onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                              required
                              ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                             invalid-popover="{{batch.quantity>batch.salesQuantity}}"
+                             invalid-popover="{{ batch.quantity>batch.salesQuantity}}"
                              popover-show
                              is-focus="true"
-                             popover-options='{"content":"不能大于可用量", "placement":"right", "trigger":"manual"}'>
+                             popover-options='{"content":"不能大于可用量或数量填写不正确", "placement":"right", "trigger":"manual"}'>
                       <input type="hidden" ng-model="batch.id">
                       <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
@@ -228,12 +222,17 @@
                     <div  ng-repeat="vill in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill || "&nbsp;" | date : 'yyyy-MM-dd'}}</div>
                   </td>
                   <td class="text-center" >
-                    ￥<input type="number"  ng-change="lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" class="ipt text-right" ng-model="tr.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
+                    ￥<input type="text"
+                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                    ng-change="lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getAllBatchTotal(tr.stockBatchs);"
+                    class="ipt text-right"
+                    ng-model="tr.strike_price"
+                    style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     <!-- <div  ng-repeat="strP in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">
                     </div> -->
                   </td>
                   <td class="text-right" >
-                    {{totalQuantity*tr.strike_price | currency : '￥'}}
+                    {{totalQuantity*tr.strike_price || tr.totalPrice | currency : '￥'}}
                     <!-- <div  ng-repeat="total in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;"></div> -->
                   </td>
                 </tr>
@@ -306,16 +305,12 @@
                   dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('lossOverOrder_editForm1','submit-loss')"
-                  ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                               lossOverOrder_editForm1.$invalid || !formData.totalPrice">提交
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.totalPrice || canNextStep">提交
           </button>
       </div>
 
       <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+        <em class="color-white">
             ￥{{formData.totalPrice || '0.00' | number:2}}
         </em>
       </div>

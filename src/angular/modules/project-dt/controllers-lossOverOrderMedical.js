@@ -49,7 +49,9 @@ define('project-dt/controllers-lossOverOrderMedical', ['project-dt/init'], funct
         angular.forEach(batchsList, function (item, index) {
           _total += parseInt(item.quantity, 10);
         });
+        console.log('_total',_total);
         $scope.totalQuantity=_total;
+        console.log('totalQuantity',$scope.totalQuantity);
         return _total;
       } else {
         return 0;

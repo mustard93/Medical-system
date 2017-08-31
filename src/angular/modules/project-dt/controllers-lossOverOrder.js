@@ -223,6 +223,12 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             for (var i = 0; i < data.stockBatchs.length; i++) {
               _total += parseInt(data.stockBatchs[i].quantity,10);
             }
+            // 判断只要有一个数量大于当前的可用量就不允许提交
+            if (data.stockBatchs.some(function(item){return item.quantity>item.salesQuantity;})) {
+              $scope.canNextStep=true;
+            }else {
+              $scope.canNextStep=false;
+            };
           }
 
           // 如果所有批次数量的和小于计划数量，则弹出提示
