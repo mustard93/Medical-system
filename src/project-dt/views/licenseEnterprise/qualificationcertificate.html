@@ -1,4 +1,4 @@
-<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
+<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()" ng-controller="licenseController">
     <table-list list-data="rest/authen/qualificationCertificate/query.json?licenseType=公司&licenseSonType=资质证照&t={{listObject.reloadTime}}"
                 list-params="listParams"
                 list-object="listObject"
@@ -28,6 +28,10 @@
                 <div class="inline-block relative mgb-l" ng-if="$root.hasAuthor('证照档案企业新增')">
                     <a modal-right="550"
                        modal-scope="this"
+                       modal-data='{
+                                   "enterFlag":"true",
+                                   "licenseType":"公司",
+                                   "licenseSonType":"资质证照"}'
                        modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
                        <i class="license-file"></i><span style="width:135px;padding-left: 35px;" class="mgt-s box-sh">新建资质证照</span>
                     </a>
@@ -70,9 +74,13 @@
                                         </div>
                                         <!--修改-->
                                         <div class="inline-block handle-btn edit-icon" ng-if="$root.hasAuthor('证照档案企业修改')"
-                                             modal-right="480"
+                                             modal-right="550"
                                              modal-scope="this"
-                                             modal-data="'data':'{{tr.id}}'"
+                                             modal-data='{
+                                                        "id":"{{tr.id}}",
+                                                       "enterFlag":"true",
+                                                       "licenseType":"公司",
+                                                       "licenseSonType":"资质证照"}'
                                              modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
                                         </div>
                                         <!--查看操作人-->
@@ -99,7 +107,6 @@
                                             <!--</a>-->
                                         <!--</div>-->
                                     <!--</div>-->
-                                </div>
                             </td>
                             <td class="text-left">{{tr.licenseTypeName}}</td><!--证件类型-->
                             <td>{{tr.systemPreset}}</td><!--系统预警-->

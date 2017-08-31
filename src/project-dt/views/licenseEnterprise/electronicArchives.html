@@ -1,4 +1,4 @@
-<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()">
+<div class="medical-stock supplier-management child-project-management" ng-init="listObject.reloadTime=$root.utils.getNowTime()" ng-controller="licenseController">
     <table-list list-data="rest/authen/qualificationCertificate/query.json?licenseType=公司&licenseSonType=电子档案&t={{listObject.reloadTime}}"
                 list-params="listParams"
                 list-object="listObject"
@@ -29,7 +29,11 @@
                 <div class="inline-block relative mgb-l">
                     <a modal-right="550"
                        modal-scope="this"
-                       modal-url="views/licenseEnterprise/set-licenseFile-dialog2.html">
+                       modal-data='{
+                                   "enterFlag":"false",
+                                   "licenseType":"公司",
+                                   "licenseSonType":"电子档案"}'
+                       modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
                         <i class="license-file"></i><span style="width:135px;padding-left: 35px;" class="mgt-s box-sh">新建电子档案</span>
                     </a>
                 </div>
@@ -70,10 +74,14 @@
                                     </div>
                                     <!--修改-->
                                     <div class="inline-block handle-btn edit-icon" ng-if="$root.hasAuthor('证照档案企业修改')"
-                                         modal-right="480"
+                                         modal-right="550"
                                          modal-scope="this"
-                                         modal-data="'data':'{{tr.id}}'"
-                                         modal-url="views/licenseEnterprise/set-licenseFile-dialog2.html">
+                                         modal-data='{
+                                                        "id":"{{tr.id}}",
+                                                       "enterFlag":"false",
+                                                       "licenseType":"公司",
+                                                       "licenseSonType":"电子档案"}'
+                                         modal-url="views/licenseEnterprise/set-licenseFile-dialog.html">
                                     </div>
                                     <!--查看操作人-->
                                     <div class="inline-block handle-btn see-icon"
