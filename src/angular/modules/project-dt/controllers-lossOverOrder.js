@@ -155,7 +155,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
       }
 
       if ($scope.submitForm_type == 'submit-loss') {
-        _url='rest/authen/overOrder/startProcessInstance';
+        _url='rest/authen/lossOrder/startProcessInstance';
         data= {businessKey:$scope.formData.id};
         requestData(_url, data, 'POST')
           .then(function (results) {
@@ -169,7 +169,24 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
           });
        }
 
-      if ($scope.submitForm_type == 'save') {
+
+      if ($scope.submitForm_type == 'submit-over') {
+            _url='rest/authen/overOrder/startProcessInstance';
+            data= {businessKey:$scope.formData.id};
+            requestData(_url, data, 'POST')
+                .then(function (results) {
+                    var _data = results[1];
+                    alertOk(_data.message || '操作成功');
+                    $scope.goTo({tabHref:'#/overOrder/get.html?id='+$scope.formData.id,tabName:'报溢单'});
+
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
+
+
+        if ($scope.submitForm_type == 'save') {
         // console.log(this);
       }
     };
