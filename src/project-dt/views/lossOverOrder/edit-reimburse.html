@@ -90,7 +90,7 @@
                        ng-readonly="true"
                        placeholder=""
                        ng-model="formData.orderDate" />
-                      <span class="date-icon"></span>
+                      <span class="date-icon" style="top:4px;"></span>
               </span>
               <span class="mgr">审核人：<em class="color-3">暂无</em></span>
             </div>
@@ -100,18 +100,19 @@
           </div>
           <div class="pd-c-l pdt-m pdb-m color-9">
             <span class="mgr">业务部门：
-              <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
+              <select ng-if="initFlag" class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
                       chosen
-                      width="150px"
+                      width="86px"
                       ng-model="formData.salesDepartmentId"
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
             <span class="mgr">业务人员：
               <select ng-if="initFlag"
-                      class="ipt pr-short-ipt color-3" style="width:90px;"
+                      class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
+                      width="86px"
                       chosen
                       ng-model="formData.saleUserId"
                       select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
@@ -122,7 +123,7 @@
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="text-center" style="width:60px;">序号</th>
+                  <th class="text-center" style="width:60px;"></th>
                   <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
@@ -169,27 +170,8 @@
                   </td><!-- 商品通用名 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                  <td class="text-center" style="white-space: nowrap;">
-                    <div class="order-goods-num">
-                      <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
-                      <span class="inline-block">
-                        <input type="number"
-                               min="1"
-                               name="quantity{{$index}}"
-                               class="inline ipt pr-ipt-60 text-center tr-planQuantity"
-                               style="width:60px;"
-                               ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                               ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                               invalid-popover
-                               valid-value="{{!lossOverOrder_editForm1['quantity'+$index].$valid}}"
-                               popover-show
-                               popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
-                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                      </span>
-                      <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
-                    </div>
+                  <td class="text-right">
+                      {{tr.quantity}}
                   </td><!-- 数量 -->
                   <td class="text-center relative" style="padding:0 0 10px 0;width:200px;">
                     <!-- 已选批号列表 -->
@@ -199,7 +181,7 @@
                          style="width:180px;margin-top:10px;margin-left:10px;"
                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                       <div class="inline-block text-ellips-s"
-                           style="width:118px;height:100%;background: #F9FFED;margin-top: -3px;"
+                           style="width:118px;height:100%;background: #F9FFED;margin-top: -2px;"
                            ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                       </div>
                       <input type="number"
@@ -228,7 +210,7 @@
                          modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                       </i>
                     </div>
-                  
+                  </td>
                   <td class="text-center pd-n">
                     <div ng-repeat="ster in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                   </td><!-- 灭菌批号 -->
@@ -240,7 +222,7 @@
                   </td>
                   <td class="text-center pd-n" >
                     <div  ng-repeat="strP in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">
-                      ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="strP.strike_price" style="width:60px;height:28px;">
+                      ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="strP.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     </div>
                   </td>
                   <td class="text-right pd-n" >

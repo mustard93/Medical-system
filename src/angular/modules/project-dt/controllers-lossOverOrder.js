@@ -132,7 +132,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-
+  
     // 保存  type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
 
