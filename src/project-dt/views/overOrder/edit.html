@@ -1,6 +1,6 @@
 <div class="loss-over-order"
      ng-controller="lossOverOrderEditCtrl"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/overOrder/getOfEdit?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报损报溢单")'
      alert-error>
@@ -9,7 +9,7 @@
         name="lossOverOrder_editForm"
         form-validator
         parameter-body
-        action="rest/authen/lossOverOrder/save.json"
+        action="rest/authen/overOrder/save.json"
         alert-error
         alert-ok
 
@@ -205,15 +205,20 @@
                     </td><!-- 仓库 -->
                     <td class="text-center" >
                       <div class="inline-block relative">
-                        <input type="text" readonly="true" datepicker style="width:120px;"  class="ipt pr-short-ipt" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
+                        <input type="text" readonly="true" datepicker style="width:120px;"  class="date-input" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
                         <span class="date-icon" style="margin-top:4px;"></span>
                       </div>
                     </td>
                     <td class="text-center" >
-                      <div class="inline-block relative">
-                        <input type="text" readonly="true" style="width:120px;" datepicker   class="ipt pr-short-ipt" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
+
+
+                     <div class="inline-block relative">
+                        <input type="text" readonly="true" style="width:120px;" datepicker   class="date-input" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
                         <span class="date-icon" style="margin-top:4px;"></span>
                       </div>
+
+
+
                     </td>
                     <td class="text-center" >
                       ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
@@ -289,12 +294,12 @@
           <button class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
-                  dialog-title="确认通过?"
-                  dialog-content="审核后,将提交审批，确认审核?"
+                  dialog-title="提交"
+                  dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  confirm-btn-txt="通过"
+                  confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!formData.orderMedicalNos.length">审核
+                  ng-disabled="!formData.orderMedicalNos.length">提交
           </button>
 
       </div>
