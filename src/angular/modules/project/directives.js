@@ -4159,6 +4159,41 @@ function changeImg () {
       }
     };
   }
+
+
+  function date (utils,$parse) {
+      'use strict';
+      return {
+          restrict: 'EA',
+          scope:{
+              "ngModel": "="
+          },
+          templateUrl: Config.tplPath + 'tpl/project/date.html',
+          link: function ($scope, element, $attrs) {
+
+            if($attrs.styles){
+                $scope.styles=  JSON.parse( $attrs.styles)||{'z-index':1};
+
+                console.log("$scope.styles",$scope.styles);
+            }
+
+
+            try{
+                $scope.zIndex= $scope.styles['z-index']*1+1;
+            }catch (e){
+                $scope.zIndex= 2;
+            }
+
+
+
+            $scope.clearVal=function () {
+                $scope.ngModel='';
+            }
+
+          }
+      }
+  }
+
   angular.module('manageApp.project')
   .directive("htmlEdit", [ htmlEdit])
   .directive("textareaJson", ['utils', 'alertError', textareaJson])
@@ -4234,5 +4269,6 @@ function changeImg () {
   .directive("medicalStockMouseOverSee",["utils","$compile",medicalStockMouseOverSee])
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
   .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数.directive("dtRightSide",["utils",dtRightSide]);//弹出框显示限制剩余字数
-  .directive("dtRightSide",["utils",dtRightSide]);
+  .directive("dtRightSide",["utils",dtRightSide])
+  .directive("date",["utils","$parse",date]);
 });

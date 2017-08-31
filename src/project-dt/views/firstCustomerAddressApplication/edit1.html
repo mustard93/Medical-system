@@ -16,7 +16,7 @@
         </p>
         <div class="pd-c-xxl pdt-l pdb-l">
             <!-- 标题 -->
-            <div class="mgt-xl">
+            <div>
               <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营客户</h1>
               <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营客户</h1>
             </div>
@@ -88,7 +88,7 @@
                      ng-if="initFlag"
                      ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CustomerType" scope-data="scopeData"
                      callback="initFlag=false;">
-                        <div class="mycheck-new" style="margin-top:-3px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
+                        <div class="mycheck-new" style="margin-top:-3px;padding-right:15px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
                             <input class="relative" type="checkbox" id="firstCustomerAddressApplication{{$index + 1}}1" ng-model="item.value" ng-click="choiceCommodityType(item);" />
                             <label for="firstCustomerAddressApplication{{$index + 1}}1"></label>
                             <em class="color-black">{{item.text}}</em>
@@ -132,9 +132,9 @@
                                 p-id-key="parentId">
                                 <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.customerAttribute.name}}">{{formData.customerAttribute.name}}</div>
                                 <span style="display:none;">{{formData.attributeId}}</span>
-                                <em class="mgl">选择</em>
+                                <em class="mgl vcenter">选择</em>
                         </button>
-                        <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
+                        <em class="color-red mgl relative vcenter" style="top:3px;" ng-if="!formData.customerAttribute.name">(必选)</em>
                       </div>
                     </div>
                     <div class="flex-row mgt">
@@ -221,7 +221,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row mgt mgb">
-                  <p class="flex-item-2 text-right">经营范围：</p>
+                  <p class="flex-item-2 text-right" style="line-height:25px;">经营范围：</p>
                   <div class="flex-item-8  text-left ">
                     <div ng-if="formData.businessScope.length" class="inline-block">
                       <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope">
