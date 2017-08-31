@@ -10,11 +10,49 @@ define('project-dt/controllers-license', ['project-dt/init'], function() {
    * @param  {[type]}                   utls            [description]
    * @return {[type]}                                   [description]
    */
-  function licenseController ($scope, modal, alertWarn, alertError, requestData, utils) {
+  function licenseController ($rootScope,$scope, modal, alertWarn, alertError, requestData, utils) {
 
-      $scope.submitForm = function (fromId) {
+      $scope.$on("reloadListData",function (e,data) {
+          $scope.listObject.reloadTime=$rootScope.utils.getNowTime()
+          e.stopPropagation();
+      })
+      // $scope.submitForm = function (fromId) {
+      //
+      //     $scope.submitFormValidator(fromId);
+      // };licenseType=公司&licenseSonType={{dialogData.licenseSonType}}
+      // 保存 type:save-草稿,submit-提交订单。
+      $scope.submitForm = function(fromId, type) {
+          $scope.submitForm_type = type;
+          if ($scope.submitForm_type == 'submit-licenseType') {
+              // var _data = {
+              //     'licenseType': $scope.dialogData.licenseType,
+              //     'licenseSonType':$scope.dialogData.licenseSonType,
+              //     'licenseTypeName':$scope.formData.licenseTypeName,
+              //     'isWarning':$scope.formData.isWarning,
+              //     'controllType':$scope.formData.controllType,
+              //     'enterpriseType':$scope.formData.enterpriseType,
+              //     'remark':$scope.formData.remark,
+              //     'id':id
+              // }
 
-          $scope.submitFormValidator(fromId);
+              $scope.formData = angular.extend($scope.formData ,$scope.dialogData);
+
+
+              console.log("$scope.formData",$scope.formData);
+
+
+
+              requestData('rest/authen/qualificationCertificate/save', $scope.formData , 'POST', 'parameterBody')
+                  .then(function (results) {
+                      if (results[1].code === 200) {
+                          $scope.$emit('reloadListData',{});
+                          modal.close();
+                      }
+                  })
+                  .catch(function (error) {
+                  });
+          }
+
       };
 
         //点击选中对象加入数组
@@ -35,5 +73,5 @@ define('project-dt/controllers-license', ['project-dt/init'], function() {
   }
 
   angular.module('manageApp.project-dt')
-  .controller('licenseController', ['$scope',"modal",'alertWarn',"alertError", "requestData", "utils", licenseController]);
+  .controller('licenseController', ['$rootScope','$scope',"modal",'alertWarn',"alertError", "requestData", "utils", licenseController]);
 });
