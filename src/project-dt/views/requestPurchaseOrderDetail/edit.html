@@ -81,7 +81,7 @@
                     ajax-if-eval="formData.supplier.id"
                     ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
                     scope-data="supplier"
-                    callback="formData.supplier=supplier;chkSupplierInfo(supplier);getHistoryFirstPrice(supplier);"
+                    callback="formData.supplier=supplier;chkSupplierInfo(supplier);"
                     alert-error>
                  <div>
                    <span ng-if="initFlag"
@@ -273,6 +273,8 @@
                  </tr>
                  </thead>
                  <tbody class="bg-white">
+
+
                    <tr ng-repeat="tr in formData.orderMedicalNos"
                        table-item-handlebtn-component
                        ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
@@ -301,9 +303,16 @@
                                           info-title="商品信息">
                          </show-info-modal>
                        </span>
-                       <p ng-if="tr.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                       <!--<p ng-if="tr.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">-->
+                         <!--<i class="warning-icon"></i>-->
+                         <!--{{tr.info.msg}}-->
+                         <!--<span style="margin-left: 15px;">-->
+                          <!--<a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>-->
+                        <!--</span>-->
+                       <!--</p>-->
+                       <p ng-if="identityForMedicalStocksMap[tr.relId].msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
                          <i class="warning-icon"></i>
-                         {{tr.info.msg}}
+                         {{identityForMedicalStocksMap[tr.relId].msg}}
                          <span style="margin-left: 15px;">
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{tr.relId}}" class="color-orange">查看详情</a>
                         </span>

@@ -4,7 +4,7 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
    * @method ConfirmOrderMedicalController
    * @param  {[type]}                      $scope [description]
    */
-  function ConfirmOrderMedicalController ($scope) {
+  function ConfirmOrderMedicalController ($scope,requestData) {
 
     // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
     $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
@@ -35,9 +35,8 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
 
     };
 
-    // 获取所有批次药品数量的合计
+    // 获取所有选了的批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
-
       if (batchsList && angular.isArray(batchsList)) {
         var _total = 0;
         angular.forEach(batchsList, function (item, index) {
@@ -48,6 +47,7 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
         return 0;
       }
     };
+
 
     // 总价计算方法
     $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
@@ -74,5 +74,5 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
   }
 
   angular.module('manageApp.project-dt')
-  .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController]);
+  .controller('ConfirmOrderMedicalController', ['$scope','requestData', ConfirmOrderMedicalController]);
 });

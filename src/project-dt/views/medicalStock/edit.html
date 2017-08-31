@@ -1,4 +1,4 @@
-<div class="first-medical-application"
+<div class="first-medical-application first-modal"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -6,7 +6,7 @@
      alert-error>
 
      <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">供应商中心 >
+       <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">基础设置 >
          <a tab-nav tab-name="首营品种管理" tab-href="#/firstMedicalApplication/query.html">
             <em class="color-custom-orange">首营管理</em>
          </a>
@@ -29,13 +29,13 @@
             parameter-body
             action="rest/authen/medicalStock/save"
             alert-error
-            alert-ok
+
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
             callback="submitFormAfter('#/medicalStock/get.html','品种管理');watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);">
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-row">
+        <div class="panel pr-panel pr-panel-height mgb  flex-row">
           <div class="flex-item-6">
             <span class="flex-item-2">
               单据编号：<em class="color-6">{{formData.relOrderNo || '暂无'}}</em>
@@ -52,30 +52,29 @@
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
           <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
           <!--性质-->
-          <div ng-if="initFlag" class="flex-row mgt">
-            <label class="flex-item-2 text-right control-label pdr-s">性质：</label>
-            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left">
+          <div ng-if="initFlag" class="flex-row mgt-l bb-dashed-line">
+            <p  class="flex-item-2 text-right control-label pdr-s">性质：</p>
+            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">
               <div class="inline-block">
-                <div class="inline-block " style="position:relative;top:-5px;">
-                  <label class="radio-inline radio radio-new mgl-s">
+                <div class="inline-block mgr" style="position:relative;top:-5px;">
+                  <p  class="radio-inline radio radio-new mgl-s">
                     <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                    <em class="inline-block" style=" color:#666;margin-left:-10px;">医疗器械</em>
-                  </label>
+                  </p>
+                  <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;">医疗器械</em>
                 </div>
                 <div class="inline-block " style="position:relative;top:-5px;">
-                  <label class="radio-inline radio radio-new mgl-s">
+                  <p  class="radio-inline radio radio-new mgl-s">
                     <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                    <em class="inline-block" style=" color:#666;margin-left:-10px;">药品</em>
-                  </label>
+                  </p>
+                  <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;">药品</em>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class=" pd-v-m">
+          <div class="">
             <!--通用名-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">通用名：</label>
+            <div class="flex-row mgt-l">
+              <p   class="flex-item-2 text-right control-label pdr-s">通用名：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new"
@@ -88,7 +87,7 @@
 
             <!--商品名称-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">商品名称：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">商品名称：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new"
@@ -101,37 +100,42 @@
 
             <!--英文名称-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">英文名称：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">英文名称：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new"
                        name="englishName"
                        ng-model="formData.englishName" />
+                <!-- <span ng-if="!formData.englishName" class="color-red">（必填）</span> -->
               </div>
             </div>
 
             <!--商品分类-->
             <div class="flex-row mgt pdb-l bb-dashed-line">
-              <label class="flex-item-2   text-right control-label">商品分类：</label>
+              <p  class="flex-item-2   text-right control-label">商品分类：</p>
               <div class="flex-item-10 color-3 text-left ">
-              <div class="autocut z-tree-div inline-block fl-l" title="{{formData.medicalAttribute.name}}">{{formData.medicalAttribute.name}}</div>
-                <span style="display:none;">{{formData.attributeId}}</span>
+
                 <button type="button"
                 z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"
-                class="btn-select fl-l"
+                class="btn-select fl-l text-left"
+                style="margin-left:0px;"
                 width="240px"
                 ng-model="formData.medicalAttribute"
                 id-key="id"
-                p-id-key="parentId">选择
+                p-id-key="parentId">
+                <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.medicalAttribute.name}}">{{formData.medicalAttribute.name}}</div>
+                  <span style="display:none;">{{formData.attributeId}}</span>
+                <em class="mgl">选择</em>
                 </button>
                 <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.medicalAttribute.name">(必选)</em>
               </div>
 
             </div>
 
+
             <!--编号-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
+            <div class="flex-row mgt-l">
+              <p   class="flex-item-2 text-right control-label pdr-s">编号：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new "
@@ -146,7 +150,7 @@
                        style="width:80px;"
                        ng-model="formData.serialCode"/>
                        <span ng-if="!formData.serialCode" class="color-red">（必填）</span>
-               <label class="mgl-s control-label pdr-s">原商品编号：</label>
+               <p   class="mgl-s control-label pdr-s inline-block" style="margin-top:-8px;">原商品编号：</p>
                <input type="text"
                       class="ipt-new "
                       style="width:80px;"
@@ -157,7 +161,7 @@
 
             <!--剂型／分类-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">剂型／分类：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">剂型／分类：</p>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                         chosen
@@ -171,7 +175,7 @@
 
             <!--规格／型号-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">规格／型号：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">规格／型号：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new-s ipt-new"
@@ -184,7 +188,7 @@
 
             <!--装箱规格-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">装箱规格：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">装箱规格：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        class="ipt-new-s ipt-new"
@@ -195,8 +199,9 @@
 
             <!--基本单位-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">基本单位：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">基本单位：</p>
               <div class="flex-item-10 text-left">
+
                 <input type="text"
                        class="ipt-new-s ipt-new"
                        name="unit"
@@ -209,19 +214,21 @@
 
             <!--有效期-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">有效期：</label>
+              <p  class="flex-item-2 text-right control-label pdr-s">有效期：</p>
               <div class="flex-item-10 text-left">
                 <input type="number"
                        class="ipt-new-s ipt-new"
                        name="guaranteePeriod"
                        style="width:60px"
-                       ng-model="formData.guaranteePeriod" />
+                       onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                       onkeyup="if(this.value == 0)this.value=''"
+                       ng-model="formData.guaranteePeriod"/>
                 <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
-                  <div ng-repeat="date in DateUnit" class="inline-block " style="position:relative;top:-5px;">
-                    <label class="radio-inline radio radio-new mgl-s">
+                  <div ng-repeat="date in DateUnit" class="inline-block mgr-s" style="position:relative;top:-5px;">
+                    <p  class="radio-inline radio radio-new mgl-s">
                       <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
-                      <em class="inline-block" style=" color:#666;margin-left:-10px;">{{date.text}}</em>
-                    </label>
+                    </p>
+                    <em class="inline-block mgt-s" style=" color:#666; margin-left:-5px;">{{date.text}}</em>
                   </div>
                 </div>
               </div>
@@ -229,7 +236,7 @@
 
             <!--预警天数-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">预警天数：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">预警天数：</p>
               <div class="flex-item-10 text-left">
                 <input type="number"
                        name="guaranteePeriodAlarmDay"
@@ -241,7 +248,7 @@
 
             <!--储存条件-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">储存条件：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">储存条件：</p>
               <div class="flex-item-10 text-left">
                 <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                         data-placeholder=" "
@@ -255,7 +262,7 @@
             </div>
             <div class="" ng-if="formData.storageCondition=='冷藏'||formData.storageCondition=='冷冻'">
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">温度上限：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">温度上限：</p>
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new-s ipt-new"
@@ -266,7 +273,7 @@
                 </div>
               </div>
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">温度下限：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">温度下限：</p>
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new-s ipt-new"
@@ -277,7 +284,7 @@
                 </div>
               </div>
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">湿度上限：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">湿度上限：</p>
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new-s ipt-new"
@@ -288,7 +295,7 @@
                 </div>
               </div>
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">湿度下限：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">湿度下限：</p>
                 <div class="flex-item-10 text-left">
                   <input type="number"
                          class="ipt-new-s ipt-new"
@@ -302,7 +309,7 @@
 
             <!--经营范围-->
             <div class="flex-row mgt pdb-l bb-dashed-line">
-              <label class="flex-item-2   text-right control-label">经营范围：</label>
+              <p   class="flex-item-2   text-right control-label">经营范围：</p>
               <div class="flex-item-10 color-3 text-left ">
                 <!--<input type="text"-->
                        <!--class="ipt-new ipt-new-s"-->
@@ -315,7 +322,7 @@
 
                 <div class="flex-item-8  text-left ">
                   <!---->
-                  <div class="color-href cur-pot mgl-m inline-block ng-isolate-scope"
+                  <div class="color-href cur-pot mgl-m inline-block ng-isolate-scope" style="margin-top:3px;"
                        modal-right="470"
                        modal-scope="this"
                        modal-data='{"id":"{{formData.businessScope.id}}"}'
@@ -330,77 +337,72 @@
             </div>
 
             <!--质量标准-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
+            <div class="flex-row mgt-l">
+              <p   class="flex-item-2 text-right control-label pdr-s">质量标准：</p>
               <div class="flex-item-10 text-left">
                 <input type="quality"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.quality"/>
               </div>
             </div>
 
-            <!--条形码   -->
-    
+            <!--条形码-器械自动生成 -->
+            <div  ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
+              <p   class="flex-item-2 text-right control-label pdr-s">条形码：</p>
+              <div class="flex-item-10 text-left">
 
-              <!--条形码-器械自动生成 -->
-              <div  ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
-                <div class="flex-item-10 text-left">
+                <!--<span style="margin-right: 15px;">{{formData.barcode}}</span>-->
 
-                  <!--<span style="margin-right: 15px;">{{formData.barcode}}</span>-->
+                <input type="text" ng-disabled="true"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
+                <!---->
+                <a ng-if="formData.id"
+                   ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
+                   class="color-orange"
+                   style="margin-left: 10px;">重新生成
+                </a>
 
-                  <input type="text" ng-disabled="true"
-                         class="ipt-new-s ipt-new"
-                         ng-model="formData.barcode"/>
-                  <!---->
-                  <a ng-if="formData.id"
-                     class="color-orange"
-                     style="margin-left: 10px;"
-                     handle-this-click
-                     dialog-title="确认生成?"
-                     dialog-content="重新生成条码会导致仓库中已贴条码失效,确认生成?"
-                     dialog-template="pr-dialog-submit.html"
-                     callback="getBarcode(formData.productEnterprise.code,formData.medicalClassId)">重新生成
-                  </a>
-
-                </div>
               </div>
+            </div>
 
-              <!--条形码-药品（手动输入）   -->
-              <div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">条形码：</label>
-                <div class="flex-item-10 text-left">
-                  <input type="text"
-                         class="ipt-new-s ipt-new"
-                         ng-model="formData.barcode"/>
-                </div>
+            <!--条形码-药品（手动输入）   -->
+            <div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">
+              <p   class="flex-item-2 text-right control-label pdr-s">条形码：</p>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new-s ipt-new"
+                       ng-model="formData.barcode"/>
               </div>
+            </div>
+
+
 
             <!--品牌-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">品牌：</label>
+              <p   class="flex-item-2 text-right control-label pdr-s">品牌：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        name="brand"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.brand"/>
               </div>
             </div>
 
             <!--产地-->
             <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
-              <div class="flex-item-10 text-left">
+              <p   class="flex-item-2 text-right control-label pdr-s">产地：</p>
+              <div class="flex-item-10">
                 <input type="text"
                        name="productionPlace"
-                       class="ipt-new ipt-new-s text-right"
+                       class="ipt-new ipt-new-s"
                        ng-model="formData.productionPlace"/>
               </div>
             </div>
 
             <!--国家器械分类-->
-            <div class="flex-row mgt">
-              <label class="flex-item-2 text-right control-label pdr-s">国家器械分类：</label>
+            <div ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
+              <p   class="flex-item-2 text-right control-label pdr-s">国家器械分类：</p>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                         chosen
@@ -411,86 +413,110 @@
               </div>
             </div>
 
-          </div>
+            <!--U8计量单位-->
+            <!--<div class="flex-row mgt">-->
+              <!--<p   class="flex-item-2 text-right control-label pdr-s">U8计量单位：</p>-->
+              <!--<div class="flex-item-10 text-left">-->
+                <!--<select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"-->
+                        <!--chosen-->
+                        <!--default-empty="无"-->
+                        <!--ng-model="formData.u8Unit"-->
+                        <!--select-source="rest/baseData/queryForSelectOptionByType?type=U8计量单位">-->
+                <!--</select>-->
+              <!--</div>-->
+            <!--</div>-->
+
+
+            <!--计价方式-->
+            <div class="flex-row mgt mgb-l">
+              <p   class="flex-item-2 text-right control-label pdr-s">计价方式：</p>
+              <div class="flex-item-10 text-left">
+                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.u8ChargeType"
+                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计价方式">
+                </select>
+              </div>
+            </div>
+            </div>
 
             <!--生产企业-->
-            <div  class="pd-v-m bt-dashed-line pr-bg-white">
+            <div  class="pd-v-m bt-dashed-line">
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">生产企业名称：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">生产企业名称：</p>
                 <div class="flex-item-10 text-left" style="width: 245px;">
-                  <!--<input type="text"-->
-                         <!--class="ipt-new"-->
-                         <!--name="productEnterprise"-->
-                         <!--ng-model="formData.productEnterprise" />-->
 
-                         <div ng-if="initFlag" style="position: relative;">
-                                 <span ng-if="!formData.productEnterprise.name"
-                                       angucomplete=""
-                                       placeholder="生产企业名称"
-                                       title-field="name"
-                                       description-field="formData.productEnterprise.name"
-                                       search-fields="{{formData.productEnterprise.name}}"
-                                       search-str-class="ipt"
-                                       url="rest/authen/productEnterprise/query"
-                                       class="inline-block"
-                                       ng-model="formData.productEnterprise">
-                                 </span>
-                                 <input ng-if="formData.productEnterprise.name"
-                                       placeholder="生产企业名称"
-                                       class="inline-block ipt"
-                                       ng-model="formData.productEnterprise.name"
-                                       >
-                                 </input>
-                           <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
-                           <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
-                         </div>
+                  <div ng-if="initFlag" style="position: relative;">
+                          <span ng-if="!formData.productEnterprise.name"
+                                angucomplete=""
+                                placeholder="生产企业名称"
+                                title-field="name"
+                                description-field="formData.productEnterprise.name"
+                                search-fields="{{formData.productEnterprise.name}}"
+                                search-str-class="ipt"
+                                url="rest/authen/productEnterprise/query"
+                                class="inline-block"
+                                ng-model="formData.productEnterprise">
+                          </span>
+                          <input ng-if="formData.productEnterprise.name"
+                                placeholder="生产企业名称"
+                                class="inline-block ipt"
+                                ng-model="formData.productEnterprise.name"
+                                >
+                          </input>
+                    <span ng-if="!formData.productEnterprise.name" class="receive-item-icon" style="top: 4px;left: 215px;"></span>
+                    <span ng-if="formData.productEnterprise.name" class="delete-date-icon cur-pot" style="right:10px;" ng-click="formData.productEnterprise={};"></span>
+                  </div>
 
                 </div>
               </div>
 
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">生产许可证号：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">生产许可证号：</p>
                 <div class="flex-item-3 text-left">
                  <span>{{formData.productEnterprise.productLicense}}</span>
                 </div>
-                <label class="flex-item-2 text-right control-label pdr-s">许可证有效期至：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">许可证有效期至：</p>
                 <div class="flex-item-3 text-left">
                   <span>{{formData.productEnterprise.productLicensePeriod | date : 'yyyy-MM-dd'}}</span>
                 </div>
               </div>
 
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">GMP认证：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">GMP认证：</p>
                 <div class="flex-item-3 text-left">
                   <span>{{formData.productEnterprise.gmpAuthentication}}</span>
                 </div>
-                <label class="flex-item-2 text-right control-label pdr-s">GMP有效期至：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">GMP有效期至：</p>
                 <div class="flex-item-3 text-left">
                   <span>{{formData.productEnterprise.gmpAuthenPeriod | date : 'yyyy-MM-dd'}}</span>
                 </div>
               </div>
 
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">企业注册地址：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">企业注册地址：</p>
                 <div class="flex-item-10 text-left">
                   <span>{{formData.productEnterprise.address}}</span>
                 </div>
               </div>
 
               <div class="flex-row mgt">
-                <label
+                <!---->
+                <p color-9
                         modal-right="456"
                         modal-scope="this"
                         modal-data="{}"
                         modal-url="views/firstMedicalApplication/set-product-dialog.html"
-                        class="flex-item-2 text-right control-label pdr-s color-orange cur-pot" style="font-weight: normal">+新增生产企业</label>
+                        class="flex-item-2 text-right control-label pdr-s color-orange cur-pot" style="font-weight: normal">+新增生产企业</p>
               </div>
+
             </div>
 
 
             <div ng-if="1==2" class="pd-v-m bt-dashed-line">
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">注册商标：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">注册商标：</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
@@ -499,7 +525,7 @@
                 </div>
               </div>
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">国药统一编码：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">国药统一编码：</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
@@ -508,7 +534,7 @@
                 </div>
               </div>
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">质量标准：</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
@@ -518,10 +544,10 @@
               </div>
             </div>
 
-            <div class="pd-v-m bt-dashed-line">
+            <div class="bt-dashed-line bb-dashed-line">
               <!--是否基药-->
-              <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
+              <div class="flex-row mgt-l">
+                <p   class="flex-item-2 text-right control-label pdr-s">是否基药：</p>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" style="height:32px;" ng-model="formData.isBasicMedicine">
                     <option value="是" ng-selected="formData.isBasicMedicine=='是'">是</option>
@@ -532,7 +558,7 @@
 
               <!--牌价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">牌价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">牌价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -551,7 +577,7 @@
               <!--零售价-->
               <div class="flex-row mgt">
 
-                <label class="flex-item-2 text-right control-label pdr-s">零售价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">零售价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -568,7 +594,7 @@
 
               <!--批发价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">批发价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">批发价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -585,7 +611,7 @@
 
               <!--最高售价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">最高售价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">最高售价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -602,7 +628,7 @@
 
               <!--最低售价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">最低售价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">最低售价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -619,7 +645,7 @@
 
               <!--采购价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">采购价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">采购价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -636,7 +662,7 @@
 
               <!--最高采购价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">最高采购价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">最高采购价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -653,7 +679,7 @@
 
               <!--最低采购价-->
               <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">最低采购价：￥</label>
+                <p   class="flex-item-2 text-right control-label pdr-s">最低采购价：￥</p>
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s text-right"
@@ -669,8 +695,8 @@
               </div>
 
               <!--税率-->
-              <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
+              <div class="flex-row mgt mgb-l">
+                <p   class="flex-item-2 text-right control-label pdr-s">税率：</p>
                 <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
                           ng-model="formData.tax"
@@ -678,223 +704,221 @@
                   </select>%
                 </div>
               </div>
-            </div>
-
-          <!--新增商品辅助单位-->
-          <div ng-if="$root.uiTabs.current.name == '品种管理'">
-              <h3 class="mgt-xl crumbs-circle color-black pr-indent-10 pd-v" style="border-radius: 0 ;margin-bottom: 20px;">商品单位信息</h3>
-              <div class="pr-bg-white mgb-m">
-            <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
-              <a href="javascript:;" ng-click="addMedicalUnit();" title="新建商品单位"><i></i><span class="text-s">新增商品单位</span></a>
-            </div>
-            <table class="table pr-table pr-new-table">
-              <thead class="pr-bg-side">
-              <tr>
-                <th class="text-center">序号</th>
-                <th class="text-center">单位类型</th>
-                <th class="text-center">
-                  单位名称
-                  <em class="color-red">(必填)</em>
-                  <em ng-if="showUnit" class="color-red">单位重复</em>
-                </th>
-                <th class="text-center">
-                  换算比率
-                  <em class="color-red">(必填)</em>
-                </th>
-                <th class="text-center">条形码</th>
-                <th class="text-center">中标价</th>
-                <th class="text-center">长(mm)</th>
-                <th class="text-center">宽(mm)</th>
-                <th class="text-center">高(mm)</th>
-                <th class="text-center">重量(kg)</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">基本单位</td>
-                <td class="text-center">
-                  <input type="text"
-                         ng-init="formData.packingAttribute.name"
-                         class="ipt pr-ipt-60 text-center"
-                         ng-model="formData.packingAttribute.name"
-                         ng-change="formData.unit=formData.packingAttribute.name"
-                         ng-change="changeUnit(formData.packingAttribute.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
-                </td>
-                <td class="text-center" ng-model="formData.packingAttribute.ratio">
-                  1
-                </td>
-                <td class="text-center">
-                  <input type="text"
-                         class="ipt ipt-new-s text-center"
-                         ng-model="formData.packingAttribute.barcode"/>
-                </td>
-                <td class="text-center">
-                  ￥<input type="number"
-                          class="ipt pr-ipt-60 text-right"
-                          ng-model="formData.packingAttribute.bidPrice"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
+         </div>
+         <!--新增商品辅助单位-->
+         <div class="mgt-l" ng-if="$root.uiTabs.current.name == '品种管理'">
+             <h3 class="mgt-xl crumbs-circle color-black pr-indent-10 pd-v" style="border-radius: 0 ;margin-bottom: 20px;">商品单位信息</h3>
+             <div class="pr-bg-white mgb-m">
+           <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
+             <a href="javascript:;" ng-click="addMedicalUnit();" title="新建商品单位"><i></i><span class="text-s">新增商品单位</span></a>
+           </div>
+           <table class="table pr-table pr-new-table">
+             <thead class="pr-bg-side">
+             <tr>
+               <th class="text-center">序号</th>
+               <th class="text-center">单位类型</th>
+               <th class="text-center">
+                 单位名称
+                 <em class="color-red">(必填)</em>
+                 <em ng-if="showUnit" class="color-red">单位重复</em>
+               </th>
+               <th class="text-center">
+                 换算比率
+                 <em class="color-red">(必填)</em>
+               </th>
+               <th class="text-center">条形码</th>
+               <th class="text-center">中标价</th>
+               <th class="text-center">长(mm)</th>
+               <th class="text-center">宽(mm)</th>
+               <th class="text-center">高(mm)</th>
+               <th class="text-center">重量(kg)</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr>
+               <td class="text-center">1</td>
+               <td class="text-center">基本单位</td>
+               <td class="text-center">
+                 <input type="text"
+                        ng-init="formData.packingAttribute.name"
+                        class="ipt pr-ipt-60 text-center"
+                        ng-model="formData.packingAttribute.name"
+                        ng-change="formData.unit=formData.packingAttribute.name"
+                        ng-change="changeUnit(formData.packingAttribute.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
+               </td>
+               <td class="text-center" ng-model="formData.packingAttribute.ratio">
+                 1
+               </td>
+               <td class="text-center">
+                 <input type="text"
+                        class="ipt ipt-new-s text-center"
+                        ng-model="formData.packingAttribute.barcode"/>
+               </td>
+               <td class="text-center">
+                 ￥<input type="number"
                          class="ipt pr-ipt-60 text-right"
-                         ng-model="formData.packingAttribute.length"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt pr-ipt-60 text-right"
-                         ng-model="formData.packingAttribute.width"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt pr-ipt-60 text-right"
-                         ng-model="formData.packingAttribute.height"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt ipt-new-s text-right"
-                         ng-model="formData.packingAttribute.unitWeightKg"/>
-                </td>
-              </tr>
-              <tr class="relative"
-                  ng-repeat="tr in formData.othersPackingAttribute"
-                  table-item-handlebtn-component>
-                <td class="text-center">
-                  {{$index + 2}}
-                  <div  class="table-item-handle-btn" style="left:1800px;">
-                    <div class="table-item-confirm-del-area bg-white">
-                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                      <p class="pdt-s">
-                        <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                        <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
-                           ng-click="formData.othersPackingAttribute.splice($index,1);">确认</a>
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-center">辅助单位</td>
-                <td class="text-center">
-                  <input type="text"
-                         class="ipt pr-ipt-60 text-center"
-                         required
-                         ng-model="tr.name"
-                         ng-change="changeUnit(tr.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
+                         ng-model="formData.packingAttribute.bidPrice"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="formData.packingAttribute.length"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="formData.packingAttribute.width"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="formData.packingAttribute.height"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt ipt-new-s text-right"
+                        ng-model="formData.packingAttribute.unitWeightKg"/>
+               </td>
+             </tr>
+             <tr class="relative"
+                 ng-repeat="tr in formData.othersPackingAttribute"
+                 table-item-handlebtn-component>
+               <td class="text-center">
+                 {{$index + 2}}
+                 <div  class="table-item-handle-btn" style="left:1800px;">
+                   <div class="table-item-confirm-del-area bg-white">
+                     <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                     <p class="pdt-s">
+                       <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                       <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
+                          ng-click="formData.othersPackingAttribute.splice($index,1);">确认</a>
+                     </p>
+                   </div>
+                 </div>
+               </td>
+               <td class="text-center">辅助单位</td>
+               <td class="text-center">
+                 <input type="text"
+                        class="ipt pr-ipt-60 text-center"
+                        required
+                        ng-model="tr.name"
+                        ng-change="changeUnit(tr.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
 
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt pr-ipt-60 text-center"
-                         required
-                         ng-model="tr.ratio"
-                         onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
-                </td>
-                <td class="text-center">
-                  <input type="text"
-                         class="ipt ipt-new-s text-center"
-                         ng-model="tr.barcode"/>
-                </td>
-                <td class="text-center">
-                  ￥<input type="number"
-                          class="ipt pr-ipt-60 text-right"
-                          ng-model="tr.bidPrice"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-center"
+                        required
+                        ng-model="tr.ratio"
+                        onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
+               </td>
+               <td class="text-center">
+                 <input type="text"
+                        class="ipt ipt-new-s text-center"
+                        ng-model="tr.barcode"/>
+               </td>
+               <td class="text-center">
+                 ￥<input type="number"
                          class="ipt pr-ipt-60 text-right"
-                         ng-model="tr.length"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt pr-ipt-60 text-right"
-                         ng-model="tr.width"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt pr-ipt-60 text-right"
-                         ng-model="tr.height"/>
-                </td>
-                <td class="text-center">
-                  <input type="number"
-                         class="ipt ipt-new-s text-right"
-                         ng-model="tr.unitWeightKg"/>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
+                         ng-model="tr.bidPrice"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="tr.length"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="tr.width"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt pr-ipt-60 text-right"
+                        ng-model="tr.height"/>
+               </td>
+               <td class="text-center">
+                 <input type="number"
+                        class="ipt ipt-new-s text-right"
+                        ng-model="tr.unitWeightKg"/>
+               </td>
+             </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+         <!--供应商-->
+         <div class="pr-bg-white mgt-l mgb-m">
+               <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
+                 <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
+               </div>
 
-          <!--供应商-->
-          <div class="pr-bg-white mgb-m">
-                <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
-                  <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
-                </div>
+               <table class="table pr-table pr-new-table">
+                 <thead class="pr-bg-side">
+                 <tr>
+                   <th class="text-center">序号</th>
+                   <th style="text-align: left;width: 270px;">供应商名称</th>
+                   <th style="text-align: left">法定代表人</th>
+                   <th style="text-align: left">分类</th>
+                   <th style="text-align: left">编号</th>
+                   <th style="text-align: left">分管部门</th>
+                   <th style="text-align: left">业务人员</th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                   <tr  ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
+                     <td class="text-center">{{$index+1}}
+                       <div  class="table-item-handle-btn" style="left:1800px;">
+                         <div class="table-item-confirm-del-area bg-white">
+                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                           <p class="pdt-s">
+                             <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                             <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
+                                ng-click="formData.suppliers.splice($index,1);">确认</a>
+                           </p>
+                         </div>
+                       </div>
+                     </td>
+                     <td class="text-left">
+                       <div style="position: relative;" ng-init="suppliertmp=supplier">
+                         <span class="temporary" angucomplete=""
+                               placeholder="供应商名称"
+                               title-field="name"
+                               description-field="suppliertmp.name"
+                               search-fields="{{supplier.name}}"
+                               search-str-class="ipt"
+                               url="rest/authen/supplier/query"
+                               class="inline-block"
+                               ng-model-data="formData.suppliers[$index]"
+                               calbak-method ='checkBusinessScope(1)'
+                               ng-model="suppliertmp"
+                         >
+                         </span>
+                         <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                       </div>
+                       <p class="color-red">{{supplier.scopeNote}}</p>
+                     </td>
+                     <td class="text-left">
+                       {{supplier.legalUser.n}}
+                     </td>
+                     <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
+                     <td class="text-left">{{supplier.code}}</td>
+                     <td class="text-left">{{supplier.branchDepartmentName}}</td>
+                     <td class="text-left">{{supplier.branchUser.n}}</td>
+                   </tr>
 
-                <table class="table pr-table pr-new-table">
-                  <thead class="pr-bg-side">
-                  <tr>
-                    <th class="text-center">序号</th>
-                    <th style="text-align: left;width: 270px;">供应商名称</th>
-                    <th style="text-align: left">法定代表人</th>
-                    <th style="text-align: left">分类</th>
-                    <th style="text-align: left">编号</th>
-                    <th style="text-align: left">分管部门</th>
-                    <th style="text-align: left">业务人员</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr  ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
-                      <td class="text-center">{{$index+1}}
-                        <div  class="table-item-handle-btn" style="left:1800px;">
-                          <div class="table-item-confirm-del-area bg-white">
-                            <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                            <p class="pdt-s">
-                              <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                              <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
-                                 ng-click="formData.suppliers.splice($index,1);">确认</a>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-left">
-                        <div style="position: relative;" ng-init="suppliertmp=supplier">
-                          <span angucomplete=""
-                                placeholder="供应商名称"
-                                title-field="name"
-                                description-field="suppliertmp.name"
-                                search-fields="{{supplier.name}}"
-                                search-str-class="ipt"
-                                url="rest/authen/supplier/query"
-                                class="inline-block"
-                                ng-model-data="formData.suppliers[$index]"
-                                calbak-method ='checkBusinessScope(1)'
-                                ng-model="suppliertmp"
-                          >
-                          </span>
-                          <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
-                        </div>
-                        <p class="color-red">{{supplier.scopeNote}}</p>
-                      </td>
-                      <td class="text-left">
-                        {{supplier.legalUser.n}}
-                      </td>
-                      <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
-                      <td class="text-left">{{supplier.code}}</td>
-                      <td class="text-left">{{supplier.branchDepartmentName}}</td>
-                      <td class="text-left">{{supplier.branchUser.n}}</td>
-                    </tr>
+                 </tbody>
+               </table>
 
-                  </tbody>
-                </table>
-
-                <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
-                  <div class="empty-table clearfix">
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                  </div>
-                </div>
-              </div>
-        </div>
+               <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
+                 <div class="empty-table clearfix">
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                 </div>
+               </div>
+             </div>
+    </div>
         <!-- 申请原因-->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">申请原因</h1>

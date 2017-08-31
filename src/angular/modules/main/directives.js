@@ -601,21 +601,33 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
                 //单个删除
+                // $scope.deleteThis = function(_url, _param) {
+                //     var _tr = this.tr;
+                //     dialogConfirm('确定删除?', function() {
+                //         requestData(_url, {
+                //                 id: _param
+                //             }, 'POST')
+                //             .then(function() {
+                //                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                //                 if ($scope.tbodyList.length === 0) {
+                //                     $scope.$broadcast("reloadList");
+                //                 }
+                //             })
+                //             .catch(function(error) {
+                //                 alertError(error || '删除错误');
+                //             });
+                //     });
+                // };
                 $scope.deleteThis = function(_url, _param) {
                     var _tr = this.tr;
                     dialogConfirm('确定删除?', function() {
-                        requestData(_url, {
-                                id: _param
-                            }, 'POST')
-                            .then(function() {
-                                $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
-                                if ($scope.tbodyList.length === 0) {
-                                    $scope.$broadcast("reloadList");
-                                }
-                            })
-                            .catch(function(error) {
-                                alertError(error || '删除错误');
-                            });
+                        requestData(_url, {id: _param}, 'POST')
+                        .then(function() {
+                          $scope.$broadcast("reloadList");
+                        })
+                        .catch(function(error) {
+                            alertError(error || '删除错误');
+                        });
                     });
                 };
 
@@ -752,9 +764,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.tbodyList = data.data;
                               }
 
-                              if($attrs.emitLoaded){
-                                  $scope.$broadcast("tbodyListLoaded",$scope.tbodyList);
-                                  $scope.$emit("tbodyListLoaded",$scope.tbodyList)
+                              if(angular.isDefined($attrs.emitLoaded)){
+                                  $scope.$broadcast($attrs.emitLoaded,$scope.tbodyList);
+                                  $scope.$emit($attrs.emitLoaded,$scope.tbodyList)
                               }
 
 
@@ -1778,72 +1790,79 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
             link: function($scope, elem, $attrs, ngModel) {
-                $scope.lastSearchTerm = null;
-                $scope.currentIndex = null;
-                $scope.justChanged = false;
-                $scope.searchTimer = null;
-                $scope.hideTimer = null;
-                $scope.searching = false;
-                $scope.pause = 300;
-                $scope.minLength = 1;
-                $scope.searchStr =  $scope.searchFields;
+              $scope.lastSearchTerm = null;
+              $scope.currentIndex = null;
+              $scope.justChanged = false;
+              $scope.searchTimer = null;
+              $scope.hideTimer = null;
+              $scope.searching = false;
+              $scope.pause = 300;
+              $scope.minLength = 1;
+              $scope.searchStr =  $scope.searchFields;
 
-                //绑定返回对象的某个属性值。
-                if($attrs.ngModelId||$attrs.ngModelData){
-                    $scope.$watch("ngModel", function(value) {
-                        if(!value)return;
+              //绑定返回对象的某个属性值。
+              if($attrs.ngModelId||$attrs.ngModelData){
+                  $scope.$watch("ngModel", function(value) {
+                      if(!value)return;
 
-                        $scope.ngModelId=value.id;
+                      $scope.ngModelId=value.id;
 
-                        $scope.searchStr=   value.data.name ;
+                      $scope.searchStr=   value.data.name ;
 
-                        if($attrs.showAttr){
-                            $scope.searchStr=   value.data[$attrs.showAttr] ;
-                        }
+                      if($attrs.showAttr){
+                          $scope.searchStr=   value.data[$attrs.showAttr] ;
+                      }
 
-                        $scope.ngModelData=value.data;
+                      $scope.ngModelData=value.data;
 
-                        // BUG ----- 执行会影响- （$scope.ngModelData=value.data）
-                        // if($scope.calbakMethod){
-                        //     console.log("calbakMethod。。。。。。。。。。");
-                        //     $scope.calbakMethod();
-                        // }
-
-
-                        setTimeout(function () {
-                            if($scope.calbakMethod){
-                                console.log("calbakMethod。。。。。。。。。。");
-                                $scope.calbakMethod();
-                            }
-                        },100);
+                      // BUG ----- 执行会影响- （$scope.ngModelData=value.data）
+                      // if($scope.calbakMethod){
+                      //     console.log("calbakMethod。。。。。。。。。。");
+                      //     $scope.calbakMethod();
+                      // }
 
 
+                      setTimeout(function () {
+                          if($scope.calbakMethod){
+                              console.log("calbakMethod。。。。。。。。。。");
+                              $scope.calbakMethod();
+                          }
+                      },100);
 
 
 
-                        //  $scope.listObject.name = value.data.name;
-                    }, true);
-                }
 
-                // if($attrs.ngModelId){
-                //   $scope.$watch("ngModel", function(value) {
-                //     console.log("ngModelProperty.watch.ngModel",value);
-                //     if(!value){
-                //       $scope.ngModelId=null;
-                //     }else{
-                //         $scope.ngModelId=value.id;
-                //     }
-                //
-                //
-                //   }, true);
-                // }
+
+                      //  $scope.listObject.name = value.data.name;
+                  }, true);
+              }
+
+              // if($attrs.ngModelId){
+              //   $scope.$watch("ngModel", function(value) {
+              //     console.log("ngModelProperty.watch.ngModel",value);
+              //     if(!value){
+              //       $scope.ngModelId=null;
+              //     }else{
+              //         $scope.ngModelId=value.id;
+              //     }
+              //
+              //
+              //   }, true);
+              // }
 
               require(['project/angucomplete'], function(angucomplete) {
-                    $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+                $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+              });
 
-              });//angucomplete
+              // 响应用户使用鼠标粘贴搜索关键字的行为
+              $(elem).find('input').bind('paste', function (e) {
+                var el = $(this);
+                setTimeout(function () {
+                  $(el).trigger('keyup', $scope.angucomplete1.keyPressed);
+                }, 100);
+              });
 
-            }//end link
+            }
         };
     }
 
@@ -3491,23 +3510,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
 
           if (angular.isDefined($attrs.timePicker)) {
-            $element.prop("readonly", true).datetimepicker({
-                changeYear : true ,
-                changeMonth  : true ,
-                dateFormat:'yy-mm-dd',
-                monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
-                dayNamesMin: ['日','一','二','三','四','五','六'],
-                timeText: '时间',
-                hourText: '小时',
-                minuteText: '分钟',
-                secondText: '秒',
-                currentText: '现在',
-                closeText: '完成',
-                showSecond: false, //显示秒
-                timeFormat: 'HH:mm' //格式化时间
-            });
+            require(['jquery-ui-timepicker'], function(jqueryUiTimepicker) {
+              $element.prop("readonly", true).datetimepicker({
+                  changeYear : true ,
+                  changeMonth  : true ,
+                  dateFormat:'yy-mm-dd',
+                  monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                  dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                  dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                  dayNamesMin: ['日','一','二','三','四','五','六'],
+                  timeText: '时间',
+                  hourText: '小时',
+                  minuteText: '分钟',
+                  secondText: '秒',
+                  currentText: '现在',
+                  closeText: '完成',
+                  showSecond: false, //显示秒
+                  timeFormat: 'HH:mm', //格式化时间
+                  beforeShow: function () {
+                          setTimeout(function () {
+                            $('#ui-datepicker-div').css("z-index", 999999);
+                            }, 100);
+                        }
+                  });
+
+            });//require
           } else {
             $element.datepicker({
               changeYear : true ,
@@ -3594,195 +3621,185 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }
 
     /**
-        树形
-    */
-
-      /**
-            树形
-        */
-        function zTree(requestData, alertOk, alertError, proLoading,utils) {
-
-          function zTree_init($element,zNodes,$scope){
-            var setting = {
-                data: {
-              		simpleData: {
-              			enable: true,
-              			idKey: $scope.idKey||"id",
-              			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: "",
-              		}
-              	},
-                callback: {
-                  onClick: function(event, treeId, treeNode) {
-                      console.log(treeNode);
-                      $scope.ngModel=treeNode.id;
-                      $scope.selectTreeNode=treeNode;
-                      $scope.$apply();
-                  }
-                }
-              };
-
-              require(['ztree'], function(store) {
-                var treeObj= $.fn.zTree.init($element, setting, zNodes);
-
-                //自动展开选中项。用于重新加载数据后，定位到数据
-                if($scope.selectTreeNode){
-                    treeObj.selectNode($scope.selectTreeNode);
-                            // treeObj.expandNode($scope.selectTreeNode, true, true, true);
-                }
-
-                //使用广播方式，操作ztree节点
-                  //添加节点 modify by liumingquan
-                $scope.$on("zTreeAddNode", function(evt,node) {
-                      console.log('$scope.$on("zTreeAddNode",',evt,node);
-                    var parntId=node[setting.data.simpleData.pIdKey];
-                      var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
-                    node = treeObj.addNodes(parentNode, node);
-                    // if(node)treeObj.selectNode(node);
-                });
-
-                //更新节点  modify by liumingquan
-                $scope.$on("zTreeUpdateNode", function(evt,node) {
-
-                    console.log('$scope.$on("zTreeUpdateNode",',evt,node);
-
-                    var id=node[setting.data.simpleData.idKey];
-                    var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
-
-                    if(treeNode==null){//tree中没有，说明是新添加的，
-                        var parntId=node[setting.data.simpleData.pIdKey];
-                        var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
-                      treeObj.addNodes(parentNode, node);
-                    }else{
-                      $.extend( true,treeNode,  node);
-                      treeObj.updateNode(treeNode);
-                    }
-
-
-                });
-                //删除节点  modify by liumingquan
-                $scope.$on("zTreeRemoveNode", function(evt,id) {
-                      console.log('$scope.$on("zTreeRemoveNode",',evt,id);
-
-                    var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
-
-                    if(node)treeObj.removeNode(node);
-                });
-                // 刷新整个节点 modify by liumingquan
-                $scope.$on("zTreeReloadData", function() {
-                   //  getData(_detailsParams);
-                   getData({});
-
-                });
-
-              });//require
-          }
-          return {
-            restrict: 'EA',
-            scope: {
-              "ngModel":"=?",
-              "selectTreeNode":"=?",
-              "idKey":"@?",
-              "pIdKey":"@?"
-            },
-            link: function ($scope, $element, $attrs) {
-              var urlKey="zTree";
-              var _params = {};
-
-              if (angular.isDefined($attrs.zTreeType) && $attrs.zTreeType === 'static') {     // 如果树形zTreeType定义且值为static，则为静态显示树形列表
-
-                // 初始化树形数据，如果定义的数据是JSON字符串，则进行转换，否则直接赋值
-                var data = typeof($attrs.zTree) === 'string' ? JSON.parse($attrs.zTree) : $attrs.zTree;
-
-                zTree_init($element,data,$scope);
-
-                 return;
+      * 树形
+      */
+    function zTree(requestData, alertOk, alertError, proLoading,utils) {
+      function zTree_init($element,zNodes,$scope){
+        var setting = {
+            data: {
+          		simpleData: {
+          			enable: true,
+          			idKey: $scope.idKey||"id",
+          			pIdKey: $scope.pIdKey||"pId",
+          			rootPId: "",
+          		}
+          	},
+            callback: {
+              onClick: function(event, treeId, treeNode) {
+                $scope.ngModel=treeNode.id;
+                $scope.selectTreeNode=treeNode;
+                $scope.$apply();
               }
-
-              if ($attrs.params) {
-                  if ($attrs.params.indexOf("{") === 0) {
-                      //监听具体值
-                      $attrs.$observe("params", function(value) {
-                          _params = $scope.$eval(value);
-                          getData(_params);
-                      });
-                  } else {
-                      //监听对象
-                      $scope.$watch($attrs.params, function(value) {
-                          _params = value;
-                          getData(_params);
-                      }, true);
-                  }
-              } else {
-                  $attrs.$observe(urlKey, function(value) {
-                      getData({});
-                  });
-              }
-
-              function getData(params) {
-                 //满足条件才异步请求
-                 if (angular.isDefined($attrs.ajaxIf)) {
-                   if (!$attrs.ajaxIf) return;
-                 }
-                 if (angular.isDefined($attrs.ajaxIfEval)) {
-                     var tmp=$scope.$eval($attrs.ajaxIfEval);
-                   if (!tmp) return;
-                 }
-
-
-                if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
-
-
-                $scope.isLoading = true;
-                var maskObj=null;
-                var url=$attrs[urlKey];
-                if (!$attrs.noshowLoading) {
-                  maskObj=proLoading($element,url);
-                  //  if(maskObj)maskObj.hide();
-                }
-
-                 requestData($attrs[urlKey], params)
-                   .then(function(results) {
-                         if(maskObj)maskObj.hide();
-                       var data = results[0];
-                       zTree_init($element,data,$scope);
-
-                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-
-                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
-                       //回调父级的处理事件;
-                       if ($scope.listCallback) {
-                         $scope.listCallback(results[1]);
-                       }
-
-                       // $scope.$apply();
-                       if ($attrs.callback) {
-                           $scope.$eval($attrs.callback);
-                       }
-
-                       $scope.isLoading = false;
-                   })
-                   .catch(function(msg) {
-                         if(maskObj)maskObj.hide();
-
-                         if ($attrs.errorCallback) {
-                             $scope.$eval($attrs.errorCallback);
-                         }
-
-                      if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                      if (angular.isDefined($attrs.alertError)) alertError(msg);
-                      $('.pr-full-loading').remove();
-                   });
-
-              }
-
-            }//end link
+            }
           };
-        }
+
+          require(['ztree'], function(store) {
+            var treeObj= $.fn.zTree.init($element, setting, zNodes);
+
+            //自动展开选中项。用于重新加载数据后，定位到数据
+            if($scope.selectTreeNode){
+              treeObj.selectNode($scope.selectTreeNode);
+              // treeObj.expandNode($scope.selectTreeNode, true, true, true);
+            }
+
+            //使用广播方式，操作ztree节点
+            //添加节点 modify by liumingquan
+            $scope.$on("zTreeAddNode", function(evt,node) {
+              // console.log('$scope.$on("zTreeAddNode",',evt,node);
+              var parntId=node[setting.data.simpleData.pIdKey];
+              var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
+              node = treeObj.addNodes(parentNode, node);
+              // if(node)treeObj.selectNode(node);
+            });
+            //更新节点  modify by liumingquan
+            $scope.$on("zTreeUpdateNode", function(evt,node) {
+
+                //console.log('$scope.$on("zTreeUpdateNode",',evt,node);
+
+                var id=node[setting.data.simpleData.idKey];
+                var treeNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+
+                if(treeNode==null){//tree中没有，说明是新添加的，
+                    var parntId=node[setting.data.simpleData.pIdKey];
+                    var parentNode = treeObj.getNodeByParam(setting.data.simpleData.idKey, parntId, null);
+                  treeObj.addNodes(parentNode, node);
+                }else{
+                  $.extend( true,treeNode,  node);
+                  treeObj.updateNode(treeNode);
+                }
 
 
+            });
+            //删除节点  modify by liumingquan
+            $scope.$on("zTreeRemoveNode", function(evt,id) {
+              //console.log('$scope.$on("zTreeRemoveNode",',evt,id);
 
+              var node = treeObj.getNodeByParam(setting.data.simpleData.idKey, id, null);
+
+              if(node)treeObj.removeNode(node);
+            });
+            // 刷新整个节点 modify by liumingquan
+            $scope.$on("zTreeReloadData", function() {
+               //  getData(_detailsParams);
+               getData({});
+
+            });
+
+          });
+      }
+      return {
+        restrict: 'EA',
+        scope: {
+          "ngModel":"=?",
+          "selectTreeNode":"=?",
+          "idKey":"@?",
+          "pIdKey":"@?"
+        },
+        link: function ($scope, $element, $attrs) {
+          var urlKey="zTree";
+          var _params = {};
+
+          if (angular.isDefined($attrs.zTreeType) && $attrs.zTreeType === 'static') {     // 如果树形zTreeType定义且值为static，则为静态显示树形列表
+
+            // 初始化树形数据，如果定义的数据是JSON字符串，则进行转换，否则直接赋值
+            var data = typeof($attrs.zTree) === 'string' ? JSON.parse($attrs.zTree) : $attrs.zTree;
+
+            zTree_init($element,data,$scope);
+
+            return;
+          }
+
+          if ($attrs.params) {
+              if ($attrs.params.indexOf("{") === 0) {
+                  //监听具体值
+                  $attrs.$observe("params", function(value) {
+                      _params = $scope.$eval(value);
+                      getData(_params);
+                  });
+              } else {
+                  //监听对象
+                  $scope.$watch($attrs.params, function(value) {
+                      _params = value;
+                      getData(_params);
+                  }, true);
+              }
+          } else {
+              $attrs.$observe(urlKey, function(value) {
+                  getData({});
+              });
+          }
+
+          function getData(params) {
+             //满足条件才异步请求
+             if (angular.isDefined($attrs.ajaxIf)) {
+               if (!$attrs.ajaxIf) return;
+             }
+             if (angular.isDefined($attrs.ajaxIfEval)) {
+                 var tmp=$scope.$eval($attrs.ajaxIfEval);
+               if (!tmp) return;
+             }
+
+
+            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+
+            $scope.isLoading = true;
+            var maskObj=null;
+            var url=$attrs[urlKey];
+            if (!$attrs.noshowLoading) {
+              maskObj=proLoading($element,url);
+              //  if(maskObj)maskObj.hide();
+            }
+
+             requestData($attrs[urlKey], params)
+               .then(function(results) {
+                     if(maskObj)maskObj.hide();
+                   var data = results[0];
+                   zTree_init($element,data,$scope);
+
+                   if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+
+                   if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+                   //回调父级的处理事件;
+                   if ($scope.listCallback) {
+                     $scope.listCallback(results[1]);
+                   }
+
+                   // $scope.$apply();
+                   if ($attrs.callback) {
+                       $scope.$eval($attrs.callback);
+                   }
+
+                   $scope.isLoading = false;
+               })
+               .catch(function(msg) {
+                     if(maskObj)maskObj.hide();
+
+                     if ($attrs.errorCallback) {
+                         $scope.$eval($attrs.errorCallback);
+                     }
+
+                  if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                  if (angular.isDefined($attrs.alertError)) alertError(msg);
+                  $('.pr-full-loading').remove();
+               });
+
+          }
+
+        }//end link
+      };
+    }
 
     /**
      * [zTreeSelect 树形z-tree-select]

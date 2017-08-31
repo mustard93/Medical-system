@@ -352,9 +352,6 @@ gulp.task('rev-manage',['concatMinCss-manage','concatMinJs-manage'], function ()
 /* 清理js文件(开发环境 )*/
 gulp.task('concatJs-project-dt-clean', function () {
   var tmpProject_paths = getProjectPaths("project-dt");
-  console.log('===============================================================================================================');
-  console.log(tmpProject_paths);
-  console.log('===============================================================================================================');
   return gulp.src([paths.build_js + tmpProject_paths.dest_js_fileName])
              .pipe(clean());
 });
@@ -633,8 +630,8 @@ gulp.task('rev-WLS',['concatMinCss-WLS','concatMinJs-WLS'], function () {
 gulp.task('default',  function (done) {
   condition = false;
     runSequence(
-      ['concatJs-dt'],
-      ['concatCss-dt'],
+      // ['concatJs-dt'],
+      // ['concatCss-dt'],
       ['concatJs-manage'],
       ['concatCss-manage'],
       ['concatJs-project-dt'],
@@ -663,7 +660,7 @@ gulp.task('default',  function (done) {
       //监控所有CSS文件
       gulp.watch(concatCss_src_all, function () {
         runSequence(
-          ['concatCss-dt'],
+          // ['concatCss-dt'],
           ['concatCss-manage'],
           ['concatCss-project-dt'],
           ['concatCss-project-PG16-H'],
@@ -674,7 +671,7 @@ gulp.task('default',  function (done) {
       //监控所有JS文件
       gulp.watch(concatJs_src_all, function () {
         runSequence(
-          ['concatJs-dt'],
+          // ['concatJs-dt'],
           ['concatJs-manage'],
           ['concatJs-project-dt'],
           ['concatJs-project-PG16-H'],

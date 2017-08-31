@@ -7,12 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="#" type="image/png">
-    <title>盘谷医疗 - 用户登录</title>
+    <title>用户登录</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../fonts/css/font-awesome.min.css">
     <!-- 开发模式 -->
-      <link rel="stylesheet" href="../build/css/dt_style.css">
+      <link rel="stylesheet" href="../build/css/project-dt_style.css">
     <!-- 生产模式 -->
     <!-- <link rel="stylesheet" href="build/css/style.min.css?v=9deede1b89"> -->
 
@@ -119,30 +119,21 @@
     <!-- Placed js at the end of the document so the pages load faster -->
     <script src="../js/jquery-1.10.2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <!-- <script src="../js/iCheck/jquery.icheck.min.js"></script> -->
     <script src="conf.js"></script>
     <script src="../js/common/publicLoginFunc.js"></script>
     <script>
-      // icheck
-      // $('input[type="checkbox"]').iCheck({
-      //   checkboxClass: 'icheckbox_square',
-      //   radioClass: 'iradio_square',
-      //   increaseArea: '20%' // optional
-      // });
-
       document.addEventListener('DOMContentLoaded', function () {
-        new Login('loginForm', 'phone', 'password', 'remeberNumber', '.login-info-prompt', conf, 'rest/index/authorize.json', 'rest/loginRecords/add').bindSubmitEvent();
-      }, false);
-      //获取版本号
+        // 创建登录实例
+        var newLogin = new Login('loginForm', 'phone', 'password', 'remeberNumber', '.login-info-prompt', conf, 'rest/index/authorize.json', 'rest/loginRecords/add');
 
-      $.ajax({
-        type:"get",
-        url:conf.serverPath + 'rest/versionInformation/gitBranchInformation',
-        dataType:"json",
-        success:function(data){
-            $("#Version").html(data.data.model.version);
-        }
-      });
+        // 绑定登录事件
+        newLogin.bindSubmitEvent();
+
+        // 获取版本号并设置
+        var _data = newLogin.getVersionNo('GET', conf.serverPath + 'rest/versionInformation/gitBranchInformation', 'JSON');
+        $("#Version").html(_data);
+      }, false);
+
       // 设置记住手机号后，把记住的手机号放入输入框中
       (function(){
         var phoneNumber=localStorage.getItem("manage_remeberNumber");

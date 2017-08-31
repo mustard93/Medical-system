@@ -1,3 +1,8 @@
+<style media="screen">
+  .ngdialog.ngdialog-theme-right .ngdialog-close:before{
+    top:8px!important;
+  }
+</style>
 <div class="sale-return-order right-side dialog-bgc"
      ajax-url="rest/authen/qualificationCertificate/getOfEdit?id={{tr.id}}"
      scope-data="formData"
@@ -19,22 +24,22 @@
               novalidate="true"
               callback="listObject.reloadTime=$root.utils.getNowTime()">
             <div class="relative">
-                <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增电子档案</div>
+                <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm text-bold dialog-bgc">新增电子档案</div>
                 <div class="pr-panel-height select-bg" style="padding:15px 0;" ng-show="formData.id">
-                    <h1 class="flex-item-2 text-right pdr-s mgl-s pr-fw-700 mgr-s" style="line-height: 20px;">档案类型</h1>
-                    <div class="color-white"
+                    <h1 class="flex-item-2 text-right pdr-s mgl-s pr-fw-700 mgr-s font-w0" style="line-height: 20px;">档案类型</h1>
+                    <div class="color-white mgl-s"
                          style="width:100%;"
                          ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetLicenseType">{{formData.licenseTypeName}}
                     </div>
                 </div>
 
                 <div class="pr-panel-height select-bg" style="padding:15px 0;"  ng-show="!formData.id">
-                    <label class="flex-item-2 text-right pdr-s mgl-s mgt-s">档案类型</label>
+                    <label class="flex-item-2 text-right pdr-s mgl-s mgt-s font-w0">档案类型</label>
                     <input type="text"
                            name="code"
-                           class="license-text padd-10"
+                           class="license-text padd-10 mgl-s"
                            ng-model="formData.licenseTypeName"
-                           required/>
+                          />
 
                     <!--<select class="ipt ipt-new-select color-3"-->
                             <!--data-placeholder=" "-->
@@ -48,7 +53,7 @@
 
             </div>
             <div class="flex-row mgt mgb-l">
-                <label class="flex-item-2 text-right pdr-s mgl-s">是否预警</label>
+                <label class="flex-item-2 text-right pdr-s font-w0 mgl-s">是否预警</label>
                 <div class="mgl-s text-left">
                     <select class="ipt pr-short-ipt ipt-new-s "
                             chosen
@@ -59,7 +64,7 @@
                 </div>
             </div>
             <div class="flex-row mgt">
-                <label class="flex-item-2 text-right pdr-s mgl-s">证照过期控制</label>
+                <label class="flex-item-2 text-right pdr-s font-w0 mgl-s">证照过期控制</label>
                 <div class="mgl-s text-left">
                     <select class="ipt pr-short-ipt ipt-new-s "
                             data-placeholder=" "
@@ -72,18 +77,20 @@
                 </div>
             </div>
 
-            <div class="mgb-l pd-c-l pr-font-12 color-light-brown flex-row pr-fw-700 mgt-m">关联企业类型
-                <div class="form-ctrl license-file-300 mgl-s"
+            <div class="mgb-l pd-c-l pr-font-12 color-light-brown flex-row pr-fw-700 font-w0 mgt-m">关联企业类型
+                <div class="form-ctrl mgl-s" style="width:400px;"
                      ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=License_SystemPresetCompanyType"
                      scope-data="departments"
                      alert-error>
-                    <label class="quali-selection relative"  ng-repeat="item in departments track by $index">
+                    <label class="mycheck-new  relative " style="margin-right:30px;margin-top:0px;"  ng-repeat="item in departments track by $index">
                         <input type="checkbox"
                                ng-if="initFlag"
-                               id="{{licenseEnterprise+$index + 1}}1"
+                               id="licenseEnterprise2{{$index + 1}}1"
                                value="{{item.value}}"
                                checkbox-group="formData.enterpriseType"
-                               class="click-reverse-selection3 mgl-m quali-position">{{item.text}}
+                               class="click-reverse-selection3 mgl-m quali-position">
+                               <label style="top:7px;left:5px;" for="licenseEnterprise2{{$index + 1}}1"></label>
+                               <em style="padding:0px 20px;color:white;">{{item.text}}</em>
                     </label>
 
 
@@ -93,14 +100,14 @@
             </div>
             <!-- 备注 -->
             <div class="mgb-l pr-font-12 color-light-brown flex-row">
-                <h1 class="quali-pd-l pr-fw-700">备注</h1>
-                <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l ">
+                <h1 class="quali-pd-l pr-fw-700 font-w0">备注</h1>
+                <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l mgl-s">
                     <!--<input type="text" class="">-->
                     <textarea class="pr-textarea" maxlength="240" style="height:92px;min-width: 320px;" placeholder="" ng-model="formData.remark" onkeydown="if(window.event.keyCode==13) return true;"></textarea>
                 </div>
             </div>
             <!-- 功能按钮 -->
-            <div class="sales-btn-area-2nd relative dialog-btom-bgc"  ng-controller="licenseController">
+            <div class="sales-btn-area-2nd relative dialog-bgc"  ng-controller="licenseController">
                 <div class="btn-area full-width text-center bgc-none">
                     <button ng-if="!formData.id"
                             type="submit"

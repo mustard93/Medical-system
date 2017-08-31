@@ -18,13 +18,6 @@ define('project/controllers', ['project/init'], function() {
   }
 
   /**
-   * 主控
-   */
-  function dynamicHtmlTemplateCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
-
-  }
-
-  /**
    * [watchFormCtrl 站内消息]
    * @method watchFormCtrl
    * @param  {[type]}      $scope          [description]
@@ -32,12 +25,12 @@ define('project/controllers', ['project/init'], function() {
    * @return {[type]}                      [description]
    */
   function watchFormCtrl($scope, watchFormChange) {
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
-    };
+    }
 
-
-   }//watchFormCtrl
+  }
 
 
    /**
@@ -57,7 +50,6 @@ define('project/controllers', ['project/init'], function() {
 
   }
 
-
   /**
    * [indexPageController 首页控制器]
    * @param  {[type]} $socpe [description]
@@ -68,583 +60,107 @@ define('project/controllers', ['project/init'], function() {
   }
 
   /**
-   * [indexPurchaseSuppleController 首页采购辅助信息处理欲发起采购的动作]
-   * @param  {[type]} $scope [注入项]
-   * @param  {[type]} utils  [注入项]
-   * @return {[type]}        [description]
+   * [editWorkFlowProcessCtrl 编辑工作流]
+   * @method editWorkFlowProcessCtrl
+   * @param  {[type]}                $scope      [description]
+   * @param  {[type]}                modal       [description]
+   * @param  {[type]}                alertWarn   [description]
+   * @param  {[type]}                requestData [description]
+   * @param  {[type]}                alertOk     [description]
+   * @param  {[type]}                alertError  [description]
+   * @param  {[type]}                $rootScope  [description]
+   * @return {[type]}                            [description]
    */
-  function indexPurchaseSuppleController ($scope, utils) {
-
-    $scope.relMedicalStockIdSet = '';
-
-    // 全选与全不选
-    $scope.handleChoiseAllEvent = function (data) {
-      if ($scope.isChoiseAll && angular.isArray(data)) {
-        angular.forEach(data, function (item, index) {
-          item.handleFlag = true;
-          if (!$scope.relMedicalStockIdSet) {
-            $scope.relMedicalStockIdSet += item.id;
-          } else {
-            $scope.relMedicalStockIdSet += ',' + item.id;
-          }
-        });
-      } else {
-        angular.forEach(data, function (item, index) {
-          item.handleFlag = false;
-          $scope.relMedicalStockIdSet = '';
-        });
-      }
-    };
-
-    // 单选
-    $scope.handleItemClickEvent = function (obj,dataList) {
-      if (obj.handleFlag) {
-        //获取当前点击选项的厂家id
-        var _supplierId = obj.supplierId;
-        //遍历列表判断那些药品跟当前点击选中的药品列不是一个厂家的
-        angular.forEach(dataList, function (item, index) {
-          if (item.supplierId !== _supplierId) {
-            item.isCloseChiose = true;
-          }
-        });
-
-        if (!$scope.relMedicalStockIdSet) {
-          $scope.relMedicalStockIdSet += obj.id;
-        } else {
-          $scope.relMedicalStockIdSet += ',' + obj.id;
-        }
-      } else {
-        var _tmp = $scope.relMedicalStockIdSet.split(',');
-
-        angular.forEach(_tmp, function (data, index) {
-          if (data === obj.id) {
-            _tmp.splice(index, 1);
-            return false;
-          }
-        });
-
-        $scope.relMedicalStockIdSet = _tmp.toString();
-
-        if (!$scope.relMedicalStockIdSet) {
-          angular.forEach(dataList, function (item, index) {
-            item.isCloseChiose = false;
-          });
-        }
-      }
-    };
-
-  }
-
-  /**
-   * [historicalPriceController 历史价格查询及操作控制器]
-   * @param  {[type]} $scope [注入项]
-   * @param  {[type]} utils  [注入项]
-   * @return {[type]}        [description]
-   */
-  function historicalPriceController ($scope, utils) {
-    // 用户选择价格
-    $scope.choiseThisItem = function (obj,id) {
-      // 直接将用户选择的历史价格赋值给表单价格
-      if ($scope.formData.orderMedicalNos) {
-        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
-          if (item.relId === id) {
-            item.strike_price = obj.value;
-           }
-        });
-      }
-    };
-    // 重新选择历史价格之后哟啊实时重新计算总计
-    $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
-      if (orderMedicalNos) {
-        var _total = 0;
-        angular.forEach(orderMedicalNos, function (item, index) {
-          // 如果订单类型为普通销售
-          if (orderBusinessType === '普通销售' && item.stockBatchs && item.handleFlag) {
-            var _tmp = 0;
-            for (var i = 0; i < item.stockBatchs.length; i++) {
-              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
-            }
-            _total += _tmp;
-          }
-          //如果订单类型是直运销售
-          if (orderBusinessType === '直运销售' && item.handleFlag) {
-            _total += item.quantity * item.strike_price * (item.discountRate / 100);
-          }
-        });
-        $scope.formData.totalPrice = _total;
-      }
-    };
-
-  }
-
-  /**
-   * [editStockbatchNumberCtrl 销售单涉及到多仓库的批号数量选择及操作控制器]
-   * @param  {[type]} $scope [注入项]
-   * @param  {[type]} utils  [注入项]
-   * @return {[type]}        [description]
-   */
-  function editStockbatchNumberCtrl ($scope,modal, utils, requestData) {
-
-    // 监控listparams对象中属性的更改，刷新结果列表
-    $scope.$watchCollection('listParams', function (newVal, oldVal) {
-      if ($scope.listParams && oldVal !== undefined) {
-
-        if ($scope.dialogData.sourceId) {
-          $scope.listParams.warehouseId = $scope.dialogData.sourceId;
-        }
-
-        var _url = 'rest/authen/medicalStock/queryStockBatch',
-            _data = {
-              relMedicalStockId: $scope.dialogData.id,
-              logisticsCenterId: $scope.dialogData.logisticsCenterId,
-              warehouseId: $scope.listParams.warehouseId,
-              createAtBeg: $scope.listParams.createAtBeg,
-              createAtEnd: $scope.listParams.createAtEnd,
-              q: $scope.listParams.q,
-              warehouseType: '正常库',
-              isOnlyAvailable: true
-            };
-
-        requestData(_url, _data, 'GET')
-        .then(function (results) {
-          if (results[1].data) { $scope.stockBatchList = results[1].data; }
-        });
-      }
-    });
-
-    // 获取用户已选择的药品批次，并将批次id存入数组
-    $scope.getChoisedBatchsId = function (choisedBatchList) {
-
-        var list=[];
-
-        if (choisedBatchList) {
-            $scope.choisedBatchsIdList = [];
-            angular.forEach(choisedBatchList, function (data, index) {
-              if (data.stockBatchId) {
-                $scope.choisedBatchsIdList.push(data.stockBatchId);
-              }
-            });
-            list = $scope.choisedBatchsIdList
-
-        }
-
-      return list;
-    };
-
-    // 用户选择生产批号
-    $scope.choseBatch = function (obj,choisedList,id,i) {
-
-      // 构建临时对象存储批号id、批号名和数量
-      var _tmp = {
-        stockBatchId: obj.id,                     // 批次号id
-        batchNumber: obj.productionBatch,
-        quantity: obj.stockModel.salesQuantity,    // 可选数量
-        salesQuantity: obj.stockModel.salesQuantity,    // 可选数量
-        productionBatch: obj.productionBatch,     // 批号名
-        validTill:obj.validTill,
-        productionDate:obj.productionDate,
-        sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
-        warehouseName: obj.warehouseName,       // 仓库名
-        warehouseId: obj.warehouseId,        // 仓库名id
-        warehouseType: obj.warehouseType     // 仓库类型
-      };
-
-      // 初始化已添加的批次数量和
-      var _total = 0;
-
-      // 计算当前药品的批次数量和
-      if (choisedList) {
-        angular.forEach(choisedList, function (data, index) {
-          if (data.batchNumber) {
-            _total += parseInt(data.quantity, 10);
-          }
-        });
-      }
-
-      // 如果当前批次数量大于或等于计划采购数量
-      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.quantity) {
-        // 将计划采购数量赋值给临时对象
-        _tmp.quantity = $scope.dialogData.quantity - _total;
-      }
-
-      // 根据药品id将批次存入当前药品formData数据中
-      if ($scope.formData.orderMedicalNos) {
-        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          // if (data.relId == id) {
-          //   $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
-          //    // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
-          // }
-
-          if (index === i) {
-            $scope.formData.orderMedicalNos[i].stockBatchs.push(_tmp);
-          }
-        });
-      }
-
-        if($scope.submitForm_type == 'save'){
-            // $scope.goTo('#/returnOrder/edit.html?id='+$scope.formData.id);
-            return;
-        }
-
+  function editWorkFlowProcessCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
+    // 切换button顺序
+    $scope.switchButtons = function(buttons,ind,ind2) {
+      var tmp=buttons[ind];
+      buttons[ind]=buttons[ind2];
+      buttons[ind2]=tmp;
 
     };
 
-    $scope.$on('chosedBatch',function (e,data) {
-        $scope.choseBatch(data.obj,data.choisedList,data.id, data.index);
-        modal.close();
-    });
-
-
-  }
-
-  /**
-   * [choseBatchCtrl 批号选择侧边栏中选择批号控制]
-   * @method choseBatchCtrl
-   * @param  {[type]}       $scope [description]
-   * @return {[type]}              [description]
-   */
-  function choseBatchCtrl($scope) {
-      //选择当前订单-商品
-      $scope.choiceThis=function (obj,choisedList,id,listObject){
-
-        try{
-          //判断该批号已经添加过了，就不允许在添加了。
-          if(listObject.choisedBatchsIdList.indexOf(obj.id)!=-1){
-            console.log(listObject.choisedBatchsIdList,obj);
-            return ;
-          }
-            //解决该方法在span，ng-click上面，偶尔出现2次调用bug，临时解决方案。选择后，加入到批号选中
-            listObject.choisedBatchsIdList.push(obj.id);
-        }catch(e){
-            console.log(e);
-        }
-
-          var obj ={
-              'obj':obj,
-              'choisedList':choisedList,
-              'id':id,
-              'index': listObject['index']
-          };
-
-          $scope.$emit('chosedBatch',obj);
-
+    // 保存节点信息（新建or创建）
+    $scope.addEventButtons = function(formData1) {
+      if(!formData1)formData1={};
+      //if(!formData1.didateFilter)formData1.didateFilter={};
+      if(!formData1.buttons)formData1.buttons=[];
+      var btnForm = {
+        type: '通过',
+        buttonName: '审核通过',
+        requestMethod: 'POST',
+        conditionType:'通过',
+        requestParam: 'KeyValue',
+        requestUrl : 'rest/authen/workflowTask/run.json'
       };
-  }
+      formData1.buttons.push(btnForm);
+    };
 
+    //当一个节点的name改变后，需要更新对应的关联关系。
+    function updateEventRelations(events,oldId,newId){
 
+       for(var i=0;i<events.length;i++){
+         if(events[i].sourceRef==oldId){
+           events[i].sourceRef=newId;
+         }
+         if(events[i].targetRef==oldId){
+           events[i].targetRef=newId;
+         }
+       }
+     }
 
-
-  //归还单择归还商品弹窗 Ctrl
-  function  returnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-
-      //显示批次界面
-      $scope.showLendOrder=false;
-      $scope.showBatchs=false;
-      $scope.changeShowBatchsFlag=function (flag) {
-          $scope.showBatchs =flag;
-      };
-
-      /**
-       * 根据单号查询借出单
-       * @param orderCode
-       */
-      $scope.getByOrderCode=function(orderCode){
-          //console.log("orderCode",orderCode,$scope.curOrder.orderCode);
-          requestData("rest/authen/lendOrder/getByOrderCode?orderCode="+orderCode,{}, 'GET')
-              .then(function (results) {
-                  // 显示借出单信息
-                  $scope.showLendOrder=true;
-
-                  $scope.scopeData=results[1].data || {};
-
-                  $scope.checkRelId($scope.formData.relId,$scope.scopeData.id);
-
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-      };
-
-
-      $scope.flashAddDataCallbackFn=function (data1) {
-
-          $scope.angucomplete_data=data1;
-
-          if(!$scope.angucomplete_data.data){
-              return;
+    // 保存节点信息（新建or创建）
+    $scope.saveEvent = function(event1) {
+      if(!$scope.formData.events)$scope.formData.events=[];
+      var events=$scope.formData.events;
+      var isInsert=true;
+      //防止'' 保存到后台,枚举报错bug.
+      if(!event1.conditionType)event1.conditionType=null;
+      if(event1.id){
+          var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
+          if(event1.id!=event1.name){
+              updateEventRelations(events,event1.id,event1.name);
           }
-          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
-      };
+          event1.id=event1.name;
+          if(ind>-1){
+              events[ind]=event1;
 
-      $scope.angucomplete_data={};
-      $scope.$watch('angucomplete_data',function(){
-          $scope.curOrder=null;
-          // console.log("angucomplete_data:$watch"+$scope.angucomplete_data.id);
-          if($scope.angucomplete_data.data == undefined){
-              return;
+              isInsert=false;
           }
-          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
-      },true);
-
-
-      //监听筛选条件并获取商品列表
-      $scope.$watch('listParams',function (newValue,oldValue) {
-          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
-      },true);
-
-      //获取商品列表
-      $scope.handleSearchFilter=function(listParams,relMedicalStockId){
-
-          if(!relMedicalStockId){
-              return;
-          }
-
-          var _data=angular.extend(listParams,{
-              "relMedicalStockId":relMedicalStockId,
-              "pageSize":12
-              // "pageNo":1
-          });
-
-          console.log("_data",_data);
-
-          requestData("rest/authen/lendOrder/queryByMedical", _data, 'GET')
-              .then(function (results) {
-                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-                  console.log('results[1].data',results[1].data);
-
-                  $scope.tbodyList=results[1].data || [];
-
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-
-      };
-
-
-      //单击选择
-      $scope.selectedBatchs2=[];
-      $scope.handleItemClickEvent=function (item,dataSource,attr) {
-
-          if(item.handleFlag){
-
-              $scope.selectedBatchs2.push(item);
-
-              if($scope.selectedBatchs2.length == dataSource.length){
-
-                  $scope.isChoiseAll2=true;
-              }else{
-                  $scope.isChoiseAll2=false;
-              }
-
-          }else{
-              angular.forEach($scope.selectedBatchs2,function (item2,index2) {
-                  if(item[attr] == item2[attr]){
-                      $scope.selectedBatchs2.splice(index2,1); // index. bug
-                      $scope.isChoiseAll2=false;
-                  }
-              });
-          }
-
-      };
-
-      // 全选全不选
-      $scope.handleChoiseAllEvent = function (flag,list) {
-
-          if (flag) {   // 全选被选中
-
-              $scope.selectedBatchs2=[];
-              angular.forEach(list, function (data, index) {
-                  if(!data.disabled){
-                      data.handleFlag = true;
-                      $scope.selectedBatchs2.push(data);
-                  }
-              });
-
-          } else {    //取消了全部选中
-              angular.forEach(list, function (data, index) {
-
-                  if(!data.disabled){
-                      data.handleFlag = false;
-                  }
-                  // $scope.selectedBatchs2.splice(index,1);
-              });
-              $scope.selectedBatchs2=[];
-          }
-
-          // console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
-
-      };
-
-
-      /**
-       * 初始化是否已选择
-       * @param choiceList
-       * @param dataList
-       * @param attr
-       */
-      $scope.initChoisedMedicalList=function (choiceList,dataList,attr) {
-
-          //判断是否全部选中标识
-          var counter=0;
-          var choicedList=[];
-
-          angular.forEach(choiceList,function (item,index) {
-              for(var i=0; i<dataList.length; i++){
-                  if(item[attr] == dataList[i][attr]){
-                      dataList[i].handleFlag=true;
-                      choicedList.push(item);
-                      counter++;
-                  }
-                  if(!dataList[i].handleFlag){
-                      $scope.isChoiseAll=false;
-                  }
-              }
-          });
-
-          if(dataList){
-              if(dataList.length == counter){
-                  $scope.isChoiseAll=true;
-              }
-          }
-
-          $scope.selectedBatchs=choicedList;
-          return choicedList;
-      };
-
-      //添加商品到列表
-      $scope.addOrderDataToList=function (returnOderRelId,id,orderNo,orderCode) {
-
-          //如果存在就判断是否相等  不相等就返回
-          if(returnOderRelId){
-
-              if(returnOderRelId != id){
-                  alertWarn("只能选择同一借出单药械");
-                  return;
-              }
-
-          }else{
-              //如果不存在就设置
-              $scope.formData.relId=id;
-              $scope.formData.relOrderNo= orderNo;
-              $scope.formData.relOrderCode=orderCode;
-          }
-
-          //添加商品
-          var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
-
-          //添加的商品设置的计划归还数量为null, 在页面进行计算；
-          angular.forEach($scope.selectedBatchs2,function (item,index) {
-              item.quantity = null;
-              $scope.selectedBatchs2[index]= item;
-          });
-
-          var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'relId','relId');
-          $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
-      };
-
-
-      /**
-       * 判断item 是否存在
-       * @param id item 唯一标识
-       * @param batchlist 比较列表
-       * @param attr 列表单个元素比对属性
-       * @returns {boolean}
-       */
-      $scope.itemInArray=function (id,batchlist,attr) {
-          var flag=false;
-          for(var i=0; i<batchlist.length; i++){
-              if(batchlist[i][attr] == id){
-                  flag=true;
-              }
-          }
-          return flag;
-      };
-
-      //接受选择事件
-      $scope.$on('selected',function (e, data) {
-          $scope.curOrder= data;
-      });
-
-
-      //比对借出单ID 与已选择借出单ID  不相同返回false;
-      $scope.compareOrderId=function(choicedLendOrderId,nowLendOrderId){
-
-          var flag=true;
-
-          if(choicedLendOrderId){
-              if(choicedLendOrderId!=nowLendOrderId){
-                  flag=false;
-              }
-          }
-          return flag;
-      };
-
-      $scope.checkRelId=function (returnOderRelId,choiceReturnOderRelId) {
-          // 判断借出单ID是否存在，如果存在且与选择的借出单 ID 不一致 给出提示
-          if(!$scope.compareOrderId(returnOderRelId,choiceReturnOderRelId)) {
-              alertWarn("只能选择同一借出单药械");
-          }
-      };
-
-      //上一步 - bug
-      $scope.prevStep=function(){
-          $scope.showLendOrder=false;
-          $scope.selectedBatchs2.length=0;
-          $scope.isChoiseAll2=false;
-      };
-
-      //去重 返回 arrB 与 arrA 中 arrB不重复部分
-      $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
-          var temp=[];
-
-          for (var i = 0; i<arrA.length; i++) {
-
-              for(var j=0; j<arrB.length; j++){
-
-                  if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
-                      temp.push(arrB[j][arrBAtrr]);
-                  }
-              }
-          }
-
-
-          for(var i=0;i<temp.length; i++){
-
-              for(var j=0; j<arrB.length; j++){
-                  // console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
-                  if(arrB[j][arrBAtrr]==temp[i]){
-                      arrB.splice(j,1);
-                  }
-              }
-          }
-
-          return arrB;
       }
 
-  }
+      if(isInsert){
 
-  //还单择归还商品弹窗 Sub Ctrl
-  function  returnOrderChoiceDialogSubCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-      //选择当前订单-商品
-      $scope.choiceThis=function (item,index,flag){
-          if(!flag){
-              $scope.$emit('selected',item);
-          }
-      };
-  }
+            event1.id=event1.name;
+           events.push(event1);
+      }
 
+      console.log(event1);
+
+      modal.closeAll();
+    };
+
+    // 删除节点信息（新建or创建）
+    $scope.deleteEvent = function(id) {
+      if(!$scope.formData.events)$scope.formData.events=[];
+        var events=$scope.formData.events;
+      var index=$rootScope.utils.removeObjectByKeyOfArr(events,'id',id);
+      if(index<0){
+          alertError('没有该节点，id='+event1.id);
+          return;
+      }
+      //删除关联关系
+      updateEventRelations(events,id,null);
+
+        modal.closeAll();
+    };
+
+  }
 
   angular.module('manageApp.project')
-  .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
-  .controller('editStockbatchNumberCtrl', ['$scope','modal', 'utils', 'requestData', editStockbatchNumberCtrl])
-  .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
-  .controller('returnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogCtrl])
-  .controller('returnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', returnOrderChoiceDialogSubCtrl])
-  .controller('choseBatchCtrl', ['$scope', choseBatchCtrl]);
+  .controller('editWorkFlowProcessCtrl', ['$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl]);
 });

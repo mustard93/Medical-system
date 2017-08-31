@@ -87,7 +87,8 @@
            </div>
         </div>
       </div>
-      <div class="pos-rel-tl order-create-btn mgb-m">
+      <!--  BUG:1874 采购退货单侧滑框中无法勾选全选按钮（以前应该没有这个问题的） 修复方式：移除class:  z-index-l(999)-->
+      <div class="pos-rel-tl order-create-btn  mgb-m">
         <a ng-if="initFlag"
            modal-right="1000"
            modal-open-auto="{{!formData.orderMedicalNos.length}}"
@@ -217,7 +218,7 @@
                 <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                 <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
+                <td class="text-right">{{item.returnQuantity}}</td><!-- 可退数量 -->
                 <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1; item.totalTaxPrice = item.quantity * item.strike_price;" ng-class="{'disabled':(!item.quantity)}" ng-disabled="!item.quantity">-</button>

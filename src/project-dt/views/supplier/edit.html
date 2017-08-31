@@ -1,4 +1,4 @@
-<div class="first-medical-application"
+<div class="first-medical-application first-modal"
      ng-controller="customerAddressCtrl"
      ajax-url="rest/authen/supplier/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -6,7 +6,7 @@
      alert-error>
 
      <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">供应商中心 >
+       <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">基础设置 >
          <a tab-nav tab-name="供应商管理" tab-href="#/supplier/query.html">
             <em class="color-custom-orange">供应商管理</em>
          </a>
@@ -29,7 +29,7 @@
             parameter-body
             action="rest/authen/supplier/save"
             alert-error
-            alert-ok
+
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
@@ -54,8 +54,8 @@
 
         <div class="panel pr-panel pr-panel-height mgb" >
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="flex-row mgt">
-                <label class="flex-item-2 text-right control-label">性质：</label>
+            <div class="flex-row mgt mgb">
+                <p class="flex-item-2 text-right control-label">性质：</p>
                 <div class="flex-item-8" style="float:left;"
                  ng-if="initFlag"
                  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SupplierType" scope-data="scopeData"
@@ -68,9 +68,9 @@
                     <span ng-if="!formData.type.length" class="color-red relative" style="top:-13px;">(必选)</span>
                 </div>
             </div>
-            <div class="" style="min-height:200px;">
-                <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label">名称：</label>
+            <div class="bt-dashed-line" style="min-height:200px;">
+                <div class="flex-row mgt-l">
+                    <p class="flex-item-2 text-right control-label">名称：</p>
                     <div class="flex-item-10 text-left">
                       <input type="text"
                              class="ipt ipt-new"
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label">法定代表人：</label>
+                    <p class="flex-item-2 text-right control-label">法定代表人：</p>
                     <div class="flex-item-10 text-left">
                       <input type="text"
                              class="ipt ipt-new"
@@ -91,23 +91,26 @@
                     </div>
                 </div>
                 <div class="flex-row mgt">
-                  <label class="flex-item-2 text-right control-label">分类：</label>
+                  <p color-9  class="flex-item-2 text-right control-label">分类：</p>
                   <div class="flex-item-10 color-3 text-left ">
-                    <div class="autocut z-tree-div inline-block fl-l" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
-                    <span style="display:none;">{{formData.attributeId}}</span>
+
                     <button type="button"
                             z-tree-select="rest/authen/supplierAttribute/query.json"
                             width="240px"
-                            class="btn-select btn-enter-price-select fl-l"
+                            style="margin-left:0px;"
+                            class="btn-select btn-enter-price-select fl-l text-left"
                             ng-model="formData.supplierAttribute"
                             id-key="id"
-                            p-id-key="parentId">选择
+                            p-id-key="parentId">
+                            <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
+                            <span style="display:none;">{{formData.attributeId}}</span>
+                            <em class="mgl">选择</em>
                     </button>
                     <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
                   </div>
                 </div>
                 <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label pdr-s">编号：</label>
+                    <p class="flex-item-2 text-right control-label pdr-s">编号：</p>
                     <div class="flex-item-10 text-left">
                       <input type="text"
                              class="ipt-new "
@@ -127,20 +130,20 @@
                    </div>
                 </div>
                 <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label">分管部门：</label>
+                    <p class="flex-item-2 text-right control-label">分管部门：</p>
                     <div class="flex-item-10 text-left">
                         <input type="text" class="ipt-new" name="name" ng-model="formData.branchDepartmentName" />
                     </div>
                 </div>
                 <div class="flex-row mgt">
-                    <label class="flex-item-2 text-right control-label">分管业务人员：</label>
+                    <p class="flex-item-2 text-right control-label">分管业务人员：</p>
                     <div class="flex-item-10 text-left">
                         <input type="text" class="ipt-new" name="name" ng-model="formData.branchUser.n" />
                     </div>
                 </div>
 
             <div class="mgt flex-row">
-              <label class="flex-item-2 text-right">开户银行：</label>
+              <p class="flex-item-2 text-right">开户银行：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        style="width:334px;"
@@ -150,7 +153,7 @@
               </div>
             </div>
             <div class="mgt flex-row">
-              <label class="flex-item-2 text-right">开户账号：</label>
+              <p class="flex-item-2 text-right">开户账号：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        style="width:334px;"
@@ -160,7 +163,7 @@
               </div>
             </div>
             <div class="mgt flex-row">
-              <label class="flex-item-2 text-right">开户户名：</label>
+              <p class="flex-item-2 text-right">开户户名：</p>
               <div class="flex-item-10 text-left">
                 <input type="text"
                        style="width:334px;"
@@ -170,7 +173,7 @@
               </div>
             </div>
             <div class="mgt flex-row">
-              <label class="flex-item-2 text-right">付款方式：</label>
+              <p class="flex-item-2 text-right">付款方式：</p>
               <div class="flex-item-10 text-left">
                 <select
                 ng-if="initFlag"
@@ -184,7 +187,7 @@
               </div>
             </div>
             <div class="mgt flex-row mgt mgb">
-              <label class="flex-item-2 text-right">经营范围：</label>
+              <p class="flex-item-2 text-right">经营范围：</p>
               <div class="flex-item-8  text-left ">
                 <div ng-if="formData.businessScope.length" class="inline-block">
                   <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope">
@@ -256,7 +259,7 @@
                       modal-right="456"
                       modal-data='{"contactType":"firstEnterpriseApplication"}'
                       modal-scope="this"
-                      modal-url="views/public/firstRightSide/add-contact.html"><em class="fa fa-plus"></em> 新增地址信息
+                      modal-url="views/public/firstRightSide/add-contact.html"><em class="fa fa-plus"></em> 新增联系人
               </span>
             </div>
             </div>

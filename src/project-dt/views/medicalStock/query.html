@@ -30,7 +30,8 @@
         <div class="content-wrapper-main" style="min-height:200px;">
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bg-white">
             <div class="flex-item-6">
-              <div class="inline-block mgr-l">状态：
+              <div class="inline-block mgr-l">
+                <span class="mgr relative" style="top:2px;">  状态：</span>
                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
                         default-empty="全部"
                         chosen
@@ -38,30 +39,31 @@
                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
                 </select>
               </div>
-              <div class="inline-block">制单日期:
-                <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+              <div class="inline-block" >
+               <span class="mgr relative" style="top:0;">制单日期:</span>
+                <div class="date-icon-outside" style="border:0;text-indent:0;" ng-if="!listParams.createAtBeg">
                     <input type="text"
                            datepicker
-                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10 input-date"
                            ng-readonly="true"
 
                            ng-model="listParams.createAtBeg">
                     <span class="date-icon"></span>
                 </div>
-                <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                <div class="date-icon-outside" style="border:0;text-indent:0;" ng-if="listParams.createAtBeg">
                     <input type="text"
                            datepicker
-                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10 input-date"
                            ng-readonly="true"
 
                            ng-model="listParams.createAtBeg">
                     <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
                 </div>
-                <span class="mgr">至</span>
-                <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                <span class="mgr-s mgl-s relative" style="top:0;">至</span>
+                <div class="date-icon-outside" style="border:0;text-indent:0;" ng-if="!listParams.createAtEnd">
                     <input type="text"
                            datepicker
-                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10 input-date"
                            ng-readonly="true"
 
                            ng-model="listParams.createAtEnd"
@@ -70,10 +72,10 @@
                            popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
                     <span class="date-icon"></span>
                 </div>
-                <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                <div class="date-icon-outside" style="border:0;text-indent:0;" ng-if="listParams.createAtEnd">
                     <input type="text"
                            datepicker
-                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10 input-date"
                            ng-readonly="true"
 
                            ng-model="listParams.createAtEnd"/>
@@ -84,7 +86,7 @@
             <div class="flex-item-6 text-right">
 
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="通用名称/生产企业" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品编号/品种名/通用名称/生产企业" ng-model="listParams.q">
                   <i class=""></i>
                 </div>
                 <div class="inline-block mgl-m">
@@ -103,6 +105,7 @@
                   table-data='{{tbodyList}}' -->
                   <th class="w-80">状态</th>
                   <th>序号</th>
+                  <th>商品编号</th>
                   <th>品种名</th>
                   <th class="w-220">通用名称</th>
                   <th>生产企业</th>
@@ -133,7 +136,6 @@
                     </span>
                     <div class="table-item-multiple-btn">
                       <div class="inline-block handle-btn del-details-btn relative delete-icon" href="javascript:;" ng-show="$root.hasAuthor('品种管理删除')">
->
                           <div class="del-confirm-area text-center">
                             <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
                             <p class="pd-v-s">
@@ -234,6 +236,7 @@
                     </div>
                   </td>
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                  <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.name}}</td>
                   <td class="text-left color-orange">
                     <div class="autocut color-orange" title="{{tr.approvedName}}">

@@ -36,8 +36,19 @@ define('project-dt/controllers-uiCustomTable', ['project-dt/init'], function() {
           }
         });
         // 点击选中某个字段
-        $scope.selectThisItem=function(item){
+        $scope.selectThisItemShow=function(item){
           $scope.itemShow=item;
+          // 在显示列中选中某一项
+          $scope.rightDisabled=false;
+          $scope.leftDisabled=true;
+        }
+        // 点击选中某个字段
+        $scope.selectThisItemNoShow=function(item){
+          $scope.itemShow=item;
+          $scope.rightDisabled=true;
+          $scope.leftDisabled=false;
+          // 在隐藏列中选中某一项
+
         }
 
         // 点击保存之后，选中上一次改的该字段。

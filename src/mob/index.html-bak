@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <meta name="format-detection" content="telephone=no">
+    <title>二维码跟踪回溯</title>
+    <script>
+        var deviceWidth = parseInt(window.screen.width);  //获取当前设备的屏幕宽度
+        var deviceScale = deviceWidth / 640;  //得到当前设备屏幕与640之间的比例，之后我们就可以将网页宽度固定为640px
+        var ua = navigator.userAgent;
+        //获取当前设备类型（安卓或苹果）
+        if (/Android (\d+\.\d+)/.test(ua)) {
+            var version = parseFloat(RegExp.$1);
+            if (version > 2.3) {
+                document.write('<meta name="viewport" content="width=640,initial-scale=' + deviceScale + ', minimum-scale = ' + deviceScale + ', maximum-scale = ' + deviceScale + ', target-densitydpi=device-dpi">');
+            } else {
+                document.write('<meta name="viewport" content="width=640,initial-scale=0.75,maximum-scale=0.75,minimum-scale=0.75,target-densitydpi=device-dpi" />');
+            }
+        } else {
+            document.write('<meta name="viewport" content="width=640, user-scalable=no">');
+        }
+    </script>
+
+    <link  href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="goods-title" id="goods-title">
+    <!--<h1>中国医疗器械贵州有限公司物流中心</h1>-->
+    <!--<h2>血糖仪质量信息</h2>-->
+</div>
+
+<div class="goods-info"  id="goods-info">
+    <!--<div class="item">-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">剂型／分类</p>-->
+            <!--<p class="val">第一类</p>-->
+        <!--</div>-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">规格／型号</p>-->
+            <!--<p class="val">H062／1台</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">批号</p>-->
+            <!--<p class="val">YZB／苏1547-2014</p>-->
+        <!--</div>-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">灭菌批号</p>-->
+            <!--<p class="val">&#45;&#45;</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">批号</p>-->
+            <!--<p class="val">YZB／苏1547-2014</p>-->
+        <!--</div>-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">灭菌批号</p>-->
+            <!--<p class="val">&#45;&#45;</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">生产日期</p>-->
+            <!--<p class="val">2022-10-21</p>-->
+        <!--</div>-->
+        <!--<div class="goods-info-item">-->
+            <!--<p class="lables">有效期至</p>-->
+            <!--<p class="val">2022-10-21</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="goods-info-item" style="width: 100%">-->
+            <!--<p class="lables">产品注册证号／备案凭证编号／批准文号</p>-->
+            <!--<p class="val">苏械注准201560283</p>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+<div class="goods-list clear">
+
+    <ul id="goods-list">
+
+        <li> <center> 加载中...</center></li>
+
+        <!--<li>-->
+            <!--<div class="year">2017</div>-->
+            <!--<div class="left">-->
+                <!--<p class="date">03.21</p>-->
+                <!--<div class="point3"></div>-->
+            <!--</div>-->
+            <!--<div class="right">-->
+                <!--<div class="title">销售</div>-->
+                <!--<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>-->
+                <!--<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>-->
+                <!--<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+
+            <!--<div class="left">-->
+                <!--<div class="year">2017</div>-->
+                <!--<div class="date">03.21</div>-->
+                <!--<div class="point2"></div>-->
+            <!--</div>-->
+
+            <!--<div class="right">-->
+                <!--<div class="title">销售</div>-->
+                <!--<div class="item2">-->
+                    <!--<div class="lables">供应商：</div>-->
+                    <!--<div class="val">江苏鱼跃医疗有限公司江苏鱼跃医疗有限公司</div>-->
+                <!--</div>-->
+                <!--<div class="item2">-->
+                    <!--<div class="lables">采购数量：</div>-->
+                    <!--<div class="val">10</div>-->
+                <!--</div>-->
+                <!--<div class="item2">-->
+                    <!--<div class="lables">收货时间：</div>-->
+                    <!--<div class="val">2017-07-05 14:57</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
+
+        <!--<li class="">-->
+            <!--<div class="left">-->
+                <!--<div class="year">2017</div>-->
+                <!--<div class="date">03.21</div>-->
+                <!--<div class="point2"></div>-->
+            <!--</div>-->
+            <!--<div class="right">-->
+                <!--<div class="title" style="visibility: hidden">销售</div>-->
+            <!--</div>-->
+        <!--</li>-->
+
+        <!--<li>-->
+            <!--<div class="left">-->
+                <!--&lt;!&ndash;<div class="year">2017</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="date">03.21</div>&ndash;&gt;-->
+                <!--<div class="point3"></div>-->
+            <!--</div>-->
+            <!--<div class="right">-->
+                <!--<div class="title">销售</div>-->
+                <!--<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>-->
+                <!--<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>-->
+                <!--<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>-->
+            <!--</div>-->
+        <!--</li>-->
+
+        <!--<li>-->
+            <!--<div class="left">-->
+                <!--&lt;!&ndash;<div class="year">2017</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="date">03.21</div>&ndash;&gt;-->
+                <!--<div class="point3"></div>-->
+            <!--</div>-->
+
+            <!--<div class="right">-->
+                <!--<div class="title">销售</div>-->
+                <!--<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>-->
+                <!--<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>-->
+                <!--<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+</div>
+<div style="height: 1rem"></div>
+<!--<script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=2.5.2"></script>-->
+<script src="conf.js"></script>
+<script>
+
+    var baseUrl= conf.serverPath;
+
+    console.log("baseUrl",baseUrl);
+
+    function $(id) {
+        return document.getElementById(id);
+    }
+    
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+
+    Array.prototype.unique = function () {
+        var temp = new Array();
+        this.sort();
+        for(var i = 0; i < this.length; i++) {
+            if( this[i] == this[i+1]) {
+                continue;
+            }
+            temp[temp.length]=this[i];
+        }
+        return temp;
+
+    };
+    var orderMedicalNoUuid= null;
+
+    window.onload=function () {
+
+//        var orderId=getUrlParam('orderId') || "599138d65bac7c30665c09d5";
+//        var orderType= getUrlParam('orderType') || "发货单";
+//        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid') || "b3bac02cbbbb47679913e315eb45e286";
+
+
+        var orderId=getUrlParam('orderId');
+        var orderType= getUrlParam('orderType');
+        orderMedicalNoUuid= getUrlParam('orderMedicalNoUuid');
+
+
+
+        if(!orderId || !orderType || !orderMedicalNoUuid){
+            alert("获取参数失败！");
+            return;
+        }
+
+
+        ajax(baseUrl+'rest/medicalReviewRecord/getOrderMedicalNo?orderId='+orderId+'&orderType='+orderType+'&orderMedicalNoUuid='+orderMedicalNoUuid,'get',initGoodsInfo
+,errorCallback);
+
+        setTimeout(function () {
+            ajax(baseUrl+'rest/medicalReviewRecord/query?orderMedicalNoUuid='+orderMedicalNoUuid,'get',successCallback,errorCallback);
+        },100);
+    };
+
+    //渲染时间轴列表
+    function successCallback(data) {
+        data = JSON.parse(data);
+
+        var data= formatData(data);
+//        alert(ceateHtml(data));
+        $('goods-list').innerHTML= ceateHtml(data);
+    }
+
+    //初始化商品信息
+    function initGoodsInfo(_data) {
+
+        var tempdata = JSON.parse(_data);
+        if (tempdata.code != 200) {
+            alert(tempdata.msg);
+            return;
+        }
+
+        var data = tempdata.data;
+
+        console.log(">>>>>>>>>>>>>>>>", data[0]);
+
+        var goodsTitle = '\n                <h1>' + data.logisticsCenterName + '</h1>\n                <h2>' + data.OrderMedicalNo.name + '质量信息</h2>\n        ';
+
+        $('goods-title').innerHTML = goodsTitle;
+        var html = '\n            <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">剂型／分类</p>\n                <p class="val">' + (data.OrderMedicalNo.dosageForms || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">规格／型号</p>\n                <p class="val">' + (data.OrderMedicalNo.specificationAndModelType || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">批号</p>\n                <p class="val">' + (data.OrderMedicalNo.productionBatch || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">灭菌批号</p>\n                <p class="val">' + (data.OrderMedicalNo.sterilizationBatchNumber || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item">\n                <p class="lables">生产日期</p>\n                <p class="val">' + (formatDate(data.OrderMedicalNo.productionDate, 'yyyy-MM-dd') || '暂无') + '</p>\n            </div>\n            <div class="goods-info-item">\n                <p class="lables">有效期至</p>\n                <p class="val">' + (formatDate(data.OrderMedicalNo.validTill, 'yyyy-MM-dd') || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item" style="width: 100%">\n                <p class="lables">生产企业</p>\n                <p class="val">' + (data.OrderMedicalNo.productEnterprise.name || '暂无') + '</p>\n            </div>\n        </div>\n        <div class="item">\n            <div class="goods-info-item" style="width: 100%">\n                <p class="lables">产品注册证号／备案凭证编号／批准文号</p>\n                <p class="val">' + (data.OrderMedicalNo.medicalRegistryCode || '暂无') + '</p>\n            </div>\n        </div>';
+
+        $('goods-info').innerHTML = html;
+    }
+
+    //创建HTML内容
+    function ceateHtml(arr) {
+        var html = '';
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+            var values = item.value;
+            if (values.length > 1) {
+                html += '<li class="">\n                    <div class="left">\n                        <div class="year">' + item.year + '</div>\n                        <div class="date">' + item.date + '</div>\n                        <div class="point2"></div>\n                    </div>\n                    <div class="right">\n                        <div class="title" style="visibility: hidden">' + item.type + '</div>\n                    </div>\n                </li>';
+            }
+            var className = values.length > 1 ? 'point3' : 'point2';
+            for (var j = 0; j < values.length; j++) {
+                var item2 = values[j];
+
+                if (i == 0) {
+                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">客户名称：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.quantity + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.receiveDate) + '</div></div>\n                        <div class="item2"><div class="lables">出库时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
+                } else {
+                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.usedQuantity[orderMedicalNoUuid] + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
+                }
+            }
+        }
+
+        return html;
+    }
+
+
+    //ajax 请求失败回调
+    function errorCallback(data) {
+        alert('获取数据错误！');
+    }
+
+
+    //ajax方法
+    function ajax(url,method,successCallback,errorCallback) {
+
+        if (window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }else {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                successCallback(xmlhttp.responseText);
+            }
+            if (xmlhttp.readyState==4 && xmlhttp.status!=200){
+                errorCallback(xmlhttp.responseText);
+            }
+        };
+        xmlhttp.open(method.toUpperCase(),url,true);
+        xmlhttp.send();
+    }
+
+
+    //获取URL参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return decodeURI(r[2]); return null; //返回参数值
+    }
+
+
+
+    //构造时间轴数据
+    function  formatData(_data) {
+
+        if(_data.code != 200){
+            alert(_data.msg);
+            return;
+        }
+
+        var data= _data.data;
+
+        var dateList=[];
+        var resultList=[];
+
+        for(var i=0; i<data.length;i++){
+            dateList.push({
+                date: formatDate(data[i].inoutDate,'yyyy-MM.dd'),
+                type:data[i].medicalReviewType
+            });
+        }
+
+        console.log("before",dateList);
+
+        //去重复
+        dateList = arrayUnique(dateList);
+        console.log("after",dateList);
+        //创建list;
+        for(var i=0; i<dateList.length; i++){
+
+            var temp=  {
+                "time":dateList[i].date,
+                "year":getYear(dateList[i].date),
+                "date":getDate(dateList[i].date),
+                "type":dateList[i].type,
+                "value":[]
+            };
+            resultList.push(temp);
+        }
+
+        //为list 添加数据
+        for(var i=0; i<resultList.length; i++){
+            for(var j=0; j<data.length; j++){
+                if(resultList[i].time == formatDate(data[j].inoutDate,'yyyy-MM.dd') && resultList[i].type == data[j].medicalReviewType){
+                    resultList[i].value.push(data[j]);
+                }
+            }
+        }
+        return resultList;
+    }
+
+
+
+
+
+
+
+
+
+
+    //数组去重
+    function arrayUnique(arr){//去除数组中重复对象
+        var unique = {};
+        arr.forEach(function(a){ unique[ JSON.stringify(a) ] = 1 });
+        arr= Object.keys(unique).map(function(u){return JSON.parse(u) });
+        return arr
+    }
+
+
+    function formatDate2(date) {
+
+        if(!date){
+            return "";
+        }
+
+        if(!formatStr){
+            var formatStr='yyyy-MM-dd hh:mm:ss'
+        }
+
+        return new Date(date).Format(formatStr)+"";
+    }
+
+
+
+    function formatDate(date,formatStr) {
+
+        if(!date){
+            return "";
+        }
+
+        if(!formatStr){
+            var formatStr='yyyy-MM-dd hh:mm:ss'
+        }
+
+        return new Date(date).Format(formatStr);
+    }
+
+    function  getYear(dateStr) {
+        return dateStr.substring(0,4);
+    }
+
+    function  getDate(dateStr) {
+        return dateStr.substring(5,10);
+    }
+
+    function prev(arr,index) {
+        index -= 1;
+        if(index < 0){
+            return null;
+        }
+        return arr[index];
+    }
+    
+    function next(arr,index) {
+        if(index*1+1> arr.length-1){
+            return null;
+        }else{
+            return arr[index*1+1];
+        }
+    }
+
+
+    function cereatHtml2(arr,index) {
+        var prevObj=prev(arr,index);
+        var nextObj= next(arr,index);
+        var nowObj= arr[index];
+        var pointClass=null;
+
+        var subHtml='';
+
+
+        var showDate=true;
+
+        if(index==0){
+            pointClass = 'point'
+        }else{
+
+            if(nowObj.year != prevObj.year){
+                //不同年-显示年
+                pointClass = 'point2'
+            }else{
+                //同一年 判断下面
+                if(nextObj){
+                    //1.判断当前时间时候和下一对象时间一致 如果一致 代表 是同一天，否者认为是不同天
+                    if(nowObj.time == nextObj.time || nowObj.time == prevObj.time){
+                        pointClass= 'point3'
+                        showDate=false;
+                    }else{
+                        pointClass= 'point2'
+                    }
+                }else{
+                    //没有下一个节点
+                    pointClass= 'point2'
+                }
+            }
+        }
+
+        console.log("point-class",pointClass);
+
+        var showDateStyle= showDate ? 'visible':'hidden';
+
+        var html='<li>';
+
+        html +=    '<div class="left">';
+        html +=      '<div class="year" >'+getYear(nowObj.time)+'</div>'
+        html +=      '<p class="date" style="visibility: '+showDateStyle+'">'+getDate(nowObj.time)+'</p>'
+        html +=    '<div class="'+pointClass+'"></div>'
+        html +='</div>'
+        html +='<div class="right">'
+        html +=    '<div class="title">销售</div>';
+        html +=    '<div class="item2"><span class="lables">供应商：</span> <span class="val">江苏鱼跃医疗有限公司</span></div>';
+        html +=    '<div class="item2"><span class="lables">采购数量：</span><span class="val">10</span></div>';
+        html +=    '<div class="item2"><span class="lables">收货时间：</span><span class="val">2017-07-05 14:57</span></div>';
+        html += '</div>';
+        html +='</li>';
+        return html;
+    }
+
+    function findIndex(list,attr,attrVal) {
+        var index=-1;
+        var object=null;
+        for(var i=0; i<list.length;i++){
+            if(list[i][attr] == attrVal){
+                index=i;
+                object=list[i];
+                break;
+            }
+        }
+        return {
+            index:index,
+            object:object
+        };
+    }
+
+    function setVal(key,val) {
+        window.localStorage.setItem(key,val);
+    }
+
+    function  getVal(key) {
+        return window.localStorage.getItem(key);
+    }
+
+
+
+
+</script>
+</body>
+</html>

@@ -2,6 +2,9 @@
   .angucomplete-holder{
     height: 100%;
   }
+  .show-info-stock{
+    z-index: 2;
+  }
 </style>
 <div class="" ng-controller="medicalFlashCheckEditCtrl">
   <!-- 头部信息 -->
@@ -72,67 +75,67 @@
         <div class="pd-c-v-m flex-item-12 flex-row padd-t0 "  ng-if="scopeData&&medicalData.type=='商品'">
           <!-- 第一行 -->
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>商品通用名称</p><p class="color-3 mgt-s">{{scopeData.approvedName}}</p>
+            <p>商品通用名称</p><p class="color-3 text-bold mgt-s">{{scopeData.approvedName}}</p>
           </div>
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>商品编号</p><p class="color-3 mgt-s">{{scopeData.code}}</p>
+            <p>商品编号</p><p class="color-3 text-bold mgt-s">{{scopeData.code}}</p>
           </div>
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>产品注册证号／备案凭证编号／批准文号</p><p class="color-3 mgt-s">{{scopeData.medicalRegistryCode}}</p>
+            <p>产品注册证号／备案凭证编号／批准文号</p><p class="color-3 text-bold mgt-s">{{scopeData.medicalRegistryCode}}</p>
           </div>
           <!-- 第二行 -->
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>剂型／分类</p><p class="color-3 mgt-s">{{scopeData.dosageForms}}</p>
+            <p>剂型／分类</p><p class="color-3 text-bold mgt-s">{{scopeData.dosageForms}}</p>
           </div>
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>规格／型号</p><p class="color-3 mgt-s">{{scopeData.specificationAndModelType}}</p>
+            <p>规格／型号</p><p class="color-3 text-bold mgt-s">{{scopeData.specificationAndModelType}}</p>
           </div>
           <div class="inline-block flex-item-4 text-s text-left mar-t20">
-            <p>生产企业</p><p class="color-3 mgt-s">{{scopeData.productEnterprise.name}}</p>
+            <p>生产企业</p><p class="color-3 text-bold mgt-s">{{scopeData.productEnterprise.name}}</p>
           </div>
         </div>
         <!-- 进销价格 -->
         <div class="pd-c-v-s flex-item-12 padd-t0" ng-if="scopeData && medicalData.type=='价格'">
           <!-- 第一行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>牌价</p><p class="color-3 mgt-s">{{scopeData.quoteprice | currency:'￥'   }}</p>
+            <p>牌价</p><p class="color-3 text-bold mgt-s">{{scopeData.quoteprice | currency:'￥'   }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>批发价</p><p class="color-3 mgt-s">{{scopeData.tradePrice  | currency:'￥'  }}</p>
+            <p>批发价</p><p class="color-3 text-bold mgt-s">{{scopeData.tradePrice  | currency:'￥'  }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>税率</p><p class="color-3 mgt-s">{{scopeData.tax}}%</p>
+            <p>税率</p><p class="color-3 text-bold mgt-s">{{scopeData.tax}}%</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>&nbsp;</p><p class="color-3 mgt-s">&nbsp;</p>
+            <p>&nbsp;</p><p class="color-3 text-bold mgt-s">&nbsp;</p>
           </div>
           <!-- 第二行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>参考采购价</p><p class="color-3 mgt-s">{{scopeData.purchasePrice  | currency:'￥'}}</p>
+            <p>参考采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.purchasePrice  | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最新采购价</p>
-            <p ng-if="scopeData.newPurchasePrice" class="color-3 mgt-s">{{scopeData.newPurchasePrice  | currency:'￥' }}</p>
-            <p ng-if="!scopeData.newPurchasePrice" class="color-3 mgt-s">—</p>
+            <p ng-if="scopeData.newPurchasePrice"  class="color-3 text-bold mgt-s">{{scopeData.newPurchasePrice  | currency:'￥' }}</p>
+            <p ng-if="!scopeData.newPurchasePrice" class="color-3 text-bold mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最高采购价</p><p class="color-3 mgt-s">{{scopeData.maxPurchasePrice | currency:'￥'}}</p>
+            <p>最高采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.maxPurchasePrice | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最低采购价</p><p class="color-3 mgt-s">{{scopeData.minPurchasePrice   | currency:'￥'}}</p>
+            <p>最低采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.minPurchasePrice   | currency:'￥'}}</p>
           </div>
           <!-- 第三行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>参考销售价</p><p class="color-3 mgt-s">{{scopeData.retailPrice   | currency:'￥'}}</p>
+            <p>参考销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.retailPrice   | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 mgt-s">{{scopeData.newSalePrice   | currency:'￥'}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
+            <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 text-bold mgt-s">{{scopeData.newSalePrice   | currency:'￥'}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最高销售价</p><p class="color-3 mgt-s">{{scopeData.maxRetailPrice   | currency:'￥'}}</p>
+            <p>最高销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.maxRetailPrice   | currency:'￥'}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最低销售价</p><p class="color-3 mgt-s">{{scopeData.minRetailPrice   | currency:'￥'}}</p>
+            <p>最低销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.minRetailPrice   | currency:'￥'}}</p>
           </div>
         </div>
         <div class="pr-bg-white flex-item-12" ng-if="!scopeData||!medicalData.id">
@@ -145,47 +148,39 @@
       </div>
       <!-- 显示表格库存信息 -->
       <!-- out-scroll-div  -->
+
       <div class="mgt-l ">
-        <div class="flex-item-12 flex-row pr-bg-white pr-border" >
-          <div class="flex-item-12 flex-row " >
-            <p class="pd-c-v-l text-n flex-item-12 flex-row">
-              <span class="text-left flex-item-6 color-6 text-bold">库存信息</span>
-              <span class="text-right flex-item-6">合计：{{totalQuantity}}<em class="color-3"></em></span>
-            </p>
-            <table class="table pr-table pr-new-table mgb-n">
-              <thead>
-                <tr>
-                  <th class="text-center">序号</th>
-                  <th class="text-center">仓库</th>
-                  <th class="text-center">批号</th>
-                  <th class="text-center">灭菌批号</th>
-                  <th class="text-center">现存量</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="item in stockData" ng-if="item.stockModel.quantity != 0">
-                  <td class="text-center">{{$index+1}}</td><!-- 序号-->
-                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
-                </tr>
-              </tbody>
-            </table>
-            <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
-              <div class="empty-table clearfix">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-              </div>
+          <p class="pd-c-v-l text-n flex-item-12 flex-row pr-bg-white">
+            <span class="text-left flex-item-6 color-3 text-bold">库存信息</span>
+            <span class="text-right flex-item-6">合计：<em class="color-3">{{totalQuantity}}</em></span>
+          </p>
+          <table class="table pr-table pr-new-table mgb-n">
+            <thead>
+              <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">仓库</th>
+                <th class="text-center">批号</th>
+                <th class="text-center">灭菌批号</th>
+                <th class="text-center">现存量</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in stockData" ng-if="item.stockModel.quantity != 0">
+                <td class="text-center">{{$index+1}}</td><!-- 序号-->
+                <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                <td class="text-center">{{item.stockModel.quantity || '0'}}</td><!-- 现存量 -->
+              </tr>
+            </tbody>
+          </table>
+          <div class="pr-bg-white flex-item-12" ng-if="!stockData.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
             </div>
-            <!-- <div class="clearfix">
-                <div class="fr">
-                    <pagination status="status"></pagination>
-                </div>
-            </div> -->
           </div>
-        </div>
       </div>
 
     </div>
@@ -196,28 +191,28 @@
         </p>
         <div class="mgt mgl-m">
           <span class="color-9" >起止年月：</span>
-          <div class="date-icon-outside" ng-if="!stockData.createAtBeg">
+          <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="!stockData.createAtBeg">
               <input type="text"
                      datepicker
-                     class="ipt-date color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg"
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)">
               <span class="date-icon"></span>
           </div>
-          <div class="date-icon-outside" ng-if="stockData.createAtBeg">
+          <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="stockData.createAtBeg">
               <input type="text"
                      datepicker
-                     class="ipt-date color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg">
               <span class="delete-date-icon" style="z-index:10;" ng-click="stockData.createAtBeg='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)"></span>
           </div>
           <span class="color-9">至</span>
-          <div class="date-icon-outside" ng-if="!stockData.createAtEnd">
+          <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="!stockData.createAtEnd">
               <input type="text"
                      datepicker
-                     class="ipt-date color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"
                      invalid-popover
@@ -226,10 +221,10 @@
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)" />
               <span class="date-icon"></span>
           </div>
-          <div class="date-icon-outside" ng-if="stockData.createAtEnd">
+          <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="stockData.createAtEnd">
               <input type="text"
                      datepicker
-                     class="ipt-date color-6 mgr pr-indent-10"
+                     class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"/>
               <span class="delete-date-icon" style="z-index:10;" ng-click="stockData.createAtEnd='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)"></span>
@@ -240,11 +235,11 @@
         <div class="scroll-out-div mgt" style="overflow-y: auto;">
           <div class="mgl-m flex-item-12 " ng-if="inOutStockData.length" >
             <div class="flex-item-12 flex-row" ng-repeat="yearData in inOutStockData">
-              <p class="pd-c-v-s color-3 flex-item-12 text-left pr-fw-701" style="text-indent:50px;">
+              <p class="pd-c-v-s color-3 flex-item-12 text-left pr-fw-701" style="text-indent:50px; font-size:14px;text-indent:53px;">
                 {{yearData.year}}
               </p>
               <div class="text-s relative flex-item-12" ng-repeat="tr in yearData.detailVos" >
-                <span class="relative" style="top:-40px;">{{tr.date | date : 'yyyy-MM-dd'}}</span>
+                <span class="relative" style="top:-59px;">{{tr.date | date : 'yyyy-MM-dd'}}</span>
                 <span ng-if="tr.inoutType=='入库'" class="inStock-icon"></span>
                 <span ng-if="tr.inoutType=='出库'" class="outStock-icon"></span>
                 <div class="show-info-stock" ng-class="{'pr-bg-inStock':(tr.inoutType=='入库')}">
