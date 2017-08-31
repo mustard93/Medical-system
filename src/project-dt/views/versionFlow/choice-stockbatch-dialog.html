@@ -26,7 +26,7 @@
         </div>
         <!-- 日期过滤 -->
         <div class="inline-block" >
-            <span class="color-9 mgl-m" style="position: relative;top: -3px;">有效期：</span>
+            <span class="color-9 mgl-m" style="position: relative;top: 0;">有效期：</span>
             <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtBeg">
                 <input type="text"
                        datepicker
@@ -36,7 +36,7 @@
                        ng-model="listParams.createAtBeg"
                        placeholder=""
                        ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <span class="date-icon"></span>
+                <span class="date-icon" style="z-index:15;"></span>
             </div>
             <div class="date-icon-outside bgco-white" ng-if="listParams.createAtBeg">
                 <input type="text"
@@ -46,7 +46,7 @@
                        ng-model="listParams.createAtBeg">
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
             </div>
-            <span class="color-9" style="position: relative;top: -3px;">至</span>
+            <span class="color-9 mgl-s mgr-s" style="position: relative;top: 0;">至</span>
             <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtEnd">
                 <input type="text"
                        datepicker
@@ -56,7 +56,7 @@
                        ng-model="listParams.createAtEnd"
                        placeholder=""
                        ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <span class="date-icon"></span>
+                <span class="date-icon" style="z-index:15;"></span>
             </div>
             <div class="date-icon-outside" ng-if="listParams.createAtEnd">
                 <input type="text"
@@ -97,8 +97,7 @@
           </thead>
           <tbody class="bg-white bb-line-gold-top">
             <tr ng-if="tbodyList.length" ng-repeat="item1 in tbodyList" class="pr-bg-black3 trHover-bg"
-                ng-controller="choseBatchCtrl"
-                ng-class="{'pr-bg-grey3':listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}">
+                ng-controller="choseBatchCtrl"> <!-- ng-class="{'pr-bg-grey3':listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}" -->
                 <td class="text-center">
                     <!--{{test}}-->
                     <!--ng-disabled 有bug，偶尔出现先 true后false情况下，ng-disabled=false，时，disabled 还是 存在，导致不能执行ng-click选择批号的问题。在span上增加ng-click-->
