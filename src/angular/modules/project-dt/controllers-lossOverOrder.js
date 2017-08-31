@@ -109,12 +109,8 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             alertWarn('请选择药品。');
             return false;
         }
-        if (!addDataItem.quantity||addDataItem.quantity<1) {
-            alertWarn('请输入大于0的数量。');
-            return false;
-        }
-        // if (!addDataItem.strike_price) {
-        //     alertWarn('请输入成交价格。');
+        // if (!addDataItem.quantity||addDataItem.quantity<1) {
+        //     alertWarn('请输入大于0的数量。');
         //     return false;
         // }
         if(addDataItem.quantity>medical.quantity){//库存不足情况
@@ -132,7 +128,23 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-  
+
+    // 重新选择历史价格之后哟啊实时重新计算总计
+    $scope.lossOverOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+
+            var _tmp = 0;
+            for (var i = 0; i < item.stockBatchs.length; i++) {
+              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
+            }
+            _total += _tmp;
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
     // 保存  type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
 
@@ -142,24 +154,39 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         return;
       }
 
-      if ($scope.submitForm_type == 'submit') {
-        // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
-
-        var url='rest/authen/salesOrder/confirmSalesOrder';
-        var data= {id:$scope.formData.id,status:'待审批'};
-        requestData(url, data, 'POST')
+      if ($scope.submitForm_type == 'submit-loss') {
+        _url='rest/authen/lossOrder/startProcessInstance';
+        data= {businessKey:$scope.formData.id};
+        requestData(_url, data, 'POST')
           .then(function (results) {
-            var _data = results[1].data;
-            // console.log(_data);
-            // $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
+            var _data = results[1];
+           //  alertOk(_data.message || '操作成功');
+            $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
 
           })
           .catch(function (error) {
-            // alertError(error || '出错');
+            alertError(error || '出错');
           });
-      }
+       }
 
-      if ($scope.submitForm_type == 'save') {
+
+      if ($scope.submitForm_type == 'submit-over') {
+            _url='rest/authen/overOrder/startProcessInstance';
+            data= {businessKey:$scope.formData.id};
+            requestData(_url, data, 'POST')
+                .then(function (results) {
+                    var _data = results[1];
+                    alertOk(_data.message || '操作成功');
+                    $scope.goTo({tabHref:'#/overOrder/get.html?id='+$scope.formData.id,tabName:'报溢单'});
+
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
+
+
+        if ($scope.submitForm_type == 'save') {
         // console.log(this);
       }
     };
@@ -213,6 +240,12 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             for (var i = 0; i < data.stockBatchs.length; i++) {
               _total += parseInt(data.stockBatchs[i].quantity,10);
             }
+            // 判断只要有一个数量大于当前的可用量就不允许提交
+            if (data.stockBatchs.some(function(item){return item.quantity>item.salesQuantity;})) {
+              $scope.canNextStep=true;
+            }else {
+              $scope.canNextStep=false;
+            };
           }
 
           // 如果所有批次数量的和小于计划数量，则弹出提示

@@ -10,6 +10,7 @@ define('project-dt/controllers', ['project-dt/init',
                                   'project-dt/controllers-confirmOrder',
                                   'project-dt/controllers-confirmOrder2',
                                   'project-dt/controllers-ConfirmOrderMedical',
+                                  'project-dt/controllers-lossOverOrderMedical',
                                   'project-dt/controllers-invoicesOrder',
                                   'project-dt/controllers-notice',
                                   'project-dt/controllers-arrivalNoticeOrder',
@@ -194,7 +195,7 @@ define('project-dt/controllers', ['project-dt/init',
               createAtBeg: $scope.listParams.createAtBeg,
               createAtEnd: $scope.listParams.createAtEnd,
               q: $scope.listParams.q,
-              warehouseType: '正常库',
+              warehouseType:  $scope.dialogData.warehouseType,
               isOnlyAvailable: true
             };
 

@@ -42,12 +42,12 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
         angular.forEach(batchsList, function (item, index) {
           _total += parseInt(item.quantity, 10);
         });
+        $scope.totalQuantity=_total;
         return _total;
       } else {
         return 0;
       }
     };
-
 
     // 总价计算方法
     $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
@@ -70,21 +70,6 @@ define('project-dt/controllers-ConfirmOrderMedical', ['project-dt/init'], functi
         $scope.formData.totalPrice = _total;
       }
     };
-
-    //生产日期
-    $scope.yieldTime = function(tr){
-      if(!tr.guaranteePeriod) return;
-      var IsNewDate = new Date(Number(tr.productionDate));
-      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
-      tr.validTill = new Date(isLose).getTime();
-    }
-    //失效日期
-    $scope.loseTime = function(tr){
-      if(!tr.guaranteePeriod) return;
-      var IsNewDate = new Date(Number(tr.validTill));
-      var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
-      tr.productionDate = new Date(isLose).getTime();
-    }
 
   }
 

@@ -551,7 +551,8 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
             }
         }
         console.log($scope.ids.length);
-        if (supplier.id&&$scope.ids.length&&supplier.contact) {
+        // &&supplier.contact
+        if (supplier.id&&$scope.ids.length) {
             var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
                 _data={};
             requestData(_url,_data, 'get')
@@ -563,9 +564,16 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                         console.log($scope.formData.orderMedicalNos[i]);
 
                         if ($scope.formData.orderMedicalNos[i].id!=null) {
-                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value || 0;
+
+                            if(_data[ $scope.formData.orderMedicalNos[i].id]){
+                                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].id].value || 0;
+                            }
+
                         }else {
-                            $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value  || 0;
+
+                            if(_data[ $scope.formData.orderMedicalNos[i].relId]){
+                                $scope.formData.orderMedicalNos[i].strike_price=_data[ $scope.formData.orderMedicalNos[i].relId].value  || 0;
+                            }
                         }
 
                     }
@@ -699,7 +707,13 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         $scope.formData.customerId=data.customer.id;
         $scope.formData.customerName=data.customer.name;
 
-        $scope.formData.orderMedicalNos=data.choiced;
+        var list =[];
+        angular.forEach(data.choiced,function (item,index) {
+            item.relUuid=item.uuid;
+
+            list.push(item)
+        });
+        $scope.formData.orderMedicalNos=list;
 
         //获取是否过期
         _getIdentityForMedicalStocks();
@@ -756,7 +770,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
 
         angular.forEach(list,function (item,index) {
-            arr.push(item['uuid']);
+            arr.push(item['relUuid']);
         });
 
         $scope.uuids= arr.join(',');
