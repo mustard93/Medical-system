@@ -154,22 +154,20 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         return;
       }
 
-      if ($scope.submitForm_type == 'submit') {
-        // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
-
-        var url='rest/authen/salesOrder/confirmSalesOrder';
-        var data= {id:$scope.formData.id,status:'待审批'};
-        requestData(url, data, 'POST')
+      if ($scope.submitForm_type == 'submit-loss') {
+        _url='rest/authen/lossOrder/startProcessInstance';
+        data= {businessKey:$scope.formData.id};
+        requestData(_url, data, 'POST')
           .then(function (results) {
-            var _data = results[1].data;
-            // console.log(_data);
-            // $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
+            var _data = results[1];
+           //  alertOk(_data.message || '操作成功');
+            $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
 
           })
           .catch(function (error) {
-            // alertError(error || '出错');
+            alertError(error || '出错');
           });
-      }
+       }
 
       if ($scope.submitForm_type == 'save') {
         // console.log(this);
