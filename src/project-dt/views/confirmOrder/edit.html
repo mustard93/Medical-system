@@ -260,13 +260,22 @@
                                          info-title="商品信息">
                         </show-info-modal>
                       </span>
-                      <p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                      <!--<p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">-->
+                        <!--<i class="warning-icon"></i>-->
+                        <!--{{item.info.msg}}-->
+                        <!--<span style="margin-left: 15px;">-->
+                          <!--<a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>-->
+                        <!--</span>-->
+                      <!--</p>-->
+                      <p ng-if="identityForMedicalStocksMap[item.relId].msg" class="mgb-s color-red" style="line-height: 26px;">
                         <i class="warning-icon"></i>
-                        {{item.info.msg}}
+                        {{identityForMedicalStocksMap[item.relId].msg}}
                         <span style="margin-left: 15px;">
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
                         </span>
                       </p>
+
+
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
