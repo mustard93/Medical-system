@@ -155,7 +155,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
       }
 
       if ($scope.submitForm_type == 'submit-loss') {
-        _url='rest/authen/overOrder/startProcessInstance';
+        _url='rest/authen/lossOrder/startProcessInstance';
         data= {businessKey:$scope.formData.id};
         requestData(_url, data, 'POST')
           .then(function (results) {
