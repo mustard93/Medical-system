@@ -10,7 +10,7 @@
                                 is-show-create-btn="新建报溢单"
                                 create-btn-author="报损报溢新增"
                                 create-new-url=" #/overOrder/edit.html"
-                                get-status-num-url="rest/authen/lossOverOrder/countByOrderStatus.json?type=报溢"
+                                get-status-num-url="rest/authen/overOrder/countByOrderStatus"
                                 status-group-data='[["未提交-true","待审核-true","已完成-true"],["未通过-true"],["已作废-true"]]'
                                 is-show-business-btn-group=true
                                 is-show-date-filter=true
@@ -22,10 +22,8 @@
     </page-main-header-component>
 
     <div class="content-wrapper loss-over-order"
-       ng-controller="QualificationApplyCtrl"
        ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
-        formData.type='报溢';listParams.type='报溢'
-        ">
+        formData.type='报溢';listParams.type='报溢'">
 
       <!-- 主内容区域 -->
       <div class="content-wrapper-main">
@@ -62,24 +60,26 @@
                                dialog-template="pr-dialog-submit.html"
                                callback="$root.goTo(' #/overOrder/query.html')"
                                params='{"id":tr.id}'
-                               request-url="rest/authen/lossOverOrder/delete">
+                               request-url="rest/authen/overOrder/delete">
                             <span class="delete-link-icon">&nbsp;</span>
                             </a>
                     </span>
-                    <span ng-if="tr.orderStatus!=='未提交'" class="flex-item-6 text-right">
-                      <a
+                    <span class="flex-item-6 text-right">
+                      <a ng-if="tr.orderStatus!=='未提交' && tr.orderStatus!=='待审核'"
                       tab-nav
                       tab-name='报溢单'
                       tab-href=" #/overOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
-                     <!--<a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"-->
-                        <!--ng-href=" #/overOrder/get.html?id={{tr.id}}"-->
-                        <!--title="立即审批"-->
-                        <!--class="btn-link pd-m rect-s "-->
-                        <!--&gt;-->
-                       <!--<span class="examine-approve">&nbsp;</span>-->
-                      <!--</a>-->
+                     <a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"
+                        tab-nav
+                        tab-name='报溢单'
+                        tab-href=" #/overOrder/get.html?id={{tr.id}}"
+                        title="立即审批"
+                        class="btn-link pd-m rect-s "
+                        >
+                       <span class="examine-approve">&nbsp;</span>
+                      </a>
                     </span>
                   </div>
 
