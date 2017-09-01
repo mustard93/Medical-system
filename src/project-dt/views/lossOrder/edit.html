@@ -64,10 +64,11 @@
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
-        <div class="view-medical pd-c-l pdt-m" flash-add-medical
+        <div flash-add-medical
              ng-model="data1"
-             ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
-             add-data-callback-fn="flashAddDataCallbackFn(data1)"
+             class="view-medical pd-c-l pdt-m"
+             ajax-url="rest/authen/medicalStock/query"
+             add-data-callback-fn="flashAddDataCallbackFn"
              is-disabled-this="{{formData.logisticsCenterId}}"
              hide-quantity
              hide-import>
@@ -76,12 +77,12 @@
         <div>
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
             <div class="flex-item-6">
-              <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
+              <span ng-if="numberingPolicy!='auto'" class="mgr-l">单据编号：
                 <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
-              <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span class="inline-block relative">
+              <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+              <span class="mgr-l relative">
                 <span>单据日期：</span>
                 <input ng-if="initFlag" type="text"
                        datepicker
@@ -90,16 +91,16 @@
                        ng-readonly="true"
                        placeholder=""
                        ng-model="formData.orderDate" />
-                      <span class="date-icon" style="top:4px;"></span>
+                      <span class="date-icon" style="top:-1px;right:10px;"></span>
               </span>
-              <span class="mgr">审核人：<em class="color-3">暂无</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">暂无</em></span>
             </div>
             <div class="flex-item-6 text-right">
               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </div>
           </div>
           <div class="pd-c-l pdt-m pdb-m color-9">
-            <span class="mgr">业务部门：
+            <span class="mgr-l">业务部门：
               <select ng-if="initFlag" class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
                       chosen
@@ -108,7 +109,7 @@
                       select-source="rest/authen/department/queryForSelectOption">
               </select>
             </span>
-            <span class="mgr">业务人员：
+            <span class="mgr-l">业务人员：
               <select ng-if="initFlag"
                       class="ipt pr-short-ipt color-3 hei-28"
                       data-placeholder=" "
@@ -123,7 +124,7 @@
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="text-center" style="width:60px;"></th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
@@ -309,7 +310,7 @@
           </button>
       </div>
 
-      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">
             ￥{{formData.totalPrice || '0.00' | number:2}}
         </em>
