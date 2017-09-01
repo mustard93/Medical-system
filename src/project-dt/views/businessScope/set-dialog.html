@@ -1,3 +1,8 @@
+<style media="screen">
+    .ngdialog.ngdialog-theme-right .ngdialog-close:before{
+        top:8px!important;
+    }
+</style>
 <div class="first-medical-application"
      ng-controller="businessScopeController"
      ajax-url="rest/authen/businessScope/getOfEdit.json?id={{tr.id}}"
@@ -19,10 +24,10 @@
             novalidate="true"
             callback="listObject.reloadTime=$root.utils.getNowTime()">
     <div class="">
-      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm">新增经营范围</div>
-      <div class="pr-panel-height select-bg" style="padding:15px 0;">
+      <div class="mgb-l pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm pr-fw-701">新增经营范围</div>
+      <div class="pr-panel-height select-bg" style="margin-top: 0;">
         <div class="flex-row mgt relative ">
-            <h1 class="quali-pd-l pr-fw-700">编号</h1>
+            <h1 class="quali-pd-l " style="line-height: 27px;margin-top: 0;">编号</h1>
             <input type="text"
                    style="width:334px;"
                    class="ipt-new ipt-new-s"
@@ -30,12 +35,12 @@
                    required
                    ng-model="formData.code" />
         </div>
-          <div class="flex-row mgt relative ">
-              <h1 class="quali-pd-l pr-fw-700">名称</h1>
+          <div class="flex-row relative ">
+              <h1 class="quali-pd-l " style="line-height: 27px">名称</h1>
               <input type="text"
                      style="width:334px;"
                      required
-                     class="ipt-new ipt-new-s"
+                     class="ipt-new ipt-new-s mgt-l"
                      name="genericName"
                      ng-model="formData.name" />
           </div>
@@ -43,8 +48,8 @@
       </div>
         <!-- 备注 -->
         <div class="mgb-l pr-font-12 color-light-brown flex-row">
-            <h1 class="quali-pd-l pr-fw-700">备注</h1>
-            <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l ">
+            <h1 class="quali-pd-l " style="line-height: 27px">备注</h1>
+            <div class="panel pr-fuzzy-boundary pr-panel-height mgb-l mgt-l">
                 <!--<input type="text" class="">-->
                 <textarea class="pr-textarea" maxlength="240" style="height:92px;min-width: 320px" placeholder="" ng-model="formData.note" onkeydown="if(window.event.keyCode==13) return true;"></textarea>
             </div>

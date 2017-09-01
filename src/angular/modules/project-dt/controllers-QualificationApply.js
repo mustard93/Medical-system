@@ -11,6 +11,9 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
    */
   function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      
+
+
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
     };
