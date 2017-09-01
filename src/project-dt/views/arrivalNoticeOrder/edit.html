@@ -106,7 +106,10 @@
                    <em ng-if="!formData.orderCode" class="color-red">(必填)</em>
                  </span>
                  <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                 <span class="inline-block relative mgr-l">
+                 <span class="mgr">单据日期: </span>
+
+                  <date ng-model="formData.orderDate"></date>
+                 <!-- <span class="inline-block relative mgr-l">
                    <span>单据日期：</span>
                    <input ng-if="initFlag" type="text"
                           datepicker
@@ -116,7 +119,7 @@
                           placeholder=""
                           ng-model="formData.orderDate" />
                          <span class="date-icon" style="top: 4px;"></span>
-                 </span>
+                 </span> -->
                  <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
                </div>
@@ -154,8 +157,10 @@
                          select-source="rest/baseData/queryForSelectOptionByType?type=采购类型">
                  </select>
                </span>
+               <span class="mgr">计划到货时间: </span>
 
-               <span class="inline-block relative mgr-l">计划到货时间：
+                <date ng-model="formData.expectDate"></date>
+               <!-- <span class="inline-block relative mgr-l">计划到货时间：
                  <input type="text"
                         datepicker
                         class="ipt pr-short-ipt color-3"
@@ -164,7 +169,7 @@
                         ng-readonly="true"
                         ng-model="formData.expectDate" /><span ng-if="!formData.expectDate" class="color-red">(必填)</span>
                  <span class="date-icon" style="top: 4px;"></span>
-               </span>
+               </span> -->
               <!-- <span class="mgr-l">目标客户：<em class="color-3">{{formData.intentionalCustomer || '暂无'}}</em></span> -->
              </div>
              <div class="">
