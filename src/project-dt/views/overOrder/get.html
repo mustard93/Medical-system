@@ -1,4 +1,5 @@
 <div class="loss-over-order"
+     ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/overOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
@@ -26,10 +27,10 @@
 
      </div>
 
-  <div class="inline-block" style="margin-left: 30px;">
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+  <div class="inline-block" style="margin-left: 30px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="inline-block logistics-center"></div>
-      <div class="inline-block">
+      <div class="inline-block" >
         <p class="mgb-s">物流中心</p>
         <p class="text-m color-3">
           {{showData.logisticsCenterName || '暂无' }}
@@ -41,18 +42,18 @@
      <!-- 主内容区域 -->
     <div class="content-wrapper  pr-fuzzy-boundary text-s">
 
-      <div ng-if="showData.orderStatus=='未通过'"
-       class="pr-panel pr-panel-height mgb pr-bg-pink">
-      <em class="color-red">原因:</em>
-       <p class="inline-block-important color-red">
-      <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
-       <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
-       </p>
+      <div  ng-if="showData.operationFlowSet.key||showData.operationFlowSet.message" class="pr-panel pr-panel-height mgb"
+            ng-class="{'pr-bg-pink1':(showData.orderStatus=='未通过'||showData.orderStatus=='已作废'),'pr-bg-pass':(showData.orderStatus=='已完成')}">
+        <p class="inline-block-important " ng-class="{'color-red':(showData.orderStatus=='未通过'||showData.orderStatus=='已作废'),'color-pass':(showData.orderStatus=='已完成')}">
+          原因:
+          <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
+          <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
+        </p>
       </div>
 
 
 
-      <div class=" color-9 pr-bg-white">
+      <div class=" color-9 pr-bg-white" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
         <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
@@ -128,7 +129,7 @@
           </div>
         </div>
       </div>
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
         <!-- 备注 -->
         <div class="note">
           <p class="pd-v-l">备注：{{showData.note}}</p>
