@@ -9,7 +9,67 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
    * @param  {[type]}              requestData     [description]
    * @return {[type]}                              [description]
    */
-  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk, watchFormChange, requestData) {
+  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk,alertError, watchFormChange, requestData,utils) {
+
+
+      /**
+       *
+       * @param tr
+       * @param index
+       * @param flag jisuan
+       */
+      $scope.countDate=function (tr,index,flag) {
+
+          if(!tr.guaranteePeriod) return;
+
+          //计算生产日期
+          if(flag){
+
+              var IsNewDate = new Date(Number(tr.productionDate));
+
+              var isLose = utils.dateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
+
+              tr.validTill = new Date(isLose).getTime();
+
+              $scope.formData.orderMedicalNos[index] =tr;
+              return;
+          }else{
+
+              var IsNewDate = new Date(Number(tr.productionDate));
+
+              var isLose = utils.dateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+
+              tr.productionDate = new Date(isLose).getTime();
+
+              $scope.formData.orderMedicalNos[index] =tr;
+              return;
+          }
+
+
+
+
+
+          tr.validTill = new Date(isLose).getTime();
+
+
+
+      };
+
+
+
+
+
+
+      //失效日期
+      $scope.loseTime = function(tr){
+          if(!tr.guaranteePeriod) return;
+          var IsNewDate = new Date(Number(tr.validTill));
+          var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+          tr.productionDate = new Date(isLose).getTime();
+      }
+
+
+
 
         $scope.$watch('initFlag', function () {
           var operationFlowSetMessage=[];
@@ -231,7 +291,14 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
       var _total = 0;
       if ($scope.formData.orderMedicalNos) {
+        // 判断只要有一个商品的批号没有选就不允许提交
+        if ($scope.formData.orderMedicalNos.some(function(item){return item.stockBatchs.length==0;})) {
+          $scope.stockBatchsFlag=true;
+        }else {
+          $scope.stockBatchsFlag=false;
+        };
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+
           if (data.stockBatchs) {
             for (var i = 0; i < data.stockBatchs.length; i++) {
               _total += parseInt(data.stockBatchs[i].quantity,10);
@@ -249,8 +316,17 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
         });
 
+        // 如果商品数量有变动，也要重新计算总价
+        $scope.lossOverOrderCalculaTotal(newVal,$scope.formData.orderBusinessType);
 
       }
+    
+      if(!newVal.length){
+        // 否则说明商品被删完，所以总计也是为0.
+        $scope.formData.totalPrice=0;
+      }
+
+
     }, true);
 
     $scope.deleteQuantity=function(item){
@@ -391,5 +467,5 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
   }
 
   angular.module('manageApp.project-dt')
-  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"watchFormChange","requestData", lossOverOrderEditCtrl]);
+  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"alertError","watchFormChange","requestData","utils", lossOverOrderEditCtrl]);
 });

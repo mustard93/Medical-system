@@ -367,7 +367,47 @@ define('main/services', ['toastr','main/init'], function (toastr) {
     }
 
     var utilsObj = {
-      //判断是否为图片
+        /**
+         *
+         * @param interval 日期单位
+         * @param number　　数量　　　　
+         * @param date　　　要计算的时间戳
+         * @param add　　　　加或减　　
+         * @returns {*}
+         */
+      dateAdd:function(interval,number,date,add)  {//如果add为true则加否则减
+            switch(interval) {
+                case   "年"   :   {
+                    if(add) date.setFullYear(date.getFullYear()+number);
+                    else date.setFullYear(date.getFullYear()-number);
+                    return   date;
+                    break;
+                }
+                case   "月"   :   {
+                    if(add) date.setMonth(date.getMonth()+number);
+                    else date.setMonth(date.getMonth()-number);
+                    return   date;
+                    break;
+                }
+                case   "日"   :   {
+                    if(add) date.setDate(date.getDate()+number);
+                    else date.setDate(date.getDate()-number);
+                    return   date;
+                    break;
+                }
+                default   :   {
+                    date.setDate(d.getDate()+number);
+                    return   date;
+                    break;
+                }
+            }
+
+        },
+
+
+
+
+        //判断是否为图片
       isImage:function(fileName){
             if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(fileName)) {
                 return false;

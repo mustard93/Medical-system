@@ -8,9 +8,9 @@
                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"报损单","link":"","style":""}]'
                                 component-title="报损单"
                                 is-show-create-btn="新建报损单"
-                                create-btn-author="报损报溢新增"
+                                create-btn-author="报损单新增"
                                 create-new-url=" #/lossOrder/edit.html"
-                                get-status-num-url="rest/authen/lossOrder/countByOrderStatus.json?type=报损"
+                                get-status-num-url="rest/authen/lossOrder/countByOrderStatus.json"
                                 status-group-data='[["未提交-true","待审核-true","已完成-true"],["未通过-true"],["已作废-true"]]'
                                 is-show-business-btn-group=true
                                 is-show-date-filter=true
@@ -44,12 +44,12 @@
                       </span>
                     <span ng-if=" tr.orderStatus =='未提交' " class="flex-item-6 text-right"
                           class=" text-right ">
-                        <a
+                        <a ng-if="$root.hasAuthor('报损单修改')"
                         tab-nav
                         tab-name='报损单'
                         tab-href=" #/lossOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                         <span class="edit-link-icon">&nbsp;</span></a>
-                      <a
+                      <a ng-if="$root.hasAuthor('报损单删除')"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
@@ -65,19 +65,18 @@
                     </span>
 
                     <span ng-if="tr.orderStatus!=='未提交'" class="flex-item-6 text-right">
-                        <a
+                        <a ng-if="tr.orderStatus!=='待审核'"
                         tab-nav
                         tab-name='报损单'
                         tab-href=" #/lossOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                         <span class="watch-detail-icon">&nbsp;</span>
                         </a>
-                       <!--<a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"-->
-                          <!--ng-href=" #/lossOrder/get.html?id={{tr.id}}"-->
-                          <!--title="立即审批"-->
-                          <!--class="btn-link pd-m rect-s "-->
-                          <!--&gt;-->
-                         <!--<span class="examine-approve">&nbsp;</span>-->
-                        <!--</a>-->
+                        <a ng-if="tr.orderStatus=='待审核'&&$root.hasAuthor('报损单审批')"
+                        tab-nav
+                        tab-name='报损单'
+                        tab-href=" #/lossOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="立即审核">
+                        <span class="examine-approve">&nbsp;</span>
+                        </a>
                       </span>
                     </div>
                     <div class="card-new">

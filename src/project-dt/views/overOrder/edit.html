@@ -5,8 +5,8 @@
      callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报损报溢单")'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
-  <form id="lossOverOrder_editForm"
-        name="lossOverOrder_editForm"
+  <form id="lossOverOrder_over_editForm"
+        name="lossOverOrder_over_editForm"
         form-validator
         parameter-body
         action="rest/authen/overOrder/save.json"
@@ -114,7 +114,7 @@
             </span>
           </div>
           <div>
-            <table class="table pr-table pr-new-table" >
+            <table class="table pr-table pr-new-table mgb-n  " >
               <thead>
                 <tr>
                   <th class="text-center" style="width:60px;">序号</th>
@@ -131,10 +131,10 @@
                   <th class="text-center">金额</th>
                 </tr>
               </thead>
-              <tbody class="bg-white">
+              <tbody class="bg-white relative">
                 <tr ng-if="formData.orderMedicalNos.length"
                     ng-repeat="tr in formData.orderMedicalNos"
-                    salesorder-edit-show-delbtn
+                    table-item-handlebtn-component
                     ng-init="orderMedicalNoIds.push(tr.relId)"
                     ng-controller="ConfirmOrderMedicalController">
                     <td class="text-center">
@@ -170,6 +170,7 @@
                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
+                                 required
                                  min="1"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center tr-planQuantity"
@@ -195,7 +196,7 @@
                     </td><!-- 灭菌批号 -->
                     <td class="text-center">
                       <select ng-if="initFlag" class="pr-select pd-s"
-                              style="width:115px;"
+                              style="width:115px; height: 28px; border: 1px solid rgba(0,0,0,0.1);"
                               ng-model="tr.warehouseId"
                               ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库,待处理库"
                               scope-data="warehouseList"
@@ -205,16 +206,20 @@
                     </td><!-- 仓库 -->
                     <td class="text-center" >
                       <div class="inline-block relative">
-                        <input type="text" readonly="true" datepicker style="width:120px;"  class="date-input" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
-                        <span class="date-icon"></span>
+                        <input type="text" readonly="true" datepicker style="width:120px;"  class="date-input" placeholder="生产日期"
+                               ng-change="countDate(tr,$index,1)" ng-model="tr.productionDate">
+                          <span ng-if="!tr.productionDate" class="date-icon"></span>
+                          <span ng-if="tr.productionDate" class="delete-date-icon" style="z-index:{{zIndex}}; cursor: pointer;right: 10px; top: 4px;" ng-click="tr.productionDate='';"></span>
                       </div>
                     </td>
                     <td class="text-center" >
 
 
                      <div class="inline-block relative">
-                        <input type="text" readonly="true" style="width:120px;" datepicker   class="date-input" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
-                        <span class="date-icon"></span>
+                        <input type="text" readonly="true" style="width:120px;" datepicker   class="date-input" placeholder="失效日期"
+                               ng-change="countDate(tr,$index,0)" ng-model="tr.validTill">
+                        <span ng-if="!tr.validTill" class="date-icon"></span>
+                        <span ng-if="tr.validTill" class="delete-date-icon" style="z-index:{{zIndex}}; cursor: pointer;right: 10px; top: 4px;" ng-click="tr.validTill='';"></span>
                       </div>
 
 
@@ -274,7 +279,7 @@
           tab-nav
           tab-name='报溢单'
           tab-href=" #/overOrder/query.html" >返回报溢单列表</a>
-        <span ng-if="$root.hasAuthor('报损报溢删除')">
+        <span ng-if="$root.hasAuthor('报溢单删除')">
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -299,7 +304,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit-over';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!formData.orderMedicalNos.length">提交
+                  ng-disabled="!formData.orderMedicalNos.length || lossOverOrder_over_editForm.$invalid">提交
           </button>
 
       </div>

@@ -2,7 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");canNextStep=false;
+     callback='initFlag=true;watchFormChange("formData");canNextStep=false;stockBatchsFlag=false;
      getCodeGenerationStrategy("报损报溢单");
      lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);'
      alert-error>
@@ -283,8 +283,8 @@
           tab-nav
           tab-name='报损单'
           tab-href=" #/lossOrder/query.html" >返回报损单列表</a>
-        <span ng-if="$root.hasAuthor('报损报溢删除')">
-          <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
+        <span ng-if="$root.hasAuthor('报损单删除')">
+          <a ng-if="formData.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
              handle-this-click
@@ -306,7 +306,7 @@
                   dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('lossOverOrder_editForm1','submit-loss')"
-                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.totalPrice || canNextStep">提交
+                  ng-disabled="lossOverOrder_editForm1.$invalid  || canNextStep || stockBatchsFlag">提交
           </button>
       </div>
 

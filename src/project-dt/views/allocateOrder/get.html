@@ -138,7 +138,8 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-right">{{item.quantity}}</td><!-- 计划调拨数量 -->
-                  <td class="text-right">{{item.quantity}}</td><!-- 实际调拨数量 -->
+                  <td ng-if="formData.orderStatus!=='待审核'" class="text-right">{{item.quantity}}</td><!-- 实际调拨数量 -->
+                  <td ng-if="formData.orderStatus==='待审核'" class="text-right">0</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <!-- <td class="text-center">{{item.warehouseName}}</td> -->
