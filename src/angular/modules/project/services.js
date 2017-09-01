@@ -957,43 +957,6 @@ define('project/services', ['project/init'], function() {
     function saleOrderUtils(utils) {
       return {
 
-          /**
-           *
-           * @param interval 日期单位
-           * @param number　　数量　　　　
-           * @param date　　　要计算的时间戳
-           * @param add　　　　加或减　　
-           * @returns {*}
-           */
-          dateAdd:function(interval,number,date,add)  {//如果add为true则加否则减
-            switch(interval) {
-                case   "年"   :   {
-                    if(add) date.setFullYear(date.getFullYear()+number);
-                    else date.setFullYear(date.getFullYear()-number);
-                    return   date;
-                    break;
-                }
-                case   "月"   :   {
-                    if(add) date.setMonth(date.getMonth()+number);
-                    else date.setMonth(date.getMonth()-number);
-                    return   date;
-                    break;
-                }
-                case   "日"   :   {
-                    if(add) date.setDate(date.getDate()+number);
-                    else date.setDate(date.getDate()-number);
-                    return   date;
-                    break;
-                }
-                default   :   {
-                    date.setDate(d.getDate()+number);
-                    return   date;
-                    break;
-                }
-            }
-
-        },
-
 
         /**
          * [getAllBatchTotal 获取所有批次数量的总和]
