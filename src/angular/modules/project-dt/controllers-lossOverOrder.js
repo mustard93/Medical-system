@@ -9,8 +9,68 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
    * @param  {[type]}              requestData     [description]
    * @return {[type]}                              [description]
    */
-  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk, watchFormChange, requestData) {
+  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk, watchFormChange, requestData,utils) {
 
+
+      /**
+       *
+       * @param tr
+       * @param index
+       * @param flag jisuan
+       */
+      $scope.countDate=function (tr,index,flag) {
+
+          if(!tr.guaranteePeriod) return;
+
+          //计算生产日期
+          if(flag){
+
+              var IsNewDate = new Date(Number(tr.productionDate));
+
+              var isLose = utils.dateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,true);
+
+              tr.validTill = new Date(isLose).getTime();
+
+              $scope.formData.orderMedicalNos[index] =tr;
+              return;
+          }else{
+
+              var IsNewDate = new Date(Number(tr.productionDate));
+
+              var isLose = utils.dateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+
+              tr.productionDate = new Date(isLose).getTime();
+
+              $scope.formData.orderMedicalNos[index] =tr;
+              return;
+          }
+
+
+
+
+
+          tr.validTill = new Date(isLose).getTime();
+
+
+
+      };
+      
+      
+      
+
+
+
+      //失效日期
+      $scope.loseTime = function(tr){
+          if(!tr.guaranteePeriod) return;
+          var IsNewDate = new Date(Number(tr.validTill));
+          var isLose = DateAdd(tr.guaranteePeriodUnit,tr.guaranteePeriod,IsNewDate,false);
+          tr.productionDate = new Date(isLose).getTime();
+      }
+
+
+      
+      
         $scope.$watch('initFlag', function () {
           var operationFlowSetMessage=[];
           var operationFlowSetKey=[];
@@ -395,5 +455,5 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
   }
 
   angular.module('manageApp.project-dt')
-  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"watchFormChange","requestData", lossOverOrderEditCtrl]);
+  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"watchFormChange","requestData","utils", lossOverOrderEditCtrl]);
 });

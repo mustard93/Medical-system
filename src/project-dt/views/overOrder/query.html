@@ -8,7 +8,7 @@
                                 crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"报溢单","link":"","style":""}]'
                                 component-title="报溢单"
                                 is-show-create-btn="新建报溢单"
-                                create-btn-author="报损报溢新增"
+                                create-btn-author="报溢单新增"
                                 create-new-url=" #/overOrder/edit.html"
                                 get-status-num-url="rest/authen/overOrder/countByOrderStatus"
                                 status-group-data='[["未提交-true","待审核-true","已完成-true"],["未通过-true"],["已作废-true"]]'
@@ -47,10 +47,12 @@
                     <a
                     tab-nav
                     tab-name='报溢单'
-                    tab-href=" #/overOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑" ng-if="$root.hasAuthor('报损报溢修改')">
+                    tab-href=" #/overOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑"
+                    ng-if="$root.hasAuthor('报溢单修改')">
                     <span class="edit-link-icon">&nbsp;</span>
                   </a>
                             <a
+                               ng-if="$root.hasAuthor('报溢单删除')"
                                href="javascript:;"
                                class="btn-link pd-m rect-s"
                                title="删除"
@@ -71,7 +73,7 @@
                       tab-href=" #/overOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
-                     <a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"
+                     <a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报溢单审批')"
                         tab-nav
                         tab-name='报溢单'
                         tab-href=" #/overOrder/get.html?id={{tr.id}}"
