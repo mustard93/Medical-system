@@ -65,19 +65,18 @@
                     </span>
 
                     <span ng-if="tr.orderStatus!=='未提交'" class="flex-item-6 text-right">
-                        <a
+                        <a ng-if="tr.orderStatus!=='待审核'"
                         tab-nav
                         tab-name='报损单'
                         tab-href=" #/lossOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                         <span class="watch-detail-icon">&nbsp;</span>
                         </a>
-                       <!--<a ng-if="tr.orderStatus=='待审核' && $root.hasAuthor('报损报溢审批')"-->
-                          <!--ng-href=" #/lossOrder/get.html?id={{tr.id}}"-->
-                          <!--title="立即审批"-->
-                          <!--class="btn-link pd-m rect-s "-->
-                          <!--&gt;-->
-                         <!--<span class="examine-approve">&nbsp;</span>-->
-                        <!--</a>-->
+                        <a ng-if="tr.orderStatus=='待审核'&&$root.hasAuthor('报损单审批')"
+                        tab-nav
+                        tab-name='报损单'
+                        tab-href=" #/lossOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="立即审核">
+                        <span class="examine-approve">&nbsp;</span>
+                        </a>
                       </span>
                     </div>
                     <div class="card-new">
