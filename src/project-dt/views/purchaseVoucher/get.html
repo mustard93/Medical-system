@@ -33,11 +33,12 @@
     <!-- 药械列表 -->
     <div class="content-wrapper">
 
-      <div ng-if="scopeData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb-m pr-bg-pink" style="padding:12px 20px;">
-        <em class="color-red">原因:</em>
-        <p class="inline-block-important color-red">
-          <em ng-model="scopeData.operationFlowSet.key">{{scopeData.operationFlowSet.key}}</em>
-          <em ng-model="scopeData.operationFlowSet.message">{{scopeData.operationFlowSet.message}}</em>
+      <div  ng-if="scopeData.operationFlowSet.key||scopeData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pass"
+            ng-class="{'pr-bg-pink1':(scopeData.orderStatus=='已作废')}">
+        <em ng-class="{'color-red':(scopeData.orderStatus=='已作废')}">原因:</em>
+        <p class="inline-block-important " ng-class="{'color-red':(scopeData.orderStatus=='已作废')}">
+          <em >{{scopeData.operationFlowSet.key}}</em>
+          <em >{{scopeData.operationFlowSet.message}}</em>
         </p>
       </div>
 
