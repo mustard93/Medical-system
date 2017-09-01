@@ -16,10 +16,10 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     };
 
     $scope.$watch('initFlag', function (newVal) {
-       var operationFlowSetMessage=[];
-       var operationFlowSetKey=[];
-       var i;
-       if (newVal && $scope.tr) {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      var i;
+      if (newVal && $scope.tr) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
          if ($scope.tr.operationFlowSet) {
            for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
@@ -34,7 +34,7 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
          }
        }
 
-       if ($scope.formData) {
+      if ($scope.formData) {
          if (newVal && $scope.formData.orderMedicalNos) {
           for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
             if ($scope.formData.orderMedicalNos[i].handleFlag) {
@@ -47,7 +47,7 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
          }
        }
 
-       if ($scope.formData) {
+      if ($scope.formData) {
          for(var tr in $scope.formData.attachments){
            // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
            var attachments=[];
@@ -61,23 +61,33 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
         $scope.formData.enterFlag=false;
       }
 
-     });
+      // ...
+      if (newVal) {
+        $scope.$watchCollection($scope.formData.suppliers, function (newVal, oldVal) {
+          if (newVal && newVal !== oldVal) {
+            console.log(newVal);
+          }
+        });
+      }
+    });
 
-     $scope.$watch('formData.medicalAttribute.code',function(newVal){
-       $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
-       $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
-     });
-     $scope.$watch('formData.supplierAttribute.code',function(newVal){
-       $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
-       $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
-     });
-     $scope.$watch('formData.customerAttribute.code',function(newVal){
-       $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
-       $scope.formData.attributeId=$scope.formData.customerAttribute.id;
-     });
+    $scope.$watch('formData.medicalAttribute.code',function(newVal){
+      $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+      $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
+    });
+
+    $scope.$watch('formData.supplierAttribute.code',function(newVal){
+      $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+      $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
+    });
+
+    $scope.$watch('formData.customerAttribute.code',function(newVal){
+      $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+      $scope.formData.attributeId=$scope.formData.customerAttribute.id;
+    });
 
     //  判断是否有录入审核人，如果有，则判断必填字段审核人，填了菜允许提交
-     $scope.$watch('formData.auditContacts',function(newVal){
+    $scope.$watch('formData.auditContacts',function(newVal){
        if ($scope.formData.enterFlag) {
          for (var i = 0; i < $scope.formData.auditContacts.length; i++) {
            var nameArr=[];
@@ -92,7 +102,6 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
          }
        }
      },true);
-
 
     $scope.changeStorageCondition=function(storageCondition){
        if (storageCondition=='冷冻') {
@@ -390,170 +399,176 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
         });
     };
 
-      // 点击新增商品单位信息，新增一条商品辅助单位
-      $scope.addMedicalUnit = function(){
-          // 判断othersPackingAttribute对象是否是空值，如果是，就新建一个为空的数组，不是则直接就把新的一条辅助单位的数据加入数组
-          if (!$scope.formData.othersPackingAttribute) {
-              $scope.formData.othersPackingAttribute=[];
-          }
-          var otherPobject={
-              type:"辅助单位",
-              name:"",
-              ratio:"",
-              barcode:"",
-              bidPrice:"",
-              length:"",
-              width:"",
-              height:"",
-              unitWeightKg:""
-          };
-          if($scope.formData.othersPackingAttribute){
-              $scope.formData.othersPackingAttribute.push(otherPobject);
-          }else{
-              $scope.formData.othersPackingAttribute.push(otherPobject);
-          }
-      };
-
-      // 经营方式查询调用的方法,根据传入的q查询。
-      $scope.filterName=function(q){
-          var url='rest/authen/businessScope/query?pageSize=999&q='+q;
-          var data= {};
-          requestData(url,data, 'get')
-            .then(function (results) {
-              $scope.scopeData= results[1].data;
-            })
-            .catch(function (error) {
-              alertError(error || '出错');
-            });
-      };
-
-      // 选择经营方式以后，调用的方法。
-      $scope.submitbusinessScope=function(_data){
-        var _businessScope={};
-        if (_data) {
-          for (var i = 0; i < _data.length; i++) {
-            if (_data[i].checked) {
-              _businessScope.name=_data[i].name;
-              _businessScope.id=_data[i].id;
-              $scope.businessScope.push(_businessScope);
-            }
-          }
+    // 点击新增商品单位信息，新增一条商品辅助单位
+    $scope.addMedicalUnit = function(){
+        // 判断othersPackingAttribute对象是否是空值，如果是，就新建一个为空的数组，不是则直接就把新的一条辅助单位的数据加入数组
+        if (!$scope.formData.othersPackingAttribute) {
+            $scope.formData.othersPackingAttribute=[];
         }
-      };
-
-      // 设置联系人默认地址,传入联系人jason对象,把默认设置还原到没有默认的时候。
-      $scope.setDefault=function(_data){
-        if (_data.length) {
-          for (var i = 0; i < _data.length; i++) {
-            _data[i].isDefault=false;
-          }
+        var otherPobject={
+            type:"辅助单位",
+            name:"",
+            ratio:"",
+            barcode:"",
+            bidPrice:"",
+            length:"",
+            width:"",
+            height:"",
+            unitWeightKg:""
+        };
+        if($scope.formData.othersPackingAttribute){
+            $scope.formData.othersPackingAttribute.push(otherPobject);
+        }else{
+            $scope.formData.othersPackingAttribute.push(otherPobject);
         }
-      };
+    };
 
-      //-----------------首营品种-----------------
-
-      $scope.canNextStep2=function () {
-
-          var flag = true;
-          //如果存在经营范围就判断供应商范围；
-
-          //1.严格限制
-          //2.仅提示
-          //3.不控制
-          if($scope.formData.businessScope){
-              //如果等于 “严格限制”不允许提交
-              if($scope.formData.businessScope.limit == '严格限制'){
-                  angular.forEach($scope.formData.suppliers,function (item,index) {
-                      if(item.scopeNote){
-                          flag = false;
-                      }
-                  });
-              }
-          }
-          return flag;
-      };
-
-
-      $scope.checkBusinessScope=function (z) {
-          var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
-          requestData(url,$scope.formData, 'POST','parameterBody')
-              .then(function (results) {
-                  $scope.formData.suppliers= results[1].data.suppliers || [];
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-      };
-
-
-      //获取条形码
-      $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
-
-          var data={
-              productEnterpriseCode:productEnterpriseCode,
-              medicalClassId:medicalClassId
-          };
-
-          var url='rest/authen/firstMedicalApplication/generateBarcode';
-          requestData(url,data, 'GET')
-              .then(function (results) {
-                  var _data = results[1];
-
-                  if (results[1].code === 200){
-                      console.log("data",_data);
-                      $scope.formData.barcode= results[1].data;
-                      return;
-                  }
-
-                  alertError(results[1].msg);
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-
-      };
-
-      //选择经营范围-单选
-      $scope.submitbusinessScopeForRadio=function(_data){
-          if(!$scope.formData.businessScope){
-              $scope.formData.businessScope={};
-          }
-          $scope.formData.businessScope= JSON.parse(_data);
-          $scope.checkBusinessScope();
-      };
-
-      //添加供应商
-      $scope.addSupplier=function(){
-          $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
-          $scope.formData.suppliers.push({});
-      };
-      //监听生产企业
-      $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
-          if(!$scope.formData.productEnterprise){
-              $scope.formData.productEnterprise={};
-          }
-          if($scope.formData.productEnterprise.data){
-              $scope.formData.productEnterprise=$scope.formData.productEnterprise.data;
-          }
-      });
-
-
-      // 新增的生产企业，不用重新选择就实时显示到页面上
-
-      $scope.submitProduct=function(_data){
-        if (_data) {
-          requestData('rest/authen/productEnterprise/save', _data, 'POST', 'parameterBody')
+    // 经营方式查询调用的方法,根据传入的q查询。
+    $scope.filterName=function(q){
+        var url='rest/authen/businessScope/query?pageSize=999&q='+q;
+        var data= {};
+        requestData(url,data, 'get')
           .then(function (results) {
-             if (results[1].code === 200){
-               $scope.formData.productEnterprise=results[1].data;
-
-             }
+            $scope.scopeData= results[1].data;
           })
           .catch(function (error) {
-              alertError(error || '出错');
+            alertError(error || '出错');
           });
+    };
+
+    // 选择经营方式以后，调用的方法。
+    $scope.submitbusinessScope=function(_data){
+      var _businessScope={};
+      if (_data) {
+        for (var i = 0; i < _data.length; i++) {
+          if (_data[i].checked) {
+            _businessScope.name=_data[i].name;
+            _businessScope.id=_data[i].id;
+            $scope.businessScope.push(_businessScope);
+          }
         }
       }
+    };
+
+    // 设置联系人默认地址,传入联系人jason对象,把默认设置还原到没有默认的时候。
+    $scope.setDefault=function(_data){
+      if (_data.length) {
+        for (var i = 0; i < _data.length; i++) {
+          _data[i].isDefault=false;
+        }
+      }
+    };
+
+    //-----------------首营品种-----------------
+
+    $scope.canNextStep2=function () {
+
+        var flag = true;
+        //如果存在经营范围就判断供应商范围；
+
+        //1.严格限制
+        //2.仅提示
+        //3.不控制
+        if($scope.formData.businessScope){
+            //如果等于 “严格限制”不允许提交
+            if($scope.formData.businessScope.limit == '严格限制'){
+                angular.forEach($scope.formData.suppliers,function (item,index) {
+                    if(item.scopeNote){
+                        flag = false;
+                    }
+                });
+            }
+        }
+        return flag;
+    };
+
+
+    $scope.checkBusinessScope=function (z) {
+        var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
+        requestData(url,$scope.formData, 'POST','parameterBody')
+            .then(function (results) {
+                $scope.formData.suppliers= results[1].data.suppliers || [];
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
+
+
+    //获取条形码
+    $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
+
+        var data={
+            productEnterpriseCode:productEnterpriseCode,
+            medicalClassId:medicalClassId
+        };
+
+        var url='rest/authen/firstMedicalApplication/generateBarcode';
+        requestData(url,data, 'GET')
+            .then(function (results) {
+                var _data = results[1];
+
+                if (results[1].code === 200){
+                    console.log("data",_data);
+                    $scope.formData.barcode= results[1].data;
+                    return;
+                }
+
+                alertError(results[1].msg);
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+
+    };
+
+    //选择经营范围-单选
+    $scope.submitbusinessScopeForRadio=function(_data){
+        if(!$scope.formData.businessScope){
+            $scope.formData.businessScope={};
+        }
+        $scope.formData.businessScope= JSON.parse(_data);
+        $scope.checkBusinessScope();
+    };
+
+    //添加供应商
+    $scope.addSupplier=function(){
+      $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
+      $scope.formData.suppliers.push({});
+    };
+
+    // 监控供应商对象变化，当新增时检查添加的供应商是否重复
+    // $scope.$watchCollection($scope.formData.suppliers, function (newVal, oldVal) {
+    //   if (newVal && newVal !== oldVal) {
+    //     console.log(newVal);
+    //   }
+    // });
+
+    //监听生产企业
+    $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
+        if(!$scope.formData.productEnterprise){
+            $scope.formData.productEnterprise={};
+        }
+        if($scope.formData.productEnterprise.data){
+            $scope.formData.productEnterprise=$scope.formData.productEnterprise.data;
+        }
+    });
+
+    // 新增的生产企业，不用重新选择就实时显示到页面上
+    $scope.submitProduct=function(_data){
+      if (_data) {
+        requestData('rest/authen/productEnterprise/save', _data, 'POST', 'parameterBody')
+        .then(function (results) {
+           if (results[1].code === 200){
+             $scope.formData.productEnterprise=results[1].data;
+
+           }
+        })
+        .catch(function (error) {
+            alertError(error || '出错');
+        });
+      }
+    }
 
   }
 

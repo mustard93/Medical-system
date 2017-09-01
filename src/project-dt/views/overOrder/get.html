@@ -17,17 +17,30 @@
         <div class="mgt-xl">
           <h1 class="color-black pr-font-20 ">报溢申请单详情</h1>
         </div>
-        <div class="mgb-l">
-          <h1 class="color-black text-l ">
-            <!-- 昆明库 -->
-            {{showData.warehouseName}}
-        </h1>
-        </div>
+        <!--<div class="mgb-l">-->
+          <!--<h1 class="color-black text-l ">-->
+            <!--{{showData.warehouseName}}-->
+        <!--</h1>-->
+        <!--</div>-->
       </div>
 
      </div>
+
+  <div class="inline-block" style="margin-left: 30px;">
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
+      <div class="inline-block logistics-center"></div>
+      <div class="inline-block">
+        <p class="mgb-s">物流中心</p>
+        <p class="text-m color-3">
+          {{showData.logisticsCenterName || '暂无' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
      <!-- 主内容区域 -->
     <div class="content-wrapper  pr-fuzzy-boundary text-s">
+
       <div ng-if="showData.orderStatus=='未通过'"
        class="pr-panel pr-panel-height mgb pr-bg-pink">
       <em class="color-red">原因:</em>
@@ -36,12 +49,15 @@
        <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
        </p>
       </div>
+
+
+
       <div class=" color-9 pr-bg-white">
         <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
-            <span class="inline-block relative">单据日期：<em class="color-3">{{showData.orderDate | date: 'yyyy-MM-dd'}}</em></span>
-            <span class="mgr">审核人：<em class="color-3">暂无</em></span>
+            <span class="relative mgr">单据日期：<em class="color-3">{{showData.orderDate | date: 'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{showData.approver.approverUser.n || '暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
             <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>

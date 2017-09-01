@@ -31,9 +31,9 @@
        <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
        </p>
       </div>
-      <div class="">
-        <div class="inline-block" style="width:405px;">
-           <div class="panel pr-panel pr-panel-height" style="min-height:88px;">
+      <div class="" >
+        <div class="inline-block" style="width:405px;" >
+           <div class="panel pr-panel pr-panel-height" style="min-height:88px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block" style="padding-right: 5px">
                <p class="mgb-s">物流中心</p>
@@ -42,8 +42,8 @@
            </div>
         </div>
       </div>
-      <div class=" color-9 pr-bg-white">
-        <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
+      <div class=" color-9 pr-bg-white" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+        <div class="flex-row color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr-l">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
             <span class="mgr-l">单据日期：<em class="color-3">{{showData.orderDate | date: 'yyyy-MM-dd'}}</em></span>
@@ -64,7 +64,7 @@
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="text-center" style="width:60px;"></th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
@@ -107,7 +107,7 @@
               </tbody>
             </table>
           </div>
-          <div class="bt-line flex-row">
+          <div class="flex-row">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
               <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
               <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
         <!-- 备注 -->
         <div class="note">
           <p><span class="font-size-14 color-3" style="font-weight:bold;">备注　</span>{{showData.note}}</p>
@@ -135,10 +135,15 @@
           tab-href=" #/lossOrder/query.html">返回报损单列表</a>
         </span>
 
-        <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+        <span ng-if="showData.didateFilter.buttons.length>0"
          custom-menu-list
          custom-menu-arr="{{showData.didateFilter.buttons}}">
         </span>
+    </div>
+    <div class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
+      <em class="color-white">
+          ￥{{showData.totalPrice || '0.00' | number:2}}
+      </em>
     </div>
   </div>
 </div>

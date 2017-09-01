@@ -956,6 +956,8 @@ define('project/services', ['project/init'], function() {
     // 金额计算
     function saleOrderUtils(utils) {
       return {
+
+
         /**
          * [getAllBatchTotal 获取所有批次数量的总和]
          * @param  {[type]} batchs [批次对象]
