@@ -316,8 +316,17 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
         });
 
+        // 如果商品数量有变动，也要重新计算总价
+        $scope.lossOverOrderCalculaTotal(newVal,$scope.formData.orderBusinessType);
 
       }
+    
+      if(!newVal.length){
+        // 否则说明商品被删完，所以总计也是为0.
+        $scope.formData.totalPrice=0;
+      }
+
+
     }, true);
 
     $scope.deleteQuantity=function(item){
