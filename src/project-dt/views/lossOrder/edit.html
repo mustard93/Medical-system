@@ -1,6 +1,6 @@
 <div class="loss-over-order"
      ng-controller="lossOverOrderEditCtrl"
-     ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");canNextStep=false;
      getCodeGenerationStrategy("报损报溢单");
@@ -232,7 +232,6 @@
                     </div> -->
                   </td>
                   <td class="text-right" >
-                    {{tr.strike_price}}
                     {{totalQuantity*tr.strike_price || tr.totalPrice | currency : '￥'}}
                     <!-- <div  ng-repeat="total in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;"></div> -->
                   </td>
