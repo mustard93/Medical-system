@@ -11,6 +11,9 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
    */
   function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+    // 定义供应商标志位，标识如果用户添加了相同的供应商，则显示提示
+    $scope.sameSupplierFlag = false;
+
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
     };
@@ -71,22 +74,28 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
       }
     });
 
-    $scope.$watch('formData.medicalAttribute.code',function(newVal){
-      $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
-      $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
+    $scope.$watch('formData.medicalAttribute.code',function(newVal, oldVal){
+      if (newVal && newVal !== oldVal) {
+        $scope.formData.attributeCode=$scope.formData.medicalAttribute.code;
+        $scope.formData.attributeId=$scope.formData.medicalAttribute.id;
+      }
     });
 
-    $scope.$watch('formData.supplierAttribute.code',function(newVal){
-      $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
-      $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
+    $scope.$watch('formData.supplierAttribute.code',function(newVal, oldVal){
+      if (newVal && newVal !== oldVal) {
+        $scope.formData.attributeCode=$scope.formData.supplierAttribute.code;
+        $scope.formData.attributeId=$scope.formData.supplierAttribute.id;
+      }
     });
 
-    $scope.$watch('formData.customerAttribute.code',function(newVal){
-      $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
-      $scope.formData.attributeId=$scope.formData.customerAttribute.id;
+    $scope.$watch('formData.customerAttribute.code',function(newVal, oldVal){
+      if (newVal && newVal !== oldVal) {
+        $scope.formData.attributeCode=$scope.formData.customerAttribute.code;
+        $scope.formData.attributeId=$scope.formData.customerAttribute.id;
+      }
     });
 
-    //  判断是否有录入审核人，如果有，则判断必填字段审核人，填了菜允许提交
+    // 判断是否有录入审核人，如果有，则判断必填字段审核人，填了菜允许提交
     $scope.$watch('formData.auditContacts',function(newVal){
        if ($scope.formData.enterFlag) {
          for (var i = 0; i < $scope.formData.auditContacts.length; i++) {
@@ -482,7 +491,6 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
         return flag;
     };
 
-
     $scope.checkBusinessScope=function (z) {
         var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
         requestData(url,$scope.formData, 'POST','parameterBody')
@@ -493,7 +501,6 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
                 alertError(error || '出错');
             });
     };
-
 
     //获取条形码
     $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
@@ -538,11 +545,31 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     };
 
     // 监控供应商对象变化，当新增时检查添加的供应商是否重复
-    // $scope.$watchCollection($scope.formData.suppliers, function (newVal, oldVal) {
-    //   if (newVal && newVal !== oldVal) {
-    //     console.log(newVal);
-    //   }
-    // });
+    $scope.$watchCollection('formData.suppliers', function (newVal, oldVal) {
+      // 变化后的数组对象必须为真且数组对象的长度大于1
+      if (newVal && newVal !== oldVal && newVal.length > 1 && newVal[newVal.length - 1].id) {
+        // 将最后一个添加的项目的id取出
+        var _lastItemId = newVal[newVal.length - 1].id,
+            _count = 1;
+        // 遍历此数组对象，取出id值进行对比
+        for (var i = 0; i < (newVal.length - 1); i++) {
+          if (newVal[i].id === _lastItemId) {    // 如果当前遍历的元素对象id与最后一个添加的对象id一致，则退出循环
+            $scope.sameSupplierFlag = true;
+            break;
+          } else {
+            _count++;
+          }
+        }
+        // 如果没有重复，则更新标识符
+        if (_count === newVal.length) {
+          $scope.sameSupplierFlag = false;
+        }
+      }
+
+      if (newVal && newVal !== oldVal && newVal.length === 1) {
+        $scope.sameSupplierFlag = false;
+      }
+    });
 
     //监听生产企业
     $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {
