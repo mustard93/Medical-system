@@ -13,7 +13,7 @@
     <div class="bb-line-gold pdt-s pdb-s pd-c-xl" style="margin: 10px 0; padding-bottom: 15px;margin-bottom:0;">
         <!-- 仓库过滤 -->
         <div class="inline-block" style="margin-top:4px;">
-            <span class="color-9">仓库：</span>
+            <span class="color-9 vcenter">仓库：</span>
             <select class="ipt pr-short-ipt color-3" style="width:90px; margin-top: 1px;"
                     data-placeholder=""
                     default-empty="全部"
@@ -26,7 +26,7 @@
         </div>
         <!-- 日期过滤 -->
         <div class="inline-block" >
-            <span class="color-9 mgl-m" style="position: relative;top: 0;">有效期：</span>
+            <span class="color-9 mgl-m" style="position: relative;top: 0; vcenter">有效期：</span>
             <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtBeg">
                 <input type="text"
                        datepicker
@@ -46,7 +46,7 @@
                        ng-model="listParams.createAtBeg">
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtBeg='';"></span>
             </div>
-            <span class="color-9 mgl-s mgr-s" style="position: relative;top: 0;">至</span>
+            <span class="color-9 mgl-s mgr-s" style="position: relative;top: 0; ">至</span>
             <div class="date-icon-outside bgco-white" ng-if="!listParams.createAtEnd">
                 <input type="text"
                        datepicker
@@ -107,10 +107,10 @@
                                name="medicals"
                                class="default-radio"
                                ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"><i></i> -->
-                        <input type="radio" name="medicals" class="default-radio"><i></i>
+                        <input type="radio" ng-checked="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}" name="medicals" class="default-radio" ><i></i>
                     </label>
                 </td>
-                <td class="text-center color-white" style="height:50px;"> {{item1.productionBatch}}</td>
+                <td class="text-center color-white" style="height:50px;">{{item1.productionBatch}}</td>
                 <td class="text-center color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
                 <td class="color-white text-center" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
                 <td class="text-center color-white" style="height:50px;">{{item1.warehouseName}}</td>
