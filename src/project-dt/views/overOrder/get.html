@@ -1,5 +1,4 @@
 <div class="loss-over-order"
-     ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/overOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
@@ -59,14 +58,14 @@
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="text-center" style="width:60px;"></th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量<em class="color-red">（必填）</em></th>
+                  <th class="text-center">数量<em class="color-red"></em></th>
                   <th class="text-center">批号</th>
                   <th class="text-center">灭菌批号</th>
-                  <th class="text-center">仓库<em class="color-red">（必填）</em></th>
+                  <th class="text-center">仓库<em class="color-red"></em></th>
                   <th class="text-center">生产日期</th>
                   <th class="text-center">失效日期</th>
                   <th class="text-center">单价</th>
@@ -90,7 +89,6 @@
                       </show-info-modal>
                     </span>
                   </td><!-- 商品通用名 -->
-                  <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
@@ -138,6 +136,9 @@
          custom-menu-list
          custom-menu-arr="{{showData.didateFilter.buttons}}">
         </span>
+    </div>
+    <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
+      <em class="color-white ng-binding">￥{{showData.totalPrice | number:2}}</em>
     </div>
   </div>
 </div>

@@ -117,7 +117,7 @@
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="text-center" style="width:60px;"></th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
@@ -192,21 +192,21 @@
                     </td>
                     <td class="text-center">
                       <input type="text" name="name" value="" class="ipt text-right" ng-model="tr.sterilizationBatchNumber" style="width:100px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
-
                     </td><!-- 灭菌批号 -->
                     <td class="text-center">
                       <select ng-if="initFlag" class="pr-select pd-s"
                               style="width:115px;"
                               ng-model="tr.warehouseId"
                               ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=正常库,待处理库"
-                              scope-data="warehouseList">
+                              scope-data="warehouseList"
+                              required>
                         <option ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
                       </select>
                     </td><!-- 仓库 -->
                     <td class="text-center" >
                       <div class="inline-block relative">
                         <input type="text" readonly="true" datepicker style="width:120px;"  class="date-input" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
-                        <span class="date-icon" style="margin-top:4px;"></span>
+                        <span class="date-icon"></span>
                       </div>
                     </td>
                     <td class="text-center" >
@@ -214,7 +214,7 @@
 
                      <div class="inline-block relative">
                         <input type="text" readonly="true" style="width:120px;" datepicker   class="date-input" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
-                        <span class="date-icon" style="margin-top:4px;"></span>
+                        <span class="date-icon"></span>
                       </div>
 
 
@@ -282,7 +282,7 @@
              dialog-title="确认删除?"
              dialog-content="您确认删除这条报溢单吗?"
              dialog-template="pr-dialog-confirm.html"
-             request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
+             request-url="rest/authen/overOrder/delete?id={{formData.id}}"
              callback="$root.goTo({'tabHref':' #/overOrder/query.html','tabName':'报溢单'})">删除
           </a>
         </span>
