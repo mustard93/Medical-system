@@ -10,6 +10,29 @@ define('main/controllers', ['main/init'], function () {
    */
   function tabCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
+        $scope.$watch('initFlag', function () {
+
+          try{
+              var operationFlowSetMessage=[];
+              var operationFlowSetKey=[];
+              if ($scope.scopeData.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+                      if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+                          operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
+                      }
+                  }
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
+              }
+          }catch (e){
+              console.log(e);
+          }
+
+      });
         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
         // console.log("tabCtrl",$scope.mainStatus);
         modal.close();
@@ -72,6 +95,26 @@ define('main/controllers', ['main/init'], function () {
         });
 
         $rootScope.$on('tabChangeSuccess', function (e, tab) {
+
+            if(tab.name=='首页'){
+                $('.nav .menu-list').eq(0).addClass('active');
+                $('.sub-menu-list li').removeClass('active');
+                $('.sub-menu-list').hide();
+            }else{
+                $('.sub-menu-list li').each(function () {
+                if($(this).find('a').html() == tab.name){
+                    $('.sub-menu-list li').removeClass('active');
+                    $(this).addClass('active')
+
+                    $('.sub-menu-list').hide();
+                    $(this).parents('.sub-menu-list').show();
+
+                }
+            });
+            }
+
+           // console.log("tabChangeSuccess......",tab);
+
             modal.close();
 
             $rootScope.currentTab = uiTabs.current;
