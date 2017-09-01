@@ -9,7 +9,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
    * @param  {[type]}              requestData     [description]
    * @return {[type]}                              [description]
    */
-  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk, watchFormChange, requestData,utils) {
+  function lossOverOrderEditCtrl($scope, modal, alertWarn,alertOk,alertError, watchFormChange, requestData,utils) {
 
 
       /**
@@ -451,5 +451,5 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
   }
 
   angular.module('manageApp.project-dt')
-  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"watchFormChange","requestData","utils", lossOverOrderEditCtrl]);
+  .controller('lossOverOrderEditCtrl', ['$scope',"modal",'alertWarn','alertOk',"alertError","watchFormChange","requestData","utils", lossOverOrderEditCtrl]);
 });
