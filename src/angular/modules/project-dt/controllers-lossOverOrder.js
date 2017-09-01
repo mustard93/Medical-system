@@ -54,9 +54,9 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
 
       };
-      
-      
-      
+
+
+
 
 
 
@@ -69,8 +69,8 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
       }
 
 
-      
-      
+
+
         $scope.$watch('initFlag', function () {
           var operationFlowSetMessage=[];
           var operationFlowSetKey=[];
@@ -291,7 +291,14 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
       var _total = 0;
       if ($scope.formData.orderMedicalNos) {
+        // 判断只要有一个商品的批号没有选就不允许提交
+        if ($scope.formData.orderMedicalNos.some(function(item){return item.stockBatchs.length==0;})) {
+          $scope.stockBatchsFlag=true;
+        }else {
+          $scope.stockBatchsFlag=false;
+        };
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+
           if (data.stockBatchs) {
             for (var i = 0; i < data.stockBatchs.length; i++) {
               _total += parseInt(data.stockBatchs[i].quantity,10);
