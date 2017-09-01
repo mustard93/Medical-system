@@ -184,7 +184,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
                           if($attrs.ajaxUrl=='rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit'){
-                              console.log($attrs.ajaxUrl);
+                              // console.log($attrs.ajaxUrl);
                           }
                             if(maskObj)maskObj.hide();
                           var data = results[0];
@@ -1800,40 +1800,33 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               $scope.searchStr =  $scope.searchFields;
 
               //绑定返回对象的某个属性值。
-              if($attrs.ngModelId||$attrs.ngModelData){
-                  $scope.$watch("ngModel", function(value) {
-                      if(!value)return;
+              if ($attrs.ngModelId||$attrs.ngModelData) {
+                $scope.$watch("ngModel", function(newVal, oldVal) {
+                  if (newVal && newVal !== oldVal) {
+                    $scope.ngModelId = newVal.id;
+                    $scope.searchStr = newVal.data.name ;
 
-                      $scope.ngModelId=value.id;
+                    if($attrs.showAttr){
+                        $scope.searchStr = newVal.data[$attrs.showAttr] ;
+                    }
 
-                      $scope.searchStr=   value.data.name ;
+                    $scope.ngModelData=newVal.data;
 
-                      if($attrs.showAttr){
-                          $scope.searchStr=   value.data[$attrs.showAttr] ;
+                    // BUG ----- 执行会影响- （$scope.ngModelData=newVal.data）
+                    // if($scope.calbakMethod){
+                    //     console.log("calbakMethod。。。。。。。。。。");
+                    //     $scope.calbakMethod();
+                    // }
+
+
+                    setTimeout(function () {
+                      if($scope.calbakMethod){
+                        console.log("calbakMethod。。。。。。。。。。");
+                        $scope.calbakMethod();
                       }
-
-                      $scope.ngModelData=value.data;
-
-                      // BUG ----- 执行会影响- （$scope.ngModelData=value.data）
-                      // if($scope.calbakMethod){
-                      //     console.log("calbakMethod。。。。。。。。。。");
-                      //     $scope.calbakMethod();
-                      // }
-
-
-                      setTimeout(function () {
-                          if($scope.calbakMethod){
-                              console.log("calbakMethod。。。。。。。。。。");
-                              $scope.calbakMethod();
-                          }
-                      },100);
-
-
-
-
-
-                      //  $scope.listObject.name = value.data.name;
-                  }, true);
+                    },100);
+                  }
+                }, true);
               }
 
               // if($attrs.ngModelId){

@@ -942,7 +942,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr  ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
+              <tr ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
                 <td class="text-center">{{$index+1}}
                   <div  class="table-item-handle-btn" style="left:1800px;">
                     <div class="table-item-confirm-del-area bg-white">
@@ -956,8 +956,10 @@
                   </div>
                 </td>
                 <td class="text-left">
+
                   <div style="position: relative;" ng-init="suppliertmp=supplier">
-                    <span class="temporary" angucomplete=""
+                    <span class="temporary"
+                          angucomplete
                           placeholder="供应商名称"
                           title-field="name"
                           description-field="suppliertmp.name"
@@ -967,22 +969,19 @@
                           class="inline-block"
                           ng-model-data="formData.suppliers[$index]"
                           calbak-method ='checkBusinessScope(1)'
-                          ng-model="suppliertmp"
-                    >
+                          ng-model="suppliertmp">
                     </span>
                     <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                    <span class="repeat-add-supplier" ng-if="sameSupplierFlag&&($index+1==formData.suppliers.length)">不能输入重复供应商</span>
                   </div>
                   <p class="color-red">{{supplier.scopeNote}}</p>
                 </td>
-                <td class="text-left">
-                  {{supplier.legalUser.n}}
-                </td>
+                <td class="text-left">{{supplier.legalUser.n}}</td>
                 <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
                 <td class="text-left">{{supplier.code}}</td>
                 <td class="text-left">{{supplier.branchDepartmentName}}</td>
                 <td class="text-left">{{supplier.branchUser.n}}</td>
               </tr>
-
             </tbody>
           </table>
           <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
@@ -1050,7 +1049,7 @@
               </div>
 
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!firstMedicalApplication_editForm1.$valid ||!formData.medicalAttribute.name || !canNextStep2(formData)"
+                      ng-disabled="!firstMedicalApplication_editForm1.$valid ||!formData.medicalAttribute.name || !canNextStep2(formData) || sameSupplierFlag"
                       ng-click="submitForm('firstMedicalApplication_editForm1','submit')">下一步
               </button>
             </span>
