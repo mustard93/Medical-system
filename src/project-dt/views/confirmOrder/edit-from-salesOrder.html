@@ -395,12 +395,6 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','create')">智能匹配
         </button> -->
-        <button
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-disabled="!changeFlag"
-                ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
-        </button>
 
         <button
                 type="button"
@@ -408,6 +402,12 @@
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','print')">打印预览
         </button>
 
+        <button
+        type="button"
+        class="pr-btn-save-glodbg mgr"
+        ng-disabled="!changeFlag"
+        ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
+      </button>
 
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
@@ -429,7 +429,7 @@
         </button>
 
       </div>
-      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
             popover-show="formData.totalPrice>100000"
@@ -441,7 +441,7 @@
 
       <div ng-if="formData.orderBusinessType=='直发销售'"
            class="price-area relative fl-r mgr-l"
-           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+           style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
             popover-show="formData.totalPrice>100000"

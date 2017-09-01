@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
+     callback="initFlag=true;watchFormChange('formData');formData.suppliers=[]"
      alert-error>
 
   <div ng-if="$root.uiTabs.current.name != '品种管理'" class="header-info relative mgb-l">
@@ -90,7 +90,7 @@
                     <p  class="radio-inline radio radio-new mgl-s">
                       <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
                     </p>
-                    <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;">医疗器械</em>
+                    <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">医疗器械</em>
                   </label>
                 </div>
                 <div class="inline-block " style="position:relative;top:-5px;">
@@ -98,7 +98,7 @@
                     <p  class="radio-inline radio radio-new mgl-s">
                       <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
                     </p>
-                    <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;">药品</em>
+                    <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">药品</em>
                   </label>
                 </div>
               </div>
@@ -141,6 +141,20 @@
                        name="englishName"
                        ng-model="formData.englishName" />
                 <!-- <span ng-if="!formData.englishName" class="color-red">（必填）</span> -->
+              </div>
+            </div>
+
+            <!--国家器械分类-->
+            <div ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
+              <p  class="flex-item-2 text-right control-label pdr-s">国家器械分类：</p>
+              <div class="flex-item-10 text-left">
+                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
+                        chosen
+                        default-empty="无"
+                        width="334px"
+                        ng-model="formData.medicalClassId"
+                        select-source="rest/authen/medicalClass/queryForSelectOption">
+                </select>
               </div>
             </div>
 
@@ -431,19 +445,6 @@
                        name="productionPlace"
                        class="ipt-new ipt-new-s"
                        ng-model="formData.productionPlace"/>
-              </div>
-            </div>
-
-            <!--国家器械分类-->
-            <div ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">
-              <p  class="flex-item-2 text-right control-label pdr-s">国家器械分类：</p>
-              <div class="flex-item-10 text-left">
-                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
-                        chosen
-                        default-empty="无"
-                        ng-model="formData.medicalClassId"
-                        select-source="rest/authen/medicalClass/queryForSelectOption">
-                </select>
               </div>
             </div>
 
@@ -884,77 +885,75 @@
           </div>
         </div>
 
-          <!--供应商-->
-          <div class="pr-bg-white mgt-l mgb-m">
-                <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
-                  <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
-                </div>
-
-                <table class="table pr-table pr-new-table">
-                  <thead class="pr-bg-side">
-                  <tr>
-                    <th class="text-center">序号</th>
-                    <th style="text-align: left;width: 270px;">供应商名称</th>
-                    <th style="text-align: left">法定代表人</th>
-                    <th style="text-align: left">分类</th>
-                    <th style="text-align: left">编号</th>
-                    <th style="text-align: left">分管部门</th>
-                    <th style="text-align: left">业务人员</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr  ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
-                      <td class="text-center">{{$index+1}}
-                        <div  class="table-item-handle-btn" style="left:1800px;">
-                          <div class="table-item-confirm-del-area bg-white">
-                            <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                            <p class="pdt-s">
-                              <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                              <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
-                                 ng-click="formData.suppliers.splice($index,1);">确认</a>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-left">
-                        <div style="position: relative;" ng-init="suppliertmp=supplier">
-                          <span class="temporary" angucomplete=""
-                                placeholder="供应商名称"
-                                title-field="name"
-                                description-field="suppliertmp.name"
-                                search-fields="{{supplier.name}}"
-                                search-str-class="ipt"
-                                url="rest/authen/supplier/query"
-                                class="inline-block"
-                                ng-model-data="formData.suppliers[$index]"
-                                calbak-method ='checkBusinessScope(1)'
-                                ng-model="suppliertmp"
-                          >
-                          </span>
-                          <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
-                        </div>
-                        <p class="color-red">{{supplier.scopeNote}}</p>
-                      </td>
-                      <td class="text-left">
-                        {{supplier.legalUser.n}}
-                      </td>
-                      <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
-                      <td class="text-left">{{supplier.code}}</td>
-                      <td class="text-left">{{supplier.branchDepartmentName}}</td>
-                      <td class="text-left">{{supplier.branchUser.n}}</td>
-                    </tr>
-
-                  </tbody>
-                </table>
-
-                <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
-                  <div class="empty-table clearfix">
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
+        <!--供应商-->
+        <div class="pr-bg-white mgt-l mgb-m">
+          <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
+            <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
+          </div>
+          <table class="table pr-table pr-new-table">
+            <thead class="pr-bg-side">
+              <tr>
+              <th class="text-center">序号</th>
+              <th style="text-align: left;width: 270px;">供应商名称</th>
+              <th style="text-align: left">法定代表人</th>
+              <th style="text-align: left">分类</th>
+              <th style="text-align: left">编号</th>
+              <th style="text-align: left">分管部门</th>
+              <th style="text-align: left">业务人员</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr  ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
+                <td class="text-center">{{$index+1}}
+                  <div  class="table-item-handle-btn" style="left:1800px;">
+                    <div class="table-item-confirm-del-area bg-white">
+                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                      <p class="pdt-s">
+                        <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                        <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn"
+                           ng-click="formData.suppliers.splice($index,1);">确认</a>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </td>
+                <td class="text-left">
+                  <div style="position: relative;" ng-init="suppliertmp=supplier">
+                    <span class="temporary" angucomplete=""
+                          placeholder="供应商名称"
+                          title-field="name"
+                          description-field="suppliertmp.name"
+                          search-fields="{{supplier.name}}"
+                          search-str-class="ipt"
+                          url="rest/authen/supplier/query"
+                          class="inline-block"
+                          ng-model-data="formData.suppliers[$index]"
+                          calbak-method ='checkBusinessScope(1)'
+                          ng-model="suppliertmp"
+                    >
+                    </span>
+                    <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                  </div>
+                  <p class="color-red">{{supplier.scopeNote}}</p>
+                </td>
+                <td class="text-left">
+                  {{supplier.legalUser.n}}
+                </td>
+                <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
+                <td class="text-left">{{supplier.code}}</td>
+                <td class="text-left">{{supplier.branchDepartmentName}}</td>
+                <td class="text-left">{{supplier.branchUser.n}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div ng-if="!formData.suppliers.length" class="pr-bg-white ng-scope">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+        </div>
 
           <!--说明-->
         <div class="color-black mgt-l mgb-l" style="margin-left: 15px;">

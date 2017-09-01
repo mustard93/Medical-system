@@ -151,10 +151,10 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
     // 添加一条。并缓存数据。返回true表示成功。会处理数据。
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
-      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
-        alertWarn("请选择药品");
-        return ;
-      }
+      // if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+      //   alertWarn("请选择药品");
+      //   return ;
+      // }
       var medical=flashAddData.data.data;
       var addDataItem = $.extend(true,{},medical);
 
@@ -169,10 +169,6 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             alertWarn('请选择药品。');
             return false;
         }
-        // if (!addDataItem.quantity||addDataItem.quantity<1) {
-        //     alertWarn('请输入大于0的数量。');
-        //     return false;
-        // }
         if(addDataItem.quantity>medical.quantity){//库存不足情况
             addDataItem.handleFlag =false;//默认添加到订单
         }
