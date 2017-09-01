@@ -12,8 +12,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
    * @param  {[type]}             dialogConfirm [description]
    * @return {[type]}                           [description]
    */
-  function confirmOrderEditCtrl($scope, modal, alertWarn, requestData, alertOk, alertError, utils, dialogConfirm) {
-
+  function confirmOrderEditCtrl($scope, modal, alertWarn, requestData, alertOk, alertError, utils, dialogConfirm, AmountCalculationService) {
     //初始化校验数据
     $scope.checkData=function(){
 
@@ -42,6 +41,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
 
     $scope.logistics=true;
     $scope.isShowConfirmInfo = false;
+    $scope.noSuchStockBatchs = true;   // 是否选择批号的标志位
 
     // 数量溢出标识符
     $scope.quantityOverloadFlag = [];
@@ -83,14 +83,12 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       }
         // 当用户第一次选择客户时，检查该用户是否有证照过期
         if (newVal && oldVal !== newVal) {
-            console.log($scope.formData.customerId);
             if ($scope.formData.customerId) {
                 var _reqUrl = 'rest/authen/qualificationCertificate/identityForCustomerAddress?id=' +$scope.formData.customerId;
                 // var _reqUrl = 'http://localhost:3000/src/dt/data/qualificationCertificate/identityForCustomerAddress.json'
                 requestData(_reqUrl)
                     .then(function (results) {
                         if(results[1].code ==200){
-                            console.log(results[1].data);
                             $scope.customerInfo= results[1].data;
                         }
                     })
@@ -102,9 +100,9 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
 
     });
 
-    // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
-    $scope.$watch('formData.orderMedicalNos', function (newVal) {
-
+    // 监控药品列表数据对象变化
+    $scope.$watch('formData.orderMedicalNos', function (newVal, oldVal) {
+      // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
       var _total = 0;
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
@@ -113,71 +111,51 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
               _total += parseInt(data.stockBatchs[i].quantity,10);
             }
           }
-
           // 如果所有批次数量的和小于计划数量，则弹出提示
           $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].quantity && _total !== 0) ? true : false;
 
         });
-
-
       }
+
+      // 判断在普通销售时如果有药品没有选择批号，则设置noSuchStockBatchs标志位为false
+      if ($scope.formData.orderBusinessType === '普通销售') {
+        var _count = 0;
+        for (var i = 0; i < $scope.formData.orderMedicalNos.length; i++) {
+          if (!$scope.formData.orderMedicalNos[i].stockBatchs.length) {
+            $scope.noSuchStockBatchs = true;
+            break;
+          } else {
+            _count++;
+          }
+        }
+
+        // 如果所有商品的批号已经选择，则可以提交
+        if (_count === $scope.formData.orderMedicalNos.length) { $scope.noSuchStockBatchs = false; }
+      }
+
+      // 重新计算商品的各个金额
+
     }, true);
 
     // 调接口取用户在自定义表格中编辑的表格的标题显示
-    $scope.geThName=function(medicalData){
-      if (medicalData.length) {
-        var _url='rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表';
-        var data= {};
-        requestData(_url, data, 'get')
-          .then(function (results) {
-            var thData={};
-            for (var i = 0; i < results[1].data.items.length; i++) {
-
-            switch (results[1].data.items[i].propertyKey) {
-              case 'code':
-                thData.code=results[1].data.items[i].propertyName;
-                break;
-
-              case 'approvedName':
-                thData.approvedName=results[1].data.items[i].propertyName;
-                break;
-              case 'dosageForms':
-                thData.dosageForms=results[1].data.items[i].propertyName;
-                break;
-
-              case 'specificationAndModelType':
-                thData.specificationAndModelType=results[1].data.items[i].propertyName;
-                break;
-              case 'unit':
-                thData.unit=results[1].data.items[i].propertyName;
-                break;
-              case 'quantity':
-                thData.quantity=results[1].data.items[i].propertyName;
-                break;
-              case 'productionBatch':
-                thData.productionBatch=results[1].data.items[i].propertyName;
-                break;
-              case 'sterilizationBatchNumber':
-                thData.sterilizationBatchNumber=results[1].data.items[i].propertyName;
-                break;
-              case 'strike_price':
-                thData.strike_price=results[1].data.items[i].propertyName;
-                break;
-              case 'totalPrice':
-                thData.totalPrice=results[1].data.items[i].propertyName;
-                break;
-              case 'validTill':
-                thData.validTill=results[1].data.items[i].propertyName;
-                break;
-              default:
-            }
-            }
-            $scope.thData= thData;
-          })
-          .catch(function (error) {
-            alertError(error || '出错');
+    $scope.geThName = function () {
+      var _url='rest/authen/uiCustomTable/getOfEdit.json?className=com.pangu.mss.domain.mongo.order.OrderMedicalNo&key=销售单详情列表';
+      var data= {};
+      requestData(_url, data, 'get')
+      .then(function (results) {
+        if (results[0].items && results[0].noShowItems) {
+          angular.forEach(results[0].items, function (data, index) {
+            $scope.thData[data.propertyKey] = angular.copy(data.propertyName);
           });
-      }
+
+          angular.forEach(results[0].noShowItems, function (data, index) {
+            $scope.thData[data.propertyKey] = angular.copy(data.propertyName);
+          });
+        }
+      })
+      .catch(function (err) {
+        if (err) { throw new Error(err); }
+      });
     }
 
     $scope.deleteQuantity=function(item){
@@ -196,20 +174,17 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
         $scope.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'});
-       return;
-     }else if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo({tabHref:'#/allocateOrder/query.html',tabName:'调拨单'});
-      return;
-     }
-     else if ($scope.submitForm_type == 'print') {
-       var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
-         win1=window.open(url);
-
-        if(!win1||!win1.location){
-            alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
-        }
-
         return;
+      }else if($scope.submitForm_type == 'exit-allocate'){
+        $scope.goTo({tabHref:'#/allocateOrder/query.html',tabName:'调拨单'});
+        return;
+      }else if ($scope.submitForm_type == 'print') {
+        var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
+          win1=window.open(url);
+          if(!win1||!win1.location){
+            alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+          }
+          return;
       }
 
      var _url = null, data = null;
@@ -228,6 +203,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
            alertError(error || '出错');
          });
       }
+
      if ($scope.submitForm_type == 'submit-allocate') {
        _url='rest/authen/allocateOrder/startProcessInstance';
        data= {businessKey:$scope.formData.id};
@@ -241,6 +217,11 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
          .catch(function (error) {
            alertError(error || '出错');
          });
+      }
+
+      // 如果是保存之后则进行类型转换
+      if ($scope.submitForm_type == 'save') {
+        $scope.transformTaxType($scope.formData.orderMedicalNos);
       }
 
     };
@@ -412,22 +393,20 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
 
       addDataItem.handleFlag = true;
 
+      // 转换税率字段的类型
+      if (addDataItem.tax) {
+        addDataItem.tax = utils.transformNumOrStr(addDataItem.tax);
+      }
 
       //请求判断 是否过期
       requestData('rest/authen/qualificationCertificate/identityForMedicalStock',{'id':addDataItem.relId},'GET').then(function (result) {
-
-          if(result[1].code==200){
-              addDataItem.info=result[1].data;
-
-              //添加到列表
-              $scope.formData.orderMedicalNos.push(addDataItem);
-
-              console.log(addDataItem);
-
-              //计算价格
-              $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-
-          }
+        if(result[1].code === 200){
+          addDataItem.info=result[1].data;
+          //添加到列表
+          $scope.formData.orderMedicalNos.push(addDataItem);
+          //计算价格
+          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+        }
       });
 
 
@@ -514,7 +493,6 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       }
     };
 
-
     // 切换物流中心时提示用户，在用户选择确定后将已选择品种的批次清空
     $scope.$watch('formData.logisticsCenterId', function (newVal, oldVal) {
       if (newVal && oldVal && newVal !== oldVal) {
@@ -573,6 +551,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
         $scope.quantityError=false;
       }
     }
+
     // 销售单中批号数量自己手动修改之后。
     $scope.checkConfirmOrderQuantity = function (batchQuantity,salesQuantity){
         // 确定是该商品的哪个批号，然后取出对应的可用量。与当前修改的数量做对比。如果修改的数量大于可用量，则不允许提交。
@@ -665,8 +644,32 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
         return flag;
     };
 
+    // 将后端返回的税率字段从数字转换为字符串
+    $scope.transformTaxType = function (orderMedicalNos) {
+      if (angular.isArray(orderMedicalNos)) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          data.tax = utils.transformNumOrStr(data.tax);
+        });
+      }
+    }
+
+    // 实例化金额计算构造函数类
+    // 请在编辑页获取数据之后的callback里执行此方法
+    // 以便在当前页中调用此子类方法计算各金额
+    $scope.initAmountCalcuAction = function () {
+      $scope.amountCalcuConfirmOrder = new AmountCalculationService()
+    }
+
+    // 计算金额
+    // $scope.amountCalcuAction = function () {
+    //   var _t = new AmountCalculationService();
+    //   console.log(_t.getAllAmountObject(99, 17, 0, 50, 0));
+    // }
+
+
+
   }
 
   angular.module('manageApp.project-dt')
-  .controller('confirmOrderEditCtrl', ['$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "utils", "dialogConfirm", confirmOrderEditCtrl]);
+  .controller('confirmOrderEditCtrl', ['$scope', 'modal','alertWarn', 'requestData', 'alertOk', 'alertError', 'utils', 'dialogConfirm', 'AmountCalculationService', confirmOrderEditCtrl]);
 });
