@@ -11,51 +11,6 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
    */
   function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       
-    $scope.datasetData =[{
-        "id": null,
-        "createAt": 1504256698430,
-        "updateAt": 1504256698430,
-        "spell": null,
-        "fspell": null,
-        "status": "ACTIVE",
-        "copyId": null,
-        "didateFilter": null,
-        "workflowAction": null,
-        "operationFlowSet": [],
-        "latelyOperationFlow": null,
-        "handleFlags": null,
-        "inputUserId": null,
-        "inputUser": null,
-        "departmentId": null,
-        "departmentName": null,
-        "modify": null,
-        "approver": null,
-        "note": null,
-        "organizationId": null,
-        "item": [
-            {
-                "ruleName": "国家商品分类码",
-                "length": 2,
-                "defaultValue": null
-            },
-            {
-                "ruleName": "厂商码",
-                "length": 3,
-                "defaultValue": null
-            },
-            {
-                "ruleName": "商品流水号",
-                "length": 3,
-                "defaultValue": null
-            },
-            {
-                "ruleName": "经销商编码",
-                "length": 3,
-                "defaultValue": null
-            }
-        ]
-    }]
-
     // 定义供应商标志位，标识如果用户添加了相同的供应商，则显示提示
     $scope.sameSupplierFlag = false;
 
