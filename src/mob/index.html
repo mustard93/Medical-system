@@ -325,14 +325,23 @@
             var item = arr[i];
             var values = item.value;
             if (values.length > 1) {
-                html += '<li class="">\n                    <div class="left">\n                        <div class="year">' + item.year + '</div>\n                        <div class="date">' + item.date + '</div>\n                        <div class="point2"></div>\n                    </div>\n                    <div class="right">\n                        <div class="title" style="visibility: hidden">' + item.type + '</div>\n                    </div>\n                </li>';
+                html += '<li class="">\n                    ' +
+                    '<div class="left">\n                        ' +
+                    '<div class="year">' + item.year + '</div>\n                        ' +
+                    '<div class="date">' + item.date + '</div>\n                        ' +
+                    '<div class="point2"></div>\n                    ' +
+                    '</div>\n                    ' +
+                    '<div class="right">\n                        ' +
+                    '<div class="title" style="visibility: hidden">' + item.type + '</div>\n                    ' +
+                    '</div>\n                ' +
+                    '</li>';
             }
             var className = values.length > 1 ? 'point3' : 'point2';
             for (var j = 0; j < values.length; j++) {
                 var item2 = values[j];
 
                 if (i == 0) {
-                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">客户名称：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.quantity + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.receiveDate) + '</div></div>\n                        <div class="item2"><div class="lables">出库时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
+                    html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">客户名称：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">销售数量：</div><div class="val">' + item2.quantity + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.receiveDate) + '</div></div>\n                        <div class="item2"><div class="lables">出库时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
                 } else {
                     html += '<li>\n                    <div class="left">\n                        <div class="year ' + (values.length > 1 ? 'hide' : '') + '">' + item.year + '</div>\n                        <div class="date ' + (values.length > 1 ? 'hide' : '') + '">' + item.date + '</div>\n                        <div class="' + className + '"></div>\n                        </div>\n                        <div class="right">\n                        <div class="title">' + item.type + '</div>\n                        <div class="item2"><div class="lables">供应厂商：</div> <div class="val">' + item2.supplierNameOrCustomerName + '</div></div>\n                        <div class="item2"><div class="lables">采购数量：</div><div class="val">' + item2.usedQuantity[orderMedicalNoUuid] + '</div></div>\n                        <div class="item2"><div class="lables">收货时间：</div><div class="val">' + formatDate(item2.inoutDate) + '</div></div>\n                    </div>\n                </li>';
                 }
