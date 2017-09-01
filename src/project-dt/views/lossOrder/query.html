@@ -34,11 +34,11 @@
             </div>
             <ul ng-if="tbodyList.length" class="li-min-h">
               <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
-                <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative"  >
+                <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative"  ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
                   <div class="relative">
                     <div class="flex-row">
                       <span class="flex-item-6 title-states text-bold color-3 pd-m">
-                        <em ng-class="{'color-green2':(tr.orderStatus=='已完成')}">
+                        <em ng-class="{'color-green2':(tr.orderStatus=='已完成'),'color-red':(tr.orderStatus=='未通过')}">
                             {{tr.orderStatus}}
                         </em>
                       </span>
@@ -100,18 +100,23 @@
                               <strong class="color-6 text-normal">{{tr.orderMedicalNos.length|| '0'}}</strong>
                           </span>
                         </div>
-
+                        <div class="flex-row qurey text-s color-9 bt-dashed-line">
+                          <span class="flex-item-12 text-right text-m ">
+                            <em>合计：</em>
+                              <em class="color-3">￥{{tr.totalPrice|number : 2}}</em>
+                          </span>
+                        </div>
                         <div class="flex-row qurey text-s color-9 mgb bt-line"
                           >
-                          <p ng-if="tr.orderStatus!='未通过'"
+                          <p ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'"
                           title="{{tr.note}}"
                           class="text-ellips-s">
                             <span >备注：</span><span class="color-6">{{tr.note}}</span>
                           </p>
-                          <p ng-if="tr.orderStatus=='未通过'"
+                          <p ng-if="tr.orderStatus=='未通过'||tr.orderStatus=='已作废'"
                           title="{{tr.operationFlowSet[tr.operationFlowSet.length-1].key}}{{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}"
                           class="text-ellips-s">
-                            <span>原因：</span>
+                            <span class="color-red">原因：</span>
                             <span class="color-6">
                               {{tr.operationFlowSet[tr.operationFlowSet.length-1].key || '暂无'}}
                               {{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}
