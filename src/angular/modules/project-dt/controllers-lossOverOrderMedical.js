@@ -68,7 +68,10 @@ define('project-dt/controllers-lossOverOrderMedical', ['project-dt/init'], funct
             for (var i = 0; i < item.stockBatchs.length; i++) {
               _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
             }
-            _total += _tmp;
+            // 如果有值才相加，否则不相加
+            if (_tmp) {
+              _total += _tmp;
+            }
         });
         $scope.formData.totalPrice = _total;
       }
