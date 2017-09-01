@@ -1,3 +1,8 @@
+<style media="screen">
+  .salesOrder-edit table.pr-table > tbody > tr > td, .view-medical table.pr-table > tbody > tr > td{
+    padding-bottom: 0;
+  }
+</style>
 <div class="salesOrder-edit confirm-edit"
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
@@ -42,7 +47,7 @@
     <div class="content-wrapper">
       <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
         <em class="color-red">原因:</em>
-        <p class="inline-block color-red">
+        <p class="inline-block-important color-red">
           <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
         </p>
@@ -264,13 +269,22 @@
                                          info-title="商品信息">
                         </show-info-modal>
                       </span>
-                      <p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">
+                      <!--<p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">-->
+                        <!--<i class="warning-icon"></i>-->
+                        <!--{{item.info.msg}}-->
+                        <!--<span style="margin-left: 15px;">-->
+                          <!--<a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>-->
+                        <!--</span>-->
+                      <!--</p>-->
+                      <p ng-if="identityForMedicalStocksMap[item.relId].msg" class="mgb-s color-red" style="line-height: 26px;">
                         <i class="warning-icon"></i>
-                        {{item.info.msg}}
+                        {{identityForMedicalStocksMap[item.relId].msg}}
                         <span style="margin-left: 15px;">
                           <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
                         </span>
                       </p>
+
+
                     </td><!-- 商品全名 -->
                     <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
@@ -331,6 +345,7 @@
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                         "quantity":{{item.quantity}},
                                         "choisedBatchList":{{item.stockBatchs}},
+                                        "warehouseType":"正常库",
                                         "index": {{$index}}
                                       }'
                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">

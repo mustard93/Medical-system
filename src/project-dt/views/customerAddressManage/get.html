@@ -28,7 +28,7 @@
         ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
         'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='正常'}">
         <em>原因:</em>
-         <p class="inline-block">
+         <p class="inline-block-important">
         <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
          <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
          </p>
@@ -198,10 +198,10 @@
                     <a ng-if="!changeFlag" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">返回客户管理列表</a>
                   </span>
                   <span bottom-button-list="bottomButtonList">  </span>
-                  <span class="mgl" ng-if="$root.hasAuthor('客户管理删除')">
+                  <span class="mgl-s" ng-if="$root.hasAuthor('客户管理删除')">
                     <a ng-if="showData.id"
                        href="javascript:;"
-                       class="color-red mgt"
+                       class="color-red mgt mgr-l"
                        handle-this-click
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
@@ -214,6 +214,7 @@
                   <span>
                     <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
                       <button class="btn-freeze mgl-l pr-bg-orange"
+                              style="height:32px;line-height:32px;margin-left:0;"
                               type="button"
                               ng-if="$root.hasAuthor('客户管理冻结')"
                               modal-center="340"
@@ -253,6 +254,7 @@
                     </span>
                     <span class="line-hei-36" ng-if="showData.businessApplication.businessStatus!='已终止'">
                       <button class="btn-reject mgl mgt color-white text-center"
+                              style="vertical-align:inherit;"
                               type="button"
                               ng-if="$root.hasAuthor('客户管理终止')"
                               handle-this-click
@@ -271,7 +273,7 @@
 
               <a ng-if="!showData.businessApplication.businessStatus" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/query.html">返回客户管理列表</a>
               <span>
-                <button type="button" name="button"  class="pr-btn-save-glodbg mgl" ng-if="$root.hasAuthor('客户管理修改')">
+                <button type="button" name="button"  class="pr-btn-save-glodbg" ng-if="$root.hasAuthor('客户管理修改')">
                   <a class="color-white" tab-nav tab-name="客户管理" tab-href="#/customerAddressManage/edit.html?id={{showData.id}}">编辑</a>
                 </button>
               </span>

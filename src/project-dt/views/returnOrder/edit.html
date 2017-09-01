@@ -1,4 +1,4 @@
-<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
+<div class="create-new-order allocate-order del-bgc collarApplicationOrder-edit purchase-plan-order"
      ng-controller="returnOrderCtrl"
      ajax-url="rest/authen/returnOrder/getOfEdit?lendOrderId={{mainStatus.pageParams.lendOrderId}}&id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -23,15 +23,27 @@
          callback="submitFormAfter();watchFormChange('formData')"
          novalidate="novalidate">
 
-     <page-main-header-component list-params="listParams"
+     <!-- <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"新建归还单","link":"","style":""}]'
                                  component-title="归还单-{{formData&&formData.id?'编辑':'新建'}}">
-     </page-main-header-component>
+     </page-main-header-component> -->
+     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix padd-botom5">
+       <p class="pdb-s pdt-s crumbs- pd-c-xxl crumbs">销售中心 >
+         <a tab-nav tab-name="销售单" tab-href="#/returnOrder/query.html"><em class="color-custom-orange">归还单</em></a>
+         <em> > 新建归还单</em>
+       </p>
+       <!-- 标题 -->
+       <div class="pd-c-xxl head-style mgt-xl ">
+         <div class="pos-rel-tl inline-block fl-l head-style-title">
+           <h1 class="pr-font-20 color-black">新建归还单</h1>
+         </div>
+       </div>
+     </div>
 
      <div class="content-wrapper">
        <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">
          <em class="color-red">原因:</em>
-         <p class="inline-block color-red">
+         <p class="inline-block-important color-red">
            <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
            <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
          </p>

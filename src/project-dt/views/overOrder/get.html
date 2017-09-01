@@ -1,6 +1,5 @@
 <div class="loss-over-order"
-     ng-controller="lossOverOrderEditCtrl"
-     ajax-url="rest/authen/lossOverOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     ajax-url="rest/authen/overOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
      alert-error>
@@ -10,7 +9,7 @@
         <a
         tab-nav
         tab-name='报溢单'
-        tab-href="#/lossOverOrder/query-overflow.html"><em class="color-custom-orange">报溢单</em></a>
+        tab-href=" #/overOrder/query.html"><em class="color-custom-orange">报溢单</em></a>
         <em>>报溢申请单详情</em>
        </p>
        <div class="pd-c-xl pdt-l pdb-l">
@@ -32,7 +31,7 @@
       <div ng-if="showData.orderStatus=='未通过'"
        class="pr-panel pr-panel-height mgb pr-bg-pink">
       <em class="color-red">原因:</em>
-       <p class="inline-block color-red">
+       <p class="inline-block-important color-red">
       <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
        <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
        </p>
@@ -41,7 +40,7 @@
         <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
-            <span class="inline-block relative">单据日期：{{showData.orderDate | date: 'yyyy-MM-dd'}}</span>
+            <span class="inline-block relative">单据日期：<em class="color-3">{{showData.orderDate | date: 'yyyy-MM-dd'}}</em></span>
             <span class="mgr">审核人：<em class="color-3">暂无</em></span>
           </div>
           <div class="flex-item-6 text-right">
@@ -51,11 +50,6 @@
         <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr">业务部门：<em class="color-6">{{showData.departmentName}}</em></span>
           <span class="mgr">业务人员：<em class="color-6">{{showData.saleUser.n}}</em></span>
-          <span class="mgr">销售类型：<em class="color-6">{{showData.salesType}}</em></span>
-          <span class="mgr">付款条件：<em class="color-6">{{showData.paymentType}}</em></span>
-          <span class="mgr">币种：<em class="color-6">{{showData.currencyType}}</em></span>
-          <span class="mgr">汇率：<em class="color-6">1.00</em></span>
-          <span class="mgr">预发货日期：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
         </div>
 
         <!-- 主内容区域 -->
@@ -64,26 +58,29 @@
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="text-center ">商品编号</th>
+                  <th class="text-center" style="width:60px;">序号</th>
                   <th class="text-left w-160">商品通用名</th>
-                  <th class="text-center">剂型/分类</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
+                  <th class="text-center">数量<em class="color-red"></em></th>
                   <th class="text-center">批号</th>
                   <th class="text-center">灭菌批号</th>
+                  <th class="text-center">仓库<em class="color-red"></em></th>
+                  <th class="text-center">生产日期</th>
                   <th class="text-center">失效日期</th>
+                  <th class="text-center">单价</th>
+                  <th class="text-center">金额</th>
                 </tr>
               </thead>
               <tbody class="pr-bg-white">
                 <tr ng-if="showData.orderMedicalNos.length"
                     ng-repeat="tr in showData.orderMedicalNos">
-                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                  <td class="text-center">{{$index+1}}</td>
                   <td class="text-left">
                     <span class="color-orange cur-pot lend-order-goods-info"
                           ng-init="showInfoArea=false"
                           ng-mouseenter="showInfoArea=true"
-                          ng-mouseleave="showInfoArea=false">{{tr.name}}
+                          ng-mouseleave="showInfoArea=false">{{tr.approvedName}}
                       <show-info-modal ng-show="showInfoArea"
                                        get-data-type="local"
                                        template-url="tpl/showInfoModalLendOrder"
@@ -92,13 +89,16 @@
                       </show-info-modal>
                     </span>
                   </td><!-- 商品通用名 -->
-                  <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td class="text-center">{{tr.quantity}}</td><!-- 数量 -->
                   <td class="text-center">{{tr.productionBatch}}</td><!-- 批号 -->
                   <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-center">{{tr.warehouseName}}</td><!-- 仓库 -->
+                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</div></td><!-- 生产日期 -->
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
+                  <td class="text-center">{{tr.strike_price | currency : '￥'}}</div></td><!-- 单价 -->
+                  <td class="text-center">{{tr.totalPrice | currency : '￥'}}</div></td><!-- 金额 -->
                 </tr>
               </tbody>
             </table>
@@ -130,12 +130,15 @@
           <a
           tab-nav
           tab-name='报溢单'
-          tab-href="#/lossOverOrder/query-overflow.html">返回报溢单列表</a>
+          tab-href=" #/overOrder/query.html">返回报溢单列表</a>
         </span>
         <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
          custom-menu-list
          custom-menu-arr="{{showData.didateFilter.buttons}}">
         </span>
+    </div>
+    <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
+      <em class="color-white ng-binding">￥{{showData.totalPrice | number:2}}</em>
     </div>
   </div>
 </div>

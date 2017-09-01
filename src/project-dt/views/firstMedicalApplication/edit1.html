@@ -86,16 +86,20 @@
             <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">
               <div class="inline-block">
                 <div class="inline-block mgr" style="position:relative;top:-5px;">
-                  <p  class="radio-inline radio radio-new mgl-s">
-                    <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                  </p>
-                  <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;">医疗器械</em>
+                  <label>
+                    <p  class="radio-inline radio radio-new mgl-s">
+                      <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    </p>
+                    <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">医疗器械</em>
+                  </label>
                 </div>
                 <div class="inline-block " style="position:relative;top:-5px;">
-                  <p  class="radio-inline radio radio-new mgl-s">
-                    <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                  </p>
-                  <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;">药品</em>
+                  <label>
+                    <p  class="radio-inline radio radio-new mgl-s">
+                      <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                    </p>
+                    <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">药品</em>
+                  </label>
                 </div>
               </div>
             </div>
@@ -169,9 +173,9 @@
                 p-id-key="parentId">
                 <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.medicalAttribute.name}}">{{formData.medicalAttribute.name}}</div>
                   <span style="display:none;">{{formData.attributeId}}</span>
-                <em class="mgl">选择</em>
+                <em class="mgl vcenter">选择</em>
                 </button>
-                <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.medicalAttribute.name">(必选)</em>
+                <em class="color-red mgl relative vcenter" style="top:3px;" ng-if="!formData.medicalAttribute.name">(必选)</em>
               </div>
 
             </div>
@@ -268,7 +272,9 @@
                 <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
                   <div ng-repeat="date in DateUnit" class="inline-block mgr-s" style="position:relative;top:-5px;">
                     <p  class="radio-inline radio radio-new mgl-s">
-                      <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
+                      <label>
+                        <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
+                      </label>
                     </p>
                     <em class="inline-block mgt-s" style=" color:#666; margin-left:-5px;">{{date.text}}</em>
                   </div>
@@ -443,22 +449,22 @@
             </div>
 
             <!--U8计量单位-->
-            <div class="flex-row mgt">
-              <p  class="flex-item-2 text-right control-label pdr-s">U8计量单位：</p>
-              <div class="flex-item-10 text-left">
-                <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"
-                        chosen
-                        default-empty="无"
-                        ng-model="formData.u8Unit"
-                        select-source="rest/baseData/queryForSelectOptionByType?type=U8计量单位">
-                </select>
-              </div>
-            </div>
+            <!--<div class="flex-row mgt">-->
+              <!--<p  class="flex-item-2 text-right control-label pdr-s">U8计量单位：</p>-->
+              <!--<div class="flex-item-10 text-left">-->
+                <!--<select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计量单位"-->
+                        <!--chosen-->
+                        <!--default-empty="无"-->
+                        <!--ng-model="formData.u8Unit"-->
+                        <!--select-source="rest/baseData/queryForSelectOptionByType?type=U8计量单位">-->
+                <!--</select>-->
+              <!--</div>-->
+            <!--</div>-->
 
 
-            <!--U8计价方式-->
+            <!--计价方式-->
             <div class="flex-row mgt mgb-l">
-              <p  class="flex-item-2 text-right control-label pdr-s">U8计价方式：</p>
+              <p  class="flex-item-2 text-right control-label pdr-s">计价方式：</p>
               <div class="flex-item-10 text-left">
                 <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择计价方式"
                         chosen
@@ -730,7 +736,7 @@
                   <select class="select pr-select ipt-new-s pr-short-ipt"
                           ng-model="formData.tax"
                           ng-options="tax for tax in [3,17]">
-                  </select>%
+                  </select><span class="mgl-s">%</span>
                 </div>
               </div>
         </div>

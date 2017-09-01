@@ -1,16 +1,27 @@
 <!--ng-controller="collarApplicationOrderController"-->
-<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
+<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order del-bgc"
         ng-controller="tabCtrl"
       ajax-url="rest/authen/returnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
       callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
       alert-error>
   <!-- 头部信息 -->
-  <page-main-header-component list-params="listParams"
+  <!-- <page-main-header-component list-params="listParams"
                               crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"归还单","link":"","style":"color-custom-orange"},{"name":"归还单详情","link":"","style":""}]'
                               component-title="归还单详情">
-  </page-main-header-component>
-
+  </page-main-header-component> -->
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix padd-botom5">
+    <p class="pdb-s pdt-s crumbs- pd-c-xxl crumbs">销售中心 >
+      <a tab-nav tab-name="销售单" tab-href="#/returnOrder/query.html"><em class="color-custom-orange">归还单</em></a>
+      <em> > 归还单详情</em>
+    </p>
+    <!-- 标题 -->
+    <div class="pd-c-xxl head-style mgt-xl ">
+      <div class="pos-rel-tl inline-block fl-l head-style-title">
+        <h1 class="pr-font-20 color-black">归还单详情</h1>
+      </div>
+    </div>
+  </div>
 
 
   <!-- 药械列表 -->
@@ -229,7 +240,7 @@
       <a class="mgr-l" ng-if="!changeFlag" ng-click="goTo({tabHref:'#/returnOrder/query.html',tabName:'归还单'})">返回归还单列表</a>
 
       <button class="pr-btn-create-glodbg mgt mgr-l" ng-if="scopeData.orderStatus=='入库中'&&$root.hasAuthor('归还单强制撤单')"
-              style="background: #FF1212;"
+              style="background: rgba(255,18,18,0.80);"
               type="button"
               handle-this-click
               dialog-title="确认撤单?"

@@ -16,7 +16,7 @@
         </p>
         <div class="pd-c-xxl pdt-l pdb-l  ">
             <!-- 标题 -->
-            <div class="mgt-xl">
+            <div>
               <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
               <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
             </div>
@@ -89,7 +89,7 @@
                      ng-if="initFlag"
                      ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SupplierType" scope-data="scopeData"
                      callback="initFlag=false;">
-                        <div class="mycheck-new" style="margin-top:-3px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
+                        <div class="mycheck-new" style="margin-top:-3px;padding-right:15px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
                             <input class="relative" type="checkbox" id="supplier_relative{{$index + 1}}1" ng-model="item.value" ng-click="choiceCommodityType(item);" />
                             <p color-9  for="supplier_relative{{$index + 1}}1"></p>
                             <em class="color-black">{{item.text}}</em>
@@ -104,7 +104,7 @@
                          ng-if="initFlag"
                          ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SupplierType" scope-data="scopeData"
                          callback="initFlag=false;">
-                        <div class="mycheck-new" style="margin-top:-3px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
+                        <div class="mycheck-new" style="margin-top:-3px;padding-right:15px;" ng-repeat="item in scopeData" ng-controller="SelectedCommodityEditCtrl">
                             <input class="relative" type="checkbox" id="firstEnterpriseApplication{{$index + 1}}1" ng-model="item.value" ng-click="choiceCommodityType(item);" />
                             <label color-9  for="firstEnterpriseApplication{{$index + 1}}1"></label>
                             <em class="color-black">{{item.text}}</em>
@@ -147,11 +147,11 @@
                                 ng-model="formData.supplierAttribute"
                                 id-key="id"
                                 p-id-key="parentId">
-                                <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
+                                <div class="autocut z-tree-div inline-block fl-l" style="margin-right:0px;color:#333;padding-left:10px;" title="{{formData.supplierAttribute.name}}">{{formData.supplierAttribute.name}}</div>
                                 <span style="display:none;">{{formData.attributeId}}</span>
-                                <em class="mgl">选择</em>
+                                <em class="mgl vcenter">选择</em>
                         </button>
-                        <em class="color-red mgl relative" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
+                        <em class="color-red mgl relative vcenter" style="top:3px;" ng-if="!formData.supplierAttribute.name">(必选)</em>
                       </div>
                     </div>
                     <div class="flex-row mgt">
@@ -188,7 +188,7 @@
                     </div>
 
                 <div class="mgt flex-row">
-                  <p color-9  class="flex-item-2 text-right">开户银行：</p>
+                  <p color-9  class="flex-item-2 text-right control-label">开户银行：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -198,7 +198,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <p color-9  class="flex-item-2 text-right">开户账号：</p>
+                  <p color-9  class="flex-item-2 text-right control-label">开户账号：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -208,7 +208,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <p color-9  class="flex-item-2 text-right">开户户名：</p>
+                  <p color-9  class="flex-item-2 text-right control-label">开户户名：</p>
                   <div class="flex-item-10 text-left">
                     <input type="text"
                            style="width:334px;"
@@ -218,7 +218,7 @@
                   </div>
                 </div>
                 <div class="mgt flex-row">
-                  <p color-9  class="flex-item-2 text-right">付款方式：</p>
+                  <p color-9  class="flex-item-2 text-right control-label">付款方式：</p>
                   <div class="flex-item-10 text-left">
                     <select
                     ng-if="initFlag"
@@ -232,10 +232,10 @@
                   </div>
                 </div>
                 <div class="mgt flex-row mgt mgb">
-                  <p color-9  class="flex-item-2 text-right">经营范围：</p>
+                  <p color-9  class="flex-item-2 text-right vcenter" style="line-height:25px;">经营范围：</p>
                   <div class="flex-item-8  text-left ">
                     <div ng-if="formData.businessScope.length" class="inline-block">
-                      <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope">
+                      <span ng-repeat="item in formData.businessScope track by $index" ng-if="item.name" class="relative select-business-scope" style="padding:4px 10px;">
                         <em class="color-3 ">{{item.name}}</em>
                         <i class="fa fa-times-circle color-red cur-pot " ng-click="formData.businessScope.splice($index,1);"></i>
                       </span>
