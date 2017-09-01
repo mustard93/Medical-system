@@ -10,7 +10,7 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
    * @param  {[type]}               alertWarn       [description]
    */
   function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-      
+
     // 定义供应商标志位，标识如果用户添加了相同的供应商，则显示提示
     $scope.sameSupplierFlag = false;
 
