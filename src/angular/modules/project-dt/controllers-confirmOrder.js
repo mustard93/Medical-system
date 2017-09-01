@@ -12,7 +12,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
    * @param  {[type]}             dialogConfirm [description]
    * @return {[type]}                           [description]
    */
-  function confirmOrderEditCtrl($scope, modal, alertWarn, requestData, alertOk, alertError, utils, dialogConfirm) {
+  function confirmOrderEditCtrl($scope, modal, alertWarn, requestData, alertOk, alertError, utils, dialogConfirm, AmountCalculationService) {
       //初始化校验数据
     $scope.identityForMedicalStocksMap={};
     $scope.checkData=function(){
@@ -732,5 +732,5 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
   }
 
   angular.module('manageApp.project-dt')
-  .controller('confirmOrderEditCtrl', ['$scope', 'modal','alertWarn', 'requestData', 'alertOk', 'alertError', 'utils', 'dialogConfirm', 'AmountCalculationService', confirmOrderEditCtrl]);
+  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'utils', 'dialogConfirm', 'AmountCalculationService', confirmOrderEditCtrl]);
 });
