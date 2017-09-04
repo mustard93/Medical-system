@@ -106,7 +106,9 @@
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr-l color-9">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span class="relative" style="top:0.1rem;">
+              <span class="mgr">单据日期: </span>
+               <date ng-model="formData.orderDate"></date>
+              <!-- <span class="relative" style="top:0.1rem;">
                 <span class="color-9">单据日期：</span>
                 <span class="date-icon-outside">
                   <input ng-if="initFlag" type="text"
@@ -117,7 +119,7 @@
                          ng-model="formData.orderDate" />
                   <span class="date-icon"></span>
                 </span>
-              </span>
+              </span> -->
               <span class="text-right color-9 fl-r">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </p>
             <div class="bg-white">
@@ -147,7 +149,10 @@
                             select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                   </span>
-                  <span class="mgr">
+                  <span class="mar-l20">要求到货日期:</span>
+                  <date ng-if="formData.orderSource!='线上订单'" ng-model="formData.expectDate"></date>
+                  <span ng-if="formData.orderSource=='线上订单'" class="color-6">{{formData.expectDate | date:'yyyy-MM-dd'}}</span>
+                  <!-- <span class="mgr">
                     <span class="mgr-l color-9" ng-if="formData.orderSource!='线上订单'">要求到货日期：
                       <span class="date-icon-outside">
                         <input type="text" class="ipt-date ipt color-3" placeholder="期望到货时间"
@@ -156,7 +161,7 @@
                       </span>
                     </span>
                     <span ng-if="formData.orderSource=='线上订单'" class="mgr-m color-9">要求到货日期：<span class="color-6">{{formData.expectDate | date:'yyyy-MM-dd'}}</span></span>
-                   </span>
+                   </span> -->
                 </p>
 
           <div>

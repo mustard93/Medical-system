@@ -168,14 +168,15 @@
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&&isReturnNullOfNoCondition=true">
                 </select>
               </span>
-              <span class="mgr">计划到货时间：
+              <span class="inline-block relative mgr-l">计划到货时间：
                 <input type="text"
                        datepicker
                        class="ipt pr-short-ipt color-3"
-                       style="width:90px;"
+                       style="width:120px;"
                        placeholder=""
                        ng-readonly="true"
-                       ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
+                       ng-model="formData.expectDate" /><span ng-if="!formData.expectDate" class="color-red">(必填)</span>
+                <span class="date-icon" style="top: 4px;right:36px;"></span>
               </span>
             </div>
 

@@ -320,7 +320,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         $scope.lossOverOrderCalculaTotal(newVal,$scope.formData.orderBusinessType);
 
       }
-    
+
       if(!newVal.length){
         // 否则说明商品被删完，所以总计也是为0.
         $scope.formData.totalPrice=0;

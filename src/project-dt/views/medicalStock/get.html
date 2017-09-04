@@ -424,7 +424,7 @@
 
   <div class="handle-btn-area">
     <div class="btn-area" >
-      <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block">
+      <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block" style="vertical-align:initial;">
               <span class="mgr-l">
                 <a ng-if="changeFlag"  href="javascript:;"
                    handle-this-click
@@ -436,7 +436,7 @@
                    $root.goTo({tabHref:'#/medicalStock/query.html',tabName:'品种管理'})">返回品种管理列表</a>
                 <a ng-if="!changeFlag" tab-nav tab-name="品种管理" tab-href="#/medicalStock/query.html">返回品种管理列表</a>
               </span>
-              <span bottom-button-list="bottomButtonList">  </span>
+              <!-- <span bottom-button-list="bottomButtonList">  </span> -->
               <span class="mgr-l" ng-if="$root.hasAuthor('品种管理删除')">
                 <a ng-if="showData.id"
                    href="javascript:;"
@@ -452,6 +452,7 @@
               <span>
                 <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
                   <button class="btn-freeze mgr pr-bg-orange"
+                          style="margin-left:0;height:32px;line-height:32px;"
                           type="button"
                           ng-if="$root.hasAuthor('品种管理冻结')"
                           modal-center="340"
@@ -488,6 +489,7 @@
                 </span>
                 <span class="line-hei-36" ng-if="showData.businessApplication.businessStatus!='已终止'">
                   <button class="btn-reject mgr color-white text-center"
+                          style="vertical-align:inherit;"
                           type="button"
                           ng-if="$root.hasAuthor('品种管理终止')"
                           handle-this-click
