@@ -1,7 +1,7 @@
-<table-list list-data="rest/authen/medicalStock/query.json"
+<!-- <table-list list-data="rest/authen/medicalStock/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
-              search-param="q">
+              search-param="q"> -->
 <div class="first-medical-application"
     ng-controller="medicalStockCtrl">
 
@@ -23,7 +23,7 @@
   <div class="content-wrapper "
   ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.id}}"
   scope-data="showData"
-  callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);"
+  callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);getPrecision();"
   >
     <div class="content-wrapper-main mgt">
       <!-- 状态 -->
@@ -201,7 +201,7 @@
               <div class="bb-dashed-line pd-v-m">
                 <div class="flex-row">
                   <span class="flex-item-2 text-right">条形码：</span>
-                  <span class="flex-item-10 text-left relative">{{formData.barcode}}
+                  <span class="flex-item-10 text-left relative">{{showData.barcode}}
                     <div class="relative inline-block">
                      <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
                       <div class="show-info-first" ng-hide="encodingRulesOpenShow">
@@ -226,36 +226,36 @@
 
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">牌价：</span>
-                <span class="flex-item-10 text-left">{{showData.quoteprice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.quoteprice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">零售价：</span>
-                <span class="flex-item-10 text-left">{{showData.retailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.retailPrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">批发价：</span>
-                <span class="flex-item-10 text-left">{{showData.tradePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.tradePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最高售价：</span>
-                <span class="flex-item-10 text-left">{{showData.maxRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.maxRetailPrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最低售价：</span>
-                <span class="flex-item-10 text-left">{{showData.minRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.minRetailPrice | number:precision}}</span>
               </div>
 
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.purchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.purchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最高采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.maxPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.maxPurchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最低采购价：</span>
-                <span class="flex-item-10 text-left">{{showData.minPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{showData.minPurchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">税率：</span>
@@ -328,7 +328,7 @@
                     {{showData.packingAttribute.barcode}}
                 </td>
                 <td class="text-right">
-                  ￥{{showData.packingAttribute.bidPrice || '0.00' | number:2}}
+                  ￥{{showData.packingAttribute.bidPrice | number:precision}}
                 </td>
                 <td class="text-right">
                   {{showData.packingAttribute.length}}
@@ -357,7 +357,7 @@
                     {{tr.barcode}}
                 </td>
                 <td class="text-right">
-                  ￥{{tr.bidPrice || '0.00' | number:2}}
+                  ￥{{tr.bidPrice  | number:precision}}
                 </td>
                 <td class="text-right">
                   {{tr.length}}
@@ -532,4 +532,4 @@
   </div>
 
 </div>
-</table-list>
+<!-- </table-list> -->

@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;'
+     callback='initFlag=true;getPrecision();'
      alert-error>
      <form class="form-horizontal"
            id="firstMedicalApplication_editForm_step"
@@ -11,7 +11,7 @@
            parameter-body
            action="rest/authen/firstMedicalApplication/saveBaseInfo?validFlag=true"
            alert-error
-            
+
            scope-error-msg="errorMsg"
            scope-data="formData"
            novalidate="true"
@@ -277,36 +277,36 @@
 
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">牌价：</span>
-                <span class="flex-item-10 text-left">{{formData.quoteprice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.quoteprice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">零售价：</span>
-                <span class="flex-item-10 text-left">{{formData.retailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.retailPrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">批发价：</span>
-                <span class="flex-item-10 text-left">{{formData.tradePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.tradePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最高售价：</span>
-                <span class="flex-item-10 text-left">{{formData.maxRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.maxRetailPrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最低售价：</span>
-                <span class="flex-item-10 text-left">{{formData.minRetailPrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.minRetailPrice | number:precision}}</span>
               </div>
 
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">采购价：</span>
-                <span class="flex-item-10 text-left">{{formData.purchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.purchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最高采购价：</span>
-                <span class="flex-item-10 text-left">{{formData.maxPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.maxPurchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">最低采购价：</span>
-                <span class="flex-item-10 text-left">{{formData.minPurchasePrice | currency:'￥'}}</span>
+                <span class="flex-item-10 text-left">￥{{formData.minPurchasePrice | number:precision}}</span>
               </div>
               <div class="flex-row mgt">
                 <span class="flex-item-2 text-right">税率：</span>
