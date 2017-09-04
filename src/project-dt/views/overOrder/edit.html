@@ -167,7 +167,10 @@
                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                     <td class="text-center" style="white-space: nowrap;">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                        <button ng-disabled="tr.quantity<=1" type="button"
+                                class="inline-block left"
+                                ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;
+                                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">-</button>
                         <span class="inline-block">
 
                             <!--invalid-popover-->
