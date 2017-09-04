@@ -14,8 +14,14 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     // 定义供应商标志位，标识如果用户添加了相同的供应商，则显示提示
     $scope.sameSupplierFlag = false;
 
+    $scope.encodingRulesOpenShow =false;
 
-    $scope.watchFormChange = function(watchName){
+    $scope.encodingRulesOpen =function () {
+        $scope.encodingRulesOpenShow = !$scope.encodingRulesOpenShow;
+    }
+
+
+      $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
     };
 

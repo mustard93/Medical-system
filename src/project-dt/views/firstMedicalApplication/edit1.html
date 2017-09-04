@@ -583,7 +583,7 @@
                 <!--条形码-器械自动生成 -->
                 <div  ng-if="formData.medicalType == '医疗器械'" class="flex-row">
                   <p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>
-                  <div class="control-label text-left">
+                  <div class="control-label text-left relative">
 
                     <span style="margin-right: 15px;">{{formData.barcode}}</span>
 
@@ -600,9 +600,17 @@
                        class="color-orange"
                        ><i></i>重新生成
                     </a>
-                    <a class="relative"
-                       handle-this-click
-                       dialog-template="pr-dialog-first.html">编码规则</a>
+                    <a ng-click="encodingRulesOpen()">编码规则</a>
+                      <div class="show-info-first" ng-hide="encodingRulesOpenShow">
+                        <div class="show-info-stock-content relative">
+                            <span class="h-15">XX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
+                            <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
+                            <span class="h-15">XXXX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
+                            <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
+                          </div>
+                        <div class="arrow-icon-f"></div>
+                        <a class="close-icon">+</a>
+                    </div>
                     <!--<button class="pr-btn-save-glodbg"-->
                             <!--type="button"-->
                             <!--handle-this-click-->
