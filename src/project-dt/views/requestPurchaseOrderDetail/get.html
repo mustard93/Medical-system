@@ -2,7 +2,8 @@
       ng-controller="purchaseOrderEditCtrl"
       ajax-url="rest/authen/purchaseOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
       scope-data="scopeData"
-      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');
+      passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');getPrecision();"
       alert-error>
 
   <form id="purchaseOrder_editForm"
@@ -181,7 +182,7 @@
                   <td class="text-right">{{tr.finishQuantity || '0'}}</td><!-- 已完成数量 -->
                   <td class="text-right">{{tr.unFinishQuantity || '0'}}</td><!-- 未完成数量 -->
                   <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
-                  <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 含税单价 -->
+                  <td class="text-right">￥{{tr.strike_price || '0'  | number:precision}}</td><!-- 含税单价 -->
                   <td class="text-right">￥{{tr.totalPrice || '0' | number:2 }}</td><!-- 价税合计 -->
                 </tr>
               </tbody>
