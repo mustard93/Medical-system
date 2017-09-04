@@ -3,7 +3,8 @@
 
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="tmp_supplier=formData.supplier;initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);"
+     callback="tmp_supplier=formData.supplier;initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);
+     getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);getPrecision();"
      alert-error>
 
 <form id="purchaseForm_editForm"
@@ -449,7 +450,7 @@
                      scope-data="priceData"
                      callback="tr.strike_price=priceData[0].value" -->
 
-                    <td class="text-right">￥{{tr.strike_price*tr.quantity || tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-right">￥{{tr.strike_price*tr.quantity || tr.totalPrice |  number:precision}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
@@ -698,7 +699,7 @@
       </div>
       <div class="price-area relative fl-r mgr-l color-light-brown" style="font-size: 18px;">总计：
         <em class="color-white">
-          ￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}
+          ￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' |  number:precision}}
         </em>
       </div>
     </div>

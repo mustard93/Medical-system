@@ -4,7 +4,8 @@
 
       ajax-url="rest/authen/salesChangeOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
-      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');
+      passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');getPrecision();"
       alert-error>
   <!-- 头部信息 -->
   <!--<page-main-header-component list-params="listParams"-->
@@ -204,8 +205,8 @@
                 <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
-                <td class="text-right" style="line-height:2.4">{{tr.strike_price | currency:"￥"}}</td><!-- 含税单价 -->
-                <td class="text-right" style="line-height:2.4">{{ tr.totalPrice || tr.strike_price*tr.quantity | currency:"￥"}}</td><!-- 价税合计 -->
+                <td class="text-right" style="line-height:2.4">￥{{tr.strike_price |  number:precision}}</td><!-- 含税单价 -->
+                <td class="text-right" style="line-height:2.4">￥{{ tr.totalPrice || tr.strike_price*tr.quantity |  number:precision}}</td><!-- 价税合计 -->
               </tr>
             </tbody>
           </table>
@@ -277,8 +278,8 @@
             <td class="text-right" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 计划数量 -->
             <td class="text-right" style="line-height:2.4">{{tr.finishQuantity}}</td><!-- 实际发货数量 -->
 
-            <td class="text-right" style="line-height:2.4">{{tr.strike_price | currency:"￥"}}</td><!-- 含税单价 -->
-            <td class="text-right" style="line-height:2.4">{{ tr.totalPrice || tr.strike_price*tr.quantity | currency:"￥"}}</td><!-- 价税合计 -->
+            <td class="text-right" style="line-height:2.4">￥{{tr.strike_price |  number:precision}}</td><!-- 含税单价 -->
+            <td class="text-right" style="line-height:2.4">￥{{ tr.totalPrice || tr.strike_price*tr.quantity |  number:precision}}</td><!-- 价税合计 -->
             <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
             <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--仓库-->
             <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
