@@ -2,6 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
+     ng-init="listObject.precision=getPrecision();"
      callback="initFlag=true;watchFormChange('formData');getPrecision();"
      alert-error>
 <form id="purchaseForm"
@@ -144,7 +145,7 @@
                      ng-model="formData.note">
            </textarea>
          </div>
-         <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
+         <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}" list-object="listObject">
            <h1 class="mgb pdb text-n text-bold color-3">已生成采购单部分</h1>
            <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
              <header class="text-n color-3 flex-row">
@@ -208,8 +209,8 @@
                        <td class="text-right">{{tr.finishQuantity || '0'}}</td><!-- 已完成数量 -->
                        <td class="text-right">{{tr.unFinishQuantity || '0'}}</td><!-- 未完成数量 -->
                        <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
-                       <td class="text-right">￥{{tr.strike_price  |  number:6}}</td><!-- 含税单价 -->
-                       <td class="text-right">￥{{tr.totalPrice  |  number:6 }}</td><!-- 价税合计 -->
+                       <td class="text-right">￥{{tr.strike_price  |  number:listObject.precision}}</td><!-- 含税单价 -->
+                       <td class="text-right">￥{{tr.totalPrice  |  number:listObject.precision }}</td><!-- 价税合计 -->
                      </tr>
                    </tbody>
                  </table>
