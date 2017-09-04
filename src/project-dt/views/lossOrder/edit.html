@@ -2,9 +2,9 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");canNextStep=false;stockBatchsFlag=false;
+     callback='initFlag=true;formData.type="报损";watchFormChange("formData");canNextStep=false;stockBatchsFlag=false;
      getCodeGenerationStrategy("报损单");
-     lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);'
+     lossOrderCalculaTotal(formData.orderMedicalNos,"报损");getPrecision();'
      alert-error>
 
   <form id="lossOverOrder_editForm1"
@@ -229,7 +229,7 @@
                   <td class="text-center" >
                     ￥<input type="text"
                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                    ng-change="lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getAllBatchTotal(tr.stockBatchs);"
+                    ng-change="lossOrderCalculaTotal(formData.orderMedicalNos,'报损');getAllBatchTotal(tr.stockBatchs);"
                     class="ipt text-right"
                     ng-model="tr.strike_price"
                     style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
@@ -237,7 +237,7 @@
                     </div> -->
                   </td>
                   <td class="text-right" >
-                    {{totalQuantity*tr.strike_price || tr.totalPrice | currency : '￥'}}
+                    ￥{{totalQuantity*tr.strike_price || tr.totalPrice | number:precision}}
                     <!-- <div  ng-repeat="total in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;"></div> -->
                   </td>
                 </tr>
@@ -317,7 +317,7 @@
 
       <div class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">
-            ￥{{formData.totalPrice || '0.00' | number:2}}
+            ￥{{formData.totalPrice || '0.00' | number:precision}}
         </em>
       </div>
     </div>

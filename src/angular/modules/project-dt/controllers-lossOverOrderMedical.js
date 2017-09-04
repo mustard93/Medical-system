@@ -38,7 +38,7 @@ define('project-dt/controllers-lossOverOrderMedical', ['project-dt/init'], funct
     $scope.$watch('tr.stockBatchs',function(newVal,oldVal){
       if (newVal && newVal !== oldVal) {
         $scope.getAllBatchTotal(newVal);
-        $scope.lossOverOrderCalculaTotal($scope.formData.orderMedicalNos,$scope.formData.orderBusinessType);
+        $scope.lossOrderCalculaTotal($scope.formData.orderMedicalNos,'报损');
       }
     },true)
 
@@ -58,9 +58,9 @@ define('project-dt/controllers-lossOverOrderMedical', ['project-dt/init'], funct
       }
     };
 
-
-    $scope.lossOverOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
-      if (orderMedicalNos) {
+    // 报损计算总计
+    $scope.lossOrderCalculaTotal = function (orderMedicalNos,type) {
+      if (orderMedicalNos&&type=='报损') {
         var _total = 0;
         angular.forEach(orderMedicalNos, function (item, index) {
 

@@ -2,7 +2,7 @@
      ng-controller="purchasereturnOrderEditCtrl"
      ajax-url="rest/authen/purchaseReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");quantityError=false;formData.supplier=formData.supplier?formData.supplier:{};getCodeGenerationStrategy("采退单")'
+     callback='initFlag=true;watchFormChange("formData");quantityError=false;formData.supplier=formData.supplier?formData.supplier:{};getCodeGenerationStrategy("采退单");getPrecision();'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -245,8 +245,8 @@
                   <p class="mgt-s color-red" ng-if="quantityError">实退数量不能大于当前可退数量:{{item.returnQuantity}}</p>
                 </td><!-- 实退数量 -->
 
-                <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 含税单价 -->
-                <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td><!-- 价税合计 -->
+                <td class="text-right">￥{{item.strike_price |  number:precision}}</td><!-- 含税单价 -->
+                <td class="text-right">￥{{item.totalTaxPrice |  number:precision}}</td><!-- 价税合计 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                 <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
@@ -301,7 +301,7 @@
             <em class="color-white"
                 invalid-popover
                 popover-show="formData.totalPrice>100000"
-                popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+                popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' |  number:precision}}
             </em>
 
           </div> -->
@@ -366,7 +366,7 @@
       <div
            class="price-area relative mgr-l fl-r"
            style="height:100%;font-size:18px;color:#c7a77b;">总计：
-          <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em>
+          <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:precision}}</em>
 
       </div>
     </div>

@@ -24,6 +24,18 @@ define('project-dt/controllers-deleteUploader', ['project-dt/init'], function() 
 
       }
     };
+    $scope.tipStr = "证书编号不能为空";
+    $scope.tipChange = function(item){
+      if(!item.certificateNumber) item.tipStr = "证书编号不能为空";
+      else {
+        var repetition = 0;
+        for(var i = 0, len = $scope.ngModel.length; i < len; i++){
+          if(item.licenseId == $scope.ngModel[i].licenseId && item.certificateNumber == $scope.ngModel[i].certificateNumber) repetition++
+        }
+        if(repetition > 1) item.tipStr = "不能输入重复的证书编号";
+        else item.tipStr = null;
+      }
+    }
     //
     // $scope.$watch('userData.id',function(newVal,oldVal){
     //   if (newVal&&newVal!==oldVal) {
