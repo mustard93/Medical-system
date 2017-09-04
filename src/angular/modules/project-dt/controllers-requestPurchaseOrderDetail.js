@@ -780,10 +780,10 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
    $scope.findItemByUUID=function (uuid) {
        var index =-1;
-        for(var i=0; i<$scope.formData.orderMedicalNos; i++){
-            if(item.uuid == uuid){
+        for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
+            if($scope.formData.orderMedicalNos[i].uuid == uuid){
                 index = i;
-                return
+                return i;
             }
         }
 

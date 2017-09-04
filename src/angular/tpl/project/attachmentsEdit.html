@@ -10,6 +10,7 @@
         addAttachment.canDeleteFlag=true;
         addAttachment.handleCreate=true;
         addAttachment.showFlag=true;
+        addAttachment.tipStr='证书编号不能为空';
         ngModel.push(addAttachment);
         addAttachment={};"
          href="javascript:;"><i></i><span class="text-s">增加{{attachmentsExtend.title}}</span></a>
@@ -53,16 +54,17 @@
             </select>
           </td><!-- 类型  -->
           <!-- 资料名称  -->
-          <td >
+          <td style="position:relative;">
             <input type="text"
-                   class="ipt   color-6 mgr pr-indent-10"
+                   class="ipt color-6 mgr"
                    ng-model="item.certificateNumber"
+                   ng-change="tipChange(item)"
                    placeholder=""
                    name="certificateNumber"
-                   data-content="证书编号不能为空"
+                   data-content="{{item.tipStr}}"
                    invalid-popover
-                   popover-show="!item.certificateNumber"
-                   popover-options='{"content":"证书编号不能为空", "placement":"bottom", "trigger":"manual"}'>
+                   popover-show="!item.certificateNumber || item.tipStr"
+                   popover-options='{"placement":"bottom", "trigger":"manual"}'>
           </td>
           <!-- <td ng-if="item.isAdmin==false">
             <input type="text"
@@ -76,7 +78,7 @@
             <div class="date-icon-outside" >
               <input type="text"
                      datepicker
-                     class="ipt-date   ipt-new-s ipt-att color-6"
+                     class="ipt-date padd-10 ipt-new-s ipt-att color-6"
                      ng-readonly="true"
                      placeholder=" 有效日期起"
                      ng-model="item.guaranteePeriodBeg"
@@ -89,7 +91,7 @@
             <div class="date-icon-outside" >
               <input type="text"
                      datepicker
-                     class="ipt-date   ipt-new-s ipt-att color-6"
+                     class="ipt-date padd-10 ipt-new-s ipt-att color-6"
                      ng-readonly="true"
                      placeholder=" 有效日期至"
                      ng-model="item.guaranteePeriodEnd"
