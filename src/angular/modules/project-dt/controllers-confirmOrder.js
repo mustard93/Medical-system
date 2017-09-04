@@ -419,7 +419,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
       // 获取该供应商的此商品最近的成交价格
       _getIdentityForMedicalStocks();
-      // 
+      //
 
 
       return true;
