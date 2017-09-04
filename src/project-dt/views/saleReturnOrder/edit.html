@@ -2,7 +2,7 @@
      ng-controller="returnOrderEditCtrl"
      ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");quantityError=false;getCodeGenerationStrategy("销退单")'
+     callback='initFlag=true;watchFormChange("formData");quantityError=false;getCodeGenerationStrategy("销退单");getPrecision();'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -289,8 +289,8 @@
                 </td><!-- 预入仓库 -->
                 <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-right">{{item.strike_price | currency:"￥"}}</td><!-- 报价 -->
-                <td class="text-right">{{item.strike_price*item.quantity | currency: "￥"}}</td><!-- 报价 -->
+                <td class="text-right">￥{{item.strike_price |  number:precision}}</td><!-- 报价 -->
+                <td class="text-right">￥{{item.strike_price*item.quantity |  number:precision}}</td><!-- 报价 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
               </tr>
             </tbody>
@@ -377,7 +377,7 @@
           <em class="color-white"
           invalid-popover
           popover-show="formData.totalPrice>100000"
-          popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+          popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' |  number:precision}}
         </em>
 
       </div>

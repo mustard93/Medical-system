@@ -5,7 +5,7 @@
      scope-data="stockBatchList"
      ng-init="listParams={};"
      style="position: relative"
-     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);getPrecision();"
 >
 
     <style>
@@ -275,8 +275,8 @@
                         <td class="text-center">{{item.productionBatch}}</td>
                         <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                         <td class="text-center">{{item.warehouseName}}</td>
-                        <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                        <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td>
+                        <td class="text-right">￥{{item.strike_price |  number:precision}}</td>
+                        <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice |  number:precision}}</td>
                         <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                     </tr>
                     </tbody>

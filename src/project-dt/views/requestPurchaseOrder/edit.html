@@ -2,7 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单');"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单');getPrecision();"
      alert-error>
   <form id="purchaseForm"
         name="purchaseForm"
@@ -253,8 +253,8 @@
                      <td class="text-right">{{tr.finishedQuantity || '0'}}</td><!-- 已完成数量 -->
                      <td class="text-right">{{tr.unfinishedQuantity || '0'}}</td><!-- 未完成数量 -->
                      <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
-                     <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 含税单价 -->
-                     <td class="text-right">￥{{tr.totalPrice || '0' | number:2 }}</td><!-- 价税合计 -->
+                     <td class="text-right">￥{{tr.strike_price  |  number:6}}</td><!-- 含税单价 -->
+                     <td class="text-right">￥{{tr.totalPrice  |  number:6 }}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
               </table>
@@ -325,7 +325,7 @@
 
       </div>
       <!-- <div class="total-div">
-          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' | number:2}}</span></p>
+          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' |  number:precision}}</span></p>
       </div> -->
     </div>
     <!-- 流程图 -->

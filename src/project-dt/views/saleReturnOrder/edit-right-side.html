@@ -3,7 +3,7 @@
      ajax-If-eval="selectedData.id||formData.relId"
      ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
      scope-data="addDataObj"
-     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos);getPrecision();"
      alert-error>
   <form>
     <!-- 头部信息 -->
@@ -142,8 +142,8 @@
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
-                  <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                  <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td>
+                  <td class="text-right">￥{{item.strike_price |  number:precision}}</td>
+                  <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice |  number:precision}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>

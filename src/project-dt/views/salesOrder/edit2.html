@@ -8,7 +8,7 @@
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      ng-init="isGoNextStep=false;"
-     callback="initFlag=true;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();"
+     callback="initFlag=true;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();getPrecision();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -276,7 +276,7 @@
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
                     </td> 批号要求 -->
-                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">￥{{tr.strike_price}}
+                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">￥{{tr.strike_price | number : precision}}
                       <!--<input type="text"-->
                              <!--class="ipt pr-ipt-60 text-right"-->
                              <!--name="strike_price{{$index}}"-->
@@ -316,7 +316,7 @@
                       </a>
                       </p>
                     </td>  <!--报价-->
-                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
+                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity| number:precision }}</td>
 
                     <!--
 
@@ -354,11 +354,11 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
                     </td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) |  number:precision}}</td>
 
 
                     -->
@@ -601,7 +601,7 @@
                   <td class="text-center">{{tr.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <td class="text-right">{{tr.strike_price | currency:'￥'}}</td><!-- 报价 -->
-                  <td class="text-right">￥{{tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right">￥{{tr.totalPrice |  number:precision}}</td><!-- 价税合计 -->
                   <td class="text-right">{{tr.validTill | date: 'yyyy-MM-dd'}}</td><!-- 价税合计 -->
                 </tr>
               </tbody>

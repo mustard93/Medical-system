@@ -2,7 +2,7 @@
      ng-controller="needToPurchaseEditCtrl"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="initFlag=true"
+     callback="initFlag=true;getPrecision();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -91,8 +91,8 @@
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
-              <td class="text-right">￥{{item.strike_price | number:2}}</td>
-              <td class="text-right">￥{{item.totalPrice | number:2}}</td>
+              <td class="text-right">￥{{item.strike_price |  number:precision}}</td>
+              <td class="text-right">￥{{item.totalPrice |  number:precision}}</td>
             </tr>
           </tbody>
         </table>
@@ -152,8 +152,8 @@
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
-              <td class="text-right">￥{{item.strike_price|number:2}}</td>
-              <td class="text-right">￥{{item.totalPrice|| item.strike_price*item.quantity|number:2 }}</td>
+              <td class="text-right">￥{{item.strike_price| number:precision}}</td>
+              <td class="text-right">￥{{item.totalPrice|| item.strike_price*item.quantity| number:precision }}</td>
 
             </tr>
           </tbody>
