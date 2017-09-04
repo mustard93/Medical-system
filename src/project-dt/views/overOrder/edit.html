@@ -2,7 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/overOrder/getOfEdit?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报溢单")'
+     callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报溢单");getPrecision();'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
   <form id="lossOverOrder_over_editForm"
@@ -235,7 +235,7 @@
                       ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     </td>
                     <td class="text-right" >
-                      {{tr.quantity*tr.strike_price || tr.totalPrice | currency : '￥'}}
+                      ￥{{tr.quantity*tr.strike_price || tr.totalPrice | number:precision}}
                     </td>
                 </tr>
               </tbody>
