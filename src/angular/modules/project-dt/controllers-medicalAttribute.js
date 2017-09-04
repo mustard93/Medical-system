@@ -44,6 +44,8 @@ define('project-dt/controllers-medicalAttribute', ['project-dt/init'], function(
     // 该方法用于改变名称和分类编码后，禁止点击删除和新增按钮
     $scope.change=function(){
       $scope.isDisabled=true;
+      if(!$scope.formData.medicalAttribute.levelCode || !$scope.formData.medicalAttribute.showName) $scope.saveBtn = true;
+      else $scope.saveBtn = false;
     }
     // 监听侧边选择是否重新选择，如果重新选，则激活删除和新建按钮
     $scope.$watch('formData.medicalAttribute.id',function(newVal,oldVal){
@@ -58,6 +60,12 @@ define('project-dt/controllers-medicalAttribute', ['project-dt/init'], function(
             $scope.formData.medicalAttribute.parentCode=results[1].data.parentCode;
             $scope.formData.medicalAttribute.levelCode=results[1].data.levelCode;
             $scope.formData.medicalAttribute.showName=results[1].data.showName;
+            //为发生变化则置飞保存按钮
+            $scope.saveBtn = true;
+            $scope.$watch('formData.medicalAttribute.showName',function(n,o){
+              if($scope.formData.medicalAttribute.levelCode && n && n !== o) $scope.saveBtn = false;
+              else $scope.saveBtn = true;
+            })
           }
         })
         .catch(function (error) {
@@ -92,9 +100,10 @@ define('project-dt/controllers-medicalAttribute', ['project-dt/init'], function(
       requestData(_saveUrl, medicalAttribute, 'POST', 'parameterBody')
       .then(function (results) {
         if (results[1].code === 200) {
-          alertOk('操作成功');
+          // alertOk('操作成功');
           $scope.$broadcast('zTreeUpdateNode',results[0]);
           $scope.isDisabled=false;
+          $scope.saveBtn = true;
         }
       })
       .catch(function (error) {

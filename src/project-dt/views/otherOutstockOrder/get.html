@@ -1,7 +1,7 @@
 <div class=" del-bgc"
      ajax-url="rest/authen/wOutstockOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
-     callback="initFlag=true;formData={};formData.id=showData.medicalStockId;"
+     callback="initFlag=true;formData={};formData.id=showData.medicalStockId;getPrecision();"
      alert-error>
      <!-- 头部信息 -->
      <div class="content-wrapper-heading mgb-l relative clearfix padd-botom5">
@@ -82,11 +82,11 @@
                     <td class="text-right" >{{tr.actualStockQuantity || '0'}}</td>
                     <!-- <td class="text-right" >{{tr.differenceQuantity || '0'}}</td> -->
                     <td class="text-right">
-                      {{tr.strike_price | currency:"￥"}}
+                      ￥{{tr.strike_price | number:precision}}
                     </td>
                     <td class="text-right" >
                       <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
-                      {{tr.totalPrice | currency:"￥"}}
+                      ￥{{tr.totalPrice | number:precision}}
                     </td>
                     <td class="text-center">{{tr.productionBatch}}</td>
                     <td class="text-center">{{tr.sterilizationBatchNumber}}</td>

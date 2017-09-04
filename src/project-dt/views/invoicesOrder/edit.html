@@ -2,7 +2,7 @@
     class="invoices-order"
     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
     scope-data="scopeData"
-    callback="formData=scopeData.distributionInfo;formData.id=scopeData.id"
+    callback="formData=scopeData.distributionInfo;formData.id=scopeData.id;getPrecision();"
     alert-error>
 
   <form id="invoicesOrder_editForm"
@@ -162,8 +162,8 @@
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
-                  <td class="text-right">￥{{item.strike_price | number:2}}</td>
-                  <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice | number:2}}</td>
+                  <td class="text-right">￥{{item.strike_price |  number:precision}}</td>
+                  <td class="text-right">￥{{item.strike_price*item.quantity || item.totalPrice |  number:precision}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>

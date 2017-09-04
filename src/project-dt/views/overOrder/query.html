@@ -108,25 +108,31 @@
                          <div class="flex-row qurey text-s color-9 bt-dashed-line">
                               <span class="flex-item-12 text-right text-m ">
                                 <em>合计：</em>
-                                  <em class="color-3 ng-binding">{{tr.totalPrice | currency : '￥'}}</em>
+                                  <em class="color-3 ng-binding">￥{{tr.totalPrice | number:6}}</em>
                               </span>
                           </div>
-                        <div class="flex-row qurey text-s color-9 mgb bt-line">
-                          <p ng-if="tr.orderStatus!='未通过'"
-                          title="{{tr.note}}"
-                          class="text-ellips-s">
-                            <span >备注：</span><span class="color-6">{{tr.note}}</span>
-                          </p>
-                          <p ng-if="tr.orderStatus=='未通过'"
-                          title="{{tr.operationFlowSet[tr.operationFlowSet.length-1].key}}{{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}"
-                          class="text-ellips-s">
-                            <span>原因：</span>
-                            <span class="color-6">
-                              {{tr.operationFlowSet[tr.operationFlowSet.length-1].key || '暂无'}}
-                              {{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}
-                            </span>
-                          </p>
-                        </div>
+                          <div ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'" class="flex-row qurey text-s color-9 bt-line"
+                            >
+                            <p
+                            title="{{tr.note}}"
+                            class="text-ellips-s">
+                              <span >备注：</span><span class="color-6">{{tr.note}}</span>
+                            </p>
+                          </div>
+                          <div ng-if="tr.orderStatus=='未通过'||tr.orderStatus=='已作废'" class="flex-row qurey text-s color-9 bt-line"
+                          ng-controller="purchaseOrderEditCtrl"
+                          ng-init="initFlag=true;"
+                            >
+                            <p
+                            title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
+                            class="text-ellips-s">
+                              <span class="color-red">原因：</span>
+                              <span class="color-6">
+                                <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
+                                <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
+                              </span>
+                            </p>
+                          </div>
                   </div>
                 </div>
                   <!-- <div class="flex-row qurey text-s color-9">

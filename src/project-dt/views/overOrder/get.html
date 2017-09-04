@@ -2,7 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/overOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
-     callback="initFlag=true;formData={};formData.id=showData.id"
+     callback="initFlag=true;formData={};formData.id=showData.id;getPrecision();"
      alert-error>
      <!-- 头部信息 -->
      <div class="header-info relative mgb-l">
@@ -27,21 +27,10 @@
 
      </div>
 
-  <div class="inline-block" style="margin-left: 30px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <div class="inline-block logistics-center"></div>
-      <div class="inline-block" >
-        <p class="mgb-s">物流中心</p>
-        <p class="text-m color-3">
-          {{showData.logisticsCenterName || '暂无' }}
-        </p>
-      </div>
-    </div>
-  </div>
+
 
      <!-- 主内容区域 -->
-    <div class="content-wrapper  pr-fuzzy-boundary text-s">
-
+    <div class="content-wrapper text-s">
       <div  ng-if="showData.operationFlowSet.key||showData.operationFlowSet.message" class="pr-panel pr-panel-height mgb"
             ng-class="{'pr-bg-pink1':(showData.orderStatus=='未通过'||showData.orderStatus=='已作废'),'pr-bg-pass':(showData.orderStatus=='已完成')}">
         <p class="inline-block-important " ng-class="{'color-red':(showData.orderStatus=='未通过'||showData.orderStatus=='已作废'),'color-pass':(showData.orderStatus=='已完成')}">
@@ -50,11 +39,18 @@
           <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
         </p>
       </div>
-
-
+      <div class="inline-block" style="width:405px;" >
+         <div class="panel pr-panel pr-panel-height" style="min-height:88px;" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+           <div class="inline-block logistics-center "></div>
+           <div class="inline-block" style="padding-right: 5px">
+             <p class="mgb-s">物流中心</p>
+             <p class="text-m color-3 autocut-default" title="{{showData.logisticsCenterName}}">{{showData.logisticsCenterName || '暂无'}}</p>
+           </div>
+         </div>
+      </div>
 
       <div class=" color-9 pr-bg-white" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-        <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
+        <div class="flex-row color-9 pd-c-l pdt-m pdb-m   bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{showData.orderCode || '暂无'}}</em></span>
             <span class="relative mgr">单据日期：<em class="color-3">{{showData.orderDate | date: 'yyyy-MM-dd'}}</em></span>
@@ -114,13 +110,13 @@
                   <td class="text-center">{{tr.warehouseName}}</td><!-- 仓库 -->
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</div></td><!-- 生产日期 -->
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</div></td><!-- 失效日期 -->
-                  <td class="text-center">{{tr.strike_price | currency : '￥'}}</div></td><!-- 单价 -->
-                  <td class="text-center">{{tr.totalPrice | currency : '￥'}}</div></td><!-- 金额 -->
+                  <td class="text-center">￥{{tr.strike_price | number:precision}}</div></td><!-- 单价 -->
+                  <td class="text-center">￥{{tr.totalPrice | number:precision}}</div></td><!-- 金额 -->
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="bt-line flex-row">
+          <div class="  flex-row">
             <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
               <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
               <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
@@ -149,13 +145,13 @@
           tab-name='报溢单'
           tab-href=" #/overOrder/query.html">返回报溢单列表</a>
         </span>
-        <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+        <span ng-if="showData.didateFilter.buttons.length>0"
          custom-menu-list
          custom-menu-arr="{{showData.didateFilter.buttons}}">
         </span>
     </div>
     <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
-      <em class="color-white ng-binding">￥{{showData.totalPrice | number:2}}</em>
+      <em class="color-white ng-binding">￥{{showData.totalPrice | number:precision}}</em>
     </div>
   </div>
 </div>
