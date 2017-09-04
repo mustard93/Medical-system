@@ -1,6 +1,3 @@
-<style>
-  inline-block-important
-</style>
 <div class="first-medical-application first-modal"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
@@ -64,6 +61,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
+            onkeydown="if(window.event.keyCode==13) return false;"
             callback="validFlag=true;submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb  flex-row" style="line-height:2.4">
@@ -606,10 +604,10 @@
                     <div class="relative inline-block-important">
                       <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
                         <div class="show-info-first" ng-hide="encodingRulesOpenShow"
-                             ajax-url="http://localhost:3000/data/first-data.json"
+                             ajax-url="../../../data/first-data.json"
                              scope-data="firstData">
                           <div class="show-info-stock-content relative text-center" >
-                            <div class="inline-block-important text-center odd-even" ng-repeat="itemData in firstData.item">
+                            <div class="inline-block-important text-center odd-even mgt-l" ng-repeat="itemData in firstData.item">
                               <span>{{'XXXXXXXXXXXXXXXXXX'| limitTo:itemData.len}}<div class="ab-prompt color-9" >{{itemData.ruleName}}</div></span><i ng-if="$index<firstData.item.length-1"></i>
                               <!--<span class="h-49">XXX<div class="ab-prompt-2 color-9">{{itemData.ruleName}}</div></span><i></i>-->
                             </div>
