@@ -13,7 +13,16 @@ define('project-dt/controllers-medicalStock', ['project-dt/init'], function() {
    */
   function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertOk, alertError, alertWarn) {
 
-    $scope.$watch('initFlag', function (newVal) {
+
+      //点击打开编码规则
+      $scope.encodingRulesOpenShow =true;
+
+      $scope.encodingRulesOpen =function () {
+          $scope.encodingRulesOpenShow = !$scope.encodingRulesOpenShow;
+      }
+
+
+      $scope.$watch('initFlag', function (newVal) {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.showData) {

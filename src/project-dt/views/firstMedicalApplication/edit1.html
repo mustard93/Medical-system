@@ -583,14 +583,14 @@
                 <!--条形码-器械自动生成 -->
                 <div  ng-if="formData.medicalType == '医疗器械'" class="flex-row">
                   <p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>
-                  <div class="control-label text-left relative">
+                  <div class="control-label text-left">
 
                     <span style="margin-right: 15px;">{{formData.barcode}}</span>
 
                     <!--<input type="text" ng-disabled="true"-->
                            <!--class="ipt-new-s ipt-new"-->
                            <!--ng-model="formData.barcode"/>-->
-                    <a ng-if="formData.id"
+                    <a ng-if="!formData.barcode"
                        ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
                        class="color-orange"
                        >生成编码
@@ -598,18 +598,20 @@
                     <a ng-if="formData.barcode"
                        ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"
                        class="color-orange"
-                       ><i></i>重新生成
+                       ><i class="first-tabs-refresh-icon"></i>重新生成
                     </a>
-                    <a ng-click="encodingRulesOpen()">编码规则</a>
-                      <div class="show-info-first" ng-hide="encodingRulesOpenShow">
-                        <div class="show-info-stock-content relative">
-                            <span class="h-15">XX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
-                            <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
-                            <span class="h-15">XXXX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
-                            <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
-                          </div>
-                        <div class="arrow-icon-f"></div>
-                        <a class="close-icon">+</a>
+                    <div class="relative inline-block-important">
+                      <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
+                        <div class="show-info-first" ng-hide="encodingRulesOpenShow">
+                          <div class="show-info-stock-content relative">
+                              <span class="h-15">XX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
+                              <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
+                              <span class="h-15">XXXX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
+                              <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
+                            </div>
+                          <div class="arrow-icon-f"></div>
+                          <a class="close-icon" ng-click="encodingRulesOpen()">+</a>
+                      </div>
                     </div>
                     <!--<button class="pr-btn-save-glodbg"-->
                             <!--type="button"-->
