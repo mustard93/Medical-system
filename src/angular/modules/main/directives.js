@@ -4473,7 +4473,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
-
+    /**
+     * [iconClick description]
+     * 将时间图标上的事件传递到input上
+     */
+    function iconClick(){
+      return {
+        restrict: 'A',
+        link:function(scope,element){
+          angular.element(element[0]).click(function(){
+            angular.element(angular.element(this).siblings("input")).focus();
+          })
+        }
+      }
+    }
 
     angular.module('manageApp.main')
     .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
@@ -4517,4 +4530,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
       .directive("tabNav",['$rootScope',tabNav])
         .directive("a2",['$rootScope',a2])
+        .directive("iconClick",iconClick)
 });

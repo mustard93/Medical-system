@@ -172,7 +172,7 @@
                          placeholder=""
                          ng-readonly="true"
                          ng-model="formData.expectDate" />
-                  <span class="date-icon"></span>
+                  <span icon-click class="date-icon"></span>
                 </span>
             </span> -->
         </div>
@@ -304,7 +304,7 @@
                             </a>
                           </p>
                   </td><!-- 报价 -->
-                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice |  number:precision}}</td><!-- 价税合计 -->
+                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice |  number:2}}</td><!-- 价税合计 -->
                   <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
                     <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill || "&nbsp;"  | date : 'yyyy-MM-dd'}}</div>
                   </td>
@@ -434,11 +434,8 @@
 
       </div>
       <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-            ￥{{formData.totalPrice || '0.00' |  number:precision}}
+        <em class="color-white">
+            ￥{{formData.totalPrice || '0.00' |  number:2}}
             <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) |  number:precision}} -->
         </em>
       </div>
@@ -446,11 +443,8 @@
       <div ng-if="formData.orderBusinessType=='直发销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white"
-            invalid-popover
-            popover-show="formData.totalPrice>100000"
-            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>
-            ￥{{formData.totalPrice || '0.00' |  number:precision}}
+        <em class="color-white">
+            ￥{{formData.totalPrice || '0.00' |  number:2}}
         </em>
         <!-- <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:precision}}
           ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) |  number:precision}}

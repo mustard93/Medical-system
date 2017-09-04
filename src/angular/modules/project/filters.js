@@ -53,9 +53,19 @@ define('project/filters', ['project/init'], function () {
             return tmp;
           };
         }
+        // /**
+        //  * [currencyFilter 重写货币过滤器，达到精确度控制]
+        //  * @return {[type]} [description]
+        //  */
+        // function currencyFilter () {
+        //   return function (current,number) {
+        //
+        //   };
+        // }
 
 
     angular.module('manageApp.project')
     .filter('upDigit',upDigit)
     .filter('repeatFilter', repeatFilter);
+    // .filter('currencyFilter', currencyFilter);
 });
