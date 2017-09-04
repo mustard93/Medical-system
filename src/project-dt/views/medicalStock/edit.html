@@ -897,6 +897,7 @@
                          >
                          </span>
                          <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
+                         <span class="repeat-add-supplier" ng-if="sameSupplierFlag&&($index+1==formData.suppliers.length)">不能输入重复供应商</span>
                        </div>
                        <p class="color-red">{{supplier.scopeNote}}</p>
                      </td>
@@ -957,7 +958,7 @@
                       href="javascript:;"
                       class="pr-btn-save-glodbg"
                       type="button"
-                      ng-disabled="medicalStock_editForm.$invalid "
+                      ng-disabled="medicalStock_editForm.$invalid || sameSupplierFlag"
                       modal-center="350"
                       modal-scope="this"
                       modal-data='{"title":"确认提示",
@@ -976,7 +977,7 @@
                       href="javascript:;"
                       class="pr-btn-save-glodbg"
                       type="button"
-                      ng-disabled="medicalStock_editForm.$invalid || !changeFlag"
+                      ng-disabled="medicalStock_editForm.$invalid || !changeFlag || sameSupplierFlag"
                       ng-click="submitForm('medicalStock_editForm','save-medicalStock')">保存
               </button>
           </span>

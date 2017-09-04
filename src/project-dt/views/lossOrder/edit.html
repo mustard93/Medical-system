@@ -3,7 +3,7 @@
      ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");canNextStep=false;stockBatchsFlag=false;
-     getCodeGenerationStrategy("报损报溢单");
+     getCodeGenerationStrategy("报损单");
      lossOverOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);'
      alert-error>
 
@@ -77,12 +77,15 @@
         <div>
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
             <div class="flex-item-6">
-              <span ng-if="numberingPolicy!='auto'" class="mgr-l">单据编号：
-                <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+              <span ng-if="numberingPolicy!='auto'" class="mgr-l text-left">单据编号：
+                <input type="text" name="orderNo" class="ipt pr-new-short-ipt" ng-model="formData.orderCode" />
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
-              <span ng-if="numberingPolicy=='auto'" class="mgr-l">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span class="mgr-l relative">
+              <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+              <span class="mgr">单据日期: </span>
+
+               <date ng-model="formData.orderDate"></date>
+              <!-- <span class="mgr-l relative">
                 <span>单据日期：</span>
                 <input ng-if="initFlag" type="text"
                        datepicker
@@ -92,7 +95,7 @@
                        placeholder=""
                        ng-model="formData.orderDate" />
                       <span class="date-icon" style="top:-1px;right:10px;"></span>
-              </span>
+              </span> -->
               <span class="mgr-l">审核人：<em class="color-3">暂无</em></span>
             </div>
             <div class="flex-item-6 text-right">
@@ -306,7 +309,7 @@
                   dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('lossOverOrder_editForm1','submit-loss')"
-                  ng-disabled="lossOverOrder_editForm1.$invalid  || canNextStep || stockBatchsFlag">提交
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length || canNextStep || stockBatchsFlag">提交
           </button>
       </div>
 
