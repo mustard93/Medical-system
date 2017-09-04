@@ -2,7 +2,8 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/overOrder/getOfEdit?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报溢单");getPrecision();'
+     callback='initFlag=true;watchFormChange("formData");formData.type="报溢";getCodeGenerationStrategy("报溢单");getPrecision();
+     overOrderCalculaTotal(formData.orderMedicalNos,"报溢");'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
   <form id="lossOverOrder_over_editForm"
@@ -65,6 +66,7 @@
              ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
+      
         <!-- 列表 -->
         <div>
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
@@ -135,8 +137,7 @@
                 <tr ng-if="formData.orderMedicalNos.length"
                     ng-repeat="tr in formData.orderMedicalNos"
                     table-item-handlebtn-component
-                    ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="ConfirmOrderMedicalController">
+                    ng-init="orderMedicalNoIds.push(tr.relId)">
                     <td class="text-center">
                       {{$index+1}}
                       <div  class="table-item-handle-btn" title="删除">
@@ -170,7 +171,7 @@
                         <button ng-disabled="tr.quantity<=1" type="button"
                                 class="inline-block left"
                                 ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;
-                                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">-</button>
+                                overOrderCalculaTotal(formData.orderMedicalNos,'报溢')">-</button>
                         <span class="inline-block">
 
                             <!--invalid-popover-->
@@ -189,9 +190,9 @@
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
 
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                                 ng-change="overOrderCalculaTotal(formData.orderMedicalNos,'报溢')">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;overOrderCalculaTotal(formData.orderMedicalNos,'报溢')">+</button>
                       </div>
                     </td><!-- 数量 -->
                     <td class="text-center relative">
@@ -232,7 +233,7 @@
 
                     </td>
                     <td class="text-center" >
-                      ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
+                      ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" ng-change="overOrderCalculaTotal(formData.orderMedicalNos,'报溢')" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     </td>
                     <td class="text-right" >
                       ￥{{tr.quantity*tr.strike_price || tr.totalPrice | number:precision}}

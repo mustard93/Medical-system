@@ -186,8 +186,8 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
     };
 
     // 重新选择历史价格之后哟啊实时重新计算总计
-    $scope.lossOverOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
-      if (orderMedicalNos) {
+    $scope.lossOrderCalculaTotal = function (orderMedicalNos,type) {
+      if (orderMedicalNos&&type=='报损') {
         var _total = 0;
         angular.forEach(orderMedicalNos, function (item, index) {
 
@@ -195,7 +195,23 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             for (var i = 0; i < item.stockBatchs.length; i++) {
               _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
             }
-            _total += _tmp;
+            // 如果有值才相加，否则不相加
+            if (_tmp) {
+              _total += _tmp;
+            }
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
+    // 重新选择历史价格之后哟啊实时重新计算总计
+    $scope.overOrderCalculaTotal = function (orderMedicalNos,type) {
+      if (orderMedicalNos&&type=='报溢') {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+
+          _total += item.quantity*item.strike_price;
+
         });
         $scope.formData.totalPrice = _total;
       }
@@ -316,8 +332,13 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
         });
 
-        // 如果商品数量有变动，也要重新计算总价
-        $scope.lossOverOrderCalculaTotal(newVal,$scope.formData.orderBusinessType);
+        if ($scope.formData.type=='报溢') {
+            $scope.overOrderCalculaTotal(newVal,'报溢');
+        }else if ($scope.formData.type=='报损') {
+          // 如果商品数量有变动，也要重新计算总价
+          $scope.lossOrderCalculaTotal(newVal,'报损');
+        }
+
 
       }
 
