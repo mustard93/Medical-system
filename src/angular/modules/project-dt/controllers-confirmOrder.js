@@ -413,11 +413,11 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       //   }
       // });
 
-        // //添加到列表
-        // $scope.formData.orderMedicalNos.push(addDataItem);
-        //
-        // //计算价格
-        // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+        //添加到列表
+        $scope.formData.orderMedicalNos.push(addDataItem);
+
+        //计算价格
+        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
         _getIdentityForMedicalStocks();
 
