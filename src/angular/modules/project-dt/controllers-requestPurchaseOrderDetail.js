@@ -544,22 +544,55 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     }
 
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。
-    $scope.getHistoryFirstPrice=function(supplier){
-        if (!$scope.ids.length) {
-            for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
-                $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+    $scope.getHistoryFirstPrice=function(supplier,ids){
+
+        //如果不存在就獲取全部
+        if(!ids){
+            if (!$scope.ids.length) {
+                for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
+                    $scope.ids.push( $scope.formData.orderMedicalNos[i].id);
+                }
             }
+        }else{
+            $scope.ids= ids;
         }
-        console.log($scope.ids.length);
+
+        var　ids = $scope.ids;
+
+        console.log(ids.length);
         // &&supplier.contact
-        if (supplier.id&&$scope.ids.length) {
-            var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+  $scope.ids+'&type=采购'+'&supplierId='+supplier.id,
+        if (supplier.id&&ids.length) {
+            var _url="rest/authen/historicalPrice/batchGetByrelIds?id="+ ids+'&type=采购'+'&supplierId='+supplier.id,
                 _data={};
             requestData(_url,_data, 'get')
                 .then(function (results) {
                     var _data = results[1].data;
                     console.log(_data);
                     // 把相应的历史价格赋值叨叨相应的商品上
+
+                    if($scope.selectedUuids.length){
+                        for(var i=0; i<$scope.selectedUuids.length; i++){
+
+                            var index = $scope.findItemByUUID($scope.selectedUuids[i]);
+
+                            if(index!=-1){
+
+                                var item =  $scope.formData.orderMedicalNos[index];
+
+                                if(_data[ item.id]){
+                                    $scope.formData.orderMedicalNos[index].strike_price=_data[item.id].value || 0;
+                                }else{
+                                    if(_data[ item.relId]){
+                                        $scope.formData.orderMedicalNos[index].strike_price=_data[ item.relId].value  || 0;
+                                    }
+                                }
+                            }
+                        }
+
+                        return;
+                    }
+
+
                     for (var i = 0; i <  $scope.formData.orderMedicalNos.length; i++) {
                         console.log($scope.formData.orderMedicalNos[i]);
 
@@ -701,19 +734,31 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     };
 
     //选择事件
+    $scope.selectedUuids=[];
     $scope.$on("selctedMed",function (e,data) {
-
+        $scope.selectedUuids=[];
         //设置客户名称
         $scope.formData.customerId=data.customer.id;
         $scope.formData.customerName=data.customer.name;
 
         var list =[];
+
+        var ids=[];
+
         angular.forEach(data.choiced,function (item,index) {
             item.relUuid=item.uuid;
-
-            list.push(item)
+            list.push(item);
         });
+
+        var  list2 =  $scope._compareArray($scope.formData.orderMedicalNos,data.choiced,'relUuid','uuid');
+        console.log("list2",list2);
         $scope.formData.orderMedicalNos=list;
+
+        angular.forEach(list2,function (item,index) {
+            $scope.selectedUuids.push(item.uuid);
+            ids.push(item.id);
+        });
+
 
         //获取是否过期
         _getIdentityForMedicalStocks();
@@ -725,7 +770,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
 
         //获取历史价格
         if($scope.formData.supplier){
-            $scope.getHistoryFirstPrice($scope.formData.supplier);
+            $scope.getHistoryFirstPrice($scope.formData.supplier,ids);
         }
 
 
@@ -733,29 +778,19 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         modal.close();
     });
 
-    //根据资质条件判断时候允许下一步或提交
-    // $scope.canNextStep=function(){
-    //
-    //     var flag=true;
-    //
-    //     if($scope.customerInfo){
-    //         if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-    //             flag=false;
-    //             return flag;
-    //         }
-    //     }
-    //
-    //     angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-    //
-    //         if(medical.info){
-    //
-    //             if(medical.info.controllType =='限制交易' && medical.info.msg){
-    //                 flag=false;
-    //             }
-    //         }
-    //     });
-    //     return flag;
-    // };
+   $scope.findItemByUUID=function (uuid) {
+       var index =-1;
+        for(var i=0; i<$scope.formData.orderMedicalNos; i++){
+            if(item.uuid == uuid){
+                index = i;
+                return
+            }
+        }
+
+        return index;
+   };
+
+
 
 
     $scope.uuids="";
@@ -834,6 +869,33 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
       }
 
 
+      //去重 返回 arrB 与 arrA 中 arrB不重复部分
+      $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
+          var temp=[];
+
+          for (var i = 0; i<arrA.length; i++) {
+
+              for(var j=0; j<arrB.length; j++){
+
+                  if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
+                      temp.push(arrB[j][arrBAtrr]);
+                  }
+              }
+          }
+
+
+          for(var i=0;i<temp.length; i++){
+
+              for(var j=0; j<arrB.length; j++){
+                  // console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
+                  if(arrB[j][arrBAtrr]==temp[i]){
+                      arrB.splice(j,1);
+                  }
+              }
+          }
+
+          return arrB;
+      }
 
   }
 
