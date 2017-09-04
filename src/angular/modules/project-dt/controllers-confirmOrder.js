@@ -403,21 +403,21 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       }
 
       //请求判断 是否过期
-      requestData('rest/authen/qualificationCertificate/identityForMedicalStock',{'id':addDataItem.relId},'GET').then(function (result) {
-        if(result[1].code === 200){
-          addDataItem.info=result[1].data;
-          //添加到列表
-          $scope.formData.orderMedicalNos.push(addDataItem);
-          //计算价格
-          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-        }
-      });
+      // requestData('rest/authen/qualificationCertificate/identityForMedicalStock',{'id':addDataItem.relId},'GET').then(function (result) {
+      //   if(result[1].code === 200){
+      //     addDataItem.info=result[1].data;
+      //     //添加到列表
+      //     $scope.formData.orderMedicalNos.push(addDataItem);
+      //     //计算价格
+      //     $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+      //   }
+      // });
 
-        //添加到列表
-        $scope.formData.orderMedicalNos.push(addDataItem);
-
-        //计算价格
-        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+        // //添加到列表
+        // $scope.formData.orderMedicalNos.push(addDataItem);
+        //
+        // //计算价格
+        // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
         _getIdentityForMedicalStocks();
 
@@ -627,32 +627,6 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
             });
 
     }
-
-    //根据资质条件判断时候允许下一步或提交
-    // $scope.canNextStep=function(){
-    //
-    //     var flag=true;
-    //
-    //     if($scope.customerInfo){
-    //         if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-    //             flag=false;
-    //             return flag;
-    //         }
-    //     }
-    //
-    //     angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-    //
-    //       if(medical.info){
-    //
-    //
-    //         if(medical.info.controllType =='限制交易' && medical.info.msg){
-    //             flag=false;
-    //         }
-    //       }
-    //     });
-    //     return flag;
-    // };
-
 
     //根据资质条件判断时候允许下一步或提交
     $scope.canNextStep=function(){
