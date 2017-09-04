@@ -1,3 +1,6 @@
+<style>
+  inline-block-important
+</style>
 <div class="first-medical-application first-modal"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
@@ -603,14 +606,14 @@
                     <div class="relative inline-block-important">
                       <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
                         <div class="show-info-first" ng-hide="encodingRulesOpenShow"
-                             ajax-url="../data/test.json"
-                              scope-data="scopeData">
-                          <div class="show-info-stock-content relative">
-                              <span class="h-15">XX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
-                              <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
-                              <span class="h-15">XXXX<div class="ab-prompt color-9">2位药监码</div></span><i></i>
-                              <span class="h-49">XXX<div class="ab-prompt-2 color-9">2位药监码</div></span><i></i>
+                             ajax-url="http://localhost:3000/data/first-data.json"
+                             scope-data="scopeData">
+                          <div class="show-info-stock-content relative text-center" >
+                            <div class="inline-block-important text-center odd-even" ng-repeat="itemData in scopeData.item">
+                              <span>{{'XXXXXXXXXXXXX'| limitTo:itemData.len}}<div class="ab-prompt color-9" >{{itemData.ruleName}}</div></span><i></i>
+                              <!--<span class="h-49">XXX<div class="ab-prompt-2 color-9">{{itemData.ruleName}}</div></span><i></i>-->
                             </div>
+                          </div>
                           <div class="arrow-icon-f"></div>
                           <a class="close-icon" ng-click="encodingRulesOpen()">+</a>
                       </div>
