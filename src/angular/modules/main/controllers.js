@@ -758,7 +758,8 @@ define('main/controllers', ['main/init'], function () {
         };
         // 获取精确度方法。
         $scope.getPrecision=function(){
-          $scope.precision=6;
+
+          return $scope.precision=6;
         };
         // 每个药品单选操作
         $scope.handleItemClickEvent = function (item) {
