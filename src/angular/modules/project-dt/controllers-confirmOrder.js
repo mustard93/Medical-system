@@ -413,13 +413,14 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       //   }
       // });
 
-        // //添加到列表
-        // $scope.formData.orderMedicalNos.push(addDataItem);
-        //
-        // //计算价格
-        // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+      //添加到列表
+      $scope.formData.orderMedicalNos.push(addDataItem);
+      //计算价格
+      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+      // 获取该供应商的此商品最近的成交价格
+      _getIdentityForMedicalStocks();
+      // 
 
-        _getIdentityForMedicalStocks();
 
       return true;
     };
