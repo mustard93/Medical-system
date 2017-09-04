@@ -228,7 +228,7 @@
                   </td>
                   <td class="text-center" >
                     ￥<input type="text"
-                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                    onkeyup="value=value.replace(/[^\d.]/g,'')"
                     ng-change="lossOrderCalculaTotal(formData.orderMedicalNos,'报损');getAllBatchTotal(tr.stockBatchs);"
                     class="ipt text-right"
                     ng-model="tr.strike_price"
@@ -237,7 +237,7 @@
                     </div> -->
                   </td>
                   <td class="text-right" >
-                    ￥{{totalQuantity*tr.strike_price || tr.totalPrice | number:precision}}
+                    ￥{{totalQuantity*tr.strike_price || tr.totalPrice | number:2}}
                     <!-- <div  ng-repeat="total in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;"></div> -->
                   </td>
                 </tr>
@@ -317,7 +317,7 @@
 
       <div class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">
-            ￥{{formData.totalPrice || '0.00' | number:precision}}
+            ￥{{formData.totalPrice || '0.00' | number:2}}
         </em>
       </div>
     </div>

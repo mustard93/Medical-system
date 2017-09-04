@@ -1,7 +1,6 @@
-<div class="loss-over-order" ng-init="listObject.precision=getPrecision();">
+<div class="loss-over-order" >
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/overOrder/query.json"
               list-params="listParams"
-              list-object="listObject"
               search-mode="noCaseSensitive"
               search-param="q">
     <!-- 主内容头部 -->
@@ -109,7 +108,7 @@
                          <div class="flex-row qurey text-s color-9 bt-dashed-line">
                               <span class="flex-item-12 text-right text-m ">
                                 <em>合计：</em>
-                                  <em class="color-3 ng-binding">￥{{tr.totalPrice | number:listObject.precision}}</em>
+                                  <em class="color-3 ng-binding">￥{{tr.totalPrice | number:2 }}</em>
                               </span>
                           </div>
                           <div ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'" class="flex-row qurey text-s color-9 bt-line"

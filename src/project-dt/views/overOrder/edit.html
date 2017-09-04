@@ -66,7 +66,7 @@
              ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
-      
+
         <!-- 列表 -->
         <div>
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
@@ -236,7 +236,7 @@
                       ￥<input type="number" name="name" value="" class="ipt text-right" ng-model="tr.strike_price" ng-change="overOrderCalculaTotal(formData.orderMedicalNos,'报溢')" style="width:60px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     </td>
                     <td class="text-right" >
-                      ￥{{tr.quantity*tr.strike_price || tr.totalPrice | number:precision}}
+                      ￥{{tr.quantity*tr.strike_price || tr.totalPrice | number:2}}
                     </td>
                 </tr>
               </tbody>
@@ -318,7 +318,7 @@
       </div>
 
       <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
-            <em class="color-white ng-binding">￥{{formData.totalPrice | number:precision}}</em>
+            <em class="color-white ng-binding">￥{{formData.totalPrice | number:2}}</em>
         </div>
     </div>
   </form>
