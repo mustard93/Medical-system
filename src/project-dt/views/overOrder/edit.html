@@ -215,7 +215,7 @@
                       <div class="inline-block relative">
                         <input type="text" readonly="true" datepicker style="width:120px;"  class="date-input" placeholder="生产日期"
                                ng-change="countDate(tr,$index,1)" ng-model="tr.productionDate">
-                          <span ng-if="!tr.productionDate" icon-click class="date-icon"></span>
+                          <span ng-if="!tr.productionDate" icon-click class="date-icon" style="z-index: inherit;"></span>
                           <span ng-if="tr.productionDate" class="delete-date-icon" style="z-index:{{zIndex}}; cursor: pointer;right: 10px; top: 4px;" ng-click="tr.productionDate='';"></span>
                       </div>
                     </td>
@@ -225,7 +225,7 @@
                      <div class="inline-block relative">
                         <input type="text" readonly="true" style="width:120px;" datepicker   class="date-input" placeholder="失效日期"
                                ng-change="countDate(tr,$index,0)" ng-model="tr.validTill">
-                        <span ng-if="!tr.validTill" icon-click class="date-icon"></span>
+                        <span ng-if="!tr.validTill" icon-click class="date-icon" style="z-index: inherit;"></span>
                         <span ng-if="tr.validTill" class="delete-date-icon" style="z-index:{{zIndex}}; cursor: pointer;right: 10px; top: 4px;" ng-click="tr.validTill='';"></span>
                       </div>
 
@@ -304,7 +304,8 @@
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
 
-          <button class="pr-btn-save-glodbg "
+          <button ng-if="numberingPolicy=='auto'"
+                  class="pr-btn-save-glodbg "
                   type="button"
                   handle-this-click
                   dialog-title="提交"
@@ -313,6 +314,17 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit-over';formData.validFlag=true;submitForm1();"
                   ng-disabled="!formData.orderMedicalNos.length || lossOverOrder_over_editForm.$invalid">提交
+          </button>
+          <button ng-if="numberingPolicy!=='auto'"
+                  class="pr-btn-save-glodbg "
+                  type="button"
+                  handle-this-click
+                  dialog-title="提交"
+                  dialog-content="确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  confirm-btn-txt="确定"
+                  callback="submitForm_type='submit-over';formData.validFlag=true;submitForm1();"
+                  ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode || lossOverOrder_over_editForm.$invalid">提交
           </button>
 
       </div>
