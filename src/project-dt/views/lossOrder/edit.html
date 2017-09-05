@@ -303,7 +303,7 @@
                   ng-disabled="!changeFlag"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
-          <button ng-if="formData.orderStatus=='未提交'"
+          <button ng-if="numberingPolicy=='auto'"
                   type="button"
                   class="pr-btn-save-glodbg "
                   handle-this-click
@@ -311,7 +311,17 @@
                   dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('lossOverOrder_editForm1','submit-loss')"
-                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length || canNextStep || stockBatchsFlag">提交
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length  || canNextStep || stockBatchsFlag">提交
+          </button>
+          <button ng-if="numberingPolicy!=='auto'"
+                  type="button"
+                  class="pr-btn-save-glodbg "
+                  handle-this-click
+                  dialog-title="确认提示"
+                  dialog-content="确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('lossOverOrder_editForm1','submit-loss')"
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length ||!formData.orderCode || canNextStep || stockBatchsFlag">提交
           </button>
       </div>
 
