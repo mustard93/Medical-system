@@ -306,7 +306,6 @@
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                         </span>
@@ -332,7 +331,7 @@
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
+                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);batch.quantity=batch.quantity>0?batch.quantity:1">
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                       </div>
