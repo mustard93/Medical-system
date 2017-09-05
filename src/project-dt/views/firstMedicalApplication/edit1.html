@@ -591,17 +591,18 @@
                     <!--<input type="text" ng-disabled="true"-->
                            <!--class="ipt-new-s ipt-new"-->
                            <!--ng-model="formData.barcode"/>-->
-                    <a ng-if="!formData.barcode"
+                    <a ng-show="!formData.barcode"
                        ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId,formData.attributeCode)"
                        class="color-orange"
                        >生成编码
+
                     </a>
-                    <a ng-if="formData.barcode"
+                    <a ng-show="formData.barcode"
                        ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId.formData.attributeCode)"
                        class="color-orange"
                        ><i class="first-tabs-refresh-icon"></i>重新生成
                     </a>
-                    <div class="relative inline-block-important" ng-if="formData.barcode">
+                    <div class="relative inline-block-important" ng-show="formData.barcode">
                       <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
                         <div class="show-info-first" ng-hide="encodingRulesOpenShow"
                              ajax-url="rest/authen/barCodeGenerationRule/getByOrganizationId"
