@@ -207,8 +207,10 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         var _total = 0;
         angular.forEach(orderMedicalNos, function (item, index) {
 
-          _total += item.quantity*item.strike_price;
-
+          if (item.strike_price) {
+              _total += item.quantity*item.strike_price;
+          }
+        
         });
         $scope.formData.totalPrice = _total;
       }
