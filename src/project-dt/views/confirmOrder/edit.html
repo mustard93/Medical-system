@@ -234,12 +234,12 @@
                     <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
                     <th class="text-center">{{thData.strike_price || '报价'}}</th>
                     <th class="text-center">{{thData.tax || '税率'}}</th>
-                    <th class="text-center">{{thData.discountPrice || '折扣额'}}</th>
                     <th class="text-center">{{thData.discountRate || '折扣率'}}</th>
                     <th class="text-center">{{thData.duty_price || '含税单价'}}</th>
                     <th class="text-center">{{thData.duty_free_price || '无税单价'}}</th>
                     <th class="text-center">无税金额</th>
                     <th class="text-center">税额</th>
+                    <th class="text-center">{{thData.discountPrice || '折扣额'}}</th>
                     <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
                     <!-- <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th> -->
                   </tr>
@@ -293,7 +293,11 @@
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td class="text-center relative" style="white-space: nowrap;">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.quantity==1">-</button>
+                        <button type="button"
+                                class="inline-block left"
+                                ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)"
+                                ng-disabled="item.quantity==1">-
+                        </button>
                         <span class="inline-block">
                           <input type="number"
                                  min="1"
@@ -302,15 +306,14 @@
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{!confirmOrder_editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"批次总数不能大于商品数量或商品数量不正确", "placement":"top", "trigger":"manual"}'
+
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
+                                 ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
+                        <button type="button"
+                                class="inline-block right"
+                                ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">+
+                        </button>
                       </div>
                     </td><!-- 订购数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-show="formData.orderBusinessType!='直发销售'">
@@ -329,11 +332,8 @@
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);">
+                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                         <input type="hidden" ng-model="batch.id">
-                        <!-- invalid-popover
-                        popover-show="batch.quantity>batch.salesQuantity "
-                        popover-options='{"content":"批次数量不能大于商品数量或可用量", "placement":"right", "trigger":"manual"}' -->
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                       </div>
                       <!-- 批号选择 -->
@@ -364,7 +364,8 @@
                                style="width:90px"
                                class="ipt pr-ipt-60 text-right"
                                name="strike_price{{$index}}"
-                               ng-model="item.strike_price" />
+                               ng-model="item.strike_price"
+                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)" />
                       <p class="color-orange pr-indent-35">
                         <a modal-right="577"
                            modal-scope="this"
@@ -378,28 +379,24 @@
                               class="ipt pr-short-ipt"
                               style="width:60px"
                               ng-model="item.tax"
-                              ng-options="i.value as i.text for i in taxList">
+                              ng-options="i.value as i.text for i in taxList"
+                              ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                       </select>%
                     </td><!--税率-->
                     <td class="text-center">
                       <input type="text"
                              style="width:90px"
                              class="ipt pr-ipt-60 text-right"
-                             name="discountPrice{{$index}}"
-                             ng-model="item.discountPrice" />
-                    </td><!--折扣额-->
-                    <td class="text-center">
-                      <input type="text"
-                             style="width:90px"
-                             class="ipt pr-ipt-60 text-right"
                              name="discountRate{{$index}}"
-                             ng-model="item.discountRate" />%
+                             ng-model="item.discountRate"
+                             ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);item.discountRate=item.discountRate>0?item.discountRate:0;item.discountRate=item.discountRate<100?item.discountRate:100;" />%
                     </td><!--折扣率-->
                     <td class="text-center">￥{{item.duty_price || '0.00' | number:precision}}</td><!--含税单价-->
                     <td class="text-center">￥{{item.duty_free_price || '0.00' | number: precision}}</td><!--无税单价-->
                     <td class="text-center">￥{{item.total_duty_free_price || '0.00' | number: precision}}</td><!--无税金额-->
                     <td class="text-center">￥{{item.totalTaxPrice || '0.00' | number: 2}}</td><!--税额-->
-                    <td class="text-center">￥{{item.totalPrice || '0.00' |  number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{item.discountPrice || '0.00' | number: 2}}</td><!--折扣额-->
+                    <td class="text-center">￥{{item.totalPrice || '0.00' | number:2}}</td><!-- 价税合计 -->
                     <!-- <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td> -->
