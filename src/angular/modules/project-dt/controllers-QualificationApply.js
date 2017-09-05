@@ -519,7 +519,7 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
         };
 
         var url='rest/authen/firstMedicalApplication/generateBarcode';
-        requestData(url,data, 'GET')
+        requestData(url,data, 'POST')
             .then(function (results) {
                 var _data = results[1];
 

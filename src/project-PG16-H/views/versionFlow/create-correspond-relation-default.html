@@ -9,7 +9,7 @@
     <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择批号 - {{dialogData.medicalName}}</h1>
   </div>
   <!-- 过滤条件 -->
-  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+  <div class="bb-line-gold pdt-s pdb-s pd-c-xl" ng-show="$root.hasAuthor('库房查询')">
     <!-- 关键字过滤 -->
     <div class="inline-block">
       <div class="order-list-search pos-rel-tr inline-block fl-r color-white">
@@ -63,8 +63,11 @@
     </div>
   </div>
   <!-- 数据遍历 -->
-  <div class="color-red text-n pdl-l pdt-m" ng-if="!codesList.length">
+  <div class="color-red text-n pdl-l pdt-m" ng-if="!codesList.length" ng-show="$root.hasAuthor('库房查询')">
     暂无满足条件的商品。
+  </div>
+  <div class="color-red text-n pdl-l pdt-m" ng-if="!codesList.length" ng-show="!$root.hasAuthor('库房查询')">
+    您当前没有权限查看此区域。
   </div>
   <div ng-if="codesList.length" class="outside-div">
     <table class="full-width another-table">
