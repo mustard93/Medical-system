@@ -15,7 +15,7 @@
     cursor: not-allowed!important;
   }
 </style>
-<div class="" ng-controller="medicalFlashCheckEditCtrl">
+<div class="" ng-controller="medicalFlashCheckEditCtrl" ng-init="getPrecision();">
   <!-- 头部信息 -->
   <div class="header-info relative">
     <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">库存报表 >
@@ -107,10 +107,10 @@
         <div class="pd-c-v-s flex-item-12 padd-t0" ng-if="scopeData && medicalData.type=='价格'">
           <!-- 第一行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>牌价</p><p class="color-3 text-bold mgt-s">{{scopeData.quoteprice | currency:'￥'   }}</p>
+            <p>牌价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.quoteprice| number:precision   }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>批发价</p><p class="color-3 text-bold mgt-s">{{scopeData.tradePrice  | currency:'￥'  }}</p>
+            <p>批发价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.tradePrice | number:precision  }}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>税率</p><p class="color-3 text-bold mgt-s">{{scopeData.tax}}%</p>
@@ -120,31 +120,31 @@
           </div>
           <!-- 第二行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>参考采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.purchasePrice  | currency:'￥'}}</p>
+            <p>参考采购价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.purchasePrice | number:precision}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
             <p>最新采购价</p>
-            <p ng-if="scopeData.newPurchasePrice"  class="color-3 text-bold mgt-s">{{scopeData.newPurchasePrice  | currency:'￥' }}</p>
+            <p ng-if="scopeData.newPurchasePrice"  class="color-3 text-bold mgt-s">￥{{scopeData.newPurchasePrice | number:precision }}</p>
             <p ng-if="!scopeData.newPurchasePrice" class="color-3 text-bold mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最高采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.maxPurchasePrice | currency:'￥'}}</p>
+            <p>最高采购价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.maxPurchasePrice| number:precision}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最低采购价</p><p class="color-3 text-bold mgt-s">{{scopeData.minPurchasePrice   | currency:'￥'}}</p>
+            <p>最低采购价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.minPurchasePrice  | number:precision}}</p>
           </div>
           <!-- 第三行 -->
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>参考销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.retailPrice   | currency:'￥'}}</p>
+            <p>参考销售价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.retailPrice  | number:precision}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 text-bold mgt-s">{{scopeData.newSalePrice   | currency:'￥'}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
+            <p>最新销售价</p><p ng-if="scopeData.newSalePrice" class="color-3 text-bold mgt-s">￥{{scopeData.newSalePrice  | number:precision}}</p><p ng-if="!scopeData.newSalePrice" class="color-3 mgt-s">—</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最高销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.maxRetailPrice   | currency:'￥'}}</p>
+            <p>最高销售价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.maxRetailPrice  | number:precision}}</p>
           </div>
           <div class="inline-block flex-item-3 text-s text-left mar-t20">
-            <p>最低销售价</p><p class="color-3 text-bold mgt-s">{{scopeData.minRetailPrice   | currency:'￥'}}</p>
+            <p>最低销售价</p><p class="color-3 text-bold mgt-s">￥{{scopeData.minRetailPrice  | number:precision}}</p>
           </div>
         </div>
         <div class="pr-bg-white flex-item-12" ng-if="!scopeData||!medicalData.id">
@@ -207,7 +207,7 @@
                      ng-readonly="true"
                      ng-model="stockData.createAtBeg"
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)">
-              <span class="date-icon"></span>
+              <span icon-click class="date-icon"></span>
           </div>
           <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="stockData.createAtBeg">
               <input type="text"
@@ -228,7 +228,7 @@
                      popover-show="stockData.createAtEnd<stockData.createAtBeg"
                      popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}'
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)" />
-              <span class="date-icon"></span>
+              <span icon-click class="date-icon"></span>
           </div>
           <div class="date-icon-outside" style="text-indent:0;border:0;" ng-if="stockData.createAtEnd">
               <input type="text"

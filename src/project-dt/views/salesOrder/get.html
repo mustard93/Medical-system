@@ -2,7 +2,7 @@
      ng-controller="needToPurchaseEditCtrl"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="initFlag=true"
+     callback="initFlag=true;getPrecision();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -91,8 +91,8 @@
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
-              <td class="text-right">￥{{item.strike_price | number:2}}</td>
-              <td class="text-right">￥{{item.totalPrice | number:2}}</td>
+              <td class="text-right">{{item.strike_price | currency:"￥"}}</td>
+              <td class="text-right">{{item.totalPrice | currency:"￥"}}</td>
             </tr>
           </tbody>
         </table>
@@ -152,8 +152,8 @@
               <td class="text-center">{{item.specificationAndModelType}}</td>
               <td class="text-center">{{item.unit}}</td>
               <td class="text-right">{{item.quantity}}</td>
-              <td class="text-right">￥{{item.strike_price|number:2}}</td>
-              <td class="text-right">￥{{item.totalPrice|| item.strike_price*item.quantity|number:2 }}</td>
+              <td class="text-right">{{item.strike_price | currency:"￥"}}</td>
+              <td class="text-right">{{item.totalPrice|| item.strike_price*item.quantity | currency:"￥"}}</td>
 
             </tr>
           </tbody>
@@ -192,7 +192,7 @@
             </div>
           </span>
           <span class="tools pull-right text-right flex-item-6">
-            <div class=" color-9 text-s mgt-s inline-block">
+            <div class=" color-9 text-s mgt-s inline-block" style="margin-top:7px;">
               <span ng-if="iShowData.orderStatus!='已作废'">状态：<em class="color-6">{{iShowData.orderStatus}}</em></span>
               <span ng-if="iShowData.orderStatus=='已作废'">状态：<em class="color-red">{{iShowData.orderStatus}}</em></span>
             </div>
@@ -225,7 +225,7 @@
   <!-- 功能按钮 -->
   <div class="handle-btn-area relative">
     <div class="btn-area">
-        <a ng-if="changeFlag" href="javascript:;" class="mgr"
+        <a ng-if="changeFlag" href="javascript:;"
            handle-this-click
            dialog-title="确认返回?"
            dialog-content="该购需单存在未保存数据，是否保存?"
@@ -234,11 +234,11 @@
            save-callback="submitForm('salesOrder_editForm','exit')">返回购需单列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="购需单" tab-href="#/salesOrder/query.html" >返回购需单列表</a>
+        <a ng-if="!changeFlag" tab-nav tab-name="购需单" tab-href="#/salesOrder/query.html" >返回购需单列表</a>
       <span class="alink-likeBtn">
         <!--ng-if="isShowCancelBtn || showData.onLineOrderStatus=='已关闭'"-->
         <a href="" ng-if="showData.orderSource =='线上订单' && showData.onLineOrderStatus=='已关闭' && showData.orderStatus !='已处理'"
-           class="btn mgr-s"
+           class="btn mgl-l mgr-s"
            handle-this-click
            dialog-title="确认?"
            dialog-content="还有药械未处理,确认关闭?"

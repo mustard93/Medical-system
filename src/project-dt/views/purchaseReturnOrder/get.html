@@ -3,7 +3,7 @@
      ng-controller="purchasereturnOrderEditCtrl"
      ajax-url="rest/authen/purchaseReturnOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="formData"
-     callback="initFlag=true;"
+     callback="initFlag=true;getPrecision();"
      alert-error>
     <!-- 头部信息 -->
     <div class="relative">
@@ -156,8 +156,8 @@
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.warehouseName}}</td>
-                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td>
-                  <td class="text-right">￥{{item.totalPrice | number:2}}</td>
+                  <td class="text-right">￥{{item.strike_price |  number:precision}}</td>
+                  <td class="text-right">￥{{item.totalPrice |  number:2}}</td>
                   <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
@@ -228,7 +228,7 @@
       <div
            class="price-area relative mgr-l fl-r"
            style="height:100%;font-size:18px;color:#c7a77b;">总计：
-          <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em>
+          <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:2}}</em>
 
       </div>
     </div>

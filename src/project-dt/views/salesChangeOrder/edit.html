@@ -10,7 +10,7 @@
                calcTotalPrice(formData.orderMedicalNos);
                quantityError=false;
                canSubmit=false;
-               comfirmQuantity(formData.orderMedicalNos);">
+               comfirmQuantity(formData.orderMedicalNos);getPrecision();">
   <!--setCurrentMakeOrderUserInfo(formData,'saleUserId','salesDepartmentId')-->
 
   <form id="salesChangeOrder_editForm"
@@ -153,7 +153,7 @@
                         <!--ng-readonly="true"-->
                         <!--placeholder=""-->
                         <!--ng-model="formData.orderDate">-->
-                 <!--<span class="date-icon"></span>-->
+                 <!--<span icon-click class="date-icon"></span>-->
                <!--</div>-->
 
                <span class="mgr mgl-l">发货单编号:
@@ -209,7 +209,7 @@
                       <!--ng-readonly="true"-->
                       <!--placeholder=""-->
                       <!--ng-model="formData.expectDate">-->
-               <!--<span class="date-icon"></span>-->
+               <!--<span icon-click class="date-icon"></span>-->
              <!--</div>-->
 
            </div>
@@ -332,8 +332,8 @@
                  <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
-                 <td class="text-right" style="line-height:2.4">{{tr.strike_price | currency: "￥"}}</td><!-- 含税单价 -->
-                 <td class="text-right" style="line-height:2.4">{{tr.strike_price * tr.stayCount | currency: "￥"}}</td><!-- 价税合计 -->
+                 <td class="text-right" style="line-height:2.4">￥{{tr.strike_price | number:precision}}</td><!-- 含税单价 -->
+                 <td class="text-right" style="line-height:2.4">￥{{tr.strike_price * tr.stayCount | number:2}}</td><!-- 价税合计 -->
                </tr>
                </tbody>
              </table>
@@ -463,9 +463,9 @@
 
                    <!--<div ng-repeat="warehouse in tr.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>-->
 
-                   {{tr.strike_price   | currency: "￥"}}</td><!-- 含税单价 -->
+                   ￥{{tr.strike_price   | number:precision}}</td><!-- 含税单价 -->
 
-                 <td class="text-right" style="line-height:2.4">{{tr.strike_price * tr.stayCount  | currency: "￥"}}</td><!-- 价税合计 -->
+                 <td class="text-right" style="line-height:2.4">￥{{tr.strike_price * tr.stayCount  | number:2}}</td><!-- 价税合计 -->
                  <td class="text-center" style="line-height:2.4">
 
                    <!--{{tr.sterilizationBatchNumber}}-->

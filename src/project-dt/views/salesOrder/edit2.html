@@ -8,7 +8,7 @@
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      ng-init="isGoNextStep=false;"
-     callback="initFlag=true;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();"
+     callback="initFlag=true;$root.watchFormChange('formData',this);handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('购需单');checkData();getPrecision();"
      alert-error>
 
   <!-- 关闭信息 -->
@@ -117,7 +117,7 @@
                          ng-readonly="true"
                          placeholder=""
                          ng-model="formData.orderDate" />
-                  <span class="date-icon"></span>
+                  <span icon-click class="date-icon"></span>
                 </span>
               </span> -->
               <span class="text-right color-9 fl-r">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
@@ -157,7 +157,7 @@
                       <span class="date-icon-outside">
                         <input type="text" class="ipt-date ipt color-3" placeholder="期望到货时间"
                            readonly="true" datepicker   ng-model="formData.expectDate">
-                          <span class="date-icon"></span>
+                          <span icon-click class="date-icon"></span>
                       </span>
                     </span>
                     <span ng-if="formData.orderSource=='线上订单'" class="mgr-m color-9">要求到货日期：<span class="color-6">{{formData.expectDate | date:'yyyy-MM-dd'}}</span></span>
@@ -242,7 +242,7 @@
                       </p>
 
                     </td><!-- 商品全名 -->
-                    <td class="text-left">{{tr.dosageForms}}</td><!-- 剂型分类 -->
+                    <td class="text-center">{{tr.dosageForms}}</td><!-- 剂型分类 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                     <td class="text-center" ng-if="formData.orderSource=='线上订单'"><div class="order-goods-num">{{tr.quantity}}</div></td><!-- 数量 -->
@@ -257,11 +257,13 @@
                                  ng-model="tr.quantity"
                                  required
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
+                                 onkeyup="value=value.replace(/[^\d.]/g,'')"
+                                >
+                                <!-- ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                invalid-popover
+                                valid-value="{{!salesOrder_editForm1['quantity'+$index].$valid}}"
+                                popover-show
+                                popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}' -->
                         </span>
                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
@@ -276,7 +278,7 @@
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
                     </td> 批号要求 -->
-                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">￥{{tr.strike_price}}
+                    <td class="text-center" ng-if="formData.orderSource=='线上订单'">￥{{tr.strike_price | number : precision}}
                       <!--<input type="text"-->
                              <!--class="ipt pr-ipt-60 text-right"-->
                              <!--name="strike_price{{$index}}"-->
@@ -302,11 +304,13 @@
                       name="strike_price{{$index}}"
                       ng-model="tr.strike_price"
                       required
-                      ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                      onkeyup="value=value.replace(/[^\d.]/g,'')"
+                      />
+                      <!-- ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                       invalid-popover
                       valid-value="{{!salesOrder_editForm1['strike_price'+$index].$valid}}"
                       popover-show
-                      popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}' />
+                      popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}'  -->
                       </span>
                       <p class="color-orange pr-indent-35">
                       <a modal-right="577"
@@ -316,7 +320,7 @@
                       </a>
                       </p>
                     </td>  <!--报价-->
-                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity|number:2 }}</td>
+                    <td class="text-right">￥{{tr.totalPrice|| tr.strike_price*tr.quantity| number:2 }}</td>
 
                     <!--
 
@@ -354,11 +358,11 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
                     </td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
-                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) |  number:precision}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) |  number:precision}}</td>
 
 
                     -->
@@ -601,7 +605,7 @@
                   <td class="text-center">{{tr.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <td class="text-right">{{tr.strike_price | currency:'￥'}}</td><!-- 报价 -->
-                  <td class="text-right">￥{{tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-right">￥{{tr.totalPrice |  number:2}}</td><!-- 价税合计 -->
                   <td class="text-right">{{tr.validTill | date: 'yyyy-MM-dd'}}</td><!-- 价税合计 -->
                 </tr>
               </tbody>

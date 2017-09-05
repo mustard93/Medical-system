@@ -23,10 +23,11 @@
 </page-main-header-component>
 
 <div class="content-wrapper purchase-order"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listObject.precision=getPrecision();">
   <table-list list-data="rest/authen/purchaseOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
+              list-object="listObject"
               search-param="q">
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
@@ -152,7 +153,7 @@
                     <div class="flex-row qurey text-s color-9 bt-dashed-line">
                       <span class="flex-item-12 text-right text-m ">
                         <em class="color-9">合计：</em>
-                          <em class="color-3">￥{{tr.totalPrice|number : 2}}</em>
+                          <em class="color-3">￥{{tr.totalPrice| number:2}}</em>
                       </span>
                     </div>
                     <div ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'" class="flex-row qurey text-s color-9 bt-line">

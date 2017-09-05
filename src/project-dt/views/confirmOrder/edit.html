@@ -16,7 +16,7 @@
                formData.orderBusinessType = formData.orderBusinessType ? formData.orderBusinessType : '普通销售';
                checkData();
                transformTaxType(formData.orderMedicalNos);
-               initAmountCalcuAction()"
+               initAmountCalcuAction();getPrecision();"
      alert-error>
   <form id="confirmOrder_editForm"
         name="confirmOrder_editForm"
@@ -165,7 +165,7 @@
                            ng-readonly="true"
                            placeholder=""
                            ng-model="formData.orderDate" />
-                    <span class="date-icon"></span>
+                    <span icon-click class="date-icon"></span>
                   </span>
                 </span> -->
 
@@ -215,7 +215,7 @@
                          placeholder=""
                          ng-readonly="true"
                          ng-model="formData.expectDate" />
-                  <span class="date-icon"></span>
+                  <span icon-click class="date-icon"></span>
                 </span>
             </span> -->
             </div>
@@ -306,11 +306,7 @@
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{!confirmOrder_editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"批次总数不能大于商品数量或商品数量不正确", "placement":"top", "trigger":"manual"}'
+
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                         </span>
@@ -395,9 +391,9 @@
                              ng-model="item.discountRate"
                              ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);item.discountRate=item.discountRate>0?item.discountRate:0;item.discountRate=item.discountRate<100?item.discountRate:100;" />%
                     </td><!--折扣率-->
-                    <td class="text-center">￥{{item.duty_price || '0.00' | number:6}}</td><!--含税单价-->
-                    <td class="text-center">￥{{item.duty_free_price || '0.00' | number: 6}}</td><!--无税单价-->
-                    <td class="text-center">￥{{item.total_duty_free_price || '0.00' | number: 2}}</td><!--无税金额-->
+                    <td class="text-center">￥{{item.duty_price || '0.00' | number:precision}}</td><!--含税单价-->
+                    <td class="text-center">￥{{item.duty_free_price || '0.00' | number: precision}}</td><!--无税单价-->
+                    <td class="text-center">￥{{item.total_duty_free_price || '0.00' | number: precision}}</td><!--无税金额-->
                     <td class="text-center">￥{{item.totalTaxPrice || '0.00' | number: 2}}</td><!--税额-->
                     <td class="text-center">￥{{item.discountPrice || '0.00' | number: 2}}</td><!--折扣额-->
                     <td class="text-center">￥{{item.totalPrice || '0.00' | number:2}}</td><!-- 价税合计 -->
@@ -722,9 +718,9 @@
       </div>
 
       <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">
-        总计：<em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em></div>
+        总计：<em class="color-white">￥{{formData.totalPrice || '0.00' |  number:2}}</em></div>
       <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">
-        总计：<em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em></div>
+        总计：<em class="color-white">￥{{formData.totalPrice || '0.00' |  number:2}}</em></div>
     </div>
   </form>
 </div>

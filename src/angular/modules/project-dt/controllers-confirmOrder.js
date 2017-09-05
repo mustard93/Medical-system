@@ -139,6 +139,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
 
       // 重新计算商品的总价金额
       if (newVal && newVal !== oldVal) {
+        console.log('aaabbb');
         angular.forEach(newVal, function (data, index) {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });

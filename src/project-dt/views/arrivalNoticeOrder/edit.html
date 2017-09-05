@@ -7,7 +7,7 @@
      ng-controller="arrivalNoticeOrderEditCtrl"
      ajax-url="rest/authen/arrivalNoticeOrder/getOfEdit.json?purchaseId={{mainStatus.pageParams.purchaseId}}&id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('来货通知单')"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);getCodeGenerationStrategy('来货通知单');getPrecision();"
      alert-error>
 <form id="arrivalNoticeOrderForm"
      name="arrivalNoticeOrderForm"
@@ -288,18 +288,18 @@
                      <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
                        <div class="inline-block relative">
                          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期" ng-change="yieldTime(tr)" ng-model="tr.productionDate">
-                         <span class="date-icon"></span>
+                         <span icon-click class="date-icon"></span>
                        </div>
                      </td><!-- 生产日期 -->
                      <td class="text-center" ng-if="formData.orderBusinessType=='直发采购'">
                        <div class="inline-block relative">
                          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="失效日期" ng-change="loseTime(tr)" ng-model="tr.validTill">
-                         <span class="date-icon"></span>
+                         <span icon-click class="date-icon"></span>
                        </div>
                      </td><!-- 失效日期 -->
                      <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                      <!-- 预入仓库 -->
-                     <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price | number:2}}
+                     <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.strike_price |  number:precision}}
                        <!--<input type="text"-->
                               <!--class="ipt pr-ipt-60 text-right"-->
                               <!--name="strike_price{{$index}}"-->
@@ -319,7 +319,7 @@
                          <!--</a>-->
                        <!--</p>-->
                      </td>
-                    <td class="text-right">￥{{tr.strike_price*tr.quantity||tr.totalPrice  | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-right">￥{{tr.strike_price*tr.quantity||tr.totalPrice  |  number:2}}</td><!-- 价税合计 -->
                    </tr>
                  </tbody>
                </table>
@@ -478,7 +478,7 @@
       </div>{{formData.orderMedicalNos.quantity}}
       <div class="total-div">
         <p class="pr-font-18 mgb color-light-brown" style="line-height:48px;">总计：
-          <span class="pr-font-18 color-white">￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' | number:2}}</span>
+          <span class="pr-font-18 color-white">￥{{purchaseOrderCalculaTotal(formData.orderMedicalNos) || '0.00' |  number:2}}</span>
         </p>
       </div>
     </div>
