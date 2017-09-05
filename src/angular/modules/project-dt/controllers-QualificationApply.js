@@ -511,11 +511,12 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     };
 
     //获取条形码
-    $scope.getBarcode=function (productEnterpriseCode,medicalClassId) {
+    $scope.getBarcode=function (productEnterpriseCode,medicalClassId,attributeCode) {
 
         var data={
             productEnterpriseCode:productEnterpriseCode,
-            medicalClassId:medicalClassId
+            medicalClassId:medicalClassId,
+            attributeCode: attributeCode
         };
 
         var url='rest/authen/firstMedicalApplication/generateBarcode';
