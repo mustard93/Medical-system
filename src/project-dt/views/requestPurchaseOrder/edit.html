@@ -5,6 +5,11 @@
      ng-init="listObject.precision=getPrecision();"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);getCodeGenerationStrategy('请购单');getPrecision();"
      alert-error>
+    <style>
+        .chosen-container{
+            min-width: 100px;
+        }
+    </style>
   <form id="purchaseForm"
         name="purchaseForm"
         form-validator
@@ -315,8 +320,9 @@
         <span class="mgt" ng-if="$root.hasAuthor('请购单生成采购单')">
           <button class="pr-btn-create-glodbg"
                   ng-disabled="!isGoNextStep || !purchaseForm.$valid"
-                  ng-click="submitForm('purchaseForm','submit');$root.utils.refreshHref();"
+                  ng-click="submitForm('purchaseForm','submit');"
                   >生成采购单
+              <!--$root.utils.refreshHref();-->
           </button>
           <!-- invalid-popover
           valid-value=""
