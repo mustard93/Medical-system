@@ -304,7 +304,8 @@
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
 
-          <button class="pr-btn-save-glodbg "
+          <button ng-if="numberingPolicy=='auto'"
+                  class="pr-btn-save-glodbg "
                   type="button"
                   handle-this-click
                   dialog-title="提交"
@@ -313,6 +314,17 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit-over';formData.validFlag=true;submitForm1();"
                   ng-disabled="!formData.orderMedicalNos.length || lossOverOrder_over_editForm.$invalid">提交
+          </button>
+          <button ng-if="numberingPolicy!=='auto'"
+                  class="pr-btn-save-glodbg "
+                  type="button"
+                  handle-this-click
+                  dialog-title="提交"
+                  dialog-content="确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  confirm-btn-txt="确定"
+                  callback="submitForm_type='submit-over';formData.validFlag=true;submitForm1();"
+                  ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode || lossOverOrder_over_editForm.$invalid">提交
           </button>
 
       </div>

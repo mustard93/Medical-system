@@ -349,11 +349,7 @@
                               ng-model="tr.strike_price"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
                               required
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                              invalid-popover
-                              valid-value="{{!purchaseDetailForm_editForm['strike_price'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                              onkeyup="value=value.replace(/[^\d.]/g,'')"/>
                        <p class="color-orange pr-indent-35">
                          <a modal-right="577"
                             modal-scope="this"
