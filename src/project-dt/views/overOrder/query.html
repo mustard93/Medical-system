@@ -43,7 +43,7 @@
                           {{tr.orderStatus}}
                       </em>
                     </span>
-                    <span ng-if="tr.orderStatus=='未提交' " class="flex-item-6 text-right">
+                    <span ng-if="tr.orderStatus=='未提交' || tr.orderStatus=='未通过'" class="flex-item-6 text-right">
                     <a
                     tab-nav
                     tab-name='报溢单'
@@ -52,7 +52,7 @@
                     <span class="edit-link-icon">&nbsp;</span>
                   </a>
                             <a
-                               ng-if="$root.hasAuthor('报溢单删除')"
+                               ng-if="$root.hasAuthor('报溢单删除') && tr.orderStatus!=='未通过'"
                                href="javascript:;"
                                class="btn-link pd-m rect-s"
                                title="删除"
@@ -67,7 +67,7 @@
                             </a>
                     </span>
                     <span class="flex-item-6 text-right">
-                      <a ng-if="tr.orderStatus!=='未提交' && tr.orderStatus!=='待审核'"
+                      <a ng-if="tr.orderStatus!=='未提交' && tr.orderStatus!=='待审核'&&tr.orderStatus!=='未通过'"
                       tab-nav
                       tab-name='报溢单'
                       tab-href=" #/overOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
