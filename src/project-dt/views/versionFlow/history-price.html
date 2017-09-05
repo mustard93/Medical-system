@@ -2,7 +2,7 @@
      class="modal-content right-side-new"
      ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{dialogData.id}}&type={{dialogData.type}}&customerId={{dialogData.customerId}}&supplierId={{dialogData.supplierId}}"
      scope-data="scopeData"
-     callback=""
+     callback="getPrecision();"
      alert-error>
 
   <div class="bb-line-gold pr-bg-black2 min-h-l">
@@ -20,7 +20,7 @@
                    ng-checked=""
                    ng-click="choiseThisItem(item,dialogData.id);modal.closeAll();confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
                    ng-disabled="!item.value"><i></i>
-                   <span ng-if="item.value!='null'" class="mgl-s" style="width:120px;display:inline-block;">{{item.value | currency:'￥'}}</span>
+                   <span ng-if="item.value!='null'" class="mgl-s" style="width:120px;display:inline-block;">￥{{item.value | number:precision}}</span>
                    <span ng-if="item.value=='null'" class="mgl-s" style="width:120px;display:inline-block;">—</span>
                    <span class="mgl-s">{{item.text}}</span>
           </label>
