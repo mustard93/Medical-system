@@ -542,6 +542,12 @@ define('main/services', ['toastr','main/init'], function (toastr) {
       // url存在则跳转，否则刷新。
       goOrRefreshHref: function (url,confirmMsg) {
         if(url){
+
+          //tab情况下，先刷新当前页面，在跳转
+          if(conf.useTab){
+              $rootScope.refreshTab();
+          }
+
            utilsObj.goTo(url,confirmMsg);
            return;
         }
