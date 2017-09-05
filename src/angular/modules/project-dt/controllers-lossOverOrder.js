@@ -213,31 +213,56 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         $scope.formData.totalPrice = _total;
       }
     };
+    // 保存type:save-草稿,submit-提交订单。
+    $scope.submitForm = function(fromId, type) {
 
-    // 保存  type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function() {
+      $scope.submitForm_type = type;
 
-      $scope.formData.validFlag = false;
-
-      if ($scope.submitForm_type == 'exit') {
-        return;
+      // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+      if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
+        $scope.formData.validFlag = false;
       }
 
-      if ($scope.submitForm_type == 'submit-loss') {
-        _url='rest/authen/lossOrder/startProcessInstance';
-        data= {businessKey:$scope.formData.id};
-        requestData(_url, data, 'POST')
-          .then(function (results) {
-            var _data = results[1];
-                if (results[1].code === 200) {
-                    $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
-                }
-          })
-          .catch(function (error) {
-            alertError(error || '出错');
-          });
-       }
+      if ($scope.submitForm_type == 'submit') {
+        $scope.formData.validFlag = true;
+      }
 
+      $scope.submitFormValidator(fromId);
+    };
+
+    // 保存type:save-草稿,submit-提交订单。
+    $scope.submitFormAfter = function() {
+
+     if ($scope.submitForm_type == 'submit-loss') {
+       _url='rest/authen/lossOrder/startProcessInstance';
+       data= {businessKey:$scope.formData.id};
+       requestData(_url, data, 'POST')
+         .then(function (results) {
+           var _data = results[1];
+               if (results[1].code === 200) {
+                   // alertOk(_data.message || '操作成功');
+                   $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
+               }
+         })
+         .catch(function (error) {
+           alertError(error || '出错');
+         });
+      }
+
+     if ($scope.submitForm_type == 'submit-allocate') {
+       _url='rest/authen/allocateOrder/startProcessInstance';
+       data= {businessKey:$scope.formData.id};
+       requestData(_url, data, 'POST')
+         .then(function (results) {
+           var _data = results[1];
+          //  alertOk(_data.message || '操作成功');
+           $scope.goTo({tabHref:'#/allocateOrder/get.html?id='+$scope.formData.id,tabName:'调拨单'});
+
+         })
+         .catch(function (error) {
+           alertError(error || '出错');
+         });
+      }
 
       if ($scope.submitForm_type == 'submit-over') {
             _url='rest/authen/overOrder/startProcessInstance';
@@ -246,7 +271,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
                 .then(function (results) {
                     var _data = results[1];
                     if (results[1].code === 200) {
-                      alertOk(_data.message || '操作成功');
+                      // alertOk(_data.message || '操作成功');
                       $scope.goTo({tabHref:'#/overOrder/get.html?id='+$scope.formData.id,tabName:'报溢单'});
                     }
                 })
@@ -255,10 +280,6 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
                 });
         }
 
-
-        if ($scope.submitForm_type == 'save') {
-        // console.log(this);
-      }
     };
 
     // 能否提交验证 type:save-草稿,submit-提交订单。
@@ -270,23 +291,10 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
            return true;
          }
       }
-
       return false;
-
     };
 
-    // 保存 type:save-草稿,submit-提交订单。
-    $scope.submitForm = function(fromId, type) {
-      $scope.submitForm_type = type;
-      if ($scope.submitForm_type == 'submit') {
-        $scope.formData.validFlag = true;
-      }
-      $scope.submitFormValidator(fromId);
 
-      // addDataItem_opt.submitUrl='';
-      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-      // $scope.addDataItem={};
-    };
 
     // 取消订单
     $scope.cancelForm = function(fromId, url) {

@@ -139,12 +139,11 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
 
       // 重新计算商品的总价金额
       if (newVal && newVal !== oldVal) {
-        console.log('aaabbb');
         angular.forEach(newVal, function (data, index) {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice('strike_price', 'tax', 'discountRate', 'quantity', newVal);
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice(newVal, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
       }
 
     }, true);
@@ -734,7 +733,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       }
     }
 
-    // ...
+    // 订单字段值修改后其他相关值的处理方法
     $scope.handleFormElementChange = function (strikePrice, tax, discountRate, orderBusinessType, item, orderMedicalNos) {
       // 对数据中的价格字段进行计算处理
       var _priceObj = $scope.amountCalcuConfirmOrder.getAllAmountObject(strikePrice, tax, discountRate, $scope.returnQuantityByOrderType(orderBusinessType,item), orderMedicalNos);

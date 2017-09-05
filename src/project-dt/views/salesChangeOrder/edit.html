@@ -333,7 +333,7 @@
                  <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.validTill || '暂无' | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
                  <td class="text-right" style="line-height:2.4">￥{{tr.strike_price | number:precision}}</td><!-- 含税单价 -->
-                 <td class="text-right" style="line-height:2.4">￥{{tr.strike_price * tr.stayCount | number:2}}</td><!-- 价税合计 -->
+                 <td class="text-right" style="line-height:2.4">￥{{tr.strike_price * tr.quantity | number:2}}</td><!-- 价税合计 -->
                </tr>
                </tbody>
              </table>
@@ -418,7 +418,7 @@
                  >
 
                    <!-- 已选批号列表 -->
-                   <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
+                   <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false;batch.quantityCopy=batch.quantity;"
                         ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
                         class="ipt-div relative"
                         style="width:180px; margin: 0 auto; margin-top:10px;"
@@ -432,7 +432,7 @@
                             name="batchNum{{$index}}"
                             ng-model="batch.quantity"
                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                            ng-change="batch.quantity > batch.quantityCopy ? batch.quantity=batch.quantityCopy : batch.quantity; confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                      <input type="hidden" ng-model="batch.id">
                      <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                    </div>
