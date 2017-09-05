@@ -591,24 +591,25 @@
                     <!--<input type="text" ng-disabled="true"-->
                            <!--class="ipt-new-s ipt-new"-->
                            <!--ng-model="formData.barcode"/>-->
-                    <a ng-if="!formData.barcode"
+                    <a ng-show="!formData.barcode"
                        ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId,formData.attributeCode)"
                        class="color-orange"
                        >生成编码
+
                     </a>
-                    <a ng-if="formData.barcode"
-                       ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId.formData.attributeCode)"
+                    <a ng-show="formData.barcode"
+                       ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId,formData.attributeCode)"
                        class="color-orange"
                        ><i class="first-tabs-refresh-icon"></i>重新生成
                     </a>
-                    <div class="relative inline-block-important" ng-if="formData.barcode">
+                    <div class="relative inline-block-important" ng-show="formData.barcode">
                       <a ng-click="encodingRulesOpen()" class="mgl-m">编码规则</a>
                         <div class="show-info-first" ng-hide="encodingRulesOpenShow"
                              ajax-url="rest/authen/barCodeGenerationRule/getByOrganizationId"
                              scope-data="firstData">
                           <div class="show-info-stock-content relative text-center mgt-15" >
                             <div class="inline-block-important text-center odd-even mgt-l" ng-repeat="itemData in firstData.item">
-                              <span>{{formData.barcode | limitTo:itemData.length}}<div class="ab-prompt color-9" >{{itemData.ruleName}}</div></span><i ng-if="$index<firstData.item.length-1"></i>
+                              <span>{{'XXXXXXXXXXXXXXXXXXXXXXX' | limitTo:itemData.length}}<div class="ab-prompt color-9" >{{itemData.ruleName}}</div></span><i ng-if="$index<firstData.item.length-1"></i>
                               <!--<span class="h-49">XXX<div class="ab-prompt-2 color-9">{{itemData.ruleName}}</div></span><i></i>-->
                             </div>
                           </div>
