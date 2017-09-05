@@ -68,10 +68,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
           tr.productionDate = new Date(isLose).getTime();
       }
 
-
-
-
-        $scope.$watch('initFlag', function () {
+      $scope.$watch('initFlag', function () {
           var operationFlowSetMessage=[];
           var operationFlowSetKey=[];
           console.log($scope.tbodyList);
@@ -92,9 +89,9 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
           }
 
         });
-    $scope.watchFormChange=function(watchName){
-      watchFormChange(watchName,$scope);
-    };
+      $scope.watchFormChange=function(watchName){
+        watchFormChange(watchName,$scope);
+      };
 
 
     modal.closeAll();
@@ -232,9 +229,9 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
         requestData(_url, data, 'POST')
           .then(function (results) {
             var _data = results[1];
-           //  alertOk(_data.message || '操作成功');
-            $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
-
+                if (results[1].code === 200) {
+                    $scope.goTo({tabHref:'#/lossOrder/get.html?id='+$scope.formData.id,tabName:'报损单'});
+                }
           })
           .catch(function (error) {
             alertError(error || '出错');
@@ -248,9 +245,10 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
             requestData(_url, data, 'POST')
                 .then(function (results) {
                     var _data = results[1];
-                    alertOk(_data.message || '操作成功');
-                    $scope.goTo({tabHref:'#/overOrder/get.html?id='+$scope.formData.id,tabName:'报溢单'});
-
+                    if (results[1].code === 200) {
+                      alertOk(_data.message || '操作成功');
+                      $scope.goTo({tabHref:'#/overOrder/get.html?id='+$scope.formData.id,tabName:'报溢单'});
+                    }
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
