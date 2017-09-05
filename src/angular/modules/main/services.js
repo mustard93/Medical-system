@@ -1474,13 +1474,6 @@ define('main/services', ['toastr','main/init'], function (toastr) {
      * @param  {[type]} num           [数量]
      * @return {[type]}               [Function]
      */
-    // return function (strikePrice, tax, discountPrice, discountRate, num) {
-    //   this.strikePrice = strikePrice;
-    //   this.tax = tax;
-    //   this.discountPrice = discountPrice;
-    //   this.discountPrice = discountRate;
-    // }
-
     function AmountCalculation () {
       // 初始化参数属性
       // this.strikePrice = utils.transformToNumber(strikePrice);    // 报价
@@ -1501,12 +1494,69 @@ define('main/services', ['toastr','main/init'], function (toastr) {
         return utils.numberMul(this.strikePrice, utils.numberDiv(this.discountRate, 100));
       },
 
+      // 价税合计(totalPrice) = 含税单价 * 数量
+      getTotalPrice: function (strikePrice, discountRate, num) {
+        this.num = utils.transformToNumber(num);
+        return utils.numberMul(this.getDutyPrice(strikePrice, discountRate), this.num);
+      },
+
+      // 税额(totalTaxPrice) = 价税合计 * 税率 / (100 + 税率)
+      getTotalTaxPrice: function (strikePrice, tax, discountRate, num) {
+        // 获取价税合计
+        var _tmp = this.getTotalPrice(strikePrice, discountRate, num);
+        // 进一步计算
+        _tmp = utils.numberMul(_tmp, utils.transformToNumber(tax));
+        // 返回结果
+        return utils.numberDiv(_tmp, (100 + utils.transformToNumber(tax)));
+      },
+
+      // 无税金额(total_duty_free_price) = 价税合计 - 税额
+      getTotalDutyFreePrice: function (strikePrice, tax, discountRate, num) {
+        // 获取价税合计
+        var _tmpTotalPrice = this.getTotalPrice(strikePrice, discountRate, num);
+        // 获取税额
+        var _tmpTotalTaxPrice = this.getTotalTaxPrice(strikePrice, tax, discountRate, num);
+        // 返回无税金额
+        return _tmpTotalPrice - _tmpTotalTaxPrice;
+      },
+
+      // 无税单价(duty_free_price) = 无税金额 / 数量
+      getDutyFreePrice: function (strikePrice, tax, discountRate, num) {
+        return utils.numberDiv(this.getTotalDutyFreePrice(strikePrice, tax, discountRate, num), num);
+      },
+
+      // 折扣额(discountPrice) = (报价-含税单价) * 数量
+      getDiscountPrice: function (strikePrice, tax, discountRate, num) {
+        var _tmp = utils.numberSub(strikePrice, this.getDutyPrice(strikePrice, discountRate));
+        return utils.numberMul(_tmp, num);
+      },
+
       // 调用上面的各方法计算出各个金额并返回对象
-      getAllAmountObject: function (strikePrice, tax, discountPrice, discountRate, num) {
+      getAllAmountObject: function (strikePrice, tax, discountRate, num, orderMedicalNos) {
         return {
-          duty_price: this.getDutyPrice(strikePrice, discountRate)
+          duty_price: this.getDutyPrice(strikePrice, discountRate),
+          totalPrice: this.getTotalPrice(strikePrice, discountRate, num),
+          totalTaxPrice: this.getTotalTaxPrice(strikePrice, tax, discountRate, num),
+          total_duty_free_price: this.getTotalDutyFreePrice(strikePrice, tax, discountRate, num),
+          duty_free_price: this.getDutyFreePrice(strikePrice, tax, discountRate, num),
+          discountPrice: this.getDiscountPrice(strikePrice, tax, discountRate, num)
         };
+      },
+
+      // 获取当前单据的所有商品价格总和
+      getAllItemTotalPrice: function (strikePrice, tax, discountRate, num, orderMedicalNos) {
+        if (!orderMedicalNos) {
+          throw new TypeError('param object is not defined!');
+        }
+
+        var _total = 0;
+        for (var i = 0; i < orderMedicalNos.length; i++) {
+          _total += this.getTotalPrice(orderMedicalNos[i][strikePrice], orderMedicalNos[i][discountRate], orderMedicalNos[i][num]);
+        }
+
+        return _total;
       }
+
     }
 
     return AmountCalculation;

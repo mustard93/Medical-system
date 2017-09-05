@@ -137,7 +137,15 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
         if (_count === $scope.formData.orderMedicalNos.length) { $scope.noSuchStockBatchs = false; }
       }
 
-      // 重新计算商品的各个金额
+      // 重新计算商品的总价金额
+      if (newVal && newVal !== oldVal) {
+        console.log('aaabbb');
+        angular.forEach(newVal, function (data, index) {
+          $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
+        });
+
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice('strike_price', 'tax', 'discountRate', 'quantity', newVal);
+      }
 
     }, true);
 
@@ -384,6 +392,21 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
             for (var item in _resObj) {
               if (item === addDataItem.relId && _resObj[item]) {
                 addDataItem.strike_price = _resObj[item].value;
+                // debugger;
+                // 对数据中的价格字段进行计算处理
+                var _priceObj = $scope.amountCalcuConfirmOrder.getAllAmountObject(addDataItem.strike_price,
+                                                                                  addDataItem.tax,
+                                                                                  addDataItem.discountRate,
+                                                                                  $scope.returnQuantityByOrderType($scope.formData.orderBusinessType, addDataItem),
+                                                                                  $scope.formData.orderMedicalNos);
+                // 根据返回字段对象给addDataItem对象赋值
+                if (angular.isObject(_priceObj)) {
+                  for (var key in _priceObj) {
+                    if (_priceObj.hasOwnProperty(key)) {
+                      addDataItem[key] = _priceObj[key];
+                    }
+                  }
+                }
               } else {
                 addDataItem.strike_price = '';
               }
@@ -417,10 +440,8 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       $scope.formData.orderMedicalNos.push(addDataItem);
       //计算价格
       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-      // 获取该供应商的此商品最近的成交价格
+      // 校验该商品是否有证照过期
       _getIdentityForMedicalStocks();
-      //
-
 
       return true;
     };
@@ -694,16 +715,39 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     // 请在编辑页获取数据之后的callback里执行此方法
     // 以便在当前页中调用此子类方法计算各金额
     $scope.initAmountCalcuAction = function () {
-      $scope.amountCalcuConfirmOrder = new AmountCalculationService()
+      $scope.amountCalcuConfirmOrder = new AmountCalculationService();
     }
 
-    // 计算金额
-    // $scope.amountCalcuAction = function () {
-    //   var _t = new AmountCalculationService();
-    //   console.log(_t.getAllAmountObject(99, 17, 0, 50, 0));
-    // }
+    // 根据订单类型返回数量值
+    $scope.returnQuantityByOrderType = function (typeName, medicalObj) {
+      if (typeof typeName === 'string' && typeName.indexOf('普通') > -1) {    //  普通销售类型，返回所有批次数量的和
+        if (angular.isObject(medicalObj) && medicalObj.stockBatchs.length) {
+          var _quantity = 0;
+          angular.forEach(medicalObj.stockBatchs, function (item, index) {
+            _quantity += parseInt(item.quantity, 10);
+          });
 
+          return _quantity;
+        }
+      } else if (typeof typeName === 'string' && typeName.indexOf('直发') > -1) {   // 直发销售类型，直接返回购需数量
+        return medicalObj.quantity;
+      }
+    }
 
+    // ...
+    $scope.handleFormElementChange = function (strikePrice, tax, discountRate, orderBusinessType, item, orderMedicalNos) {
+      // 对数据中的价格字段进行计算处理
+      var _priceObj = $scope.amountCalcuConfirmOrder.getAllAmountObject(strikePrice, tax, discountRate, $scope.returnQuantityByOrderType(orderBusinessType,item), orderMedicalNos);
+
+      // 根据返回字段对象给addDataItem对象赋值
+      if (angular.isObject(_priceObj)) {
+        for (var key in _priceObj) {
+          if (_priceObj.hasOwnProperty(key)) {
+            item[key] = _priceObj[key];
+          }
+        }
+      }
+    }
 
   }
 
