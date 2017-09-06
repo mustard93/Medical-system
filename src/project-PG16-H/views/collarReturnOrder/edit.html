@@ -198,14 +198,14 @@
 
 
                    <!-- 生产批号/数量 -->
-                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px; position: relative;">
+                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center"  style="padding:0 0 10px 0;width:200px;">
 
 
                      <!-- 已选批号列表 -->
                      <!--(batch.quantity > batch.maxQuantity || batch.quantity < 1 ) ? true : false-->
                      <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                           class="ipt-div relative mgb"
-
+                          style="width:180px;margin-top:10px;margin-left:10px;"
                           ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false"
                           ng-init="batch.falg = (batch.quantity > batch.maxQuantity || batch.quantity < 1 ) ? true : false;"
                           invalid-popover
@@ -213,7 +213,7 @@
                           popover-options='{"content":"该批次退货数量不能大于可退货数量或等于0", "placement":"right", "trigger":"manual"}'
                      >
                        <div class="inline-block text-ellips-s pr-bg-green2 br-line"
-                            style="width:118px;height:100%;"
+                            style="width:118px;height:100%;margin-top:-2px;background: #F9FFED;"
                            >{{batch.productionBatch}}
                        </div>
 
