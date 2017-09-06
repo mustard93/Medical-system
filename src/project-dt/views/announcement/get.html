@@ -10,15 +10,23 @@
 
       <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">通知消息公告  >
 
+        <!--如果沒有权限就跳转到阅读列表页面-->
+        <a ng-if="!($root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改'))"
+           tab-nav
+           tab-name='通知公告'
+           tab-href="#/announcement/queryRead.html"><em class="color-custom-orange">通知公告</em>
+        </a>
 
-
+        <!--如果有权限就判断 flag 是否为list 跳转到阅读列表页面 否者就跳转到维护列表-->
         <a ng-if="$root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改')"
             tab-nav
             tab-name='通知公告'
-            tab-href="#/announcement/query.html"><em class="color-custom-orange">通知公告</em>
+            tab-href="{{mainStatus.pageParams.flag== 'list' ? '#/announcement/queryRead.html' :'#/announcement/query.html' }}"><em class="color-custom-orange">通知公告</em>
         </a>
-        <a ng-if="!($root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改'))" ><em class="color-custom-orange">通知公告</em>
-        </a>
+
+        <!--<a ng-if="!($root.hasAuthor('通知公告新增') && $root.hasAuthor('通知公告删除') && $root.hasAuthor('通知公告修改'))" >-->
+          <!--<em class="color-custom-orange">通知公告</em>-->
+        <!--</a>-->
 
 
         <em> > 通知公告详情</em>
