@@ -305,7 +305,7 @@ define('project-dt/controllers', ['project-dt/init',
         try{
           //判断该批号已经添加过了，就不允许在添加了。
           if(listObject.choisedBatchsIdList.indexOf(obj.id)!=-1){
-            console.log(listObject.choisedBatchsIdList,obj);
+            // console.log(listObject.choisedBatchsIdList,obj);
             return ;
           }
             //解决该方法在span，ng-click上面，偶尔出现2次调用bug，临时解决方案。选择后，加入到批号选中

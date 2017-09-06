@@ -2,7 +2,9 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);geThName(formData.orderMedicalNos);
+     callback="initFlag=true;
+               $root.watchFormChange('formData',this);
+               geThName(formData.orderMedicalNos);
                choiseStatus=false;
                orderMedicalNos=formData.orderMedicalNos;
                formData.exchangeRate='1.00';
@@ -21,7 +23,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter(true);$root.watchFormChange('formData',this)"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix padd-botom5">
@@ -45,12 +47,11 @@
              <div class="inline-block">
                <p class="mgb-s">业务类型</p>
                <p class="text-m color-3">
-                   <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                   <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                            data-placeholder=" "
                            chosen
                            ng-model="formData.orderBusinessType"
-                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-                           ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
                    </select>
                </p>
              </div>
@@ -93,7 +94,7 @@
             </span>
             <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
             <span class="mgr">单据日期: </span>
-             <date ng-model="formData.orderDate"></date>
+            <date ng-model="formData.orderDate"></date>
             <!-- <span class="relative">
               <span>单据日期：</span>
               <input ng-if="initFlag" type="text"
@@ -105,11 +106,8 @@
                      ng-model="formData.orderDate" />
                     <span class="date-icon" style="top: -1px;"></span>
             </span> -->
-
           </div>
           <div class="flex-item-6 text-right mgt-s">
-            <!-- <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
-            <!-- <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || "暂无"}}</em></span> -->
             <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
           </div>
         </div>
@@ -164,17 +162,6 @@
           </span>
           <span class="mgr">预发货日期： </span>
            <date ng-model="formData.expectDate"></date>
-          <!-- <span class="mgr-l">预发货日期：
-                <span class="date-icon-outside">
-                  <input type="text"
-                         datepicker
-                         class="ipt-date ipt color-3"
-                         placeholder=""
-                         ng-readonly="true"
-                         ng-model="formData.expectDate" />
-                  <span icon-click class="date-icon"></span>
-                </span>
-            </span> -->
         </div>
         <!-- 商品列表 -->
         <div class="outside-table-d">
@@ -385,48 +372,44 @@
             <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
           </p>
         </div>
-        </div>
-        <!-- 提示信息 -->
-
       </div>
-      <!-- 其他信息 -->
-      <div class="relative pd-c-xxl">
-        <!-- 收货方信息 -->
-        <address-manage-component ng-if="initFlag"
-                                  compnent-title="收货方信息"
-                                  request-url="rest/authen/customerAddress/get.json"
-                                  request-data-id="{{formData.customerId}}"
-                                  scope-data-prefix="customer"
-                                  form-data="formData"
-                                  modify-modal-url="views/customerAddress/contact/edit.html"
-                                  modify-modal-title="编辑收货方信息"
-                                  create-modal-url="views/customerAddress/contact/edit.html"
-                                  create-modal-title="添加收货方信息"
-                                  create-address-type="销售"
-                                  set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
-        </address-manage-component>
-
-        <!-- 发货方信息 -->
-        <address-manage-component ng-if="initFlag"
-                                  compnent-title="发货方信息"
-                                  request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="invoices"
-                                  form-data="formData"
-                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
-                                  modify-modal-title="编辑发货方信息"
-                                  create-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-modal-title="添加发货方信息"
-                                  create-address-type="销售"
-                                  logistics-center-id="{{formData.logisticsCenterId}}"
-                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component>
-        <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-          <h1 class="text-bold color-3 text-n">备注</h1>
-          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
-        </div>
+    </div>
+    <!-- 其他信息 -->
+    <div class="relative pd-c-xxl">
+      <!-- 收货方信息 -->
+      <address-manage-component ng-if="initFlag"
+                                compnent-title="收货方信息"
+                                request-url="rest/authen/customerAddress/get.json"
+                                request-data-id="{{formData.customerId}}"
+                                scope-data-prefix="customer"
+                                form-data="formData"
+                                modify-modal-url="views/customerAddress/contact/edit.html"
+                                modify-modal-title="编辑收货方信息"
+                                create-modal-url="views/customerAddress/contact/edit.html"
+                                create-modal-title="添加收货方信息"
+                                create-address-type="销售"
+                                set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+      </address-manage-component>
+      <!-- 发货方信息 -->
+      <address-manage-component ng-if="initFlag"
+                                compnent-title="发货方信息"
+                                request-url="rest/authen/invoicesAddress/get.json"
+                                scope-data-prefix="invoices"
+                                form-data="formData"
+                                modify-modal-url="views/invoicesAddress/contact/edit.html"
+                                modify-modal-title="编辑发货方信息"
+                                create-modal-url="views/invoicesAddress/contact/edit.html"
+                                create-modal-title="添加发货方信息"
+                                create-address-type="销售"
+                                logistics-center-id="{{formData.logisticsCenterId}}"
+                                set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
+                                del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
+      </address-manage-component>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3 text-n">备注</h1>
+        <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
       </div>
     </div>
     <!-- 流程图 -->
@@ -442,9 +425,7 @@
            nosave-callback="goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})"
            save-callback="submitForm('confirmOrder_editForm_salesOrder','exit')">返回销售单
         </a>
-
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/confirmOrder/query.html" >返回销售单</a>
-
         <a ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='待审核' &&formData.id "
            href="javascript:;"
            class="pr-color-red mgr"
@@ -455,38 +436,31 @@
            request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
            callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除
         </a>
-
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','print')">打印预览
         </button>
-
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
         </button>
-
-        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+        <button ng-if="(formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交')||(formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未通过')"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!formData.orderCode||noSuchStockBatchs"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
+        </button>
+        <button ng-if="(formData.orderBusinessType=='直发销售'&&formData.orderStatus=='未提交')||(formData.orderBusinessType=='直发销售'&&formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!formData.orderCode"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
         </button>
-
-        <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-disabled="!formData.orderCode"
-                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交{{formData.totalPrice}}
-        </button>
       </div>
       <div  class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em>
       </div>
-      <!-- <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:2}}</em>
-      </div> -->
     </div>
   </form>
 </div>
