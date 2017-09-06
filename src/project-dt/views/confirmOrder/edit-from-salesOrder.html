@@ -2,16 +2,15 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="$root.watchFormChange('formData',this);geThName(formData.orderMedicalNos);
+     callback="initFlag=true;$root.watchFormChange('formData',this);geThName(formData.orderMedicalNos);
                choiseStatus=false;
                orderMedicalNos=formData.orderMedicalNos;
                formData.exchangeRate='1.00';
                formData.thisPageTotal=0;
-               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getCodeGenerationStrategy('销售单');
-               initFlag=true;getPrecision();
+               getPrecision();
                transformTaxType(formData.orderMedicalNos);
-               initAmountCalcuAction();getPrecision();"
+               initAmountCalcuAction()"
      alert-error>
   <form id="confirmOrder_editForm_salesOrder"
         name="confirmOrder_editForm_salesOrder"
@@ -382,9 +381,7 @@
           </p>
           <p class="flex-item-6 text-right pdb-m pdt-m pd-c-l ">
             <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
-
             <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
-
             <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
           </p>
         </div>
@@ -393,7 +390,7 @@
 
       </div>
       <!-- 其他信息 -->
-      <div class="relative">
+      <div class="relative pd-c-xxl">
         <!-- 收货方信息 -->
         <address-manage-component ng-if="initFlag"
                                   compnent-title="收货方信息"
@@ -458,61 +455,38 @@
            request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
            callback="$root.goTo({tabHref:'#/confirmOrder/query.html',tabName:'销售单'})">删除
         </a>
-        <!-- <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('confirmOrder_editForm_salesOrder','create')">智能匹配
-        </button> -->
 
-        <button
-                type="button"
+        <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','print')">打印预览
         </button>
 
-        <button
-        type="button"
-        class="pr-btn-save-glodbg mgr"
-        ng-disabled="!changeFlag"
-        ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
-      </button>
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!changeFlag"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','save')">保存
+        </button>
 
         <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             !formData.orderCode ||
-                             formData.totalPrice>100000"
+                ng-disabled="!formData.orderCode"
                 ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                            !formData.orderCode ||
-                            formData.totalPrice>100000"
-                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交
+                ng-disabled="!formData.orderCode"
+                ng-click="submitForm('confirmOrder_editForm_salesOrder','submit')">提交{{formData.totalPrice}}
         </button>
-
       </div>
-      <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">
-            ￥{{formData.totalPrice || '0.00' |  number:2}}
-            <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) |  number:precision}} -->
-        </em>
+      <div  class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}</em>
       </div>
-
-      <div ng-if="formData.orderBusinessType=='直发销售'"
-           class="price-area relative fl-r mgr-l"
-           style="height:100%;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">
-            ￥{{formData.totalPrice || '0.00' |  number:2}}
-        </em>
-        <!-- <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:precision}}
-          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) |  number:precision}}
-        </em> -->
-      </div>
+      <!-- <div ng-if="formData.orderBusinessType=='直发销售'" class="price-area relative fl-r mgr-l" style="height:100%;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">￥{{formData.totalPrice || '0.00' |  number:2}}</em>
+      </div> -->
     </div>
   </form>
 </div>
