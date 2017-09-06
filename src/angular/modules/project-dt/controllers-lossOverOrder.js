@@ -233,8 +233,8 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
     };
 
     // 保存type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function() {
-        $scope.formData.validFlag = true;
+    $scope.submitFormAfter = function(submitForm_type) {
+
      if ($scope.submitForm_type == 'submit-loss') {
        _url='rest/authen/lossOrder/startProcessInstance';
        data= {businessKey:$scope.formData.id};

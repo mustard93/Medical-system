@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.suppliers=[]"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
 
   <div ng-if="$root.uiTabs.current.name != '品种管理'" class="header-info relative mgb-l">
@@ -395,35 +395,6 @@
               </div>
             </div>
 
-            <!--&lt;!&ndash;条形码-器械自动生成 &ndash;&gt;-->
-            <!--<div  ng-if="formData.medicalType == '医疗器械'" class="flex-row mgt">-->
-              <!--<p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>-->
-              <!--<div class="flex-item-10 text-left">-->
-
-                <!--&lt;!&ndash;<span style="margin-right: 15px;">{{formData.barcode}}</span>&ndash;&gt;-->
-
-                <!--<input type="text" ng-disabled="true"-->
-                       <!--class="ipt-new-s ipt-new"-->
-                       <!--ng-model="formData.barcode"/>-->
-                <!--&lt;!&ndash;&ndash;&gt;-->
-                <!--<a ng-if="formData.id"-->
-                   <!--ng-click="getBarcode(formData.productEnterprise.code,formData.medicalClassId)"-->
-                   <!--class="color-orange"-->
-                   <!--style="margin-left: 10px;">重新生成-->
-                <!--</a>-->
-
-              <!--</div>-->
-            <!--</div>-->
-
-            <!--&lt;!&ndash;条形码-药品（手动输入）   &ndash;&gt;-->
-            <!--<div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">-->
-              <!--<p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>-->
-              <!--<div class="flex-item-10 text-left">-->
-                <!--<input type="text"-->
-                       <!--class="ipt-new-s ipt-new"-->
-                       <!--ng-model="formData.barcode"/>-->
-              <!--</div>-->
-            <!--</div>-->
 
             <!--品牌-->
             <div class="flex-row mgt">
@@ -967,7 +938,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="supplier in formData.suppliers track by $index" table-item-handlebtn-component>
+              <tr ng-repeat="supplier in formData.suppliers" table-item-handlebtn-component>
                 <td class="text-center">{{$index+1}}
                   <div  class="table-item-handle-btn" style="left:1800px;">
                     <div class="table-item-confirm-del-area bg-white">
@@ -981,7 +952,6 @@
                   </div>
                 </td>
                 <td class="text-left">
-
                   <div style="position: relative;" ng-init="suppliertmp=supplier">
                     <span class="temporary"
                           angucomplete
@@ -1063,7 +1033,7 @@
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag "
-                      ng-click="submitForm('firstMedicalApplication_editForm1','save')">保存</button>
+                      ng-click="submitForm('firstMedicalApplication_editForm1','saveBaseInfo')">保存</button>
             </span>
             <span class="mgl" style="">
 
