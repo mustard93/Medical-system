@@ -8,7 +8,6 @@
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
 >
-11
     <!--dialogData:{{dialogData}}-->
 
     <style>
@@ -312,7 +311,7 @@
 
     </div>
 
-    <div ng-if="type=='通过商品退货'" ng-init=" listParams.departmentId=formData.applicationDepartmentId;">
+    <div ng-if="type=='通过商品退货'" ng-init=" listParams.applicationDepartmentId=formData.applicationDepartmentId;">
 
         <div ng-show="!showBatchs">
 
@@ -374,7 +373,7 @@
                                 default-empty="全部"
                                 width="120px"
                                 chosen
-                                ng-model="listParams.departmentId"
+                                ng-model="listParams.applicationDepartmentId"
                                 select-source="rest/authen/department/queryForSelectOption"
                                 ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
                         </select>
@@ -416,7 +415,7 @@
                     <!-- 仓库过滤 -->
                     <div class="inline-block" style="margin-right: 8px;">
                         <span class="color-9">申 请 人 ： </span>
-                        <!--?departmentId={{listParams.departmentId}}-->
+                        <!--?departmentId={{listParams.applicationDepartmentId}}-->
                         <select
                                 class="ipt pr-short-ipt color-3"
                                 style="width:90px;"
