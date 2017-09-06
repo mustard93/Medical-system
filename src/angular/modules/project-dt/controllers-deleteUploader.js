@@ -31,6 +31,7 @@ define('project-dt/controllers-deleteUploader', ['project-dt/init'], function() 
         var repetition = 0;
         for(var i = 0, len = $scope.ngModel.length; i < len; i++){
           if(item.licenseId == $scope.ngModel[i].licenseId && item.certificateNumber == $scope.ngModel[i].certificateNumber) repetition++
+          else $scope.ngModel[i].tipStr = null;
         }
         if(repetition > 1) item.tipStr = type ? "不能输入重复的证书编号" : "不能输入重复的档案编号";
         else item.tipStr = null;
