@@ -25,14 +25,14 @@ define('project-dt/controllers-deleteUploader', ['project-dt/init'], function() 
       }
     };
     $scope.tipStr = "证书编号不能为空";
-    $scope.tipChange = function(item){
-      if(!item.certificateNumber) item.tipStr = "证书编号不能为空";
+    $scope.tipChange = function(item,type){//type为true是资质证照false是电子档案
+      if(!item.certificateNumber) item.tipStr = type ? "证书编号不能为空" : "该字段保存后将不能修改";
       else {
         var repetition = 0;
         for(var i = 0, len = $scope.ngModel.length; i < len; i++){
           if(item.licenseId == $scope.ngModel[i].licenseId && item.certificateNumber == $scope.ngModel[i].certificateNumber) repetition++
         }
-        if(repetition > 1) item.tipStr = "不能输入重复的证书编号";
+        if(repetition > 1) item.tipStr = type ? "不能输入重复的证书编号" : "不能输入重复的档案编号";
         else item.tipStr = null;
       }
     }
