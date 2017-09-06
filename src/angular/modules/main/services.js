@@ -545,7 +545,15 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
           //tab情况下，先刷新当前页面，在跳转
           if(conf.useTab){
-              $rootScope.refreshTab();
+
+
+              var tabName= $rootScope.TabNameMatchByUrl.getTabNameByUrl(url);
+
+              var   currentName =$rootScope.getCurrentTab().name;
+
+              if(currentName != tabName){
+                  $rootScope.refreshTab();
+              }
           }
 
            utilsObj.goTo(url,confirmMsg);
