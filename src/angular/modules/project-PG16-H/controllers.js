@@ -1709,22 +1709,23 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                    .catch(function (error) {
                    });
                  }
+                 if ($scope.submitForm_type == 'submit-region') {
+                   requestData('rest/authen/region/save', $scope.formData, 'POST', 'parameterBody')
+                   .then(function (results) {
+                     if (results[1].code === 200) {
+                       var _data = results[1];
+                       _data.data=$scope.formData;
+                     }
+                   })
+                   .catch(function (error) {
+                   });
+                 }
 
-                //  var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
-                //  var data= {businessKey:$scope.formData.id};
-                //  requestData(url,data, 'POST')
-                //   .then(function (results) {
-                //     var _data = results[1];
-                //     $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
-                //   })
-                //   .catch(function (error) {
-                //     alertError(error || '出错');
-                //   });
 
                  if ($scope.submitForm_type == 'submit') {
                    $scope.formData.validFlag = true;
                  }
-                $scope.submitFormValidator(fromId);
+                // $scope.submitFormValidator(fromId);
               };
 
         // 请求列表数据

@@ -71,11 +71,20 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     });
 
     //监控业务类型，实现用户选择直运销售后选中所有的已添加药品
-    $scope.$watch('formData.orderBusinessType', function (newVal) {
+    $scope.$watch('formData.orderBusinessType', function (newVal, oldVal) {
       if (newVal === '直运销售' && $scope.formData.orderMedicalNos.length) {
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
           item.handleFlag = true;
         });
+      }
+
+      // 业务类型变化，重新计算金额
+      if (newVal && oldVal && newVal !== oldVal) {
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
+        });
+
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData.orderMedicalNos, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
       }
     });
 
