@@ -1,9 +1,8 @@
 <div class="create-new-order purchaseOrder-edit"
      ng-controller="purchaseOrderEditCtrl"
-
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="tmp_supplier=formData.supplier;initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);
+     callback="tabId=mainStatus.pageParams.tabId;tmp_supplier=formData.supplier;initFlag=true;choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos);
      getCodeGenerationStrategy('采购单');checkData();$root.watchFormChange('formData',this);getPrecision();"
      alert-error>
 
@@ -624,6 +623,8 @@
                 <!--modal-scope="this"-->
                 <!--modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同-->
         <!--</button>-->
+
+        <!--<button ng-click="refash()">刷新请购单</button>-->
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"

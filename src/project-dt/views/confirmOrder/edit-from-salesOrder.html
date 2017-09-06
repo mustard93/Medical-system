@@ -9,7 +9,9 @@
                formData.thisPageTotal=0;
                confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
                getCodeGenerationStrategy('销售单');
-               initFlag=true;getPrecision();"
+               initFlag=true;getPrecision();
+               transformTaxType(formData.orderMedicalNos);
+               initAmountCalcuAction();getPrecision();"
      alert-error>
   <form id="confirmOrder_editForm_salesOrder"
         name="confirmOrder_editForm_salesOrder"
@@ -135,7 +137,6 @@
                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
             </select>
           </span>
-
           <span class="mgr-l">销售类型：
             <select class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
@@ -177,9 +178,10 @@
             </span> -->
         </div>
         <!-- 商品列表 -->
-        <div class="">
-          <table class="table pr-table pr-new-table mgb-n">
-              <thead>
+        <div class="outside-table-d">
+          <table class="table pr-table pr-new-table mgb-n table-s-wid">
+            <thead>
+              <tr>
                 <!-- <th class="text-center w-50 mycheck"> -->
                   <!-- <input type="checkbox" ng-model="choiseStatus" id='saleOrder_1' ng-click="isChoiseAll(choiseStatus)">
                   <label for="saleOrder_1"></label>
@@ -193,134 +195,199 @@
                 <th class="text-center">{{thData.quantity || '购需数量'}}</th>
                 <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.productionBatch || '生产批号'}}+计划数量</th>
                 <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.sterilizationBatchNumber || '灭菌批号'}}</th>
-                <th class="text-center">{{thData.strike_price || '含税单价'}}</th>
+                <th class="text-center">{{thData.strike_price || '报价'}}</th>
+                <th class="text-center">{{thData.tax || '税率'}}</th>
+                <th class="text-center">{{thData.discountRate || '折扣率'}}</th>
+                <th class="text-center">{{thData.duty_price || '含税单价'}}</th>
+                <th class="text-center">{{thData.duty_free_price || '无税单价'}}</th>
+                <th class="text-center">无税金额</th>
+                <th class="text-center">税额</th>
+                <th class="text-center">{{thData.discountPrice || '折扣额'}}</th>
                 <th class="text-center">{{thData.totalPrice || '价税合计'}}</th>
-                <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th>
-                </tr>
-              </thead>
-              <tbody >
-                <tr ng-repeat="item in formData.orderMedicalNos"
-                ng-controller="ConfirmOrderMedicalController"
-                table-item-handlebtn-component
-                ng-class="{'pr-bg-pinkred':getAllBatchTotal(item.stockBatchs)<item.quantity}" >
-                  <!-- <td class="text-center w-50 mycheck">
-                    <input type="checkbox" ng-model="item.handleFlag" id="{{'saleOrder_'+$index+2}}" ng-change="handleThischoise(item)">
-                  <label for="{{'saleOrder_'+$index+2}}"></label>
-                  </td> -->
-                  <td class="text-center" style="line-height:2.4" >{{$index+1}}</td>
-                  <td class="text-center" ng-init="item.handleFlag=true;">{{item.code}}
-                    <div  class="table-item-handle-remove-btn" title="移除">
-                      <div class="table-item-confirm-del-area bg-white">
-                        <p class="bb-line color-red pd-v-s">确认移除本条数据?</p>
-                        <p class="pdt-s">
-                          <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                          <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
-                        </p>
-                      </div>
+                <!-- <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">{{thData.validTill || '失效日期'}}</th> -->
+              </tr>
+            </thead>
+            <tbody >
+              <tr ng-repeat="item in formData.orderMedicalNos"
+                  ng-controller="ConfirmOrderMedicalController"
+                  table-item-handlebtn-component
+                  ng-class="{'pr-bg-pinkred':getAllBatchTotal(item.stockBatchs)<item.quantity}" >
+                <td class="text-center" style="line-height:2.4">{{$index+1}}</td>
+                <td class="text-center">{{item.code}}
+                  <div  class="table-item-handle-btn" title="删除">
+                    <div class="table-item-confirm-del-area bg-white">
+                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                      <p class="pdt-s">
+                        <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                        <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl delete-btn" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                      </p>
                     </div>
-                  </td><!-- 商品编号 -->
-                  <td class="text-left" >
-                    <span
-                         class="color-orange cur-pot lend-order-goods-info"
-                         ng-init="showInfoArea=false"
-                         ng-mouseenter="showInfoArea=true"
-                         ng-mouseleave="showInfoArea=false">{{item.approvedName}}
-                      <show-info-modal ng-show="showInfoArea"
-                                       get-data-type="local"
-                                       template-url="tpl/showInfoModalLendOrder"
-                                       info-object="{{item}}"
-                                       info-title="商品信息">
-                      </show-info-modal>
+                  </div>
+                </td><!-- 商品编号 -->
+                <td class="text-left" >
+                  <span class="color-orange cur-pot lend-order-goods-info"
+                        ng-init="showInfoArea=false"
+                        ng-mouseenter="showInfoArea=true"
+                        ng-mouseleave="showInfoArea=false">{{item.approvedName}}
+                    <show-info-modal ng-show="showInfoArea"
+                                     get-data-type="local"
+                                     template-url="tpl/showInfoModalLendOrder"
+                                     info-object="{{item}}"
+                                     info-title="商品信息">
+                    </show-info-modal>
+                  </span>
+                  <!--<p ng-if="item.info.msg" class="mgb-s color-red" style="line-height: 26px; height:26px;">-->
+                    <!--<i class="warning-icon"></i>-->
+                    <!--{{item.info.msg}}-->
+                    <!--<span style="margin-left: 15px;">-->
+                      <!--<a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>-->
+                    <!--</span>-->
+                  <!--</p>-->
+                  <p ng-if="identityForMedicalStocksMap[item.relId].msg" class="mgb-s color-red" style="line-height: 26px;">
+                    <i class="warning-icon"></i>
+                    {{identityForMedicalStocksMap[item.relId].msg}}
+                    <span style="margin-left: 15px;">
+                      <a tab-nav tab-name="品种管理" tab-href="#/medicalStock/get.html?id={{item.relId}}" class="color-orange">查看详情</a>
                     </span>
-                  </td><!-- 商品全名 -->
-                  <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.quantity}}</td><!-- 购需数量 -->
-                  <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-show="formData.orderBusinessType!='直发销售'">
-                    <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
-                         class="ipt-div relative"
-                         style="width:180px;margin-top:10px;margin-left:10px;"
-                         ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
-                      <div class="inline-block text-ellips-s"
-                           style="width:118px;height:100%;margin-top: -2px;background: #F9FFED;"
-                           ng-class="{'br-line':(batch.batchNumber)}">{{batch.productionBatch}}
-                      </div>
+                  </p>
+                </td><!-- 商品全名 -->
+                <td class="text-center">{{item.dosageForms}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                <td class="text-center relative" style="white-space: nowrap;">
+                  <div class="order-goods-num">
+                    <button type="button"
+                            class="inline-block left"
+                            ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)"
+                            ng-disabled="item.quantity==1">-
+                    </button>
+                    <span class="inline-block">
                       <input type="number"
-                             class="in_ipt"
-                             name="batchNum{{$index}}"
-                             ng-model="batch.quantity"
-                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                      <input type="hidden" ng-model="batch.id">
-                      <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                    </div>
-                    <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative"  style="width:180px;margin-top:10px;margin-left:10px;">
-                      <i class="addImg"
-                         modal-right="50%"
-                         modal-scope="this"
-                         modal-data='{
-                                      "medicalName":"{{item.name}}",
-                                      "id":"{{item.relId}}",
-                                      "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                      "quantity":{{item.quantity}},
-                                      "choisedBatchList":{{item.stockBatchs}},
-                                      "warehouseType":"正常库",
-                                      "index": {{$index}}
-                                    }'
-                         modal-url="views/versionFlow/choice-stockbatch-dialog.html">
-                      </i>
-                    </div>
-                    <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">
-                      待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}
-                    </p>
-                  </td>
+                             min="1"
+                             name="quantity{{$index}}"
+                             class="inline ipt pr-ipt-60 text-center item-planQuantity"
+                             style="width:60px;"
+                             ng-model="item.quantity"
+                             ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
 
-                  <!-- 生产批号/数量 -->
-                  <td class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
-                    <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
-                  </td><!-- 灭菌批号 -->
-                  <td class="text-right relative relative" style="white-space: nowrap;width: 140px;"
-                      ng-if="initFlag"
-                      ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
-                      scope-data="strikePrice"
-                      callback="item.strike_price?item.strike_price=item.strike_price:item.strike_price=strikePrice[item.relId].value">￥
-                    <input type="text"
-                           style="width: 90px;"
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                             ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
+                    </span>
+                    <button type="button"
+                            class="inline-block right"
+                            ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">+
+                    </button>
+                  </div>
+                </td><!-- 订购数量 -->
+                <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-show="formData.orderBusinessType!='直发销售'">
+                  <!-- 已选批号列表 -->
+                  <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
+                       ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
+                       class="ipt-div relative"
+                       style="width:180px;margin-top:10px;margin-left:10px;"
+                       ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+                    <div class="inline-block text-ellips-s"
+                         style="width:118px;height:100%;background: #F9FFED;margin-top: -3px;"
+                         ng-class="{'br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                    </div>
+                    <input type="number"
+                           class="in_ipt"
+                           name="batchNum{{$index}}"
+                           ng-model="batch.quantity"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                           ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
+                    <input type="hidden" ng-model="batch.id">
+                    <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
+                  </div>
+                  <!-- 批号选择 -->
+                  <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
+                    <i class="addImg"
+                       modal-right="50%"
+                       modal-scope="this"
+                       modal-data='{
+                                    "medicalName":"{{item.name}}",
+                                    "id":"{{item.relId}}",
+                                    "logisticsCenterId":"{{formData.logisticsCenterId}}",
+                                    "quantity":{{item.quantity}},
+                                    "choisedBatchList":{{item.stockBatchs}},
+                                    "warehouseType":"正常库",
+                                    "index": {{$index}}
+                                  }'
+                       modal-url="views/versionFlow/choice-stockbatch-dialog.html">
+                    </i>
+                  </div>
+                  <!-- 待选择数 -->
+                  <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                </td><!-- 生产批号/数量 -->
+                <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
+                  <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
+                </td>
+                <td class="text-center">
+                  ￥<input type="text"
+                           style="width:90px"
                            class="ipt pr-ipt-60 text-right"
                            name="strike_price{{$index}}"
                            ng-model="item.strike_price"
-                           ng-change="item.discountPrice=0;item.discountRate=100;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-                           required
-                           onkeyup="value=value.replace(/[^\d.]/g,'')"/>
-                          <p class="color-orange pr-indent-35">
-                            <a modal-right="577"
-                               modal-scope="this"
-                               modal-data='{"medicalName":"{{item.name}}","id":"{{item.relId}}","type":"销售","customerId":"{{formData.customerId}}"}'
-                               modal-url="views/versionFlow/history-price.html">参考价格
-                            </a>
-                          </p>
-                  </td><!-- 报价 -->
-                  <td class="text-right">￥{{item.quantity*item.strike_price || item.totalPrice |  number:2}}</td><!-- 价税合计 -->
-                  <td ng-show="formData.orderBusinessType!='直发销售'" class="text-center pd-n" >
-                    <div  ng-repeat="vill in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{vill.validTill || "&nbsp;"  | date : 'yyyy-MM-dd'}}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="bt-line flex-row">
-              <p class="flex-item-6 text-left pdb-m pdt-m pd-c-l">
-                <span  ng-if="isShowConfirmInfo" class="color-red ">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
-                  <a tab-nav tab-name="购需单" tab-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
-                </span>
-              </p>
-              <p class="flex-item-6 text-right pdb-m pdt-m pd-c-l ">
-                <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
+                           ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)" />
+                  <p class="color-orange pr-indent-35">
+                    <a modal-right="577"
+                       modal-scope="this"
+                       modal-data='{"medicalName":"{{item.name}}","id":"{{item.relId}}","type":"销售","customerId":"{{formData.customerId}}"}'
+                       modal-url="views/versionFlow/history-price.html">参考价格
+                    </a>
+                  </p>
+                </td><!--报价-->
+                <td class="text-center" ajax-url="rest/baseData/queryForSelectOptionByType?type=税率可选项" scope-data="taxList" ng-init="item.tax?item.tax=item.tax:item.tax='17'">
+                  <select ng-if="initFlag"
+                          class="ipt pr-short-ipt"
+                          style="width:60px"
+                          ng-model="item.tax"
+                          ng-options="i.value as i.text for i in taxList"
+                          ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
+                  </select>%
+                </td><!--税率-->
+                <td class="text-center">
+                  <input type="text"
+                         style="width:90px"
+                         class="ipt pr-ipt-60 text-right"
+                         name="discountRate{{$index}}"
+                         ng-model="item.discountRate"
+                         ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);item.discountRate=item.discountRate>0?item.discountRate:0;item.discountRate=item.discountRate<100?item.discountRate:100;" />%
+                </td><!--折扣率-->
+                <td class="text-center">￥{{item.duty_price || '0.00' | number:precision}}</td><!--含税单价-->
+                <td class="text-center">￥{{item.duty_free_price || '0.00' | number: precision}}</td><!--无税单价-->
+                <td class="text-center">￥{{item.total_duty_free_price || '0.00' | number: precision}}</td><!--无税金额-->
+                <td class="text-center">￥{{item.totalTaxPrice || '0.00' | number: 2}}</td><!--税额-->
+                <td class="text-center">￥{{item.discountPrice || '0.00' | number: 2}}</td><!--折扣额-->
+                <td class="text-center">￥{{item.totalPrice || '0.00' | number:2}}</td><!-- 价税合计 -->
+                <!-- <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
+                  <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
+        </div>
+        <div class="bt-line flex-row">
+          <p class="flex-item-6 text-left pdb-m pdt-m pd-c-l">
+            <span  ng-if="isShowConfirmInfo" class="color-red ">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
+              <a tab-nav tab-name="购需单" tab-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
+            </span>
+          </p>
+          <p class="flex-item-6 text-right pdb-m pdt-m pd-c-l ">
+            <span class="mgr mgl">制单部门：<em class="color-3">{{formData.departmentName || '暂无'}}</em></span>
 
-                <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr mgl">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
 
-                <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-              </p>
-            </div>
+            <span class="mgr mgl">制单时间：<em class="color-3">{{formData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+          </p>
+        </div>
         </div>
         <!-- 提示信息 -->
 

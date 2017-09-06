@@ -11,8 +11,25 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
    * @param  {[type]}              dialogAlert     [description]
    * @return {[type]}                              [description]
    */
-  function purchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert, checkDataCorrectness,utils) {
+  function purchaseOrderEditCtrl($rootScope,$scope, modal, alertWarn, alertError, requestData, watchFormChange, dialogAlert, checkDataCorrectness,utils) {
 
+    $scope.tabId='';
+
+    // 刷新非当前tab
+    $scope.refreshTab=function(tabId) {
+
+          if(!tabId){
+              return;
+          }
+
+          var nowTab=$rootScope.uiTabs.current;
+          var tab= $rootScope.uiTabs.getTab(tabId);
+          if(tab){
+              $rootScope.uiTabs.active(tab);
+              $rootScope.uiTabs.refresh(tab);
+              $rootScope.uiTabs.active(nowTab);
+          }
+      };
 
     //初始化校验数据
     $scope.identityForMedicalStocksMap={};
@@ -398,6 +415,9 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
         }
 
         if ($scope.submitForm_type == 'submit') {
+
+          $scope.refreshTab($scope.tabId);
+
           var _url='rest/authen/purchaseOrder/startProcessInstance';
           var data= {businessKey:$scope.formData.id};
           requestData(_url,data, 'POST')
@@ -701,5 +721,5 @@ define('project-dt/controllers-purchaseOrder', ['project-dt/init'], function() {
    }
 
   angular.module('manageApp.project-dt')
-  .controller('purchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert", "checkDataCorrectness","utils",  purchaseOrderEditCtrl]);
+  .controller('purchaseOrderEditCtrl', ['$rootScope','$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "dialogAlert", "checkDataCorrectness","utils",  purchaseOrderEditCtrl]);
 });

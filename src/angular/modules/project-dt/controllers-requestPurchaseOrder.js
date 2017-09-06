@@ -11,7 +11,9 @@ define('project-dt/controllers-requestPurchaseOrder', ['project-dt/init'], funct
    * @param  {[type]}                     $timeout        [description]
    * @return {[type]}                                     [description]
    */
-  function requestPurchaseOrderEditCtrl($scope, modal, alertWarn, alertError, requestData, watchFormChange, $timeout) {
+  function requestPurchaseOrderEditCtrl($rootScope,$scope, modal, alertWarn, alertError, requestData, watchFormChange, $timeout) {
+
+     var tabId= $rootScope.uiTabs.current.id;
 
     $scope.isShowCancelBtn = false;
     $scope.isGoNextStep = false;
@@ -176,7 +178,7 @@ define('project-dt/controllers-requestPurchaseOrder', ['project-dt/init'], funct
         requestData(url,data, 'POST')
          .then(function (results) {
            var _data = results[1];
-           $scope.goTo({tabHref:'#/purchaseOrder/edit.html?id='+_data.data.purchaseOrder.id,tabName:'采购单'});
+           $scope.goTo({tabHref:'#/purchaseOrder/edit.html?tabId='+tabId+'&id='+_data.data.purchaseOrder.id,tabName:'采购单'});
          })
          .catch(function (error) {
            alertError(error || '出错');
@@ -299,5 +301,5 @@ define('project-dt/controllers-requestPurchaseOrder', ['project-dt/init'], funct
   }
 
   angular.module('manageApp.project-dt')
-  .controller('requestPurchaseOrderEditCtrl', ['$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "$timeout", requestPurchaseOrderEditCtrl]);
+  .controller('requestPurchaseOrderEditCtrl', ['$rootScope','$scope',"modal",'alertWarn',"alertError", "requestData", "watchFormChange", "$timeout", requestPurchaseOrderEditCtrl]);
 });

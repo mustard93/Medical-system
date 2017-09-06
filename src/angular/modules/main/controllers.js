@@ -10,6 +10,11 @@ define('main/controllers', ['main/init'], function () {
    */
   function tabCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
+      console.log("uiTabs",uiTabs);
+
+      $rootScope.uiTabs= uiTabs;
+
+
       //   $scope.$watch('initFlag', function () {
       //
       //     try{
@@ -33,7 +38,7 @@ define('main/controllers', ['main/init'], function () {
       //     }
       //
       // });
-        $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
+         $scope.mainStatus=utils.deepCopy($scope.$parent.mainStatus);
         // console.log("tabCtrl",$scope.mainStatus);
         modal.close();
   }
