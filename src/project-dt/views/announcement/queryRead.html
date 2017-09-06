@@ -2,10 +2,10 @@
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.shelvesUpStatus=mainStatus.pageParams.shelvesUpStatus;"
      ng-controller="announcementCtrl">
     <!--<page-main-header-component list-params="listParams"-->
-                                <!--style="min-height:130px;"-->
-                                <!--crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'-->
-                                <!--component-title="通知公告列表"-->
-                                <!--get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">-->
+    <!--style="min-height:130px;"-->
+    <!--crumbs-nav='[{"name":"通知消息公告","link":"","style":""},{"name":"通知公告","link":"","style":"color-custom-orange"}]'-->
+    <!--component-title="通知公告列表"-->
+    <!--get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">-->
     <!--</page-main-header-component>-->
 
     <!-- 头部信息 -->
@@ -18,7 +18,6 @@
             </div>
         </div>
     </div>
-
 
 
     <table-list list-data="rest/authen/announcement/queryOfPublish"
@@ -41,49 +40,54 @@
                             </div>
                             <div class="inline-block mgl-m" ng-click="listParams.q=''">
                                 <i class="fa fa-refresh mgr-s color-light-brown"></i>
-                                <a href="" class="color-light-brown" >重置搜索条件</a>
+                                <a href="" class="color-light-brown">重置搜索条件</a>
                             </div>
-                            <div ng-if="1==2" class="inline-block mgl-m" style="font-size: 14px; color: rgba(0,0,0,0.15)">
-                                |&nbsp;&nbsp;&nbsp;&nbsp;<a href=""  class="color-orange">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="" class="color-orange">打印</a>
+                            <div ng-if="1==2" class="inline-block mgl-m"
+                                 style="font-size: 14px; color: rgba(0,0,0,0.15)">
+                                |&nbsp;&nbsp;&nbsp;&nbsp;<a href="" class="color-orange">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                    href="" class="color-orange">打印</a>
                             </div>
 
                         </div>
                     </div>
 
 
-                <div class="pr-bg-white pr-fuzzy-boundary">
-                    <ol class="index-msg-list">
-                        <li ng-repeat="item in tbodyList track by $index" style="padding: 0 20px;">
-                            <div class="flex-row">
+                    <div class="pr-bg-white pr-fuzzy-boundary">
+                        <ol class="index-msg-list">
+                            <li ng-repeat="item in tbodyList track by $index" style="padding: 0 20px;">
+                                <div class="flex-row">
                                 <span class="flex-item-9 text-left" style="overflow: hidden;width:72%;">
 
                                     <div class="text-ellips-s  color-orange">
-                                        <a tab-nav tab-name="通知公告" tab-href="#/announcement/get.html?id={{item.id}}" title="{{item.title}}" class="color-orange" style="color: #333333;">{{item.title}}</a>
+                                        <a tab-nav tab-name="通知公告"
+                                           tab-href="#/announcement/get.html?id={{item.id}}&flag=list"
+                                           title="{{item.title}}" class="color-orange" style="color: #333333;">{{item.title}}</a>
                                     </div>
                                     <!--<em ng-if="$index<3" class="color-red">NEW</em>-->
                                 </span>
-                                <span class="flex-item-2 text-left" style="text-indent: 20px; color:#999; ">
+                                    <span class="flex-item-2 text-left" style="text-indent: 20px; color:#999; ">
                                   <div class="text-ellips-s ">{{item.salesDepartmentName}}&nbsp;-&nbsp;{{item.saleUser.n}}</div>
                                 </span>
-                                <span class="flex-item-1 text-right" style="color: #333;width:11.333333%;">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
-                            </div>
-                        </li>
+                                    <span class="flex-item-1 text-right" style="color: #333;width:11.333333%;">{{item.publishAt | date :'yyyy-MM-dd HH:mm:ss'}}</span>
+                                </div>
+                            </li>
 
-                    </ol>
-                </div>
-                <div class="pr-bg-white" ng-if="!tbodyList.length">
-                    <div class="empty-table clearfix">
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
+                        </ol>
                     </div>
-                </div>
+                    <div class="pr-bg-white" ng-if="!tbodyList.length">
+                        <div class="empty-table clearfix">
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                        </div>
+                    </div>
 
-            </div>
-            <div class="flex-row">
+                </div>
+                <div class="flex-row">
                     <div class="flex-item-6">
                         <!-- 批量删除按钮 -->
-                        <div style="display: none" ng-if="!listParams.shelvesUpStatus" class="flex-row color-9 pd-c-l pdt-m pdb-m">
+                        <div style="display: none" ng-if="!listParams.shelvesUpStatus"
+                             class="flex-row color-9 pd-c-l pdt-m pdb-m">
                             <a ng-if="!choisedMedicalList.length"
                                href="javascript:void(0)"
                                class="batch-receive-btn"
@@ -112,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-        </div>
+            </div>
 
         </div>
     </table-list>

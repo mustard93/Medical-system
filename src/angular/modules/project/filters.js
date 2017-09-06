@@ -63,9 +63,20 @@ define('project/filters', ['project/init'], function () {
           };
         }
 
+        /**
+         * [addSignFilter 在值后添加一个符号的过滤器，目前系统中用于显示%的使用
+         * @return {[type]} [description]
+         */
+        function addSignFilter () {
+          return function (text,sign) {
+            return value=text+sign;
+          };
+        }
+
 
     angular.module('manageApp.project')
     .filter('upDigit',upDigit)
     .filter('repeatFilter', repeatFilter)
-    .filter('currencyFilter', currencyFilter);
+    .filter('currencyFilter', currencyFilter)//currencyFilter 重写货币过滤器，达到精确度控制
+    .filter('addSignFilter', addSignFilter);//addSignFilter 在值后添加一个符号的过滤器，目前系统中用于显示%的使用
 });
