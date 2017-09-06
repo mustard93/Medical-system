@@ -210,7 +210,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
           if (item.strike_price) {
               _total += item.quantity*item.strike_price;
           }
-        
+
         });
         $scope.formData.totalPrice = _total;
       }
@@ -234,7 +234,7 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
-
+        $scope.formData.validFlag = true;
      if ($scope.submitForm_type == 'submit-loss') {
        _url='rest/authen/lossOrder/startProcessInstance';
        data= {businessKey:$scope.formData.id};
@@ -250,22 +250,6 @@ define('project-dt/controllers-lossOverOrder', ['project-dt/init'], function() {
            alertError(error || '出错');
          });
       }
-
-     if ($scope.submitForm_type == 'submit-allocate') {
-       _url='rest/authen/allocateOrder/startProcessInstance';
-       data= {businessKey:$scope.formData.id};
-       requestData(_url, data, 'POST')
-         .then(function (results) {
-           var _data = results[1];
-          //  alertOk(_data.message || '操作成功');
-           $scope.goTo({tabHref:'#/allocateOrder/get.html?id='+$scope.formData.id,tabName:'调拨单'});
-
-         })
-         .catch(function (error) {
-           alertError(error || '出错');
-         });
-      }
-
       if ($scope.submitForm_type == 'submit-over') {
             _url='rest/authen/overOrder/startProcessInstance';
             data= {businessKey:$scope.formData.id};
