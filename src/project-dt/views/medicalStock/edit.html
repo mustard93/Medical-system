@@ -52,25 +52,54 @@
         <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
           <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
           <!--性质-->
-          <div ng-if="initFlag" class="flex-row mgt-l bb-dashed-line">
-            <p  class="flex-item-2 text-right control-label pdr-s">性质：</p>
-            <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">
-              <div class="inline-block">
-                <div class="inline-block mgr" style="position:relative;top:-5px;">
-                  <p  class="radio-inline radio radio-new mgl-s">
-                    <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                  </p>
-                  <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;">医疗器械</em>
+          <!--<div ng-if="initFlag" class="flex-row mgt-l bb-dashed-line">-->
+            <!--<p  class="flex-item-2 text-right control-label pdr-s">性质：{{formData.medicalType}}</p>-->
+            <!--<div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">-->
+              <!--<div class="inline-block">-->
+                <!--<div class="inline-block mgr" style="position:relative;top:-5px;">-->
+                  <!--<p  class="radio-inline radio radio-new mgl-s">-->
+
+
+                    <!--<input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>-->
+                  <!--</p>-->
+                  <!--<em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;">医疗器械</em>-->
+                <!--</div>-->
+                <!--<div class="inline-block " style="position:relative;top:-5px;">-->
+                  <!--<p  class="radio-inline radio radio-new mgl-s">-->
+                    <!--<input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>-->
+                  <!--</p>-->
+                  <!--<em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;">药品</em>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+
+
+            <!--性质-->
+            <div ng-if="initFlag" class="flex-row mgt-l bb-dashed-line">
+                <p  class="flex-item-2 text-right control-label pdr-s">性质：</p>
+                <div ng-init="formData.medicalType = formData.medicalType ? formData.medicalType : '医疗器械'" class="flex-item-10 text-left mgb-m">
+                    <div class="inline-block">
+                        <div class="inline-block mgr" style="position:relative;top:-5px;">
+                            <label>
+                                <p  class="radio-inline radio radio-new mgl-s">
+                                    <input ng-checked="formData.medicalType == '医疗器械'" type="radio" class="default-radio"  name="medicalType" value="医疗器械" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                                </p>
+                                <em class="inline-block  mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">医疗器械</em>
+                            </label>
+                        </div>
+                        <div class="inline-block " style="position:relative;top:-5px;">
+                            <label>
+                                <p  class="radio-inline radio radio-new mgl-s">
+                                    <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
+                                </p>
+                                <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;vertical-align:bottom;">药品</em>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="inline-block " style="position:relative;top:-5px;">
-                  <p  class="radio-inline radio radio-new mgl-s">
-                    <input ng-checked="formData.medicalType == '药品'" type="radio" class="default-radio"  name="medicalType" value="药品" ng-model="formData.medicalType" ><i style="top:12px;"></i>
-                  </p>
-                  <em class="inline-block mgt-s" style=" color:#666;margin-left:-5px;">药品</em>
-                </div>
-              </div>
             </div>
-          </div>
+
           <div class="">
             <!--通用名-->
             <div class="flex-row mgt-l">
@@ -228,26 +257,51 @@
             </div>
 
             <!--有效期-->
-            <div class="flex-row mgt">
-              <p  class="flex-item-2 text-right control-label pdr-s">有效期：</p>
-              <div class="flex-item-10 text-left">
-                <input type="number"
-                       class="ipt-new-s ipt-new"
-                       name="guaranteePeriod"
-                       style="width:60px"
-                       onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                       onkeyup="if(this.value == 0)this.value=''"
-                       ng-model="formData.guaranteePeriod"/>
-                <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
-                  <div ng-repeat="date in DateUnit" class="inline-block mgr-s" style="position:relative;top:-5px;">
-                    <p  class="radio-inline radio radio-new mgl-s">
-                      <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
-                    </p>
-                    <em class="inline-block mgt-s" style=" color:#666; margin-left:-5px;">{{date.text}}</em>
+            <!--<div class="flex-row mgt">-->
+              <!--<p  class="flex-item-2 text-right control-label pdr-s">有效期：</p>-->
+              <!--<div class="flex-item-10 text-left">-->
+                <!--<input type="number"-->
+                       <!--class="ipt-new-s ipt-new"-->
+                       <!--name="guaranteePeriod"-->
+                       <!--style="width:60px"-->
+                       <!--onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"-->
+                       <!--onkeyup="if(this.value == 0)this.value=''"-->
+                       <!--ng-model="formData.guaranteePeriod"/>-->
+                <!--<div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">-->
+                  <!--<div ng-repeat="date in DateUnit" class="inline-block mgr-s" style="position:relative;top:-5px;">-->
+                    <!--<p  class="radio-inline radio radio-new mgl-s">-->
+                      <!--<input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>-->
+                    <!--</p>-->
+                    <!--<em class="inline-block mgt-s" style=" color:#666; margin-left:-5px;">{{date.text}}</em>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+              <!--有效期-->
+              <div class="flex-row mgt">
+                  <p  class="flex-item-2 text-right control-label pdr-s">有效期：</p>
+                  <div class="flex-item-10 text-left">
+                      <input type="number"
+                             class="ipt-new-s ipt-new"
+                             name="guaranteePeriod"
+                             style="width:60px"
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                             onkeyup="if(this.value == 0)this.value=''"
+                             ng-model="formData.guaranteePeriod"/>
+                      <div class="inline-block" ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DateUnit" scope-data="DateUnit">
+                          <div ng-repeat="date in DateUnit" class="inline-block mgr-s" style="position:relative;top:-5px;">
+                              <p  class="radio-inline radio radio-new mgl-s">
+                                  <label>
+                                      <input type="radio" class="default-radio"  name="type" value="{{date.text}}" ng-model="formData.guaranteePeriodUnit" ><i style="top:12px;"></i>
+                                  </label>
+                              </p>
+                              <em class="inline-block mgt-s" style=" color:#666; margin-left:-5px;">{{date.text}}</em>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
+
 
             <!--预警天数-->
             <div class="flex-row mgt">

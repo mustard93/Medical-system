@@ -21,7 +21,7 @@
     </page-main-header-component>
 
     <!--一键生成条形码-->
-    <div class="pos-rel-tl order-create-btn inline-block fl-l mgl-l ng-scope" style=" position: absolute;top: 123px;left: 354px;">
+    <div ng-if="$root.hasAuthor('批量生成条形码')" class="pos-rel-tl order-create-btn inline-block fl-l mgl-l ng-scope" style=" position: absolute;top: 123px;left: 354px;">
         <a class="ng-scope ng-isolate-scope" href="#"
            handle-this-click
            dialog-title="条码生成结果"
@@ -92,6 +92,14 @@
                     <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
                 </div>
               </div>
+                <div class="inline-block mgr-l mgl-l">
+                    <span class="mgr relative" style="top:2px;">  条形码：</span>
+                    <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                            chosen
+                            ng-model="listParams.barcodeIsNull"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BarcodesAttribute">
+                    </select>
+                </div>
             </div>
             <div class="flex-item-6 text-right">
 
