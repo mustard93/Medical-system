@@ -928,14 +928,14 @@
           <table class="table pr-table pr-new-table">
             <thead class="pr-bg-side">
               <tr>
-              <th class="text-center">序号</th>
-              <th style="text-align: left;width: 270px;">供应商名称</th>
-              <th style="text-align: left">法定代表人</th>
-              <th style="text-align: left">分类</th>
-              <th style="text-align: left">编号</th>
-              <th style="text-align: left">分管部门</th>
-              <th style="text-align: left">业务人员</th>
-            </tr>
+                <th class="text-center">序号</th>
+                <th style="text-align: left;width: 270px;">供应商名称</th>
+                <th style="text-align: left">法定代表人</th>
+                <th style="text-align: left">分类</th>
+                <th style="text-align: left">编号</th>
+                <th style="text-align: left">分管部门</th>
+                <th style="text-align: left">业务人员</th>
+              </tr>
             </thead>
             <tbody>
               <tr ng-repeat="supplier in formData.suppliers" table-item-handlebtn-component>
@@ -963,11 +963,11 @@
                           url="rest/authen/supplier/query"
                           class="inline-block"
                           ng-model-data="formData.suppliers[$index]"
-                          calbak-method ='checkBusinessScope(1)'
+                          calbak-method="checkBusinessScope();checkSupplierRepeat(suppliertmp,$index)"
                           ng-model="suppliertmp">
                     </span>
                     <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
-                    <span class="repeat-add-supplier" ng-if="sameSupplierFlag&&($index+1==formData.suppliers.length)">不能输入重复供应商</span>
+                    <span class="repeat-add-supplier" ng-if="sameSupplierFlag">不能输入重复供应商</span>
                   </div>
                   <p class="color-red">{{supplier.scopeNote}}</p>
                 </td>
