@@ -8,38 +8,36 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
    * @param  {[type]}           watchFormChange [description]
    * @return {[type]}                           [description]
    */
-  function needToPurchaseEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, utils,dialogConfirm) {
+  function needToPurchaseEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, alertError, utils,dialogConfirm) {
 
       modal.closeAll();
       $scope.isGoNextStep = false;
       //初始化校验数据
       $scope.identityForMedicalStocksMap={};
-      $scope.checkData=function(){
+      $scope.checkData = function () {
+        //初始化显示数据
+        if($scope.formData.id && $scope.formData.orderMedicalNos.length){
+            _getIdentityForMedicalStocks();
 
-          //初始化显示数据
-          if($scope.formData.id && $scope.formData.orderMedicalNos.length){
-              _getIdentityForMedicalStocks();
-
-              // var ids=[];
-              // angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-              //       ids.push(item.relId);
-              // });
-              //
-              // requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
-              //
-              //     if(result[1].code==200){
-              //
-              //         var datas = result[1].data;
-              //
-              //         angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
-              //             item.info=datas[index];
-              //         });
-              //     }
-              //
-              // });
-          }
+            // var ids=[];
+            // angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+            //       ids.push(item.relId);
+            // });
+            //
+            // requestData('rest/authen/qualificationCertificate/identityForMedicalStocks',{'ids':ids},'GET').then(function (result) {
+            //
+            //     if(result[1].code==200){
+            //
+            //         var datas = result[1].data;
+            //
+            //         angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+            //             item.info=datas[index];
+            //         });
+            //     }
+            //
+            // });
+        }
       };
-
 
       $scope.addDataItem = {};
 
@@ -263,19 +261,18 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
         }
 
         if ($scope.submitForm_type == 'submit') {
-          // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
 
           var url='rest/authen/salesOrder/confirmSalesOrder';
           var data= {id:$scope.formData.id,status:'待审批'};
           requestData(url, data, 'POST')
             .then(function (results) {
               var _data = results[1].data;
-              // console.log(_data);
               $scope.goTo({tabHref:'#/confirmOrder/edit-from-salesOrder.html?id='+_data.confirmOrder.id,tabName:'销售单'});
-
             })
             .catch(function (error) {
-              alertError(error || '出错');
+              if (error) {
+                alertError(error || '出错');
+              }
             });
         }
 
@@ -288,7 +285,7 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
             }
           })
           .catch(function (error) {
-
+            if (error) { throw new Error(error); }
           });
         }
       };
@@ -365,6 +362,7 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
 
 
       };
+
       $scope.handleChoiseAllEvent = function () {
         if ($scope.isChoiseAll) {
           if ($scope.formData.orderMedicalNos) {
@@ -409,28 +407,6 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
           $scope.isChoiseAll=false;
         }
       };
-      //根据资质条件判断时候允许下一步或提交
-      // $scope.canNextStep=function(){
-      //
-      //     var flag=true;
-      //
-      //     if($scope.customerInfo){
-      //         if($scope.customerInfo.controllType =='限制交易' && $scope.customerInfo.msg){
-      //             flag=false;
-      //             return flag;
-      //         }
-      //     }
-      //
-      //     angular.forEach($scope.formData.orderMedicalNos,function (medical,index) {
-      //         if(medical.info){
-      //             if(medical.info.controllType =='限制交易' && medical.info.msg){
-      //                 flag=false;
-      //             }
-      //         }
-      //     });
-      //     return flag;
-      // };
-
 
       //根据资质条件判断时候允许下一步或提交
       $scope.canNextStep=function(){
@@ -487,5 +463,5 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
   }
 
   angular.module('manageApp.project-dt')
-  .controller('needToPurchaseEditCtrl', ['$scope',"modal",'alertWarn',"watchFormChange", "requestData", "utils","dialogConfirm", needToPurchaseEditCtrl]);
+  .controller('needToPurchaseEditCtrl', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'alertError', 'utils', 'dialogConfirm', needToPurchaseEditCtrl]);
 });

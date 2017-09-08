@@ -1567,23 +1567,25 @@ define('main/services', ['toastr','main/init'], function (toastr) {
         }
 
         var _total = 0;
-      
+
         // 根据字段对象判断订单类型
-        if (formData.orderMedicalNos.length && formData[fieldName].indexOf('直发') > -1) {    // 直发销售
-          for (var i = 0; i < formData.orderMedicalNos.length; i++) {
-            _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], formData.orderMedicalNos[i][numFieldName]);
-          }
-        } else if (formData.orderMedicalNos.length && formData[fieldName].indexOf('普通') > -1) {      // 普通销售
-          for (var i = 0; i < formData.orderMedicalNos.length; i++) {
-            var _num = 0;
-            angular.forEach(formData.orderMedicalNos[i]['stockBatchs'], function (item, index) {
-              _num += item.quantity;
-            });
-            // 计算累加数量
-            _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], _num);
+        if (formData.orderMedicalNos.length && formData[fieldName]) {
+          if (formData[fieldName].indexOf('直发') > -1) {    // 直发销售
+            for (var i = 0; i < formData.orderMedicalNos.length; i++) {
+              _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], formData.orderMedicalNos[i][numFieldName]);
+            }
+          } else if (formData[fieldName].indexOf('普通') > -1) {      // 普通销售
+            for (var i = 0; i < formData.orderMedicalNos.length; i++) {
+              var _num = 0;
+              angular.forEach(formData.orderMedicalNos[i]['stockBatchs'], function (item, index) {
+                _num += item.quantity;
+              });
+              // 计算累加数量
+              _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], _num);
+            }
           }
         }
-
+        
         return _total;
       }
 

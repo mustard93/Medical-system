@@ -714,7 +714,9 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     $scope.transformTaxType = function (orderMedicalNos) {
       if (angular.isArray(orderMedicalNos)) {
         angular.forEach(orderMedicalNos, function (data, index) {
-          data.tax = utils.transformNumOrStr(data.tax);
+          if (data.tax) {
+            data.tax = utils.transformNumOrStr(data.tax);
+          }
         });
       }
     }
