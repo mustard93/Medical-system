@@ -2595,7 +2595,9 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             "ngModel": "=",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?"
+            "ngDisabled": "=?",
+            "searchStyle": "@",
+            "addSupplier": "&?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
@@ -2609,11 +2611,6 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.pause = 300;
             $scope.minLength = 1;
             $scope.searchStr = $scope.searchFields;
-
-
-
-
-
 
             //绑定返回对象的某个属性值。
             if($attrs.ngModelId||$attrs.ngModelData||$attrs.callback){
@@ -2631,11 +2628,21 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
               }, true);
             }
 
-            // console.log($attrs.searchFields);
+            // 如果定义autofocus则给input加入autofocus属性
+            if (angular.isDefined($attrs.autoFocus)) {
+              // console.log($('#autocomplete-supplier_searchInputId').attr('autofocus', 'autofocus'));
+              // $('#autocomplete-supplier_searchInputId').attr('autofocus','autofocus');
+            }
 
-            $attrs.$observe($attrs.searchFields, function (value) {
-              console.log(value);
-            })
+            $scope.$watchCollection('selectedItem', function (newVal, oldVal) {
+              if (newVal && newVal !== oldVal) {
+                // 如果数据添加成功
+                if (newVal.addSucess) {
+                  $scope.searchStr = '';  // 清空已选择
+                  $('#autocomplete-supplier_searchInputId').focus();
+                }
+              }
+            });
 
             require(['project/angucomplete'], function(angucomplete) {
               $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);

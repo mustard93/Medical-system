@@ -46,7 +46,7 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper">
       <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
-        <em class="color-red">原因:</em>
+        <em class="color-red">原因：</em>
         <p class="inline-block-important color-red">
           <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
@@ -90,7 +90,9 @@
                         url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                         ng-model="tmp_customer"
                         ng-model-id="formData.customerId"
-                        class="inline-block" style="height:28px;">
+                        class="inline-block"
+                        style="height:28px;"
+                        is-auto-focus="true">
 
                   </span>
                   <em ng-if="formData.customer.businessApplication.businessStatus=='已冻结'"  class="color-4">
@@ -154,7 +156,7 @@
                   <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
                 </span>
                 <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-                <span class="mgr">单据日期: </span>
+                <span class="mgr">单据日期：</span>
                  <date ng-model="formData.orderDate"></date>
                 <!-- <span class="relative">
                   <span>单据日期：</span>
@@ -306,7 +308,6 @@
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                                  ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
                         </span>
@@ -332,7 +333,7 @@
                                name="batchNum{{$index}}"
                                ng-model="batch.quantity"
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos)">
+                               ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);batch.quantity=batch.quantity>0?batch.quantity:1">
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                       </div>
@@ -391,12 +392,12 @@
                              ng-model="item.discountRate"
                              ng-change="handleFormElementChange(item.strike_price,item.tax,item.discountRate,formData.orderBusinessType,item,formData.orderMedicalNos);item.discountRate=item.discountRate>0?item.discountRate:0;item.discountRate=item.discountRate<100?item.discountRate:100;" />%
                     </td><!--折扣率-->
-                    <td class="text-center">￥{{item.duty_price || '0.00' | number:precision}}</td><!--含税单价-->
-                    <td class="text-center">￥{{item.duty_free_price || '0.00' | number: precision}}</td><!--无税单价-->
-                    <td class="text-center">￥{{item.total_duty_free_price || '0.00' | number: precision}}</td><!--无税金额-->
-                    <td class="text-center">￥{{item.totalTaxPrice || '0.00' | number: 2}}</td><!--税额-->
-                    <td class="text-center">￥{{item.discountPrice || '0.00' | number: 2}}</td><!--折扣额-->
-                    <td class="text-center">￥{{item.totalPrice || '0.00' | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-right">￥{{item.duty_price || '0.00' | number:precision}}</td><!--含税单价-->
+                    <td class="text-right">￥{{item.duty_free_price || '0.00' | number: precision}}</td><!--无税单价-->
+                    <td class="text-right">￥{{item.total_duty_free_price || '0.00' | number: 2}}</td><!--无税金额-->
+                    <td class="text-right">￥{{item.totalTaxPrice || '0.00' | number: 2}}</td><!--税额-->
+                    <td class="text-right">￥{{item.discountPrice || '0.00' | number: 2}}</td><!--折扣额-->
+                    <td class="text-right">￥{{item.totalPrice || '0.00' | number:2}}</td><!-- 价税合计 -->
                     <!-- <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.validTill | date : 'yyyy-MM-dd'}}</div>
                     </td> -->

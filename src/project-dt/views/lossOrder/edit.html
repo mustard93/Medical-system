@@ -1,4 +1,4 @@
-<div class="loss-over-order"
+<div class="loss-over-order loss-order"
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -65,7 +65,12 @@
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
-        <div flash-add-medical
+        <div class="view-medical pd-c-l pdt-m" flash-add-medical
+             ng-model="data1"
+             ajax-url="rest/authen/medicalStock/query.json"
+             add-data-callback-fn="flashAddDataCallbackFn(data1)">
+        </div>
+        <!-- <div flash-add-medical
              ng-model="data1"
              class="view-medical pd-c-l pdt-m"
              ajax-url="rest/authen/medicalStock/query"
@@ -73,7 +78,8 @@
              is-disabled-this="{{formData.logisticsCenterId}}"
              hide-quantity
              hide-import>
-        </div>
+        </div> -->
+
         <!-- 列表 -->
         <div>
           <div class="flex-row color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
@@ -83,7 +89,7 @@
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr-l text-left">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span >单据日期: </span>
+              <span >单据日期： </span>
 
                <date class="mgr-l" ng-model="formData.orderDate"></date>
               <!-- <span class="mgr-l relative">
@@ -303,15 +309,25 @@
                   ng-disabled="!changeFlag"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
-          <button ng-if="formData.orderStatus=='未提交'"
+          <button ng-if="numberingPolicy=='auto'"
                   type="button"
                   class="pr-btn-save-glodbg "
                   handle-this-click
                   dialog-title="确认提示"
                   dialog-content="确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('lossOverOrder_editForm1','submit-loss')"
-                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length || canNextStep || stockBatchsFlag">提交
+                  callback="formData.validFlag=true;submitForm('lossOverOrder_editForm1','submit-loss')"
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length  || canNextStep || stockBatchsFlag">提交
+          </button>
+          <button ng-if="numberingPolicy!=='auto'"
+                  type="button"
+                  class="pr-btn-save-glodbg "
+                  handle-this-click
+                  dialog-title="确认提示"
+                  dialog-content="确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="formData.validFlag=true;submitForm('lossOverOrder_editForm1','submit-loss')"
+                  ng-disabled="lossOverOrder_editForm1.$invalid || !formData.orderMedicalNos.length ||!formData.orderCode || canNextStep || stockBatchsFlag">提交
           </button>
       </div>
 

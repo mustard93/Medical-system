@@ -571,7 +571,12 @@ define('project-dt/controllers-arrivalNoticeOrder', ['project-dt/init'], functio
                   printScope.converResult=item2.stockBatch[i];//条码信息
                   printScope.validTill=item2.validTill ? item2.validTill : '';//有效期
                   printScope.specificationAndModelType=item2.specificationAndModelType;//型号规格
-                  printScope.supplier.name=item2.stockBatch[i].productEnterprise.name ? item2.stockBatch[i].productEnterprise.name : '';//供应商信息
+                    try{
+                        printScope.supplier.name=item2.stockBatch[i].productEnterprise.name ? item2.stockBatch[i].productEnterprise.name : '';//供应商信息
+                    }catch (e){
+                        printScope.supplier={};
+                        printScope.supplier.name="暂无";
+                    }
                   printScope.intentionalCustomer=$scope.mainStatus.additional.HabbitOrganizationName;//货主信息
 
                   var tmpHtml=uiCustomHtml.html;
