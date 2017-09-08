@@ -10,9 +10,10 @@ define('main/controllers', ['main/init'], function () {
    */
   function tabCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils,uiTabs) {
 
-      console.log("uiTabs",uiTabs);
+      console.log("当前tab-Url>>:",uiTabs.current.templateUrl);
 
-      $rootScope.uiTabs= uiTabs;
+
+      // $rootScope.uiTabs= uiTabs;
 
 
       //   $scope.$watch('initFlag', function () {
