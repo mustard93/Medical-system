@@ -1741,8 +1741,6 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
 
                 $timeout(function () {
                     container = angular.element(element[0].querySelector('#ui-tabs-' + tab.id));
-                    //先清空当前html 内容， 再追加；
-                    container.html('');
                     container.append(pageNode);
                 });
             }
