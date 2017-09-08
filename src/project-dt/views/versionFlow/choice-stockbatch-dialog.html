@@ -2,7 +2,7 @@
      ng-controller="editStockbatchNumberCtrl"
      ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType={{dialogData.warehouseType}}"
      scope-data="stockBatchList"
-     callback="dialogData.choisedBatchsIdList= getChoisedBatchsId(dialogData.choisedBatchList)"
+     callback="dialogData.choisedBatchsIdList= getChoisedBatchsId(dialogData.choisedBatchList);initFlag=true"
      alert-error>
 
     <!-- 标题 -->
@@ -63,6 +63,9 @@
                        datepicker
                        class="ipt-date  color-6 mgr pr-indent-10"
                        ng-readonly="true"
+                       invalid-popover
+                       popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                       popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}'
                        ng-model="listParams.createAtEnd"/>
                 <span class="delete-date-icon" style="z-index:10;" ng-click="listParams.createAtEnd='';"></span>
             </div>
@@ -107,11 +110,11 @@
                                name="medicals"
                                class="default-radio"
                                ng-disabled="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}"><i></i> -->
-                        <input type="radio" ng-checked="{{listObject.choisedBatchsIdList.indexOf(item1.id)!=-1}}" name="" class="default-radio" ><i></i>
+                        <input type="radio" ng-checked="listObject.choisedBatchsIdList.indexOf(item1.id)>-1" name="medica{{$index}}" class="default-radio" ><i></i>
                     </label>
                 </td>
                 <td class="text-center color-white" style="height:50px;">{{item1.productionBatch}}</td>
-                <td class="text-center color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
+                <td class="text-center color-white" style="height:50px;">{{item1.sterilizationBatchNumber}}</td>
                 <td class="color-white text-center" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
                 <td class="text-center color-white" style="height:50px;">{{item1.warehouseName}}</td>
                 <td class="text-center color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>

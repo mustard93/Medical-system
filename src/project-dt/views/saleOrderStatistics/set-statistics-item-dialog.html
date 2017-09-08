@@ -70,7 +70,8 @@
                        class="ipt-date color-6 mgr pr-indent-10"
                        ng-readonly="true"
                        ng-model="filterObject.updateAtBeg">
-                <span class="date-icon" style="z-index:15;"></span>
+                <span ng-if="!filterObject.updateAtBeg" icon-click class="date-icon" style="z-index:15;"></span>
+                <span ng-if="filterObject.updateAtBeg" class="delete-date-icon" style="z-index:15;" ng-click="filterObject.updateAtBeg='';"></span>
             </div>
 
             <span class="pdt-s mgl-s mgr-s" style="padding-top:7px;">至</span>
@@ -84,7 +85,8 @@
                        invalid-popover
                        popover-show="filterObject.updateAtEnd<filterObject.updateAtBeg"
                        popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
-                <span class="date-icon" style="z-index:15;"></span>
+                <span ng-if="!filterObject.updateAtEnd" icon-click class="date-icon" style="z-index:15;"></span>
+                <span ng-if="filterObject.updateAtEnd" class="delete-date-icon" style="z-index:15;" ng-click="filterObject.updateAtEnd='';"></span>
             </div>
         </div>
         <div class="flex-row mgt-m" style="margin-top:18px!important;">

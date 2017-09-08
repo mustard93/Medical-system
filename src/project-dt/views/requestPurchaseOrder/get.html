@@ -151,7 +151,9 @@
              <header class="text-n color-3 flex-row">
                <span class="flex-item-11">
                  <div class=" color-9 text-s">
-                   <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderCode}}</em></span>
+                   <span class="mgr-l">单据编号：
+                       <a2 ng-if="showData.orderCode"  tab-name="采购单" url="#/requestPurchaseOrderDetail/get.html?id={{showData.id}}" class="color-orange">{{showData.orderCode}}</a2>
+                   </span>
                    <!-- <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span> -->
                    <span class="mgr-l">审核人：<em class="color-6">{{showData.approver.approverUser.n || '暂无'}}</em></span>
                     <span class="mgr-l">单据日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
@@ -165,6 +167,25 @@
                    <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
                  </div>
                </span>
+                 <div class="panel-body" style="display:none; margin:0 -20px; padding: 0;">
+                     <div ng-if="initFlag"
+                          custom-table="com.pangu.mss.domain.mongo.order.OrderMedicalNo"
+                          custom-key="采购单详情列表"
+                          custom-table-repeat-data="{{showData.operationFlowSet}}"
+                          custom-tr-menus="1"
+                          style="width:100%;">
+                     </div>
+                     <div class="flex-row pr-bg-white">
+                         <p class="flex-item-12 text-right pdb-m pdt-m pd-c-l ">
+                             <span class="mgr mgl">制单部门：<em class="color-3">{{showData.departmentName || '暂无'}}</em></span>
+
+                             <span class="mgr mgl">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
+
+                             <span class="mgr mgl">制单时间：<em class="color-3">{{showData.createAt || '暂无' | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+                         </p>
+                     </div>
+                 </div>
+
              </header>
 
               <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">

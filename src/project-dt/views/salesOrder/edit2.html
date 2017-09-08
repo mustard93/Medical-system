@@ -106,7 +106,7 @@
                 <em class="color-red" ng-if="!formData.orderCode">（必填）</em>
               </span>
               <span ng-if="numberingPolicy=='auto'" class="mgr-l color-9">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
-              <span class="mgr">单据日期: </span>
+              <span class="mgr">单据日期： </span>
                <date ng-model="formData.orderDate"></date>
               <!-- <span class="relative" style="top:0.1rem;">
                 <span class="color-9">单据日期：</span>
@@ -149,7 +149,7 @@
                             select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}&isReturnNullOfNoCondition=true">
                     </select>
                   </span>
-                  <span class="mar-l20">要求到货日期:</span>
+                  <span class="mar-l20">要求到货日期：</span>
                   <date ng-if="formData.orderSource!='线上订单'" ng-model="formData.expectDate"></date>
                   <span ng-if="formData.orderSource=='线上订单'" class="color-6">{{formData.expectDate | date:'yyyy-MM-dd'}}</span>
                   <!-- <span class="mgr">
@@ -200,7 +200,7 @@
                       <label for="salesOrder_{{$index + 2}}"></label>
                       </td>
                     <td class="text-center">{{tr.code}}
-                      <div  class="table-item-handle-btn" title="删除">
+                      <div ng-show="formData.orderSource != '线上订单'" class="table-item-handle-btn" title="删除">
                         <div class="table-item-confirm-del-area bg-white">
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt">

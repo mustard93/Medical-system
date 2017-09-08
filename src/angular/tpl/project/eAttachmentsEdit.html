@@ -10,6 +10,7 @@
         eAttachment.canDeleteFlag=true;
         eAttachment.handleCreate=true;
         eAttachment.showFlag=true;
+        eAttachment.tipStr='该字段保存后将不能修改';
         ngModel.push(eAttachment);
         eAttachment={};"
          href="javascript:;"><i></i><span class="text-s">增加{{eAttachmentsExtend.title}}</span></a>
@@ -49,6 +50,7 @@
                     chosen
                     width="145px"
                     ng-model="item.licenseId"
+                    ng-change="tipChange(item,false)"
                     select-source="rest/authen/qualificationCertificate/queryForSelectOption?licenseSonType=电子档案&&licenseType={{eAttachmentsExtend.licenseType}}&&enterpriseType={{enterpriseType}}">
             </select>
           </td><!-- 类型  -->
@@ -57,11 +59,13 @@
                    class="ipt color-6 mgr"
                    style="width:148px;"
                    ng-model="item.certificateNumber"
+                   ng-change="tipChange(item,false)"
                    placeholder=""
                    name="certificateNumber"
-                   data-content="该字段保存后将不能修改"
-                   invalid-popover="{{!EditForm.certificateNumber.$valid}}"
-                   popover-options='{"content":"该字段保存后将不能修改", "placement":"bottom", "trigger":"manual"}'>
+                   data-content="{{item.tipStr}}"
+                   invalid-popover
+                   popover-show="!item.certificateNumber || item.tipStr"
+                   popover-options='{"placement":"bottom", "trigger":"manual"}'>
           </td>
           <!-- <td ng-if="item.isAdmin==false">
             <input type="text"

@@ -224,9 +224,6 @@
                      class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
                      ng-model="stockData.createAtEnd"
-                     invalid-popover
-                     popover-show="stockData.createAtEnd<stockData.createAtBeg"
-                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}'
                      ng-change="handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)" />
               <span icon-click class="date-icon"></span>
           </div>
@@ -235,7 +232,10 @@
                      datepicker
                      class="ipt-date color-6 mgr pr-indent-10 input-date"
                      ng-readonly="true"
-                     ng-model="stockData.createAtEnd"/>
+                     ng-model="stockData.createAtEnd"
+                     invalid-popover
+                     popover-show="stockData.createAtEnd<stockData.createAtBeg"
+                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}'/>
               <span class="delete-date-icon" style="z-index:10;" ng-click="stockData.createAtEnd='';handleSearchFilter(stockData.createAtBeg,stockData.createAtEnd,medicalData.id,medicalData.productionBatch)"></span>
           </div>
         </div>
