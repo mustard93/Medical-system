@@ -600,16 +600,15 @@
 
                 </div>
 
-                <!--条形码-药品（手动输入）   -->
-                <div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">
-                  <p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>
-                  <div class="flex-item-10 text-left">
-                    <input type="text"
-                           class="ipt-new-s ipt-new"
-                           ng-model="formData.barcode"/>
-                  </div>
+              </div>
+              <!--条形码-药品（手动输入）   -->
+              <div  ng-if="formData.medicalType == '药品'" class="flex-row mgt">
+                <p  class="flex-item-2 text-right control-label pdr-s">条形码：</p>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new-s ipt-new"
+                         ng-model="formData.barcode"/>
                 </div>
-
               </div>
 
             </div>
@@ -921,21 +920,41 @@
         </div>
 
         <!--供应商-->
-        <div class="pr-bg-white mgt-l mgb-m">
-          <div class="pos-rel-tl order-create-btn inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
-            <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a>
+        <div class="pr-bg-white mgt-s mgb-m">
+          <div class="pos-rel-tl inline-block fl-l pdb-m pdt-m mgl-l" style="padding-top:0px;">
+            <h1 class="color-3 text-n pd-v">供应商闪加</h1>
+            <div class="inline-block relative" ng-init="suppliertmp=supplier">
+              <span angucomplete-supplier
+                    placeholder="供应商名称"
+                    title-field="name"
+                    search-fields="{{formData.customerName}}"
+                    url="rest/authen/supplier/query.json"
+                    ng-model="tmp_customer"
+                    ng-model-id="formData.customerId"
+                    class="inline-block"
+                    search-style="height:36px;width:558px"
+                    selected-item="selectedItem"
+                    add-supplier="addSupplier(tmp_customer)">
+              </span>
+              <!-- <span class="receive-item-icon" style="top:6px;right:5px;"></span> -->
+              <span class="repeat-add-supplier" ng-if="sameSupplierFlag">不能输入重复供应商</span>
+            </div>
+            <div class="inline-block mgl">
+              <a href="javascript:;" ng-click="addSupplier(tmp_customer,$event)" class="add-medical-list" title="添加供应商" style="top:2px"></a>
+            </div>
+            <!-- <a href="javascript:;" ng-click="addSupplier();" title="添加供应商"><i></i><span class="text-s">添加供应商</span></a> -->
           </div>
           <table class="table pr-table pr-new-table">
             <thead class="pr-bg-side">
               <tr>
-              <th class="text-center">序号</th>
-              <th style="text-align: left;width: 270px;">供应商名称</th>
-              <th style="text-align: left">法定代表人</th>
-              <th style="text-align: left">分类</th>
-              <th style="text-align: left">编号</th>
-              <th style="text-align: left">分管部门</th>
-              <th style="text-align: left">业务人员</th>
-            </tr>
+                <th class="text-center">序号</th>
+                <th style="text-align: left;width: 270px;">供应商名称</th>
+                <th style="text-align: left">法定代表人</th>
+                <th style="text-align: left">分类</th>
+                <th style="text-align: left">编号</th>
+                <th style="text-align: left">分管部门</th>
+                <th style="text-align: left">业务人员</th>
+              </tr>
             </thead>
             <tbody>
               <tr ng-repeat="supplier in formData.suppliers" table-item-handlebtn-component>
@@ -951,26 +970,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-left">
-                  <div style="position: relative;" ng-init="suppliertmp=supplier">
-                    <span class="temporary"
-                          angucomplete
-                          placeholder="供应商名称"
-                          title-field="name"
-                          description-field="suppliertmp.name"
-                          search-fields="{{supplier.name}}"
-                          search-str-class="ipt"
-                          url="rest/authen/supplier/query"
-                          class="inline-block"
-                          ng-model-data="formData.suppliers[$index]"
-                          calbak-method ='checkBusinessScope(1)'
-                          ng-model="suppliertmp">
-                    </span>
-                    <span class="receive-item-icon" style="top: 6px;right: 15px;"></span>
-                    <span class="repeat-add-supplier" ng-if="sameSupplierFlag&&($index+1==formData.suppliers.length)">不能输入重复供应商</span>
-                  </div>
-                  <p class="color-red">{{supplier.scopeNote}}</p>
-                </td>
+                <td class="text-left">{{supplier.name}}</td>
                 <td class="text-left">{{supplier.legalUser.n}}</td>
                 <td class="text-left">{{supplier.supplierAttribute.showName}}</td>
                 <td class="text-left">{{supplier.code}}</td>

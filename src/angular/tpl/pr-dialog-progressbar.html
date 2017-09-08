@@ -1,0 +1,40 @@
+<style>
+    .ngdialog-overlay{
+        background: none;
+    }
+    .ngdialog-content{
+        width: 620px;
+        height: 260px;
+        background: rgba(255,255,255,0.90)!important;
+        box-shadow: 0 0 12px 0 rgba(199,167,123,0.70)!important;
+        animation: dialogFadeIn .2s;
+        border-radius: 3px;
+        color: #444;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+    .pr-page-dialog-content{
+        min-height: 150px!important;
+    }
+</style>
+<div class="pr-page-dialog-wrap"
+     ajax-url="rest/authen/medicalStock/generateBarcodes.json"
+     scope-data="barData">
+    <div class="pr-page-dialog-title bb-line">
+        <span class="mgl-l text-n">{{confirmTitle}}</span>
+    </div>
+    <div class="pr-page-dialog-content bb-line" ng-if="barData">
+        <div class="mgb-l" style="margin-left: 80px;margin-top: 45px;font-size: 16px">
+            <i class="progressbar-icon-hook"></i>条码生成完毕！本次成功生成条形码&nbsp;{{barData.successNum}}&nbsp;条，失败<em class="color-red">&nbsp;{{barData.failNum}}&nbsp;</em>条
+        </div>
+    </div>
+    <div class="pr-page-dialog-content bb-line" ng-if="!barData">
+        <div class="mgb-l" style="margin-left: 80px;margin-top: 45px;">
+            <!--<i class="progressbar-icon-hook"></i>条码生成完毕！本次成功生成条形码&nbsp;{{barData.successNum}}&nbsp;条，失败<em class="color-red">&nbsp;{{barData.failNum}}&nbsp;</em>条-->
+        </div>
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+        <button type="button" class="pr-btn-save-glodbg btn-new-wid-hei" ng-click="confirm()">确定</button>
+    </div>
+</div>

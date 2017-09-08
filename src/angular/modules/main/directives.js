@@ -1829,19 +1829,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }, true);
               }
 
-              // if($attrs.ngModelId){
-              //   $scope.$watch("ngModel", function(value) {
-              //     console.log("ngModelProperty.watch.ngModel",value);
-              //     if(!value){
-              //       $scope.ngModelId=null;
-              //     }else{
-              //         $scope.ngModelId=value.id;
-              //     }
-              //
-              //
-              //   }, true);
-              // }
-
               require(['project/angucomplete'], function(angucomplete) {
                 $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
               });
