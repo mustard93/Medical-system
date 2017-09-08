@@ -84,7 +84,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData.orderMedicalNos, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
     });
 
@@ -152,7 +152,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice(newVal, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
 
     }, true);
@@ -714,7 +714,9 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     $scope.transformTaxType = function (orderMedicalNos) {
       if (angular.isArray(orderMedicalNos)) {
         angular.forEach(orderMedicalNos, function (data, index) {
-          data.tax = utils.transformNumOrStr(data.tax);
+          if (data.tax) {
+            data.tax = utils.transformNumOrStr(data.tax);
+          }
         });
       }
     }
