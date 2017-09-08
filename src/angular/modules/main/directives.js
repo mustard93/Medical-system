@@ -4475,6 +4475,128 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       }
     }
 
+
+    /**
+     *
+     * 下拉多选组件
+     * @param $rootScope
+     * @returns {{name: string, scope: {url: string}, restrict: string, transclude: boolean, template: string, link: link}}
+     */
+    function  selectMore($rootScope){
+        return {
+            name:'selectMore',
+            scope:{
+                url:"@",
+                selected:'=',
+                enterFn:'&',
+                ngShow:'='
+            },
+            restrict: 'E',
+            templateUrl:  Config.tplPath +'tpl/project/selectMore.html',
+            link: function ($scope, element, attrs) {
+                $scope.url = attrs.url;
+
+                $scope.choiced=$scope.selected;
+
+                // 处理全选与全不选
+                $scope.choiced=[];
+                $scope.handleChoiseAllEvent = function (medicalsObj,handleFlag) {
+                    if (medicalsObj && angular.isArray(medicalsObj)) {
+                        if (handleFlag) {   // 全选被选中
+                            angular.forEach(medicalsObj, function (data, index) {
+                                data.handleFlag = true;
+                                $scope.choiced.push(data);
+                            });
+                        } else {    //取消了全部选中
+                            angular.forEach(medicalsObj, function (data, index) {
+                                data.handleFlag = false;
+                                $scope.choiced=[];
+                            });
+                        }
+                    }
+                };
+                $scope.handleItemClickEvent = function (tr,list) {
+                    var _dataSource = list;
+                    if (!$scope.choiced) {
+                        $scope.choiced = [];
+                    }
+
+                    if (tr.handleFlag) {
+                        $scope.choiced.push(tr);
+                        if ($scope.choiced.length === _dataSource.length) {
+                            $scope.isChoiseAll = true;
+                        }
+                    } else {
+                        angular.forEach($scope.choiced, function (data, index) {
+                            if (data === tr) {
+                                $scope.choiced.splice(index, 1);
+                            }
+                        });
+                        $scope.isChoiseAll = false;
+                    }
+                };
+
+                $scope.itemInArray=function (id,batchlist,attr) {
+
+                    if(!batchlist){
+                        var  batchlist= [];
+                    }
+
+                    var flag=false;
+                    for(var i=0; i<batchlist.length; i++){
+                        if(batchlist[i][attr] == id){
+                            flag=true;
+                        }
+                    }
+                    return flag;
+                };
+
+                $scope.$watch('list',function (newVal,oldVal) {
+                    console.log(newVal.length);
+                });
+
+
+                $scope.isCheckAll=function (list) {
+                    $scope.isChoiseAll = false;
+                    $scope.choiced=[];
+
+                    var count =0;
+                    angular.forEach(list,function (item) {
+                        if($scope.itemInArray(item.value,$scope.choiced,'value')){
+                            count++;
+                        }
+                    });
+
+                    if(list.length == count){
+                        $scope.isChoiseAll = true;
+                    }else{
+                        $scope.isChoiseAll = false;
+                    }
+                };
+
+
+                //选择条目回调方法
+                $scope.select=function () {
+
+                    if($scope.enterFn){
+                        $scope.enterFn($scope.choiced);
+                    }
+                    $scope.selected= angular.copy( $scope.choiced) ;
+
+
+                    $scope.hideMe();
+                };
+
+                $scope.hideMe=function () {
+                   $scope.ngShow=false;
+                }
+
+            }
+        };
+    }
+
+
+
     angular.module('manageApp.main')
     .directive("canvasBusinessFlow", ["$rootScope","modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
@@ -4518,4 +4640,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("tabNav",['$rootScope',tabNav])
         .directive("a2",['$rootScope',a2])
         .directive("iconClick",iconClick)
+        .directive("selectMore",['$rootScope',selectMore])
 });
