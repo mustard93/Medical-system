@@ -1619,7 +1619,7 @@ define('project/directives', ['project/init'], function () {
         restrict: 'AE',
       link: function ($scope, element, $attrs) {
         // 表格数据传入Jason格式
-        var sortItem=$scope.$eval($attrs.sortItem);
+        var sortItemCanSort=$scope.$eval($attrs.sortItemCanSort);
         // 请求重新排序接口
         var sortRequestUrl=$attrs.sortRequestUrl;
         // 传入相关查询条件
@@ -1627,7 +1627,7 @@ define('project/directives', ['project/init'], function () {
         var count=1;
         // 把需要排序的标题加上排序箭头
         // 判断是否可以点击排序，如果是，则给改字段加上可以排序的样式。
-        if (!sortParamsWay) {
+        if (!sortParamsWay&&sortItemCanSort) {
           sortParamsWay='desc';
         }
 

@@ -171,7 +171,7 @@ var uiTabsModule = angular.module('ui.tabs', ['angular-sortable-view']).provider
              * @return {boolean} 切换tab页是否成功
              */
             active: function active(tab) {
-				console.log("active.......",tab);
+
                 tab = _getTab(tab);
 
                 return activeTab(tab);
@@ -1685,7 +1685,7 @@ _uiTabs2.default.directive('uiTabsView', function ($timeout, $controller, $compi
                 }
             }
 
-            //关闭所有tab -默认页 除外   
+            //关闭所有tab -默认页 除外
             function closeAll() {
                 var list = [];
                 var indexs = [];
