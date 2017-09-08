@@ -5,7 +5,7 @@
     callback="initFlag=true;watchFormChange('formData');"
     alert-error>
     <div  ng-if="$root.uiTabs.current.name != '供应商管理'"  class="header-info relative mgb-l">
-        <p class="pdb-s pdt-s crumbs pd-c-xxl">GSP质量管理 >
+        <p class="pdb-s pdt-s crumbs crumbs- pd-c-xxl">GSP质量管理 >
             <a
             tab-nav
             tab-name='首营企业管理'
@@ -14,7 +14,7 @@
             </a>
             <em>>首营企业申请</em>
         </p>
-        <div class="pd-c-xxl pdt-l pdb-l  ">
+        <div class="pd-c-xxl pdb-l" style="padding-top:51px;">
             <!-- 标题 -->
             <div>
               <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
@@ -325,7 +325,7 @@
             <div class="handle-btn-area relative">
                 <div class="mgb text-right btn-area">
                     <span class="mgl">
-                      <a ng-if="changeFlag"  href="javascript:;"
+                      <a ng-if="changeFlag"  href="javascript:;" class="mgr-l"
                          handle-this-click
                          dialog-title="确认返回?"
                          dialog-content="该申请单存在未保存数据，是否保存?"
@@ -333,12 +333,12 @@
                          nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
                          save-callback="submitSaveCallBack('firstEnterpriseApplication')">返回申请单列表
                       </a>
-                      <a ng-if="!changeFlag"
+                      <a ng-if="!changeFlag" class="mgr-l"
                       tab-nav
                       tab-name='首营企业管理'
                       tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
                     </span>
-                    <span class="mgl">
+                    <span>
                         <a ng-if="formData.id"
                            href="javascript:;"
                            class="pr-color-red mgr-l"
@@ -350,12 +350,12 @@
                            callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">删除
                         </a>
                     </span>
-                    <span class="mgl">
-                      <button class="pr-btn-save-glodbg mgt"
+                    <span>
+                      <button class="pr-btn-save-glodbg mgt mgr"
                               ng-disabled="!changeFlag || firstEnterpriseApplication_editForm1.$invalid"
                               ng-click="submitForm('firstEnterpriseApplication_editForm1','save')">保存</button>
                     </span>
-                    <span class="mgl">
+                    <span>
                       <button class="pr-btn-save-glodbg mgt"
                               ng-disabled="firstEnterpriseApplication_editForm1.$invalid || !formData.supplierAttribute.name || !formData.type.length"
                               ng-click="submitForm('firstEnterpriseApplication_editForm1','submit')">下一步

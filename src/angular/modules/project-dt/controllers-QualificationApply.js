@@ -490,11 +490,11 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     };
 
     // 添加供应商时检查当前供应商是否具有销售该药品
-    $scope.checkBusinessScope=function () {
+    $scope.checkBusinessScope = function () {
       var url ="rest/authen/firstMedicalApplication/checkBusinessScope";
-      requestData(url,$scope.formData, 'POST','parameterBody')
+      requestData(url, $scope.formData, 'POST','parameterBody')
       .then(function (results) {
-          $scope.formData.suppliers= results[1].data.suppliers || [];
+          $scope.formData.suppliers = results[1].data.suppliers || [];
       })
       .catch(function (error) {
           alertError(error || '出错');
@@ -558,43 +558,37 @@ define('project-dt/controllers-QualificationApply', ['project-dt/init'], functio
     };
 
     //添加供应商
-    $scope.addSupplier=function(){
-      $scope.formData.suppliers = $scope.formData.suppliers ? $scope.formData.suppliers : [];
-      $scope.formData.suppliers.push({});
-    };
+    $scope.addSupplier = function (tmp_customer) {
+      //debugger;
+      if (window.event.keyCode === 13 || window.event.button === 0) {
+        if (!$scope.formData.suppliers) {
+          $scope.formData.suppliers = [];
+        }
 
-    // 监控供应商对象变化，当新增时检查添加的供应商是否重复
-    // $scope.$watchCollection('formData.suppliers', function (newVal, oldVal) {
-    //   if (newVal && newVal !== oldVal) {
-    //     console.log(newVal);
-    //   }
-    //
-    //
-    //
-    //   // 变化后的数组对象必须为真且数组对象的长度大于1
-    //   if (newVal && newVal !== oldVal && newVal.length > 1 && newVal[newVal.length - 1].id) {
-    //     // 将最后一个添加的项目的id取出
-    //     var _lastItemId = newVal[newVal.length - 1].id,
-    //         _count = 1;
-    //     // 遍历此数组对象，取出id值进行对比
-    //     for (var i = 0; i < (newVal.length - 1); i++) {
-    //       if (newVal[i].id === _lastItemId) {    // 如果当前遍历的元素对象id与最后一个添加的对象id一致，则退出循环
-    //         $scope.sameSupplierFlag = true;
-    //         break;
-    //       } else {
-    //         _count++;
-    //       }
-    //     }
-    //     // 如果没有重复，则更新标识符
-    //     if (_count === newVal.length) {
-    //       $scope.sameSupplierFlag = false;
-    //     }
-    //   }
-    //
-    //   if (newVal && newVal !== oldVal && newVal.length === 1) {
-    //     $scope.sameSupplierFlag = false;
-    //   }
-    // });
+        if (tmp_customer) {
+          // 检测当前添加的供应商是否已存在
+          var _count = 0;
+          for (var i = 0; i < $scope.formData.suppliers.length; i++) {
+            if ($scope.formData.suppliers[i].id === tmp_customer.data.id) {
+              $scope.tmp_customer = null;
+              $scope.sameSupplierFlag = true;
+              setTimeout(function() {
+                $scope.sameSupplierFlag = false;
+              }, 1000);
+            } else {
+              _count++;
+            }
+          }
+
+          if (_count === $scope.formData.suppliers.length) {
+            $scope.formData.suppliers.push(tmp_customer.data);
+            $scope.checkBusinessScope();
+            $scope.selectedItem.addSucess = true;
+            $scope.tmp_customer = null;
+          }
+        }
+      }
+    };
 
     //监听生产企业
     $scope.$watch('formData.productEnterprise.data',function (newVal,oldVal) {

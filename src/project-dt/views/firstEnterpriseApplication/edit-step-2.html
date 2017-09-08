@@ -14,9 +14,9 @@
          </a>
         <em>>首营企业申请 </em>
        </p>
-       <div class="pd-c-xxl pdt-l pdb-l ">
+       <div class="pd-c-xxl pdt-l pdb-l " style="padding-top:51px">
          <!-- 标题 -->
-         <div class="mgt-xl">
+         <div>
            <h1 ng-if="!formData.enterFlag" class="color-black pr-font-20">新建首营企业</h1>
            <h1 ng-if="formData.enterFlag" class="color-black pr-font-20">录入已审核的首营企业</h1>
          </div>
@@ -50,7 +50,7 @@
             parameter-body
             action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validFlag=true"
             alert-error
-             
+
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
@@ -89,7 +89,7 @@
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
         <span class="mgl">
-          <a   ng-if="changeFlag"  href="javascript:;"
+          <a   ng-if="changeFlag"  href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
@@ -97,12 +97,12 @@
              nosave-callback="goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})"
              save-callback="submitForm('firstEnterpriseApplication_editForm_step','save');$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">返回申请单列表
           </a>
-          <a ng-if="!changeFlag"
+          <a ng-if="!changeFlag" class="mgr-l"
           tab-nav
           tab-name='首营企业管理'
           tab-href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
         </span>
-        <span class="mgl">
+        <span>
              <a ng-if="formData.id"
                 href="javascript:;"
                 class="pr-color-red mgr-l"
@@ -114,18 +114,18 @@
                 callback="$root.goTo({'tabHref':'#/firstEnterpriseApplication/query.html','tabName':'首营企业管理'})">删除
              </a>
         </span>
-        <span class="mgl">
+        <span class="mgr">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag "
                   ng-click="submitForm('firstEnterpriseApplication_editForm_step','save')">保存
                   <!-- || firstMedicalEditForm.applyReason.$pristine -->
           </button>
         </span>
-        <span class="mgl">
+        <span class="mgr">
           <button class="pr-btn-save-glodbg mgt"
                   ng-click="$root.goTo({'tabHref':'#/firstEnterpriseApplication/edit1.html?id='+formData.id+'&enterFlag=true','tabName':'首营企业管理'})">上一步</button>
         </span>
-        <span class="mgl">
+        <span >
           <button class="pr-btn-save-glodbg mgt"
                    ng-disabled="!firstEnterpriseApplication_editForm_step.$valid || canSubmit ||!formData.applyReason"
                   ng-click="formData.validFlag=true;submitForm('firstEnterpriseApplication_editForm_step','submit');">下一步
