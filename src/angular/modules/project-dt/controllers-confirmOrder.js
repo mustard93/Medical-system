@@ -84,7 +84,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData.orderMedicalNos, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
     });
 
@@ -152,7 +152,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice(newVal, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
 
     }, true);
