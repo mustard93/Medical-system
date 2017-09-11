@@ -1,0 +1,30 @@
+<div class="inoutstockDetail clearfix del-bgc" ng-controller="inoutstockDetailQueryCtrl">
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading pdb-xxl mgb-l relative clearfix head-style">
+    <p class="pdb-s pdt-s mgb-l crumbs crumbs- pd-c-xxxl">库存报表 > <em class="">出入库明细</em></p>
+    <div class="pd-c-xxxl " style="margin-top: 60px;">
+        <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">出入库明细</h1>
+      </div>
+    </div>
+  </div>
+
+  <table-list list-data="rest/authen/inoutstockDetail/query.json"
+      class="table pr-table pr-new-table"
+      list-params="listParams"
+      list-object="listObject2"
+      >
+      <div class="pd-c-l">
+          <div ng-if="!status.isLoading">
+            <div custom-table-fixed-meter="com.pangu.mss.domain.mongo.warehouse.InoutstockDetail"
+                 custom-key="warehouse-InoutstockDetail-bak"
+                 custom-table-fixed-meter-url="rest/authen/inoutstockDetail/query.json"
+                 custom-list-params={{listParams}}
+                 custom-tr-menus="1"
+                 style="width:100%;">
+            </div>
+          </div>
+      </div>
+      </div>
+  </table-list>
+</div>
