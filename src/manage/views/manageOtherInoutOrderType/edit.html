@@ -1,0 +1,57 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl"
+ ajax-url="rest/authen/manageOtherInoutOrderType/getOfEdit.json?id={{tr.id}}"
+   scope-data="formData" callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
+>
+
+  <form class="add-medical-form form-horizontal"
+        action="rest/authen/manageOtherInoutOrderType/save"
+        parameter-body scope-data="formData" alert-error alert-ok
+        broadcast="reloadList"
+        form-validator>
+    <div class="modal-header">
+        <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}出入库类型设置</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+          </select>
+        </div>
+      </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">名称</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">出库／入库</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.type" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">是否传wms</label>
+          <div class="col-lg-10 col-sm-10">
+            <select class="ipt pr-short-ipt ipt-new-s "
+                    chosen
+                    default-empty="-请选择-"
+                    ng-model="formData.isCanWMS"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BooleanType">
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+        </div>
+
+    </div>
+
+    </form>
+</div>

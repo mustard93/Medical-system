@@ -1026,8 +1026,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.goto = function(_page) {
                   $scope.status.currentPage = _page;
                   $scope.getListData();
-
-                  // $scope.aftereGoto();
                 };
 
                 $scope.$watch("status.totalPage", function() {
@@ -1094,6 +1092,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
 
                     return pages;
+                }
+
+                $scope.goInputPageNum = function (inputPageNum) {
+                  if (window.event.keyCode === 13) {
+                    if (inputPageNum > $scope.status.totalPage || inputPageNum === $scope.status.currentPage || !inputPageNum) {
+                      return false;
+                    }
+
+                    $scope.goto(inputPageNum);
+                  }
                 }
             }
         };
