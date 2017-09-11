@@ -3,7 +3,11 @@
         ng-controller="tabCtrl"
       ajax-url="rest/authen/returnOrder/get?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&orderNo={{mainStatus.pageParams.orderNo}}"
       scope-data="scopeData"
-      callback="initFlag=true;handleMessageShow(scopeData);rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      callback="initFlag=true;
+      handleMessageShow(scopeData);
+      rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');
+      passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');
+      getPrecision();"
       alert-error>
   <!-- 头部信息 -->
   <!-- <page-main-header-component list-params="listParams"
@@ -122,6 +126,8 @@
               <th class="text-center">计划归还数量</th>
               <th class="text-center">实际归还</th>
               <th class="text-center">预入库房</th>
+              <th class="text-center">单价</th>
+              <th class="text-center">金额</th>
            </tr>
             </thead>
             <tbody>
@@ -159,6 +165,8 @@
                 <td class="text-right" style="line-height:2.4">{{tr.actualReturnCount}}</td>  <!--实际归还-->
 
                 <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--预入库房-->
+                <td class="text-center" style="line-height:2.4">{{tr.duty_price  | currencyFilter : precision }}</td><!-- 单价 -->
+                <td class="text-center" style="line-height:2.4">￥{{tr.totalPrice |number:2 }}</td><!-- 金额 -->
 
               </tr>
             </tbody>
@@ -265,5 +273,10 @@
 
 
     </div>
+
+    <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
+    </div>
+
   </div>
 </div>

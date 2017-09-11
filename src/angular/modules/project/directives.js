@@ -3929,32 +3929,6 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           if (err) { throw new Error(err); }
         }
 
-
-
-        // if (!dataType || dataType !== 'array') {
-        //   if (id && requestUrl && callbackUrl) {
-        //     var _url = requestUrl + '?id=' + id;
-        //     requestData(_url, {}, 'POST')
-        //     .then(function (results) {
-        //       if (results[1].code == 200) {
-        //         utils.goTo(callbackUrl);
-        //       }
-        //     })
-        //     .catch(function (error) {
-        //       if (error) { alertError(error); }
-        //     });
-        //   }
-        // } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
-        //   var _dataArr = id.split(',');
-        //   requestData(_url, _dataArr, 'POST')
-        //   .then(function (results) {
-        //     utils.goTo(callbackUrl);
-        //   })
-        //   .catch(function (error) {
-        //     if (error) { alertEorr(error || '出错'); }
-        //   });
-        // }
-
       };
 
     }

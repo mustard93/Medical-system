@@ -60,7 +60,9 @@ define('project-dt/controllers', ['project-dt/init',
                                   'project-dt/controllers-productEnterprise',
                                   'project-dt/controllers-license',
                                   'project-dt/controllers-announcement',
-                                  'project-dt/controllers-requestPurchaseOrderDetail'], function() {
+                                  'project-dt/controllers-requestPurchaseOrderDetail',
+                                  'project-dt/controllers-wareHouseTableQuery'
+                            ], function() {
 
   /**
    * [indexPurchaseSuppleController 首页采购辅助信息处理欲发起采购的动作]

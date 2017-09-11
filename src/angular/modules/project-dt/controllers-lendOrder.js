@@ -12,25 +12,28 @@ define('project-dt/controllers-lendOrder', ['project-dt/init'], function() {
    * @param  {[type]}          dialogConfirm [description]
    * @return {[type]}                        [description]
    */
-  function lendOrderEditCtrl($scope,modal,alertWarn,requestData,alertOk,alertError,utils,dialogConfirm) {
+  function lendOrderEditCtrl(AmountCalculationService,$scope,modal,alertWarn,requestData,alertOk,alertError,utils,dialogConfirm) {
 
       $scope.$watch('initFlag', function () {
           var operationFlowSetMessage=[];
           var operationFlowSetKey=[];
-          if ($scope.scopeData.operationFlowSet) {
-              // 选择出当前状态相同的驳回理由，并放入一个数组中
-              for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
-                  if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
-                      operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
-                      operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
+          try{
+              if ($scope.scopeData.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+                      if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+                          operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
+                      }
                   }
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
               }
-              //  选择当前状态最近的一个驳回理由用于显示
-              $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-              $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-              return;
-          }
+          }catch (e){
 
+          }
       });
 
 
@@ -518,8 +521,42 @@ define('project-dt/controllers-lendOrder', ['project-dt/init'], function() {
            return flag;
 
        }
+
+
+      // 实例化金额计算构造函数类
+      // 请在编辑页获取数据之后的callback里执行此方法
+      // 以便在当前页中调用此子类方法计算各金额
+      $scope.initAmountCalcuAction = function () {
+          $scope.amountCalcuConfirmOrder = new AmountCalculationService();
+      }
+
+      //计算总价
+      $scope.$watch("formData.orderMedicalNos",function (newVal,oldVal) {
+          $scope.formData.totalPrice= countTotalPrice($scope.formData.orderMedicalNos,'strike_price','quantity');
+      },true);
+
+      function  countTotalPrice(list,strikePriceAttr,numAttr) {
+
+          if(!list.length){
+              return 0;
+          }
+          var  sum=0;
+          for(var i=0; i<list.length; i++){
+              var item = list[i];
+              var itemTotalPrice=  0;
+
+              if(item[strikePriceAttr]&&item[numAttr]){
+                  itemTotalPrice =item[strikePriceAttr]*item[numAttr];
+              }
+
+              sum+= 1*itemTotalPrice;
+          }
+
+          return sum;
+      }
+
    }
 
   angular.module('manageApp.project-dt')
-  .controller('lendOrderEditCtrl', ['$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "utils", "dialogConfirm", lendOrderEditCtrl]);
+  .controller('lendOrderEditCtrl', ['AmountCalculationService', '$scope',"modal",'alertWarn',"requestData", "alertOk", "alertError", "utils", "dialogConfirm", lendOrderEditCtrl]);
 });

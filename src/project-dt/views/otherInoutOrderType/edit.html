@@ -1,0 +1,64 @@
+<style media="screen">
+  .ngdialog.ngdialog-theme-right .ngdialog-close:before{
+    top:8px!important;
+  }
+</style>
+<div class="first-medical-application"
+     style="height:100%;"
+     ng-controller="businessScopeController"
+     ajax-url="rest/authen/businessScope/getOfEdit.json?id={{tr.id}}"
+     scope-data="formData"
+     alert-error>
+  <div class="sale-return-order right-side pr-bgc6" style="height: 100%">
+    <div>
+      <!-- 头部信息 -->
+        <form class="form-horizontal"
+              id="businessScope_editForm1"
+              name="businessScope_editForm1"
+              form-validator
+              parameter-body
+              action="rest/authen/businessScope/save"
+              alert-error
+              alert-ok
+              scope-error-msg="errorMsg"
+              scope-data="formData"
+              novalidate="true"
+              callback="listObject.reloadTime=$root.utils.getNowTime()">
+          <div class="">
+        <div class="pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm text-bold pr-bgc6">新增出入库类型</div>
+        <div class="pr-panel-height select-bg" style="padding:15px 0;">
+          <div class="flex-row mgt-s relative ">
+              <h1 class="quali-pd-l pr-fw-700 font-w0" style="margin-left:40px;">名称：</h1>
+              <input type="text"
+                     style="width:334px;"
+                     class="ipt-new ipt-new-s"
+                     name="name"
+                     required
+                     ng-model="formData.name" />
+          </div>
+          <div class="flex-row mgt-l relative mgb-s">
+              <h1 class="quali-pd-l pr-fw-700 font-w0" style="margin-left:40px;">出库／入库：</h1>
+              <input type="text"
+                     style="width:334px;"
+                     required
+                     class="ipt-new ipt-new-s"
+                     name="type"
+                     ng-model="formData.type" />
+          </div>
+        </div>
+
+        <!-- 功能按钮 -->
+        <div class="sales-btn-area-2nd relative pr-bgc6">
+            <div class="btn-area full-width text-center" style="background:none;">
+              <button type="submit"
+                      class="pr-btn-save-glodbg mgr-l"
+                      ng-disabled="businessScope_editForm1.$invalid"
+                      style="width:160px;">确定
+              </button>
+            </div>
+        </div>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
