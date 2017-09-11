@@ -124,6 +124,34 @@ define('project-dt/controllers-returnOrder2', ['project-dt/init'], function() {
 
        }
    }
+
+
+
+  //计算总价
+  $scope.$watch("formData.orderMedicalNos",function (newVal,oldVal) {
+      $scope.formData.totalPrice= countTotalPrice($scope.formData.orderMedicalNos,'strike_price','quantity');
+  },true);
+  function  countTotalPrice(list,strikePriceAttr,numAttr) {
+
+          if(!list.length){
+              return 0;
+          }
+          var  sum=0;
+          for(var i=0; i<list.length; i++){
+              var item = list[i];
+              var itemTotalPrice=  0;
+
+              if(item[strikePriceAttr]&&item[numAttr]){
+                  itemTotalPrice =item[strikePriceAttr]*item[numAttr];
+              }
+
+              sum+= 1*itemTotalPrice;
+          }
+
+          return sum;
+      }
+
+
   }
 
   /**

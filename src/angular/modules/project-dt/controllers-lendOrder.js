@@ -530,37 +530,30 @@ define('project-dt/controllers-lendOrder', ['project-dt/init'], function() {
           $scope.amountCalcuConfirmOrder = new AmountCalculationService();
       }
 
-      function  countTotalPrice(list,strikePriceAttr,numAttr) {
-
-           if(!list.length){
-               return 0;
-           }
-           var  sum=0;
-           for(var i=0; i<list.length; i++){
-               var item = list[i];
-               var itemTotalPrice=  0;
-
-               if(item[strikePriceAttr]&&item[numAttr]){
-                   itemTotalPrice =item[strikePriceAttr]*item[numAttr];
-               }
-
-               sum+= 1*itemTotalPrice;
-           }
-
-            return sum;
-      }
-      
-      
+      //计算总价
       $scope.$watch("formData.orderMedicalNos",function (newVal,oldVal) {
-
-          console.log("newVal",newVal);
-
           $scope.formData.totalPrice= countTotalPrice($scope.formData.orderMedicalNos,'strike_price','quantity');
-
-          console.log("$scope.formData.totalPrice",$scope.formData.totalPrice);
-
       },true);
 
+      function  countTotalPrice(list,strikePriceAttr,numAttr) {
+
+          if(!list.length){
+              return 0;
+          }
+          var  sum=0;
+          for(var i=0; i<list.length; i++){
+              var item = list[i];
+              var itemTotalPrice=  0;
+
+              if(item[strikePriceAttr]&&item[numAttr]){
+                  itemTotalPrice =item[strikePriceAttr]*item[numAttr];
+              }
+
+              sum+= 1*itemTotalPrice;
+          }
+
+          return sum;
+      }
 
    }
 
