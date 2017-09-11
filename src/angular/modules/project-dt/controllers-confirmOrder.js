@@ -71,7 +71,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     });
 
     //监控业务类型，实现用户选择直运销售后选中所有的已添加药品
-    $scope.$watch('formData.orderBusinessType', function (newVal, oldVal) {
+    $scope.$watch('formData.orderBusinessType', function (newVal) {
       if (newVal === '直运销售' && $scope.formData.orderMedicalNos.length) {
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
           item.handleFlag = true;
@@ -84,7 +84,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData.orderMedicalNos, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
     });
 
@@ -152,7 +152,7 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
           $scope.handleFormElementChange(data['strike_price'], data['tax'], data['discountRate'], $scope.formData.orderBusinessType, data, $scope.formData.orderMedicalNos);
         });
 
-        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice(newVal, 'stockBatchs', 'quantity', 'strike_price', 'discountRate');
+        $scope.formData.totalPrice = $scope.amountCalcuConfirmOrder.getAllItemTotalPrice($scope.formData, 'orderBusinessType', 'quantity', 'strike_price', 'discountRate');
       }
 
     }, true);
@@ -714,7 +714,9 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
     $scope.transformTaxType = function (orderMedicalNos) {
       if (angular.isArray(orderMedicalNos)) {
         angular.forEach(orderMedicalNos, function (data, index) {
-          data.tax = utils.transformNumOrStr(data.tax);
+          if (data.tax) {
+            data.tax = utils.transformNumOrStr(data.tax);
+          }
         });
       }
     }

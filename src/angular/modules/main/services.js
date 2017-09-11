@@ -1555,35 +1555,37 @@ define('main/services', ['toastr','main/init'], function (toastr) {
        * [获取当前单据的所有商品价格总和]
        * @method
        * @param  {[type]} orderMedicalNos [当前单据的商品列表集合]
-       * @param  {[type]} fieldName       [存放批次的字段对象名]
+       * @param  {[type]} fieldName       [当前订单类型的字段对象]
        * @param  {[type]} numFieldName    [存放计划销售数量的字段名]
        * @param  {[type]} strikePrice     [价格字段名]
        * @param  {[type]} discountRate    [折扣率字段名]
        * @return {[type]}                 [当前单据所有商品的价格和]
        */
-      getAllItemTotalPrice: function (orderMedicalNos, fieldName, numFieldName, strikePrice, discountRate) {
-        if (!orderMedicalNos) {
+      getAllItemTotalPrice: function (formData, fieldName, numFieldName, strikePrice, discountRate) {
+        if (!formData) {
           throw new TypeError('param object is not defined!');
         }
 
         var _total = 0;
 
         // 根据字段对象判断订单类型
-        if (orderMedicalNos.length && !orderMedicalNos[0][fieldName].length) {    // 直发销售
-          for (var i = 0; i < orderMedicalNos.length; i++) {
-            _total += this.getTotalPrice(orderMedicalNos[i][strikePrice], orderMedicalNos[i][discountRate], orderMedicalNos[i][numFieldName]);
-          }
-        } else {      // 普通销售
-          for (var i = 0; i < orderMedicalNos.length; i++) {
-            var _num = 0;
-            angular.forEach(orderMedicalNos[i][fieldName], function (item, index) {
-              _num += item.quantity;
-            });
-            // 计算累加数量
-            _total += this.getTotalPrice(orderMedicalNos[i][strikePrice], orderMedicalNos[i][discountRate], _num);
+        if (formData.orderMedicalNos.length && formData[fieldName]) {
+          if (formData[fieldName].indexOf('直发') > -1) {    // 直发销售
+            for (var i = 0; i < formData.orderMedicalNos.length; i++) {
+              _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], formData.orderMedicalNos[i][numFieldName]);
+            }
+          } else if (formData[fieldName].indexOf('普通') > -1) {      // 普通销售
+            for (var i = 0; i < formData.orderMedicalNos.length; i++) {
+              var _num = 0;
+              angular.forEach(formData.orderMedicalNos[i]['stockBatchs'], function (item, index) {
+                _num += item.quantity;
+              });
+              // 计算累加数量
+              _total += this.getTotalPrice(formData.orderMedicalNos[i][strikePrice], formData.orderMedicalNos[i][discountRate], _num);
+            }
           }
         }
-
+        
         return _total;
       }
 
