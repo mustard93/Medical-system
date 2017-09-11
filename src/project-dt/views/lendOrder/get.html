@@ -2,7 +2,7 @@
      ng-controller="lendOrderEditCtrl"
      ajax-url="rest/authen/lendOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="scopeData"
-     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
+     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);getPrecision();'
      alert-error>
 
   <form id="lendOrder_editForm1"
@@ -132,6 +132,9 @@
                   <th class="text-center">批号</th>
                   <th class="text-center">失效日期</th>
                   <th class="text-center">仓库</th>
+                  <th class="text-center">单价</th>
+                  <th class="text-center">金额</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -170,6 +173,9 @@
                   <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
                   <td class="text-center">{{item.validTill | date:'yyyy-MM-dd'}}</td><!-- 失效日期 -->
                   <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                  <td class="text-center">{{item.duty_price  | currencyFilter : precision }}</td><!-- 单价 -->
+                  <td class="text-center">￥{{item.totalPrice |number:2 }}</td><!-- 金额 -->
+
                 </tr>
               </tbody>
             </table>
@@ -359,7 +365,7 @@
         </span>
       </div>
 
-      <div class="price-area relative fl-r mgr-l" style="display: none;  height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>
       </div>
 
