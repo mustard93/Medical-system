@@ -6,59 +6,79 @@
 <div class="first-medical-application"
      style="height:100%;"
      ng-controller="businessScopeController"
-     ajax-url="rest/authen/businessScope/getOfEdit.json?id={{tr.id}}"
+     ajax-url="rest/authen/otherInoutOrderType/getOfEdit?id={{dialogData.id}}"
      scope-data="formData"
+     callback="formData.type=formData.type?formData.type:'出库'"
      alert-error>
   <div class="sale-return-order right-side pr-bgc6" style="height: 100%">
-    <div>
-      <!-- 头部信息 -->
-        <form class="form-horizontal"
-              id="businessScope_editForm1"
-              name="businessScope_editForm1"
-              form-validator
-              parameter-body
-              action="rest/authen/businessScope/save"
-              alert-error
-              alert-ok
-              scope-error-msg="errorMsg"
-              scope-data="formData"
-              novalidate="true"
-              callback="listObject.reloadTime=$root.utils.getNowTime()">
-          <div class="">
-        <div class="pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm text-bold pr-bgc6">新增出入库类型</div>
-        <div class="pr-panel-height select-bg" style="padding:15px 0;">
-          <div class="flex-row mgt-s relative ">
-              <h1 class="quali-pd-l pr-fw-700 font-w0" style="margin-left:40px;">名称：</h1>
-              <input type="text"
-                     style="width:334px;"
-                     class="ipt-new ipt-new-s"
-                     name="name"
-                     required
-                     ng-model="formData.name" />
-          </div>
-          <div class="flex-row mgt-l relative mgb-s">
-              <h1 class="quali-pd-l pr-fw-700 font-w0" style="margin-left:40px;">出库／入库：</h1>
-              <input type="text"
-                     style="width:334px;"
-                     required
-                     class="ipt-new ipt-new-s"
-                     name="type"
-                     ng-model="formData.type" />
-          </div>
-        </div>
-
-        <!-- 功能按钮 -->
-        <div class="sales-btn-area-2nd relative pr-bgc6">
-            <div class="btn-area full-width text-center" style="background:none;">
-              <button type="submit"
-                      class="pr-btn-save-glodbg mgr-l"
-                      ng-disabled="businessScope_editForm1.$invalid"
-                      style="width:160px;">确定
-              </button>
+    <!-- 头部信息 -->
+    <form class="form-horizontal"
+          id="otherInoutOrder_editForm"
+          name="otherInoutOrder_editForm"
+          form-validator
+          parameter-body
+          action="rest/authen/otherInoutOrderType/save"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true">
+        <div class="">
+          <div class="pd-c-l pdt pdb pr-font-14 color-light-brown entry-detailed-btm text-bold pr-bgc6">新增出入库类型</div>
+          <div class="pr-panel-height select-bg" style="padding:15px 0;">
+            <div class="flex-row mgt-s relative ">
+              <div class="flex-item-3 text-right">
+                <span class="quali-pd-l pr-fw-700 font-w0">名称：</span>
+              </div>
+              <div class="flex-item-9">
+                <input type="text"
+                       class="ipt-new ipt-new-s"
+                       name="name"
+                       style="width:320px;"
+                       ng-model="formData.name"
+                       ng-change="formData.name=formData.name.length>10?formData.name.substr(0,10):formData.name" />
+              </div>
             </div>
+            <div class="flex-row mgt-l relative mgb-s">
+              <div class="flex-item-3 text-right">
+                <span class="quali-pd-l pr-fw-700 font-w0">出库／入库：</span>
+              </div>
+              <div class="flex-item-9">
+                <select class="ipt pr-short-ipt ipt-new-s" ng-model="formData.type">
+                  <option value="出库">出库</option>
+                  <option value="入库">入库</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex-row mgt-l relative mgb-s">
+              <div class="flex-item-3 text-right">
+                <span class="quali-pd-l pr-fw-700 font-w0">传WMS：</span>
+              </div>
+              <div class="flex-item-9">
+                <label class="mycheck-new relative">
+                    <input type="checkbox"
+                           id="licenseCommodity_license_file_1{{$index + 1}}1"
+                           ng-model="formData.isCanWMS"
+                           ng-checked="formData.isCanWMS=='是'?true:false"
+                           ng-true-value="'是'" ng-false-value="'否'"
+                           class="click-reverse-selection3 mgl-m quali-position">
+                           <label style="top:-3px;left:0;" for="licenseCommodity_license_file_1{{$index + 1}}1"></label>
+                           <em style="padding:0px 20px;color:white;"></em>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- 功能按钮 -->
+          <div class="sales-btn-area-2nd relative pr-bgc6">
+              <div class="btn-area full-width text-center" style="background:none;">
+                <button type="submit"
+                        class="pr-btn-save-glodbg mgr-l"
+                        ng-disabled="otherInoutOrder_editForm.$invalid"
+                        style="width:160px;">确定
+                </button>
+              </div>
+          </div>
         </div>
-      </div>
-        </form>
-    </div>
+    </form>
   </div>
 </div>
