@@ -3062,12 +3062,45 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
         var _divHeight=$(window).height()-$('.header-section').height()-$('.content-wrapper-heading').height()-$('.fr').height()-150;
 
         var fixedMeterData=$scope.$eval($attrs.fixedMeterData);
-        console.log('fixedMeterData',fixedMeterData);
         // 计算出高度和宽度以后，定义改div的大小
         $($element).css({
-          'width':_divWidth,
-          'height':_divHeight
-        })
+           'width':_divWidth,
+           'max-height':_divHeight
+         })
+        $('.th-div').css({
+           'width':_divWidth
+         })
+
+        // 判断如果可以出现滚动条的div出现了滚动条
+          window.setTimeout(function(){
+            if ($('.fixed-meter-scoller').children('table').width() >$('.fixed-meter-scoller').width()) {
+               // 保持两个表格的字段是对齐的
+              $('.fixed-meter-hidden').css({
+                'margin-bottom':'8px'
+              })
+            }
+            $('.fixed-meter-hidden').css({
+              'width':_divWidth-$('.fixed-meter-scoller').width()
+            })
+            // var tdContents = $('.tr-content').children('td');
+            // var thDivs = $('.th-div').children('div');
+            //
+            // console.log('tdContents',tdContents);
+            // console.log('thDivs',thDivs);
+
+
+
+              var $fixHeadTrs =$('.th-div').children('div');
+              var $orginalHeadTrs = $('.th-div');
+              $fixHeadTrs.each(function (indexTr) {
+              var $curFixTds =  $('.tr-content').children('td');
+              var $curOrgTr = $orginalHeadTrs.find("div:eq(" + indexTr + ")");
+              $curFixTds.each(function (indexTd) {
+              $(this).css("width", $curOrgTr.find("td:eq(" + indexTd + ")").width());
+              })
+            })
+          },100)
+
       }//link
   };
 }
