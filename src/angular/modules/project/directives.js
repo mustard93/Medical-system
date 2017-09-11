@@ -1652,45 +1652,6 @@ define('project/directives', ['project/init'], function () {
     };
   }
 
-  // 自定义表格排序，根据点击不同的标题，对相应列进行按该字段排序。
-  /**
-     *
-    	* @Description: 点击发起请求,进行排序
-    	* @author 宋娟
-    	* @date 2017年07月18日 上午09:42:59
-     */
-
-     	   //  关键步骤：
-
-  // function customTableSet (modal,utils,requestData) {
-  //   'use strict';
-  //   return {
-  //       restrict: 'AE',
-  //     link: function ($scope, element, $attrs) {
-  //       // 传入当前字段
-  //       var _customTableSetItem=$scope.$eval($attrs.customTableSetItem);
-  //
-  //       element.on('click',function(e){
-  //         e.stopPropagation();
-  //         // 重新选择其他的字段后，点击过后的样式重新定义
-  //         $('.custom-table-show').children('p').removeClass('hover');
-  //         $('.custom-table-hidden').children('p').removeClass('hover');
-  //         $(this).addClass('hover');
-  //         // 判断是否是必须要显示的字段，如果是，不允许点击隐藏按钮
-  //         if (_customTableSetItem.necessaryShowFlag) {
-  //           $('.hidden-button').removeClass('custom-table-right-arrow');
-  //           $('.hidden-button').addClass('custom-table-right-arrow-disabled');
-  //         }else {
-  //           $('.hidden-button').removeClass('custom-table-right-arrow-disabled');
-  //           $('.hidden-button').addClass('custom-table-right-arrow');
-  //         }
-  //         $scope.itemShow=_customTableSetItem;
-  //       });
-  //
-  //     }//end link
-  //   };
-  // }
-
   /**
       打印组件
     */
@@ -2951,6 +2912,47 @@ function customTable() {
   };
 }
 
+/**
+  用户自定义表结构显示,固定表头。
+*/
+function customTableFixedMeter() {
+  'use strict';
+  return {
+    restrict: 'EA',
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/customTableFixedMeter.html',
+    link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+      if ($attrs.checkboxShow) {
+          $scope._checkboxShow=$attrs.checkboxShow;
+      }
+
+      // 根据点击表头可排序，扩展一个属性，用于传入排序请求的接口
+      if ($attrs.customTableFixedMeterUrl) {
+          $scope._customTableFixedMeterUrl=$attrs.customTableFixedMeterUrl;
+      }
+
+      // 解决表格没有用table-list，添加一个属性，用于传入表格数据所要显示的对象。
+      if ($attrs.customTableFixedMeterRepeatData) {
+          $scope._customTableFixedMeterRepeatData=$scope.$eval($attrs.customTableFixedMeterRepeatData);
+      }
+
+      if ($attrs.customListParams) {
+          $scope._customListParams=$scope.$eval($attrs.customListParams);
+      }
+
+      if ($attrs.customTableFixedMeter) {
+          $scope._customTableFixedMeterName=$attrs.customTableFixedMeter;
+          $scope._customKey=$attrs.customKey;
+      }
+
+      if ($attrs.customTrMenus) {
+          $scope._customTrMenus=$attrs.customTrMenus;
+      }
+    }
+  };
+}
+
+
 
 
 // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
@@ -3034,6 +3036,38 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           // }
 
         });//mouseleave
+      }//link
+  };
+}
+
+// tableFixedMeter table标签，固定表头。
+/**
+   *
+  	* @Description: 固定表头组件
+  	* @author songjuan
+  	* @date 2017年9月8日 下午4:32:59
+   */
+
+   	   //  关键步骤：
+
+function tableFixedMeter(utils,$compile,customMenuUtils){
+  return{
+
+    restrict: 'A',
+      link: function ($scope, $element, $attrs) {
+
+        // div宽度=可视区域的宽度-侧边导航的宽度-误差值
+        var _divWidth=$(window).width()-$('.sticky-left-side').width()-50;
+        // div高度=可视区域的高度-页头显示的高度-每个页面的顶部面包屑-底部分页的高度-显示分页的高度-误差值
+        var _divHeight=$(window).height()-$('.header-section').height()-$('.content-wrapper-heading').height()-$('.fr').height()-150;
+
+        var fixedMeterData=$scope.$eval($attrs.fixedMeterData);
+        console.log('fixedMeterData',fixedMeterData);
+        // 计算出高度和宽度以后，定义改div的大小
+        $($element).css({
+          'width':_divWidth,
+          'height':_divHeight
+        })
       }//link
   };
 }
@@ -4204,6 +4238,7 @@ function changeImg () {
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
+  .directive("customTableFixedMeter", [customTableFixedMeter])//自定义表格，固定表头
   .directive("flashAddMedical", ["utils","$timeout",flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
@@ -4218,7 +4253,6 @@ function changeImg () {
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
   .directive("tableToggleSort", ["modal","utils","requestData",tableToggleSort])//普通表格点击排序
   .directive("customTableToggleSort", ["modal","utils","requestData",customTableToggleSort])//自定义表格点击排序
-  // .directive("customTableSet", ["modal","utils","requestData",customTableSet])//自定义表格点击改变
   .directive("queryOrderStatusButton", [queryOrderStatusButton])//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
@@ -4246,6 +4280,7 @@ function changeImg () {
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
+  .directive("tableFixedMeter",["utils","$compile","customMenuUtils",tableFixedMeter])  // tableFixedMeter table标签，固定表头的表格组件。
   .directive("medicalStockMouseOver",["utils","$compile",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("medicalStockMouseOverSee",["utils","$compile",medicalStockMouseOverSee])
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
