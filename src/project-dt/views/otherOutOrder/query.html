@@ -8,8 +8,10 @@
                             status-group-data='[["未提交-true","待审核-true","待出库-true","已完成-false"], ["未通过-true"], ["已作废-true"]]'
                             is-show-date-filter=true
                             is-show-warehouse-filter=true
+                            get-warehouse-list-url="rest/authen/warehouse/queryForSelectOption"
                             is-show-source-filter=true
                             is-show-source-name="类型"
+                            get-source-url="rest/authen/otherInoutOrderType/queryForSelectOption"
                             is-show-key-filter=true
                             is-show-business-btn-group=true
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
@@ -43,9 +45,9 @@
                   <span class="text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
                       <span ng-if="$root.hasAuthor('销售单修改')">
-                        <a ng-if='!tr.relId' tab-nav tab-name="销售单"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                        <a ng-if='!tr.relId' tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
-                        <a ng-if='tr.relId' tab-nav tab-name="销售单"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
+                        <a ng-if='tr.relId' tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                     </span>
                     <span ng-if="$root.hasAuthor('销售单删除')&&tr.orderStatus=='未提交'&&tr.inputUserId==mainStatus.id">
@@ -64,12 +66,12 @@
                     </span>
                     </span>
                      <a class="btn-link pd rect-s" title="查看详情" ng-if="tr.orderStatus=='待审核'"
-                        tab-nav tab-name="销售单"  tab-href="#/otherOutOrder/get.html?id={{tr.id}}">
+                        tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/get.html?id={{tr.id}}">
                             <span class="examine-approve">&nbsp;</span>
                       </a>
 
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'&&tr.orderStatus!='待审核'" class=" text-right">
-                      <a ng-if="tr.orderStatus||'待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" tab-nav tab-name="其他出库单"  tab-href="#/otherOutOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s " title="查看详情">
+                      <a ng-if="tr.orderStatus||'待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/get.html?id={{tr.id}}" class="btn-link pd rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
 
