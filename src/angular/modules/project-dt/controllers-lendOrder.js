@@ -555,6 +555,10 @@ define('project-dt/controllers-lendOrder', ['project-dt/init'], function() {
           return sum;
       }
 
+
+      
+      
+      
    }
 
   angular.module('manageApp.project-dt')
