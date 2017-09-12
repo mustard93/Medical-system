@@ -4603,6 +4603,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         };
     }
 
+    /**
+     * [progressBar 全局进度条组件]
+     * @method progressBar
+     * @return {[type]}    [description]
+     */
+    function progressBar () {
+      return {
+        restrict: 'EA',
+        scope: {},
+        templateUrl: Config.tplPath +'tpl/progressBar.html',
+        link: function (scope, element, attrs) {
+          
+        }
+      }
+    }
+
 
 
     angular.module('manageApp.main')
@@ -4610,43 +4626,44 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
     .directive("businessFlowShowList", [businessFlowShowList])//业务单流程展示
     .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
-      .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
-      .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
-      .directive("textInterception", textInterception)
-      .directive("ngCompile2", ["$compile",ngCompile2])
-      .directive("datepicker", ['$filter',datepicker])
-      .directive("watchFormChange", ["watchFormChange", watchFormChange])
-      .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
-      .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
-      .directive("convertToDate",  ['$filter', convertToDate])
-      .directive("convertToNumber", convertToNumber)
-      .directive("convertJsonToObject", convertJsonToObject)
-      .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal","utils", ajaxUrlSubmit])
-      .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","utils", ajaxUrl])
-      .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
-      .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
-      .directive("tableCell", tableCell)
-      .directive("pagination", pagination)
-      .directive("pagination2", pagination2)
-      .directive("filterConditions", filterConditions)
-      .directive("treeList", treeList)
-      .directive("treeList2", treeList2)
-      .directive("navList", navList)
-      .directive("selectAsync", selectAsync)
-      .directive("relativeSelect", relativeSelect)
-      .directive("chart", eChart)
-      .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
-      .directive("checkboxGroup", checkboxGroup)
-      .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
-      .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
-      .directive("formItem", formItem)
-      .directive("autoComplete", autoComplete)
-      .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
-      .directive("customConfig", customConfig)
-      .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
-      .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
-      .directive("tabNav",['$rootScope',tabNav])
-        .directive("a2",['$rootScope',a2])
-        .directive("iconClick",iconClick)
-        .directive("selectMore",['$rootScope',selectMore])
+    .directive("zTreeSelect", ["requestData", "alertOk", "alertError", "proLoading", "utils", zTreeSelect])
+    .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
+    .directive("textInterception", textInterception)
+    .directive("ngCompile2", ["$compile",ngCompile2])
+    .directive("datepicker", ['$filter',datepicker])
+    .directive("watchFormChange", ["watchFormChange", watchFormChange])
+    .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
+    .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
+    .directive("convertToDate",  ['$filter', convertToDate])
+    .directive("convertToNumber", convertToNumber)
+    .directive("convertJsonToObject", convertJsonToObject)
+    .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal","utils", ajaxUrlSubmit])
+    .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","utils", ajaxUrl])
+    .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
+    .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
+    .directive("tableCell", tableCell)
+    .directive("pagination", pagination)
+    .directive("pagination2", pagination2)
+    .directive("filterConditions", filterConditions)
+    .directive("treeList", treeList)
+    .directive("treeList2", treeList2)
+    .directive("navList", navList)
+    .directive("selectAsync", selectAsync)
+    .directive("relativeSelect", relativeSelect)
+    .directive("chart", eChart)
+    .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
+    .directive("checkboxGroup", checkboxGroup)
+    .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
+    .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
+    .directive("formItem", formItem)
+    .directive("autoComplete", autoComplete)
+    .directive("selectAddress", ["$http", "$q", "$compile","requestData",selectAddress])
+    .directive("customConfig", customConfig)
+    .directive("showInfoModal", ['$rootScope','requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
+    .directive("showInfoModalbox", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModalbox])
+    .directive("tabNav",['$rootScope',tabNav])
+    .directive("a2",['$rootScope',a2])
+    .directive("iconClick",iconClick)
+    .directive("selectMore",['$rootScope',selectMore])
+    .directive("progressBar", [progressBar])
 });
