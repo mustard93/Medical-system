@@ -105,6 +105,82 @@ var moduleMap=[
     }
 ];
 
+/**
+ *
+ * autocomplete:自动选择
+ * select: 下拉选择
+ * dateRange:时间区间
+ * date:时间
+ * typeChoice:分类选择
+ * input:文本输入
+ * inputRange:文本区间
+ * checkmore:多选
+ *
+ *
+ */
+var queryParams=[
+    {
+        name:'商品通用名',
+        modelName:'name',
+        type:'autocomplete',
+        url:'rest/authen/customerAddress/query.json?isFilterDefault=true'
+    },
+    {
+        name:'商品编号',
+        modelName:'salesDepartmentId',
+        type:'select',
+        url:'rest/authen/department/queryForSelectOption'
+    },
+    {
+        name:'原商品编号',
+        modelName:'saleUserId',
+        type:'input',
+        url:'rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.salesDepartmentId}}&isReturnNullOfNoCondition=true'
+    },
+    {
+        name:'批号',
+        modelName:'batchCode',
+        type:'input',
+        url:''
+    },
+    {
+        name:'灭菌批号',
+        modelName:'batchCode2',
+        type:'input',
+        url:''
+    },
+    {
+        name:'生产日期',
+        modelName:['updateAtBeg','updateAtEnd'],
+        type:'dateRange',
+        url:''
+    },
+    {
+        name:'有效期至',
+        modelName:['updateAtBeg1','updateAtEnd1'],
+        type:'dateRange',
+        url:''
+    },
+    {
+        name:'剩余有效期天数',
+        modelName:['updateAtBeg','updateAtEnd'],
+        type:'inputRange',
+        url:''
+    },
+    {
+        name:'可用量',
+        modelName:'canUseCount',
+        type:'inputRange',
+        url:''
+    },
+    {
+        name:'仓库',
+        modelName:'canUseCount',
+        type:'checkmore',
+        url:''
+    }
+];
+
 
 
 

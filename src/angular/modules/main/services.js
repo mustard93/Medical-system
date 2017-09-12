@@ -1594,6 +1594,27 @@ define('main/services', ['toastr','main/init'], function (toastr) {
     return AmountCalculation;
   }
 
+
+    /**
+     * 查询参数类
+     * @param requestData
+     * @param alertOk
+     * @param alertError
+     * @param utils
+     * @constructor
+     */
+  function QueryParamsService(requestData,alertOk,alertError,utils) {
+
+     
+
+
+
+
+
+  }
+
+
+
   angular.module('manageApp.main')
   .factory('OPrinter', OPrinter)
   .service('watchFormChange', ["$timeout",watchFormChange])
