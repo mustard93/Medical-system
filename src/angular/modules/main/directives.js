@@ -4608,13 +4608,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      * @method progressBar
      * @return {[type]}    [description]
      */
-    function progressBar () {
+    function progressBar (requestData, $interval) {
       return {
         restrict: 'EA',
         scope: {},
         templateUrl: Config.tplPath +'tpl/progressBar.html',
         link: function (scope, element, attrs) {
-          
+          // 获取进度值Url
+          var _reqProgressUrl = attrs.reqProgressUrl;
+
+          // 请求当前导入进度的方法
+          var _reqProgressMethod = function () {
+            
+          }
+
+          var timer = $interval(function () {
+            _reqProgressMethod()
+          }, 1000);
         }
       }
     }
@@ -4665,5 +4675,5 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     .directive("a2",['$rootScope',a2])
     .directive("iconClick",iconClick)
     .directive("selectMore",['$rootScope',selectMore])
-    .directive("progressBar", [progressBar])
+    .directive("progressBar", ['requestData', '$interval', progressBar])
 });
