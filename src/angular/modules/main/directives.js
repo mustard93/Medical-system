@@ -4612,18 +4612,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       return {
         restrict: 'EA',
         scope: {},
-        templateUrl: Config.tplPath +'tpl/progressBar.html',
+        templateUrl: Config.tplPath + 'tpl/progressBar.html',
         link: function (scope, element, attrs) {
           // 获取进度值Url
           var _reqProgressUrl = attrs.reqProgressUrl;
 
-          // 请求当前导入进度的方法
+          // 请求当前导入进度的方法，返回当前请求的进度值
           var _reqProgressMethod = function () {
-            
+            requestData(_reqProgressUrl)
+            .then(function (results) {
+              if (results[1].code === 200 && results[1].data.progress) {
+                return results[1].data.progress;
+              }
+            })
           }
 
           var timer = $interval(function () {
-            _reqProgressMethod()
+            var _progress = _reqProgressMethod();
           }, 1000);
         }
       }
