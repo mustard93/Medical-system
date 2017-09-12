@@ -10,15 +10,48 @@
    /*table外的第一层div*/
    .outside-table-fixed-meter{
      /*height:auto;*/
+     top:50px;
+     position:relative;
+     white-space: nowrap;
+     height:300px;
      overflow-x: hidden;
-     overflow-y: auto;
    }
-   .custom-table-fixed-meter
-   {
-     /*top: 40px;*/
+   /*出现横向滚动条的表格*/
+   .fixed-meter-scoller{
+     position: relative;
+     width: 100%;
      height: auto;
    }
-   .th-div{
+   /*放横向滚动条的div*/
+   .analog-scroll-bar{
+     position: relative;
+     top: -48px;
+     display: inline-block;
+     height: 20px;
+     overflow-y:hidden;
+   }
+   /*模拟横向滚动中的内容，即表格的内容。*/
+   .analog-scroll-content-bar{
+     height: 100%;
+   }
+   /*不用出现横向滚动条的表格，即字段固定的表格*/
+   /*.fixed-meter-hidden{
+     border-left:1px solid rgba(239,165,0,0.25);
+     border-bottom:1px solid rgba(239,165,0,0.25);
+   }*/
+   .custom-table-fixed-meter
+   {
+     position: relative;
+     height: auto;
+   }
+  .th-div-inScoller{
+    display: inline-block;
+    width: auto;
+    height: 48px;
+  }
+   .th-div-scoller,
+   .th-div-noScoller
+   {
      position: fixed;
      top: 202px;
      padding: 0px;
@@ -31,9 +64,12 @@
      overflow:hidden;
      height:50px;
    }
-   .th-div>div{
+    .th-div-inScoller>div,
+    .th-div-noScoller>div
+    {
      display: inline-block;
      height:48px;
+     line-height: 48px;
      font-size: 12px;
      color: #484848;
      font-weight: bold;
@@ -43,23 +79,12 @@
   .custom-table-fixed-meter th,
   .custom-table-fixed-meter td
   {
-    width: auto;
     white-space: nowrap;
     height: 50px;
   }
-  /*出现横向滚动条的表格*/
-  .fixed-meter-scoller{
-    position: relative;
-    overflow-x: auto;
-  }
-
-/*不用出现横向滚动条的表格，即字段固定的表格*/
-.fixed-meter-hidden{
-  border-left:1px solid rgba(239,165,0,0.25);
-  border-bottom:1px solid rgba(239,165,0,0.25);
-}
 
 .fixed-meter-hidden td{
+  width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
 }

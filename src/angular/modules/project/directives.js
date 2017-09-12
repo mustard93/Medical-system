@@ -3061,7 +3061,6 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
         // div高度=可视区域的高度-页头显示的高度-每个页面的顶部面包屑-底部分页的高度-显示分页的高度-误差值
         var _divHeight=$(window).height()-$('.header-section').height()-$('.content-wrapper-heading').height()-$('.fr').height()-150;
 
-        var fixedMeterData=$scope.$eval($attrs.fixedMeterData);
         // 计算出高度和宽度以后，定义改div的大小
         $($element).css({
            'width':_divWidth,
@@ -3071,20 +3070,81 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
-            if ($('.fixed-meter-scoller').children('table').width() >$('.fixed-meter-scoller').width()) {
-               // 保持两个表格的字段是对齐的
-              $('.fixed-meter-hidden').css({
-                'margin-bottom':'5px'
-              })
-            }
-            $('.fixed-meter-hidden').css({
-              'width':_divWidth-$('.fixed-meter-scoller').width()
+            // 滚动字段显示区域的宽度
+            $('.fixed-meter-scoller').css({
+              'width':_divWidth-$('.fixed-meter-hidden').width()
             })
-            $('.th-div').css({
-               'width':_divWidth
+            // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
+            $('.analog-scroll-bar').css({
+              'width':$('.fixed-meter-scoller').width()
+            })
+            // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
+            $('.analog-scroll-content-bar').css({
+              'width':$('.custom-table-fixed-meter').width()
+            })
+            // 底部显示合计和横向滚动条的容器
+            $('.bottom-div').css({
+              'width':_divWidth
+            })
+            // 合计的宽度
+            $('.total-text-p').css({
+              'width':$('.fixed-meter-hidden').width()
+            })
+            // 滚动的区域表头的宽度
+            $('.th-div-scoller').css({
+               'width':$('.fixed-meter-scoller').width()
              })
-          },100)
+            //  固定区域表头的样式设置
+            $('.th-div-noScoller').css({
+               'width':_divWidth-$('.fixed-meter-scoller').width(),
+               'left':$('.fixed-meter-scoller').width()+$('.fixed-meter-scoller').offset().left,
+               'overflow-x':'hidden'
+             })
 
+             // 滚动表格的表头
+             var thScollerArr=$('.th-div-inScoller').children('div');
+             // 滚动表格的内容
+             var thContentScollerArr=$('.tr-content:first').children('td');
+            //  支持滚动的表头设置宽度
+             setThWidth(thScollerArr,thContentScollerArr);
+
+             var thNoScollerArr=$('.th-div-noScoller').children('div');
+
+             var thnoContentScollerArr=$('.tr-no-content:first').children('td');
+            //  固定的表头设置宽度
+            setThWidth(thNoScollerArr,thnoContentScollerArr);
+
+            //  // 监听竖向滚动条，模拟左边表格的竖向滚动
+              $('.analog-scroll-bar').on('scroll',function(){
+                // 模拟的横向滚动条滚动时，需要滚动的表格就要根据滚动条的距离滚动
+                $('.can-scoller-table').css({
+                  'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
+                })
+                  // 模拟的横向滚动条滚动时，需要滚动的表格的表头也要根据滚动条的距离滚动
+                $('.th-div-inScoller').css({
+                  'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
+                })
+               });
+
+              //  设置表头宽度的方法
+              // 传入两个参数，thArr（表头每个标题的数组集合），tdArr（表格内容每个单元格的数组集合）
+               function setThWidth(thArr,tdArr){
+
+                  for (var i = 0; i < tdArr.length; i++) {
+
+                    if ($(tdArr[i]).outerWidth()>$(thArr[i]).width()) {
+                      $(thArr[i]).css({
+                        'width':$(tdArr[i]).outerWidth()
+                      })
+                    }else {
+                      $(tdArr[i]).css({
+                        'width':$(thArr[i]).width()
+                      })
+                    }
+                  }
+               }
+
+          },100)
       }//link
   };
 }
