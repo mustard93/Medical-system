@@ -23,13 +23,13 @@
          style="font-size:0px;width:100%;"
          callback="_menuList=_uICustomMenu.items">
          <!-- 表头可以滑动的表头 -->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller' style='{{uICustomTable.theadStyle}}' >
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
            <div class="th-div-inScoller">
              <div ng-if="_checkboxShow" class="w-60 mycheck">
                <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                <label for="1"></label>
              </div>
-             <div style='{{item.thStyle}} padding:0px 0px;'
+             <div style='{{item.thStyle}} padding:0px 0px;text-align:center;'
              ng-repeat="item in uICustomTable.items"
              ng-class="{'cur-pot':(item.canSort)}">
                  <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
@@ -49,8 +49,8 @@
            </div>
          </div>
           <!-- 表头不可滑动的表头 -->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller' style='{{uICustomTable.theadStyle}}' >
-             <div style='{{item.thStyle}} padding:0px 0px;'
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+             <div style='{{item.thStyle}} padding:0px 0px;text-align:center;'
              ng-repeat="item in uICustomTable.items"
              ng-class="{'cur-pot':(item.canSort)}">
                  <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
@@ -119,7 +119,7 @@
                  <tr ng-if="tbodyList.length"
                      ng-repeat="tr in tbodyList"
                      ng-click="selectThis()"
-                     class="td-bordered "
+                     class="td-bordered tr-no-content"
                      table-tr-mouse-over-menu="_menuList"
                      tr-id="{{tr.id}}"
                      ng-init="trIndex = (status.currentPage-1)*status.pageSize+($index+1)-1"

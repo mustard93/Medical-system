@@ -3082,7 +3082,6 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             $('.analog-scroll-content-bar').css({
               'width':$('.custom-table-fixed-meter').width()
             })
-
             // 底部显示合计和横向滚动条的容器
             $('.bottom-div').css({
               'width':_divWidth
@@ -3106,19 +3105,14 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
              var thScollerArr=$('.th-div-inScoller').children('div');
              // 滚动表格的内容
              var thContentScollerArr=$('.tr-content:first').children('td');
+            //  支持滚动的表头设置宽度
+             setThWidth(thScollerArr,thContentScollerArr);
 
-             for (var i = 0; i < thContentScollerArr.length; i++) {
+             var thNoScollerArr=$('.th-div-noScoller').children('div');
 
-               if ($(thContentScollerArr[i]).outerWidth()>$(thScollerArr[i]).width()) {
-                 $(thScollerArr[i]).css({
-                   'width':$(thContentScollerArr[i]).outerWidth()
-                 })
-               }else {
-                 $(thContentScollerArr[i]).css({
-                   'width':$(thScollerArr[i]).width()
-                 })
-               }
-             }
+             var thnoContentScollerArr=$('.tr-no-content:first').children('td');
+            //  固定的表头设置宽度
+            setThWidth(thNoScollerArr,thnoContentScollerArr);
 
             //  // 监听竖向滚动条，模拟左边表格的竖向滚动
               $('.analog-scroll-bar').on('scroll',function(){
@@ -3131,6 +3125,24 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
                   'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
                 })
                });
+
+              //  设置表头宽度的方法
+              // 传入两个参数，thArr（表头每个标题的数组集合），tdArr（表格内容每个单元格的数组集合）
+               function setThWidth(thArr,tdArr){
+
+                  for (var i = 0; i < tdArr.length; i++) {
+
+                    if ($(tdArr[i]).outerWidth()>$(thArr[i]).width()) {
+                      $(thArr[i]).css({
+                        'width':$(tdArr[i]).outerWidth()
+                      })
+                    }else {
+                      $(tdArr[i]).css({
+                        'width':$(thArr[i]).width()
+                      })
+                    }
+                  }
+               }
 
           },100)
       }//link
