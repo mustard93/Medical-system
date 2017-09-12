@@ -4614,6 +4614,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         scope: {},
         templateUrl: Config.tplPath + 'tpl/progressBar.html',
         link: function (scope, element, attrs) {
+          // scope中当前进度显示
+          scope.currentProgress = 0;
+
           // 获取进度值Url
           var _reqProgressUrl = attrs.reqProgressUrl;
 
@@ -4622,13 +4625,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             requestData(_reqProgressUrl)
             .then(function (results) {
               if (results[1].code === 200 && results[1].data.progress) {
-                return results[1].data.progress;
+                var _progress = results[1].data.progress;
+                if (_progress.indexOf('100') === -1) {
+                  scope.currentProgress = _progress;
+                }
               }
             })
           }
 
           var timer = $interval(function () {
-            var _progress = _reqProgressMethod();
+            _reqProgressMethod();
           }, 1000);
         }
       }
