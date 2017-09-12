@@ -1096,7 +1096,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 $scope.goInputPageNum = function (inputPageNum) {
                   if (window.event.keyCode === 13) {
-                    if (inputPageNum > $scope.status.totalPage) {
+                    if (inputPageNum > $scope.status.totalPage || inputPageNum === $scope.status.currentPage || !inputPageNum) {
                       return false;
                     }
 
