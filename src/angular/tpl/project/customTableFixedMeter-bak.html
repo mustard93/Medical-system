@@ -1,0 +1,195 @@
+<div class=""
+     ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}&&key={{_customKey}}"
+     scope-data="uICustomTable"
+     ng-init="bottomButtonList=[]"
+     ng-controller="customTableDataController">
+
+  <div class="loader" ng-if="status.isLoading">
+      <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+  </div>
+  <div ng-show="!status.isLoading">
+    <div class="pr-bg-white"
+         table-fixed-meter
+         fixed-meter-data='{{_uICustomMenu}}'
+         ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
+         scope-data="_uICustomMenu"
+         alert-error
+         style="font-size:0px;width:100%;"
+         callback="_menuList=_uICustomMenu.items">
+
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div' style='{{uICustomTable.theadStyle}}' >
+             <div ng-if="_checkboxShow" class="w-60 mycheck">
+               <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+               <label for="1"></label>
+             </div>
+             <div style='{{item.thStyle}} padding:0px;'
+             ng-repeat="item in uICustomTable.items"
+             ng-class="{'cur-pot':(item.canSort)}">
+                 <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
+                 </span>
+                 <span ng-if="!item.thHtml"
+                       custom-table-toggle-sort
+                       sort-item-can-sort='{{item.canSort}}'
+                       sort-params-way='{{_customListParams.sortWay}}'
+                       class='{{item.thCss}} sort-custom-table'
+                       style="display:inline-block;width:100%;height:100%;padding:10px;"
+                       ng-click="refreshTable(_customTableFixedMeterUrl,item,_customListParams);">{{item.propertyName}}
+                       <i ng-class="{'sort-asc':(_customListParams.sortWay=='asc'&&item.propertyKey==_customListParams.sortBy),
+                       'sort-desc':(_customListParams.sortWay=='desc'&&item.propertyKey==_customListParams.sortBy)
+                       ,'arrow-sort':(item.canSort)}"></i>
+                 </span>
+             </div>
+         </div>
+
+         <div class=" outside-table-fixed-meter pr-bg-white" style="top:50px;position:relative;">
+           <div class="fixed-meter-scoller" style="display:inline-block;width:70%;font-size:12px;height:100%;" >
+               <table ng-if="_customTrMenus&& _menuList"
+                      class='{{"table pr-table pr-new-table custom-table-fixed-meter"||uICustomTable.className}}'
+                      style='{{uICustomTable.style}}'>
+                      <!-- <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
+                          <tr>
+                            <th style='{{item.thStyle}} padding:0px;'
+                            ng-repeat="item in uICustomTable.items"
+                            ng-class="{'cur-pot':(item.canSort)}">
+                                <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
+                                </span>
+                                <span ng-if="!item.thHtml"
+                                      custom-table-toggle-sort
+                                      sort-item-can-sort='{{item.canSort}}'
+                                      sort-params-way='{{_customListParams.sortWay}}'
+                                      class='{{item.thCss}} sort-custom-table'
+                                      style="display:inline-block;width:100%;height:100%;padding:10px;"
+                                      ng-click="refreshTable(_customTableFixedMeterUrl,item,_customListParams);">{{item.propertyName}}
+                                      <i ng-class="{'sort-asc':(_customListParams.sortWay=='asc'&&item.propertyKey==_customListParams.sortBy),
+                                      'sort-desc':(_customListParams.sortWay=='desc'&&item.propertyKey==_customListParams.sortBy)
+                                      ,'arrow-sort':(item.canSort)}"></i>
+                                </span>
+                            </th>
+                          </tr>
+                      </thead> -->
+               <tbody>
+                 <tr ng-if="tbodyList.length"
+                     ng-repeat="tr in tbodyList"
+                     ng-click="selectThis()"
+                     class="td-bordered tr-content"
+                     table-tr-mouse-over-menu="_menuList"
+                     tr-id="{{tr.id}}"
+                     ng-init="trIndex = (status.currentPage-1)*status.pageSize+($index+1)-1"
+                     business-data="tr">
+                   <td ng-if="_checkboxShow" class="select-td w-60 mycheck">
+                     <input type="checkbox" class="selectOne" value="{{tr.id}}" id="{{$index+2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <label for="{{$index+2}}"></label>
+                   </td>
+                   <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-style='{"width":{{item.width}}}'  ng-repeat="item in uICustomTable.items">
+                       <span ng-if="item.tdHtml" ng-compile2="item.tdHtml"></span>
+                       <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
+                   </td>
+                 </tr>
+                 <tr ng-if="_customTableFixedMeterRepeatData.length"
+                     ng-repeat="tr in _customTableFixedMeterRepeatData"
+                     ng-click="selectThis()"
+                     class="td-bordered "
+                     table-tr-mouse-over-menu="_menuList"
+                     tr-id="{{tr.id}}"
+                     ng-init="trIndex = (status.currentPage-1)*status.pageSize+($index+1)-1 || $index"
+                     business-data="tr">
+                   <td ng-show="_checkboxShow" class="select-td w-60 mycheck">
+                     <input type="checkbox" class="selectOne" value="{{tr.id}}" id="{{$index+2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <label for="{{$index+2}}"></label>
+                   </td>
+                   <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-style='{"width":{{item.width}}}' ng-repeat="item in uICustomTable.items">
+                       <span ng-if="item.tdHtml" ng-compile2="item.tdHtml"></span>
+                       <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+           <div class="fixed-meter-hidden" style="display:inline-block;height:100%;font-size:12px;">
+             <table ng-if="_customTrMenus&& _menuList"
+                    class="table pr-table mgb-n custom-table-fixed-meter fixed-meter-hidden"
+                    >
+               <!-- <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
+                   <tr>
+                     <th style='{{item.thStyle}} padding:0px;'
+                     ng-repeat="item in uICustomTable.items"
+                     ng-class="{'cur-pot':(item.canSort)}">
+                         <span ng-if="item.thHtml" ng-compile2="item.thHtml" >
+                         </span>
+                         <span ng-if="!item.thHtml"
+                               custom-table-toggle-sort
+                               sort-item-can-sort='{{item.canSort}}'
+                               sort-params-way='{{_customListParams.sortWay}}'
+                               class='{{item.thCss}} sort-custom-table'
+                               style="display:inline-block;width:100%;height:100%;padding:10px;"
+                               ng-click="refreshTable(_customTableFixedMeterUrl,item,_customListParams);">{{item.propertyName}}
+                               <i ng-class="{'sort-asc':(_customListParams.sortWay=='asc'&&item.propertyKey==_customListParams.sortBy),
+                               'sort-desc':(_customListParams.sortWay=='desc'&&item.propertyKey==_customListParams.sortBy)
+                               ,'arrow-sort':(item.canSort)}"></i>
+                         </span>
+                     </th>
+                   </tr>
+               </thead> -->
+               <tbody>
+                 <tr ng-if="tbodyList.length"
+                     ng-repeat="tr in tbodyList"
+                     ng-click="selectThis()"
+                     class="td-bordered "
+                     table-tr-mouse-over-menu="_menuList"
+                     tr-id="{{tr.id}}"
+                     ng-init="trIndex = (status.currentPage-1)*status.pageSize+($index+1)-1"
+                     business-data="tr">
+                   <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-style='{"width":{{item.width}}}'  ng-repeat="item in uICustomTable.items">
+                       <span ng-if="item.tdHtml" ng-compile2="item.tdHtml"></span>
+                       <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
+                   </td>
+                 </tr>
+                 <tr ng-if="_customTableFixedMeterRepeatData.length"
+                     ng-repeat="tr in _customTableFixedMeterRepeatData"
+                     ng-click="selectThis()"
+                     class="td-bordered "
+                     table-tr-mouse-over-menu="_menuList"
+                     tr-id="{{tr.id}}"
+                     ng-init="trIndex = (status.currentPage-1)*status.pageSize+($index+1)-1 || $index"
+                     business-data="tr">
+                   <td ng-show="_checkboxShow" class="select-td w-60 mycheck">
+                     <input type="checkbox" class="selectOne" value="{{tr.id}}" id="{{$index+2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <label for="{{$index+2}}"></label>
+                   </td>
+                   <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-style='{"width":{{item.width}}}' ng-repeat="item in uICustomTable.items">
+                       <span ng-if="item.tdHtml" ng-compile2="item.tdHtml"></span>
+                       <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+           <div class="pr-bg-white">
+             <p class="text-n text-bold color-3" style="padding:0px 10px 10px 10px;">
+               合计：
+             </p>
+           </div>
+         </div>
+
+    </div>
+
+    <div class="pr-bg-white" ng-if="!tbodyList.length&&!_customTableFixedMeterRepeatData.length">
+        <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+    <div class="clearfix mgt-xxl" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </div>
+</div>
