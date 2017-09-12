@@ -3067,38 +3067,22 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
            'width':_divWidth,
            'max-height':_divHeight
          })
-        $('.th-div').css({
-           'width':_divWidth
-         })
+
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
             if ($('.fixed-meter-scoller').children('table').width() >$('.fixed-meter-scoller').width()) {
                // 保持两个表格的字段是对齐的
               $('.fixed-meter-hidden').css({
-                'margin-bottom':'8px'
+                'margin-bottom':'5px'
               })
             }
             $('.fixed-meter-hidden').css({
               'width':_divWidth-$('.fixed-meter-scoller').width()
             })
-            // var tdContents = $('.tr-content').children('td');
-            // var thDivs = $('.th-div').children('div');
-            //
-            // console.log('tdContents',tdContents);
-            // console.log('thDivs',thDivs);
-
-
-
-              var $fixHeadTrs =$('.th-div').children('div');
-              var $orginalHeadTrs = $('.th-div');
-              $fixHeadTrs.each(function (indexTr) {
-              var $curFixTds =  $('.tr-content').children('td');
-              var $curOrgTr = $orginalHeadTrs.find("div:eq(" + indexTr + ")");
-              $curFixTds.each(function (indexTd) {
-              $(this).css("width", $curOrgTr.find("td:eq(" + indexTd + ")").width());
-              })
-            })
+            $('.th-div').css({
+               'width':_divWidth
+             })
           },100)
 
       }//link
@@ -3928,6 +3912,32 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         catch (err) {
           if (err) { throw new Error(err); }
         }
+
+
+
+        // if (!dataType || dataType !== 'array') {
+        //   if (id && requestUrl && callbackUrl) {
+        //     var _url = requestUrl + '?id=' + id;
+        //     requestData(_url, {}, 'POST')
+        //     .then(function (results) {
+        //       if (results[1].code == 200) {
+        //         utils.goTo(callbackUrl);
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       if (error) { alertError(error); }
+        //     });
+        //   }
+        // } else if (dataType && dataType === 'array') {   // 如果传入dataType参数且值为array,则将传入的参数包装成数组传入
+        //   var _dataArr = id.split(',');
+        //   requestData(_url, _dataArr, 'POST')
+        //   .then(function (results) {
+        //     utils.goTo(callbackUrl);
+        //   })
+        //   .catch(function (error) {
+        //     if (error) { alertEorr(error || '出错'); }
+        //   });
+        // }
 
       };
 
