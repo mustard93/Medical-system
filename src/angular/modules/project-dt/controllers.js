@@ -61,7 +61,11 @@ define('project-dt/controllers', ['project-dt/init',
                                   'project-dt/controllers-license',
                                   'project-dt/controllers-announcement',
                                   'project-dt/controllers-requestPurchaseOrderDetail',
-                                  'project-dt/controllers-wareHouseTableQuery'
+                                  'project-dt/controllers-wareHouseTableQuery',
+                                  'project-dt/controllers-otherInOrderEdit',
+                                  'project-dt/controllers-otherInOrderGet',
+                                  'project-dt/controllers-otherOutOrder',
+                                  'project-dt/controllers-otherOutOrderGet'
                             ], function() {
 
   /**
