@@ -64,7 +64,13 @@ define('project-dt/controllers-needToPurchase', ['project-dt/init'], function() 
 
       $scope.$watch('formData.customerId', function (newVal, oldVal) {
         if (newVal && oldVal && oldVal !== newVal) {
-          document.getElementById('angucompleteMedical_searchInputId').focus();
+
+            try{
+                document.getElementById('angucompleteMedical_searchInputId').focus();
+            }catch (e){
+                console.log(e);
+            }
+
           //清空用户先前的药械选择
           if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
         }
