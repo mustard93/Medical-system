@@ -3064,23 +3064,19 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
         // 计算出高度和宽度以后，定义改div的大小
         $($element).css({
            'width':_divWidth,
-           'max-height':_divHeight
+          //  最外层div有一个45的padding-bottom，和40的padding-top所以要减去
+           'height':_divHeight-85
          })
-
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
+
+            $('.outside-table-fixed-meter').css({
+              'height':_divHeight-135
+            })
             // 滚动字段显示区域的宽度
             $('.fixed-meter-scoller').css({
               'width':_divWidth-$('.fixed-meter-hidden').width()
-            })
-            // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
-            $('.analog-scroll-bar').css({
-              'width':$('.fixed-meter-scoller').width()
-            })
-            // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
-            $('.analog-scroll-content-bar').css({
-              'width':$('.custom-table-fixed-meter').width()
             })
             // 底部显示合计和横向滚动条的容器
             $('.bottom-div').css({
@@ -3094,10 +3090,15 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             $('.th-div-scoller').css({
                'width':$('.fixed-meter-scoller').width()
              })
+            //  滚动表头，没有数据时的表格表头显示宽度
+            $('.no-table-data-scoller').css({
+               'width':_divWidth-$('.th-div-noScoller').width()
+             })
+
             //  固定区域表头的样式设置
             $('.th-div-noScoller').css({
-               'width':_divWidth-$('.fixed-meter-scoller').width(),
-               'left':$('.fixed-meter-scoller').width()+$('.fixed-meter-scoller').offset().left,
+               'width':_divWidth-$('.th-div-scoller').width(),
+               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left,
                'overflow-x':'hidden'
              })
 
@@ -3106,15 +3107,31 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
              // 滚动表格的内容
              var thContentScollerArr=$('.tr-content:first').children('td');
             //  支持滚动的表头设置宽度
-             setThWidth(thScollerArr,thContentScollerArr);
+             setThWidth(thScollerArr,thContentScollerArr,'.tr-content');
 
+            //  固定表格的表头th数组
              var thNoScollerArr=$('.th-div-noScoller').children('div');
-
+            //  固定表格内第一行每个单元格的数组
              var thnoContentScollerArr=$('.tr-no-content:first').children('td');
             //  固定的表头设置宽度
-            setThWidth(thNoScollerArr,thnoContentScollerArr);
+            setThWidth(thNoScollerArr,thnoContentScollerArr,'.tr-no-content');
 
-            //  // 监听竖向滚动条，模拟左边表格的竖向滚动
+            // 显示合计字段的单元格
+            var totalSpanArr=$('.show-total-text').children('div');
+            // 调用方法，设置底部合计字段的单元格宽度
+            setThWidth(totalSpanArr,thNoScollerArr,'.show-total-text');
+
+            // 注意：设置横向滚动条的宽度一定要在表格表头和表内容中的单元格设置完宽度之后，不然有可能导致拿到的表格的总宽度不是最后的宽度
+              // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
+              $('.analog-scroll-bar').css({
+                'width':$('.fixed-meter-scoller').width()
+              })
+
+              // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
+              $('.analog-scroll-content-bar').css({
+                'width':$('.th-div-inScoller').width()
+              })
+              // 监听竖向滚动条，模拟左边表格的竖向滚动
               $('.analog-scroll-bar').on('scroll',function(){
                 // 模拟的横向滚动条滚动时，需要滚动的表格就要根据滚动条的距离滚动
                 $('.can-scoller-table').css({
@@ -3125,26 +3142,30 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
                   'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
                 })
                });
-
-              //  设置表头宽度的方法
-              // 传入两个参数，thArr（表头每个标题的数组集合），tdArr（表格内容每个单元格的数组集合）
-               function setThWidth(thArr,tdArr){
-
-                  for (var i = 0; i < tdArr.length; i++) {
-
-                    if ($(tdArr[i]).outerWidth()>$(thArr[i]).width()) {
-                      $(thArr[i]).css({
-                        'width':$(tdArr[i]).outerWidth()
-                      })
-                    }else {
-                      $(tdArr[i]).css({
-                        'width':$(thArr[i]).width()
-                      })
-                    }
-                  }
-               }
-
           },100)
+
+      //  设置表头宽度的方法
+      // 传入两个参数，thArr（表头每个标题的数组集合），tdArr（表格内容每个单元格的数组集合）,trClass(表格中用于选中tr的类名)。
+       function setThWidth(thArr,tdArr,trClass){
+
+          for (var i = 0; i < tdArr.length; i++) {
+              // 判断表头的单元格和表内容的单元格的宽度哪个更大，宽度更大的用宽度大的
+              if ($(tdArr[i]).outerWidth()>$(thArr[i]).width()) {
+                $(thArr[i]).css({
+                  'width':$(tdArr[i]).outerWidth()
+                })
+              }else{
+                // 如果表头大于表内容就要给表头设置padding
+                $(thArr[i]).css({
+                  'padding':'0px 10px'
+                })
+                $(trClass+'>td>span').eq(i).css({
+                  'display':'inline-block',
+                  'width':$(thArr[i]).width()
+                })
+              }
+          }
+       }
       }//link
   };
 }

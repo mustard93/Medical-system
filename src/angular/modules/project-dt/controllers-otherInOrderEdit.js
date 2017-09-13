@@ -139,14 +139,13 @@ define("project-dt/controllers-otherInOrderEdit", ['project-dt/init'], function(
       var _reqUrl = a ? "rest/authen/logisticsCenter/get?id=" + id : "rest/authen/otherInoutOrderType/get?id=" + id;
       requestData(_reqUrl)
           .then(function (results) {
-            console.info(results);
               if(results[1].code ==200){
                 if(!a) results[1].data.isCanWMS == "是" ? $scope.isCanWMSRu = true : $scope.isCanWMSRu = false;
                 if(a) results[1].data.infrastructureId ? $scope.isCanWMSWu = true : $scope.isCanWMSWu = false;
               }
           })
           .catch(function (error) {
-              throw new Error(error);
+              //throw new Error(error);
           });
     }
     // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址

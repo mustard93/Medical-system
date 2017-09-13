@@ -59,7 +59,7 @@
              </div>
            </div>
         </div>
-        <div class="inline-block mgr">
+        <!-- <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block" style="padding-right: 5px">
@@ -67,7 +67,7 @@
                <p class="text-m color-3 autocut-default" title="{{scopeData.warehouseName}}">{{scopeData.warehouseName || '暂无'}}</p>
              </div>
            </div>
-        </div>
+        </div> -->
         <div class="inline-block">
             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
               <div class="inline-block logistics-center business-type"></div>
@@ -189,6 +189,21 @@
             <p class="">
               {{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}&nbsp;&nbsp;{{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}
             </p>
+          </div>
+        </div>
+        <!-- 运输/仓储 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" ng-class="{'pr-bg-grey2':(scopeData.orderStatus=='已作废')}">
+          <h1 class="text-bold color-3 font-size-14">运输/仓储</h1>
+          <div class="mgt-l">
+            <span class="mgr">运输方式：
+              <em class="color-3">{{scopeData.payAndDelivery.transportType}}</em>
+            </span>
+            <span class="mgr">承运公司：
+                <em class="color-3">{{scopeData.payAndDelivery.kuaidiType}}</em>
+            </span>
+            <!-- <span class="mgr">预入仓库：
+              <em class="color-3">{{scopeData.warehouseName}}</em>
+            </span> -->
           </div>
         </div>
         <!-- 发货方信息 -->
@@ -314,9 +329,9 @@
 
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('confirmOrder_editForm_query','save')">保存</button>
-        <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
+        <!-- <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
-        </button>
+        </button> -->
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               style="font-size:14px;"
               custom-menu-list

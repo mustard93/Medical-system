@@ -22,8 +22,8 @@
          alert-error
          style="font-size:0px;width:100%;"
          callback="_menuList=_uICustomMenu.items">
-         <!-- 表头可以滑动的表头 -->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+         <!-- 表头可以滑动的表头 no-table-data-scoller-->
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller ' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
            <div class="th-div-inScoller">
              <div ng-if="_checkboxShow" class="w-60 mycheck">
                <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
@@ -48,8 +48,8 @@
              </div>
            </div>
          </div>
-          <!-- 表头不可滑动的表头 -->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+          <!-- 表头不可滑动的表头 no-table-data-hidden-->
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller ' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
              <div style='{{item.thStyle}} padding:0px 0px;text-align:center;'
              ng-repeat="item in uICustomTable.items"
              ng-class="{'cur-pot':(item.canSort)}">
@@ -70,7 +70,7 @@
          </div>
 
          <div class=" outside-table-fixed-meter pr-bg-white" style="">
-           <div class="fixed-meter-scoller" style="display:inline-block;width:70%;font-size:12px;height:100%;" >
+           <div class="fixed-meter-scoller" style="display:inline-block;font-size:12px;height:auto;" >
              <table ng-if="_customTrMenus&& _menuList"
                     class='can-scoller-table {{"table pr-table pr-new-table custom-table-fixed-meter"||uICustomTable.className}}'
                     style='{{uICustomTable.style}}'>
@@ -109,10 +109,11 @@
                      <span ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</span>
                  </td>
                </tr>
+
              </tbody>
            </table>
            </div>
-           <div class="fixed-meter-hidden" style="display:inline-block;height:100%;font-size:12px;">
+           <div class="fixed-meter-hidden" style="display:inline-block;height:auto;font-size:12px;">
              <table ng-if="_customTrMenus&& _menuList"
                     class="table pr-table mgb-n custom-table-fixed-meter">
                <tbody style="border-left:1px solid rgba(209,143,0,0.1);">
@@ -152,14 +153,31 @@
          </div>
 
     </div>
-    <div class="pr-bg-white bottom-div" style="position:relative;white-space:nowrap;margin-top:40px;margin-right:10px;border-top: 1px solid rgba(209,143,0,0.20);">
+    <div class="pr-bg-white bottom-div">
       <!-- 模拟横向滚动条 -->
       <div class="analog-scroll-bar " >
         <div class="analog-scroll-content-bar">
         </div>
       </div>
-      <!-- <span class="inline-block color-3 text-n text-bold" style="position:absolute;border-right: 1px solid rgba(209,143,0,0.20);height:auto;line-height:56px;">合计</span> -->
-      <div class="text-n text-bold color-3 total-text-p" style="border-left: 1px solid rgba(209,143,0,0.20);display:inline-block;height:56px;line-height:56px;" >
+      <div class="total-text-p" style="border-left: 1px solid rgba(209,143,0,0.20);display:inline-block;height:56px;line-height:56px;" >
+        <span class="inline-block color-3 text-n text-bold">合计</span>
+        <div class="show-total-text">
+          <div class="" >
+            122
+          </div>
+          <div class="" >
+            123
+          </div>
+          <div class="" >
+            123
+          </div>
+          <div class="" >
+            123
+          </div>
+          <div class="" >
+            123
+          </div>
+        </div>
       </div>
     </div>
     <div class="pr-bg-white" ng-if="!tbodyList.length&&!_customTableFixedMeterRepeatData.length">
@@ -169,7 +187,7 @@
             <div>&nbsp;</div>
         </div>
     </div>
-    <div class="clearfix" ng-if="tbodyList.length" style="margin-top:50px">
+    <div class="clearfix" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>

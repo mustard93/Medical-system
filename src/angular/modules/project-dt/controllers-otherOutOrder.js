@@ -673,15 +673,6 @@ define("project-dt/controllers-otherOutOrder", ['project-dt/init'], function(){
 
     }
 
-    // 将后端返回的税率字段从数字转换为字符串
-    $scope.transformTaxType = function (orderMedicalNos) {
-      if (angular.isArray(orderMedicalNos)) {
-        angular.forEach(orderMedicalNos, function (data, index) {
-          data.tax = utils.transformNumOrStr(data.tax);
-        });
-      }
-    }
-
     // 实例化金额计算构造函数类
     // 请在编辑页获取数据之后的callback里执行此方法
     // 以便在当前页中调用此子类方法计算各金额
