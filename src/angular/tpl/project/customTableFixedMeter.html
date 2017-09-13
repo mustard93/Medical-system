@@ -23,7 +23,9 @@
          style="font-size:0px;width:100%;"
          callback="_menuList=_uICustomMenu.items">
          <!-- 表头可以滑动的表头 no-table-data-scoller-->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller ' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-scoller '
+          ng-class="{'no-table-data-scoller':(!tbodyList.length&&!_customTableFixedMeterRepeatData.length)}"
+         style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
            <div class="th-div-inScoller">
              <div ng-if="_checkboxShow" class="w-60 mycheck">
                <input type="checkbox" class="selectAll" id="1" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
@@ -49,7 +51,10 @@
            </div>
          </div>
           <!-- 表头不可滑动的表头 no-table-data-hidden-->
-         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller ' style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+         <div class='{{uICustomTable.theadCss}} pr-bg-side th-div-noScoller '
+         ng-class="{'no-table-data-hidden':(!tbodyList.length&&!_customTableFixedMeterRepeatData.length)}"
+         style='white-space:nowrap;{{uICustomTable.theadStyle}}' >
+
              <div style='{{item.thStyle}} padding:0px 0px;text-align:center;'
              ng-repeat="item in uICustomTable.items"
              ng-class="{'cur-pot':(item.canSort)}">
@@ -70,6 +75,14 @@
          </div>
 
          <div class=" outside-table-fixed-meter pr-bg-white" style="">
+           <!-- 无数据时，出现的样式 -->
+           <div ng-if="!tbodyList.length&&!_customTableFixedMeterRepeatData.length" style="background: rgba(209,143,0,0.05);border-bottom:1px solid rgba(209,143,0,0.20);">
+               <div class="empty-table clearfix">
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+               </div>
+           </div>
            <div class="fixed-meter-scoller" style="display:inline-block;font-size:12px;height:auto;" >
              <table ng-if="_customTrMenus&& _menuList"
                     class='can-scoller-table {{"table pr-table pr-new-table custom-table-fixed-meter"||uICustomTable.className}}'
@@ -180,13 +193,7 @@
         </div>
       </div>
     </div>
-    <div class="pr-bg-white" ng-if="!tbodyList.length&&!_customTableFixedMeterRepeatData.length">
-        <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-        </div>
-    </div>
+
     <div class="clearfix" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>

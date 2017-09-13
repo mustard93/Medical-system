@@ -3124,7 +3124,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             // 注意：设置横向滚动条的宽度一定要在表格表头和表内容中的单元格设置完宽度之后，不然有可能导致拿到的表格的总宽度不是最后的宽度
               // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
               $('.analog-scroll-bar').css({
-                'width':$('.fixed-meter-scoller').width()
+                'width':$('.th-div-scoller').width()
               })
 
               // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
