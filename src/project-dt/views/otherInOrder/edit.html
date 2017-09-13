@@ -225,6 +225,7 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">计划数量</th>
+                    <th class="text-center w-130" >预入仓库</th>
                     <th ng-hide="isCanWMSRu && isCanWMSWu" class="text-center">批号</th>
                     <th ng-hide="isCanWMSRu && isCanWMSWu" class="text-center">灭菌批号</th>
                     <th ng-hide="isCanWMSRu && isCanWMSWu" class="text-center">生产日期</th>
@@ -298,6 +299,16 @@
                         </button>
                       </div>
                     </td><!-- 订购数量 -->
+                    <td class="text-center">
+                      <select ng-if="initFlag" class="pr-select pd-s"
+                              style="width:115px;"
+                              ng-model="item.warehouseId"
+                              ajax-url="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.logisticsCenterId}}&type=虚拟库"
+                              scope-data="warehouseList">
+                        <option ng-init="item.warehouseId=warehouseList[0].value" ng-repeat="option in warehouseList" value="{{option.value}}">{{option.text}}</option>
+                      </select>
+                    </td>
+                    <!-- 预入仓库 -->
                     <td ng-hide="isCanWMSRu && isCanWMSWu" class="text-center relative">
                       <input type="text" name="name" value="" class="ipt" ng-model="item.productionBatch" style="width:100px;height:28px;border: 1px solid rgba(0,0,0,0.1);">
                     </td>
@@ -449,7 +460,7 @@
       </div>
     </div>
     <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="其他业务单_入库"></business-flow-show>
+    <business-flow-show business-key="{{formData.id}}" business-type="其他入库业务单"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
