@@ -3070,6 +3070,10 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
+
+            $('.outside-table-fixed-meter').css({
+              'height':_divHeight-135
+            })
             // 滚动字段显示区域的宽度
             $('.fixed-meter-scoller').css({
               'width':_divWidth-$('.fixed-meter-hidden').width()
@@ -3086,13 +3090,18 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             $('.th-div-scoller').css({
                'width':$('.fixed-meter-scoller').width()
              })
+            //  滚动表头，没有数据时的表格表头显示宽度
+            $('.no-table-data-scoller').css({
+               'width':_divWidth-$('.th-div-noScoller').width()
+             })
 
             //  固定区域表头的样式设置
             $('.th-div-noScoller').css({
-               'width':_divWidth-$('.fixed-meter-scoller').width(),
-               'left':$('.fixed-meter-scoller').width()+$('.fixed-meter-scoller').offset().left,
+               'width':_divWidth-$('.th-div-scoller').width(),
+               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left,
                'overflow-x':'hidden'
              })
+
              // 滚动表格的表头
              var thScollerArr=$('.th-div-inScoller').children('div');
              // 滚动表格的内容
