@@ -3088,7 +3088,8 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             })
             // 滚动的区域表头的宽度
             $('.th-div-scoller').css({
-               'width':$('.fixed-meter-scoller').width()
+              // 抛出1px的误差值
+               'width':$('.fixed-meter-scoller').width()+1
              })
             //  滚动表头，没有数据时的表格表头显示宽度
             $('.no-table-data-scoller').css({
@@ -3098,7 +3099,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             //  固定区域表头的样式设置
             $('.th-div-noScoller').css({
                'width':_divWidth-$('.th-div-scoller').width(),
-               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left,
+               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left+1,// 抛出1px的误差值
                'overflow-x':'hidden'
              })
 
