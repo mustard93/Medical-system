@@ -3064,9 +3064,9 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
         // 计算出高度和宽度以后，定义改div的大小
         $($element).css({
            'width':_divWidth,
-           'max-height':_divHeight
+          //  最外层div有一个45的padding-bottom，和40的padding-top所以要减去
+           'height':_divHeight-85
          })
-
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
@@ -3117,9 +3117,10 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
               $('.analog-scroll-bar').css({
                 'width':$('.fixed-meter-scoller').width()
               })
+
               // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
               $('.analog-scroll-content-bar').css({
-                'width':$('.custom-table-fixed-meter').width()
+                'width':$('.th-div-inScoller').width()
               })
               // 监听竖向滚动条，模拟左边表格的竖向滚动
               $('.analog-scroll-bar').on('scroll',function(){
