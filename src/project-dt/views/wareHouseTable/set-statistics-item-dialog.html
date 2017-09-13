@@ -10,15 +10,12 @@
 
 <div class="sale-return-order right-side pr-bgc6 right-babel" ng-controller="paramsCtrl">
 
-
-
-    <!--queryParamsConf:{{queryParamsConf}}-->
-
+  <!--queryParamsConf:{{queryParamsConf}}-->
 
   <div class="relative" style="height:100%;">
-
-      filterObject::{{filterObject}}
-
+      <!--<pre>-->
+      <!--filterObject::{{filterObject | json}}-->
+      <!--</pre>-->
 
     <!-- 头部信息 -->
     <div class="relative " style="height:calc(100% - 56px);overflow:auto;">
@@ -33,8 +30,8 @@
                   title-field="name"
                   search-fields="{{cacheObject.customerAddress.name}}"
                   url="rest/authen/customerAddress/query.json?isFilterDefault=true"
-                  ng-model="cacheObject[item.name]"
-                  ng-model-id="filterObject.customerId"
+                  ng-model="cacheObject[item.modelName[0]]"
+                  ng-model-id="filterObject[item.modelName[0]]"
                   class="inline-block text-s" style="height:28px;">
             </span>
             <i class="medical-search-icon" style="top:-1px;right:222px;" ng-if="!cacheObject.customerAddress.title"></i>
@@ -45,24 +42,13 @@
                    title-field="name"
                    search-fields="{{cacheObject.customerAddress.name}}"
                    url="rest/authen/customerAddress/query.json?isFilterDefault=true"
-                   ng-model="cacheObject[item.name]"
-                   ng-model-id="filterObject.customerId"
+                   ng-model="cacheObject[item.modelName[0]]"
+                   ng-model-id="filterObjectitem.modelName[0]"
             >
             </span>
-            <span ng-if="cacheObject.customerAddress.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.customerAddress={};"></span>
+            <span ng-if="cacheObject.customerAddress.title" class="delete-date-icon cur-pot"
+                  style="left:302px;" ng-click="cacheObject.customerAddress={};"></span>
             {{filterObject.customerName}}
-        </div>
-
-        <div  ng-if="item.type=='select'" class="flex-row mgt-m">
-            <label class="flex-item-2 text-right control-label pdr font-w0 label9">{{item.name}}:</label>
-            <div class="flex-item-10 text-left">
-                <select class="ipt ipt-new-s "
-                        chosen
-                        default-empty="全部"
-                        ng-model="filterObject[item.modelName]"
-                        select-source="{{item.url}}">
-                </select>
-            </div>
         </div>
 
         <div ng-if="item.type=='select'" class="flex-row mgt-m">
@@ -71,13 +57,13 @@
                 <select class="ipt ipt-new-s "
                         chosen
                         default-empty="全部"
-                        ng-model="filterObject[item.modelName]"
+                        ng-model="filterObject[item.modelName[0]]"
                         select-source="{{item.url}}">
                 </select>
             </div>
         </div>
 
-        <div ng-if="item.type=='dateRange'" class="flex-row mgt-m" style="margin-top:13px!important;">
+        <div ng-if="item.type=='dateRange'" class="flex-row mgt-m">
             <label class="flex-item-2 text-right control-label pdr pdt-s font-w0 label9" style="margin-top:3px;">{{item.name}}</label>
             <div class="sela-icon-outside white-bgc-set color-3">
                 <input type="text"
@@ -85,7 +71,7 @@
                        datepicker
                        class="ipt-date color-6 mgr pr-indent-10"
                        ng-readonly="true"
-                       ng-model="filterObject[item.modelName]">
+                       ng-model="filterObject[item.modelName[0]]">
                 <span ng-if="!filterObject[item.modelName[0]]" icon-click class="date-icon" style="z-index:15;"></span>
                 <span ng-if="filterObject[item.modelName[0]]" class="delete-date-icon" style="z-index:15;" ng-click="filterObject[item.modelName[0]]='';"></span>
             </div>
@@ -106,131 +92,54 @@
             </div>
         </div>
 
-        <!--<div class="flex-row mgt-m" style="margin-top:18px!important;">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9">业务类型</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<select class="ipt ipt-new-s "-->
-                            <!--chosen-->
-                            <!--default-empty="全部"-->
-                            <!--ng-model="filterObject.orderBusinessType"-->
-                            <!--select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">-->
-                    <!--</select>-->
+        <div ng-if="item.type=='inputRange'" class="flex-row mgt-m">
+              <label class="flex-item-2 text-right control-label pdr pdt-s font-w0 label9" style="margin-top:3px;">{{item.name}}</label>
+              <div class="sela-icon-outside white-bgc-set color-3">
+                  <input type="text"
+                         style="z-index: 15;"
+                         class="ipt-date color-6 mgr pr-indent-10"
+                         ng-model="filterObject[item.modelName]">
+                  <span ng-if="filterObject[item.modelName[0]]" class="delete-date-icon" style="z-index:15;" ng-click="filterObject[item.modelName[0]]='';"></span>
+              </div>
 
-                <!--</div>-->
-            <!--</div>-->
+              <span class="pdt-s mgl-s mgr-s" style="padding-top:7px;">至</span>
+              <div class="sela-icon-outside white-bgc-set" >
+                  <input type="text"
+                         style="z-index: 15;"
+                         class="ipt-date color-6 mgr pr-indent-10"
+                         ng-model="filterObject[item.modelName[1]]"
+                        />
+                  <!--<span ng-if="!filterObject[item.modelName[1]]" icon-click class="date-icon" style="z-index:15;"></span>-->
+                  <span ng-if="filterObject[item.modelName[1]]" class="delete-date-icon" style="z-index:15;" ng-click="filterObject[item.modelName[1]]='';"></span>
+              </div>
 
-        <!--&lt;!&ndash;销售类型&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9">销售类型</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<select class="ipt ipt-new-s"-->
-                            <!--chosen-->
-                            <!--default-empty="全部"-->
-                            <!--ng-model="filterObject.salesType"-->
-                            <!--select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">-->
+              <span class="pdt-s mgl-s mgr-s" style="padding-top:7px;">{{item.alias}}</span>
+          </div>
 
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;商品分类&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m relative">-->
-          <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9" style="margin-top:7px;">商品分类</label>-->
-          <!--<div class="flex-item-10 text-left">-->
 
-            <!--<button type="button"-->
-                    <!--z-tree-select="rest/authen/medicalAttribute/query.json?pageSize=999"-->
-                    <!--style="margin-left:0px;margin-top:3px;"-->
-                    <!--width="240px"-->
-                    <!--class="btn-select-dialog fl-l text-left"-->
-                    <!--ng-model="filterObject.medicalAttribute"-->
-                    <!--id-key="id"-->
-                    <!--p-id-key="parentId">-->
-                    <!--<div class="autocut z-tree-div inline-block fl-l mgr-0" style="margin-right:0px;color:#333;padding-left:8px;line-height:28px;height:28px;">{{filterObject.medicalAttributeName}}</div>-->
-                    <!--<em class="mgl vcenter" style="line-height:28px;">选择</em>-->
-             <!--</button>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;商品通用名&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m relative">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9">商品通用名</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<span angucomplete-supplier-->
-                          <!--ng-if="!cacheObject.medicalStock.title"-->
-                          <!--placeholder=""-->
-                          <!--title-field="name"-->
-                          <!--search-fields="{{cacheObject.medicalStock.name}}"-->
-                          <!--url="rest/authen/medicalStock/query"-->
-                          <!--ng-model="cacheObject.medicalStock"-->
-                          <!--ng-model-id="filterObject.medicalApprovedName"-->
-                          <!--class="inline-block text-s" style="height:28px;">-->
-                    <!--</span>-->
-                    <!--<i class="medical-search-icon" style="top:-1px;right:222px;" ng-if="!cacheObject.medicalStock.title"></i>-->
-                    <!--<span angucomplete-supplier-->
-                          <!--ng-if="cacheObject.medicalStock.title"-->
-                          <!--placeholder=""-->
-                          <!--title-field="name"-->
-                          <!--search-fields="{{cacheObject.medicalStock.name}}"-->
-                          <!--url="rest/authen/medicalStock/query"-->
-                          <!--ng-model="cacheObject.medicalStock"-->
-                          <!--ng-model-id="filterObject.medicalApprovedName"-->
-                          <!--class="inline-block text-s" style="height:28px;">-->
-                    <!--</span>-->
-                    <!--<span ng-if="cacheObject.medicalStock.title" class="delete-date-icon cur-pot" style="left:302px;" ng-click="cacheObject.medicalStock={};"></span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;商品编码&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9">商品编码</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<input type="text"-->
-                           <!--class="inline-block pr-indent-5 white-bg"-->
-                           <!--style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;background: #fdfefe;"-->
-                           <!--placeholder=""-->
-                           <!--ng-model="filterObject.medicalCode"-->
-                           <!--auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=name"/>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;商品条码&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9">商品条码</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<input type="text"-->
-                           <!--class="inline-block pr-indent-5 white-bg"-->
-                           <!--style="border: 1px solid rgba(0,0,0,.2);width:260px;height:28px;background: #fdfefe;"-->
-                           <!--placeholder=""-->
-                           <!--ng-model="filterObject.medicalBarcode">-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;制单部门&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9" style="margin-top:7px;">制单部门</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                    <!--<select class="ipt pr-short-ipt ipt-new-s"-->
-                            <!--chosen-->
-                            <!--default-empty="全部"-->
-                            <!--ng-model="filterObject.departmentId"-->
-                            <!--select-source="rest/authen/department/queryForSelectOption">-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;制单人&ndash;&gt;-->
-        <!--<div class="flex-row mgt-m">-->
-                <!--<label class="flex-item-2 text-right control-label pdr font-w0 label9" style="margin-top:6px;">制单人</label>-->
-                <!--<div class="flex-item-10 text-left">-->
-                        <!--<select class="ipt pr-short-ipt ipt-new-s "-->
-                                <!--data-placeholder=" "-->
-                                <!--chosen-->
-                                <!--default-empty="全部"-->
-                                <!--ng-model="filterObject.inputUserId"-->
-                                <!--select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.departmentId}}&isReturnNullOfNoCondition=true">-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
+        <div ng-if="item.type=='checkmore'" class="flex-row mgt-m relative">
+          <label class="flex-item-2 text-right control-label pdr font-w0 label9" style="margin-top:7px;">{{item.name}}</label>
+          <div class="flex-item-10 text-left" ng-init="selected=[]" style="position: relative">
 
+              <div ng-repeat="item in selected" class="select-tag">
+                  <i ng-click="selected.splice($index,1)" class="ibtn-del-small">+</i>
+                  {{item.text}}
+              </div>
+              <select-more ng-show="show"
+                           url="{{item.url}}"
+                           model-attr="value"
+                           ng-model="filterObject[item.modelName[0]]"
+                           selected="selected"
+                           style="position: absolute; left: 0; z-index: 1;"
+              ></select-more>
+              <button ng-click="show=true;" type="button" style="margin-left:0px;margin-top:8px;" width="240px"
+                      class="btn-select-dialog text-left">
+                   <em>选择</em>
+              </button>
+          </div>
+        </div>
 
       </div>
-
-
 
       <div class="right-m-tit text-bold">统计方式设置</div>
       <div class="mgb-l pd-c-l pdb pr-font-12 color-light-brown sale-boder-btm-2">
@@ -260,7 +169,11 @@
     <!-- 功能按钮 -->
     <div class="sales-btn-area-2nd relative" style="background:#322d2a;">
       <div class="btn-area full-width text-center" style="padding-top:13px;">
-
+      <button type="button"
+              ng-click="filterObject={};"
+              class="pr-btn-save-glodbg mgr-l"
+              style="width:160px;">清空查询条件
+      </button>
         <button type="button"
         ng-click="handleTypeChange()"
         class="pr-btn-save-glodbg mgr-l"
