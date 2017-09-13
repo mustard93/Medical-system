@@ -4648,22 +4648,33 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           // 获取进度值Url
           var _reqProgressUrl = attrs.reqProgressUrl;
 
+          // 定义需要更新进度的条状DOM元素对象
+          var _stateDOM = document.getElementById('progress-bar-state');
+
           // 请求当前导入进度的方法，返回当前请求的进度值
           var _reqProgressMethod = function () {
             requestData(_reqProgressUrl)
             .then(function (results) {
               if (results[1].code === 200 && results[1].data.progress) {
                 var _progress = results[1].data.progress;
-                if (_progress.indexOf('100') === -1) {
-                  scope.currentProgress = _progress;
-                }
+                scope.currentProgress = _progress;
+                $(_stateDOM).width(_progress + '%');
               }
             })
           }
 
+          // 启动计数器，开始读取数据
           var timer = $interval(function () {
             _reqProgressMethod();
-          }, 1000);
+          }, 500);
+
+          // 监控返回的值，如果为100，则完成任务，关闭计数器
+          scope.$watch('currentProgress', function (newVal) {
+            if (parseInt(newVal, 10) === 100) {
+              $interval.cancel(timer);
+            }
+          });
+
         }
       }
     }
