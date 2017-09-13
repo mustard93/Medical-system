@@ -3057,7 +3057,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
       link: function ($scope, $element, $attrs) {
 
         // div宽度=可视区域的宽度-侧边导航的宽度-误差值
-        var _divWidth=$(window).width()-$('.sticky-left-side').width()-50;
+        var _divWidth=$(window).width()-$('.sticky-left-side').width()-85;
         // div高度=可视区域的高度-页头显示的高度-每个页面的顶部面包屑-底部分页的高度-显示分页的高度-误差值
         var _divHeight=$(window).height()-$('.header-section').height()-$('.content-wrapper-heading').height()-$('.fr').height()-150;
 
