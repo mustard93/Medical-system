@@ -257,6 +257,43 @@ define('project-dt/controllers-confirmOrder', ['project-dt/init'], function() {
       }
 
       if ($scope.submitForm_type == 'submit') {
+
+        // 业务需求:当用户通过导入信息的方式填写表单时
+        // 可能的用户地址信息不全，即在用户提交时，对用户导入的地址信息进行校验
+        // 若不全，则提示用户补全且返回false
+        // if ($scope.formData.customerContacts) {
+        //   var _chkObj = {
+        //     name: $scope.formData.customerContacts.name,
+        //     // prov_city_area: $scope.formData.customerContacts.prov + ' ' + $scope.formData.customerContacts.city + ' ' + $scope.formData.customerContacts.area,
+        //     address: $scope.formData.customerContacts.address
+        //   }
+        //   for (var key in _chkObj) {
+        //     if (_chkObj.hasOwnProperty(key)) {
+        //       if (!_chkObj[key]) {
+        //         alertError('收货方信息不全，请补全!');
+        //         return false;
+        //       }
+        //     }
+        //   }
+        // }
+
+        if ($scope.formData.invoicesContacts) {
+          var _chkObj = {
+            name: $scope.formData.invoicesContacts.name,
+            // prov_city_area: $scope.formData.customerContacts.prov + ' ' + $scope.formData.customerContacts.city + ' ' + $scope.formData.customerContacts.area,
+            address: $scope.formData.invoicesContacts.address
+          }
+          for (var key in _chkObj) {
+            if (_chkObj.hasOwnProperty(key)) {
+              if (!_chkObj[key]) {
+                alertError('发货方信息不全，请补全!');
+                return false;
+              }
+            }
+          }
+        }
+
+       // 设置标志位为true则后端开启字段有效性
         $scope.formData.validFlag = true;
       }
 
