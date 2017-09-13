@@ -94,7 +94,7 @@
           </div>
 
         </div>
-        <div class="inline-block mgr">
+        <!-- <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center"></div>
              <div class="inline-block">
@@ -116,7 +116,7 @@
                </p>
              </div>
            </div>
-        </div>
+        </div> -->
         <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center"></div>
@@ -222,8 +222,8 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">计划数量</th>
-                    <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">批号/数量</th>
-                    <th ng-show="formData.orderBusinessType!='直发销售'" class="text-center">灭菌批号</th>
+                    <th class="text-center">批号/数量</th>
+                    <th class="text-center">灭菌批号</th>
                     <th class="text-center">单价</th>
                     <th class="text-center">金额</th>
                     <th class="text-center">失效日期</th>
@@ -294,7 +294,7 @@
                         </button>
                       </div>
                     </td><!-- 订购数量 -->
-                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0" ng-show="formData.orderBusinessType!='直发销售'">
+                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber!='' || batch.batchNumber!=null"
@@ -334,7 +334,7 @@
                       <!-- 待选择数 -->
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
                     </td><!-- 生产批号/数量 -->
-                    <td  class="text-center pd-n" ng-show="formData.orderBusinessType!='直发销售'">
+                    <td  class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td>
                     <td class="text-center" >
@@ -463,9 +463,9 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-content="该返回其他业务单-出库存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo({tabHref:'#/otherOutOrderotherOutOrder/query.html',tabName:'其他业务单-出库'})"
+           nosave-callback="goTo({tabHref:'#/otherOutOrder/query.html',tabName:'其他业务单-出库'})"
            save-callback="submitForm('confirmOrder_editForm','exit')">其他业务单（出库）
         </a>
 
@@ -478,16 +478,16 @@
                class="pr-color-red mgr-l"
                handle-this-click
                dialog-title="确认删除?"
-               dialog-content="您确认删除这条销售单吗?"
+               dialog-content="您确认删除这条其他业务单-出库吗?"
                dialog-template="pr-dialog-confirm.html"
-               request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
+               request-url="rest/authen/otherOutOrder/delete?id={{formData.id}}"
                callback="$root.goTo({tabHref:'#/otherOutOrder/query.html',tabName:'其他业务单-出库'})">删除
             </a>
-
+<!--
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('confirmOrder_editForm','print')">打印预览
-        </button>
+        </button> -->
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
@@ -495,11 +495,11 @@
                 ng-click="submitForm('confirmOrder_editForm','save')">保存
         </button>
 
-        <button ng-if="(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+        <button ng-if="(formData.orderStatus=='未提交'|| formData.orderStatus=='未通过') && numberingPolicy!='auto'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 handle-this-click
-                dialog-title="确认提提示"
+                dialog-title="确认提示"
                 dialog-content="确认提交?"
                 dialog-template="pr-dialog-submit.html"
                 callback="submitForm('confirmOrder_editForm','submit')"
@@ -508,6 +508,21 @@
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull ||
                              !formData.orderCode ||
+                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
+        </button>
+
+        <button ng-if="(formData.orderStatus=='未提交'|| formData.orderStatus=='未通过') && numberingPolicy=='auto'"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                handle-this-click
+                dialog-title="确认提示"
+                dialog-content="确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('confirmOrder_editForm','submit')"
+                ng-disabled="!confirmOrder_editForm.$valid ||
+                             !formData.customerId ||
+                             !formData.orderMedicalNos.length ||
+                             formData.contactsNull ||
                              quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
         </button>
         <div ng-if="!canNextStep(formData)" class="btn-tips">
