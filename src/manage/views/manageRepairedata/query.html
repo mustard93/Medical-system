@@ -1,0 +1,39 @@
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>用户自定义html模版管理</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">数据修复</li>
+    </ul>
+</div>
+<!-- page heading end-->
+<p>数据修复，谨慎使用</p>
+
+
+<!--body wrapper start-->
+
+<div ng-init="scopeResponse=null;listParams={}">
+  <div class="form-group col-lg-2">
+    <label class="col-lg-2 col-sm-2 control-label">机构</label>
+    <div class="col-lg-10 col-sm-10">
+      <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="全局" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+      </select>
+    </div>
+  </div>
+
+
+    <button class="pr-btn-save-glodbg"
+            type="button"
+            ajax-url-submit="rest/authen/manageRepairData/repairePurchaseOrderMedicalNos_relInventoryCode"
+            params="{{listParams}}"
+            scope-response="scopeResponse"
+              ng-disabled="!listParams.organizationId"
+            alert-error>修复已经建立的采购订单里面的药械的供应商商品编号
+    </button>
+<p>执行结果={{scopeResponse}}</p>
+
+</div>
+
+
+
+<!--body wrapper end-->

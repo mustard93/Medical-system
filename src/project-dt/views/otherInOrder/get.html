@@ -59,7 +59,7 @@
              </div>
            </div>
         </div>
-        <div class="inline-block mgr">
+        <!-- <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block" style="padding-right: 5px">
@@ -67,7 +67,7 @@
                <p class="text-m color-3 autocut-default" title="{{scopeData.warehouseName}}">{{scopeData.warehouseName || '暂无'}}</p>
              </div>
            </div>
-        </div>
+        </div> -->
         <div class="inline-block">
             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
               <div class="inline-block logistics-center business-type"></div>
@@ -114,6 +114,7 @@
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">计划数量</th>
+                <th class="text-center" >预入仓库</th>
                 <th ng-hide="scopeData.isConfigWms == '是'" class="text-center">批号</th>
                 <th ng-hide="scopeData.isConfigWms == '是'" class="text-center">灭菌批号</th>
                 <th ng-hide="scopeData.isConfigWms == '是'" class="text-center">生产日期</th>
@@ -144,6 +145,7 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                   <td class="text-right">{{item.quantity}}</td><!-- 订购数量 -->
+                  <td class="text-center" >{{tr.warehouseName}}</td><!-- 预入仓库 -->
                   <td class="text-center relative" ng-hide="scopeData.isConfigWms == '是'">{{item.productionBatch}}</td>
                   <td class="text-center" ng-hide="scopeData.isConfigWms == '是'">{{item.sterilizationBatchNumber}}  </td><!-- 灭菌批号 -->
                   <td class="text-center" ng-hide="scopeData.isConfigWms == '是'">{{item.productionDate | date:'yyyy-MM-dd'}}  </td>
@@ -298,7 +300,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{scopeData.id}}" business-type="其他业务单-入库"></business-flow-show>
+    <business-flow-show business-key="{{scopeData.id}}" business-type="其他入库业务单"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -329,9 +331,9 @@
 
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('confirmOrder_editForm_query','save')">保存</button>
-        <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
+        <!-- <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
-        </button>
+        </button> -->
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               style="font-size:14px;"
               custom-menu-list

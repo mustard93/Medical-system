@@ -673,15 +673,6 @@ define("project-dt/controllers-otherOutOrder", ['project-dt/init'], function(){
 
     }
 
-    // 将后端返回的税率字段从数字转换为字符串
-    $scope.transformTaxType = function (orderMedicalNos) {
-      if (angular.isArray(orderMedicalNos)) {
-        angular.forEach(orderMedicalNos, function (data, index) {
-          data.tax = utils.transformNumOrStr(data.tax);
-        });
-      }
-    }
-
     // 实例化金额计算构造函数类
     // 请在编辑页获取数据之后的callback里执行此方法
     // 以便在当前页中调用此子类方法计算各金额
@@ -689,9 +680,9 @@ define("project-dt/controllers-otherOutOrder", ['project-dt/init'], function(){
       $scope.amountCalcuConfirmOrder = new AmountCalculationService();
     }
 
-    // 根据订单类型返回数量值
+    // 根据订单类型返回数量值-->返回所有批次数量的和
     $scope.returnQuantityByOrderType = function (typeName, medicalObj) {
-      if (typeof typeName === 'string' && typeName.indexOf('普通') > -1) {    //  普通销售类型，返回所有批次数量的和
+      // if (typeof typeName === 'string' && typeName.indexOf('普通') > -1) {    //  普通销售类型，返回所有批次数量的和
         if (angular.isObject(medicalObj) && medicalObj.stockBatchs.length) {
           var _quantity = 0;
           angular.forEach(medicalObj.stockBatchs, function (item, index) {
@@ -700,9 +691,9 @@ define("project-dt/controllers-otherOutOrder", ['project-dt/init'], function(){
 
           return _quantity;
         }
-      } else if (typeof typeName === 'string' && typeName.indexOf('直发') > -1) {   // 直发销售类型，直接返回购需数量
-        return medicalObj.quantity;
-      }
+      // } else if (typeof typeName === 'string' && typeName.indexOf('直发') > -1) {   // 直发销售类型，直接返回购需数量
+        // return medicalObj.quantity;
+      // }
     }
 
     // ...

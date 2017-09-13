@@ -14,6 +14,13 @@
      white-space: nowrap;
      /*height:300px;*/
      overflow-x: hidden;
+
+   }
+   /*表格底部的border*/
+   .table-fixed-meter>table,
+   .fixed-meter-hidden>table
+   {
+     border-bottom: 1px solid rgba(209,143,0,0.20);
    }
    /*出现横向滚动条的表格*/
    .fixed-meter-scoller{
@@ -39,7 +46,7 @@
     position:relative;
     height:56px;
     white-space:nowrap;
-    margin-top:40px;
+    /*margin-top:40px;*/
     margin-right:10px;
     border-top: 1px solid rgba(209,143,0,0.20);
   }
@@ -90,11 +97,18 @@
      margin: 0px;
      display:inline-block;
      color:#333;
-     border-left: 1px solid rgba(209,143,0,0.20);
      border-bottom: 1px solid rgba(209,143,0,0.20);
-     width:auto;
      overflow:hidden;
      height:50px;
+   }
+   .th-div-scoller,
+   .th-div-noScoller>div:first-child
+   {
+      border-left: 1px solid rgba(209,143,0,0.20);
+   }
+   .th-div-noScoller
+   {
+          width:auto;
    }
     .th-div-inScoller>div,
     .th-div-noScoller>div
@@ -105,8 +119,12 @@
      font-size: 12px;
      color: #484848;
      font-weight: bold;
-     border-right: 1px solid rgba(209,143,0,0.20);
      border-top: 1px solid rgba(209,143,0,0.20);
+   }
+   .th-div-inScoller>div:not(:last-child),
+   .th-div-noScoller>div:not(:last-child)
+   {
+    border-right: 1px solid rgba(209,143,0,0.20);
    }
   .custom-table-fixed-meter th,
   .custom-table-fixed-meter td
@@ -119,4 +137,19 @@
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/*表格没有数据时，显示的表头样式*/
+.no-table-data-scoller{
+
+}
+/*没有数据时，固定的表头*/
+.no-table-data-hidden{
+  width: auto;
+}
+.no-table-data-hidden>div>span,
+.no-table-data-scoller>div>div>span
+{
+  display: inline-block;
+  width: auto;
+  padding: 0px 10px;
 }

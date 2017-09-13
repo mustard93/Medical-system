@@ -70,7 +70,7 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
                     });
             // }
         }
-        
+
 
 
         if($scope.formData.id){
@@ -513,11 +513,11 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
     // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
     $scope.chkSupplierInfo = function (supplier) {
         // console.log(supplier);
-        if (!supplier.contact) {
-            dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建采购单!', function () {
-                // window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
-            });
-        }
+        // if (!supplier.contact) {
+        //     dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建采购单!', function () {
+        //         // window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
+        //     });
+        // }
     };
     // 监听商品对象，只要加入商品后就把id取出来放入ids中，用于后续请求历史价格
 
@@ -712,6 +712,42 @@ define('project-dt/controllers-requestPurchaseOrderDetail', ['project-dt/init'],
         $scope.formData.isMerge=true;
 
         if ($scope.submitForm_type == 'submit') {
+
+          // 业务需求:当用户通过导入信息的方式填写表单时
+               // 可能的用户地址信息不全，即在用户提交时，对用户导入的地址信息进行校验
+               // 若不全，则提示用户补全且返回false
+               // if ($scope.formData.supplier.contact) {
+               //   var _chkObj = {
+               //     name: $scope.formData.supplier.contact.name,
+               //     // prov_city_area: $scope.formData.supplier.contact.prov + ' ' + $scope.formData.supplier.contact.city + ' ' + $scope.formData.supplier.contact.area,
+               //     address: $scope.formData.supplier.contact.address
+               //   }
+               //   for (var key in _chkObj) {
+               //     if (_chkObj.hasOwnProperty(key)) {
+               //       if (!_chkObj[key]) {
+               //         alertError('发货方信息不全，请补全!');
+               //         return false;
+               //       }
+               //     }
+               //   }
+               // }
+
+               if ($scope.formData.customerContacts) {
+                 var _chkObj = {
+                   name: $scope.formData.customerContacts.name,
+                   // prov_city_area: $scope.formData.supplier.contact.prov + ' ' + $scope.formData.supplier.contact.city + ' ' + $scope.formData.supplier.contact.area,
+                   address: $scope.formData.customerContacts.address
+                 }
+                 for (var key in _chkObj) {
+                   if (_chkObj.hasOwnProperty(key)) {
+                     if (!_chkObj[key]) {
+                       alertError('收货方信息不全，请补全!');
+                       return false;
+                     }
+                   }
+                 }
+               }
+
             $scope.formData.validFlag = true;
         }
         if ($scope.submitForm_type == 'save') {
