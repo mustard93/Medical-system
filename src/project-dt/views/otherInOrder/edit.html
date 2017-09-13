@@ -155,7 +155,7 @@
                            data-placeholder=" "
                            chosen
                            ng-model="formData.instockTypeId"
-                           select-source="rest/authen/otherInoutOrderType/queryForSelectOption"
+                           select-source="rest/authen/otherInoutOrderType/queryForSelectOption?inoutType=入库"
                            ng-change="chgOrderBusinessType(false,formData.instockTypeId)">
                    </select>
                </p>
@@ -478,8 +478,6 @@
 
         <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="返回其他业务单-入库" tab-href="#/otherInOrder/query.html?id={{formData.relId}}" >返回其他业务单（入库）</a>
 
-
-
             <a ng-if="formData.id  && formData.orderStatus=='未提交'"
                href="javascript:;"
                class="pr-color-red mgr-l"
@@ -491,32 +489,14 @@
                callback="$root.goTo({tabHref:'#/otherInOrder/query.html',tabName:'销售单'})">删除
             </a>
 
-
-
-
-
-        <!-- <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('confirmOrder_editForm','create')">智能匹配
-        </button> -->
-
-        <!-- <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('confirmOrder_editForm','print')">打印预览
-        </button> -->
-
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
                 ng-click="submitForm('confirmOrder_editForm','save')">保存
         </button>
 
-        <!-- <button
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                >提交
-        </button> -->
         <button type="button"
+                ng-if="numberingPolicy!='auto'"
                 class="pr-btn-save-glodbg mgr"
                 handle-this-click
                 dialog-title="确认提示"
@@ -529,56 +509,19 @@
                              !formData.orderCode ||!canNextStep(formData)">提交
         </button>
 
-        <!-- <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                handle-this-click
-                dialog-title="确认提示?"
-                dialog-content="确认提交?"
-                dialog-template="pr-dialog-submit.html"
-                callback="submitForm('confirmOrder_editForm','submit')"
-                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             !confirmOrder_editForm.$valid ||
-                             !formData.customerId ||
-                             !formData.orderMedicalNos.length ||
-                             formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData) || noSuchStockBatchs">提交
-        </button> -->
-
-        <!-- <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy!='auto'"
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                handle-this-click
-                dialog-title="确认提提示"
-                dialog-content="确认提交?"
-                dialog-template="pr-dialog-submit.html"
-                callback="submitForm('confirmOrder_editForm','submit')"
-                ng-disabled="!confirmOrder_editForm.$valid ||
-                             !formData.customerId ||
-                             !formData.orderMedicalNos.length ||
-                             formData.contactsNull ||
-                             !formData.orderCode ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
-        </button>
-        <div ng-if="!canNextStep(formData)" class="btn-tips">
-          单据存在不符合交易要求的因素，不能提交。
-          <div class="triangle-down"></div>
-        </div>
-        <button ng-if="formData.orderBusinessType=='直发销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')&&numberingPolicy=='auto'"
-                type="button"
+        <button type="button"
+                ng-if="numberingPolicy=='auto'"
                 class="pr-btn-save-glodbg mgr"
                 handle-this-click
                 dialog-title="确认提示"
                 dialog-content="确认提交?"
                 dialog-template="pr-dialog-submit.html"
                 callback="submitForm('confirmOrder_editForm','submit')"
-                ng-disabled="!confirmOrder_editForm.$valid ||
-                             !formData.customerId ||
+                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
+                             !confirmOrder_editForm.$valid ||
                              !formData.orderMedicalNos.length ||
-                             formData.contactsNull ||
-                             quantityConfirmOrderError || quantityError ||!canNextStep(formData)">提交
-        </button> -->
-
+                             !canNextStep(formData)">提交
+        </button>
       </div>
 
       <!-- <div ng-show="formData.orderBusinessType!='直发销售'" class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">

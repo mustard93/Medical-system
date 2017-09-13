@@ -139,23 +139,27 @@ define("project-dt/controllers-otherInOrderEdit", ['project-dt/init'], function(
       var _reqUrl = a ? "rest/authen/logisticsCenter/get?id=" + id : "rest/authen/otherInoutOrderType/get?id=" + id;
       requestData(_reqUrl)
           .then(function (results) {
-            console.info(results);
               if(results[1].code ==200){
                 if(!a) results[1].data.isCanWMS == "是" ? $scope.isCanWMSRu = true : $scope.isCanWMSRu = false;
                 if(a) results[1].data.infrastructureId ? $scope.isCanWMSWu = true : $scope.isCanWMSWu = false;
               }
           })
           .catch(function (error) {
-              throw new Error(error);
+              //throw new Error(error);
           });
     }
     // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
     $scope.chkSupplierInfo = function (supplier) {
-      // console.log(supplier);
       if (!supplier.contact) {
-          dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建其他业务单-入库!', function () {
+
+          dialogConfirm('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建其他业务单-入库!',function () {
+
+          },'pr-dialog-confirm.html','确认提示','确定',"", "",{},function () {
+
+          })
+          //dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建其他业务单-入库!', function () {
             // window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
-        });
+          // });
       }
     };
     // 修改供应商后，调用获取历史价格的接口，拿到每一个药品对应的价格。

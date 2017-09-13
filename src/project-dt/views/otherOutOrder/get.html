@@ -98,8 +98,6 @@
             <!-- <span class="">审核人：<em class="color-3">{{scopeData.approver.approverUser.n||'暂无'}}</em></span> -->
           </div>
           <div class="flex-item-6 text-right">
-            <!-- <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span> -->
-            <!-- <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span> -->
             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
           </div>
         </div>
@@ -107,11 +105,6 @@
         <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr-l">业务部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
-          <!-- <span class="mgr-l">销售类型：<em class="color-3">{{scopeData.salesType}}</em></span> -->
-          <!-- <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
-          <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
-          <span class="mgr-l">汇率：<em class="color-3">1.00</em></span> -->
-          <!-- <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span> -->
         </div>
         <!-- 商品列表 （custom-tr-menus="spd_confirm_printGS1_query  打开打印条码选项）-->
         <div class="">
@@ -138,9 +131,6 @@
               <tbody>
                 <tr ng-repeat="tr in scopeData.orderMedicalNos">
                   <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
-
-                  <!--<td class="text-center" style="line-height:2.4">{{tr.orderCode}}</td>&lt;!&ndash; 借出单编号 &ndash;&gt;-->
-
                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                   <td class="text-left"   style="line-height:2.4">
                     <span class="lend-order-goods-info"
@@ -307,7 +297,7 @@
     </div>
 
     <!-- 流程图 -->
-    <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
+    <business-flow-show business-key="{{scopeData.id}}" business-type="其他业务单-出库"></business-flow-show>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -318,13 +308,13 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-content="该其他业务单-出库存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo({tabHref:'#/otherOutOrder/query.html',tabName:'销售单'})"
-           save-callback="submitForm('confirmOrder_editForm_query','exit')">返回销售单列表
+           nosave-callback="goTo({tabHref:'#/otherOutOrder/query.html',tabName:'其他业务单-出库'})"
+           save-callback="submitForm('confirmOrder_editForm_query','exit')">其他业务单-出库
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="销售单" tab-href="#/otherOutOrder/query.html?id={{scopeData.relId}}" >返回销售单列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" tab-nav tab-name="其他业务单-出库" tab-href="#/otherOutOrder/query.html?id={{scopeData.relId}}" >返回其他业务单-出库列表</a>
 
 
 
@@ -333,10 +323,10 @@
                class="pr-color-red mgr"
                handle-this-click
                dialog-title="确认删除?"
-               dialog-content="您确认删除这条销售单吗?"
+               dialog-content="您确认删除这条其他业务单-出库吗?"
                dialog-template="pr-dialog-confirm.html"
                request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-               call-back="$root.goTo({tabHref:'#/otherOutOrder/query.html',tabName:'销售单'})">删除
+               call-back="$root.goTo({tabHref:'#/otherOutOrder/query.html',tabName:'其他业务单-出库'})">删除
             </a>
 
 
@@ -351,9 +341,9 @@
         </span>
       </div>
 
-      <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
+      <!-- <div class="price-area relative fl-r mgr-l" style="font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice |  number:2}}</em>
-      </div>
+      </div> -->
     </div>
   </form>
 </div>
