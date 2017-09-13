@@ -2,11 +2,11 @@
     ajax-url="{{url}}&q={{listParams.q}}"
     scope-data="list">
     <div class="select-more-header">
-        <span class="f-left mycheck" style="width: 60px;">
-            <input type="checkbox" class="selectAll cur-pot" id='queryForSelectOption_All'
+        <span class="f-left mycheck" style="width: 60px;color:#C7A77B ">
+            <input type="checkbox" class="selectAll cur-pot" id='queryForSelectOption_All_{{id}}'
                    ng-model="isChoiseAll"
                    ng-click="handleChoiseAllEvent(list,isChoiseAll);">
-            <label for="queryForSelectOption_All" style="left: -5px;top:10px;"></label>全选
+            <label for="queryForSelectOption_All_{{id}}" style="left: -5px;top:10px;"></label>全选
         </span>
         <span class="f-right" ng-click="hideMe()">取消</span>
     </div>
@@ -18,10 +18,10 @@
                 <tr ng-repeat="item in list" class="mycheck absolud-center">
                     <td class="select-td text-center mycheck" style="width:  35px;">
                         <input type="checkbox"
-                               class="selectOne cur-pot" id='queryForSelectOption_{{$index+2}}'
+                               class="selectOne cur-pot" id='queryForSelectOption_{{$index+2}}_{{id}}'
                                ng-model="item.handleFlag"
                                ng-click="handleItemClickEvent(item,list,'id');">
-                        <label for="queryForSelectOption_{{$index+2}}" style="margin-right: 5px;"></label>
+                        <label for="queryForSelectOption_{{$index+2}}_{{id}}" style="margin-right: 5px;"></label>
                     </td>
 
                     <td class="text-left" style="color: #333;">{{item.text}}</td>

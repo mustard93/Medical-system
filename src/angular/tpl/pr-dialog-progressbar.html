@@ -15,7 +15,10 @@
         left: 50%;
     }
     .pr-page-dialog-content{
-        min-height: 150px!important;
+
+    }
+    .pr-page-dialog-footer {
+      padding-top: 13px;
     }
 </style>
 <div class="pr-page-dialog-wrap"
@@ -27,21 +30,20 @@
         <span ng-if="barData" class="mgl-l text-n">条码生成结果</span>
     </div>
     <div class="pr-page-dialog-content">
-      <h1 class="text-center text-l pdt-l">正在生成条形码...</h1>
-      <div class="pd-c-m mgt-xxl">
-        <progress-bar req-progress-url="rest/authen/medicalStock/getProgressForGenerateBarcodes.json"></progress-bar>
+      <div class="" ng-if="!barData">
+        <h1 class="text-center text-l pdt-l">正在生成条形码...</h1>
+        <div class="pd-c-m mgt-xxl">
+          <progress-bar req-progress-url="rest/authen/medicalStock/getProgressForGenerateBarcodes.json"></progress-bar>
+        </div>
+      </div>
+      <div class="pr-page-dialog-content" ng-if="barData">
+          <div class="mgb-l relative text-center">
+            <span class="progressbar-icon-hook"></span>
+            <span class="pr-font-18 mgl">条码生成完毕！本次成功生成条形码&nbsp;{{barData.successNum}}&nbsp;条，失败<em class="color-red">&nbsp;{{barData.failNum}}&nbsp;</em>条</span>
+          </div>
       </div>
     </div>
-    <!-- <div class="pr-page-dialog-content bb-line" ng-if="!barData">
-      <h1 class="text-center text-l pdt-m">正在生成条形码...</h1>
-      <progress-bar></progress-bar>
-    </div>
-    <div class="pr-page-dialog-content bb-line" ng-if="barData">
-        <div class="mgb-l" style="margin-left: 80px;margin-top: 45px;font-size: 16px">
-            <i class="progressbar-icon-hook"></i>条码生成完毕！本次成功生成条形码&nbsp;{{barData.successNum}}&nbsp;条，失败<em class="color-red">&nbsp;{{barData.failNum}}&nbsp;</em>条
-        </div>
-    </div> -->
-    <div class="pr-page-dialog-footer text-center mg-m" ng-if="barData">
+    <div class="pr-page-dialog-footer text-center bt-line" ng-if="barData">
         <button type="button" class="pr-btn-save-glodbg btn-new-wid-hei" ng-click="confirm()">确定</button>
     </div>
 </div>
