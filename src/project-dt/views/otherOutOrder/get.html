@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="inline-block mgr">
+        <!-- <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
              <div class="inline-block logistics-center "></div>
              <div class="inline-block" style="padding-right: 5px">
@@ -58,7 +58,7 @@
                <p class="text-m color-3 autocut-default" title="{{scopeData.logisticsCenterName}}">{{scopeData.logisticsCenterName || '暂无'}}</p>
              </div>
            </div>
-        </div>
+        </div> -->
 
         <div class="inline-block mgr">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="min-height:88px;">
@@ -112,20 +112,17 @@
               <thead>
               <tr>
                 <th class="text-center">序号</th>
-                <!--<th class="text-center">借出单编号</th>-->
                 <th class="text-center">商品编号</th>
                 <th class="text-left">商品通用名</th>
-
-                <th class="text-center">类型/分类</th>
-
-                <th class="text-center">商品规格</th>
-                <th class="text-center">基本单位</th>
+                <th class="text-center">剂型/分类</th>
+                <th class="text-center">规格/型号</th>
+                <th class="text-center">单位</th>
+                <th class="text-center">计划数量</th>
                 <th class="text-center">批号</th>
-                <th class="text-center">借出数量</th>
-                <th class="text-center">待还数量</th>
-                <th class="text-center">计划归还数量</th>
-                <th class="text-center">实际归还</th>
-                <th class="text-center">预入库房</th>
+                <th class="text-center">灭菌批号</th>
+                <th class="text-center">单价</th>
+                <th class="text-center">金额</th>
+                <th class="text-center">失效日期</th>
              </tr>
               </thead>
               <tbody>
@@ -149,17 +146,19 @@
                     </span>
                   </td><!-- 商品全名 -->
 
-                  <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td><!-- 类型/分类 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.dosageForms}}</td><!-- 剂型/分类 -->
                   <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                   <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.quantity}}</td><!-- 数量 -->
+
                   <td class="text-center" style="line-height:2.4">{{tr.productionBatch}}</td><!-- 批号 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-right" style="line-height:2.4">{{tr.strike_price | currency:"￥"}}</td><!-- 单价 -->
+                  <td class="text-right" style="line-height:2.4">{{tr.quantity*item.strike_price || tr.totalPrice | currency:"￥"}}</td>  <!--金额-->
 
-                  <td class="text-right" style="line-height:2.4">{{tr.lendCount}}</td><!-- 借出数量 -->
-                  <td class="text-right" style="line-height:2.4">{{tr.stayCount}}</td><!-- 待还数量 -->
-                  <td class="text-right" style="line-height:2.4">{{tr.quantity}}</td><!-- 计划归还数量 -->
-                  <td class="text-right" style="line-height:2.4">{{tr.actualReturnCount}}</td>  <!--实际归还-->
-
-                  <td class="text-center" style="line-height:2.4">{{tr.warehouseName}}</td>  <!--预入库房-->
+                  <td class="text-center" style="line-height:2.4">
+                    {{tr.validTill | date : 'yyyy-MM-dd'}}
+                  </td>  <!--预入库房-->
 
                 </tr>
               </tbody>
@@ -325,15 +324,15 @@
                dialog-title="确认删除?"
                dialog-content="您确认删除这条其他业务单-出库吗?"
                dialog-template="pr-dialog-confirm.html"
-               request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+               request-url="rest/authen/otherOutOrder/delete?id={{formData.id}}"
                call-back="$root.goTo({tabHref:'#/otherOutOrder/query.html',tabName:'其他业务单-出库'})">删除
             </a>
 
 
         <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('confirmOrder_editForm_query','save')">保存</button>
-        <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
+        <!-- <button type="button" ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id={{scopeData.id}}" target="_blank">打印预览</a>
-        </button>
+        </button> -->
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               style="font-size:14px;"
               custom-menu-list
