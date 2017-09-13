@@ -3682,12 +3682,26 @@ function pageMainHeaderComponent ($rootScope,$sce) {
       createBtnAuthor:'@',
       enterBtnAuthor:'@',
       getInventoryTypeUrl: '@',
-      tabName:'@'
+      tabName:'@',
+      isShowSourceModel:'@' // 模型名称
     },
     replace: true,
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/pageMainHeaderComponent.html',
     link: function (scope, element, attrs) {
+
+
+      if(angular.isDefined(attrs.isShowSourceModel)){
+        scope.isShowSourceModel=attrs.isShowSourceModel;
+      }else{
+        scope.isShowSourceModel='orderSource';
+      }
+
+
+
+
+
+
       //处理面包屑导航数据
       if (scope.crumbsNav) {
         //将面包屑字符串转换为JSON对象
