@@ -3070,80 +3070,95 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
 
         // 判断如果可以出现滚动条的div出现了滚动条
           window.setTimeout(function(){
-
-            $('.outside-table-fixed-meter').css({
-              'height':_divHeight-135
-            })
-            // 滚动字段显示区域的宽度
-            $('.fixed-meter-scoller').css({
-              'width':_divWidth-$('.fixed-meter-hidden').width()
-            })
-            // 底部显示合计和横向滚动条的容器
-            $('.bottom-div').css({
-              'width':_divWidth
-            })
-            // 合计的宽度
-            $('.total-text-p').css({
-              'width':$('.fixed-meter-hidden').width()
-            })
-            // 滚动的区域表头的宽度
-            $('.th-div-scoller').css({
-              // 抛出1px的误差值
-               'width':$('.fixed-meter-scoller').width()+1
-             })
-            //  滚动表头，没有数据时的表格表头显示宽度
-            $('.no-table-data-scoller').css({
-               'width':_divWidth-$('.th-div-noScoller').width()
-             })
-
-            //  固定区域表头的样式设置
-            $('.th-div-noScoller').css({
-               'width':_divWidth-$('.th-div-scoller').width(),
-               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left+1,// 抛出1px的误差值
-               'overflow-x':'hidden'
-             })
-
-             // 滚动表格的表头
-             var thScollerArr=$('.th-div-inScoller').children('div');
-             // 滚动表格的内容
-             var thContentScollerArr=$('.tr-content:first').children('td');
-            //  支持滚动的表头设置宽度
-             setThWidth(thScollerArr,thContentScollerArr,'.tr-content');
-
-            //  固定表格的表头th数组
-             var thNoScollerArr=$('.th-div-noScoller').children('div');
-            //  固定表格内第一行每个单元格的数组
-             var thnoContentScollerArr=$('.tr-no-content:first').children('td');
-            //  固定的表头设置宽度
-            setThWidth(thNoScollerArr,thnoContentScollerArr,'.tr-no-content');
-
-            // 显示合计字段的单元格
-            var totalSpanArr=$('.show-total-text').children('div');
-            // 调用方法，设置底部合计字段的单元格宽度
-            setThWidth(totalSpanArr,thNoScollerArr,'.show-total-text');
-
-            // 注意：设置横向滚动条的宽度一定要在表格表头和表内容中的单元格设置完宽度之后，不然有可能导致拿到的表格的总宽度不是最后的宽度
-              // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
-              $('.analog-scroll-bar').css({
-                'width':$('.th-div-scoller').width()
-              })
-
-              // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
-              $('.analog-scroll-content-bar').css({
-                'width':$('.th-div-inScoller').width()
-              })
-              // 监听竖向滚动条，模拟左边表格的竖向滚动
-              $('.analog-scroll-bar').on('scroll',function(){
-                // 模拟的横向滚动条滚动时，需要滚动的表格就要根据滚动条的距离滚动
-                $('.can-scoller-table').css({
-                  'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
-                })
-                  // 模拟的横向滚动条滚动时，需要滚动的表格的表头也要根据滚动条的距离滚动
-                $('.th-div-inScoller').css({
-                  'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
-                })
-               });
+            // 执行设置表格的方法
+            setFixedMeterTable();
           },100)
+          //
+          // $(window).resize(function () {
+          //   //当浏览器大小变化时,触发方法，重新设置表格的大小
+          //       setFixedMeterTable();
+          // });
+
+          // 设置表格的方法
+        function setFixedMeterTable(){
+          $('.outside-table-fixed-meter').css({
+            'height':_divHeight-135
+          })
+          // 设置两个表头fixed之后的top值
+          $('.th-div-scoller').css({
+            'top':$('.outside-table-fixed-meter').offset().top-50
+          })
+          $('.th-div-noScoller').css({
+            'top':$('.outside-table-fixed-meter').offset().top-50
+          })
+          // 滚动字段显示区域的宽度
+          $('.fixed-meter-scoller').css({
+            'width':_divWidth-$('.fixed-meter-hidden').width()
+          })
+          // 底部显示合计和横向滚动条的容器
+          $('.bottom-div').css({
+            'width':_divWidth
+          })
+          // 合计的宽度
+          $('.total-text-p').css({
+            'width':$('.fixed-meter-hidden').width()
+          })
+          // 滚动的区域表头的宽度
+          $('.th-div-scoller').css({
+            // 抛出1px的误差值
+             'width':$('.fixed-meter-scoller').width()+1
+           })
+          //  滚动表头，没有数据时的表格表头显示宽度
+          $('.no-table-data-scoller').css({
+             'width':_divWidth-$('.th-div-noScoller').width()
+           })
+          //  固定区域表头的样式设置
+          $('.th-div-noScoller').css({
+             'width':_divWidth-$('.th-div-scoller').width(),
+             'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left+1,// 抛出1px的误差值
+             'overflow-x':'hidden'
+           })
+           // 滚动表格的表头
+           var thScollerArr=$('.th-div-inScoller').children('div');
+           // 滚动表格的内容
+           var thContentScollerArr=$('.tr-content:first').children('td');
+          //  支持滚动的表头设置宽度
+           setThWidth(thScollerArr,thContentScollerArr,'.tr-content');
+
+          //  固定表格的表头th数组
+           var thNoScollerArr=$('.th-div-noScoller').children('div');
+          //  固定表格内第一行每个单元格的数组
+           var thnoContentScollerArr=$('.tr-no-content:first').children('td');
+          //  固定的表头设置宽度
+          setThWidth(thNoScollerArr,thnoContentScollerArr,'.tr-no-content');
+
+          // 显示合计字段的单元格
+          var totalSpanArr=$('.show-total-text').children('div');
+          // 调用方法，设置底部合计字段的单元格宽度
+          setThWidth(totalSpanArr,thNoScollerArr,'.show-total-text');
+
+          // 注意：设置横向滚动条的宽度一定要在表格表头和表内容中的单元格设置完宽度之后，不然有可能导致拿到的表格的总宽度不是最后的宽度
+            // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
+            $('.analog-scroll-bar').css({
+              'width':$('.th-div-scoller').width()
+            })
+
+            // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度
+            $('.analog-scroll-content-bar').css({
+              'width':$('.th-div-inScoller').width()
+            })
+            // 监听竖向滚动条，模拟左边表格的竖向滚动
+            $('.analog-scroll-bar').on('scroll',function(){
+              // 模拟的横向滚动条滚动时，需要滚动的表格就要根据滚动条的距离滚动
+              $('.can-scoller-table').css({
+                'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
+              })
+                // 模拟的横向滚动条滚动时，需要滚动的表格的表头也要根据滚动条的距离滚动
+              $('.th-div-inScoller').css({
+                'margin-left':'-'+$('.analog-scroll-bar').scrollLeft()+'px'
+              })
+             });
+        }
 
       //  设置表头宽度的方法
       // 传入两个参数，thArr（表头每个标题的数组集合），tdArr（表格内容每个单元格的数组集合）,trClass(表格中用于选中tr的类名)。
