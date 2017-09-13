@@ -121,64 +121,102 @@ var moduleMap=[
 var queryParams=[
     {
         name:'商品通用名',
-        modelName:'name',
+        modelName:['approvedName'],
         type:'autocomplete',
         url:'rest/authen/customerAddress/query.json?isFilterDefault=true'
     },
     {
         name:'商品编号',
-        modelName:'salesDepartmentId',
-        type:'select',
-        url:'rest/authen/department/queryForSelectOption'
+        modelName:['code'],
+        type:'input',
+        url:''
     },
     {
-        name:'原商品编号',
-        modelName:'saleUserId',
+        name:'原商品编码',
+        modelName:['originalCode'],
         type:'input',
-        url:'rest/authen/organizationAndUser/queryForSelectOption?departmentId={{filterObject.salesDepartmentId}}&isReturnNullOfNoCondition=true'
+        url:''
     },
+
     {
         name:'批号',
-        modelName:'batchCode',
+        modelName:['productionBatch'],
         type:'input',
         url:''
     },
     {
         name:'灭菌批号',
-        modelName:'batchCode2',
+        modelName:['sterilizationBatchNumber'],
         type:'input',
         url:''
     },
     {
         name:'生产日期',
-        modelName:['updateAtBeg','updateAtEnd'],
+        modelName:['productionDateBeg','productionDateEnd'],
         type:'dateRange',
         url:''
     },
     {
         name:'有效期至',
-        modelName:['updateAtBeg1','updateAtEnd1'],
+        modelName:['validTillBeg','validTillEnd'],
         type:'dateRange',
         url:''
     },
     {
-        name:'剩余有效期天数',
-        modelName:['updateAtBeg','updateAtEnd'],
+        name:'有效期天数',
+        modelName:['remainValidityDayBeg','remainValidityDayEnd'],
         type:'inputRange',
-        url:''
+        url:'',
+        alias:'天'
     },
+
+
     {
         name:'可用量',
-        modelName:'canUseCount',
-        type:'inputRange',
-        url:''
+        modelName:['salesQuantityEnum'],
+        type:'select',
+        url:'rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StockQuantityEnum'
+    },
+
+    {
+        name:'库存量',
+        modelName:['quantityEnum'],
+        type:'select',
+        url:'rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StockQuantityEnum'
+    },
+    {
+        name:'冻结量',
+        modelName:['freezeQuantityEnum'],
+        type:'select',
+        url:'rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StockQuantityEnum'
+    },
+    {
+        name:'锁定量',
+        modelName:['lockingQuantityEnum'],
+        type:'select',
+        url:'rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StockQuantityEnum'
     },
     {
         name:'仓库',
-        modelName:'canUseCount',
+        modelName:['warehouseStockIds'],
         type:'checkmore',
-        url:''
+        url:'rest/authen/warehouse/queryForSelectOption?logisticsCenterId=597af877e4b0f6b6e2907765&type=正常库'
+    },
+
+    {
+        name:'商品分类',
+        modelName:['attributeIds'],
+        type:'checkmore',
+        url:'rest/authen/warehouse/queryForSelectOption?logisticsCenterId=597af877e4b0f6b6e2907765&type=正常库'
+    },
+
+    {
+        name:'物流中心',
+        modelName:['logisticsCenterIds'],
+        type:'checkmore',
+        url:'rest/authen/warehouse/queryForSelectOption?logisticsCenterId=597af877e4b0f6b6e2907765&type=正常库'
     }
+
 ];
 
 

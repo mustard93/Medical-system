@@ -3057,7 +3057,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
       link: function ($scope, $element, $attrs) {
 
         // div宽度=可视区域的宽度-侧边导航的宽度-误差值
-        var _divWidth=$(window).width()-$('.sticky-left-side').width()-50;
+        var _divWidth=$(window).width()-$('.sticky-left-side').width()-85;
         // div高度=可视区域的高度-页头显示的高度-每个页面的顶部面包屑-底部分页的高度-显示分页的高度-误差值
         var _divHeight=$(window).height()-$('.header-section').height()-$('.content-wrapper-heading').height()-$('.fr').height()-150;
 
@@ -3088,7 +3088,8 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             })
             // 滚动的区域表头的宽度
             $('.th-div-scoller').css({
-               'width':$('.fixed-meter-scoller').width()
+              // 抛出1px的误差值
+               'width':$('.fixed-meter-scoller').width()+1
              })
             //  滚动表头，没有数据时的表格表头显示宽度
             $('.no-table-data-scoller').css({
@@ -3098,7 +3099,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             //  固定区域表头的样式设置
             $('.th-div-noScoller').css({
                'width':_divWidth-$('.th-div-scoller').width(),
-               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left,
+               'left':$('.th-div-scoller').width()+$('.th-div-scoller').offset().left+1,// 抛出1px的误差值
                'overflow-x':'hidden'
              })
 
@@ -3124,7 +3125,7 @@ function tableFixedMeter(utils,$compile,customMenuUtils){
             // 注意：设置横向滚动条的宽度一定要在表格表头和表内容中的单元格设置完宽度之后，不然有可能导致拿到的表格的总宽度不是最后的宽度
               // 横向滚动条出现的div。宽度与要出现滚动条的div同宽
               $('.analog-scroll-bar').css({
-                'width':$('.fixed-meter-scoller').width()
+                'width':$('.th-div-scoller').width()
               })
 
               // 横向滚动条出现的div。模拟横向滚动条表格内容的宽度

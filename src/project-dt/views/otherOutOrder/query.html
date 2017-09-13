@@ -43,13 +43,13 @@
                   <span class="flex-item-6 text-right">
                   <span class="text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-                      <span ng-if="$root.hasAuthor('销售单修改')">
+                      <span ><!-- ng-if="$root.hasAuthor('销售单修改')" -->
                         <a ng-if='!tr.relId' tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                         <a ng-if='tr.relId' tab-nav tab-name="其他业务单-出库"  tab-href="#/otherOutOrder/edit.html?id={{tr.id}}" class="btn-link pd rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                     </span>
-                    <span ng-if="$root.hasAuthor('销售单删除')&&tr.orderStatus=='未提交'&&tr.inputUserId==mainStatus.id">
+                    <span ng-if="tr.orderStatus=='未提交'&&tr.inputUserId==mainStatus.id"><!--$root.hasAuthor('销售单删除')&&-->
                       <a href="javascript:;"
                          class="btn-link pd rect-s"
                          title="删除"

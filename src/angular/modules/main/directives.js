@@ -4490,18 +4490,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      * @param $rootScope
      * @returns {{name: string, scope: {url: string}, restrict: string, transclude: boolean, template: string, link: link}}
      */
-    function  selectMore($rootScope){
+    function  selectMore($rootScope,utils){
         return {
             name:'selectMore',
             scope:{
                 url:"@",
                 selected:'=',
                 enterFn:'&',
-                ngShow:'='
+                ngShow:'=',
+                modelAttr:'@',
+                ngModel:'='
             },
             restrict: 'E',
             templateUrl:  Config.tplPath +'tpl/project/selectMore.html',
             link: function ($scope, element, attrs) {
+
+                $scope.id= utils.getUUID();
+
                 $scope.url = attrs.url;
 
                 $scope.choiced=$scope.selected;
@@ -4590,14 +4595,37 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         $scope.enterFn($scope.choiced);
                     }
                     $scope.selected= angular.copy( $scope.choiced) ;
-
-
+                    $scope.ngModel=[];
+                    for(var i=0; i<$scope.selected.length; i++){
+                        $scope.ngModel.push($scope.selected[i][attrs.modelAttr]);
+                    }
                     $scope.hideMe();
                 };
 
                 $scope.hideMe=function () {
                    $scope.ngShow=false;
                 }
+
+
+                $scope.$watch('selected',function (newVal,oldVal) {
+
+
+                    if(newVal && newVal.length){
+                        $scope.ngModel=[];
+
+                        for(var i=0; i<newVal.length; i++){
+                            $scope.ngModel.push(newVal[i][attrs.modelAttr]);
+                        }
+
+                        angular.copy(newVal, $scope.choiced);
+                    }else {
+                        $scope.ngModel=[];
+                    }
+
+
+
+                },true);
+
 
             }
         };
@@ -4696,6 +4724,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     .directive("tabNav",['$rootScope',tabNav])
     .directive("a2",['$rootScope',a2])
     .directive("iconClick",iconClick)
-    .directive("selectMore",['$rootScope',selectMore])
+    .directive("selectMore",['$rootScope','utils',selectMore])
     .directive("progressBar", ['requestData', '$interval', progressBar])
 });
